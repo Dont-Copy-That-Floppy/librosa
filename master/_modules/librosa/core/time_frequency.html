@@ -8,9 +8,11 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>librosa.core.time_frequency &mdash; librosa 0.5.0 documentation</title>
+  <title>librosa.core.time_frequency &mdash; librosa 0.6.0rc0 documentation</title>
   
 
+  
+  
   
   
 
@@ -28,6 +30,8 @@
   
 
   
+    <link rel="stylesheet" href="../../../_static/gallery.css" type="text/css" />
+  
     <link rel="stylesheet" href="../../../_static/banner.css" type="text/css" />
   
 
@@ -35,7 +39,7 @@
         <link rel="index" title="Index"
               href="../../../genindex.html"/>
         <link rel="search" title="Search" href="../../../search.html"/>
-    <link rel="top" title="librosa 0.5.0 documentation" href="../../../index.html"/>
+    <link rel="top" title="librosa 0.6.0rc0 documentation" href="../../../index.html"/>
         <link rel="up" title="Module code" href="../../index.html"/> 
 
   
@@ -45,6 +49,7 @@
 
 <body class="wy-body-for-nav" role="document">
 
+   
   <div class="wy-grid-for-nav">
 
     
@@ -64,7 +69,7 @@
             
             
               <div class="version">
-                0.5
+                0.6
               </div>
             
           
@@ -85,7 +90,10 @@
           
             
             
-                <ul>
+              
+            
+            
+              <ul>
 <li class="toctree-l1"><a class="reference internal" href="../../../install.html">Installation instructions</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../tutorial.html">Tutorial</a></li>
 </ul>
@@ -105,9 +113,10 @@
 <li class="toctree-l1"><a class="reference internal" href="../../../filters.html">Filters</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../cache.html">Caching</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../ioformats.html">Advanced I/O Use Cases</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../advanced.html">Advanced examples</a></li>
 </ul>
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="../../../changelog.html">Release notes</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../changelog.html">Changelog</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../glossary.html">Glossary</a></li>
 </ul>
 
@@ -121,8 +130,10 @@
 
       
       <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
-        <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
-        <a href="../../../index.html">librosa</a>
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../index.html">librosa</a>
+        
       </nav>
 
 
@@ -135,34 +146,42 @@
 
 
 
+
+
+
+
+
+
+
+
+
+
 <div role="navigation" aria-label="breadcrumbs navigation">
+
   <ul class="wy-breadcrumbs">
-    <li><a href="../../../index.html">Docs</a> &raquo;</li>
-      
+    
+      <li><a href="../../../index.html">Docs</a> &raquo;</li>
+        
           <li><a href="../../index.html">Module code</a> &raquo;</li>
-      
-    <li>librosa.core.time_frequency</li>
+        
+      <li>librosa.core.time_frequency</li>
+    
+    
       <li class="wy-breadcrumbs-aside">
         
-          
+            
         
       </li>
+    
   </ul>
+
+  
   <hr/>
 </div>
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
             
-  
-
-
-    
-    
-
-
-
-    <p class="scv-banner scv-sphinx_rtd_theme"><b>Warning:</b> This document is for the development version of librosa.</p>
-<h1>Source code for librosa.core.time_frequency</h1><div class="highlight"><pre>
+  <h1>Source code for librosa.core.time_frequency</h1><div class="highlight"><pre>
 <span></span><span class="ch">#!/usr/bin/env python</span>
 <span class="c1"># -*- coding: utf-8 -*-</span>
 <span class="sd">&#39;&#39;&#39;Time and frequency utilities&#39;&#39;&#39;</span>
@@ -195,8 +214,8 @@
 
 <span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>
-<span class="sd">    frames     : np.ndarray [shape=(n,)]</span>
-<span class="sd">        vector of frame indices</span>
+<span class="sd">    frames     : number or np.ndarray [shape=(n,)]</span>
+<span class="sd">        frame index or vector of frame indices</span>
 
 <span class="sd">    hop_length : int &gt; 0 [scalar]</span>
 <span class="sd">        number of samples between successive frames</span>
@@ -208,7 +227,7 @@
 
 <span class="sd">    Returns</span>
 <span class="sd">    -------</span>
-<span class="sd">    times : np.ndarray [shape=(n,)]</span>
+<span class="sd">    times : number or np.ndarray</span>
 <span class="sd">        time (in samples) of each given frame number:</span>
 <span class="sd">        `times[i] = frames[i] * hop_length`</span>
 
@@ -228,7 +247,7 @@
     <span class="k">if</span> <span class="n">n_fft</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
         <span class="n">offset</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">n_fft</span> <span class="o">//</span> <span class="mi">2</span><span class="p">)</span>
 
-    <span class="k">return</span> <span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">atleast_1d</span><span class="p">(</span><span class="n">frames</span><span class="p">)</span> <span class="o">*</span> <span class="n">hop_length</span> <span class="o">+</span> <span class="n">offset</span><span class="p">)</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="nb">int</span><span class="p">)</span></div>
+    <span class="k">return</span> <span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">asanyarray</span><span class="p">(</span><span class="n">frames</span><span class="p">)</span> <span class="o">*</span> <span class="n">hop_length</span> <span class="o">+</span> <span class="n">offset</span><span class="p">)</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="nb">int</span><span class="p">)</span></div>
 
 
 <div class="viewcode-block" id="samples_to_frames"><a class="viewcode-back" href="../../../generated/librosa.core.samples_to_frames.html#librosa.core.samples_to_frames">[docs]</a><span class="k">def</span> <span class="nf">samples_to_frames</span><span class="p">(</span><span class="n">samples</span><span class="p">,</span> <span class="n">hop_length</span><span class="o">=</span><span class="mi">512</span><span class="p">,</span> <span class="n">n_fft</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
@@ -248,8 +267,8 @@
 
 <span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>
-<span class="sd">    samples : np.ndarray [shape=(n,)]</span>
-<span class="sd">        vector of sample indices</span>
+<span class="sd">    samples : int or np.ndarray [shape=(n,)]</span>
+<span class="sd">        sample index or vector of sample indices</span>
 
 <span class="sd">    hop_length : int &gt; 0 [scalar]</span>
 <span class="sd">        number of samples between successive frames</span>
@@ -263,7 +282,7 @@
 
 <span class="sd">    Returns</span>
 <span class="sd">    -------</span>
-<span class="sd">    frames : np.ndarray [shape=(n,), dtype=int]</span>
+<span class="sd">    frames : int or np.ndarray [shape=(n,), dtype=int]</span>
 <span class="sd">        Frame numbers corresponding to the given times:</span>
 <span class="sd">        `frames[i] = floor( samples[i] / hop_length )`</span>
 
@@ -277,7 +296,7 @@
     <span class="k">if</span> <span class="n">n_fft</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
         <span class="n">offset</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">n_fft</span> <span class="o">//</span> <span class="mi">2</span><span class="p">)</span>
 
-    <span class="n">samples</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">atleast_1d</span><span class="p">(</span><span class="n">samples</span><span class="p">)</span>
+    <span class="n">samples</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">asanyarray</span><span class="p">(</span><span class="n">samples</span><span class="p">)</span>
     <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">floor</span><span class="p">((</span><span class="n">samples</span> <span class="o">-</span> <span class="n">offset</span><span class="p">)</span> <span class="o">//</span> <span class="n">hop_length</span><span class="p">)</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="nb">int</span><span class="p">)</span></div>
 
 
@@ -287,7 +306,7 @@
 <span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>
 <span class="sd">    frames     : np.ndarray [shape=(n,)]</span>
-<span class="sd">        vector of frame numbers</span>
+<span class="sd">        frame index or vector of frame indices</span>
 
 <span class="sd">    sr         : number &gt; 0 [scalar]</span>
 <span class="sd">        audio sampling rate</span>
@@ -331,7 +350,7 @@
 <span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>
 <span class="sd">    times : np.ndarray [shape=(n,)]</span>
-<span class="sd">        vector of time stamps</span>
+<span class="sd">        time (in seconds) or vector of time values</span>
 
 <span class="sd">    sr : number &gt; 0 [scalar]</span>
 <span class="sd">        audio sampling rate</span>
@@ -377,15 +396,15 @@
 
 <span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>
-<span class="sd">    times : np.ndarray</span>
-<span class="sd">        Array of time values (in seconds)</span>
+<span class="sd">    times : number or np.ndarray</span>
+<span class="sd">        Time value or array of time values (in seconds)</span>
 
 <span class="sd">    sr : number &gt; 0</span>
 <span class="sd">        Sampling rate</span>
 
 <span class="sd">    Returns</span>
 <span class="sd">    -------</span>
-<span class="sd">    samples : np.ndarray [shape=times.shape, dtype=int]</span>
+<span class="sd">    samples : int or np.ndarray [shape=times.shape, dtype=int]</span>
 <span class="sd">        Sample indices corresponding to values in `times`</span>
 
 <span class="sd">    See Also</span>
@@ -401,7 +420,7 @@
 
 <span class="sd">    &#39;&#39;&#39;</span>
 
-    <span class="k">return</span> <span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">atleast_1d</span><span class="p">(</span><span class="n">times</span><span class="p">)</span> <span class="o">*</span> <span class="n">sr</span><span class="p">)</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="nb">int</span><span class="p">)</span></div>
+    <span class="k">return</span> <span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">asanyarray</span><span class="p">(</span><span class="n">times</span><span class="p">)</span> <span class="o">*</span> <span class="n">sr</span><span class="p">)</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="nb">int</span><span class="p">)</span></div>
 
 
 <div class="viewcode-block" id="samples_to_time"><a class="viewcode-back" href="../../../generated/librosa.core.samples_to_time.html#librosa.core.samples_to_time">[docs]</a><span class="k">def</span> <span class="nf">samples_to_time</span><span class="p">(</span><span class="n">samples</span><span class="p">,</span> <span class="n">sr</span><span class="o">=</span><span class="mi">22050</span><span class="p">):</span>
@@ -410,7 +429,7 @@
 <span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>
 <span class="sd">    samples : np.ndarray</span>
-<span class="sd">        Array of sample indices</span>
+<span class="sd">        Sample index or array of sample indices</span>
 
 <span class="sd">    sr : number &gt; 0</span>
 <span class="sd">        Sampling rate</span>
@@ -439,7 +458,7 @@
 <span class="sd">            0.975,  0.998])</span>
 <span class="sd">    &#39;&#39;&#39;</span>
 
-    <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">atleast_1d</span><span class="p">(</span><span class="n">samples</span><span class="p">)</span> <span class="o">/</span> <span class="nb">float</span><span class="p">(</span><span class="n">sr</span><span class="p">)</span></div>
+    <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">asanyarray</span><span class="p">(</span><span class="n">samples</span><span class="p">)</span> <span class="o">/</span> <span class="nb">float</span><span class="p">(</span><span class="n">sr</span><span class="p">)</span></div>
 
 
 <div class="viewcode-block" id="note_to_hz"><a class="viewcode-back" href="../../../generated/librosa.core.note_to_hz.html#librosa.core.note_to_hz">[docs]</a><span class="k">def</span> <span class="nf">note_to_hz</span><span class="p">(</span><span class="n">note</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
@@ -467,7 +486,7 @@
 
 <span class="sd">    Returns</span>
 <span class="sd">    -------</span>
-<span class="sd">    frequencies : np.ndarray [shape=(len(note),)]</span>
+<span class="sd">    frequencies : number or np.ndarray [shape=(len(note),)]</span>
 <span class="sd">        Array of frequencies (in Hz) corresponding to `note`</span>
 
 <span class="sd">    See Also</span>
@@ -647,7 +666,7 @@
 <span class="sd">    Examples</span>
 <span class="sd">    --------</span>
 <span class="sd">    &gt;&gt;&gt; librosa.midi_to_hz(36)</span>
-<span class="sd">    array([ 65.406])</span>
+<span class="sd">    65.406</span>
 
 <span class="sd">    &gt;&gt;&gt; librosa.midi_to_hz(np.arange(36, 48))</span>
 <span class="sd">    array([  65.406,   69.296,   73.416,   77.782,   82.407,</span>
@@ -661,7 +680,7 @@
 
 <span class="sd">    Returns</span>
 <span class="sd">    -------</span>
-<span class="sd">    frequency   : np.ndarray [shape=(n,), dtype=float]</span>
+<span class="sd">    frequency   : number or np.ndarray [shape=(n,), dtype=float]</span>
 <span class="sd">        frequency (frequencies) of `notes` in Hz</span>
 
 <span class="sd">    See Also</span>
@@ -670,16 +689,16 @@
 <span class="sd">    note_to_hz</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
-    <span class="k">return</span> <span class="mf">440.0</span> <span class="o">*</span> <span class="p">(</span><span class="mf">2.0</span> <span class="o">**</span> <span class="p">((</span><span class="n">np</span><span class="o">.</span><span class="n">atleast_1d</span><span class="p">(</span><span class="n">notes</span><span class="p">)</span> <span class="o">-</span> <span class="mf">69.0</span><span class="p">)</span><span class="o">/</span><span class="mf">12.0</span><span class="p">))</span></div>
+    <span class="k">return</span> <span class="mf">440.0</span> <span class="o">*</span> <span class="p">(</span><span class="mf">2.0</span> <span class="o">**</span> <span class="p">((</span><span class="n">np</span><span class="o">.</span><span class="n">asanyarray</span><span class="p">(</span><span class="n">notes</span><span class="p">)</span> <span class="o">-</span> <span class="mf">69.0</span><span class="p">)</span><span class="o">/</span><span class="mf">12.0</span><span class="p">))</span></div>
 
 
 <div class="viewcode-block" id="hz_to_midi"><a class="viewcode-back" href="../../../generated/librosa.core.hz_to_midi.html#librosa.core.hz_to_midi">[docs]</a><span class="k">def</span> <span class="nf">hz_to_midi</span><span class="p">(</span><span class="n">frequencies</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;Get the closest MIDI note number(s) for given frequencies</span>
+    <span class="sd">&quot;&quot;&quot;Get MIDI note number(s) for given frequencies</span>
 
 <span class="sd">    Examples</span>
 <span class="sd">    --------</span>
 <span class="sd">    &gt;&gt;&gt; librosa.hz_to_midi(60)</span>
-<span class="sd">    array([ 34.506])</span>
+<span class="sd">    34.506</span>
 <span class="sd">    &gt;&gt;&gt; librosa.hz_to_midi([110, 220, 440])</span>
 <span class="sd">    array([ 45.,  57.,  69.])</span>
 
@@ -690,8 +709,8 @@
 
 <span class="sd">    Returns</span>
 <span class="sd">    -------</span>
-<span class="sd">    note_nums     : np.ndarray [shape=(n,), dtype=int]</span>
-<span class="sd">        closest MIDI notes to `frequencies`</span>
+<span class="sd">    note_nums     : number or np.ndarray [shape=(n,), dtype=float]</span>
+<span class="sd">        MIDI notes to `frequencies`</span>
 
 <span class="sd">    See Also</span>
 <span class="sd">    --------</span>
@@ -700,7 +719,7 @@
 <span class="sd">    hz_to_note</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
-    <span class="k">return</span> <span class="mi">12</span> <span class="o">*</span> <span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">log2</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">atleast_1d</span><span class="p">(</span><span class="n">frequencies</span><span class="p">))</span> <span class="o">-</span> <span class="n">np</span><span class="o">.</span><span class="n">log2</span><span class="p">(</span><span class="mf">440.0</span><span class="p">))</span> <span class="o">+</span> <span class="mi">69</span></div>
+    <span class="k">return</span> <span class="mi">12</span> <span class="o">*</span> <span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">log2</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">asanyarray</span><span class="p">(</span><span class="n">frequencies</span><span class="p">))</span> <span class="o">-</span> <span class="n">np</span><span class="o">.</span><span class="n">log2</span><span class="p">(</span><span class="mf">440.0</span><span class="p">))</span> <span class="o">+</span> <span class="mi">69</span></div>
 
 
 <div class="viewcode-block" id="hz_to_note"><a class="viewcode-back" href="../../../generated/librosa.core.hz_to_note.html#librosa.core.hz_to_note">[docs]</a><span class="k">def</span> <span class="nf">hz_to_note</span><span class="p">(</span><span class="n">frequencies</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
@@ -757,20 +776,20 @@
 <span class="sd">    Examples</span>
 <span class="sd">    --------</span>
 <span class="sd">    &gt;&gt;&gt; librosa.hz_to_mel(60)</span>
-<span class="sd">    array([ 0.9])</span>
+<span class="sd">    0.9</span>
 <span class="sd">    &gt;&gt;&gt; librosa.hz_to_mel([110, 220, 440])</span>
 <span class="sd">    array([ 1.65,  3.3 ,  6.6 ])</span>
 
 <span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>
-<span class="sd">    frequencies   : np.ndarray [shape=(n,)] , float</span>
+<span class="sd">    frequencies   : number or np.ndarray [shape=(n,)] , float</span>
 <span class="sd">        scalar or array of frequencies</span>
 <span class="sd">    htk           : bool</span>
 <span class="sd">        use HTK formula instead of Slaney</span>
 
 <span class="sd">    Returns</span>
 <span class="sd">    -------</span>
-<span class="sd">    mels        : np.ndarray [shape=(n,)]</span>
+<span class="sd">    mels        : number or np.ndarray [shape=(n,)]</span>
 <span class="sd">        input frequencies in Mels</span>
 
 <span class="sd">    See Also</span>
@@ -778,7 +797,7 @@
 <span class="sd">    mel_to_hz</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
-    <span class="n">frequencies</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">atleast_1d</span><span class="p">(</span><span class="n">frequencies</span><span class="p">)</span>
+    <span class="n">frequencies</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">asanyarray</span><span class="p">(</span><span class="n">frequencies</span><span class="p">)</span>
 
     <span class="k">if</span> <span class="n">htk</span><span class="p">:</span>
         <span class="k">return</span> <span class="mf">2595.0</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">log10</span><span class="p">(</span><span class="mf">1.0</span> <span class="o">+</span> <span class="n">frequencies</span> <span class="o">/</span> <span class="mf">700.0</span><span class="p">)</span>
@@ -795,8 +814,13 @@
     <span class="n">min_log_mel</span> <span class="o">=</span> <span class="p">(</span><span class="n">min_log_hz</span> <span class="o">-</span> <span class="n">f_min</span><span class="p">)</span> <span class="o">/</span> <span class="n">f_sp</span>   <span class="c1"># same (Mels)</span>
     <span class="n">logstep</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="mf">6.4</span><span class="p">)</span> <span class="o">/</span> <span class="mf">27.0</span>                <span class="c1"># step size for log region</span>
 
-    <span class="n">log_t</span> <span class="o">=</span> <span class="p">(</span><span class="n">frequencies</span> <span class="o">&gt;=</span> <span class="n">min_log_hz</span><span class="p">)</span>
-    <span class="n">mels</span><span class="p">[</span><span class="n">log_t</span><span class="p">]</span> <span class="o">=</span> <span class="n">min_log_mel</span> <span class="o">+</span> <span class="n">np</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="n">frequencies</span><span class="p">[</span><span class="n">log_t</span><span class="p">]</span><span class="o">/</span><span class="n">min_log_hz</span><span class="p">)</span> <span class="o">/</span> <span class="n">logstep</span>
+    <span class="k">if</span> <span class="n">frequencies</span><span class="o">.</span><span class="n">ndim</span><span class="p">:</span>
+        <span class="c1"># If we have array data, vectorize</span>
+        <span class="n">log_t</span> <span class="o">=</span> <span class="p">(</span><span class="n">frequencies</span> <span class="o">&gt;=</span> <span class="n">min_log_hz</span><span class="p">)</span>
+        <span class="n">mels</span><span class="p">[</span><span class="n">log_t</span><span class="p">]</span> <span class="o">=</span> <span class="n">min_log_mel</span> <span class="o">+</span> <span class="n">np</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="n">frequencies</span><span class="p">[</span><span class="n">log_t</span><span class="p">]</span><span class="o">/</span><span class="n">min_log_hz</span><span class="p">)</span> <span class="o">/</span> <span class="n">logstep</span>
+    <span class="k">elif</span> <span class="n">frequencies</span> <span class="o">&gt;=</span> <span class="n">min_log_hz</span><span class="p">:</span>
+        <span class="c1"># If we have scalar data, heck directly</span>
+        <span class="n">mels</span> <span class="o">=</span> <span class="n">min_log_mel</span> <span class="o">+</span> <span class="n">np</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="n">frequencies</span> <span class="o">/</span> <span class="n">min_log_hz</span><span class="p">)</span> <span class="o">/</span> <span class="n">logstep</span>
 
     <span class="k">return</span> <span class="n">mels</span></div>
 
@@ -807,7 +831,7 @@
 <span class="sd">    Examples</span>
 <span class="sd">    --------</span>
 <span class="sd">    &gt;&gt;&gt; librosa.mel_to_hz(3)</span>
-<span class="sd">    array([ 200.])</span>
+<span class="sd">    200.</span>
 
 <span class="sd">    &gt;&gt;&gt; librosa.mel_to_hz([1,2,3,4,5])</span>
 <span class="sd">    array([  66.667,  133.333,  200.   ,  266.667,  333.333])</span>
@@ -829,7 +853,7 @@
 <span class="sd">    hz_to_mel</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
-    <span class="n">mels</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">atleast_1d</span><span class="p">(</span><span class="n">mels</span><span class="p">)</span>
+    <span class="n">mels</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">asanyarray</span><span class="p">(</span><span class="n">mels</span><span class="p">)</span>
 
     <span class="k">if</span> <span class="n">htk</span><span class="p">:</span>
         <span class="k">return</span> <span class="mf">700.0</span> <span class="o">*</span> <span class="p">(</span><span class="mf">10.0</span><span class="o">**</span><span class="p">(</span><span class="n">mels</span> <span class="o">/</span> <span class="mf">2595.0</span><span class="p">)</span> <span class="o">-</span> <span class="mf">1.0</span><span class="p">)</span>
@@ -843,9 +867,14 @@
     <span class="n">min_log_hz</span> <span class="o">=</span> <span class="mf">1000.0</span>                         <span class="c1"># beginning of log region (Hz)</span>
     <span class="n">min_log_mel</span> <span class="o">=</span> <span class="p">(</span><span class="n">min_log_hz</span> <span class="o">-</span> <span class="n">f_min</span><span class="p">)</span> <span class="o">/</span> <span class="n">f_sp</span>   <span class="c1"># same (Mels)</span>
     <span class="n">logstep</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="mf">6.4</span><span class="p">)</span> <span class="o">/</span> <span class="mf">27.0</span>                <span class="c1"># step size for log region</span>
-    <span class="n">log_t</span> <span class="o">=</span> <span class="p">(</span><span class="n">mels</span> <span class="o">&gt;=</span> <span class="n">min_log_mel</span><span class="p">)</span>
 
-    <span class="n">freqs</span><span class="p">[</span><span class="n">log_t</span><span class="p">]</span> <span class="o">=</span> <span class="n">min_log_hz</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">exp</span><span class="p">(</span><span class="n">logstep</span> <span class="o">*</span> <span class="p">(</span><span class="n">mels</span><span class="p">[</span><span class="n">log_t</span><span class="p">]</span> <span class="o">-</span> <span class="n">min_log_mel</span><span class="p">))</span>
+    <span class="k">if</span> <span class="n">mels</span><span class="o">.</span><span class="n">ndim</span><span class="p">:</span>
+        <span class="c1"># If we have vector data, vectorize</span>
+        <span class="n">log_t</span> <span class="o">=</span> <span class="p">(</span><span class="n">mels</span> <span class="o">&gt;=</span> <span class="n">min_log_mel</span><span class="p">)</span>
+        <span class="n">freqs</span><span class="p">[</span><span class="n">log_t</span><span class="p">]</span> <span class="o">=</span> <span class="n">min_log_hz</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">exp</span><span class="p">(</span><span class="n">logstep</span> <span class="o">*</span> <span class="p">(</span><span class="n">mels</span><span class="p">[</span><span class="n">log_t</span><span class="p">]</span> <span class="o">-</span> <span class="n">min_log_mel</span><span class="p">))</span>
+    <span class="k">elif</span> <span class="n">mels</span> <span class="o">&gt;=</span> <span class="n">min_log_mel</span><span class="p">:</span>
+        <span class="c1"># If we have scalar data, check directly</span>
+        <span class="n">freqs</span> <span class="o">=</span> <span class="n">min_log_hz</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">exp</span><span class="p">(</span><span class="n">logstep</span> <span class="o">*</span> <span class="p">(</span><span class="n">mels</span> <span class="o">-</span> <span class="n">min_log_mel</span><span class="p">))</span>
 
     <span class="k">return</span> <span class="n">freqs</span></div>
 
@@ -856,27 +885,27 @@
 <span class="sd">    Examples</span>
 <span class="sd">    --------</span>
 <span class="sd">    &gt;&gt;&gt; librosa.hz_to_octs(440.0)</span>
-<span class="sd">    array([ 4.])</span>
+<span class="sd">    4.</span>
 <span class="sd">    &gt;&gt;&gt; librosa.hz_to_octs([32, 64, 128, 256])</span>
 <span class="sd">    array([ 0.219,  1.219,  2.219,  3.219])</span>
 
 <span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>
-<span class="sd">    frequencies   : np.ndarray [shape=(n,)] or float</span>
+<span class="sd">    frequencies   : number &gt;0 or np.ndarray [shape=(n,)] or float</span>
 <span class="sd">        scalar or vector of frequencies</span>
 <span class="sd">    A440          : float</span>
 <span class="sd">        frequency of A440 (in Hz)</span>
 
 <span class="sd">    Returns</span>
 <span class="sd">    -------</span>
-<span class="sd">    octaves       : np.ndarray [shape=(n,)]</span>
+<span class="sd">    octaves       : number or np.ndarray [shape=(n,)]</span>
 <span class="sd">        octave number for each frequency</span>
 
 <span class="sd">    See Also</span>
 <span class="sd">    --------</span>
 <span class="sd">    octs_to_hz</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-    <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">log2</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">atleast_1d</span><span class="p">(</span><span class="n">frequencies</span><span class="p">)</span> <span class="o">/</span> <span class="p">(</span><span class="nb">float</span><span class="p">(</span><span class="n">A440</span><span class="p">)</span> <span class="o">/</span> <span class="mi">16</span><span class="p">))</span></div>
+    <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">log2</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">asanyarray</span><span class="p">(</span><span class="n">frequencies</span><span class="p">)</span> <span class="o">/</span> <span class="p">(</span><span class="nb">float</span><span class="p">(</span><span class="n">A440</span><span class="p">)</span> <span class="o">/</span> <span class="mi">16</span><span class="p">))</span></div>
 
 
 <div class="viewcode-block" id="octs_to_hz"><a class="viewcode-back" href="../../../generated/librosa.core.octs_to_hz.html#librosa.core.octs_to_hz">[docs]</a><span class="k">def</span> <span class="nf">octs_to_hz</span><span class="p">(</span><span class="n">octs</span><span class="p">,</span> <span class="n">A440</span><span class="o">=</span><span class="mf">440.0</span><span class="p">):</span>
@@ -887,7 +916,7 @@
 <span class="sd">    Examples</span>
 <span class="sd">    --------</span>
 <span class="sd">    &gt;&gt;&gt; librosa.octs_to_hz(1)</span>
-<span class="sd">    array([ 55.])</span>
+<span class="sd">    55.</span>
 <span class="sd">    &gt;&gt;&gt; librosa.octs_to_hz([-2, -1, 0, 1, 2])</span>
 <span class="sd">    array([   6.875,   13.75 ,   27.5  ,   55.   ,  110.   ])</span>
 
@@ -900,14 +929,14 @@
 
 <span class="sd">    Returns</span>
 <span class="sd">    -------</span>
-<span class="sd">    frequencies   : np.ndarray [shape=(n,)]</span>
+<span class="sd">    frequencies   : number or np.ndarray [shape=(n,)]</span>
 <span class="sd">        scalar or vector of frequencies</span>
 
 <span class="sd">    See Also</span>
 <span class="sd">    --------</span>
 <span class="sd">    hz_to_octs</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-    <span class="k">return</span> <span class="p">(</span><span class="nb">float</span><span class="p">(</span><span class="n">A440</span><span class="p">)</span> <span class="o">/</span> <span class="mi">16</span><span class="p">)</span><span class="o">*</span><span class="p">(</span><span class="mf">2.0</span><span class="o">**</span><span class="n">np</span><span class="o">.</span><span class="n">atleast_1d</span><span class="p">(</span><span class="n">octs</span><span class="p">))</span></div>
+    <span class="k">return</span> <span class="p">(</span><span class="nb">float</span><span class="p">(</span><span class="n">A440</span><span class="p">)</span> <span class="o">/</span> <span class="mi">16</span><span class="p">)</span><span class="o">*</span><span class="p">(</span><span class="mf">2.0</span><span class="o">**</span><span class="n">np</span><span class="o">.</span><span class="n">asanyarray</span><span class="p">(</span><span class="n">octs</span><span class="p">))</span></div>
 
 
 <div class="viewcode-block" id="fft_frequencies"><a class="viewcode-back" href="../../../generated/librosa.core.fft_frequencies.html#librosa.core.fft_frequencies">[docs]</a><span class="k">def</span> <span class="nf">fft_frequencies</span><span class="p">(</span><span class="n">sr</span><span class="o">=</span><span class="mi">22050</span><span class="p">,</span> <span class="n">n_fft</span><span class="o">=</span><span class="mi">2048</span><span class="p">):</span>
@@ -1106,7 +1135,7 @@
 <span class="sd">    &#39;&#39;&#39;</span>
 
     <span class="c1"># Vectorize to make our lives easier</span>
-    <span class="n">frequencies</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">atleast_1d</span><span class="p">(</span><span class="n">frequencies</span><span class="p">)</span>
+    <span class="n">frequencies</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">asanyarray</span><span class="p">(</span><span class="n">frequencies</span><span class="p">)</span>
 
     <span class="c1"># Pre-compute squared frequency</span>
     <span class="n">f_sq</span> <span class="o">=</span> <span class="n">frequencies</span><span class="o">**</span><span class="mf">2.0</span>
@@ -1125,6 +1154,9 @@
     <span class="k">return</span> <span class="n">weights</span></div>
 </pre></div>
 
+           </div>
+           <div class="articleComments">
+            
            </div>
           </div>
           <footer>
@@ -1159,14 +1191,22 @@
         <dl>
             <dt>Tags</dt>
             <dd><a href="../../../../0.4.0rc1/index.html">0.4.0rc1</a></dd>
+            <dd><a href="../../../../0.4.0rc2/index.html">0.4.0rc2</a></dd>
+            <dd><a href="../../../../0.4.1/index.html">0.4.1</a></dd>
+            <dd><a href="../../../../0.4.1rc0/index.html">0.4.1rc0</a></dd>
             <dd><a href="../../../../0.4.2/index.html">0.4.2</a></dd>
             <dd><a href="../../../../0.4.3/index.html">0.4.3</a></dd>
             <dd><a href="../../../../0.4.3rc0/index.html">0.4.3rc0</a></dd>
             <dd><a href="../../../../0.5.0/index.html">0.5.0</a></dd>
             <dd><a href="../../../../0.5.0rc0/index.html">0.5.0rc0</a></dd>
+            <dd><a href="../../../../0.5.1/index.html">0.5.1</a></dd>
+            <dd><a href="../../../../0.6.0rc0/index.html">0.6.0rc0</a></dd>
+            <dd><a href="../../../../v0.1.0/index.html">v0.1.0</a></dd>
+            <dd><a href="../../../../v0.4.0/index.html">v0.4.0</a></dd>
         </dl>
         <dl>
             <dt>Branches</dt>
+            <dd><a href="../../../../display-bin-centering/index.html">display-bin-centering</a></dd>
             <dd><a href="time_frequency.html">master</a></dd>
         </dl>
     </div>
@@ -1178,15 +1218,17 @@
     <script type="text/javascript">
         var DOCUMENTATION_OPTIONS = {
             URL_ROOT:'../../../',
-            VERSION:'0.5.0',
+            VERSION:'0.6.0rc0',
             COLLAPSE_INDEX:false,
             FILE_SUFFIX:'.html',
-            HAS_SOURCE:  true
+            HAS_SOURCE:  true,
+            SOURCELINK_SUFFIX: '.txt'
         };
     </script>
       <script type="text/javascript" src="../../../_static/jquery.js"></script>
       <script type="text/javascript" src="../../../_static/underscore.js"></script>
       <script type="text/javascript" src="../../../_static/doctools.js"></script>
+      <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.0/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
 
   
 

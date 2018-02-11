@@ -8,9 +8,11 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>librosa.feature.tonnetz &mdash; librosa 0.5.0 documentation</title>
+  <title>librosa.feature.tonnetz &mdash; librosa 0.6.0rc0 documentation</title>
   
 
+  
+  
   
   
 
@@ -28,6 +30,8 @@
   
 
   
+    <link rel="stylesheet" href="../_static/gallery.css" type="text/css" />
+  
     <link rel="stylesheet" href="../_static/banner.css" type="text/css" />
   
 
@@ -35,7 +39,7 @@
         <link rel="index" title="Index"
               href="../genindex.html"/>
         <link rel="search" title="Search" href="../search.html"/>
-    <link rel="top" title="librosa 0.5.0 documentation" href="../index.html"/>
+    <link rel="top" title="librosa 0.6.0rc0 documentation" href="../index.html"/>
         <link rel="up" title="Feature extraction" href="../feature.html"/>
         <link rel="next" title="librosa.feature.zero_crossing_rate" href="librosa.feature.zero_crossing_rate.html"/>
         <link rel="prev" title="librosa.feature.poly_features" href="librosa.feature.poly_features.html"/> 
@@ -47,6 +51,7 @@
 
 <body class="wy-body-for-nav" role="document">
 
+   
   <div class="wy-grid-for-nav">
 
     
@@ -66,7 +71,7 @@
             
             
               <div class="version">
-                0.5
+                0.6
               </div>
             
           
@@ -87,7 +92,10 @@
           
             
             
-                <ul>
+              
+            
+            
+              <ul>
 <li class="toctree-l1"><a class="reference internal" href="../install.html">Installation instructions</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../tutorial.html">Tutorial</a></li>
 </ul>
@@ -105,6 +113,7 @@
 <li class="toctree-l3"><a class="reference internal" href="librosa.feature.spectral_centroid.html">librosa.feature.spectral_centroid</a></li>
 <li class="toctree-l3"><a class="reference internal" href="librosa.feature.spectral_bandwidth.html">librosa.feature.spectral_bandwidth</a></li>
 <li class="toctree-l3"><a class="reference internal" href="librosa.feature.spectral_contrast.html">librosa.feature.spectral_contrast</a></li>
+<li class="toctree-l3"><a class="reference internal" href="librosa.feature.spectral_flatness.html">librosa.feature.spectral_flatness</a></li>
 <li class="toctree-l3"><a class="reference internal" href="librosa.feature.spectral_rolloff.html">librosa.feature.spectral_rolloff</a></li>
 <li class="toctree-l3"><a class="reference internal" href="librosa.feature.poly_features.html">librosa.feature.poly_features</a></li>
 <li class="toctree-l3 current"><a class="current reference internal" href="#">librosa.feature.tonnetz</a></li>
@@ -127,9 +136,10 @@
 <li class="toctree-l1"><a class="reference internal" href="../filters.html">Filters</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../cache.html">Caching</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../ioformats.html">Advanced I/O Use Cases</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../advanced.html">Advanced examples</a></li>
 </ul>
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="../changelog.html">Release notes</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../changelog.html">Changelog</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../glossary.html">Glossary</a></li>
 </ul>
 
@@ -143,8 +153,10 @@
 
       
       <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
-        <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
-        <a href="../index.html">librosa</a>
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">librosa</a>
+        
       </nav>
 
 
@@ -153,50 +165,58 @@
         <div class="rst-content">
           
 
- 
+
+
+
+
+
+
+
+
+
+
+
 
 
 
 <div role="navigation" aria-label="breadcrumbs navigation">
+
   <ul class="wy-breadcrumbs">
-    <li><a href="../index.html">Docs</a> &raquo;</li>
-      
+    
+      <li><a href="../index.html">Docs</a> &raquo;</li>
+        
           <li><a href="../feature.html">Feature extraction</a> &raquo;</li>
-      
-    <li>librosa.feature.tonnetz</li>
+        
+      <li>librosa.feature.tonnetz</li>
+    
+    
       <li class="wy-breadcrumbs-aside">
         
-          
+            
             <a href="../_sources/generated/librosa.feature.tonnetz.rst.txt" rel="nofollow"> View page source</a>
           
         
       </li>
+    
   </ul>
+
+  
   <hr/>
 </div>
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
             
-  
-
-
-    
-    
-
-
-
-    <p class="scv-banner scv-sphinx_rtd_theme"><a href="../../0.5.0/generated/librosa.feature.tonnetz.html"><b>Warning:</b> This document is for the development version of librosa. The latest version is 0.5.0.</a></p>
-<div class="section" id="librosa-feature-tonnetz">
+  <div class="section" id="librosa-feature-tonnetz">
 <h1>librosa.feature.tonnetz<a class="headerlink" href="#librosa-feature-tonnetz" title="Permalink to this headline">¶</a></h1>
 <dl class="function">
 <dt id="librosa.feature.tonnetz">
 <code class="descclassname">librosa.feature.</code><code class="descname">tonnetz</code><span class="sig-paren">(</span><em>y=None</em>, <em>sr=22050</em>, <em>chroma=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/librosa/feature/spectral.html#tonnetz"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#librosa.feature.tonnetz" title="Permalink to this definition">¶</a></dt>
 <dd><p>Computes the tonal centroid features (tonnetz), following the method of
-<a class="reference internal" href="#r38" id="id1">[R38]</a>.</p>
-<table class="docutils citation" frame="void" id="r38" rules="none">
+<a class="reference internal" href="#r8787" id="id1">[R8787]</a>.</p>
+<table class="docutils citation" frame="void" id="r8787" rules="none">
 <colgroup><col class="label" /><col /></colgroup>
 <tbody valign="top">
-<tr><td class="label"><a class="fn-backref" href="#id1">[R38]</a></td><td>Harte, C., Sandler, M., &amp; Gasser, M. (2006). &#8220;Detecting Harmonic
+<tr><td class="label"><a class="fn-backref" href="#id1">[R8787]</a></td><td>Harte, C., Sandler, M., &amp; Gasser, M. (2006). &#8220;Detecting Harmonic
 Change in Musical Audio.&#8221; In Proceedings of the 1st ACM Workshop
 on Audio and Music Computing Multimedia (pp. 21-26).
 Santa Barbara, CA, USA: ACM Press. doi:10.1145/1178723.1178727.</td></tr>
@@ -287,15 +307,18 @@ Santa Barbara, CA, USA: ACM Press. doi:10.1145/1178723.1178727.</td></tr>
 
 
            </div>
+           <div class="articleComments">
+            
+           </div>
           </div>
           <footer>
   
     <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
       
-        <a href="librosa.feature.zero_crossing_rate.html" class="btn btn-neutral float-right" title="librosa.feature.zero_crossing_rate" accesskey="n">Next <span class="fa fa-arrow-circle-right"></span></a>
+        <a href="librosa.feature.zero_crossing_rate.html" class="btn btn-neutral float-right" title="librosa.feature.zero_crossing_rate" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
       
       
-        <a href="librosa.feature.poly_features.html" class="btn btn-neutral" title="librosa.feature.poly_features" accesskey="p"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+        <a href="librosa.feature.poly_features.html" class="btn btn-neutral" title="librosa.feature.poly_features" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
       
     </div>
   
@@ -328,15 +351,23 @@ Santa Barbara, CA, USA: ACM Press. doi:10.1145/1178723.1178727.</td></tr>
     <div class="rst-other-versions">
         <dl>
             <dt>Tags</dt>
-            <dd><a href="../../0.4.0rc1/generated/librosa.feature.tonnetz.html">0.4.0rc1</a></dd>
+            <dd><a href="../../0.4.0rc1/index.html">0.4.0rc1</a></dd>
+            <dd><a href="../../0.4.0rc2/index.html">0.4.0rc2</a></dd>
+            <dd><a href="../../0.4.1/index.html">0.4.1</a></dd>
+            <dd><a href="../../0.4.1rc0/index.html">0.4.1rc0</a></dd>
             <dd><a href="../../0.4.2/generated/librosa.feature.tonnetz.html">0.4.2</a></dd>
             <dd><a href="../../0.4.3/generated/librosa.feature.tonnetz.html">0.4.3</a></dd>
             <dd><a href="../../0.4.3rc0/generated/librosa.feature.tonnetz.html">0.4.3rc0</a></dd>
             <dd><a href="../../0.5.0/generated/librosa.feature.tonnetz.html">0.5.0</a></dd>
             <dd><a href="../../0.5.0rc0/generated/librosa.feature.tonnetz.html">0.5.0rc0</a></dd>
+            <dd><a href="../../0.5.1/generated/librosa.feature.tonnetz.html">0.5.1</a></dd>
+            <dd><a href="../../0.6.0rc0/generated/librosa.feature.tonnetz.html">0.6.0rc0</a></dd>
+            <dd><a href="../../v0.1.0/index.html">v0.1.0</a></dd>
+            <dd><a href="../../v0.4.0/index.html">v0.4.0</a></dd>
         </dl>
         <dl>
             <dt>Branches</dt>
+            <dd><a href="../../display-bin-centering/generated/librosa.feature.tonnetz.html">display-bin-centering</a></dd>
             <dd><a href="librosa.feature.tonnetz.html">master</a></dd>
         </dl>
     </div>
@@ -348,15 +379,17 @@ Santa Barbara, CA, USA: ACM Press. doi:10.1145/1178723.1178727.</td></tr>
     <script type="text/javascript">
         var DOCUMENTATION_OPTIONS = {
             URL_ROOT:'../',
-            VERSION:'0.5.0',
+            VERSION:'0.6.0rc0',
             COLLAPSE_INDEX:false,
             FILE_SUFFIX:'.html',
-            HAS_SOURCE:  true
+            HAS_SOURCE:  true,
+            SOURCELINK_SUFFIX: '.txt'
         };
     </script>
       <script type="text/javascript" src="../_static/jquery.js"></script>
       <script type="text/javascript" src="../_static/underscore.js"></script>
       <script type="text/javascript" src="../_static/doctools.js"></script>
+      <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.0/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
 
   
 

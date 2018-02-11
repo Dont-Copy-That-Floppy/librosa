@@ -8,9 +8,11 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>librosa.display.specshow &mdash; librosa 0.5.0 documentation</title>
+  <title>librosa.display.specshow &mdash; librosa 0.6.0rc0 documentation</title>
   
 
+  
+  
   
   
 
@@ -28,6 +30,8 @@
   
 
   
+    <link rel="stylesheet" href="../_static/gallery.css" type="text/css" />
+  
     <link rel="stylesheet" href="../_static/banner.css" type="text/css" />
   
 
@@ -35,7 +39,7 @@
         <link rel="index" title="Index"
               href="../genindex.html"/>
         <link rel="search" title="Search" href="../search.html"/>
-    <link rel="top" title="librosa 0.5.0 documentation" href="../index.html"/>
+    <link rel="top" title="librosa 0.6.0rc0 documentation" href="../index.html"/>
         <link rel="up" title="Display" href="../display.html"/>
         <link rel="next" title="librosa.display.waveplot" href="librosa.display.waveplot.html"/>
         <link rel="prev" title="Display" href="../display.html"/> 
@@ -47,6 +51,7 @@
 
 <body class="wy-body-for-nav" role="document">
 
+   
   <div class="wy-grid-for-nav">
 
     
@@ -66,7 +71,7 @@
             
             
               <div class="version">
-                0.5
+                0.6
               </div>
             
           
@@ -87,7 +92,10 @@
           
             
             
-                <ul>
+              
+            
+            
+              <ul>
 <li class="toctree-l1"><a class="reference internal" href="../install.html">Installation instructions</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../tutorial.html">Tutorial</a></li>
 </ul>
@@ -101,6 +109,7 @@
 <li class="toctree-l2"><a class="reference internal" href="librosa.display.NoteFormatter.html">librosa.display.NoteFormatter</a></li>
 <li class="toctree-l2"><a class="reference internal" href="librosa.display.LogHzFormatter.html">librosa.display.LogHzFormatter</a></li>
 <li class="toctree-l2"><a class="reference internal" href="librosa.display.ChromaFormatter.html">librosa.display.ChromaFormatter</a></li>
+<li class="toctree-l2"><a class="reference internal" href="librosa.display.TonnetzFormatter.html">librosa.display.TonnetzFormatter</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="../feature.html">Feature extraction</a></li>
@@ -116,9 +125,10 @@
 <li class="toctree-l1"><a class="reference internal" href="../filters.html">Filters</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../cache.html">Caching</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../ioformats.html">Advanced I/O Use Cases</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../advanced.html">Advanced examples</a></li>
 </ul>
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="../changelog.html">Release notes</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../changelog.html">Changelog</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../glossary.html">Glossary</a></li>
 </ul>
 
@@ -132,8 +142,10 @@
 
       
       <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
-        <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
-        <a href="../index.html">librosa</a>
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">librosa</a>
+        
       </nav>
 
 
@@ -142,37 +154,48 @@
         <div class="rst-content">
           
 
- 
+
+
+
+
+
+
+
+
+
+
+
 
 
 
 <div role="navigation" aria-label="breadcrumbs navigation">
+
   <ul class="wy-breadcrumbs">
-    <li><a href="../index.html">Docs</a> &raquo;</li>
-      
+    
+      <li><a href="../index.html">Docs</a> &raquo;</li>
+        
           <li><a href="../display.html">Display</a> &raquo;</li>
-      
-    <li>librosa.display.specshow</li>
+        
+      <li>librosa.display.specshow</li>
+    
+    
       <li class="wy-breadcrumbs-aside">
         
-          
+            
             <a href="../_sources/generated/librosa.display.specshow.rst.txt" rel="nofollow"> View page source</a>
           
         
       </li>
+    
   </ul>
+
+  
   <hr/>
 </div>
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
             
-  
-
-
-
-
-
-<div class="section" id="librosa-display-specshow">
+  <div class="section" id="librosa-display-specshow">
 <h1>librosa.display.specshow<a class="headerlink" href="#librosa-display-specshow" title="Permalink to this headline">¶</a></h1>
 <dl class="function">
 <dt id="librosa.display.specshow">
@@ -228,11 +251,10 @@ as negative values.</li>
 </ul>
 <p>All time types are plotted in units of seconds.</p>
 <p>Other:</p>
-<ul>
+<ul class="simple">
 <li><dl class="first docutils">
 <dt>&#8216;tempo&#8217; <span class="classifier-delimiter">:</span> <span class="classifier">markers are shown as beats-per-minute (BPM)</span></dt>
-<dd><p class="first last">using a logarithmic scale.</p>
-</dd>
+<dd>using a logarithmic scale.</dd>
 </dl>
 </li>
 </ul>
@@ -263,7 +285,15 @@ it is set by default to <em class="xref py py-obj">note_to_hz(&#8216;C1&#8217;)<
 </div></blockquote>
 <p><strong>kwargs</strong> : additional keyword arguments</p>
 <blockquote>
-<div><p>Arguments passed through to <a class="reference external" href="http://matplotlib.org/api/pyplot_api.html#matplotlib.pyplot.pcolormesh" title="(in Matplotlib v2.0.0)"><code class="xref py py-obj docutils literal"><span class="pre">matplotlib.pyplot.pcolormesh</span></code></a>.</p>
+<div><p>Arguments passed through to <a class="reference external" href="https://matplotlib.org/api/_as_gen/matplotlib.pyplot.pcolormesh.html#matplotlib.pyplot.pcolormesh" title="(in Matplotlib v2.1.2)"><code class="xref py py-obj docutils literal"><span class="pre">matplotlib.pyplot.pcolormesh</span></code></a>.</p>
+<p>By default, the following options are set:</p>
+<blockquote>
+<div><ul class="simple">
+<li><em class="xref py py-obj">rasterized=True</em></li>
+<li><em class="xref py py-obj">shading=&#8217;flat&#8217;</em></li>
+<li><em class="xref py py-obj">edgecolors=&#8217;None&#8217;</em></li>
+</ul>
+</div></blockquote>
 </div></blockquote>
 </td>
 </tr>
@@ -281,7 +311,7 @@ it is set by default to <em class="xref py py-obj">note_to_hz(&#8216;C1&#8217;)<
 <dt><a class="reference internal" href="librosa.display.cmap.html#librosa.display.cmap" title="librosa.display.cmap"><code class="xref py py-obj docutils literal"><span class="pre">cmap</span></code></a></dt>
 <dd>Automatic colormap detection</dd>
 </dl>
-<p class="last"><a class="reference external" href="http://matplotlib.org/api/pyplot_api.html#matplotlib.pyplot.pcolormesh" title="(in Matplotlib v2.0.0)"><code class="xref py py-obj docutils literal"><span class="pre">matplotlib.pyplot.pcolormesh</span></code></a></p>
+<p class="last"><a class="reference external" href="https://matplotlib.org/api/_as_gen/matplotlib.pyplot.pcolormesh.html#matplotlib.pyplot.pcolormesh" title="(in Matplotlib v2.1.2)"><code class="xref py py-obj docutils literal"><span class="pre">matplotlib.pyplot.pcolormesh</span></code></a></p>
 </div>
 <p class="rubric">Examples</p>
 <p>Visualize an STFT power spectrum</p>
@@ -378,15 +408,18 @@ it is set by default to <em class="xref py py-obj">note_to_hz(&#8216;C1&#8217;)<
 
 
            </div>
+           <div class="articleComments">
+            
+           </div>
           </div>
           <footer>
   
     <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
       
-        <a href="librosa.display.waveplot.html" class="btn btn-neutral float-right" title="librosa.display.waveplot" accesskey="n">Next <span class="fa fa-arrow-circle-right"></span></a>
+        <a href="librosa.display.waveplot.html" class="btn btn-neutral float-right" title="librosa.display.waveplot" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
       
       
-        <a href="../display.html" class="btn btn-neutral" title="Display" accesskey="p"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+        <a href="../display.html" class="btn btn-neutral" title="Display" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
       
     </div>
   
@@ -413,21 +446,29 @@ it is set by default to <em class="xref py py-obj">note_to_hz(&#8216;C1&#8217;)<
 <div class="rst-versions" data-toggle="rst-versions" role="note" aria-label="versions">
     <span class="rst-current-version" data-toggle="rst-current-version">
         <span class="fa fa-book"> Other Versions</span>
-        v: 0.5.0
+        v: master
         <span class="fa fa-caret-down"></span>
     </span>
     <div class="rst-other-versions">
         <dl>
             <dt>Tags</dt>
-            <dd><a href="../0.4.0rc1/generated/librosa.display.specshow.html">0.4.0rc1</a></dd>
+            <dd><a href="../0.4.0rc1/index.html">0.4.0rc1</a></dd>
+            <dd><a href="../0.4.0rc2/index.html">0.4.0rc2</a></dd>
+            <dd><a href="../0.4.1/index.html">0.4.1</a></dd>
+            <dd><a href="../0.4.1rc0/index.html">0.4.1rc0</a></dd>
             <dd><a href="../0.4.2/generated/librosa.display.specshow.html">0.4.2</a></dd>
             <dd><a href="../0.4.3/generated/librosa.display.specshow.html">0.4.3</a></dd>
             <dd><a href="../0.4.3rc0/generated/librosa.display.specshow.html">0.4.3rc0</a></dd>
             <dd><a href="../0.5.0/generated/librosa.display.specshow.html">0.5.0</a></dd>
             <dd><a href="../0.5.0rc0/generated/librosa.display.specshow.html">0.5.0rc0</a></dd>
+            <dd><a href="../0.5.1/generated/librosa.display.specshow.html">0.5.1</a></dd>
+            <dd><a href="../0.6.0rc0/generated/librosa.display.specshow.html">0.6.0rc0</a></dd>
+            <dd><a href="../v0.1.0/index.html">v0.1.0</a></dd>
+            <dd><a href="../v0.4.0/index.html">v0.4.0</a></dd>
         </dl>
         <dl>
             <dt>Branches</dt>
+            <dd><a href="../display-bin-centering/generated/librosa.display.specshow.html">display-bin-centering</a></dd>
             <dd><a href="../master/generated/librosa.display.specshow.html">master</a></dd>
         </dl>
     </div>
@@ -439,15 +480,17 @@ it is set by default to <em class="xref py py-obj">note_to_hz(&#8216;C1&#8217;)<
     <script type="text/javascript">
         var DOCUMENTATION_OPTIONS = {
             URL_ROOT:'../',
-            VERSION:'0.5.0',
+            VERSION:'0.6.0rc0',
             COLLAPSE_INDEX:false,
             FILE_SUFFIX:'.html',
-            HAS_SOURCE:  true
+            HAS_SOURCE:  true,
+            SOURCELINK_SUFFIX: '.txt'
         };
     </script>
       <script type="text/javascript" src="../_static/jquery.js"></script>
       <script type="text/javascript" src="../_static/underscore.js"></script>
       <script type="text/javascript" src="../_static/doctools.js"></script>
+      <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.0/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
 
   
 

@@ -1,5 +1,5 @@
-librosa.util.sparsify_rows
-==========================
+librosa\.util\.sparsify\_rows
+=============================
 
 .. currentmodule:: librosa.util
 

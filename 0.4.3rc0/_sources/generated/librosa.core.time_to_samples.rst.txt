@@ -1,5 +1,5 @@
-librosa.core.time_to_samples
-============================
+librosa\.core\.time\_to\_samples
+================================
 
 .. currentmodule:: librosa.core
 

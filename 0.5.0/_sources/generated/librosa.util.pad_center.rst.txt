@@ -1,5 +1,5 @@
-librosa.util.pad_center
-=======================
+librosa\.util\.pad\_center
+==========================
 
 .. currentmodule:: librosa.util
 

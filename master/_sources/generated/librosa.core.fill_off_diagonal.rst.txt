@@ -1,5 +1,5 @@
-librosa.core.fill_off_diagonal
-==============================
+librosa\.core\.fill\_off\_diagonal
+==================================
 
 .. currentmodule:: librosa.core
 

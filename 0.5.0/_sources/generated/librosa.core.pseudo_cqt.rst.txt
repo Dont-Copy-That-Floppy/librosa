@@ -1,5 +1,5 @@
-librosa.core.pseudo_cqt
-=======================
+librosa\.core\.pseudo\_cqt
+==========================
 
 .. currentmodule:: librosa.core
 

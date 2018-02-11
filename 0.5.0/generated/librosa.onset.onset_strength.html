@@ -13,6 +13,8 @@
 
   
   
+  
+  
 
   
 
@@ -47,6 +49,7 @@
 
 <body class="wy-body-for-nav" role="document">
 
+   
   <div class="wy-grid-for-nav">
 
     
@@ -87,7 +90,10 @@
           
             
             
-                <ul>
+              
+            
+            
+              <ul>
 <li class="toctree-l1"><a class="reference internal" href="../install.html">Installation instructions</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../tutorial.html">Tutorial</a></li>
 </ul>
@@ -129,8 +135,10 @@
 
       
       <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
-        <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
-        <a href="../index.html">librosa</a>
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">librosa</a>
+        
       </nav>
 
 
@@ -139,37 +147,48 @@
         <div class="rst-content">
           
 
- 
+
+
+
+
+
+
+
+
+
+
+
 
 
 
 <div role="navigation" aria-label="breadcrumbs navigation">
+
   <ul class="wy-breadcrumbs">
-    <li><a href="../index.html">Docs</a> &raquo;</li>
-      
+    
+      <li><a href="../index.html">Docs</a> &raquo;</li>
+        
           <li><a href="../onset.html">Onset detection</a> &raquo;</li>
-      
-    <li>librosa.onset.onset_strength</li>
+        
+      <li>librosa.onset.onset_strength</li>
+    
+    
       <li class="wy-breadcrumbs-aside">
         
-          
+            
             <a href="../_sources/generated/librosa.onset.onset_strength.rst.txt" rel="nofollow"> View page source</a>
           
         
       </li>
+    
   </ul>
+
+  
   <hr/>
 </div>
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
             
-  
-
-
-
-
-
-<div class="section" id="librosa-onset-onset-strength">
+  <div class="section" id="librosa-onset-onset-strength">
 <h1>librosa.onset.onset_strength<a class="headerlink" href="#librosa-onset-onset-strength" title="Permalink to this headline">¶</a></h1>
 <dl class="function">
 <dt id="librosa.onset.onset_strength">
@@ -178,13 +197,13 @@
 <p>Onset strength at time <em class="xref py py-obj">t</em> is determined by:</p>
 <p><em class="xref py py-obj">mean_f max(0, S[f, t] - ref_S[f, t - lag])</em></p>
 <p>where <em class="xref py py-obj">ref_S</em> is <em class="xref py py-obj">S</em> after local max filtering along the frequency
-axis <a class="reference internal" href="#r43" id="id1">[R43]</a>.</p>
+axis <a class="reference internal" href="#r8585" id="id1">[R8585]</a>.</p>
 <p>By default, if a time series <em class="xref py py-obj">y</em> is provided, S will be the
 log-power Mel spectrogram.</p>
-<table class="docutils citation" frame="void" id="r43" rules="none">
+<table class="docutils citation" frame="void" id="r8585" rules="none">
 <colgroup><col class="label" /><col /></colgroup>
 <tbody valign="top">
-<tr><td class="label"><a class="fn-backref" href="#id1">[R43]</a></td><td>Böck, Sebastian, and Gerhard Widmer.
+<tr><td class="label"><a class="fn-backref" href="#id1">[R8585]</a></td><td>Böck, Sebastian, and Gerhard Widmer.
 &#8220;Maximum filter vibrato suppression for onset detection.&#8221;
 16th International Conference on Digital Audio Effects,
 Maynooth, Ireland. 2013.</td></tr>
@@ -310,15 +329,18 @@ at different frequency bins.</p>
 
 
            </div>
+           <div class="articleComments">
+            
+           </div>
           </div>
           <footer>
   
     <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
       
-        <a href="librosa.onset.onset_strength_multi.html" class="btn btn-neutral float-right" title="librosa.onset.onset_strength_multi" accesskey="n">Next <span class="fa fa-arrow-circle-right"></span></a>
+        <a href="librosa.onset.onset_strength_multi.html" class="btn btn-neutral float-right" title="librosa.onset.onset_strength_multi" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
       
       
-        <a href="librosa.onset.onset_backtrack.html" class="btn btn-neutral" title="librosa.onset.onset_backtrack" accesskey="p"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+        <a href="librosa.onset.onset_backtrack.html" class="btn btn-neutral" title="librosa.onset.onset_backtrack" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
       
     </div>
   
@@ -351,15 +373,23 @@ at different frequency bins.</p>
     <div class="rst-other-versions">
         <dl>
             <dt>Tags</dt>
-            <dd><a href="../../0.4.0rc1/generated/librosa.onset.onset_strength.html">0.4.0rc1</a></dd>
+            <dd><a href="../../0.4.0rc1/index.html">0.4.0rc1</a></dd>
+            <dd><a href="../../0.4.0rc2/index.html">0.4.0rc2</a></dd>
+            <dd><a href="../../0.4.1/index.html">0.4.1</a></dd>
+            <dd><a href="../../0.4.1rc0/index.html">0.4.1rc0</a></dd>
             <dd><a href="../../0.4.2/generated/librosa.onset.onset_strength.html">0.4.2</a></dd>
             <dd><a href="../../0.4.3/generated/librosa.onset.onset_strength.html">0.4.3</a></dd>
             <dd><a href="../../0.4.3rc0/generated/librosa.onset.onset_strength.html">0.4.3rc0</a></dd>
             <dd><a href="librosa.onset.onset_strength.html">0.5.0</a></dd>
             <dd><a href="../../0.5.0rc0/generated/librosa.onset.onset_strength.html">0.5.0rc0</a></dd>
+            <dd><a href="../../0.5.1/generated/librosa.onset.onset_strength.html">0.5.1</a></dd>
+            <dd><a href="../../0.6.0rc0/generated/librosa.onset.onset_strength.html">0.6.0rc0</a></dd>
+            <dd><a href="../../v0.1.0/index.html">v0.1.0</a></dd>
+            <dd><a href="../../v0.4.0/index.html">v0.4.0</a></dd>
         </dl>
         <dl>
             <dt>Branches</dt>
+            <dd><a href="../../display-bin-centering/generated/librosa.onset.onset_strength.html">display-bin-centering</a></dd>
             <dd><a href="../../master/generated/librosa.onset.onset_strength.html">master</a></dd>
         </dl>
     </div>
@@ -374,7 +404,8 @@ at different frequency bins.</p>
             VERSION:'0.5.0',
             COLLAPSE_INDEX:false,
             FILE_SUFFIX:'.html',
-            HAS_SOURCE:  true
+            HAS_SOURCE:  true,
+            SOURCELINK_SUFFIX: '.txt'
         };
     </script>
       <script type="text/javascript" src="../_static/jquery.js"></script>

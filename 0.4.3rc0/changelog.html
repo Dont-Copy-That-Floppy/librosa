@@ -13,6 +13,8 @@
 
   
   
+  
+  
 
   
 
@@ -46,6 +48,7 @@
 
 <body class="wy-body-for-nav" role="document">
 
+   
   <div class="wy-grid-for-nav">
 
     
@@ -86,7 +89,10 @@
           
             
             
-                <ul>
+              
+            
+            
+              <ul>
 <li class="toctree-l1"><a class="reference internal" href="install.html">Installation instructions</a></li>
 <li class="toctree-l1"><a class="reference internal" href="tutorial.html">Tutorial</a></li>
 </ul>
@@ -132,8 +138,10 @@
 
       
       <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
-        <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
-        <a href="index.html">librosa</a>
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">librosa</a>
+        
       </nav>
 
 
@@ -142,38 +150,46 @@
         <div class="rst-content">
           
 
- 
+
+
+
+
+
+
+
+
+
+
+
 
 
 
 <div role="navigation" aria-label="breadcrumbs navigation">
+
   <ul class="wy-breadcrumbs">
-    <li><a href="index.html">Docs</a> &raquo;</li>
-      
-    <li>Changes</li>
+    
+      <li><a href="index.html">Docs</a> &raquo;</li>
+        
+      <li>Changes</li>
+    
+    
       <li class="wy-breadcrumbs-aside">
         
-          
+            
             <a href="_sources/changelog.rst.txt" rel="nofollow"> View page source</a>
           
         
       </li>
+    
   </ul>
+
+  
   <hr/>
 </div>
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
             
-  
-
-
-    
-    
-
-
-
-    <p class="scv-banner scv-sphinx_rtd_theme"><a href="../0.5.0/changelog.html"><b>Warning:</b> This document is for an old version of librosa. The latest version is 0.5.0.</a></p>
-<div class="section" id="changes">
+  <div class="section" id="changes">
 <h1>Changes<a class="headerlink" href="#changes" title="Permalink to this headline">¶</a></h1>
 <div class="section" id="v0-4-3">
 <h2>v0.4.3<a class="headerlink" href="#v0-4-3" title="Permalink to this headline">¶</a></h2>
@@ -230,16 +246,13 @@ adapt to scale (mHz, Hz, KHz, MHz, GHz) and use automatic precision formatting (
 </ul>
 </dd>
 <dt>Other changes</dt>
-<dd><ul class="first last">
-<li><p class="first"><a class="reference external" href="https://github.com/librosa/librosa/pull/277">#277</a> improved documentation</p>
-</li>
-<li><p class="first"><a class="reference external" href="https://github.com/librosa/librosa/pull/294">#294</a> deprecated the <code class="docutils literal"><span class="pre">FeatureExtractor</span></code> object</p>
-</li>
-<li><p class="first"><a class="reference external" href="https://github.com/librosa/librosa/pull/300">#300</a> added dependency version requirements to install script</p>
-</li>
+<dd><ul class="first last simple">
+<li><a class="reference external" href="https://github.com/librosa/librosa/pull/277">#277</a> improved documentation</li>
+<li><a class="reference external" href="https://github.com/librosa/librosa/pull/294">#294</a> deprecated the <code class="docutils literal"><span class="pre">FeatureExtractor</span></code> object</li>
+<li><a class="reference external" href="https://github.com/librosa/librosa/pull/300">#300</a> added dependency version requirements to install script</li>
 <li><dl class="first docutils">
 <dt><a class="reference external" href="https://github.com/librosa/librosa/pull/302">#302</a>, <a class="reference external" href="https://github.com/librosa/librosa/pull/279">#279</a> renamed the following parameters</dt>
-<dd><ul class="first last simple">
+<dd><ul class="first last">
 <li><code class="docutils literal"><span class="pre">librosa.display.time_ticks</span></code>: <em class="xref py py-obj">fmt</em> is now <em class="xref py py-obj">time_fmt</em></li>
 <li><code class="docutils literal"><span class="pre">librosa.feature.chroma_cqt</span></code>: <em class="xref py py-obj">mode</em> is now <em class="xref py py-obj">cqt_mode</em></li>
 <li><code class="docutils literal"><span class="pre">librosa.cqt</span></code>, <code class="docutils literal"><span class="pre">hybrid_cqt</span></code>, <code class="docutils literal"><span class="pre">pseudo_cqt</span></code>, <code class="docutils literal"><span class="pre">librosa.filters.constant_q</span></code>: <em class="xref py py-obj">resolution</em> is now <em class="xref py py-obj">filter_scale</em></li>
@@ -247,8 +260,7 @@ adapt to scale (mHz, Hz, KHz, MHz, GHz) and use automatic precision formatting (
 </dd>
 </dl>
 </li>
-<li><p class="first"><a class="reference external" href="https://github.com/librosa/librosa/pull/308">#308</a> <code class="docutils literal"><span class="pre">librosa.cqt</span></code> default <em class="xref py py-obj">filter_scale</em> parameter is now 1 instead of 2.</p>
-</li>
+<li><a class="reference external" href="https://github.com/librosa/librosa/pull/308">#308</a> <code class="docutils literal"><span class="pre">librosa.cqt</span></code> default <em class="xref py py-obj">filter_scale</em> parameter is now 1 instead of 2.</li>
 </ul>
 </dd>
 </dl>
@@ -603,15 +615,18 @@ matches <code class="docutils literal"><span class="pre">stft</span></code></li>
 
 
            </div>
+           <div class="articleComments">
+            
+           </div>
           </div>
           <footer>
   
     <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
       
-        <a href="glossary.html" class="btn btn-neutral float-right" title="Glossary" accesskey="n">Next <span class="fa fa-arrow-circle-right"></span></a>
+        <a href="glossary.html" class="btn btn-neutral float-right" title="Glossary" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
       
       
-        <a href="cache.html" class="btn btn-neutral" title="Caching" accesskey="p"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+        <a href="cache.html" class="btn btn-neutral" title="Caching" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
       
     </div>
   
@@ -645,14 +660,22 @@ matches <code class="docutils literal"><span class="pre">stft</span></code></li>
         <dl>
             <dt>Tags</dt>
             <dd><a href="../0.4.0rc1/index.html">0.4.0rc1</a></dd>
+            <dd><a href="../0.4.0rc2/changelog.html">0.4.0rc2</a></dd>
+            <dd><a href="../0.4.1/changelog.html">0.4.1</a></dd>
+            <dd><a href="../0.4.1rc0/changelog.html">0.4.1rc0</a></dd>
             <dd><a href="../0.4.2/changelog.html">0.4.2</a></dd>
             <dd><a href="../0.4.3/changelog.html">0.4.3</a></dd>
             <dd><a href="changelog.html">0.4.3rc0</a></dd>
             <dd><a href="../0.5.0/changelog.html">0.5.0</a></dd>
             <dd><a href="../0.5.0rc0/changelog.html">0.5.0rc0</a></dd>
+            <dd><a href="../0.5.1/changelog.html">0.5.1</a></dd>
+            <dd><a href="../0.6.0rc0/changelog.html">0.6.0rc0</a></dd>
+            <dd><a href="../v0.1.0/index.html">v0.1.0</a></dd>
+            <dd><a href="../v0.4.0/changelog.html">v0.4.0</a></dd>
         </dl>
         <dl>
             <dt>Branches</dt>
+            <dd><a href="../display-bin-centering/changelog.html">display-bin-centering</a></dd>
             <dd><a href="../master/changelog.html">master</a></dd>
         </dl>
     </div>
@@ -667,7 +690,8 @@ matches <code class="docutils literal"><span class="pre">stft</span></code></li>
             VERSION:'0.4.3rc0',
             COLLAPSE_INDEX:false,
             FILE_SUFFIX:'.html',
-            HAS_SOURCE:  true
+            HAS_SOURCE:  true,
+            SOURCELINK_SUFFIX: '.txt'
         };
     </script>
       <script type="text/javascript" src="_static/jquery.js"></script>

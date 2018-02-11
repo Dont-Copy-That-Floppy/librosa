@@ -1,5 +1,5 @@
-librosa.display.time_ticks
-==========================
+librosa\.display\.time\_ticks
+=============================
 
 .. currentmodule:: librosa.display
 

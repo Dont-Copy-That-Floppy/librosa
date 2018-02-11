@@ -1,5 +1,5 @@
-librosa.util.buf_to_float
-=========================
+librosa\.util\.buf\_to\_float
+=============================
 
 .. currentmodule:: librosa.util
 

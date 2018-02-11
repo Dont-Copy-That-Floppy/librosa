@@ -1,5 +1,5 @@
-librosa.core.pitch_tuning
-=========================
+librosa\.core\.pitch\_tuning
+============================
 
 .. currentmodule:: librosa.core
 

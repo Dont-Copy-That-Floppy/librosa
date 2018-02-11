@@ -1,5 +1,5 @@
-librosa.util.axis_sort
-======================
+librosa\.util\.axis\_sort
+=========================
 
 .. currentmodule:: librosa.util
 

@@ -1,5 +1,5 @@
-librosa.output.write_wav
-========================
+librosa\.output\.write\_wav
+===========================
 
 .. currentmodule:: librosa.output
 

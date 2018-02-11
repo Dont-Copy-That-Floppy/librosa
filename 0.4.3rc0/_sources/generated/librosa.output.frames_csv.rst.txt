@@ -1,5 +1,5 @@
-librosa.output.frames_csv
-=========================
+librosa\.output\.frames\_csv
+============================
 
 .. currentmodule:: librosa.output
 

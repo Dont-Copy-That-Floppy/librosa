@@ -13,6 +13,8 @@
 
   
   
+  
+  
 
   
 
@@ -47,6 +49,7 @@
 
 <body class="wy-body-for-nav" role="document">
 
+   
   <div class="wy-grid-for-nav">
 
     
@@ -87,7 +90,10 @@
           
             
             
-                <ul>
+              
+            
+            
+              <ul>
 <li class="toctree-l1"><a class="reference internal" href="../install.html">Installation instructions</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../tutorial.html">Tutorial</a></li>
 </ul>
@@ -126,8 +132,10 @@
 
       
       <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
-        <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
-        <a href="../index.html">librosa</a>
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">librosa</a>
+        
       </nav>
 
 
@@ -136,40 +144,48 @@
         <div class="rst-content">
           
 
- 
+
+
+
+
+
+
+
+
+
+
+
 
 
 
 <div role="navigation" aria-label="breadcrumbs navigation">
+
   <ul class="wy-breadcrumbs">
-    <li><a href="../index.html">Docs</a> &raquo;</li>
-      
+    
+      <li><a href="../index.html">Docs</a> &raquo;</li>
+        
           <li><a href="../decompose.html">Spectrogram decomposition</a> &raquo;</li>
-      
-    <li>librosa.decompose.decompose</li>
+        
+      <li>librosa.decompose.decompose</li>
+    
+    
       <li class="wy-breadcrumbs-aside">
         
-          
+            
             <a href="../_sources/generated/librosa.decompose.decompose.rst.txt" rel="nofollow"> View page source</a>
           
         
       </li>
+    
   </ul>
+
+  
   <hr/>
 </div>
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
             
-  
-
-
-    
-    
-
-
-
-    <p class="scv-banner scv-sphinx_rtd_theme"><a href="../../0.5.0/generated/librosa.decompose.decompose.html"><b>Warning:</b> This document is for an old version of librosa. The latest version is 0.5.0.</a></p>
-<div class="section" id="librosa-decompose-decompose">
+  <div class="section" id="librosa-decompose-decompose">
 <h1>librosa.decompose.decompose<a class="headerlink" href="#librosa-decompose-decompose" title="Permalink to this headline">¶</a></h1>
 <dl class="function">
 <dt id="librosa.decompose.decompose">
@@ -178,7 +194,7 @@
 <p>Given a spectrogram <em class="xref py py-obj">S</em>, produce a decomposition into <em class="xref py py-obj">components</em>
 and <em class="xref py py-obj">activations</em> such that <em class="xref py py-obj">S ~= components.dot(activations)</em>.</p>
 <p>By default, this is done with with non-negative matrix factorization (NMF),
-but any <a class="reference external" href="http://scikit-learn.org/stable/modules/classes.html#module-sklearn.decomposition" title="(in scikit-learn v0.18.1)"><code class="xref py py-obj docutils literal"><span class="pre">sklearn.decomposition</span></code></a>-type object will work.</p>
+but any <a class="reference external" href="http://scikit-learn.org/stable/modules/classes.html#module-sklearn.decomposition" title="(in scikit-learn v0.19.1)"><code class="xref py py-obj docutils literal"><span class="pre">sklearn.decomposition</span></code></a>-type object will work.</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
@@ -194,7 +210,7 @@ but any <a class="reference external" href="http://scikit-learn.org/stable/modul
 </div></blockquote>
 <p><strong>transformer</strong> : None or object</p>
 <blockquote>
-<div><p>If None, use <a class="reference external" href="http://scikit-learn.org/stable/modules/generated/sklearn.decomposition.NMF.html#sklearn.decomposition.NMF" title="(in scikit-learn v0.18.1)"><code class="xref py py-obj docutils literal"><span class="pre">sklearn.decomposition.NMF</span></code></a></p>
+<div><p>If None, use <a class="reference external" href="http://scikit-learn.org/stable/modules/generated/sklearn.decomposition.NMF.html#sklearn.decomposition.NMF" title="(in scikit-learn v0.19.1)"><code class="xref py py-obj docutils literal"><span class="pre">sklearn.decomposition.NMF</span></code></a></p>
 <p>Otherwise, any object with a similar interface to NMF should work.
 <em class="xref py py-obj">transformer</em> must follow the scikit-learn convention, where
 input data is <em class="xref py py-obj">(n_samples, n_features)</em>.</p>
@@ -223,7 +239,7 @@ in <code class="docutils literal"><span class="pre">transformer</span></code>, a
 </div></blockquote>
 <p><strong>kwargs</strong> : Additional keyword arguments to the default transformer</p>
 <blockquote>
-<div><p><a class="reference external" href="http://scikit-learn.org/stable/modules/generated/sklearn.decomposition.NMF.html#sklearn.decomposition.NMF" title="(in scikit-learn v0.18.1)"><code class="xref py py-obj docutils literal"><span class="pre">sklearn.decomposition.NMF</span></code></a></p>
+<div><p><a class="reference external" href="http://scikit-learn.org/stable/modules/generated/sklearn.decomposition.NMF.html#sklearn.decomposition.NMF" title="(in scikit-learn v0.19.1)"><code class="xref py py-obj docutils literal"><span class="pre">sklearn.decomposition.NMF</span></code></a></p>
 </div></blockquote>
 </td>
 </tr>
@@ -248,7 +264,7 @@ in <code class="docutils literal"><span class="pre">transformer</span></code>, a
 <div class="admonition seealso">
 <p class="first admonition-title">See also</p>
 <dl class="last docutils">
-<dt><a class="reference external" href="http://scikit-learn.org/stable/modules/classes.html#module-sklearn.decomposition" title="(in scikit-learn v0.18.1)"><code class="xref py py-obj docutils literal"><span class="pre">sklearn.decomposition</span></code></a></dt>
+<dt><a class="reference external" href="http://scikit-learn.org/stable/modules/classes.html#module-sklearn.decomposition" title="(in scikit-learn v0.19.1)"><code class="xref py py-obj docutils literal"><span class="pre">sklearn.decomposition</span></code></a></dt>
 <dd>SciKit-Learn matrix decomposition modules</dd>
 </dl>
 </div>
@@ -308,21 +324,27 @@ in <code class="docutils literal"><span class="pre">transformer</span></code>, a
 </pre></div>
 </div>
 <p>(<a class="reference external" href="../generated/librosa-decompose-decompose-1.py">Source code</a>)</p>
+<div class="figure">
+<img alt="../_images/librosa-decompose-decompose-1.png" src="../_images/librosa-decompose-decompose-1.png" />
+</div>
 </dd></dl>
 
 </div>
 
 
            </div>
+           <div class="articleComments">
+            
+           </div>
           </div>
           <footer>
   
     <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
       
-        <a href="librosa.decompose.hpss.html" class="btn btn-neutral float-right" title="librosa.decompose.hpss" accesskey="n">Next <span class="fa fa-arrow-circle-right"></span></a>
+        <a href="librosa.decompose.hpss.html" class="btn btn-neutral float-right" title="librosa.decompose.hpss" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
       
       
-        <a href="../decompose.html" class="btn btn-neutral" title="Spectrogram decomposition" accesskey="p"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+        <a href="../decompose.html" class="btn btn-neutral" title="Spectrogram decomposition" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
       
     </div>
   
@@ -355,15 +377,23 @@ in <code class="docutils literal"><span class="pre">transformer</span></code>, a
     <div class="rst-other-versions">
         <dl>
             <dt>Tags</dt>
-            <dd><a href="../../0.4.0rc1/generated/librosa.decompose.decompose.html">0.4.0rc1</a></dd>
+            <dd><a href="../../0.4.0rc1/index.html">0.4.0rc1</a></dd>
+            <dd><a href="../../0.4.0rc2/index.html">0.4.0rc2</a></dd>
+            <dd><a href="../../0.4.1/index.html">0.4.1</a></dd>
+            <dd><a href="../../0.4.1rc0/index.html">0.4.1rc0</a></dd>
             <dd><a href="librosa.decompose.decompose.html">0.4.2</a></dd>
             <dd><a href="../../0.4.3/generated/librosa.decompose.decompose.html">0.4.3</a></dd>
             <dd><a href="../../0.4.3rc0/generated/librosa.decompose.decompose.html">0.4.3rc0</a></dd>
             <dd><a href="../../0.5.0/generated/librosa.decompose.decompose.html">0.5.0</a></dd>
             <dd><a href="../../0.5.0rc0/generated/librosa.decompose.decompose.html">0.5.0rc0</a></dd>
+            <dd><a href="../../0.5.1/generated/librosa.decompose.decompose.html">0.5.1</a></dd>
+            <dd><a href="../../0.6.0rc0/generated/librosa.decompose.decompose.html">0.6.0rc0</a></dd>
+            <dd><a href="../../v0.1.0/index.html">v0.1.0</a></dd>
+            <dd><a href="../../v0.4.0/index.html">v0.4.0</a></dd>
         </dl>
         <dl>
             <dt>Branches</dt>
+            <dd><a href="../../display-bin-centering/generated/librosa.decompose.decompose.html">display-bin-centering</a></dd>
             <dd><a href="../../master/generated/librosa.decompose.decompose.html">master</a></dd>
         </dl>
     </div>
@@ -378,7 +408,8 @@ in <code class="docutils literal"><span class="pre">transformer</span></code>, a
             VERSION:'0.4.2',
             COLLAPSE_INDEX:false,
             FILE_SUFFIX:'.html',
-            HAS_SOURCE:  true
+            HAS_SOURCE:  true,
+            SOURCELINK_SUFFIX: '.txt'
         };
     </script>
       <script type="text/javascript" src="../_static/jquery.js"></script>

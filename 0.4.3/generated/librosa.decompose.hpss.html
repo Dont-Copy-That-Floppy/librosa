@@ -13,6 +13,8 @@
 
   
   
+  
+  
 
   
 
@@ -47,6 +49,7 @@
 
 <body class="wy-body-for-nav" role="document">
 
+   
   <div class="wy-grid-for-nav">
 
     
@@ -87,7 +90,10 @@
           
             
             
-                <ul>
+              
+            
+            
+              <ul>
 <li class="toctree-l1"><a class="reference internal" href="../install.html">Installation instructions</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../tutorial.html">Tutorial</a></li>
 </ul>
@@ -127,8 +133,10 @@
 
       
       <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
-        <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
-        <a href="../index.html">librosa</a>
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">librosa</a>
+        
       </nav>
 
 
@@ -137,40 +145,48 @@
         <div class="rst-content">
           
 
- 
+
+
+
+
+
+
+
+
+
+
+
 
 
 
 <div role="navigation" aria-label="breadcrumbs navigation">
+
   <ul class="wy-breadcrumbs">
-    <li><a href="../index.html">Docs</a> &raquo;</li>
-      
+    
+      <li><a href="../index.html">Docs</a> &raquo;</li>
+        
           <li><a href="../decompose.html">Spectrogram decomposition</a> &raquo;</li>
-      
-    <li>librosa.decompose.hpss</li>
+        
+      <li>librosa.decompose.hpss</li>
+    
+    
       <li class="wy-breadcrumbs-aside">
         
-          
+            
             <a href="../_sources/generated/librosa.decompose.hpss.rst.txt" rel="nofollow"> View page source</a>
           
         
       </li>
+    
   </ul>
+
+  
   <hr/>
 </div>
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
             
-  
-
-
-    
-    
-
-
-
-    <p class="scv-banner scv-sphinx_rtd_theme"><a href="../../0.5.0/generated/librosa.decompose.hpss.html"><b>Warning:</b> This document is for an old version of librosa. The latest version is 0.5.0.</a></p>
-<div class="section" id="librosa-decompose-hpss">
+  <div class="section" id="librosa-decompose-hpss">
 <h1>librosa.decompose.hpss<a class="headerlink" href="#librosa-decompose-hpss" title="Permalink to this headline">¶</a></h1>
 <dl class="function">
 <dt id="librosa.decompose.hpss">
@@ -181,20 +197,20 @@ where <em class="xref py py-obj">H</em> contains the harmonic components,
 and <em class="xref py py-obj">P</em> contains the percussive components.</p>
 <p>If <em class="xref py py-obj">margin &gt; 1.0</em>, decomposes an input spectrogram <em class="xref py py-obj">S = H + P + R</em>
 where <em class="xref py py-obj">R</em> contains residual components not included in <em class="xref py py-obj">H</em> or <em class="xref py py-obj">P</em>.</p>
-<p>This implementation is based upon the algorithm described by <a class="reference internal" href="#r28" id="id1">[R28]</a> and <a class="reference internal" href="#r29" id="id2">[R29]</a>.</p>
-<table class="docutils citation" frame="void" id="r28" rules="none">
+<p>This implementation is based upon the algorithm described by <a class="reference internal" href="#r5556" id="id1">[R5556]</a> and <a class="reference internal" href="#r5656" id="id2">[R5656]</a>.</p>
+<table class="docutils citation" frame="void" id="r5556" rules="none">
 <colgroup><col class="label" /><col /></colgroup>
 <tbody valign="top">
-<tr><td class="label"><a class="fn-backref" href="#id1">[R28]</a></td><td>Fitzgerald, Derry.
+<tr><td class="label"><a class="fn-backref" href="#id1">[R5556]</a></td><td>Fitzgerald, Derry.
 &#8220;Harmonic/percussive separation using median filtering.&#8221;
 13th International Conference on Digital Audio Effects (DAFX10),
 Graz, Austria, 2010.</td></tr>
 </tbody>
 </table>
-<table class="docutils citation" frame="void" id="r29" rules="none">
+<table class="docutils citation" frame="void" id="r5656" rules="none">
 <colgroup><col class="label" /><col /></colgroup>
 <tbody valign="top">
-<tr><td class="label">[R29]</td><td><em>(<a class="fn-backref" href="#id2">1</a>, <a class="fn-backref" href="#id3">2</a>)</em> Driedger, Müller, Disch.
+<tr><td class="label">[R5656]</td><td><em>(<a class="fn-backref" href="#id2">1</a>, <a class="fn-backref" href="#id3">2</a>)</em> Driedger, Müller, Disch.
 &#8220;Extending harmonic-percussive separation of audio.&#8221;
 15th International Society for Music Information Retrieval Conference (ISMIR 2014),
 Taipei, Taiwan, 2014.</td></tr>
@@ -232,7 +248,7 @@ harmonic and percussive components.</p>
 </div></blockquote>
 <p><strong>margin</strong> : float or tuple (margin_harmonic, margin_percussive)</p>
 <blockquote>
-<div><p>margin size(s) for the masks (as described in <a class="reference internal" href="#r29" id="id3">[R29]</a>)</p>
+<div><p>margin size(s) for the masks (as described in <a class="reference internal" href="#r5656" id="id3">[R5656]</a>)</p>
 <ul class="simple">
 <li>If scalar, the same size is used for both harmonic and percussive.</li>
 <li>If tuple, the first value specifies the margin of the
@@ -321,21 +337,27 @@ of the percussive mask.</li>
 </pre></div>
 </div>
 <p>(<a class="reference external" href="../generated/librosa-decompose-hpss-1.py">Source code</a>)</p>
+<div class="figure">
+<img alt="../_images/librosa-decompose-hpss-1.png" src="../_images/librosa-decompose-hpss-1.png" />
+</div>
 </dd></dl>
 
 </div>
 
 
            </div>
+           <div class="articleComments">
+            
+           </div>
           </div>
           <footer>
   
     <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
       
-        <a href="librosa.decompose.nn_filter.html" class="btn btn-neutral float-right" title="librosa.decompose.nn_filter" accesskey="n">Next <span class="fa fa-arrow-circle-right"></span></a>
+        <a href="librosa.decompose.nn_filter.html" class="btn btn-neutral float-right" title="librosa.decompose.nn_filter" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
       
       
-        <a href="librosa.decompose.decompose.html" class="btn btn-neutral" title="librosa.decompose.decompose" accesskey="p"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+        <a href="librosa.decompose.decompose.html" class="btn btn-neutral" title="librosa.decompose.decompose" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
       
     </div>
   
@@ -368,15 +390,23 @@ of the percussive mask.</li>
     <div class="rst-other-versions">
         <dl>
             <dt>Tags</dt>
-            <dd><a href="../../0.4.0rc1/generated/librosa.decompose.hpss.html">0.4.0rc1</a></dd>
+            <dd><a href="../../0.4.0rc1/index.html">0.4.0rc1</a></dd>
+            <dd><a href="../../0.4.0rc2/index.html">0.4.0rc2</a></dd>
+            <dd><a href="../../0.4.1/index.html">0.4.1</a></dd>
+            <dd><a href="../../0.4.1rc0/index.html">0.4.1rc0</a></dd>
             <dd><a href="../../0.4.2/generated/librosa.decompose.hpss.html">0.4.2</a></dd>
             <dd><a href="librosa.decompose.hpss.html">0.4.3</a></dd>
             <dd><a href="../../0.4.3rc0/generated/librosa.decompose.hpss.html">0.4.3rc0</a></dd>
             <dd><a href="../../0.5.0/generated/librosa.decompose.hpss.html">0.5.0</a></dd>
             <dd><a href="../../0.5.0rc0/generated/librosa.decompose.hpss.html">0.5.0rc0</a></dd>
+            <dd><a href="../../0.5.1/generated/librosa.decompose.hpss.html">0.5.1</a></dd>
+            <dd><a href="../../0.6.0rc0/generated/librosa.decompose.hpss.html">0.6.0rc0</a></dd>
+            <dd><a href="../../v0.1.0/index.html">v0.1.0</a></dd>
+            <dd><a href="../../v0.4.0/index.html">v0.4.0</a></dd>
         </dl>
         <dl>
             <dt>Branches</dt>
+            <dd><a href="../../display-bin-centering/generated/librosa.decompose.hpss.html">display-bin-centering</a></dd>
             <dd><a href="../../master/generated/librosa.decompose.hpss.html">master</a></dd>
         </dl>
     </div>
@@ -391,7 +421,8 @@ of the percussive mask.</li>
             VERSION:'0.4.3',
             COLLAPSE_INDEX:false,
             FILE_SUFFIX:'.html',
-            HAS_SOURCE:  true
+            HAS_SOURCE:  true,
+            SOURCELINK_SUFFIX: '.txt'
         };
     </script>
       <script type="text/javascript" src="../_static/jquery.js"></script>

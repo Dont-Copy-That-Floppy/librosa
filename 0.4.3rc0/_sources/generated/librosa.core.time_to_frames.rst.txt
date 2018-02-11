@@ -1,5 +1,5 @@
-librosa.core.time_to_frames
-===========================
+librosa\.core\.time\_to\_frames
+===============================
 
 .. currentmodule:: librosa.core
 

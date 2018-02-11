@@ -1,5 +1,5 @@
-librosa.core.to_mono
-====================
+librosa\.core\.to\_mono
+=======================
 
 .. currentmodule:: librosa.core
 

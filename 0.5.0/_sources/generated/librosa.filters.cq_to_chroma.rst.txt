@@ -1,5 +1,5 @@
-librosa.filters.cq_to_chroma
-============================
+librosa\.filters\.cq\_to\_chroma
+================================
 
 .. currentmodule:: librosa.filters
 

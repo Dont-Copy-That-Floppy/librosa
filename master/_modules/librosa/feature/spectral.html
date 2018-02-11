@@ -8,9 +8,11 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>librosa.feature.spectral &mdash; librosa 0.5.0 documentation</title>
+  <title>librosa.feature.spectral &mdash; librosa 0.6.0rc0 documentation</title>
   
 
+  
+  
   
   
 
@@ -28,6 +30,8 @@
   
 
   
+    <link rel="stylesheet" href="../../../_static/gallery.css" type="text/css" />
+  
     <link rel="stylesheet" href="../../../_static/banner.css" type="text/css" />
   
 
@@ -35,7 +39,7 @@
         <link rel="index" title="Index"
               href="../../../genindex.html"/>
         <link rel="search" title="Search" href="../../../search.html"/>
-    <link rel="top" title="librosa 0.5.0 documentation" href="../../../index.html"/>
+    <link rel="top" title="librosa 0.6.0rc0 documentation" href="../../../index.html"/>
         <link rel="up" title="Module code" href="../../index.html"/> 
 
   
@@ -45,6 +49,7 @@
 
 <body class="wy-body-for-nav" role="document">
 
+   
   <div class="wy-grid-for-nav">
 
     
@@ -64,7 +69,7 @@
             
             
               <div class="version">
-                0.5
+                0.6
               </div>
             
           
@@ -85,7 +90,10 @@
           
             
             
-                <ul>
+              
+            
+            
+              <ul>
 <li class="toctree-l1"><a class="reference internal" href="../../../install.html">Installation instructions</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../tutorial.html">Tutorial</a></li>
 </ul>
@@ -105,9 +113,10 @@
 <li class="toctree-l1"><a class="reference internal" href="../../../filters.html">Filters</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../cache.html">Caching</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../ioformats.html">Advanced I/O Use Cases</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../advanced.html">Advanced examples</a></li>
 </ul>
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="../../../changelog.html">Release notes</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../changelog.html">Changelog</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../glossary.html">Glossary</a></li>
 </ul>
 
@@ -121,8 +130,10 @@
 
       
       <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
-        <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
-        <a href="../../../index.html">librosa</a>
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../index.html">librosa</a>
+        
       </nav>
 
 
@@ -135,34 +146,42 @@
 
 
 
+
+
+
+
+
+
+
+
+
+
 <div role="navigation" aria-label="breadcrumbs navigation">
+
   <ul class="wy-breadcrumbs">
-    <li><a href="../../../index.html">Docs</a> &raquo;</li>
-      
+    
+      <li><a href="../../../index.html">Docs</a> &raquo;</li>
+        
           <li><a href="../../index.html">Module code</a> &raquo;</li>
-      
-    <li>librosa.feature.spectral</li>
+        
+      <li>librosa.feature.spectral</li>
+    
+    
       <li class="wy-breadcrumbs-aside">
         
-          
+            
         
       </li>
+    
   </ul>
+
+  
   <hr/>
 </div>
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
             
-  
-
-
-    
-    
-
-
-
-    <p class="scv-banner scv-sphinx_rtd_theme"><b>Warning:</b> This document is for the development version of librosa.</p>
-<h1>Source code for librosa.feature.spectral</h1><div class="highlight"><pre>
+  <h1>Source code for librosa.feature.spectral</h1><div class="highlight"><pre>
 <span></span><span class="ch">#!/usr/bin/env python</span>
 <span class="c1"># -*- coding: utf-8 -*-</span>
 <span class="sd">&quot;&quot;&quot;Spectral feature extraction&quot;&quot;&quot;</span>
@@ -174,7 +193,6 @@
 <span class="kn">from</span> <span class="nn">..</span> <span class="k">import</span> <span class="n">util</span>
 <span class="kn">from</span> <span class="nn">..</span> <span class="k">import</span> <span class="n">filters</span>
 <span class="kn">from</span> <span class="nn">..util.exceptions</span> <span class="k">import</span> <span class="n">ParameterError</span>
-<span class="kn">from</span> <span class="nn">..util.deprecation</span> <span class="k">import</span> <span class="n">Deprecated</span><span class="p">,</span> <span class="n">rename_kw</span>
 
 <span class="kn">from</span> <span class="nn">..core.time_frequency</span> <span class="k">import</span> <span class="n">fft_frequencies</span>
 <span class="kn">from</span> <span class="nn">..core.audio</span> <span class="k">import</span> <span class="n">zero_crossings</span><span class="p">,</span> <span class="n">to_mono</span>
@@ -187,6 +205,7 @@
            <span class="s1">&#39;spectral_bandwidth&#39;</span><span class="p">,</span>
            <span class="s1">&#39;spectral_contrast&#39;</span><span class="p">,</span>
            <span class="s1">&#39;spectral_rolloff&#39;</span><span class="p">,</span>
+           <span class="s1">&#39;spectral_flatness&#39;</span><span class="p">,</span>
            <span class="s1">&#39;poly_features&#39;</span><span class="p">,</span>
            <span class="s1">&#39;rmse&#39;</span><span class="p">,</span>
            <span class="s1">&#39;zero_crossing_rate&#39;</span><span class="p">,</span>
@@ -409,9 +428,9 @@
         <span class="n">freq</span> <span class="o">=</span> <span class="n">fft_frequencies</span><span class="p">(</span><span class="n">sr</span><span class="o">=</span><span class="n">sr</span><span class="p">,</span> <span class="n">n_fft</span><span class="o">=</span><span class="n">n_fft</span><span class="p">)</span>
 
     <span class="k">if</span> <span class="n">freq</span><span class="o">.</span><span class="n">ndim</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
-        <span class="n">deviation</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">subtract</span><span class="o">.</span><span class="n">outer</span><span class="p">(</span><span class="n">freq</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">squeeze</span><span class="p">(</span><span class="n">centroid</span><span class="p">)))</span>
+        <span class="n">deviation</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">subtract</span><span class="o">.</span><span class="n">outer</span><span class="p">(</span><span class="n">freq</span><span class="p">,</span> <span class="n">centroid</span><span class="p">[</span><span class="mi">0</span><span class="p">]))</span>
     <span class="k">else</span><span class="p">:</span>
-        <span class="n">deviation</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">freq</span> <span class="o">-</span> <span class="n">np</span><span class="o">.</span><span class="n">squeeze</span><span class="p">(</span><span class="n">centroid</span><span class="p">))</span>
+        <span class="n">deviation</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">freq</span> <span class="o">-</span> <span class="n">centroid</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
 
     <span class="c1"># Column-normalize S</span>
     <span class="k">if</span> <span class="n">norm</span><span class="p">:</span>
@@ -524,6 +543,10 @@
 
     <span class="n">octa</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="n">n_bands</span> <span class="o">+</span> <span class="mi">2</span><span class="p">)</span>
     <span class="n">octa</span><span class="p">[</span><span class="mi">1</span><span class="p">:]</span> <span class="o">=</span> <span class="n">fmin</span> <span class="o">*</span> <span class="p">(</span><span class="mf">2.0</span><span class="o">**</span><span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">n_bands</span> <span class="o">+</span> <span class="mi">1</span><span class="p">))</span>
+
+    <span class="k">if</span> <span class="n">np</span><span class="o">.</span><span class="n">any</span><span class="p">(</span><span class="n">octa</span><span class="p">[:</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="o">&gt;=</span> <span class="mf">0.5</span> <span class="o">*</span> <span class="n">sr</span><span class="p">):</span>
+        <span class="k">raise</span> <span class="n">ParameterError</span><span class="p">(</span><span class="s1">&#39;Frequency band exceeds Nyquist. &#39;</span>
+                             <span class="s1">&#39;Reduce either fmin or n_bands.&#39;</span><span class="p">)</span>
 
     <span class="n">valley</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="n">n_bands</span> <span class="o">+</span> <span class="mi">1</span><span class="p">,</span> <span class="n">S</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">]))</span>
     <span class="n">peak</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros_like</span><span class="p">(</span><span class="n">valley</span><span class="p">)</span>
@@ -661,8 +684,96 @@
     <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">nanmin</span><span class="p">(</span><span class="n">ind</span> <span class="o">*</span> <span class="n">freq</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">keepdims</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span></div>
 
 
+<div class="viewcode-block" id="spectral_flatness"><a class="viewcode-back" href="../../../generated/librosa.feature.spectral_flatness.html#librosa.feature.spectral_flatness">[docs]</a><span class="k">def</span> <span class="nf">spectral_flatness</span><span class="p">(</span><span class="n">y</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">S</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">n_fft</span><span class="o">=</span><span class="mi">2048</span><span class="p">,</span> <span class="n">hop_length</span><span class="o">=</span><span class="mi">512</span><span class="p">,</span>
+                      <span class="n">amin</span><span class="o">=</span><span class="mf">1e-10</span><span class="p">,</span> <span class="n">power</span><span class="o">=</span><span class="mf">2.0</span><span class="p">):</span>
+    <span class="sd">&#39;&#39;&#39;Compute spectral flatness</span>
+
+<span class="sd">    Spectral flatness (or tonality coefficient) is a measure to</span>
+<span class="sd">    quantify how much noise-like a sound is, as opposed to being</span>
+<span class="sd">    tone-like [1]_. A high spectral flatness (closer to 1.0)</span>
+<span class="sd">    indicates the spectrum is similar to white noise.</span>
+<span class="sd">    It is often converted to decibel.</span>
+
+<span class="sd">    .. [1] Dubnov, Shlomo  &quot;Generalization of spectral flatness</span>
+<span class="sd">           measure for non-gaussian linear processes&quot;</span>
+<span class="sd">           IEEE Signal Processing Letters, 2004, Vol. 11.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    y : np.ndarray [shape=(n,)] or None</span>
+<span class="sd">        audio time series</span>
+
+<span class="sd">    S : np.ndarray [shape=(d, t)] or None</span>
+<span class="sd">        (optional) pre-computed spectrogram magnitude</span>
+
+<span class="sd">    n_fft : int &gt; 0 [scalar]</span>
+<span class="sd">        FFT window size</span>
+
+<span class="sd">    hop_length : int &gt; 0 [scalar]</span>
+<span class="sd">        hop length for STFT. See `librosa.core.stft` for details.</span>
+
+<span class="sd">    amin : float &gt; 0 [scalar]</span>
+<span class="sd">        minimum threshold for `S` (=added noise floor for numerical stability)</span>
+
+<span class="sd">    power : float &gt; 0 [scalar]</span>
+<span class="sd">        Exponent for the magnitude spectrogram.</span>
+<span class="sd">        e.g., 1 for energy, 2 for power, etc.</span>
+<span class="sd">        Power spectrogram is usually used for computing spectral flatness.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    flatness : np.ndarray [shape=(1, t)]</span>
+<span class="sd">        spectral flatness for each frame.</span>
+<span class="sd">        The returned value is in [0, 1] and often converted to dB scale.</span>
+
+
+<span class="sd">    Examples</span>
+<span class="sd">    --------</span>
+<span class="sd">    From time-series input</span>
+
+<span class="sd">    &gt;&gt;&gt; y, sr = librosa.load(librosa.util.example_audio_file())</span>
+<span class="sd">    &gt;&gt;&gt; flatness = librosa.feature.spectral_flatness(y=y)</span>
+<span class="sd">    &gt;&gt;&gt; flatness</span>
+<span class="sd">    array([[  1.00000e+00,   5.82299e-03,   5.64624e-04, ...,   9.99063e-01,</span>
+<span class="sd">          1.00000e+00,   1.00000e+00]], dtype=float32)</span>
+
+<span class="sd">    From spectrogram input</span>
+
+<span class="sd">    &gt;&gt;&gt; S, phase = librosa.magphase(librosa.stft(y))</span>
+<span class="sd">    &gt;&gt;&gt; librosa.feature.spectral_flatness(S=S)</span>
+<span class="sd">    array([[  1.00000e+00,   5.82299e-03,   5.64624e-04, ...,   9.99063e-01,</span>
+<span class="sd">          1.00000e+00,   1.00000e+00]], dtype=float32)</span>
+
+<span class="sd">    From power spectrogram input</span>
+
+<span class="sd">    &gt;&gt;&gt; S, phase = librosa.magphase(librosa.stft(y))</span>
+<span class="sd">    &gt;&gt;&gt; S_power = S ** 2</span>
+<span class="sd">    &gt;&gt;&gt; librosa.feature.spectral_flatness(S=S_power, power=1.0)</span>
+<span class="sd">    array([[  1.00000e+00,   5.82299e-03,   5.64624e-04, ...,   9.99063e-01,</span>
+<span class="sd">          1.00000e+00,   1.00000e+00]], dtype=float32)</span>
+
+<span class="sd">    &#39;&#39;&#39;</span>
+    <span class="k">if</span> <span class="n">amin</span> <span class="o">&lt;=</span> <span class="mi">0</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="n">ParameterError</span><span class="p">(</span><span class="s1">&#39;amin must be strictly positive&#39;</span><span class="p">)</span>
+
+    <span class="n">S</span><span class="p">,</span> <span class="n">n_fft</span> <span class="o">=</span> <span class="n">_spectrogram</span><span class="p">(</span><span class="n">y</span><span class="o">=</span><span class="n">y</span><span class="p">,</span> <span class="n">S</span><span class="o">=</span><span class="n">S</span><span class="p">,</span> <span class="n">n_fft</span><span class="o">=</span><span class="n">n_fft</span><span class="p">,</span> <span class="n">hop_length</span><span class="o">=</span><span class="n">hop_length</span><span class="p">,</span>
+                            <span class="n">power</span><span class="o">=</span><span class="mf">1.</span><span class="p">)</span>
+
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">np</span><span class="o">.</span><span class="n">isrealobj</span><span class="p">(</span><span class="n">S</span><span class="p">):</span>
+        <span class="k">raise</span> <span class="n">ParameterError</span><span class="p">(</span><span class="s1">&#39;Spectral flatness is only defined &#39;</span>
+                             <span class="s1">&#39;with real-valued input&#39;</span><span class="p">)</span>
+    <span class="k">elif</span> <span class="n">np</span><span class="o">.</span><span class="n">any</span><span class="p">(</span><span class="n">S</span> <span class="o">&lt;</span> <span class="mi">0</span><span class="p">):</span>
+        <span class="k">raise</span> <span class="n">ParameterError</span><span class="p">(</span><span class="s1">&#39;Spectral flatness is only defined &#39;</span>
+                             <span class="s1">&#39;with non-negative energies&#39;</span><span class="p">)</span>
+
+    <span class="n">S_thresh</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">maximum</span><span class="p">(</span><span class="n">amin</span><span class="p">,</span> <span class="n">S</span> <span class="o">**</span> <span class="n">power</span><span class="p">)</span>
+    <span class="n">gmean</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">exp</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="n">S_thresh</span><span class="p">),</span> <span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">keepdims</span><span class="o">=</span><span class="kc">True</span><span class="p">))</span>
+    <span class="n">amean</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">S_thresh</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">keepdims</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">gmean</span> <span class="o">/</span> <span class="n">amean</span></div>
+
+
 <div class="viewcode-block" id="rmse"><a class="viewcode-back" href="../../../generated/librosa.feature.rmse.html#librosa.feature.rmse">[docs]</a><span class="k">def</span> <span class="nf">rmse</span><span class="p">(</span><span class="n">y</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">S</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">frame_length</span><span class="o">=</span><span class="mi">2048</span><span class="p">,</span> <span class="n">hop_length</span><span class="o">=</span><span class="mi">512</span><span class="p">,</span>
-         <span class="n">n_fft</span><span class="o">=</span><span class="n">Deprecated</span><span class="p">()):</span>
+         <span class="n">center</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">pad_mode</span><span class="o">=</span><span class="s1">&#39;reflect&#39;</span><span class="p">):</span>
     <span class="sd">&#39;&#39;&#39;Compute root-mean-square (RMS) energy for each frame, either from the</span>
 <span class="sd">    audio samples `y` or from a spectrogram `S`.</span>
 
@@ -686,10 +797,15 @@
 <span class="sd">    hop_length : int &gt; 0 [scalar]</span>
 <span class="sd">        hop length for STFT. See `librosa.core.stft` for details.</span>
 
-<span class="sd">    n_fft : [DEPRECATED]</span>
-<span class="sd">        .. warning:: This parameter name was deprecated in librosa 0.5.0</span>
-<span class="sd">            Use the `frame_length` parameter instead.</span>
-<span class="sd">            The `n_fft` parameter will be removed in librosa 0.6.0.</span>
+<span class="sd">    center : bool</span>
+<span class="sd">        If `True` and operating on time-domain input (`y`), pad the signal</span>
+<span class="sd">        by `frame_length//2` on either side.</span>
+
+<span class="sd">        If operating on spectrogram input, this has no effect.</span>
+
+<span class="sd">    pad_mode : str</span>
+<span class="sd">        Padding mode for centered analysis.  See `np.pad` for valid</span>
+<span class="sd">        values.</span>
 
 <span class="sd">    Returns</span>
 <span class="sd">    -------</span>
@@ -728,14 +844,14 @@
 <span class="sd">    &gt;&gt;&gt; librosa.feature.rmse(S=S)</span>
 
 <span class="sd">    &#39;&#39;&#39;</span>
-    <span class="n">frame_length</span> <span class="o">=</span> <span class="n">rename_kw</span><span class="p">(</span><span class="s1">&#39;n_fft&#39;</span><span class="p">,</span> <span class="n">n_fft</span><span class="p">,</span>
-                             <span class="s1">&#39;frame_length&#39;</span><span class="p">,</span> <span class="n">frame_length</span><span class="p">,</span>
-                             <span class="s1">&#39;0.5&#39;</span><span class="p">,</span> <span class="s1">&#39;0.6&#39;</span><span class="p">)</span>
-
     <span class="k">if</span> <span class="n">y</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="ow">and</span> <span class="n">S</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
         <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s1">&#39;Either `y` or `S` should be input.&#39;</span><span class="p">)</span>
     <span class="k">if</span> <span class="n">y</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
-        <span class="n">x</span> <span class="o">=</span> <span class="n">util</span><span class="o">.</span><span class="n">frame</span><span class="p">(</span><span class="n">to_mono</span><span class="p">(</span><span class="n">y</span><span class="p">),</span>
+        <span class="n">y</span> <span class="o">=</span> <span class="n">to_mono</span><span class="p">(</span><span class="n">y</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">center</span><span class="p">:</span>
+            <span class="n">y</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">pad</span><span class="p">(</span><span class="n">y</span><span class="p">,</span> <span class="nb">int</span><span class="p">(</span><span class="n">frame_length</span> <span class="o">//</span> <span class="mi">2</span><span class="p">),</span> <span class="n">mode</span><span class="o">=</span><span class="n">pad_mode</span><span class="p">)</span>
+
+        <span class="n">x</span> <span class="o">=</span> <span class="n">util</span><span class="o">.</span><span class="n">frame</span><span class="p">(</span><span class="n">y</span><span class="p">,</span>
                        <span class="n">frame_length</span><span class="o">=</span><span class="n">frame_length</span><span class="p">,</span>
                        <span class="n">hop_length</span><span class="o">=</span><span class="n">hop_length</span><span class="p">)</span>
     <span class="k">elif</span> <span class="n">S</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
@@ -1258,11 +1374,12 @@
         <span class="n">chroma_quant</span> <span class="o">+=</span> <span class="p">(</span><span class="n">chroma</span> <span class="o">&gt;</span> <span class="n">cur_quant_step</span><span class="p">)</span> <span class="o">*</span> <span class="n">QUANT_WEIGHTS</span><span class="p">[</span><span class="n">cur_quant_step_idx</span><span class="p">]</span>
 
     <span class="c1"># Apply temporal smoothing</span>
-    <span class="n">win</span> <span class="o">=</span> <span class="n">scipy</span><span class="o">.</span><span class="n">signal</span><span class="o">.</span><span class="n">hanning</span><span class="p">(</span><span class="n">win_len_smooth</span> <span class="o">+</span> <span class="mi">2</span><span class="p">,</span> <span class="n">sym</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+    <span class="n">win</span> <span class="o">=</span> <span class="n">scipy</span><span class="o">.</span><span class="n">signal</span><span class="o">.</span><span class="n">hanning</span><span class="p">(</span><span class="n">win_len_smooth</span> <span class="o">+</span> <span class="mi">2</span><span class="p">)</span>
     <span class="n">win</span> <span class="o">/=</span> <span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">win</span><span class="p">)</span>
     <span class="n">win</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">atleast_2d</span><span class="p">(</span><span class="n">win</span><span class="p">)</span>
 
-    <span class="n">cens</span> <span class="o">=</span> <span class="n">scipy</span><span class="o">.</span><span class="n">signal</span><span class="o">.</span><span class="n">convolve2d</span><span class="p">(</span><span class="n">chroma_quant</span><span class="p">,</span> <span class="n">win</span><span class="p">,</span> <span class="n">mode</span><span class="o">=</span><span class="s1">&#39;same&#39;</span><span class="p">)</span>
+    <span class="n">cens</span> <span class="o">=</span> <span class="n">scipy</span><span class="o">.</span><span class="n">signal</span><span class="o">.</span><span class="n">convolve2d</span><span class="p">(</span><span class="n">chroma_quant</span><span class="p">,</span> <span class="n">win</span><span class="p">,</span>
+                                   <span class="n">mode</span><span class="o">=</span><span class="s1">&#39;same&#39;</span><span class="p">,</span> <span class="n">boundary</span><span class="o">=</span><span class="s1">&#39;fill&#39;</span><span class="p">)</span>
 
     <span class="c1"># L2-Normalization</span>
     <span class="k">return</span> <span class="n">util</span><span class="o">.</span><span class="n">normalize</span><span class="p">(</span><span class="n">cens</span><span class="p">,</span> <span class="n">norm</span><span class="o">=</span><span class="n">norm</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span></div>
@@ -1539,6 +1656,9 @@
 </pre></div>
 
            </div>
+           <div class="articleComments">
+            
+           </div>
           </div>
           <footer>
   
@@ -1572,14 +1692,22 @@
         <dl>
             <dt>Tags</dt>
             <dd><a href="../../../../0.4.0rc1/index.html">0.4.0rc1</a></dd>
+            <dd><a href="../../../../0.4.0rc2/index.html">0.4.0rc2</a></dd>
+            <dd><a href="../../../../0.4.1/index.html">0.4.1</a></dd>
+            <dd><a href="../../../../0.4.1rc0/index.html">0.4.1rc0</a></dd>
             <dd><a href="../../../../0.4.2/index.html">0.4.2</a></dd>
             <dd><a href="../../../../0.4.3/index.html">0.4.3</a></dd>
             <dd><a href="../../../../0.4.3rc0/index.html">0.4.3rc0</a></dd>
             <dd><a href="../../../../0.5.0/index.html">0.5.0</a></dd>
             <dd><a href="../../../../0.5.0rc0/index.html">0.5.0rc0</a></dd>
+            <dd><a href="../../../../0.5.1/index.html">0.5.1</a></dd>
+            <dd><a href="../../../../0.6.0rc0/index.html">0.6.0rc0</a></dd>
+            <dd><a href="../../../../v0.1.0/index.html">v0.1.0</a></dd>
+            <dd><a href="../../../../v0.4.0/index.html">v0.4.0</a></dd>
         </dl>
         <dl>
             <dt>Branches</dt>
+            <dd><a href="../../../../display-bin-centering/index.html">display-bin-centering</a></dd>
             <dd><a href="spectral.html">master</a></dd>
         </dl>
     </div>
@@ -1591,15 +1719,17 @@
     <script type="text/javascript">
         var DOCUMENTATION_OPTIONS = {
             URL_ROOT:'../../../',
-            VERSION:'0.5.0',
+            VERSION:'0.6.0rc0',
             COLLAPSE_INDEX:false,
             FILE_SUFFIX:'.html',
-            HAS_SOURCE:  true
+            HAS_SOURCE:  true,
+            SOURCELINK_SUFFIX: '.txt'
         };
     </script>
       <script type="text/javascript" src="../../../_static/jquery.js"></script>
       <script type="text/javascript" src="../../../_static/underscore.js"></script>
       <script type="text/javascript" src="../../../_static/doctools.js"></script>
+      <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.0/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
 
   
 

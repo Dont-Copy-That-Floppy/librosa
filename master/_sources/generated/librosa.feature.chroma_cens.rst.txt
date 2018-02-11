@@ -1,5 +1,5 @@
-librosa.feature.chroma_cens
-===========================
+librosa\.feature\.chroma\_cens
+==============================
 
 .. currentmodule:: librosa.feature
 

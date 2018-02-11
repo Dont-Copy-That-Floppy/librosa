@@ -1,5 +1,5 @@
-librosa.core.hz_to_mel
-======================
+librosa\.core\.hz\_to\_mel
+==========================
 
 .. currentmodule:: librosa.core
 

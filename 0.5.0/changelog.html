@@ -13,6 +13,8 @@
 
   
   
+  
+  
 
   
 
@@ -46,6 +48,7 @@
 
 <body class="wy-body-for-nav" role="document">
 
+   
   <div class="wy-grid-for-nav">
 
     
@@ -86,7 +89,10 @@
           
             
             
-                <ul>
+              
+            
+            
+              <ul>
 <li class="toctree-l1"><a class="reference internal" href="install.html">Installation instructions</a></li>
 <li class="toctree-l1"><a class="reference internal" href="tutorial.html">Tutorial</a></li>
 </ul>
@@ -134,8 +140,10 @@
 
       
       <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
-        <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
-        <a href="index.html">librosa</a>
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">librosa</a>
+        
       </nav>
 
 
@@ -144,35 +152,46 @@
         <div class="rst-content">
           
 
- 
+
+
+
+
+
+
+
+
+
+
+
 
 
 
 <div role="navigation" aria-label="breadcrumbs navigation">
+
   <ul class="wy-breadcrumbs">
-    <li><a href="index.html">Docs</a> &raquo;</li>
-      
-    <li>Release notes</li>
+    
+      <li><a href="index.html">Docs</a> &raquo;</li>
+        
+      <li>Release notes</li>
+    
+    
       <li class="wy-breadcrumbs-aside">
         
-          
+            
             <a href="_sources/changelog.rst.txt" rel="nofollow"> View page source</a>
           
         
       </li>
+    
   </ul>
+
+  
   <hr/>
 </div>
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
             
-  
-
-
-
-
-
-<div class="section" id="release-notes">
+  <div class="section" id="release-notes">
 <h1>Release notes<a class="headerlink" href="#release-notes" title="Permalink to this headline">¶</a></h1>
 <div class="section" id="v0-5-0">
 <h2>v0.5.0<a class="headerlink" href="#v0-5-0" title="Permalink to this headline">¶</a></h2>
@@ -232,10 +251,10 @@ McFee</em></li>
 </div></blockquote>
 <p>API changes and compatibility</p>
 <blockquote>
-<div><ul>
+<div><ul class="simple">
 <li><dl class="first docutils">
 <dt>The following functions have permanently moved:</dt>
-<dd><ul class="first last simple">
+<dd><ul class="first last">
 <li><code class="docutils literal"><span class="pre">core.peak_peak</span></code> to <code class="docutils literal"><span class="pre">util.peak_pick</span></code></li>
 <li><code class="docutils literal"><span class="pre">core.localmax</span></code> to <code class="docutils literal"><span class="pre">util.localmax</span></code></li>
 <li><code class="docutils literal"><span class="pre">feature.sync</span></code> to <code class="docutils literal"><span class="pre">util.sync</span></code></li>
@@ -245,7 +264,7 @@ McFee</em></li>
 </li>
 <li><dl class="first docutils">
 <dt>The following functions, classes, and constants have been removed:</dt>
-<dd><ul class="first last simple">
+<dd><ul class="first last">
 <li><code class="docutils literal"><span class="pre">core.ifptrack</span></code></li>
 <li><code class="docutils literal"><span class="pre">feature.chromagram</span></code></li>
 <li><code class="docutils literal"><span class="pre">feature.logfsgram</span></code></li>
@@ -262,7 +281,7 @@ McFee</em></li>
 </li>
 <li><dl class="first docutils">
 <dt>The following parameters have been removed:</dt>
-<dd><ul class="first last simple">
+<dd><ul class="first last">
 <li><code class="docutils literal"><span class="pre">librosa.cqt</span></code>: <em class="xref py py-obj">resolution</em></li>
 <li><code class="docutils literal"><span class="pre">librosa.cqt</span></code>: <em class="xref py py-obj">aggregate</em></li>
 <li><code class="docutils literal"><span class="pre">feature.chroma_cqt</span></code>: <em class="xref py py-obj">mode</em></li>
@@ -273,7 +292,7 @@ McFee</em></li>
 </li>
 <li><dl class="first docutils">
 <dt>Seaborn integration has been removed, and the <code class="docutils literal"><span class="pre">display</span></code> submodule now requires matplotlib &gt;= 1.5.</dt>
-<dd><ul class="first last simple">
+<dd><ul class="first last">
 <li>The <em class="xref py py-obj">use_sns</em> argument has been removed from <em class="xref py py-obj">display.cmap</em></li>
 <li><em class="xref py py-obj">magma</em> is now the default sequential colormap.</li>
 </ul>
@@ -282,7 +301,7 @@ McFee</em></li>
 </li>
 <li><dl class="first docutils">
 <dt>The <code class="docutils literal"><span class="pre">librosa.display</span></code> module has been rewritten.</dt>
-<dd><ul class="first last simple">
+<dd><ul class="first last">
 <li><code class="docutils literal"><span class="pre">librosa.display.specshow</span></code> now plots using <em class="xref py py-obj">pcolormesh</em>, and supports non-uniform time and frequency axes.</li>
 <li>All plots can be rendered in natural coordinates (e.g., time or Hz)</li>
 <li>Interactive plotting is now supported via ticker and formatter objects</li>
@@ -290,23 +309,17 @@ McFee</em></li>
 </dd>
 </dl>
 </li>
-<li><p class="first"><code class="docutils literal"><span class="pre">librosa.decompose.hpss</span></code> with <em class="xref py py-obj">mask=True</em> now returns soft masks, rather than binary masks.</p>
-</li>
-<li><p class="first"><code class="docutils literal"><span class="pre">librosa.filters.get_window</span></code> wraps <code class="docutils literal"><span class="pre">scipy.signal.get_window</span></code>, and handles generic callables as well pre-registered
+<li><code class="docutils literal"><span class="pre">librosa.decompose.hpss</span></code> with <em class="xref py py-obj">mask=True</em> now returns soft masks, rather than binary masks.</li>
+<li><code class="docutils literal"><span class="pre">librosa.filters.get_window</span></code> wraps <code class="docutils literal"><span class="pre">scipy.signal.get_window</span></code>, and handles generic callables as well pre-registered
 window functions.  All windowed analyses (e.g., <code class="docutils literal"><span class="pre">stft</span></code>, <code class="docutils literal"><span class="pre">cqt</span></code>, or <code class="docutils literal"><span class="pre">tempogram</span></code>) now support the full range
-of window functions and parameteric windows via tuple parameters, e.g., <code class="docutils literal"><span class="pre">window=('kaiser',</span> <span class="pre">4.0)</span></code>.</p>
-</li>
-<li><p class="first"><code class="docutils literal"><span class="pre">stft</span></code> windows are now explicitly asymmetric by default, which breaks backwards compatibility with the 0.4 series.</p>
-</li>
-<li><p class="first"><code class="docutils literal"><span class="pre">cqt</span></code> now returns properly scaled outputs that are continuous across octave boundaries.  This breaks
-backwards compatibility with the 0.4 series.</p>
-</li>
-<li><p class="first"><code class="docutils literal"><span class="pre">cqt</span></code> now uses <em class="xref py py-obj">tuning=0.0</em> by default, rather than estimating the tuning from the signal.  Tuning
-estimation is still supported, and enabled by default for chroma analysis (<code class="docutils literal"><span class="pre">librosa.feature.chroma_cqt</span></code>).</p>
-</li>
-<li><p class="first"><code class="docutils literal"><span class="pre">logamplitude</span></code> is deprecated in favor of <code class="docutils literal"><span class="pre">amplitude_to_db</span></code> or <code class="docutils literal"><span class="pre">power_to_db</span></code>.  The <em class="xref py py-obj">ref_power</em> parameter
-has been renamed to <em class="xref py py-obj">ref</em>.</p>
-</li>
+of window functions and parameteric windows via tuple parameters, e.g., <code class="docutils literal"><span class="pre">window=('kaiser',</span> <span class="pre">4.0)</span></code>.</li>
+<li><code class="docutils literal"><span class="pre">stft</span></code> windows are now explicitly asymmetric by default, which breaks backwards compatibility with the 0.4 series.</li>
+<li><code class="docutils literal"><span class="pre">cqt</span></code> now returns properly scaled outputs that are continuous across octave boundaries.  This breaks
+backwards compatibility with the 0.4 series.</li>
+<li><code class="docutils literal"><span class="pre">cqt</span></code> now uses <em class="xref py py-obj">tuning=0.0</em> by default, rather than estimating the tuning from the signal.  Tuning
+estimation is still supported, and enabled by default for chroma analysis (<code class="docutils literal"><span class="pre">librosa.feature.chroma_cqt</span></code>).</li>
+<li><code class="docutils literal"><span class="pre">logamplitude</span></code> is deprecated in favor of <code class="docutils literal"><span class="pre">amplitude_to_db</span></code> or <code class="docutils literal"><span class="pre">power_to_db</span></code>.  The <em class="xref py py-obj">ref_power</em> parameter
+has been renamed to <em class="xref py py-obj">ref</em>.</li>
 </ul>
 </div></blockquote>
 </div>
@@ -371,16 +384,13 @@ adapt to scale (mHz, Hz, KHz, MHz, GHz) and use automatic precision formatting (
 </ul>
 </dd>
 <dt>Other changes</dt>
-<dd><ul class="first last">
-<li><p class="first"><a class="reference external" href="https://github.com/librosa/librosa/pull/277">#277</a> improved documentation for OSX. <em>Stefan Balke</em></p>
-</li>
-<li><p class="first"><a class="reference external" href="https://github.com/librosa/librosa/pull/294">#294</a> deprecated the <code class="docutils literal"><span class="pre">FeatureExtractor</span></code> object. <em>Brian McFee</em></p>
-</li>
-<li><p class="first"><a class="reference external" href="https://github.com/librosa/librosa/pull/300">#300</a> added dependency version requirements to install script. <em>Brian McFee</em></p>
-</li>
+<dd><ul class="first last simple">
+<li><a class="reference external" href="https://github.com/librosa/librosa/pull/277">#277</a> improved documentation for OSX. <em>Stefan Balke</em></li>
+<li><a class="reference external" href="https://github.com/librosa/librosa/pull/294">#294</a> deprecated the <code class="docutils literal"><span class="pre">FeatureExtractor</span></code> object. <em>Brian McFee</em></li>
+<li><a class="reference external" href="https://github.com/librosa/librosa/pull/300">#300</a> added dependency version requirements to install script. <em>Brian McFee</em></li>
 <li><dl class="first docutils">
 <dt><a class="reference external" href="https://github.com/librosa/librosa/pull/302">#302</a>, <a class="reference external" href="https://github.com/librosa/librosa/pull/279">#279</a> renamed the following parameters</dt>
-<dd><ul class="first last simple">
+<dd><ul class="first last">
 <li><code class="docutils literal"><span class="pre">librosa.display.time_ticks</span></code>: <em class="xref py py-obj">fmt</em> is now <em class="xref py py-obj">time_fmt</em></li>
 <li><code class="docutils literal"><span class="pre">librosa.feature.chroma_cqt</span></code>: <em class="xref py py-obj">mode</em> is now <em class="xref py py-obj">cqt_mode</em></li>
 <li><code class="docutils literal"><span class="pre">librosa.cqt</span></code>, <code class="docutils literal"><span class="pre">hybrid_cqt</span></code>, <code class="docutils literal"><span class="pre">pseudo_cqt</span></code>, <code class="docutils literal"><span class="pre">librosa.filters.constant_q</span></code>: <em class="xref py py-obj">resolution</em> is now <em class="xref py py-obj">filter_scale</em></li>
@@ -388,8 +398,7 @@ adapt to scale (mHz, Hz, KHz, MHz, GHz) and use automatic precision formatting (
 </dd>
 </dl>
 </li>
-<li><p class="first"><a class="reference external" href="https://github.com/librosa/librosa/pull/308">#308</a> <code class="docutils literal"><span class="pre">librosa.cqt</span></code> default <em class="xref py py-obj">filter_scale</em> parameter is now 1 instead of 2.</p>
-</li>
+<li><a class="reference external" href="https://github.com/librosa/librosa/pull/308">#308</a> <code class="docutils literal"><span class="pre">librosa.cqt</span></code> default <em class="xref py py-obj">filter_scale</em> parameter is now 1 instead of 2.</li>
 </ul>
 </dd>
 </dl>
@@ -750,15 +759,18 @@ matches <code class="docutils literal"><span class="pre">stft</span></code></li>
 
 
            </div>
+           <div class="articleComments">
+            
+           </div>
           </div>
           <footer>
   
     <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
       
-        <a href="glossary.html" class="btn btn-neutral float-right" title="Glossary" accesskey="n">Next <span class="fa fa-arrow-circle-right"></span></a>
+        <a href="glossary.html" class="btn btn-neutral float-right" title="Glossary" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
       
       
-        <a href="ioformats.html" class="btn btn-neutral" title="Advanced I/O Use Cases" accesskey="p"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+        <a href="ioformats.html" class="btn btn-neutral" title="Advanced I/O Use Cases" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
       
     </div>
   
@@ -792,14 +804,22 @@ matches <code class="docutils literal"><span class="pre">stft</span></code></li>
         <dl>
             <dt>Tags</dt>
             <dd><a href="../0.4.0rc1/index.html">0.4.0rc1</a></dd>
+            <dd><a href="../0.4.0rc2/changelog.html">0.4.0rc2</a></dd>
+            <dd><a href="../0.4.1/changelog.html">0.4.1</a></dd>
+            <dd><a href="../0.4.1rc0/changelog.html">0.4.1rc0</a></dd>
             <dd><a href="../0.4.2/changelog.html">0.4.2</a></dd>
             <dd><a href="../0.4.3/changelog.html">0.4.3</a></dd>
             <dd><a href="../0.4.3rc0/changelog.html">0.4.3rc0</a></dd>
             <dd><a href="changelog.html">0.5.0</a></dd>
             <dd><a href="../0.5.0rc0/changelog.html">0.5.0rc0</a></dd>
+            <dd><a href="../0.5.1/changelog.html">0.5.1</a></dd>
+            <dd><a href="../0.6.0rc0/changelog.html">0.6.0rc0</a></dd>
+            <dd><a href="../v0.1.0/index.html">v0.1.0</a></dd>
+            <dd><a href="../v0.4.0/changelog.html">v0.4.0</a></dd>
         </dl>
         <dl>
             <dt>Branches</dt>
+            <dd><a href="../display-bin-centering/changelog.html">display-bin-centering</a></dd>
             <dd><a href="../master/changelog.html">master</a></dd>
         </dl>
     </div>
@@ -814,7 +834,8 @@ matches <code class="docutils literal"><span class="pre">stft</span></code></li>
             VERSION:'0.5.0',
             COLLAPSE_INDEX:false,
             FILE_SUFFIX:'.html',
-            HAS_SOURCE:  true
+            HAS_SOURCE:  true,
+            SOURCELINK_SUFFIX: '.txt'
         };
     </script>
       <script type="text/javascript" src="_static/jquery.js"></script>

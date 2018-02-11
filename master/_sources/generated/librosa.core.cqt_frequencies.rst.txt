@@ -1,5 +1,5 @@
-librosa.core.cqt_frequencies
-============================
+librosa\.core\.cqt\_frequencies
+===============================
 
 .. currentmodule:: librosa.core
 

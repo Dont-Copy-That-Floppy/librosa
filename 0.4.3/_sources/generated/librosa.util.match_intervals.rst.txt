@@ -1,5 +1,5 @@
-librosa.util.match_intervals
-============================
+librosa\.util\.match\_intervals
+===============================
 
 .. currentmodule:: librosa.util
 

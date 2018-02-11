@@ -1,5 +1,5 @@
-librosa.filters.constant_q
-==========================
+librosa\.filters\.constant\_q
+=============================
 
 .. currentmodule:: librosa.filters
 

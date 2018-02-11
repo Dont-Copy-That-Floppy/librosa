@@ -1,5 +1,5 @@
-librosa.core.fft_frequencies
-============================
+librosa\.core\.fft\_frequencies
+===============================
 
 .. currentmodule:: librosa.core
 

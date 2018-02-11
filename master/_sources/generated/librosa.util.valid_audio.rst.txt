@@ -1,5 +1,5 @@
-librosa.util.valid_audio
-========================
+librosa\.util\.valid\_audio
+===========================
 
 .. currentmodule:: librosa.util
 

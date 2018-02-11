@@ -1,5 +1,5 @@
-librosa.feature.sync
-====================
+librosa\.feature\.sync
+======================
 
 .. currentmodule:: librosa.feature
 

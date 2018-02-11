@@ -8,9 +8,11 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>librosa.core.spectrum &mdash; librosa 0.5.0 documentation</title>
+  <title>librosa.core.spectrum &mdash; librosa 0.6.0rc0 documentation</title>
   
 
+  
+  
   
   
 
@@ -28,6 +30,8 @@
   
 
   
+    <link rel="stylesheet" href="../../../_static/gallery.css" type="text/css" />
+  
     <link rel="stylesheet" href="../../../_static/banner.css" type="text/css" />
   
 
@@ -35,7 +39,7 @@
         <link rel="index" title="Index"
               href="../../../genindex.html"/>
         <link rel="search" title="Search" href="../../../search.html"/>
-    <link rel="top" title="librosa 0.5.0 documentation" href="../../../index.html"/>
+    <link rel="top" title="librosa 0.6.0rc0 documentation" href="../../../index.html"/>
         <link rel="up" title="Module code" href="../../index.html"/> 
 
   
@@ -45,6 +49,7 @@
 
 <body class="wy-body-for-nav" role="document">
 
+   
   <div class="wy-grid-for-nav">
 
     
@@ -64,7 +69,7 @@
             
             
               <div class="version">
-                0.5
+                0.6
               </div>
             
           
@@ -85,7 +90,10 @@
           
             
             
-                <ul>
+              
+            
+            
+              <ul>
 <li class="toctree-l1"><a class="reference internal" href="../../../install.html">Installation instructions</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../tutorial.html">Tutorial</a></li>
 </ul>
@@ -105,9 +113,10 @@
 <li class="toctree-l1"><a class="reference internal" href="../../../filters.html">Filters</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../cache.html">Caching</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../ioformats.html">Advanced I/O Use Cases</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../advanced.html">Advanced examples</a></li>
 </ul>
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="../../../changelog.html">Release notes</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../changelog.html">Changelog</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../glossary.html">Glossary</a></li>
 </ul>
 
@@ -121,8 +130,10 @@
 
       
       <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
-        <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
-        <a href="../../../index.html">librosa</a>
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../index.html">librosa</a>
+        
       </nav>
 
 
@@ -135,34 +146,42 @@
 
 
 
+
+
+
+
+
+
+
+
+
+
 <div role="navigation" aria-label="breadcrumbs navigation">
+
   <ul class="wy-breadcrumbs">
-    <li><a href="../../../index.html">Docs</a> &raquo;</li>
-      
+    
+      <li><a href="../../../index.html">Docs</a> &raquo;</li>
+        
           <li><a href="../../index.html">Module code</a> &raquo;</li>
-      
-    <li>librosa.core.spectrum</li>
+        
+      <li>librosa.core.spectrum</li>
+    
+    
       <li class="wy-breadcrumbs-aside">
         
-          
+            
         
       </li>
+    
   </ul>
+
+  
   <hr/>
 </div>
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
             
-  
-
-
-    
-    
-
-
-
-    <p class="scv-banner scv-sphinx_rtd_theme"><b>Warning:</b> This document is for the development version of librosa.</p>
-<h1>Source code for librosa.core.spectrum</h1><div class="highlight"><pre>
+  <h1>Source code for librosa.core.spectrum</h1><div class="highlight"><pre>
 <span></span><span class="ch">#!/usr/bin/env python</span>
 <span class="c1"># -*- coding: utf-8 -*-</span>
 <span class="sd">&#39;&#39;&#39;Utilities for spectral processing&#39;&#39;&#39;</span>
@@ -175,16 +194,16 @@
 <span class="kn">import</span> <span class="nn">six</span>
 
 <span class="kn">from</span> <span class="nn">.</span> <span class="k">import</span> <span class="n">time_frequency</span>
+<span class="kn">from</span> <span class="nn">.audio</span> <span class="k">import</span> <span class="n">resample</span>
 <span class="kn">from</span> <span class="nn">..</span> <span class="k">import</span> <span class="n">cache</span>
 <span class="kn">from</span> <span class="nn">..</span> <span class="k">import</span> <span class="n">util</span>
-<span class="kn">from</span> <span class="nn">..util.decorators</span> <span class="k">import</span> <span class="n">moved</span>
-<span class="kn">from</span> <span class="nn">..util.deprecation</span> <span class="k">import</span> <span class="n">rename_kw</span><span class="p">,</span> <span class="n">Deprecated</span>
 <span class="kn">from</span> <span class="nn">..util.exceptions</span> <span class="k">import</span> <span class="n">ParameterError</span>
-<span class="kn">from</span> <span class="nn">..filters</span> <span class="k">import</span> <span class="n">get_window</span>
+<span class="kn">from</span> <span class="nn">..filters</span> <span class="k">import</span> <span class="n">get_window</span><span class="p">,</span> <span class="n">semitone_filterbank</span>
+<span class="kn">from</span> <span class="nn">..filters</span> <span class="k">import</span> <span class="n">window_sumsquare</span>
 
-<span class="n">__all__</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;stft&#39;</span><span class="p">,</span> <span class="s1">&#39;istft&#39;</span><span class="p">,</span> <span class="s1">&#39;magphase&#39;</span><span class="p">,</span>
+<span class="n">__all__</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;stft&#39;</span><span class="p">,</span> <span class="s1">&#39;istft&#39;</span><span class="p">,</span> <span class="s1">&#39;magphase&#39;</span><span class="p">,</span> <span class="s1">&#39;iirt&#39;</span><span class="p">,</span>
            <span class="s1">&#39;ifgram&#39;</span><span class="p">,</span> <span class="s1">&#39;phase_vocoder&#39;</span><span class="p">,</span>
-           <span class="s1">&#39;logamplitude&#39;</span><span class="p">,</span> <span class="s1">&#39;perceptual_weighting&#39;</span><span class="p">,</span>
+           <span class="s1">&#39;perceptual_weighting&#39;</span><span class="p">,</span>
            <span class="s1">&#39;power_to_db&#39;</span><span class="p">,</span> <span class="s1">&#39;db_to_power&#39;</span><span class="p">,</span>
            <span class="s1">&#39;amplitude_to_db&#39;</span><span class="p">,</span> <span class="s1">&#39;db_to_amplitude&#39;</span><span class="p">,</span>
            <span class="s1">&#39;fmt&#39;</span><span class="p">]</span>
@@ -192,7 +211,7 @@
 
 <span class="nd">@cache</span><span class="p">(</span><span class="n">level</span><span class="o">=</span><span class="mi">20</span><span class="p">)</span>
 <div class="viewcode-block" id="stft"><a class="viewcode-back" href="../../../generated/librosa.core.stft.html#librosa.core.stft">[docs]</a><span class="k">def</span> <span class="nf">stft</span><span class="p">(</span><span class="n">y</span><span class="p">,</span> <span class="n">n_fft</span><span class="o">=</span><span class="mi">2048</span><span class="p">,</span> <span class="n">hop_length</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">win_length</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">window</span><span class="o">=</span><span class="s1">&#39;hann&#39;</span><span class="p">,</span>
-         <span class="n">center</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">complex64</span><span class="p">):</span>
+         <span class="n">center</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">complex64</span><span class="p">,</span> <span class="n">pad_mode</span><span class="o">=</span><span class="s1">&#39;reflect&#39;</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;Short-time Fourier transform (STFT)</span>
 
 <span class="sd">    Returns a complex-valued matrix D such that</span>
@@ -237,6 +256,10 @@
 <span class="sd">    dtype       : numeric type</span>
 <span class="sd">        Complex numeric type for `D`.  Default is 64-bit complex.</span>
 
+<span class="sd">    mode : string</span>
+<span class="sd">        If `center=True`, the padding mode to use at the edges of the signal.</span>
+<span class="sd">        By default, STFT uses reflection padding.</span>
+
 
 <span class="sd">    Returns</span>
 <span class="sd">    -------</span>
@@ -250,6 +273,7 @@
 
 <span class="sd">    ifgram : Instantaneous frequency spectrogram</span>
 
+<span class="sd">    np.pad : array padding</span>
 
 <span class="sd">    Notes</span>
 <span class="sd">    -----</span>
@@ -314,10 +338,12 @@
     <span class="c1"># Reshape so that the window can be broadcast</span>
     <span class="n">fft_window</span> <span class="o">=</span> <span class="n">fft_window</span><span class="o">.</span><span class="n">reshape</span><span class="p">((</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">))</span>
 
+    <span class="c1"># Check audio is valid</span>
+    <span class="n">util</span><span class="o">.</span><span class="n">valid_audio</span><span class="p">(</span><span class="n">y</span><span class="p">)</span>
+
     <span class="c1"># Pad the time series so that frames are centered</span>
     <span class="k">if</span> <span class="n">center</span><span class="p">:</span>
-        <span class="n">util</span><span class="o">.</span><span class="n">valid_audio</span><span class="p">(</span><span class="n">y</span><span class="p">)</span>
-        <span class="n">y</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">pad</span><span class="p">(</span><span class="n">y</span><span class="p">,</span> <span class="nb">int</span><span class="p">(</span><span class="n">n_fft</span> <span class="o">//</span> <span class="mi">2</span><span class="p">),</span> <span class="n">mode</span><span class="o">=</span><span class="s1">&#39;reflect&#39;</span><span class="p">)</span>
+        <span class="n">y</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">pad</span><span class="p">(</span><span class="n">y</span><span class="p">,</span> <span class="nb">int</span><span class="p">(</span><span class="n">n_fft</span> <span class="o">//</span> <span class="mi">2</span><span class="p">),</span> <span class="n">mode</span><span class="o">=</span><span class="n">pad_mode</span><span class="p">)</span>
 
     <span class="c1"># Window the time series.</span>
     <span class="n">y_frames</span> <span class="o">=</span> <span class="n">util</span><span class="o">.</span><span class="n">frame</span><span class="p">(</span><span class="n">y</span><span class="p">,</span> <span class="n">frame_length</span><span class="o">=</span><span class="n">n_fft</span><span class="p">,</span> <span class="n">hop_length</span><span class="o">=</span><span class="n">hop_length</span><span class="p">)</span>
@@ -337,14 +363,14 @@
         <span class="c1"># RFFT and Conjugate here to match phase from DPWE code</span>
         <span class="n">stft_matrix</span><span class="p">[:,</span> <span class="n">bl_s</span><span class="p">:</span><span class="n">bl_t</span><span class="p">]</span> <span class="o">=</span> <span class="n">fft</span><span class="o">.</span><span class="n">fft</span><span class="p">(</span><span class="n">fft_window</span> <span class="o">*</span>
                                             <span class="n">y_frames</span><span class="p">[:,</span> <span class="n">bl_s</span><span class="p">:</span><span class="n">bl_t</span><span class="p">],</span>
-                                            <span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)[:</span><span class="n">stft_matrix</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]]</span><span class="o">.</span><span class="n">conj</span><span class="p">()</span>
+                                            <span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)[:</span><span class="n">stft_matrix</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]]</span>
 
     <span class="k">return</span> <span class="n">stft_matrix</span></div>
 
 
 <span class="nd">@cache</span><span class="p">(</span><span class="n">level</span><span class="o">=</span><span class="mi">30</span><span class="p">)</span>
 <div class="viewcode-block" id="istft"><a class="viewcode-back" href="../../../generated/librosa.core.istft.html#librosa.core.istft">[docs]</a><span class="k">def</span> <span class="nf">istft</span><span class="p">(</span><span class="n">stft_matrix</span><span class="p">,</span> <span class="n">hop_length</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">win_length</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">window</span><span class="o">=</span><span class="s1">&#39;hann&#39;</span><span class="p">,</span>
-          <span class="n">center</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">float32</span><span class="p">):</span>
+          <span class="n">center</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">float32</span><span class="p">,</span> <span class="n">length</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Inverse short-time Fourier transform (ISTFT).</span>
 
@@ -391,6 +417,10 @@
 <span class="sd">    dtype       : numeric type</span>
 <span class="sd">        Real numeric type for `y`.  Default is 32-bit float.</span>
 
+<span class="sd">    length : int &gt; 0, optional</span>
+<span class="sd">        If provided, the output `y` is zero-padded or clipped to exactly</span>
+<span class="sd">        `length` samples.</span>
+
 <span class="sd">    Returns</span>
 <span class="sd">    -------</span>
 <span class="sd">    y : np.ndarray [shape=(n,)]</span>
@@ -419,7 +449,7 @@
 <span class="sd">    &gt;&gt;&gt; n_fft = 2048</span>
 <span class="sd">    &gt;&gt;&gt; y_pad = librosa.util.fix_length(y, n + n_fft // 2)</span>
 <span class="sd">    &gt;&gt;&gt; D = librosa.stft(y_pad, n_fft=n_fft)</span>
-<span class="sd">    &gt;&gt;&gt; y_out = librosa.util.fix_length(librosa.istft(D), n)</span>
+<span class="sd">    &gt;&gt;&gt; y_out = librosa.istft(D, length=n)</span>
 <span class="sd">    &gt;&gt;&gt; np.max(np.abs(y - y_out))</span>
 <span class="sd">    1.4901161e-07</span>
 <span class="sd">    &quot;&quot;&quot;</span>
@@ -442,31 +472,50 @@
     <span class="n">n_frames</span> <span class="o">=</span> <span class="n">stft_matrix</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
     <span class="n">expected_signal_len</span> <span class="o">=</span> <span class="n">n_fft</span> <span class="o">+</span> <span class="n">hop_length</span> <span class="o">*</span> <span class="p">(</span><span class="n">n_frames</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span>
     <span class="n">y</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="n">expected_signal_len</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">dtype</span><span class="p">)</span>
-    <span class="n">ifft_window_sum</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="n">expected_signal_len</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">dtype</span><span class="p">)</span>
-    <span class="n">ifft_window_square</span> <span class="o">=</span> <span class="n">ifft_window</span> <span class="o">*</span> <span class="n">ifft_window</span>
 
     <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">n_frames</span><span class="p">):</span>
         <span class="n">sample</span> <span class="o">=</span> <span class="n">i</span> <span class="o">*</span> <span class="n">hop_length</span>
         <span class="n">spec</span> <span class="o">=</span> <span class="n">stft_matrix</span><span class="p">[:,</span> <span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">flatten</span><span class="p">()</span>
-        <span class="n">spec</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">concatenate</span><span class="p">((</span><span class="n">spec</span><span class="o">.</span><span class="n">conj</span><span class="p">(),</span> <span class="n">spec</span><span class="p">[</span><span class="o">-</span><span class="mi">2</span><span class="p">:</span><span class="mi">0</span><span class="p">:</span><span class="o">-</span><span class="mi">1</span><span class="p">]),</span> <span class="mi">0</span><span class="p">)</span>
+        <span class="n">spec</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">concatenate</span><span class="p">((</span><span class="n">spec</span><span class="p">,</span> <span class="n">spec</span><span class="p">[</span><span class="o">-</span><span class="mi">2</span><span class="p">:</span><span class="mi">0</span><span class="p">:</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">conj</span><span class="p">()),</span> <span class="mi">0</span><span class="p">)</span>
         <span class="n">ytmp</span> <span class="o">=</span> <span class="n">ifft_window</span> <span class="o">*</span> <span class="n">fft</span><span class="o">.</span><span class="n">ifft</span><span class="p">(</span><span class="n">spec</span><span class="p">)</span><span class="o">.</span><span class="n">real</span>
 
         <span class="n">y</span><span class="p">[</span><span class="n">sample</span><span class="p">:(</span><span class="n">sample</span> <span class="o">+</span> <span class="n">n_fft</span><span class="p">)]</span> <span class="o">=</span> <span class="n">y</span><span class="p">[</span><span class="n">sample</span><span class="p">:(</span><span class="n">sample</span> <span class="o">+</span> <span class="n">n_fft</span><span class="p">)]</span> <span class="o">+</span> <span class="n">ytmp</span>
-        <span class="n">ifft_window_sum</span><span class="p">[</span><span class="n">sample</span><span class="p">:(</span><span class="n">sample</span> <span class="o">+</span> <span class="n">n_fft</span><span class="p">)]</span> <span class="o">+=</span> <span class="n">ifft_window_square</span>
 
     <span class="c1"># Normalize by sum of squared window</span>
+    <span class="n">ifft_window_sum</span> <span class="o">=</span> <span class="n">window_sumsquare</span><span class="p">(</span><span class="n">window</span><span class="p">,</span>
+                                       <span class="n">n_frames</span><span class="p">,</span>
+                                       <span class="n">win_length</span><span class="o">=</span><span class="n">win_length</span><span class="p">,</span>
+                                       <span class="n">n_fft</span><span class="o">=</span><span class="n">n_fft</span><span class="p">,</span>
+                                       <span class="n">hop_length</span><span class="o">=</span><span class="n">hop_length</span><span class="p">,</span>
+                                       <span class="n">dtype</span><span class="o">=</span><span class="n">dtype</span><span class="p">)</span>
+
     <span class="n">approx_nonzero_indices</span> <span class="o">=</span> <span class="n">ifft_window_sum</span> <span class="o">&gt;</span> <span class="n">util</span><span class="o">.</span><span class="n">tiny</span><span class="p">(</span><span class="n">ifft_window_sum</span><span class="p">)</span>
     <span class="n">y</span><span class="p">[</span><span class="n">approx_nonzero_indices</span><span class="p">]</span> <span class="o">/=</span> <span class="n">ifft_window_sum</span><span class="p">[</span><span class="n">approx_nonzero_indices</span><span class="p">]</span>
 
-    <span class="k">if</span> <span class="n">center</span><span class="p">:</span>
-        <span class="n">y</span> <span class="o">=</span> <span class="n">y</span><span class="p">[</span><span class="nb">int</span><span class="p">(</span><span class="n">n_fft</span> <span class="o">//</span> <span class="mi">2</span><span class="p">):</span><span class="o">-</span><span class="nb">int</span><span class="p">(</span><span class="n">n_fft</span> <span class="o">//</span> <span class="mi">2</span><span class="p">)]</span>
+    <span class="k">if</span> <span class="n">length</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="c1"># If we don&#39;t need to control length, just do the usual center trimming</span>
+        <span class="c1"># to eliminate padded data</span>
+        <span class="k">if</span> <span class="n">center</span><span class="p">:</span>
+            <span class="n">y</span> <span class="o">=</span> <span class="n">y</span><span class="p">[</span><span class="nb">int</span><span class="p">(</span><span class="n">n_fft</span> <span class="o">//</span> <span class="mi">2</span><span class="p">):</span><span class="o">-</span><span class="nb">int</span><span class="p">(</span><span class="n">n_fft</span> <span class="o">//</span> <span class="mi">2</span><span class="p">)]</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">center</span><span class="p">:</span>
+            <span class="c1"># If we&#39;re centering, crop off the first n_fft//2 samples</span>
+            <span class="c1"># and then trim/pad to the target length.</span>
+            <span class="c1"># We don&#39;t trim the end here, so that if the signal is zero-padded</span>
+            <span class="c1"># to a longer duration, the decay is smooth by windowing</span>
+            <span class="n">start</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">n_fft</span> <span class="o">//</span> <span class="mi">2</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="c1"># If we&#39;re not centering, start at 0 and trim/pad as necessary</span>
+            <span class="n">start</span> <span class="o">=</span> <span class="mi">0</span>
+
+        <span class="n">y</span> <span class="o">=</span> <span class="n">util</span><span class="o">.</span><span class="n">fix_length</span><span class="p">(</span><span class="n">y</span><span class="p">[</span><span class="n">start</span><span class="p">:],</span> <span class="n">length</span><span class="p">)</span>
 
     <span class="k">return</span> <span class="n">y</span></div>
 
 
 <div class="viewcode-block" id="ifgram"><a class="viewcode-back" href="../../../generated/librosa.core.ifgram.html#librosa.core.ifgram">[docs]</a><span class="k">def</span> <span class="nf">ifgram</span><span class="p">(</span><span class="n">y</span><span class="p">,</span> <span class="n">sr</span><span class="o">=</span><span class="mi">22050</span><span class="p">,</span> <span class="n">n_fft</span><span class="o">=</span><span class="mi">2048</span><span class="p">,</span> <span class="n">hop_length</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">win_length</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
            <span class="n">window</span><span class="o">=</span><span class="s1">&#39;hann&#39;</span><span class="p">,</span> <span class="n">norm</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">center</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">ref_power</span><span class="o">=</span><span class="mf">1e-6</span><span class="p">,</span>
-           <span class="n">clip</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">complex64</span><span class="p">):</span>
+           <span class="n">clip</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">complex64</span><span class="p">,</span> <span class="n">pad_mode</span><span class="o">=</span><span class="s1">&#39;reflect&#39;</span><span class="p">):</span>
     <span class="sd">&#39;&#39;&#39;Compute the instantaneous frequency (as a proportion of the sampling rate)</span>
 <span class="sd">    obtained as the time-derivative of the phase of the complex spectrum as</span>
 <span class="sd">    described by [1]_.</span>
@@ -531,6 +580,11 @@
 <span class="sd">    dtype : numeric type</span>
 <span class="sd">        Complex numeric type for `D`.  Default is 64-bit complex.</span>
 
+<span class="sd">    mode : string</span>
+<span class="sd">        If `center=True`, the padding mode to use at the edges of the signal.</span>
+<span class="sd">        By default, STFT uses reflection padding.</span>
+
+
 <span class="sd">    Returns</span>
 <span class="sd">    -------</span>
 <span class="sd">    if_gram : np.ndarray [shape=(1 + n_fft/2, t), dtype=real]</span>
@@ -575,10 +629,12 @@
 
     <span class="n">stft_matrix</span> <span class="o">=</span> <span class="n">stft</span><span class="p">(</span><span class="n">y</span><span class="p">,</span> <span class="n">n_fft</span><span class="o">=</span><span class="n">n_fft</span><span class="p">,</span> <span class="n">hop_length</span><span class="o">=</span><span class="n">hop_length</span><span class="p">,</span>
                        <span class="n">win_length</span><span class="o">=</span><span class="n">win_length</span><span class="p">,</span>
-                       <span class="n">window</span><span class="o">=</span><span class="n">window</span><span class="p">,</span> <span class="n">center</span><span class="o">=</span><span class="n">center</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">dtype</span><span class="p">)</span>
+                       <span class="n">window</span><span class="o">=</span><span class="n">window</span><span class="p">,</span> <span class="n">center</span><span class="o">=</span><span class="n">center</span><span class="p">,</span>
+                       <span class="n">dtype</span><span class="o">=</span><span class="n">dtype</span><span class="p">,</span> <span class="n">pad_mode</span><span class="o">=</span><span class="n">pad_mode</span><span class="p">)</span>
 
     <span class="n">diff_stft</span> <span class="o">=</span> <span class="n">stft</span><span class="p">(</span><span class="n">y</span><span class="p">,</span> <span class="n">n_fft</span><span class="o">=</span><span class="n">n_fft</span><span class="p">,</span> <span class="n">hop_length</span><span class="o">=</span><span class="n">hop_length</span><span class="p">,</span>
-                     <span class="n">window</span><span class="o">=</span><span class="n">d_window</span><span class="p">,</span> <span class="n">center</span><span class="o">=</span><span class="n">center</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">dtype</span><span class="p">)</span><span class="o">.</span><span class="n">conj</span><span class="p">()</span>
+                     <span class="n">window</span><span class="o">=</span><span class="n">d_window</span><span class="p">,</span> <span class="n">center</span><span class="o">=</span><span class="n">center</span><span class="p">,</span>
+                     <span class="n">dtype</span><span class="o">=</span><span class="n">dtype</span><span class="p">,</span> <span class="n">pad_mode</span><span class="o">=</span><span class="n">pad_mode</span><span class="p">)</span><span class="o">.</span><span class="n">conj</span><span class="p">()</span>
 
     <span class="c1"># Compute power normalization. Suppress zeros.</span>
     <span class="n">mag</span><span class="p">,</span> <span class="n">phase</span> <span class="o">=</span> <span class="n">magphase</span><span class="p">(</span><span class="n">stft_matrix</span><span class="p">)</span>
@@ -591,7 +647,7 @@
     <span class="c1"># Pylint does not correctly infer the type here, but it&#39;s correct.</span>
     <span class="c1"># pylint: disable=maybe-no-member</span>
     <span class="n">freq_angular</span> <span class="o">=</span> <span class="n">freq_angular</span><span class="o">.</span><span class="n">reshape</span><span class="p">((</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">))</span>
-    <span class="n">bin_offset</span> <span class="o">=</span> <span class="p">(</span><span class="n">phase</span> <span class="o">*</span> <span class="n">diff_stft</span><span class="p">)</span><span class="o">.</span><span class="n">imag</span> <span class="o">/</span> <span class="n">mag</span>
+    <span class="n">bin_offset</span> <span class="o">=</span> <span class="p">(</span><span class="o">-</span><span class="n">phase</span> <span class="o">*</span> <span class="n">diff_stft</span><span class="p">)</span><span class="o">.</span><span class="n">imag</span> <span class="o">/</span> <span class="n">mag</span>
 
     <span class="n">bin_offset</span><span class="p">[</span><span class="n">mag</span> <span class="o">&lt;</span> <span class="n">ref_power</span><span class="o">**</span><span class="mf">0.5</span><span class="p">]</span> <span class="o">=</span> <span class="mi">0</span>
 
@@ -754,8 +810,138 @@
     <span class="k">return</span> <span class="n">d_stretch</span></div>
 
 
+<span class="nd">@cache</span><span class="p">(</span><span class="n">level</span><span class="o">=</span><span class="mi">20</span><span class="p">)</span>
+<div class="viewcode-block" id="iirt"><a class="viewcode-back" href="../../../generated/librosa.core.iirt.html#librosa.core.iirt">[docs]</a><span class="k">def</span> <span class="nf">iirt</span><span class="p">(</span><span class="n">y</span><span class="p">,</span> <span class="n">sr</span><span class="o">=</span><span class="mi">22050</span><span class="p">,</span> <span class="n">win_length</span><span class="o">=</span><span class="mi">2048</span><span class="p">,</span> <span class="n">hop_length</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">center</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+         <span class="n">tuning</span><span class="o">=</span><span class="mf">0.0</span><span class="p">,</span> <span class="n">pad_mode</span><span class="o">=</span><span class="s1">&#39;reflect&#39;</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+    <span class="sa">r</span><span class="sd">&#39;&#39;&#39;Time-frequency representation using IIR filters [1]_.</span>
+
+<span class="sd">    This function will return a time-frequency representation</span>
+<span class="sd">    using a multirate filter bank consisting of IIR filters.</span>
+<span class="sd">    First, `y` is resampled as needed according to the provided `sample_rates`.</span>
+<span class="sd">    Then, a filterbank with with `n` band-pass filters is designed.</span>
+<span class="sd">    The resampled input signals are processed by the filterbank as a whole.</span>
+<span class="sd">    (`scipy.signal.filtfilt` is used to make the phase linear.)</span>
+<span class="sd">    The output of the filterbank is cut into frames.</span>
+<span class="sd">    For each band, the short-time mean-square power (STMSP) is calculated by</span>
+<span class="sd">    summing `win_length` subsequent filtered time samples.</span>
+
+<span class="sd">    When called with the default set of parameters, it will generate the TF-representation</span>
+<span class="sd">    as described in [1]_ (pitch filterbank):</span>
+
+<span class="sd">        * 85 filters with MIDI pitches [24, 108] as `center_freqs`.</span>
+<span class="sd">        * each filter having a bandwith of one semitone.</span>
+
+<span class="sd">    .. [1] Müller, Meinard.</span>
+<span class="sd">           &quot;Information Retrieval for Music and Motion.&quot;</span>
+<span class="sd">           Springer Verlag. 2007.</span>
+
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    y : np.ndarray [shape=(n,)]</span>
+<span class="sd">        audio time series</span>
+
+<span class="sd">    sr : number &gt; 0 [scalar]</span>
+<span class="sd">        sampling rate of `y`</span>
+
+<span class="sd">    win_length : int &gt; 0, &lt;= n_fft</span>
+<span class="sd">        Window length.</span>
+
+<span class="sd">    hop_length : int &gt; 0 [scalar]</span>
+<span class="sd">        Hop length, number samples between subsequent frames.</span>
+<span class="sd">        If not supplied, defaults to `win_length / 4`.</span>
+
+<span class="sd">    center : boolean</span>
+<span class="sd">        - If `True`, the signal `y` is padded so that frame</span>
+<span class="sd">          `D[:, t]` is centered at `y[t * hop_length]`.</span>
+<span class="sd">        - If `False`, then `D[:, t]` begins at `y[t * hop_length]`</span>
+
+<span class="sd">    tuning : float in `[-0.5, +0.5)` [scalar]</span>
+<span class="sd">        Tuning deviation from A440 in fractions of a bin.</span>
+
+<span class="sd">    pad_mode : string</span>
+<span class="sd">        If `center=True`, the padding mode to use at the edges of the signal.</span>
+<span class="sd">        By default, this function uses reflection padding.</span>
+
+<span class="sd">    kwargs : additional keyword arguments</span>
+<span class="sd">        Additional arguments for `librosa.filters.semitone_filterbank()`</span>
+<span class="sd">        (e.g., could be used to provide another set of `center_freqs` and `sample_rates`).</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    bands_power : np.ndarray [shape=(n, t), dtype=dtype]</span>
+<span class="sd">        Short-time mean-square power for the input signal.</span>
+
+<span class="sd">    See Also</span>
+<span class="sd">    --------</span>
+<span class="sd">    librosa.filters.semitone_filterbank</span>
+<span class="sd">    librosa.filters._multirate_fb</span>
+<span class="sd">    librosa.filters.mr_frequencies</span>
+<span class="sd">    librosa.core.cqt</span>
+<span class="sd">    scipy.signal.filtfilt</span>
+
+<span class="sd">    Examples</span>
+<span class="sd">    --------</span>
+<span class="sd">    &gt;&gt;&gt; import matplotlib.pyplot as plt</span>
+<span class="sd">    &gt;&gt;&gt; y, sr = librosa.load(librosa.util.example_audio_file())</span>
+<span class="sd">    &gt;&gt;&gt; D = librosa.iirt(y)</span>
+<span class="sd">    &gt;&gt;&gt; librosa.display.specshow(librosa.amplitude_to_db(D, ref=np.max),</span>
+<span class="sd">    ...                          y_axis=&#39;cqt_hz&#39;, x_axis=&#39;time&#39;)</span>
+<span class="sd">    &gt;&gt;&gt; plt.title(&#39;Semitone spectrogram&#39;)</span>
+<span class="sd">    &gt;&gt;&gt; plt.colorbar(format=&#39;%+2.0f dB&#39;)</span>
+<span class="sd">    &gt;&gt;&gt; plt.tight_layout()</span>
+<span class="sd">    &#39;&#39;&#39;</span>
+
+    <span class="c1"># check audio input</span>
+    <span class="n">util</span><span class="o">.</span><span class="n">valid_audio</span><span class="p">(</span><span class="n">y</span><span class="p">)</span>
+
+    <span class="c1"># Set the default hop, if it&#39;s not already specified</span>
+    <span class="k">if</span> <span class="n">hop_length</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">hop_length</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">win_length</span> <span class="o">//</span> <span class="mi">4</span><span class="p">)</span>
+
+    <span class="c1"># Pad the time series so that frames are centered</span>
+    <span class="k">if</span> <span class="n">center</span><span class="p">:</span>
+        <span class="n">y</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">pad</span><span class="p">(</span><span class="n">y</span><span class="p">,</span> <span class="nb">int</span><span class="p">(</span><span class="n">hop_length</span><span class="p">),</span> <span class="n">mode</span><span class="o">=</span><span class="n">pad_mode</span><span class="p">)</span>
+
+    <span class="c1"># get the semitone filterbank</span>
+    <span class="n">filterbank_ct</span><span class="p">,</span> <span class="n">sample_rates</span> <span class="o">=</span> <span class="n">semitone_filterbank</span><span class="p">(</span><span class="n">tuning</span><span class="o">=</span><span class="n">tuning</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+
+    <span class="c1"># create three downsampled versions of the audio signal</span>
+    <span class="n">y_resampled</span> <span class="o">=</span> <span class="p">[]</span>
+
+    <span class="n">y_srs</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">unique</span><span class="p">(</span><span class="n">sample_rates</span><span class="p">)</span>
+
+    <span class="k">for</span> <span class="n">cur_sr</span> <span class="ow">in</span> <span class="n">y_srs</span><span class="p">:</span>
+        <span class="n">y_resampled</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">resample</span><span class="p">(</span><span class="n">y</span><span class="p">,</span> <span class="n">sr</span><span class="p">,</span> <span class="n">cur_sr</span><span class="p">))</span>
+
+    <span class="c1"># Compute the number of frames that will fit. The end may get truncated.</span>
+    <span class="n">n_frames</span> <span class="o">=</span> <span class="mi">1</span> <span class="o">+</span> <span class="nb">int</span><span class="p">((</span><span class="nb">len</span><span class="p">(</span><span class="n">y</span><span class="p">)</span> <span class="o">-</span> <span class="n">win_length</span><span class="p">)</span> <span class="o">/</span> <span class="nb">float</span><span class="p">(</span><span class="n">hop_length</span><span class="p">))</span>
+
+    <span class="n">bands_power</span> <span class="o">=</span> <span class="p">[]</span>
+
+    <span class="k">for</span> <span class="n">cur_sr</span><span class="p">,</span> <span class="n">cur_filter</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">sample_rates</span><span class="p">,</span> <span class="n">filterbank_ct</span><span class="p">):</span>
+        <span class="n">factor</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="n">sr</span><span class="p">)</span> <span class="o">/</span> <span class="nb">float</span><span class="p">(</span><span class="n">cur_sr</span><span class="p">)</span>
+        <span class="n">win_length_STMSP</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">round</span><span class="p">(</span><span class="n">win_length</span> <span class="o">/</span> <span class="n">factor</span><span class="p">))</span>
+        <span class="n">hop_length_STMSP</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">round</span><span class="p">(</span><span class="n">hop_length</span> <span class="o">/</span> <span class="n">factor</span><span class="p">))</span>
+
+        <span class="c1"># filter the signal</span>
+        <span class="n">cur_sr_idx</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">flatnonzero</span><span class="p">(</span><span class="n">y_srs</span> <span class="o">==</span> <span class="n">cur_sr</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
+
+        <span class="n">cur_filter_output</span> <span class="o">=</span> <span class="n">scipy</span><span class="o">.</span><span class="n">signal</span><span class="o">.</span><span class="n">filtfilt</span><span class="p">(</span><span class="n">cur_filter</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">cur_filter</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span>
+                                                  <span class="n">y_resampled</span><span class="p">[</span><span class="n">cur_sr_idx</span><span class="p">])</span>
+
+        <span class="c1"># frame the current filter output</span>
+        <span class="n">cur_frames</span> <span class="o">=</span> <span class="n">util</span><span class="o">.</span><span class="n">frame</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">ascontiguousarray</span><span class="p">(</span><span class="n">cur_filter_output</span><span class="p">),</span>
+                                <span class="n">frame_length</span><span class="o">=</span><span class="n">win_length_STMSP</span><span class="p">,</span>
+                                <span class="n">hop_length</span><span class="o">=</span><span class="n">hop_length_STMSP</span><span class="p">)</span>
+
+        <span class="n">bands_power</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">factor</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">cur_frames</span><span class="o">**</span><span class="mi">2</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)[:</span><span class="n">n_frames</span><span class="p">])</span>
+
+    <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">bands_power</span><span class="p">)</span></div>
+
+
 <span class="nd">@cache</span><span class="p">(</span><span class="n">level</span><span class="o">=</span><span class="mi">30</span><span class="p">)</span>
-<div class="viewcode-block" id="power_to_db"><a class="viewcode-back" href="../../../generated/librosa.core.power_to_db.html#librosa.core.power_to_db">[docs]</a><span class="k">def</span> <span class="nf">power_to_db</span><span class="p">(</span><span class="n">S</span><span class="p">,</span> <span class="n">ref</span><span class="o">=</span><span class="mf">1.0</span><span class="p">,</span> <span class="n">amin</span><span class="o">=</span><span class="mf">1e-10</span><span class="p">,</span> <span class="n">top_db</span><span class="o">=</span><span class="mf">80.0</span><span class="p">,</span> <span class="n">ref_power</span><span class="o">=</span><span class="n">Deprecated</span><span class="p">()):</span>
+<div class="viewcode-block" id="power_to_db"><a class="viewcode-back" href="../../../generated/librosa.core.power_to_db.html#librosa.core.power_to_db">[docs]</a><span class="k">def</span> <span class="nf">power_to_db</span><span class="p">(</span><span class="n">S</span><span class="p">,</span> <span class="n">ref</span><span class="o">=</span><span class="mf">1.0</span><span class="p">,</span> <span class="n">amin</span><span class="o">=</span><span class="mf">1e-10</span><span class="p">,</span> <span class="n">top_db</span><span class="o">=</span><span class="mf">80.0</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;Convert a power spectrogram (amplitude squared) to decibel (dB) units</span>
 
 <span class="sd">    This computes the scaling ``10 * log10(S / ref)`` in a numerically</span>
@@ -779,11 +965,6 @@
 <span class="sd">    top_db : float &gt;= 0 [scalar]</span>
 <span class="sd">        threshold the output at `top_db` below the peak:</span>
 <span class="sd">        ``max(10 * log10(S)) - top_db``</span>
-
-<span class="sd">    ref_power : scalar or callable</span>
-<span class="sd">        .. warning:: This parameter name was deprecated in librosa 0.5.0.</span>
-<span class="sd">            Use the `ref` parameter instead.</span>
-<span class="sd">            The `ref_power` parameter will be removed in librosa 0.6.0.</span>
 
 <span class="sd">    Returns</span>
 <span class="sd">    -------</span>
@@ -857,10 +1038,6 @@
 
     <span class="n">magnitude</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">S</span><span class="p">)</span>
 
-    <span class="n">ref</span> <span class="o">=</span> <span class="n">rename_kw</span><span class="p">(</span><span class="s1">&#39;ref_power&#39;</span><span class="p">,</span> <span class="n">ref_power</span><span class="p">,</span>
-                    <span class="s1">&#39;ref&#39;</span><span class="p">,</span> <span class="n">ref</span><span class="p">,</span>
-                    <span class="s1">&#39;0.5&#39;</span><span class="p">,</span> <span class="s1">&#39;0.6&#39;</span><span class="p">)</span>
-
     <span class="k">if</span> <span class="n">six</span><span class="o">.</span><span class="n">callable</span><span class="p">(</span><span class="n">ref</span><span class="p">):</span>
         <span class="c1"># User supplied a function to calculate reference power</span>
         <span class="n">ref_value</span> <span class="o">=</span> <span class="n">ref</span><span class="p">(</span><span class="n">magnitude</span><span class="p">)</span>
@@ -876,9 +1053,6 @@
         <span class="n">log_spec</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">maximum</span><span class="p">(</span><span class="n">log_spec</span><span class="p">,</span> <span class="n">log_spec</span><span class="o">.</span><span class="n">max</span><span class="p">()</span> <span class="o">-</span> <span class="n">top_db</span><span class="p">)</span>
 
     <span class="k">return</span> <span class="n">log_spec</span></div>
-
-
-<span class="n">logamplitude</span> <span class="o">=</span> <span class="n">moved</span><span class="p">(</span><span class="s1">&#39;librosa.logamplitude&#39;</span><span class="p">,</span> <span class="s1">&#39;0.5&#39;</span><span class="p">,</span> <span class="s1">&#39;0.6&#39;</span><span class="p">)(</span><span class="n">power_to_db</span><span class="p">)</span>
 
 
 <span class="nd">@cache</span><span class="p">(</span><span class="n">level</span><span class="o">=</span><span class="mi">30</span><span class="p">)</span>
@@ -942,7 +1116,7 @@
 
 <span class="sd">    See Also</span>
 <span class="sd">    --------</span>
-<span class="sd">    logamplitude, power_to_db, db_to_amplitude</span>
+<span class="sd">    power_to_db, db_to_amplitude</span>
 
 <span class="sd">    Notes</span>
 <span class="sd">    -----</span>
@@ -1004,7 +1178,7 @@
 <span class="sd">        Center frequency for each row of `S`</span>
 
 <span class="sd">    kwargs : additional keyword arguments</span>
-<span class="sd">        Additional keyword arguments to `logamplitude`.</span>
+<span class="sd">        Additional keyword arguments to `power_to_db`.</span>
 
 <span class="sd">    Returns</span>
 <span class="sd">    -------</span>
@@ -1013,7 +1187,7 @@
 
 <span class="sd">    See Also</span>
 <span class="sd">    --------</span>
-<span class="sd">    logamplitude</span>
+<span class="sd">    power_to_db</span>
 
 <span class="sd">    Notes</span>
 <span class="sd">    -----</span>
@@ -1058,7 +1232,7 @@
 
     <span class="n">offset</span> <span class="o">=</span> <span class="n">time_frequency</span><span class="o">.</span><span class="n">A_weighting</span><span class="p">(</span><span class="n">frequencies</span><span class="p">)</span><span class="o">.</span><span class="n">reshape</span><span class="p">((</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">))</span>
 
-    <span class="k">return</span> <span class="n">offset</span> <span class="o">+</span> <span class="n">logamplitude</span><span class="p">(</span><span class="n">S</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span></div>
+    <span class="k">return</span> <span class="n">offset</span> <span class="o">+</span> <span class="n">power_to_db</span><span class="p">(</span><span class="n">S</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span></div>
 
 
 <span class="nd">@cache</span><span class="p">(</span><span class="n">level</span><span class="o">=</span><span class="mi">30</span><span class="p">)</span>
@@ -1316,6 +1490,9 @@
 </pre></div>
 
            </div>
+           <div class="articleComments">
+            
+           </div>
           </div>
           <footer>
   
@@ -1349,14 +1526,22 @@
         <dl>
             <dt>Tags</dt>
             <dd><a href="../../../../0.4.0rc1/index.html">0.4.0rc1</a></dd>
+            <dd><a href="../../../../0.4.0rc2/index.html">0.4.0rc2</a></dd>
+            <dd><a href="../../../../0.4.1/index.html">0.4.1</a></dd>
+            <dd><a href="../../../../0.4.1rc0/index.html">0.4.1rc0</a></dd>
             <dd><a href="../../../../0.4.2/index.html">0.4.2</a></dd>
             <dd><a href="../../../../0.4.3/index.html">0.4.3</a></dd>
             <dd><a href="../../../../0.4.3rc0/index.html">0.4.3rc0</a></dd>
             <dd><a href="../../../../0.5.0/index.html">0.5.0</a></dd>
             <dd><a href="../../../../0.5.0rc0/index.html">0.5.0rc0</a></dd>
+            <dd><a href="../../../../0.5.1/index.html">0.5.1</a></dd>
+            <dd><a href="../../../../0.6.0rc0/index.html">0.6.0rc0</a></dd>
+            <dd><a href="../../../../v0.1.0/index.html">v0.1.0</a></dd>
+            <dd><a href="../../../../v0.4.0/index.html">v0.4.0</a></dd>
         </dl>
         <dl>
             <dt>Branches</dt>
+            <dd><a href="../../../../display-bin-centering/index.html">display-bin-centering</a></dd>
             <dd><a href="spectrum.html">master</a></dd>
         </dl>
     </div>
@@ -1368,15 +1553,17 @@
     <script type="text/javascript">
         var DOCUMENTATION_OPTIONS = {
             URL_ROOT:'../../../',
-            VERSION:'0.5.0',
+            VERSION:'0.6.0rc0',
             COLLAPSE_INDEX:false,
             FILE_SUFFIX:'.html',
-            HAS_SOURCE:  true
+            HAS_SOURCE:  true,
+            SOURCELINK_SUFFIX: '.txt'
         };
     </script>
       <script type="text/javascript" src="../../../_static/jquery.js"></script>
       <script type="text/javascript" src="../../../_static/underscore.js"></script>
       <script type="text/javascript" src="../../../_static/doctools.js"></script>
+      <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.0/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
 
   
 

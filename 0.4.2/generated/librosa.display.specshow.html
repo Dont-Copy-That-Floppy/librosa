@@ -13,6 +13,8 @@
 
   
   
+  
+  
 
   
 
@@ -47,6 +49,7 @@
 
 <body class="wy-body-for-nav" role="document">
 
+   
   <div class="wy-grid-for-nav">
 
     
@@ -87,7 +90,10 @@
           
             
             
-                <ul>
+              
+            
+            
+              <ul>
 <li class="toctree-l1"><a class="reference internal" href="../install.html">Installation instructions</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../tutorial.html">Tutorial</a></li>
 </ul>
@@ -128,8 +134,10 @@
 
       
       <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
-        <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
-        <a href="../index.html">librosa</a>
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">librosa</a>
+        
       </nav>
 
 
@@ -138,46 +146,54 @@
         <div class="rst-content">
           
 
- 
+
+
+
+
+
+
+
+
+
+
+
 
 
 
 <div role="navigation" aria-label="breadcrumbs navigation">
+
   <ul class="wy-breadcrumbs">
-    <li><a href="../index.html">Docs</a> &raquo;</li>
-      
+    
+      <li><a href="../index.html">Docs</a> &raquo;</li>
+        
           <li><a href="../display.html">Display</a> &raquo;</li>
-      
-    <li>librosa.display.specshow</li>
+        
+      <li>librosa.display.specshow</li>
+    
+    
       <li class="wy-breadcrumbs-aside">
         
-          
+            
             <a href="../_sources/generated/librosa.display.specshow.rst.txt" rel="nofollow"> View page source</a>
           
         
       </li>
+    
   </ul>
+
+  
   <hr/>
 </div>
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
             
-  
-
-
-    
-    
-
-
-
-    <p class="scv-banner scv-sphinx_rtd_theme"><a href="../../0.5.0/generated/librosa.display.specshow.html"><b>Warning:</b> This document is for an old version of librosa. The latest version is 0.5.0.</a></p>
-<div class="section" id="librosa-display-specshow">
+  <div class="section" id="librosa-display-specshow">
 <h1>librosa.display.specshow<a class="headerlink" href="#librosa-display-specshow" title="Permalink to this headline">¶</a></h1>
 <dl class="function">
 <dt id="librosa.display.specshow">
 <code class="descclassname">librosa.display.</code><code class="descname">specshow</code><span class="sig-paren">(</span><em>data</em>, <em>sr=22050</em>, <em>hop_length=512</em>, <em>x_axis=None</em>, <em>y_axis=None</em>, <em>n_xticks=5</em>, <em>n_yticks=5</em>, <em>fmin=None</em>, <em>fmax=None</em>, <em>bins_per_octave=12</em>, <em>tmin=16</em>, <em>tmax=240</em>, <em>freq_fmt='Hz'</em>, <em>time_fmt=None</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/librosa/display.html#specshow"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#librosa.display.specshow" title="Permalink to this definition">¶</a></dt>
 <dd><p>Display a spectrogram/chromagram/cqt/etc.</p>
-<p>Functions as a drop-in replacement for <a class="reference external" href="http://matplotlib.org/api/pyplot_api.html#matplotlib.pyplot.imshow" title="(in Matplotlib v2.0.0)"><code class="xref py py-obj docutils literal"><span class="pre">matplotlib.pyplot.imshow</span></code></a>,
+<p>Functions as a drop-in replacement for <a class="reference external" href="https://matplotlib.org/api/_as_gen/matplotlib.pyplot.imshow.html#matplotlib.pyplot.imshow" title="(in Matplotlib v2.1.2)"><code class="xref py py-obj docutils literal"><span class="pre">matplotlib.pyplot.imshow</span></code></a>,
 but with useful defaults.</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
@@ -265,13 +281,13 @@ as measured in beats per minute.</p>
 </div></blockquote>
 <p><strong>kwargs</strong> : additional keyword arguments</p>
 <blockquote>
-<div><p>Arguments passed through to <a class="reference external" href="http://matplotlib.org/api/pyplot_api.html#matplotlib.pyplot.imshow" title="(in Matplotlib v2.0.0)"><code class="xref py py-obj docutils literal"><span class="pre">matplotlib.pyplot.imshow</span></code></a>.</p>
+<div><p>Arguments passed through to <a class="reference external" href="https://matplotlib.org/api/_as_gen/matplotlib.pyplot.imshow.html#matplotlib.pyplot.imshow" title="(in Matplotlib v2.1.2)"><code class="xref py py-obj docutils literal"><span class="pre">matplotlib.pyplot.imshow</span></code></a>.</p>
 </div></blockquote>
 </td>
 </tr>
-<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first"><strong>image</strong> : <a class="reference external" href="http://matplotlib.org/api/image_api.html#matplotlib.image.AxesImage" title="(in Matplotlib v2.0.0)"><code class="xref py py-obj docutils literal"><span class="pre">matplotlib.image.AxesImage</span></code></a></p>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first"><strong>image</strong> : <a class="reference external" href="https://matplotlib.org/api/image_api.html#matplotlib.image.AxesImage" title="(in Matplotlib v2.1.2)"><code class="xref py py-obj docutils literal"><span class="pre">matplotlib.image.AxesImage</span></code></a></p>
 <blockquote class="last">
-<div><p>As returned from <a class="reference external" href="http://matplotlib.org/api/pyplot_api.html#matplotlib.pyplot.imshow" title="(in Matplotlib v2.0.0)"><code class="xref py py-obj docutils literal"><span class="pre">matplotlib.pyplot.imshow</span></code></a>.</p>
+<div><p>As returned from <a class="reference external" href="https://matplotlib.org/api/_as_gen/matplotlib.pyplot.imshow.html#matplotlib.pyplot.imshow" title="(in Matplotlib v2.1.2)"><code class="xref py py-obj docutils literal"><span class="pre">matplotlib.pyplot.imshow</span></code></a>.</p>
 </div></blockquote>
 </td>
 </tr>
@@ -287,7 +303,7 @@ as measured in beats per minute.</p>
 <dt><code class="xref py py-obj docutils literal"><span class="pre">frequency_ticks</span></code></dt>
 <dd>frequency-formatted tick marks</dd>
 </dl>
-<p class="last"><a class="reference external" href="http://matplotlib.org/api/pyplot_api.html#matplotlib.pyplot.imshow" title="(in Matplotlib v2.0.0)"><code class="xref py py-obj docutils literal"><span class="pre">matplotlib.pyplot.imshow</span></code></a></p>
+<p class="last"><a class="reference external" href="https://matplotlib.org/api/_as_gen/matplotlib.pyplot.imshow.html#matplotlib.pyplot.imshow" title="(in Matplotlib v2.1.2)"><code class="xref py py-obj docutils literal"><span class="pre">matplotlib.pyplot.imshow</span></code></a></p>
 </div>
 <p class="rubric">Examples</p>
 <p>Visualize an STFT power spectrum</p>
@@ -365,15 +381,18 @@ as measured in beats per minute.</p>
 
 
            </div>
+           <div class="articleComments">
+            
+           </div>
           </div>
           <footer>
   
     <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
       
-        <a href="librosa.display.waveplot.html" class="btn btn-neutral float-right" title="librosa.display.waveplot" accesskey="n">Next <span class="fa fa-arrow-circle-right"></span></a>
+        <a href="librosa.display.waveplot.html" class="btn btn-neutral float-right" title="librosa.display.waveplot" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
       
       
-        <a href="../display.html" class="btn btn-neutral" title="Display" accesskey="p"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+        <a href="../display.html" class="btn btn-neutral" title="Display" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
       
     </div>
   
@@ -406,15 +425,23 @@ as measured in beats per minute.</p>
     <div class="rst-other-versions">
         <dl>
             <dt>Tags</dt>
-            <dd><a href="../../0.4.0rc1/generated/librosa.display.specshow.html">0.4.0rc1</a></dd>
+            <dd><a href="../../0.4.0rc1/index.html">0.4.0rc1</a></dd>
+            <dd><a href="../../0.4.0rc2/index.html">0.4.0rc2</a></dd>
+            <dd><a href="../../0.4.1/index.html">0.4.1</a></dd>
+            <dd><a href="../../0.4.1rc0/index.html">0.4.1rc0</a></dd>
             <dd><a href="librosa.display.specshow.html">0.4.2</a></dd>
             <dd><a href="../../0.4.3/generated/librosa.display.specshow.html">0.4.3</a></dd>
             <dd><a href="../../0.4.3rc0/generated/librosa.display.specshow.html">0.4.3rc0</a></dd>
             <dd><a href="../../0.5.0/generated/librosa.display.specshow.html">0.5.0</a></dd>
             <dd><a href="../../0.5.0rc0/generated/librosa.display.specshow.html">0.5.0rc0</a></dd>
+            <dd><a href="../../0.5.1/generated/librosa.display.specshow.html">0.5.1</a></dd>
+            <dd><a href="../../0.6.0rc0/generated/librosa.display.specshow.html">0.6.0rc0</a></dd>
+            <dd><a href="../../v0.1.0/index.html">v0.1.0</a></dd>
+            <dd><a href="../../v0.4.0/index.html">v0.4.0</a></dd>
         </dl>
         <dl>
             <dt>Branches</dt>
+            <dd><a href="../../display-bin-centering/generated/librosa.display.specshow.html">display-bin-centering</a></dd>
             <dd><a href="../../master/generated/librosa.display.specshow.html">master</a></dd>
         </dl>
     </div>
@@ -429,7 +456,8 @@ as measured in beats per minute.</p>
             VERSION:'0.4.2',
             COLLAPSE_INDEX:false,
             FILE_SUFFIX:'.html',
-            HAS_SOURCE:  true
+            HAS_SOURCE:  true,
+            SOURCELINK_SUFFIX: '.txt'
         };
     </script>
       <script type="text/javascript" src="../_static/jquery.js"></script>

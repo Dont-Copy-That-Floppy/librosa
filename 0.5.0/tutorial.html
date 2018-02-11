@@ -13,6 +13,8 @@
 
   
   
+  
+  
 
   
 
@@ -46,6 +48,7 @@
 
 <body class="wy-body-for-nav" role="document">
 
+   
   <div class="wy-grid-for-nav">
 
     
@@ -86,7 +89,10 @@
           
             
             
-                <ul class="current">
+              
+            
+            
+              <ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="install.html">Installation instructions</a></li>
 <li class="toctree-l1 current"><a class="current reference internal" href="#">Tutorial</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="#overview">Overview</a></li>
@@ -128,8 +134,10 @@
 
       
       <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
-        <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
-        <a href="index.html">librosa</a>
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">librosa</a>
+        
       </nav>
 
 
@@ -138,35 +146,46 @@
         <div class="rst-content">
           
 
- 
+
+
+
+
+
+
+
+
+
+
+
 
 
 
 <div role="navigation" aria-label="breadcrumbs navigation">
+
   <ul class="wy-breadcrumbs">
-    <li><a href="index.html">Docs</a> &raquo;</li>
-      
-    <li>Tutorial</li>
+    
+      <li><a href="index.html">Docs</a> &raquo;</li>
+        
+      <li>Tutorial</li>
+    
+    
       <li class="wy-breadcrumbs-aside">
         
-          
+            
             <a href="_sources/tutorial.rst.txt" rel="nofollow"> View page source</a>
           
         
       </li>
+    
   </ul>
+
+  
   <hr/>
 </div>
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
             
-  
-
-
-
-
-
-<div class="section" id="tutorial">
+  <div class="section" id="tutorial">
 <h1>Tutorial<a class="headerlink" href="#tutorial" title="Permalink to this headline">¶</a></h1>
 <p>This section covers the fundamentals of developing with <em>librosa</em>, including
 a package overview, basic and advanced usage, and integration with the <em>scikit-learn</em>
@@ -175,87 +194,75 @@ package.  We will assume basic familiarity with Python and NumPy/SciPy.</p>
 <h2>Overview<a class="headerlink" href="#overview" title="Permalink to this headline">¶</a></h2>
 <p>The <em>librosa</em> package is structured as collection of submodules:</p>
 <blockquote>
-<div><ul>
-<li><p class="first">librosa</p>
-<ul>
+<div><ul class="simple">
+<li>librosa<ul>
 <li><dl class="first docutils">
 <dt><a class="reference internal" href="beat.html#beat"><span class="std std-ref">librosa.beat</span></a></dt>
-<dd><p class="first last">Functions for estimating tempo and detecting beat events.</p>
-</dd>
+<dd>Functions for estimating tempo and detecting beat events.</dd>
 </dl>
 </li>
 <li><dl class="first docutils">
 <dt><a class="reference internal" href="core.html#core"><span class="std std-ref">librosa.core</span></a></dt>
-<dd><p class="first last">Core functionality includes functions to load audio from disk, compute various
+<dd>Core functionality includes functions to load audio from disk, compute various
 spectrogram representations, and a variety of commonly used tools for
 music analysis.  For convenience, all functionality in this submodule is
-directly accessible from the top-level <code class="docutils literal"><span class="pre">librosa.*</span></code> namespace.</p>
-</dd>
+directly accessible from the top-level <code class="docutils literal"><span class="pre">librosa.*</span></code> namespace.</dd>
 </dl>
 </li>
 <li><dl class="first docutils">
 <dt><a class="reference internal" href="decompose.html#decompose"><span class="std std-ref">librosa.decompose</span></a></dt>
-<dd><p class="first last">Functions for harmonic-percussive source separation (HPSS) and generic
+<dd>Functions for harmonic-percussive source separation (HPSS) and generic
 spectrogram decomposition using matrix decomposition methods implemented in
-<em>scikit-learn</em>.</p>
-</dd>
+<em>scikit-learn</em>.</dd>
 </dl>
 </li>
 <li><dl class="first docutils">
 <dt><a class="reference internal" href="display.html#display"><span class="std std-ref">librosa.display</span></a></dt>
-<dd><p class="first last">Visualization and display routines using <code class="xref py py-obj docutils literal"><span class="pre">matplotlib</span></code>.</p>
-</dd>
+<dd>Visualization and display routines using <code class="xref py py-obj docutils literal"><span class="pre">matplotlib</span></code>.</dd>
 </dl>
 </li>
 <li><dl class="first docutils">
 <dt><a class="reference internal" href="effects.html#effects"><span class="std std-ref">librosa.effects</span></a></dt>
-<dd><p class="first last">Time-domain audio processing, such as pitch shifting and time stretching.
+<dd>Time-domain audio processing, such as pitch shifting and time stretching.
 This submodule also provides time-domain wrappers for the <em class="xref py py-obj">decompose</em>
-submodule.</p>
-</dd>
+submodule.</dd>
 </dl>
 </li>
 <li><dl class="first docutils">
 <dt><a class="reference internal" href="feature.html#feature"><span class="std std-ref">librosa.feature</span></a></dt>
-<dd><p class="first last">Feature extraction and manipulation.  This includes low-level feature
+<dd>Feature extraction and manipulation.  This includes low-level feature
 extraction, such as chromagrams, pseudo-constant-Q (log-frequency) transforms,
 Mel spectrogram, MFCC, and tuning estimation.  Also provided are feature
 manipulation methods, such as delta features, memory embedding, and
-event-synchronous feature alignment.</p>
-</dd>
+event-synchronous feature alignment.</dd>
 </dl>
 </li>
 <li><dl class="first docutils">
 <dt><a class="reference internal" href="filters.html#filters"><span class="std std-ref">librosa.filters</span></a></dt>
-<dd><p class="first last">Filter-bank generation (chroma, pseudo-CQT, CQT, etc.).  These are primarily
-internal functions used by other parts of <em>librosa</em>.</p>
-</dd>
+<dd>Filter-bank generation (chroma, pseudo-CQT, CQT, etc.).  These are primarily
+internal functions used by other parts of <em>librosa</em>.</dd>
 </dl>
 </li>
 <li><dl class="first docutils">
 <dt><a class="reference internal" href="onset.html#onset"><span class="std std-ref">librosa.onset</span></a></dt>
-<dd><p class="first last">Onset detection and onset strength computation.</p>
-</dd>
+<dd>Onset detection and onset strength computation.</dd>
 </dl>
 </li>
 <li><dl class="first docutils">
 <dt><a class="reference internal" href="output.html#output"><span class="std std-ref">librosa.output</span></a></dt>
-<dd><p class="first last">Text- and wav-file output.</p>
-</dd>
+<dd>Text- and wav-file output.</dd>
 </dl>
 </li>
 <li><dl class="first docutils">
 <dt><a class="reference internal" href="segment.html#segment"><span class="std std-ref">librosa.segment</span></a></dt>
-<dd><p class="first last">Functions useful for structural segmentation, such as recurrence matrix
+<dd>Functions useful for structural segmentation, such as recurrence matrix
 construction, time-lag representation, and sequentially constrained
-clustering.</p>
-</dd>
+clustering.</dd>
 </dl>
 </li>
 <li><dl class="first docutils">
 <dt><a class="reference internal" href="util.html#util"><span class="std std-ref">librosa.util</span></a></dt>
-<dd><p class="first last">Helper utilities (normalization, padding, centering, etc.)</p>
-</dd>
+<dd>Helper utilities (normalization, padding, centering, etc.)</dd>
 </dl>
 </li>
 </ul>
@@ -519,15 +526,18 @@ be supplied here, including <em class="xref py py-obj">np.max()</em>, <em class=
 
 
            </div>
+           <div class="articleComments">
+            
+           </div>
           </div>
           <footer>
   
     <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
       
-        <a href="core.html" class="btn btn-neutral float-right" title="Core IO and DSP" accesskey="n">Next <span class="fa fa-arrow-circle-right"></span></a>
+        <a href="core.html" class="btn btn-neutral float-right" title="Core IO and DSP" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
       
       
-        <a href="install.html" class="btn btn-neutral" title="Installation instructions" accesskey="p"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+        <a href="install.html" class="btn btn-neutral" title="Installation instructions" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
       
     </div>
   
@@ -561,14 +571,22 @@ be supplied here, including <em class="xref py py-obj">np.max()</em>, <em class=
         <dl>
             <dt>Tags</dt>
             <dd><a href="../0.4.0rc1/tutorial.html">0.4.0rc1</a></dd>
+            <dd><a href="../0.4.0rc2/tutorial.html">0.4.0rc2</a></dd>
+            <dd><a href="../0.4.1/tutorial.html">0.4.1</a></dd>
+            <dd><a href="../0.4.1rc0/tutorial.html">0.4.1rc0</a></dd>
             <dd><a href="../0.4.2/tutorial.html">0.4.2</a></dd>
             <dd><a href="../0.4.3/tutorial.html">0.4.3</a></dd>
             <dd><a href="../0.4.3rc0/tutorial.html">0.4.3rc0</a></dd>
             <dd><a href="tutorial.html">0.5.0</a></dd>
             <dd><a href="../0.5.0rc0/tutorial.html">0.5.0rc0</a></dd>
+            <dd><a href="../0.5.1/tutorial.html">0.5.1</a></dd>
+            <dd><a href="../0.6.0rc0/tutorial.html">0.6.0rc0</a></dd>
+            <dd><a href="../v0.1.0/index.html">v0.1.0</a></dd>
+            <dd><a href="../v0.4.0/tutorial.html">v0.4.0</a></dd>
         </dl>
         <dl>
             <dt>Branches</dt>
+            <dd><a href="../display-bin-centering/tutorial.html">display-bin-centering</a></dd>
             <dd><a href="../master/tutorial.html">master</a></dd>
         </dl>
     </div>
@@ -583,7 +601,8 @@ be supplied here, including <em class="xref py py-obj">np.max()</em>, <em class=
             VERSION:'0.5.0',
             COLLAPSE_INDEX:false,
             FILE_SUFFIX:'.html',
-            HAS_SOURCE:  true
+            HAS_SOURCE:  true,
+            SOURCELINK_SUFFIX: '.txt'
         };
     </script>
       <script type="text/javascript" src="_static/jquery.js"></script>

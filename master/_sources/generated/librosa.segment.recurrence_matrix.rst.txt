@@ -1,5 +1,5 @@
-librosa.segment.recurrence_matrix
-=================================
+librosa\.segment\.recurrence\_matrix
+====================================
 
 .. currentmodule:: librosa.segment
 

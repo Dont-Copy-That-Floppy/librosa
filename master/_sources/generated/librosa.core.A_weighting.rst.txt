@@ -1,5 +1,5 @@
-librosa.core.A_weighting
-========================
+librosa\.core\.A\_weighting
+===========================
 
 .. currentmodule:: librosa.core
 

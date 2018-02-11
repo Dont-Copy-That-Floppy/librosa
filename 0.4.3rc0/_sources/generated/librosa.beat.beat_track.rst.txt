@@ -1,5 +1,5 @@
-librosa.beat.beat_track
-=======================
+librosa\.beat\.beat\_track
+==========================
 
 .. currentmodule:: librosa.beat
 

@@ -8,9 +8,11 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>librosa.core.load &mdash; librosa 0.5.0 documentation</title>
+  <title>librosa.core.load &mdash; librosa 0.6.0rc0 documentation</title>
   
 
+  
+  
   
   
 
@@ -28,6 +30,8 @@
   
 
   
+    <link rel="stylesheet" href="../_static/gallery.css" type="text/css" />
+  
     <link rel="stylesheet" href="../_static/banner.css" type="text/css" />
   
 
@@ -35,7 +39,7 @@
         <link rel="index" title="Index"
               href="../genindex.html"/>
         <link rel="search" title="Search" href="../search.html"/>
-    <link rel="top" title="librosa 0.5.0 documentation" href="../index.html"/>
+    <link rel="top" title="librosa 0.6.0rc0 documentation" href="../index.html"/>
         <link rel="up" title="Core IO and DSP" href="../core.html"/>
         <link rel="next" title="librosa.core.to_mono" href="librosa.core.to_mono.html"/>
         <link rel="prev" title="Core IO and DSP" href="../core.html"/> 
@@ -47,6 +51,7 @@
 
 <body class="wy-body-for-nav" role="document">
 
+   
   <div class="wy-grid-for-nav">
 
     
@@ -66,7 +71,7 @@
             
             
               <div class="version">
-                0.5
+                0.6
               </div>
             
           
@@ -87,7 +92,10 @@
           
             
             
-                <ul>
+              
+            
+            
+              <ul>
 <li class="toctree-l1"><a class="reference internal" href="../install.html">Installation instructions</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../tutorial.html">Tutorial</a></li>
 </ul>
@@ -108,7 +116,6 @@
 <li class="toctree-l2"><a class="reference internal" href="../core.html#time-and-frequency-conversion">Time and frequency conversion</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../core.html#pitch-and-tuning">Pitch and tuning</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../core.html#dynamic-time-warping">Dynamic Time Warping</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../core.html#deprecated">Deprecated</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="../display.html">Display</a></li>
@@ -125,9 +132,10 @@
 <li class="toctree-l1"><a class="reference internal" href="../filters.html">Filters</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../cache.html">Caching</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../ioformats.html">Advanced I/O Use Cases</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../advanced.html">Advanced examples</a></li>
 </ul>
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="../changelog.html">Release notes</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../changelog.html">Changelog</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../glossary.html">Glossary</a></li>
 </ul>
 
@@ -141,8 +149,10 @@
 
       
       <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
-        <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
-        <a href="../index.html">librosa</a>
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">librosa</a>
+        
       </nav>
 
 
@@ -151,45 +161,56 @@
         <div class="rst-content">
           
 
- 
+
+
+
+
+
+
+
+
+
+
+
 
 
 
 <div role="navigation" aria-label="breadcrumbs navigation">
+
   <ul class="wy-breadcrumbs">
-    <li><a href="../index.html">Docs</a> &raquo;</li>
-      
+    
+      <li><a href="../index.html">Docs</a> &raquo;</li>
+        
           <li><a href="../core.html">Core IO and DSP</a> &raquo;</li>
-      
-    <li>librosa.core.load</li>
+        
+      <li>librosa.core.load</li>
+    
+    
       <li class="wy-breadcrumbs-aside">
         
-          
+            
             <a href="../_sources/generated/librosa.core.load.rst.txt" rel="nofollow"> View page source</a>
           
         
       </li>
+    
   </ul>
+
+  
   <hr/>
 </div>
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
             
-  
-
-
-    
-    
-
-
-
-    <p class="scv-banner scv-sphinx_rtd_theme"><a href="../../0.5.0/generated/librosa.core.load.html"><b>Warning:</b> This document is for the development version of librosa. The latest version is 0.5.0.</a></p>
-<div class="section" id="librosa-core-load">
+  <div class="section" id="librosa-core-load">
 <h1>librosa.core.load<a class="headerlink" href="#librosa-core-load" title="Permalink to this headline">¶</a></h1>
 <dl class="function">
 <dt id="librosa.core.load">
 <code class="descclassname">librosa.core.</code><code class="descname">load</code><span class="sig-paren">(</span><em>path</em>, <em>sr=22050</em>, <em>mono=True</em>, <em>offset=0.0</em>, <em>duration=None</em>, <em>dtype=&lt;class 'numpy.float32'&gt;</em>, <em>res_type='kaiser_best'</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/librosa/core/audio.html#load"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#librosa.core.load" title="Permalink to this definition">¶</a></dt>
 <dd><p>Load an audio file as a floating point time series.</p>
+<p>Audio will be automatically resampled to the given rate
+(default <em class="xref py py-obj">sr=22050</em>).</p>
+<p>To preserve the native sampling rate of the file, use <em class="xref py py-obj">sr=None</em>.</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
@@ -225,9 +246,9 @@
 <div><p>resample type (see note)</p>
 <div class="admonition note">
 <p class="first admonition-title">Note</p>
-<p>By default, this uses <a class="reference external" href="http://resampy.readthedocs.io/en/latest/api.html#module-resampy" title="(in resampy v0.1)"><code class="xref py py-obj docutils literal"><span class="pre">resampy</span></code></a>&#8216;s high-quality mode (&#8216;kaiser_best&#8217;).</p>
+<p>By default, this uses <a class="reference external" href="http://resampy.readthedocs.io/en/latest/api.html#module-resampy" title="(in resampy v0.2)"><code class="xref py py-obj docutils literal"><span class="pre">resampy</span></code></a>&#8216;s high-quality mode (&#8216;kaiser_best&#8217;).</p>
 <p>To use a faster method, set <em class="xref py py-obj">res_type=&#8217;kaiser_fast&#8217;</em>.</p>
-<p class="last">To use <a class="reference external" href="https://docs.scipy.org/doc/scipy/reference/generated/scipy.signal.resample.html#scipy.signal.resample" title="(in SciPy v0.18.1)"><code class="xref py py-obj docutils literal"><span class="pre">scipy.signal.resample</span></code></a>, set <em class="xref py py-obj">res_type=&#8217;scipy&#8217;</em>.</p>
+<p class="last">To use <a class="reference external" href="https://docs.scipy.org/doc/scipy/reference/generated/scipy.signal.resample.html#scipy.signal.resample" title="(in SciPy v1.0.0)"><code class="xref py py-obj docutils literal"><span class="pre">scipy.signal.resample</span></code></a>, set <em class="xref py py-obj">res_type=&#8217;scipy&#8217;</em>.</p>
 </div>
 </div></blockquote>
 </td>
@@ -278,15 +299,18 @@
 
 
            </div>
+           <div class="articleComments">
+            
+           </div>
           </div>
           <footer>
   
     <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
       
-        <a href="librosa.core.to_mono.html" class="btn btn-neutral float-right" title="librosa.core.to_mono" accesskey="n">Next <span class="fa fa-arrow-circle-right"></span></a>
+        <a href="librosa.core.to_mono.html" class="btn btn-neutral float-right" title="librosa.core.to_mono" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
       
       
-        <a href="../core.html" class="btn btn-neutral" title="Core IO and DSP" accesskey="p"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+        <a href="../core.html" class="btn btn-neutral" title="Core IO and DSP" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
       
     </div>
   
@@ -319,15 +343,23 @@
     <div class="rst-other-versions">
         <dl>
             <dt>Tags</dt>
-            <dd><a href="../../0.4.0rc1/generated/librosa.core.load.html">0.4.0rc1</a></dd>
+            <dd><a href="../../0.4.0rc1/index.html">0.4.0rc1</a></dd>
+            <dd><a href="../../0.4.0rc2/index.html">0.4.0rc2</a></dd>
+            <dd><a href="../../0.4.1/index.html">0.4.1</a></dd>
+            <dd><a href="../../0.4.1rc0/index.html">0.4.1rc0</a></dd>
             <dd><a href="../../0.4.2/generated/librosa.core.load.html">0.4.2</a></dd>
             <dd><a href="../../0.4.3/generated/librosa.core.load.html">0.4.3</a></dd>
             <dd><a href="../../0.4.3rc0/generated/librosa.core.load.html">0.4.3rc0</a></dd>
             <dd><a href="../../0.5.0/generated/librosa.core.load.html">0.5.0</a></dd>
             <dd><a href="../../0.5.0rc0/generated/librosa.core.load.html">0.5.0rc0</a></dd>
+            <dd><a href="../../0.5.1/generated/librosa.core.load.html">0.5.1</a></dd>
+            <dd><a href="../../0.6.0rc0/generated/librosa.core.load.html">0.6.0rc0</a></dd>
+            <dd><a href="../../v0.1.0/index.html">v0.1.0</a></dd>
+            <dd><a href="../../v0.4.0/index.html">v0.4.0</a></dd>
         </dl>
         <dl>
             <dt>Branches</dt>
+            <dd><a href="../../display-bin-centering/generated/librosa.core.load.html">display-bin-centering</a></dd>
             <dd><a href="librosa.core.load.html">master</a></dd>
         </dl>
     </div>
@@ -339,15 +371,17 @@
     <script type="text/javascript">
         var DOCUMENTATION_OPTIONS = {
             URL_ROOT:'../',
-            VERSION:'0.5.0',
+            VERSION:'0.6.0rc0',
             COLLAPSE_INDEX:false,
             FILE_SUFFIX:'.html',
-            HAS_SOURCE:  true
+            HAS_SOURCE:  true,
+            SOURCELINK_SUFFIX: '.txt'
         };
     </script>
       <script type="text/javascript" src="../_static/jquery.js"></script>
       <script type="text/javascript" src="../_static/underscore.js"></script>
       <script type="text/javascript" src="../_static/doctools.js"></script>
+      <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.0/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
 
   
 

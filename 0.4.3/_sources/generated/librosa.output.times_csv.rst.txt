@@ -1,5 +1,5 @@
-librosa.output.times_csv
-========================
+librosa\.output\.times\_csv
+===========================
 
 .. currentmodule:: librosa.output
 

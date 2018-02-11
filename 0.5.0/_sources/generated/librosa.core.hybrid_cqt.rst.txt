@@ -1,5 +1,5 @@
-librosa.core.hybrid_cqt
-=======================
+librosa\.core\.hybrid\_cqt
+==========================
 
 .. currentmodule:: librosa.core
 

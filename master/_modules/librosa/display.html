@@ -8,9 +8,11 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>librosa.display &mdash; librosa 0.5.0 documentation</title>
+  <title>librosa.display &mdash; librosa 0.6.0rc0 documentation</title>
   
 
+  
+  
   
   
 
@@ -28,6 +30,8 @@
   
 
   
+    <link rel="stylesheet" href="../../_static/gallery.css" type="text/css" />
+  
     <link rel="stylesheet" href="../../_static/banner.css" type="text/css" />
   
 
@@ -35,7 +39,7 @@
         <link rel="index" title="Index"
               href="../../genindex.html"/>
         <link rel="search" title="Search" href="../../search.html"/>
-    <link rel="top" title="librosa 0.5.0 documentation" href="../../index.html"/>
+    <link rel="top" title="librosa 0.6.0rc0 documentation" href="../../index.html"/>
         <link rel="up" title="Module code" href="../index.html"/> 
 
   
@@ -45,6 +49,7 @@
 
 <body class="wy-body-for-nav" role="document">
 
+   
   <div class="wy-grid-for-nav">
 
     
@@ -64,7 +69,7 @@
             
             
               <div class="version">
-                0.5
+                0.6
               </div>
             
           
@@ -85,7 +90,10 @@
           
             
             
-                <ul>
+              
+            
+            
+              <ul>
 <li class="toctree-l1"><a class="reference internal" href="../../install.html">Installation instructions</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../tutorial.html">Tutorial</a></li>
 </ul>
@@ -105,9 +113,10 @@
 <li class="toctree-l1"><a class="reference internal" href="../../filters.html">Filters</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../cache.html">Caching</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../ioformats.html">Advanced I/O Use Cases</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../advanced.html">Advanced examples</a></li>
 </ul>
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="../../changelog.html">Release notes</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../changelog.html">Changelog</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../glossary.html">Glossary</a></li>
 </ul>
 
@@ -121,8 +130,10 @@
 
       
       <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
-        <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
-        <a href="../../index.html">librosa</a>
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">librosa</a>
+        
       </nav>
 
 
@@ -135,34 +146,42 @@
 
 
 
+
+
+
+
+
+
+
+
+
+
 <div role="navigation" aria-label="breadcrumbs navigation">
+
   <ul class="wy-breadcrumbs">
-    <li><a href="../../index.html">Docs</a> &raquo;</li>
-      
+    
+      <li><a href="../../index.html">Docs</a> &raquo;</li>
+        
           <li><a href="../index.html">Module code</a> &raquo;</li>
-      
-    <li>librosa.display</li>
+        
+      <li>librosa.display</li>
+    
+    
       <li class="wy-breadcrumbs-aside">
         
-          
+            
         
       </li>
+    
   </ul>
+
+  
   <hr/>
 </div>
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
             
-  
-
-
-    
-    
-
-
-
-    <p class="scv-banner scv-sphinx_rtd_theme"><b>Warning:</b> This document is for the development version of librosa.</p>
-<h1>Source code for librosa.display</h1><div class="highlight"><pre>
+  <h1>Source code for librosa.display</h1><div class="highlight"><pre>
 <span></span><span class="ch">#!/usr/bin/env python</span>
 <span class="c1"># -*- coding: utf-8 -*-</span>
 <span class="sd">&quot;&quot;&quot;</span>
@@ -179,13 +198,14 @@
 <span class="sd">    NoteFormatter</span>
 <span class="sd">    LogHzFormatter</span>
 <span class="sd">    ChromaFormatter</span>
+<span class="sd">    TonnetzFormatter</span>
 <span class="sd">&quot;&quot;&quot;</span>
 
 <span class="kn">import</span> <span class="nn">warnings</span>
 
 <span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
 <span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
-<span class="kn">from</span> <span class="nn">matplotlib.ticker</span> <span class="k">import</span> <span class="n">Formatter</span><span class="p">,</span> <span class="n">FixedFormatter</span><span class="p">,</span> <span class="n">ScalarFormatter</span>
+<span class="kn">from</span> <span class="nn">matplotlib.ticker</span> <span class="k">import</span> <span class="n">Formatter</span><span class="p">,</span> <span class="n">ScalarFormatter</span>
 <span class="kn">from</span> <span class="nn">matplotlib.ticker</span> <span class="k">import</span> <span class="n">LogLocator</span><span class="p">,</span> <span class="n">FixedLocator</span><span class="p">,</span> <span class="n">MaxNLocator</span>
 <span class="kn">from</span> <span class="nn">matplotlib.ticker</span> <span class="k">import</span> <span class="n">SymmetricalLogLocator</span>
 
@@ -199,7 +219,8 @@
            <span class="s1">&#39;TimeFormatter&#39;</span><span class="p">,</span>
            <span class="s1">&#39;NoteFormatter&#39;</span><span class="p">,</span>
            <span class="s1">&#39;LogHzFormatter&#39;</span><span class="p">,</span>
-           <span class="s1">&#39;ChromaFormatter&#39;</span><span class="p">]</span>
+           <span class="s1">&#39;ChromaFormatter&#39;</span><span class="p">,</span>
+           <span class="s1">&#39;TonnetzFormatter&#39;</span><span class="p">]</span>
 
 
 <div class="viewcode-block" id="TimeFormatter"><a class="viewcode-back" href="../../generated/librosa.display.TimeFormatter.html#librosa.display.TimeFormatter">[docs]</a><span class="k">class</span> <span class="nc">TimeFormatter</span><span class="p">(</span><span class="n">Formatter</span><span class="p">):</span>
@@ -331,7 +352,7 @@
 
         <span class="n">cents</span> <span class="o">=</span> <span class="n">vmax</span> <span class="o">&lt;=</span> <span class="mi">2</span> <span class="o">*</span> <span class="nb">max</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">vmin</span><span class="p">)</span>
 
-        <span class="k">return</span> <span class="n">core</span><span class="o">.</span><span class="n">hz_to_note</span><span class="p">(</span><span class="nb">int</span><span class="p">(</span><span class="n">x</span><span class="p">),</span> <span class="n">octave</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">octave</span><span class="p">,</span> <span class="n">cents</span><span class="o">=</span><span class="n">cents</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span></div>
+        <span class="k">return</span> <span class="n">core</span><span class="o">.</span><span class="n">hz_to_note</span><span class="p">(</span><span class="nb">int</span><span class="p">(</span><span class="n">x</span><span class="p">),</span> <span class="n">octave</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">octave</span><span class="p">,</span> <span class="n">cents</span><span class="o">=</span><span class="n">cents</span><span class="p">)</span></div>
 
 
 <div class="viewcode-block" id="LogHzFormatter"><a class="viewcode-back" href="../../generated/librosa.display.LogHzFormatter.html#librosa.display.LogHzFormatter">[docs]</a><span class="k">class</span> <span class="nc">LogHzFormatter</span><span class="p">(</span><span class="n">Formatter</span><span class="p">):</span>
@@ -402,10 +423,27 @@
         <span class="k">return</span> <span class="n">core</span><span class="o">.</span><span class="n">midi_to_note</span><span class="p">(</span><span class="nb">int</span><span class="p">(</span><span class="n">x</span><span class="p">),</span> <span class="n">octave</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">cents</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span></div>
 
 
-<span class="c1"># A fixed formatter for tonnetz</span>
-<span class="n">TONNETZ_FORMATTER</span> <span class="o">=</span> <span class="n">FixedFormatter</span><span class="p">([</span><span class="sa">r</span><span class="s1">&#39;5$_x$&#39;</span><span class="p">,</span> <span class="sa">r</span><span class="s1">&#39;5$_y$&#39;</span><span class="p">,</span>
-                                    <span class="sa">r</span><span class="s1">&#39;m3$_x$&#39;</span><span class="p">,</span> <span class="sa">r</span><span class="s1">&#39;m3$_y$&#39;</span><span class="p">,</span>
-                                    <span class="sa">r</span><span class="s1">&#39;M3$_x$&#39;</span><span class="p">,</span> <span class="sa">r</span><span class="s1">&#39;M3$_y$&#39;</span><span class="p">])</span>
+<div class="viewcode-block" id="TonnetzFormatter"><a class="viewcode-back" href="../../generated/librosa.display.TonnetzFormatter.html#librosa.display.TonnetzFormatter">[docs]</a><span class="k">class</span> <span class="nc">TonnetzFormatter</span><span class="p">(</span><span class="n">Formatter</span><span class="p">):</span>
+    <span class="sd">&#39;&#39;&#39;A formatter for tonnetz axes</span>
+
+<span class="sd">    See also</span>
+<span class="sd">    --------</span>
+<span class="sd">    matplotlib.ticker.Formatter</span>
+
+<span class="sd">    Examples</span>
+<span class="sd">    --------</span>
+<span class="sd">    &gt;&gt;&gt; import matplotlib.pyplot as plt</span>
+<span class="sd">    &gt;&gt;&gt; values = np.arange(6)</span>
+<span class="sd">    &gt;&gt;&gt; plt.figure()</span>
+<span class="sd">    &gt;&gt;&gt; ax = plt.gca()</span>
+<span class="sd">    &gt;&gt;&gt; ax.plot(values)</span>
+<span class="sd">    &gt;&gt;&gt; ax.yaxis.set_major_formatter(librosa.display.TonnetzFormatter())</span>
+<span class="sd">    &gt;&gt;&gt; ax.set_ylabel(&#39;Tonnetz&#39;)</span>
+<span class="sd">    &#39;&#39;&#39;</span>
+    <span class="k">def</span> <span class="nf">__call__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="n">pos</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+        <span class="sd">&#39;&#39;&#39;Format for tonnetz positions&#39;&#39;&#39;</span>
+        <span class="k">return</span> <span class="p">[</span><span class="sa">r</span><span class="s1">&#39;5$_x$&#39;</span><span class="p">,</span> <span class="sa">r</span><span class="s1">&#39;5$_y$&#39;</span><span class="p">,</span> <span class="sa">r</span><span class="s1">&#39;m3$_x$&#39;</span><span class="p">,</span>
+                <span class="sa">r</span><span class="s1">&#39;m3$_y$&#39;</span><span class="p">,</span> <span class="sa">r</span><span class="s1">&#39;M3$_x$&#39;</span><span class="p">,</span> <span class="sa">r</span><span class="s1">&#39;M3$_y$&#39;</span><span class="p">][</span><span class="nb">int</span><span class="p">(</span><span class="n">x</span><span class="p">)]</span></div>
 
 
 <div class="viewcode-block" id="cmap"><a class="viewcode-back" href="../../generated/librosa.display.cmap.html#librosa.display.cmap">[docs]</a><span class="k">def</span> <span class="nf">cmap</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">robust</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">cmap_seq</span><span class="o">=</span><span class="s1">&#39;magma&#39;</span><span class="p">,</span> <span class="n">cmap_bool</span><span class="o">=</span><span class="s1">&#39;gray_r&#39;</span><span class="p">,</span> <span class="n">cmap_div</span><span class="o">=</span><span class="s1">&#39;coolwarm&#39;</span><span class="p">):</span>
@@ -691,6 +729,11 @@
 <span class="sd">    kwargs : additional keyword arguments</span>
 <span class="sd">        Arguments passed through to `matplotlib.pyplot.pcolormesh`.</span>
 
+<span class="sd">        By default, the following options are set:</span>
+
+<span class="sd">            - `rasterized=True`</span>
+<span class="sd">            - `shading=&#39;flat&#39;`</span>
+<span class="sd">            - `edgecolors=&#39;None&#39;`</span>
 
 <span class="sd">    Returns</span>
 <span class="sd">    -------</span>
@@ -794,14 +837,15 @@
 <span class="sd">    &gt;&gt;&gt; plt.tight_layout()</span>
 <span class="sd">    &#39;&#39;&#39;</span>
 
-    <span class="n">kwargs</span><span class="o">.</span><span class="n">setdefault</span><span class="p">(</span><span class="s1">&#39;shading&#39;</span><span class="p">,</span> <span class="s1">&#39;flat&#39;</span><span class="p">)</span>
-
-    <span class="k">if</span> <span class="n">np</span><span class="o">.</span><span class="n">issubdtype</span><span class="p">(</span><span class="n">data</span><span class="o">.</span><span class="n">dtype</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">complex</span><span class="p">):</span>
+    <span class="k">if</span> <span class="n">np</span><span class="o">.</span><span class="n">issubdtype</span><span class="p">(</span><span class="n">data</span><span class="o">.</span><span class="n">dtype</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">complexfloating</span><span class="p">):</span>
         <span class="n">warnings</span><span class="o">.</span><span class="n">warn</span><span class="p">(</span><span class="s1">&#39;Trying to display complex-valued input. &#39;</span>
                       <span class="s1">&#39;Showing magnitude instead.&#39;</span><span class="p">)</span>
         <span class="n">data</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
 
     <span class="n">kwargs</span><span class="o">.</span><span class="n">setdefault</span><span class="p">(</span><span class="s1">&#39;cmap&#39;</span><span class="p">,</span> <span class="n">cmap</span><span class="p">(</span><span class="n">data</span><span class="p">))</span>
+    <span class="n">kwargs</span><span class="o">.</span><span class="n">setdefault</span><span class="p">(</span><span class="s1">&#39;rasterized&#39;</span><span class="p">,</span> <span class="kc">True</span><span class="p">)</span>
+    <span class="n">kwargs</span><span class="o">.</span><span class="n">setdefault</span><span class="p">(</span><span class="s1">&#39;edgecolors&#39;</span><span class="p">,</span> <span class="s1">&#39;None&#39;</span><span class="p">)</span>
+    <span class="n">kwargs</span><span class="o">.</span><span class="n">setdefault</span><span class="p">(</span><span class="s1">&#39;shading&#39;</span><span class="p">,</span> <span class="s1">&#39;flat&#39;</span><span class="p">)</span>
 
     <span class="n">all_params</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span><span class="n">kwargs</span><span class="o">=</span><span class="n">kwargs</span><span class="p">,</span>
                       <span class="n">sr</span><span class="o">=</span><span class="n">sr</span><span class="p">,</span>
@@ -910,7 +954,7 @@
     <span class="sd">&#39;&#39;&#39;Configure axis tickers, locators, and labels&#39;&#39;&#39;</span>
 
     <span class="k">if</span> <span class="n">ax_type</span> <span class="o">==</span> <span class="s1">&#39;tonnetz&#39;</span><span class="p">:</span>
-        <span class="n">axis</span><span class="o">.</span><span class="n">set_major_formatter</span><span class="p">(</span><span class="n">TONNETZ_FORMATTER</span><span class="p">)</span>
+        <span class="n">axis</span><span class="o">.</span><span class="n">set_major_formatter</span><span class="p">(</span><span class="n">TonnetzFormatter</span><span class="p">())</span>
         <span class="n">axis</span><span class="o">.</span><span class="n">set_major_locator</span><span class="p">(</span><span class="n">FixedLocator</span><span class="p">(</span><span class="mf">0.5</span> <span class="o">+</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="mi">6</span><span class="p">)))</span>
         <span class="n">axis</span><span class="o">.</span><span class="n">set_label_text</span><span class="p">(</span><span class="s1">&#39;Tonnetz&#39;</span><span class="p">)</span>
 
@@ -974,7 +1018,13 @@
 <span class="k">def</span> <span class="nf">__coord_fft_hz</span><span class="p">(</span><span class="n">n</span><span class="p">,</span> <span class="n">sr</span><span class="o">=</span><span class="mi">22050</span><span class="p">,</span> <span class="o">**</span><span class="n">_kwargs</span><span class="p">):</span>
     <span class="sd">&#39;&#39;&#39;Get the frequencies for FFT bins&#39;&#39;&#39;</span>
     <span class="n">n_fft</span> <span class="o">=</span> <span class="mi">2</span> <span class="o">*</span> <span class="p">(</span><span class="n">n</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span>
-    <span class="k">return</span> <span class="n">core</span><span class="o">.</span><span class="n">fft_frequencies</span><span class="p">(</span><span class="n">sr</span><span class="o">=</span><span class="n">sr</span><span class="p">,</span> <span class="n">n_fft</span><span class="o">=</span><span class="mi">1</span><span class="o">+</span><span class="n">n_fft</span><span class="p">)</span>
+    <span class="c1"># The following code centers the FFT bins at their frequencies</span>
+    <span class="c1"># and clips to the non-negative frequency range [0, nyquist]</span>
+    <span class="n">basis</span> <span class="o">=</span> <span class="n">core</span><span class="o">.</span><span class="n">fft_frequencies</span><span class="p">(</span><span class="n">sr</span><span class="o">=</span><span class="n">sr</span><span class="p">,</span> <span class="n">n_fft</span><span class="o">=</span><span class="n">n_fft</span><span class="p">)</span>
+    <span class="n">fmax</span> <span class="o">=</span> <span class="n">basis</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
+    <span class="n">basis</span> <span class="o">-=</span> <span class="mf">0.5</span> <span class="o">*</span> <span class="p">(</span><span class="n">basis</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">-</span> <span class="n">basis</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+    <span class="n">basis</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">maximum</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">basis</span><span class="p">),</span> <span class="p">[</span><span class="n">fmax</span><span class="p">])</span>
+    <span class="k">return</span> <span class="n">basis</span>
 
 
 <span class="k">def</span> <span class="nf">__coord_mel_hz</span><span class="p">(</span><span class="n">n</span><span class="p">,</span> <span class="n">fmin</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">fmax</span><span class="o">=</span><span class="mf">11025.0</span><span class="p">,</span> <span class="o">**</span><span class="n">_kwargs</span><span class="p">):</span>
@@ -985,14 +1035,21 @@
     <span class="k">if</span> <span class="n">fmax</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
         <span class="n">fmax</span> <span class="o">=</span> <span class="mf">11025.0</span>
 
-    <span class="k">return</span> <span class="n">core</span><span class="o">.</span><span class="n">mel_frequencies</span><span class="p">(</span><span class="n">n</span><span class="o">+</span><span class="mi">2</span><span class="p">,</span> <span class="n">fmin</span><span class="o">=</span><span class="n">fmin</span><span class="p">,</span> <span class="n">fmax</span><span class="o">=</span><span class="n">fmax</span><span class="p">)[</span><span class="mi">1</span><span class="p">:]</span>
+    <span class="n">basis</span> <span class="o">=</span> <span class="n">core</span><span class="o">.</span><span class="n">mel_frequencies</span><span class="p">(</span><span class="n">n</span><span class="p">,</span> <span class="n">fmin</span><span class="o">=</span><span class="n">fmin</span><span class="p">,</span> <span class="n">fmax</span><span class="o">=</span><span class="n">fmax</span><span class="p">)</span>
+    <span class="n">basis</span><span class="p">[</span><span class="mi">1</span><span class="p">:]</span> <span class="o">-=</span> <span class="mf">0.5</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">diff</span><span class="p">(</span><span class="n">basis</span><span class="p">)</span>
+    <span class="n">basis</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">maximum</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">basis</span><span class="p">),</span> <span class="p">[</span><span class="n">fmax</span><span class="p">])</span>
+    <span class="k">return</span> <span class="n">basis</span>
 
 
 <span class="k">def</span> <span class="nf">__coord_cqt_hz</span><span class="p">(</span><span class="n">n</span><span class="p">,</span> <span class="n">fmin</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">bins_per_octave</span><span class="o">=</span><span class="mi">12</span><span class="p">,</span> <span class="o">**</span><span class="n">_kwargs</span><span class="p">):</span>
     <span class="sd">&#39;&#39;&#39;Get CQT bin frequencies&#39;&#39;&#39;</span>
     <span class="k">if</span> <span class="n">fmin</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
         <span class="n">fmin</span> <span class="o">=</span> <span class="n">core</span><span class="o">.</span><span class="n">note_to_hz</span><span class="p">(</span><span class="s1">&#39;C1&#39;</span><span class="p">)</span>
-    <span class="k">return</span> <span class="n">core</span><span class="o">.</span><span class="n">cqt_frequencies</span><span class="p">(</span><span class="n">n</span><span class="o">+</span><span class="mi">1</span><span class="p">,</span> <span class="n">fmin</span><span class="o">=</span><span class="n">fmin</span><span class="p">,</span> <span class="n">bins_per_octave</span><span class="o">=</span><span class="n">bins_per_octave</span><span class="p">)</span>
+
+    <span class="c1"># we drop by half a bin so that CQT bins are centered vertically</span>
+    <span class="k">return</span> <span class="n">core</span><span class="o">.</span><span class="n">cqt_frequencies</span><span class="p">(</span><span class="n">n</span><span class="o">+</span><span class="mi">1</span><span class="p">,</span>
+                                <span class="n">fmin</span><span class="o">=</span><span class="n">fmin</span> <span class="o">/</span> <span class="mf">2.0</span><span class="o">**</span><span class="p">(</span><span class="mf">0.5</span><span class="o">/</span><span class="n">bins_per_octave</span><span class="p">),</span>
+                                <span class="n">bins_per_octave</span><span class="o">=</span><span class="n">bins_per_octave</span><span class="p">)</span>
 
 
 <span class="k">def</span> <span class="nf">__coord_chroma</span><span class="p">(</span><span class="n">n</span><span class="p">,</span> <span class="n">bins_per_octave</span><span class="o">=</span><span class="mi">12</span><span class="p">,</span> <span class="o">**</span><span class="n">_kwargs</span><span class="p">):</span>
@@ -1002,7 +1059,9 @@
 
 <span class="k">def</span> <span class="nf">__coord_tempo</span><span class="p">(</span><span class="n">n</span><span class="p">,</span> <span class="n">sr</span><span class="o">=</span><span class="mi">22050</span><span class="p">,</span> <span class="n">hop_length</span><span class="o">=</span><span class="mi">512</span><span class="p">,</span> <span class="o">**</span><span class="n">_kwargs</span><span class="p">):</span>
     <span class="sd">&#39;&#39;&#39;Tempo coordinates&#39;&#39;&#39;</span>
-    <span class="k">return</span> <span class="n">core</span><span class="o">.</span><span class="n">tempo_frequencies</span><span class="p">(</span><span class="n">n</span><span class="o">+</span><span class="mi">1</span><span class="p">,</span> <span class="n">sr</span><span class="o">=</span><span class="n">sr</span><span class="p">,</span> <span class="n">hop_length</span><span class="o">=</span><span class="n">hop_length</span><span class="p">)</span>
+    <span class="n">basis</span> <span class="o">=</span> <span class="n">core</span><span class="o">.</span><span class="n">tempo_frequencies</span><span class="p">(</span><span class="n">n</span><span class="o">+</span><span class="mi">2</span><span class="p">,</span> <span class="n">sr</span><span class="o">=</span><span class="n">sr</span><span class="p">,</span> <span class="n">hop_length</span><span class="o">=</span><span class="n">hop_length</span><span class="p">)[</span><span class="mi">1</span><span class="p">:]</span>
+    <span class="n">edges</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">n</span><span class="o">+</span><span class="mi">2</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">basis</span> <span class="o">*</span> <span class="p">(</span><span class="n">edges</span> <span class="o">+</span> <span class="mf">0.5</span><span class="p">)</span> <span class="o">/</span> <span class="n">edges</span>
 
 
 <span class="k">def</span> <span class="nf">__coord_n</span><span class="p">(</span><span class="n">n</span><span class="p">,</span> <span class="o">**</span><span class="n">_kwargs</span><span class="p">):</span>
@@ -1015,6 +1074,9 @@
     <span class="k">return</span> <span class="n">core</span><span class="o">.</span><span class="n">frames_to_time</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="n">n</span><span class="o">+</span><span class="mi">1</span><span class="p">),</span> <span class="n">sr</span><span class="o">=</span><span class="n">sr</span><span class="p">,</span> <span class="n">hop_length</span><span class="o">=</span><span class="n">hop_length</span><span class="p">)</span>
 </pre></div>
 
+           </div>
+           <div class="articleComments">
+            
            </div>
           </div>
           <footer>
@@ -1049,14 +1111,22 @@
         <dl>
             <dt>Tags</dt>
             <dd><a href="../../../0.4.0rc1/index.html">0.4.0rc1</a></dd>
+            <dd><a href="../../../0.4.0rc2/index.html">0.4.0rc2</a></dd>
+            <dd><a href="../../../0.4.1/index.html">0.4.1</a></dd>
+            <dd><a href="../../../0.4.1rc0/index.html">0.4.1rc0</a></dd>
             <dd><a href="../../../0.4.2/index.html">0.4.2</a></dd>
             <dd><a href="../../../0.4.3/index.html">0.4.3</a></dd>
             <dd><a href="../../../0.4.3rc0/index.html">0.4.3rc0</a></dd>
             <dd><a href="../../../0.5.0/index.html">0.5.0</a></dd>
             <dd><a href="../../../0.5.0rc0/index.html">0.5.0rc0</a></dd>
+            <dd><a href="../../../0.5.1/index.html">0.5.1</a></dd>
+            <dd><a href="../../../0.6.0rc0/index.html">0.6.0rc0</a></dd>
+            <dd><a href="../../../v0.1.0/index.html">v0.1.0</a></dd>
+            <dd><a href="../../../v0.4.0/index.html">v0.4.0</a></dd>
         </dl>
         <dl>
             <dt>Branches</dt>
+            <dd><a href="../../../display-bin-centering/index.html">display-bin-centering</a></dd>
             <dd><a href="display.html">master</a></dd>
         </dl>
     </div>
@@ -1068,15 +1138,17 @@
     <script type="text/javascript">
         var DOCUMENTATION_OPTIONS = {
             URL_ROOT:'../../',
-            VERSION:'0.5.0',
+            VERSION:'0.6.0rc0',
             COLLAPSE_INDEX:false,
             FILE_SUFFIX:'.html',
-            HAS_SOURCE:  true
+            HAS_SOURCE:  true,
+            SOURCELINK_SUFFIX: '.txt'
         };
     </script>
       <script type="text/javascript" src="../../_static/jquery.js"></script>
       <script type="text/javascript" src="../../_static/underscore.js"></script>
       <script type="text/javascript" src="../../_static/doctools.js"></script>
+      <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.0/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
 
   
 

@@ -1,5 +1,5 @@
-librosa.util.peak_pick
-======================
+librosa\.util\.peak\_pick
+=========================
 
 .. currentmodule:: librosa.util
 

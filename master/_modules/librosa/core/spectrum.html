@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>librosa.core.spectrum &mdash; librosa 0.6.0rc0 documentation</title>
+  <title>librosa.core.spectrum &mdash; librosa 0.6.0 documentation</title>
   
 
   
@@ -39,7 +39,7 @@
         <link rel="index" title="Index"
               href="../../../genindex.html"/>
         <link rel="search" title="Search" href="../../../search.html"/>
-    <link rel="top" title="librosa 0.6.0rc0 documentation" href="../../../index.html"/>
+    <link rel="top" title="librosa 0.6.0 documentation" href="../../../index.html"/>
         <link rel="up" title="Module code" href="../../index.html"/> 
 
   
@@ -185,6 +185,7 @@
 <span></span><span class="ch">#!/usr/bin/env python</span>
 <span class="c1"># -*- coding: utf-8 -*-</span>
 <span class="sd">&#39;&#39;&#39;Utilities for spectral processing&#39;&#39;&#39;</span>
+<span class="kn">import</span> <span class="nn">warnings</span>
 
 <span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
 <span class="kn">import</span> <span class="nn">scipy.fftpack</span> <span class="k">as</span> <span class="nn">fft</span>
@@ -664,7 +665,7 @@
     <span class="k">return</span> <span class="n">if_gram</span><span class="p">,</span> <span class="n">stft_matrix</span></div>
 
 
-<div class="viewcode-block" id="magphase"><a class="viewcode-back" href="../../../generated/librosa.core.magphase.html#librosa.core.magphase">[docs]</a><span class="k">def</span> <span class="nf">magphase</span><span class="p">(</span><span class="n">D</span><span class="p">):</span>
+<div class="viewcode-block" id="magphase"><a class="viewcode-back" href="../../../generated/librosa.core.magphase.html#librosa.core.magphase">[docs]</a><span class="k">def</span> <span class="nf">magphase</span><span class="p">(</span><span class="n">D</span><span class="p">,</span> <span class="n">power</span><span class="o">=</span><span class="mi">1</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;Separate a complex-valued spectrogram D into its magnitude (S)</span>
 <span class="sd">    and phase (P) components, so that `D = S * P`.</span>
 
@@ -673,12 +674,15 @@
 <span class="sd">    ----------</span>
 <span class="sd">    D       : np.ndarray [shape=(d, t), dtype=complex]</span>
 <span class="sd">        complex-valued spectrogram</span>
+<span class="sd">    power : float &gt; 0</span>
+<span class="sd">        Exponent for the magnitude spectrogram,</span>
+<span class="sd">        e.g., 1 for energy, 2 for power, etc.</span>
 
 
 <span class="sd">    Returns</span>
 <span class="sd">    -------</span>
 <span class="sd">    D_mag   : np.ndarray [shape=(d, t), dtype=real]</span>
-<span class="sd">        magnitude of `D`</span>
+<span class="sd">        magnitude of `D`, raised to `power`</span>
 <span class="sd">    D_phase : np.ndarray [shape=(d, t), dtype=complex]</span>
 <span class="sd">        `exp(1.j * phi)` where `phi` is the phase of `D`</span>
 
@@ -718,6 +722,7 @@
 <span class="sd">    &quot;&quot;&quot;</span>
 
     <span class="n">mag</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">D</span><span class="p">)</span>
+    <span class="n">mag</span> <span class="o">**=</span> <span class="n">power</span>
     <span class="n">phase</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">exp</span><span class="p">(</span><span class="mf">1.</span><span class="n">j</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">angle</span><span class="p">(</span><span class="n">D</span><span class="p">))</span>
 
     <span class="k">return</span> <span class="n">mag</span><span class="p">,</span> <span class="n">phase</span></div>
@@ -1033,10 +1038,18 @@
 
 <span class="sd">    &quot;&quot;&quot;</span>
 
+    <span class="n">S</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">S</span><span class="p">)</span>
+
     <span class="k">if</span> <span class="n">amin</span> <span class="o">&lt;=</span> <span class="mi">0</span><span class="p">:</span>
         <span class="k">raise</span> <span class="n">ParameterError</span><span class="p">(</span><span class="s1">&#39;amin must be strictly positive&#39;</span><span class="p">)</span>
 
-    <span class="n">magnitude</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">S</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">np</span><span class="o">.</span><span class="n">issubdtype</span><span class="p">(</span><span class="n">S</span><span class="o">.</span><span class="n">dtype</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">complexfloating</span><span class="p">):</span>
+        <span class="n">warnings</span><span class="o">.</span><span class="n">warn</span><span class="p">(</span><span class="s1">&#39;power_to_db was called on complex input so phase &#39;</span>
+                      <span class="s1">&#39;information will be discarded. To suppress this warning, &#39;</span>
+                      <span class="s1">&#39;call power_to_db(magphase(D, power=2)[0]) instead.&#39;</span><span class="p">)</span>
+        <span class="n">magnitude</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">S</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">magnitude</span> <span class="o">=</span> <span class="n">S</span>
 
     <span class="k">if</span> <span class="n">six</span><span class="o">.</span><span class="n">callable</span><span class="p">(</span><span class="n">ref</span><span class="p">):</span>
         <span class="c1"># User supplied a function to calculate reference power</span>
@@ -1122,6 +1135,14 @@
 <span class="sd">    -----</span>
 <span class="sd">    This function caches at level 30.</span>
 <span class="sd">    &#39;&#39;&#39;</span>
+
+    <span class="n">S</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">S</span><span class="p">)</span>
+
+    <span class="k">if</span> <span class="n">np</span><span class="o">.</span><span class="n">issubdtype</span><span class="p">(</span><span class="n">S</span><span class="o">.</span><span class="n">dtype</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">complexfloating</span><span class="p">):</span>
+        <span class="n">warnings</span><span class="o">.</span><span class="n">warn</span><span class="p">(</span><span class="s1">&#39;amplitude_to_db was called on complex input so phase &#39;</span>
+                      <span class="s1">&#39;information will be discarded. To suppress this warning, &#39;</span>
+                      <span class="s1">&#39;call amplitude_to_db(magphase(D)[0]) instead.&#39;</span><span class="p">)</span>
+
     <span class="n">magnitude</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">S</span><span class="p">)</span>
 
     <span class="k">if</span> <span class="n">six</span><span class="o">.</span><span class="n">callable</span><span class="p">(</span><span class="n">ref</span><span class="p">):</span>
@@ -1130,8 +1151,9 @@
     <span class="k">else</span><span class="p">:</span>
         <span class="n">ref_value</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">ref</span><span class="p">)</span>
 
-    <span class="n">magnitude</span> <span class="o">**=</span> <span class="mi">2</span>
-    <span class="k">return</span> <span class="n">power_to_db</span><span class="p">(</span><span class="n">magnitude</span><span class="p">,</span> <span class="n">ref</span><span class="o">=</span><span class="n">ref_value</span><span class="o">**</span><span class="mi">2</span><span class="p">,</span> <span class="n">amin</span><span class="o">=</span><span class="n">amin</span><span class="o">**</span><span class="mi">2</span><span class="p">,</span>
+    <span class="n">power</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">square</span><span class="p">(</span><span class="n">magnitude</span><span class="p">,</span> <span class="n">out</span><span class="o">=</span><span class="n">magnitude</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">power_to_db</span><span class="p">(</span><span class="n">power</span><span class="p">,</span> <span class="n">ref</span><span class="o">=</span><span class="n">ref_value</span><span class="o">**</span><span class="mi">2</span><span class="p">,</span> <span class="n">amin</span><span class="o">=</span><span class="n">amin</span><span class="o">**</span><span class="mi">2</span><span class="p">,</span>
                        <span class="n">top_db</span><span class="o">=</span><span class="n">top_db</span><span class="p">)</span></div>
 
 
@@ -1535,7 +1557,9 @@
             <dd><a href="../../../../0.5.0/index.html">0.5.0</a></dd>
             <dd><a href="../../../../0.5.0rc0/index.html">0.5.0rc0</a></dd>
             <dd><a href="../../../../0.5.1/index.html">0.5.1</a></dd>
+            <dd><a href="../../../../0.6.0/index.html">0.6.0</a></dd>
             <dd><a href="../../../../0.6.0rc0/index.html">0.6.0rc0</a></dd>
+            <dd><a href="../../../../0.6.0rc1/index.html">0.6.0rc1</a></dd>
             <dd><a href="../../../../v0.1.0/index.html">v0.1.0</a></dd>
             <dd><a href="../../../../v0.4.0/index.html">v0.4.0</a></dd>
         </dl>
@@ -1553,7 +1577,7 @@
     <script type="text/javascript">
         var DOCUMENTATION_OPTIONS = {
             URL_ROOT:'../../../',
-            VERSION:'0.6.0rc0',
+            VERSION:'0.6.0',
             COLLAPSE_INDEX:false,
             FILE_SUFFIX:'.html',
             HAS_SOURCE:  true,

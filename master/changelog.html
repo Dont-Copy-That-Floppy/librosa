@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Changelog &mdash; librosa 0.6.0rc0 documentation</title>
+  <title>Changelog &mdash; librosa 0.6.0 documentation</title>
   
 
   
@@ -39,7 +39,7 @@
         <link rel="index" title="Index"
               href="genindex.html"/>
         <link rel="search" title="Search" href="search.html"/>
-    <link rel="top" title="librosa 0.6.0rc0 documentation" href="index.html"/>
+    <link rel="top" title="librosa 0.6.0 documentation" href="index.html"/>
         <link rel="next" title="Glossary" href="glossary.html"/>
         <link rel="prev" title="Laplacian segmentation" href="auto_examples/plot_segmentation.html"/> 
 
@@ -118,7 +118,7 @@
 </ul>
 <ul class="current">
 <li class="toctree-l1 current"><a class="current reference internal" href="#">Changelog</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="#v0-6-0rc0">v0.6.0rc0</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#v0-6-0">v0.6.0</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#v0-5-1">v0.5.1</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#v0-5-0">v0.5.0</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#v0-4-3">v0.4.3</a></li>
@@ -198,9 +198,9 @@
             
   <div class="section" id="changelog">
 <h1>Changelog<a class="headerlink" href="#changelog" title="Permalink to this headline">¶</a></h1>
-<div class="section" id="v0-6-0rc0">
-<h2>v0.6.0rc0<a class="headerlink" href="#v0-6-0rc0" title="Permalink to this headline">¶</a></h2>
-<p>2018-02-10</p>
+<div class="section" id="v0-6-0">
+<h2>v0.6.0<a class="headerlink" href="#v0-6-0" title="Permalink to this headline">¶</a></h2>
+<p>2018-02-17</p>
 <dl class="docutils">
 <dt>Bug fixes</dt>
 <dd><ul class="first last simple">
@@ -230,6 +230,8 @@
 <dl class="docutils">
 <dt>Other changes</dt>
 <dd><ul class="first last simple">
+<li><a class="reference external" href="https://github.com/librosa/librosa/pull/674">#674</a> Improved <em class="xref py py-obj">write_wav</em> documentation with cross-references to <a class="reference external" href="https://pysoundfile.readthedocs.io/en/latest/index.html#module-soundfile" title="(in PySoundFile v)"><code class="xref py py-obj docutils literal"><span class="pre">soundfile</span></code></a>. <em>Brian McFee</em></li>
+<li><a class="reference external" href="https://github.com/librosa/librosa/pull/671">#671</a> Warn users when phase information is lost in dB conversion. <em>Carl Thome</em></li>
 <li><a class="reference external" href="https://github.com/librosa/librosa/pull/666">#666</a> Expanded documentation for <em class="xref py py-obj">load</em>&#8216;s resampling behavior. <em>Brian McFee</em></li>
 <li><a class="reference external" href="https://github.com/librosa/librosa/pull/656">#656</a> Future-proofing numpy data type checks. <em>Carl Thome</em></li>
 <li><a class="reference external" href="https://github.com/librosa/librosa/pull/642">#642</a> Updated unit tests for compatibility with matplotlib 2.1. <em>Brian McFee</em></li>
@@ -270,6 +272,9 @@
 </dd>
 </dl>
 </li>
+<li><a class="reference external" href="https://github.com/librosa/librosa/pull/616">#616</a> <em class="xref py py-obj">write_wav</em> no longer supports integer-typed waveforms. This is due to enforcing
+consistency with <em class="xref py py-obj">util.valid_audio</em> checks elsewhere in the codebase. If you have existing
+code that requires integer-valued output, consider using <a class="reference external" href="https://pysoundfile.readthedocs.io/en/latest/index.html#soundfile.write" title="(in PySoundFile v)"><code class="xref py py-obj docutils literal"><span class="pre">soundfile.write</span></code></a> instead.</li>
 </ul>
 </div></blockquote>
 </div>
@@ -929,7 +934,9 @@ matches <code class="docutils literal"><span class="pre">stft</span></code></li>
             <dd><a href="../0.5.0/changelog.html">0.5.0</a></dd>
             <dd><a href="../0.5.0rc0/changelog.html">0.5.0rc0</a></dd>
             <dd><a href="../0.5.1/changelog.html">0.5.1</a></dd>
+            <dd><a href="../0.6.0/changelog.html">0.6.0</a></dd>
             <dd><a href="../0.6.0rc0/changelog.html">0.6.0rc0</a></dd>
+            <dd><a href="../0.6.0rc1/changelog.html">0.6.0rc1</a></dd>
             <dd><a href="../v0.1.0/index.html">v0.1.0</a></dd>
             <dd><a href="../v0.4.0/changelog.html">v0.4.0</a></dd>
         </dl>
@@ -947,7 +954,7 @@ matches <code class="docutils literal"><span class="pre">stft</span></code></li>
     <script type="text/javascript">
         var DOCUMENTATION_OPTIONS = {
             URL_ROOT:'./',
-            VERSION:'0.6.0rc0',
+            VERSION:'0.6.0',
             COLLAPSE_INDEX:false,
             FILE_SUFFIX:'.html',
             HAS_SOURCE:  true,

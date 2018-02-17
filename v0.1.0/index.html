@@ -1069,17 +1069,21 @@ point value.</p>
 </dl>
 <p>cqt</p>
 <p>This function caches at level 40.</p>
-<p>Using default parameters
-&gt;&gt;&gt; y, sr = librosa.load(librosa.util.example_audio_file(), duration=15)
-&gt;&gt;&gt; C = librosa.cqt(y=y, sr=sr)
-&gt;&gt;&gt; y_hat = librosa.icqt(C=C, sr=sr)</p>
-<p>Or with a different hop length and frequency resolution:
-&gt;&gt;&gt; hop_length = 256
-&gt;&gt;&gt; bins_per_octave = 12 * 3
-&gt;&gt;&gt; C = librosa.cqt(y=y, sr=sr, hop_length=256, n_bins=7*bins_per_octave,
-...                 bins_per_octave=bins_per_octave)
-&gt;&gt;&gt; y_hat = librosa.icqt(C=C, sr=sr, hop_length=hop_length,
-...                 bins_per_octave=bins_per_octave)</p>
+<p>Using default parameters</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">y</span><span class="p">,</span> <span class="n">sr</span> <span class="o">=</span> <span class="n">librosa</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">librosa</span><span class="o">.</span><span class="n">util</span><span class="o">.</span><span class="n">example_audio_file</span><span class="p">(),</span> <span class="n">duration</span><span class="o">=</span><span class="mi">15</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">C</span> <span class="o">=</span> <span class="n">librosa</span><span class="o">.</span><span class="n">cqt</span><span class="p">(</span><span class="n">y</span><span class="o">=</span><span class="n">y</span><span class="p">,</span> <span class="n">sr</span><span class="o">=</span><span class="n">sr</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">y_hat</span> <span class="o">=</span> <span class="n">librosa</span><span class="o">.</span><span class="n">icqt</span><span class="p">(</span><span class="n">C</span><span class="o">=</span><span class="n">C</span><span class="p">,</span> <span class="n">sr</span><span class="o">=</span><span class="n">sr</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Or with a different hop length and frequency resolution:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">hop_length</span> <span class="o">=</span> <span class="mi">256</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">bins_per_octave</span> <span class="o">=</span> <span class="mi">12</span> <span class="o">*</span> <span class="mi">3</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">C</span> <span class="o">=</span> <span class="n">librosa</span><span class="o">.</span><span class="n">cqt</span><span class="p">(</span><span class="n">y</span><span class="o">=</span><span class="n">y</span><span class="p">,</span> <span class="n">sr</span><span class="o">=</span><span class="n">sr</span><span class="p">,</span> <span class="n">hop_length</span><span class="o">=</span><span class="mi">256</span><span class="p">,</span> <span class="n">n_bins</span><span class="o">=</span><span class="mi">7</span><span class="o">*</span><span class="n">bins_per_octave</span><span class="p">,</span>
+<span class="gp">... </span>                <span class="n">bins_per_octave</span><span class="o">=</span><span class="n">bins_per_octave</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">y_hat</span> <span class="o">=</span> <span class="n">librosa</span><span class="o">.</span><span class="n">icqt</span><span class="p">(</span><span class="n">C</span><span class="o">=</span><span class="n">C</span><span class="p">,</span> <span class="n">sr</span><span class="o">=</span><span class="n">sr</span><span class="p">,</span> <span class="n">hop_length</span><span class="o">=</span><span class="n">hop_length</span><span class="p">,</span>
+<span class="gp">... </span>                <span class="n">bins_per_octave</span><span class="o">=</span><span class="n">bins_per_octave</span><span class="p">)</span>
+</pre></div>
+</div>
 </dd></dl>
 
 <dl class="function">
@@ -1476,16 +1480,19 @@ Otherwise, a partial frame at the end of <cite>y</cite> will not be represented.
 
 <dl class="function">
 <dt id="librosa.core.magphase">
-<code class="descclassname">librosa.core.</code><code class="descname">magphase</code><span class="sig-paren">(</span><em>D</em><span class="sig-paren">)</span><a class="headerlink" href="#librosa.core.magphase" title="Permalink to this definition">¶</a></dt>
+<code class="descclassname">librosa.core.</code><code class="descname">magphase</code><span class="sig-paren">(</span><em>D</em>, <em>power=1</em><span class="sig-paren">)</span><a class="headerlink" href="#librosa.core.magphase" title="Permalink to this definition">¶</a></dt>
 <dd><p>Separate a complex-valued spectrogram D into its magnitude (S)
 and phase (P) components, so that <cite>D = S * P</cite>.</p>
 <dl class="docutils">
 <dt>D <span class="classifier-delimiter">:</span> <span class="classifier">np.ndarray [shape=(d, t), dtype=complex]</span></dt>
 <dd>complex-valued spectrogram</dd>
+<dt>power <span class="classifier-delimiter">:</span> <span class="classifier">float &gt; 0</span></dt>
+<dd>Exponent for the magnitude spectrogram,
+e.g., 1 for energy, 2 for power, etc.</dd>
 </dl>
 <dl class="docutils">
 <dt>D_mag <span class="classifier-delimiter">:</span> <span class="classifier">np.ndarray [shape=(d, t), dtype=real]</span></dt>
-<dd>magnitude of <cite>D</cite></dd>
+<dd>magnitude of <cite>D</cite>, raised to <cite>power</cite></dd>
 <dt>D_phase <span class="classifier-delimiter">:</span> <span class="classifier">np.ndarray [shape=(d, t), dtype=complex]</span></dt>
 <dd><cite>exp(1.j * phi)</cite> where <cite>phi</cite> is the phase of <cite>D</cite></dd>
 </dl>
@@ -4050,7 +4057,7 @@ not match <cite>intervals</cite></dd>
 <dt id="librosa.output.times_csv">
 <code class="descclassname">librosa.output.</code><code class="descname">times_csv</code><span class="sig-paren">(</span><em>path</em>, <em>times</em>, <em>annotations=None</em>, <em>delimiter='</em>, <em>'</em>, <em>fmt='%0.3f'</em><span class="sig-paren">)</span><a class="headerlink" href="#librosa.output.times_csv" title="Permalink to this definition">¶</a></dt>
 <dd><p>Save time steps as in CSV format.  This can be used to store the output
-of a beat-tracker or segmentation algorihtm.</p>
+of a beat-tracker or segmentation algorithm.</p>
 <p>If only <cite>times</cite> are provided, the file will contain each value
 of <cite>times</cite> on a row:</p>
 <div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">times</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>\<span class="n">n</span>
@@ -4097,6 +4104,11 @@ match <cite>times</cite></dd>
 <code class="descclassname">librosa.output.</code><code class="descname">write_wav</code><span class="sig-paren">(</span><em>path</em>, <em>y</em>, <em>sr</em>, <em>norm=False</em><span class="sig-paren">)</span><a class="headerlink" href="#librosa.output.write_wav" title="Permalink to this definition">¶</a></dt>
 <dd><p>Output a time series as a .wav file</p>
 <dl class="docutils">
+<dt>Note: only mono or stereo, floating-point data is supported.</dt>
+<dd>For more advanced and flexible output options, refer to
+<cite>soundfile</cite>.</dd>
+</dl>
+<dl class="docutils">
 <dt>path <span class="classifier-delimiter">:</span> <span class="classifier">str</span></dt>
 <dd>path to save the output wav file</dd>
 <dt>y <span class="classifier-delimiter">:</span> <span class="classifier">np.ndarray [shape=(n,) or (2,n)]</span></dt>
@@ -4113,6 +4125,7 @@ For floating point <cite>y</cite>, scale the data to the range [-1, +1].</dd>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">librosa</span><span class="o">.</span><span class="n">output</span><span class="o">.</span><span class="n">write_wav</span><span class="p">(</span><span class="s1">&#39;file_trim_5s.wav&#39;</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">sr</span><span class="p">)</span>
 </pre></div>
 </div>
+<p>soundfile.write</p>
 </dd></dl>
 
 </div>
@@ -4194,7 +4207,9 @@ For floating point <cite>y</cite>, scale the data to the range [-1, +1].</dd>
     <li><a href="../0.5.0/index.html">0.5.0</a></li>
     <li><a href="../0.5.0rc0/index.html">0.5.0rc0</a></li>
     <li><a href="../0.5.1/index.html">0.5.1</a></li>
+    <li><a href="../0.6.0/index.html">0.6.0</a></li>
     <li><a href="../0.6.0rc0/index.html">0.6.0rc0</a></li>
+    <li><a href="../0.6.0rc1/index.html">0.6.0rc1</a></li>
     <li><a href="index.html">v0.1.0</a></li>
     <li><a href="../v0.4.0/index.html">v0.4.0</a></li>
 </ul>

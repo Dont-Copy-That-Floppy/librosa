@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>librosa.core.icqt &mdash; librosa 0.6.0rc0 documentation</title>
+  <title>librosa.core.icqt &mdash; librosa 0.6.0 documentation</title>
   
 
   
@@ -39,7 +39,7 @@
         <link rel="index" title="Index"
               href="../genindex.html"/>
         <link rel="search" title="Search" href="../search.html"/>
-    <link rel="top" title="librosa 0.6.0rc0 documentation" href="../index.html"/>
+    <link rel="top" title="librosa 0.6.0 documentation" href="../index.html"/>
         <link rel="up" title="Core IO and DSP" href="../core.html"/>
         <link rel="next" title="librosa.core.hybrid_cqt" href="librosa.core.hybrid_cqt.html"/>
         <link rel="prev" title="librosa.core.cqt" href="librosa.core.cqt.html"/> 
@@ -294,17 +294,21 @@ point value.</p>
 <p class="rubric">Notes</p>
 <p>This function caches at level 40.</p>
 <p class="rubric">Examples</p>
-<p>Using default parameters
-&gt;&gt;&gt; y, sr = librosa.load(librosa.util.example_audio_file(), duration=15)
-&gt;&gt;&gt; C = librosa.cqt(y=y, sr=sr)
-&gt;&gt;&gt; y_hat = librosa.icqt(C=C, sr=sr)</p>
-<p>Or with a different hop length and frequency resolution:
-&gt;&gt;&gt; hop_length = 256
-&gt;&gt;&gt; bins_per_octave = 12 * 3
-&gt;&gt;&gt; C = librosa.cqt(y=y, sr=sr, hop_length=256, n_bins=7*bins_per_octave,
-...                 bins_per_octave=bins_per_octave)
-&gt;&gt;&gt; y_hat = librosa.icqt(C=C, sr=sr, hop_length=hop_length,
-...                 bins_per_octave=bins_per_octave)</p>
+<p>Using default parameters</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">y</span><span class="p">,</span> <span class="n">sr</span> <span class="o">=</span> <span class="n">librosa</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">librosa</span><span class="o">.</span><span class="n">util</span><span class="o">.</span><span class="n">example_audio_file</span><span class="p">(),</span> <span class="n">duration</span><span class="o">=</span><span class="mi">15</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">C</span> <span class="o">=</span> <span class="n">librosa</span><span class="o">.</span><span class="n">cqt</span><span class="p">(</span><span class="n">y</span><span class="o">=</span><span class="n">y</span><span class="p">,</span> <span class="n">sr</span><span class="o">=</span><span class="n">sr</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">y_hat</span> <span class="o">=</span> <span class="n">librosa</span><span class="o">.</span><span class="n">icqt</span><span class="p">(</span><span class="n">C</span><span class="o">=</span><span class="n">C</span><span class="p">,</span> <span class="n">sr</span><span class="o">=</span><span class="n">sr</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Or with a different hop length and frequency resolution:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">hop_length</span> <span class="o">=</span> <span class="mi">256</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">bins_per_octave</span> <span class="o">=</span> <span class="mi">12</span> <span class="o">*</span> <span class="mi">3</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">C</span> <span class="o">=</span> <span class="n">librosa</span><span class="o">.</span><span class="n">cqt</span><span class="p">(</span><span class="n">y</span><span class="o">=</span><span class="n">y</span><span class="p">,</span> <span class="n">sr</span><span class="o">=</span><span class="n">sr</span><span class="p">,</span> <span class="n">hop_length</span><span class="o">=</span><span class="mi">256</span><span class="p">,</span> <span class="n">n_bins</span><span class="o">=</span><span class="mi">7</span><span class="o">*</span><span class="n">bins_per_octave</span><span class="p">,</span>
+<span class="gp">... </span>                <span class="n">bins_per_octave</span><span class="o">=</span><span class="n">bins_per_octave</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">y_hat</span> <span class="o">=</span> <span class="n">librosa</span><span class="o">.</span><span class="n">icqt</span><span class="p">(</span><span class="n">C</span><span class="o">=</span><span class="n">C</span><span class="p">,</span> <span class="n">sr</span><span class="o">=</span><span class="n">sr</span><span class="p">,</span> <span class="n">hop_length</span><span class="o">=</span><span class="n">hop_length</span><span class="p">,</span>
+<span class="gp">... </span>                <span class="n">bins_per_octave</span><span class="o">=</span><span class="n">bins_per_octave</span><span class="p">)</span>
+</pre></div>
+</div>
 </dd></dl>
 
 </div>
@@ -365,7 +369,9 @@ point value.</p>
             <dd><a href="../0.5.0/index.html">0.5.0</a></dd>
             <dd><a href="../0.5.0rc0/index.html">0.5.0rc0</a></dd>
             <dd><a href="../0.5.1/index.html">0.5.1</a></dd>
+            <dd><a href="../0.6.0/generated/librosa.core.icqt.html">0.6.0</a></dd>
             <dd><a href="../0.6.0rc0/generated/librosa.core.icqt.html">0.6.0rc0</a></dd>
+            <dd><a href="../0.6.0rc1/generated/librosa.core.icqt.html">0.6.0rc1</a></dd>
             <dd><a href="../v0.1.0/index.html">v0.1.0</a></dd>
             <dd><a href="../v0.4.0/index.html">v0.4.0</a></dd>
         </dl>
@@ -383,7 +389,7 @@ point value.</p>
     <script type="text/javascript">
         var DOCUMENTATION_OPTIONS = {
             URL_ROOT:'../',
-            VERSION:'0.6.0rc0',
+            VERSION:'0.6.0',
             COLLAPSE_INDEX:false,
             FILE_SUFFIX:'.html',
             HAS_SOURCE:  true,

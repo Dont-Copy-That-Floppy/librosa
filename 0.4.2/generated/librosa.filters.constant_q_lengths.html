@@ -25,29 +25,20 @@
   
 
   
-  
     <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
-  
-
-  
-    <link rel="stylesheet" href="../_static/banner.css" type="text/css" />
-  
-
-  
-        <link rel="index" title="Index"
-              href="../genindex.html"/>
-        <link rel="search" title="Search" href="../search.html"/>
-    <link rel="top" title="librosa 0.4.2 documentation" href="../index.html"/>
-        <link rel="up" title="Filters" href="../filters.html"/>
-        <link rel="next" title="librosa.filters.cq_to_chroma" href="librosa.filters.cq_to_chroma.html"/>
-        <link rel="prev" title="librosa.filters.constant_q" href="librosa.filters.constant_q.html"/> 
+  <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/banner.css" type="text/css" />
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="librosa.filters.cq_to_chroma" href="librosa.filters.cq_to_chroma.html" />
+    <link rel="prev" title="librosa.filters.constant_q" href="librosa.filters.constant_q.html" /> 
 
   
   <script src="../_static/js/modernizr.min.js"></script>
 
 </head>
 
-<body class="wy-body-for-nav" role="document">
+<body class="wy-body-for-nav">
 
    
   <div class="wy-grid-for-nav">
@@ -137,7 +128,7 @@
     <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
 
       
-      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+      <nav class="wy-nav-top" aria-label="top navigation">
         
           <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
           <a href="../index.html">librosa</a>
@@ -145,9 +136,10 @@
       </nav>
 
 
-      
       <div class="wy-nav-content">
+        
         <div class="rst-content">
+        
           
 
 
@@ -191,7 +183,16 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
             
-  <div class="section" id="librosa-filters-constant-q-lengths">
+  
+
+
+    
+    
+
+
+
+    <p class="scv-banner scv-sphinx_rtd_theme"><a href="../../0.6.1rc0/generated/librosa.filters.constant_q_lengths.html"><b>Warning:</b> This document is for an old version of librosa. The latest version is 0.6.1rc0.</a></p>
+<div class="section" id="librosa-filters-constant-q-lengths">
 <h1>librosa.filters.constant_q_lengths<a class="headerlink" href="#librosa-filters-constant-q-lengths" title="Permalink to this headline">¶</a></h1>
 <dl class="function">
 <dt id="librosa.filters.constant_q_lengths">
@@ -201,56 +202,51 @@
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>sr</strong> : number &gt; 0 [scalar]</p>
-<blockquote>
-<div><p>Audio sampling rate</p>
-</div></blockquote>
-<p><strong>fmin</strong> : float &gt; 0 [scalar]</p>
-<blockquote>
-<div><p>Minimum frequency bin.</p>
-</div></blockquote>
-<p><strong>n_bins</strong> : int &gt; 0 [scalar]</p>
-<blockquote>
-<div><p>Number of frequencies.  Defaults to 7 octaves (84 bins).</p>
-</div></blockquote>
-<p><strong>bins_per_octave</strong> : int &gt; 0 [scalar]</p>
-<blockquote>
-<div><p>Number of bins per octave</p>
-</div></blockquote>
-<p><strong>tuning</strong> : float in <em class="xref py py-obj">[-0.5, +0.5)</em> [scalar]</p>
-<blockquote>
-<div><p>Tuning deviation from A440 in fractions of a bin</p>
-</div></blockquote>
-<p><strong>window</strong> : str or callable</p>
-<blockquote>
-<div><p>Window function to use on filters</p>
-</div></blockquote>
-<p><strong>filter_scale</strong> : float &gt; 0 [scalar]</p>
-<blockquote>
-<div><p>Resolution of filter windows. Larger values use longer windows.</p>
-</div></blockquote>
-<p><strong>resolution</strong> : float</p>
-<blockquote>
-<div><div class="admonition warning">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><dl class="first docutils">
+<dt><strong>sr</strong> <span class="classifier-delimiter">:</span> <span class="classifier">number &gt; 0 [scalar]</span></dt>
+<dd><p class="first last">Audio sampling rate</p>
+</dd>
+<dt><strong>fmin</strong> <span class="classifier-delimiter">:</span> <span class="classifier">float &gt; 0 [scalar]</span></dt>
+<dd><p class="first last">Minimum frequency bin.</p>
+</dd>
+<dt><strong>n_bins</strong> <span class="classifier-delimiter">:</span> <span class="classifier">int &gt; 0 [scalar]</span></dt>
+<dd><p class="first last">Number of frequencies.  Defaults to 7 octaves (84 bins).</p>
+</dd>
+<dt><strong>bins_per_octave</strong> <span class="classifier-delimiter">:</span> <span class="classifier">int &gt; 0 [scalar]</span></dt>
+<dd><p class="first last">Number of bins per octave</p>
+</dd>
+<dt><strong>tuning</strong> <span class="classifier-delimiter">:</span> <span class="classifier">float in <em class="xref py py-obj">[-0.5, +0.5)</em> [scalar]</span></dt>
+<dd><p class="first last">Tuning deviation from A440 in fractions of a bin</p>
+</dd>
+<dt><strong>window</strong> <span class="classifier-delimiter">:</span> <span class="classifier">str or callable</span></dt>
+<dd><p class="first last">Window function to use on filters</p>
+</dd>
+<dt><strong>filter_scale</strong> <span class="classifier-delimiter">:</span> <span class="classifier">float &gt; 0 [scalar]</span></dt>
+<dd><p class="first last">Resolution of filter windows. Larger values use longer windows.</p>
+</dd>
+<dt><strong>resolution</strong> <span class="classifier-delimiter">:</span> <span class="classifier">float</span></dt>
+<dd><div class="first last admonition warning">
 <p class="first admonition-title">Warning</p>
 <p class="last">This parameter name was in librosa 0.4.2
 Use the <em class="xref py py-obj">filter_scale</em> parameter instead.
 The <em class="xref py py-obj">resolution</em> parameter will be removed in librosa 0.5.0.</p>
 </div>
-</div></blockquote>
+</dd>
+</dl>
 </td>
 </tr>
-<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first"><strong>lengths</strong> : np.ndarray</p>
-<blockquote class="last">
-<div><p>The length of each filter.</p>
-</div></blockquote>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><dl class="first last docutils">
+<dt><strong>lengths</strong> <span class="classifier-delimiter">:</span> <span class="classifier">np.ndarray</span></dt>
+<dd><p class="first last">The length of each filter.</p>
+</dd>
+</dl>
 </td>
 </tr>
 </tbody>
 </table>
 <div class="admonition seealso">
 <p class="first admonition-title">See also</p>
-<p class="last"><a class="reference internal" href="librosa.filters.constant_q.html#librosa.filters.constant_q" title="librosa.filters.constant_q"><code class="xref py py-obj docutils literal"><span class="pre">constant_q</span></code></a>, <a class="reference internal" href="librosa.core.cqt.html#librosa.core.cqt" title="librosa.core.cqt"><code class="xref py py-obj docutils literal"><span class="pre">librosa.core.cqt</span></code></a></p>
+<p class="last"><a class="reference internal" href="librosa.filters.constant_q.html#librosa.filters.constant_q" title="librosa.filters.constant_q"><code class="xref py py-obj docutils literal notranslate"><span class="pre">constant_q</span></code></a>, <a class="reference internal" href="librosa.core.cqt.html#librosa.core.cqt" title="librosa.core.cqt"><code class="xref py py-obj docutils literal notranslate"><span class="pre">librosa.core.cqt</span></code></a></p>
 </div>
 </dd></dl>
 
@@ -258,9 +254,7 @@ The <em class="xref py py-obj">resolution</em> parameter will be removed in libr
 
 
            </div>
-           <div class="articleComments">
-            
-           </div>
+           
           </div>
           <footer>
   
@@ -282,7 +276,7 @@ The <em class="xref py py-obj">resolution</em> parameter will be removed in libr
 
     </p>
   </div>
-  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/snide/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
 
 </footer>
 
@@ -315,12 +309,12 @@ The <em class="xref py py-obj">resolution</em> parameter will be removed in libr
             <dd><a href="../../0.6.0/generated/librosa.filters.constant_q_lengths.html">0.6.0</a></dd>
             <dd><a href="../../0.6.0rc0/generated/librosa.filters.constant_q_lengths.html">0.6.0rc0</a></dd>
             <dd><a href="../../0.6.0rc1/generated/librosa.filters.constant_q_lengths.html">0.6.0rc1</a></dd>
+            <dd><a href="../../0.6.1rc0/generated/librosa.filters.constant_q_lengths.html">0.6.1rc0</a></dd>
             <dd><a href="../../v0.1.0/index.html">v0.1.0</a></dd>
             <dd><a href="../../v0.4.0/index.html">v0.4.0</a></dd>
         </dl>
         <dl>
             <dt>Branches</dt>
-            <dd><a href="../../display-bin-centering/generated/librosa.filters.constant_q_lengths.html">display-bin-centering</a></dd>
             <dd><a href="../../master/generated/librosa.filters.constant_q_lengths.html">master</a></dd>
         </dl>
     </div>
@@ -333,6 +327,7 @@ The <em class="xref py py-obj">resolution</em> parameter will be removed in libr
         var DOCUMENTATION_OPTIONS = {
             URL_ROOT:'../',
             VERSION:'0.4.2',
+            LANGUAGE:'None',
             COLLAPSE_INDEX:false,
             FILE_SUFFIX:'.html',
             HAS_SOURCE:  true,
@@ -350,14 +345,11 @@ The <em class="xref py py-obj">resolution</em> parameter will be removed in libr
     <script type="text/javascript" src="../_static/js/theme.js"></script>
   
 
-  
-  
   <script type="text/javascript">
       jQuery(function () {
-          SphinxRtdTheme.StickyNav.enable();
+          SphinxRtdTheme.Navigation.enable(true);
       });
-  </script>
-   
+  </script> 
 
 </body>
 </html>

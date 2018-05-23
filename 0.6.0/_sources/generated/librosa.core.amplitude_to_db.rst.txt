@@ -1,5 +1,5 @@
-librosa\.core\.amplitude\_to\_db
-================================
+librosa.core.amplitude\_to\_db
+==============================
 
 .. currentmodule:: librosa.core
 

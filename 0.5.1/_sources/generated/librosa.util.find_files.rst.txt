@@ -1,5 +1,5 @@
-librosa\.util\.find\_files
-==========================
+librosa.util.find\_files
+========================
 
 .. currentmodule:: librosa.util
 

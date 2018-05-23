@@ -1,5 +1,5 @@
-librosa\.core\.dtw
-==================
+librosa.core.dtw
+================
 
 .. currentmodule:: librosa.core
 

@@ -1,5 +1,5 @@
-librosa\.core\.clicks
-=====================
+librosa.core.clicks
+===================
 
 .. currentmodule:: librosa.core
 

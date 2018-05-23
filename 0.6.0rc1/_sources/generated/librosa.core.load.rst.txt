@@ -1,5 +1,5 @@
-librosa\.core\.load
-===================
+librosa.core.load
+=================
 
 .. currentmodule:: librosa.core
 

@@ -1,5 +1,5 @@
-librosa\.decompose\.decompose
-=============================
+librosa.decompose.decompose
+===========================
 
 .. currentmodule:: librosa.decompose
 

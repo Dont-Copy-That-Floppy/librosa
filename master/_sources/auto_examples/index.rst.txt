@@ -48,6 +48,26 @@ Advanced examples
 
 .. raw:: html
 
+    <div class="sphx-glr-thumbcontainer" tooltip="This notebook demonstrates how to use Viterbi decoding to impose temporal smoothing on frame-wi...">
+
+.. only:: html
+
+    .. figure:: /auto_examples/images/thumb/sphx_glr_plot_viterbi_thumb.png
+
+        :ref:`sphx_glr_auto_examples_plot_viterbi.py`
+
+.. raw:: html
+
+    </div>
+
+
+.. toctree::
+   :hidden:
+
+   /auto_examples/plot_viterbi
+
+.. raw:: html
+
     <div class="sphx-glr-thumbcontainer" tooltip="This notebook illustrates how to separate an audio signal into its harmonic and percussive comp...">
 
 .. only:: html
@@ -158,13 +178,13 @@ Advanced examples
 
   .. container:: sphx-glr-download
 
-    :download:`Download all examples in Python source code: auto_examples_python.zip <//tmp/tmp4pkd0nblsphinxcontrib_versioning/eedd4a0027ed5d2f1915b4b580b531d35119e421/docs/auto_examples/auto_examples_python.zip>`
+    :download:`Download all examples in Python source code: auto_examples_python.zip <//tmp/tmpd18uwhshsphinxcontrib_versioning/70b1bde21673288b9a52794f9300f1efd314a0c5/docs/auto_examples/auto_examples_python.zip>`
 
 
 
   .. container:: sphx-glr-download
 
-    :download:`Download all examples in Jupyter notebooks: auto_examples_jupyter.zip <//tmp/tmp4pkd0nblsphinxcontrib_versioning/eedd4a0027ed5d2f1915b4b580b531d35119e421/docs/auto_examples/auto_examples_jupyter.zip>`
+    :download:`Download all examples in Jupyter notebooks: auto_examples_jupyter.zip <//tmp/tmpd18uwhshsphinxcontrib_versioning/70b1bde21673288b9a52794f9300f1efd314a0c5/docs/auto_examples/auto_examples_jupyter.zip>`
 
 
 .. only:: html

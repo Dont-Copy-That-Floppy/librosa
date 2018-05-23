@@ -1,5 +1,5 @@
-librosa\.core\.midi\_to\_note
-=============================
+librosa.core.midi\_to\_note
+===========================
 
 .. currentmodule:: librosa.core
 

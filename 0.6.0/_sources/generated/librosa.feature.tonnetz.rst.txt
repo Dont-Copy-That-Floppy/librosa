@@ -1,5 +1,5 @@
-librosa\.feature\.tonnetz
-=========================
+librosa.feature.tonnetz
+=======================
 
 .. currentmodule:: librosa.feature
 

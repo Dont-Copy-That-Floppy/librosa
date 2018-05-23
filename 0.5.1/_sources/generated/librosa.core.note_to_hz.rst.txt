@@ -1,5 +1,5 @@
-librosa\.core\.note\_to\_hz
-===========================
+librosa.core.note\_to\_hz
+=========================
 
 .. currentmodule:: librosa.core
 

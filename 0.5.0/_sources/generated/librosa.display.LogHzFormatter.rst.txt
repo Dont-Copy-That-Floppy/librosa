@@ -1,5 +1,5 @@
-librosa\.display\.LogHzFormatter
-================================
+librosa.display.LogHzFormatter
+==============================
 
 .. currentmodule:: librosa.display
 

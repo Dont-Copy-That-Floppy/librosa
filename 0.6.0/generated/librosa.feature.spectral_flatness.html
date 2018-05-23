@@ -25,31 +25,21 @@
   
 
   
-  
     <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
-  
-
-  
-    <link rel="stylesheet" href="../_static/gallery.css" type="text/css" />
-  
-    <link rel="stylesheet" href="../_static/banner.css" type="text/css" />
-  
-
-  
-        <link rel="index" title="Index"
-              href="../genindex.html"/>
-        <link rel="search" title="Search" href="../search.html"/>
-    <link rel="top" title="librosa 0.6.0 documentation" href="../index.html"/>
-        <link rel="up" title="Feature extraction" href="../feature.html"/>
-        <link rel="next" title="librosa.feature.spectral_rolloff" href="librosa.feature.spectral_rolloff.html"/>
-        <link rel="prev" title="librosa.feature.spectral_contrast" href="librosa.feature.spectral_contrast.html"/> 
+  <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/gallery.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/banner.css" type="text/css" />
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="librosa.feature.spectral_rolloff" href="librosa.feature.spectral_rolloff.html" />
+    <link rel="prev" title="librosa.feature.spectral_contrast" href="librosa.feature.spectral_contrast.html" /> 
 
   
   <script src="../_static/js/modernizr.min.js"></script>
 
 </head>
 
-<body class="wy-body-for-nav" role="document">
+<body class="wy-body-for-nav">
 
    
   <div class="wy-grid-for-nav">
@@ -152,7 +142,7 @@
     <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
 
       
-      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+      <nav class="wy-nav-top" aria-label="top navigation">
         
           <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
           <a href="../index.html">librosa</a>
@@ -160,9 +150,10 @@
       </nav>
 
 
-      
       <div class="wy-nav-content">
+        
         <div class="rst-content">
+        
           
 
 
@@ -206,7 +197,16 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
             
-  <div class="section" id="librosa-feature-spectral-flatness">
+  
+
+
+    
+    
+
+
+
+    <p class="scv-banner scv-sphinx_rtd_theme"><a href="../../0.6.1rc0/generated/librosa.feature.spectral_flatness.html"><b>Warning:</b> This document is for an old version of librosa. The latest version is 0.6.1rc0.</a></p>
+<div class="section" id="librosa-feature-spectral-flatness">
 <h1>librosa.feature.spectral_flatness<a class="headerlink" href="#librosa-feature-spectral-flatness" title="Permalink to this headline">¶</a></h1>
 <dl class="function">
 <dt id="librosa.feature.spectral_flatness">
@@ -214,14 +214,14 @@
 <dd><p>Compute spectral flatness</p>
 <p>Spectral flatness (or tonality coefficient) is a measure to
 quantify how much noise-like a sound is, as opposed to being
-tone-like <a class="reference internal" href="#r8383" id="id1">[R8383]</a>. A high spectral flatness (closer to 1.0)
+tone-like <a class="reference internal" href="#r4ca958043a7a-1" id="id1">[1]</a>. A high spectral flatness (closer to 1.0)
 indicates the spectrum is similar to white noise.
 It is often converted to decibel.</p>
-<table class="docutils citation" frame="void" id="r8383" rules="none">
+<table class="docutils citation" frame="void" id="r4ca958043a7a-1" rules="none">
 <colgroup><col class="label" /><col /></colgroup>
 <tbody valign="top">
-<tr><td class="label"><a class="fn-backref" href="#id1">[R8383]</a></td><td>Dubnov, Shlomo  &#8220;Generalization of spectral flatness
-measure for non-gaussian linear processes&#8221;
+<tr><td class="label"><a class="fn-backref" href="#id1">[1]</a></td><td>Dubnov, Shlomo  “Generalization of spectral flatness
+measure for non-gaussian linear processes”
 IEEE Signal Processing Letters, 2004, Vol. 11.</td></tr>
 </tbody>
 </table>
@@ -229,46 +229,43 @@ IEEE Signal Processing Letters, 2004, Vol. 11.</td></tr>
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>y</strong> : np.ndarray [shape=(n,)] or None</p>
-<blockquote>
-<div><p>audio time series</p>
-</div></blockquote>
-<p><strong>S</strong> : np.ndarray [shape=(d, t)] or None</p>
-<blockquote>
-<div><p>(optional) pre-computed spectrogram magnitude</p>
-</div></blockquote>
-<p><strong>n_fft</strong> : int &gt; 0 [scalar]</p>
-<blockquote>
-<div><p>FFT window size</p>
-</div></blockquote>
-<p><strong>hop_length</strong> : int &gt; 0 [scalar]</p>
-<blockquote>
-<div><p>hop length for STFT. See <a class="reference internal" href="librosa.core.stft.html#librosa.core.stft" title="librosa.core.stft"><code class="xref py py-obj docutils literal"><span class="pre">librosa.core.stft</span></code></a> for details.</p>
-</div></blockquote>
-<p><strong>amin</strong> : float &gt; 0 [scalar]</p>
-<blockquote>
-<div><p>minimum threshold for <em class="xref py py-obj">S</em> (=added noise floor for numerical stability)</p>
-</div></blockquote>
-<p><strong>power</strong> : float &gt; 0 [scalar]</p>
-<blockquote>
-<div><p>Exponent for the magnitude spectrogram.
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><dl class="first docutils">
+<dt><strong>y</strong> <span class="classifier-delimiter">:</span> <span class="classifier">np.ndarray [shape=(n,)] or None</span></dt>
+<dd><p class="first last">audio time series</p>
+</dd>
+<dt><strong>S</strong> <span class="classifier-delimiter">:</span> <span class="classifier">np.ndarray [shape=(d, t)] or None</span></dt>
+<dd><p class="first last">(optional) pre-computed spectrogram magnitude</p>
+</dd>
+<dt><strong>n_fft</strong> <span class="classifier-delimiter">:</span> <span class="classifier">int &gt; 0 [scalar]</span></dt>
+<dd><p class="first last">FFT window size</p>
+</dd>
+<dt><strong>hop_length</strong> <span class="classifier-delimiter">:</span> <span class="classifier">int &gt; 0 [scalar]</span></dt>
+<dd><p class="first last">hop length for STFT. See <a class="reference internal" href="librosa.core.stft.html#librosa.core.stft" title="librosa.core.stft"><code class="xref py py-obj docutils literal notranslate"><span class="pre">librosa.core.stft</span></code></a> for details.</p>
+</dd>
+<dt><strong>amin</strong> <span class="classifier-delimiter">:</span> <span class="classifier">float &gt; 0 [scalar]</span></dt>
+<dd><p class="first last">minimum threshold for <em class="xref py py-obj">S</em> (=added noise floor for numerical stability)</p>
+</dd>
+<dt><strong>power</strong> <span class="classifier-delimiter">:</span> <span class="classifier">float &gt; 0 [scalar]</span></dt>
+<dd><p class="first last">Exponent for the magnitude spectrogram.
 e.g., 1 for energy, 2 for power, etc.
 Power spectrogram is usually used for computing spectral flatness.</p>
-</div></blockquote>
+</dd>
+</dl>
 </td>
 </tr>
-<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first"><strong>flatness</strong> : np.ndarray [shape=(1, t)]</p>
-<blockquote class="last">
-<div><p>spectral flatness for each frame.
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><dl class="first last docutils">
+<dt><strong>flatness</strong> <span class="classifier-delimiter">:</span> <span class="classifier">np.ndarray [shape=(1, t)]</span></dt>
+<dd><p class="first last">spectral flatness for each frame.
 The returned value is in [0, 1] and often converted to dB scale.</p>
-</div></blockquote>
+</dd>
+</dl>
 </td>
 </tr>
 </tbody>
 </table>
 <p class="rubric">Examples</p>
 <p>From time-series input</p>
-<div class="highlight-default"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">y</span><span class="p">,</span> <span class="n">sr</span> <span class="o">=</span> <span class="n">librosa</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">librosa</span><span class="o">.</span><span class="n">util</span><span class="o">.</span><span class="n">example_audio_file</span><span class="p">())</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">y</span><span class="p">,</span> <span class="n">sr</span> <span class="o">=</span> <span class="n">librosa</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">librosa</span><span class="o">.</span><span class="n">util</span><span class="o">.</span><span class="n">example_audio_file</span><span class="p">())</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">flatness</span> <span class="o">=</span> <span class="n">librosa</span><span class="o">.</span><span class="n">feature</span><span class="o">.</span><span class="n">spectral_flatness</span><span class="p">(</span><span class="n">y</span><span class="o">=</span><span class="n">y</span><span class="p">)</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">flatness</span>
 <span class="go">array([[  1.00000e+00,   5.82299e-03,   5.64624e-04, ...,   9.99063e-01,</span>
@@ -276,14 +273,14 @@ The returned value is in [0, 1] and often converted to dB scale.</p>
 </pre></div>
 </div>
 <p>From spectrogram input</p>
-<div class="highlight-default"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">S</span><span class="p">,</span> <span class="n">phase</span> <span class="o">=</span> <span class="n">librosa</span><span class="o">.</span><span class="n">magphase</span><span class="p">(</span><span class="n">librosa</span><span class="o">.</span><span class="n">stft</span><span class="p">(</span><span class="n">y</span><span class="p">))</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">S</span><span class="p">,</span> <span class="n">phase</span> <span class="o">=</span> <span class="n">librosa</span><span class="o">.</span><span class="n">magphase</span><span class="p">(</span><span class="n">librosa</span><span class="o">.</span><span class="n">stft</span><span class="p">(</span><span class="n">y</span><span class="p">))</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">librosa</span><span class="o">.</span><span class="n">feature</span><span class="o">.</span><span class="n">spectral_flatness</span><span class="p">(</span><span class="n">S</span><span class="o">=</span><span class="n">S</span><span class="p">)</span>
 <span class="go">array([[  1.00000e+00,   5.82299e-03,   5.64624e-04, ...,   9.99063e-01,</span>
 <span class="go">      1.00000e+00,   1.00000e+00]], dtype=float32)</span>
 </pre></div>
 </div>
 <p>From power spectrogram input</p>
-<div class="highlight-default"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">S</span><span class="p">,</span> <span class="n">phase</span> <span class="o">=</span> <span class="n">librosa</span><span class="o">.</span><span class="n">magphase</span><span class="p">(</span><span class="n">librosa</span><span class="o">.</span><span class="n">stft</span><span class="p">(</span><span class="n">y</span><span class="p">))</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">S</span><span class="p">,</span> <span class="n">phase</span> <span class="o">=</span> <span class="n">librosa</span><span class="o">.</span><span class="n">magphase</span><span class="p">(</span><span class="n">librosa</span><span class="o">.</span><span class="n">stft</span><span class="p">(</span><span class="n">y</span><span class="p">))</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">S_power</span> <span class="o">=</span> <span class="n">S</span> <span class="o">**</span> <span class="mi">2</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">librosa</span><span class="o">.</span><span class="n">feature</span><span class="o">.</span><span class="n">spectral_flatness</span><span class="p">(</span><span class="n">S</span><span class="o">=</span><span class="n">S_power</span><span class="p">,</span> <span class="n">power</span><span class="o">=</span><span class="mf">1.0</span><span class="p">)</span>
 <span class="go">array([[  1.00000e+00,   5.82299e-03,   5.64624e-04, ...,   9.99063e-01,</span>
@@ -296,9 +293,7 @@ The returned value is in [0, 1] and often converted to dB scale.</p>
 
 
            </div>
-           <div class="articleComments">
-            
-           </div>
+           
           </div>
           <footer>
   
@@ -320,7 +315,7 @@ The returned value is in [0, 1] and often converted to dB scale.</p>
 
     </p>
   </div>
-  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/snide/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
 
 </footer>
 
@@ -353,12 +348,12 @@ The returned value is in [0, 1] and often converted to dB scale.</p>
             <dd><a href="librosa.feature.spectral_flatness.html">0.6.0</a></dd>
             <dd><a href="../../0.6.0rc0/generated/librosa.feature.spectral_flatness.html">0.6.0rc0</a></dd>
             <dd><a href="../../0.6.0rc1/generated/librosa.feature.spectral_flatness.html">0.6.0rc1</a></dd>
+            <dd><a href="../../0.6.1rc0/generated/librosa.feature.spectral_flatness.html">0.6.1rc0</a></dd>
             <dd><a href="../../v0.1.0/index.html">v0.1.0</a></dd>
             <dd><a href="../../v0.4.0/index.html">v0.4.0</a></dd>
         </dl>
         <dl>
             <dt>Branches</dt>
-            <dd><a href="../../display-bin-centering/index.html">display-bin-centering</a></dd>
             <dd><a href="../../master/generated/librosa.feature.spectral_flatness.html">master</a></dd>
         </dl>
     </div>
@@ -371,6 +366,7 @@ The returned value is in [0, 1] and often converted to dB scale.</p>
         var DOCUMENTATION_OPTIONS = {
             URL_ROOT:'../',
             VERSION:'0.6.0',
+            LANGUAGE:'None',
             COLLAPSE_INDEX:false,
             FILE_SUFFIX:'.html',
             HAS_SOURCE:  true,
@@ -380,7 +376,7 @@ The returned value is in [0, 1] and often converted to dB scale.</p>
       <script type="text/javascript" src="../_static/jquery.js"></script>
       <script type="text/javascript" src="../_static/underscore.js"></script>
       <script type="text/javascript" src="../_static/doctools.js"></script>
-      <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.0/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+      <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
 
   
 
@@ -389,14 +385,11 @@ The returned value is in [0, 1] and often converted to dB scale.</p>
     <script type="text/javascript" src="../_static/js/theme.js"></script>
   
 
-  
-  
   <script type="text/javascript">
       jQuery(function () {
-          SphinxRtdTheme.StickyNav.enable();
+          SphinxRtdTheme.Navigation.enable(true);
       });
-  </script>
-   
+  </script> 
 
 </body>
 </html>

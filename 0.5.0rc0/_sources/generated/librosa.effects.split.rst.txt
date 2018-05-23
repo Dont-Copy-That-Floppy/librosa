@@ -1,5 +1,5 @@
-librosa\.effects\.split
-=======================
+librosa.effects.split
+=====================
 
 .. currentmodule:: librosa.effects
 

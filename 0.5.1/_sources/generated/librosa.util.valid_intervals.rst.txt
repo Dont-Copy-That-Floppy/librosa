@@ -1,5 +1,5 @@
-librosa\.util\.valid\_intervals
-===============================
+librosa.util.valid\_intervals
+=============================
 
 .. currentmodule:: librosa.util
 

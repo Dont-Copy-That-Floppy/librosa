@@ -1,5 +1,5 @@
-librosa\.decompose\.hpss
-========================
+librosa.decompose.hpss
+======================
 
 .. currentmodule:: librosa.decompose
 

@@ -1,5 +1,5 @@
-librosa\.effects\.remix
-=======================
+librosa.effects.remix
+=====================
 
 .. currentmodule:: librosa.effects
 

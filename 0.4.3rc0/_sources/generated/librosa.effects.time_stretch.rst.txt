@@ -1,5 +1,5 @@
-librosa\.effects\.time\_stretch
-===============================
+librosa.effects.time\_stretch
+=============================
 
 .. currentmodule:: librosa.effects
 

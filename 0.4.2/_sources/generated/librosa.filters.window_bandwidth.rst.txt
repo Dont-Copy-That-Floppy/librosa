@@ -1,5 +1,5 @@
-librosa\.filters\.window\_bandwidth
-===================================
+librosa.filters.window\_bandwidth
+=================================
 
 .. currentmodule:: librosa.filters
 

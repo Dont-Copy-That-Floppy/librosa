@@ -1,5 +1,5 @@
-librosa\.effects\.trim
-======================
+librosa.effects.trim
+====================
 
 .. currentmodule:: librosa.effects
 

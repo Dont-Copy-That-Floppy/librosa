@@ -1,5 +1,5 @@
-librosa\.core\.estimate\_tuning
-===============================
+librosa.core.estimate\_tuning
+=============================
 
 .. currentmodule:: librosa.core
 

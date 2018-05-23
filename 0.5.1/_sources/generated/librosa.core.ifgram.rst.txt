@@ -1,5 +1,5 @@
-librosa\.core\.ifgram
-=====================
+librosa.core.ifgram
+===================
 
 .. currentmodule:: librosa.core
 

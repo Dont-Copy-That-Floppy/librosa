@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>librosa.feature.spectral &mdash; librosa 0.6.0 documentation</title>
+  <title>librosa.feature.spectral &mdash; librosa 0.6.1rc0 documentation</title>
   
 
   
@@ -25,29 +25,19 @@
   
 
   
-  
     <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
-  
-
-  
-    <link rel="stylesheet" href="../../../_static/gallery.css" type="text/css" />
-  
-    <link rel="stylesheet" href="../../../_static/banner.css" type="text/css" />
-  
-
-  
-        <link rel="index" title="Index"
-              href="../../../genindex.html"/>
-        <link rel="search" title="Search" href="../../../search.html"/>
-    <link rel="top" title="librosa 0.6.0 documentation" href="../../../index.html"/>
-        <link rel="up" title="Module code" href="../../index.html"/> 
+  <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="../../../_static/gallery.css" type="text/css" />
+  <link rel="stylesheet" href="../../../_static/banner.css" type="text/css" />
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" /> 
 
   
   <script src="../../../_static/js/modernizr.min.js"></script>
 
 </head>
 
-<body class="wy-body-for-nav" role="document">
+<body class="wy-body-for-nav">
 
    
   <div class="wy-grid-for-nav">
@@ -107,6 +97,7 @@
 <li class="toctree-l1"><a class="reference internal" href="../../../effects.html">Effects</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../output.html">Output</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../segment.html">Temporal segmentation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../sequence.html">Sequential modeling</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../util.html">Utilities</a></li>
 </ul>
 <ul>
@@ -129,7 +120,7 @@
     <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
 
       
-      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+      <nav class="wy-nav-top" aria-label="top navigation">
         
           <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
           <a href="../../../index.html">librosa</a>
@@ -137,9 +128,10 @@
       </nav>
 
 
-      
       <div class="wy-nav-content">
+        
         <div class="rst-content">
+        
           
 
 
@@ -169,8 +161,6 @@
     
       <li class="wy-breadcrumbs-aside">
         
-            
-        
       </li>
     
   </ul>
@@ -181,7 +171,13 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
             
-  <h1>Source code for librosa.feature.spectral</h1><div class="highlight"><pre>
+  
+
+
+
+
+
+<h1>Source code for librosa.feature.spectral</h1><div class="highlight"><pre>
 <span></span><span class="ch">#!/usr/bin/env python</span>
 <span class="c1"># -*- coding: utf-8 -*-</span>
 <span class="sd">&quot;&quot;&quot;Spectral feature extraction&quot;&quot;&quot;</span>
@@ -189,6 +185,7 @@
 <span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
 <span class="kn">import</span> <span class="nn">scipy</span>
 <span class="kn">import</span> <span class="nn">scipy.signal</span>
+<span class="kn">import</span> <span class="nn">scipy.fftpack</span>
 
 <span class="kn">from</span> <span class="nn">..</span> <span class="k">import</span> <span class="n">util</span>
 <span class="kn">from</span> <span class="nn">..</span> <span class="k">import</span> <span class="n">filters</span>
@@ -1488,8 +1485,8 @@
 
 
 <span class="c1"># -- Mel spectrogram and MFCCs -- #</span>
-<div class="viewcode-block" id="mfcc"><a class="viewcode-back" href="../../../generated/librosa.feature.mfcc.html#librosa.feature.mfcc">[docs]</a><span class="k">def</span> <span class="nf">mfcc</span><span class="p">(</span><span class="n">y</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">sr</span><span class="o">=</span><span class="mi">22050</span><span class="p">,</span> <span class="n">S</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">n_mfcc</span><span class="o">=</span><span class="mi">20</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;Mel-frequency cepstral coefficients</span>
+<div class="viewcode-block" id="mfcc"><a class="viewcode-back" href="../../../generated/librosa.feature.mfcc.html#librosa.feature.mfcc">[docs]</a><span class="k">def</span> <span class="nf">mfcc</span><span class="p">(</span><span class="n">y</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">sr</span><span class="o">=</span><span class="mi">22050</span><span class="p">,</span> <span class="n">S</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">n_mfcc</span><span class="o">=</span><span class="mi">20</span><span class="p">,</span> <span class="n">dct_type</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">norm</span><span class="o">=</span><span class="s1">&#39;ortho&#39;</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Mel-frequency cepstral coefficients (MFCCs)</span>
 
 <span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>
@@ -1505,6 +1502,16 @@
 <span class="sd">    n_mfcc: int &gt; 0 [scalar]</span>
 <span class="sd">        number of MFCCs to return</span>
 
+<span class="sd">    dct_type : None, or {1, 2, 3}</span>
+<span class="sd">        Discrete cosine transform (DCT) type.</span>
+<span class="sd">        By default, DCT type-2 is used.</span>
+
+<span class="sd">    norm : None or &#39;ortho&#39;</span>
+<span class="sd">        If `dct_type` is `2 or 3`, setting `norm=&#39;ortho&#39;` uses an ortho-normal</span>
+<span class="sd">        DCT basis.</span>
+
+<span class="sd">        Normalization is not supported for `dct_type=1`.</span>
+
 <span class="sd">    kwargs : additional keyword arguments</span>
 <span class="sd">        Arguments to `melspectrogram`, if operating</span>
 <span class="sd">        on time series input</span>
@@ -1517,12 +1524,13 @@
 <span class="sd">    See Also</span>
 <span class="sd">    --------</span>
 <span class="sd">    melspectrogram</span>
+<span class="sd">    scipy.fftpack.dct</span>
 
 <span class="sd">    Examples</span>
 <span class="sd">    --------</span>
 <span class="sd">    Generate mfccs from a time series</span>
 
-<span class="sd">    &gt;&gt;&gt; y, sr = librosa.load(librosa.util.example_audio_file())</span>
+<span class="sd">    &gt;&gt;&gt; y, sr = librosa.load(librosa.util.example_audio_file(), offset=30, duration=5)</span>
 <span class="sd">    &gt;&gt;&gt; librosa.feature.mfcc(y=y, sr=sr)</span>
 <span class="sd">    array([[ -5.229e+02,  -4.944e+02, ...,  -5.229e+02,  -5.229e+02],</span>
 <span class="sd">           [  7.105e-15,   3.787e+01, ...,  -7.105e-15,  -7.105e-15],</span>
@@ -1554,13 +1562,26 @@
 <span class="sd">    &gt;&gt;&gt; plt.title(&#39;MFCC&#39;)</span>
 <span class="sd">    &gt;&gt;&gt; plt.tight_layout()</span>
 
+<span class="sd">    Compare different DCT bases</span>
 
+<span class="sd">    &gt;&gt;&gt; m_slaney = librosa.feature.mfcc(y=y, sr=sr, dct_type=2)</span>
+<span class="sd">    &gt;&gt;&gt; m_htk = librosa.feature.mfcc(y=y, sr=sr, dct_type=3)</span>
+<span class="sd">    &gt;&gt;&gt; plt.figure(figsize=(10, 6))</span>
+<span class="sd">    &gt;&gt;&gt; plt.subplot(2, 1, 1)</span>
+<span class="sd">    &gt;&gt;&gt; librosa.display.specshow(m_slaney, x_axis=&#39;time&#39;)</span>
+<span class="sd">    &gt;&gt;&gt; plt.title(&#39;RASTAMAT / Auditory toolbox (dct_type=2)&#39;)</span>
+<span class="sd">    &gt;&gt;&gt; plt.colorbar()</span>
+<span class="sd">    &gt;&gt;&gt; plt.subplot(2, 1, 2)</span>
+<span class="sd">    &gt;&gt;&gt; librosa.display.specshow(m_htk, x_axis=&#39;time&#39;)</span>
+<span class="sd">    &gt;&gt;&gt; plt.title(&#39;HTK-style (dct_type=3)&#39;)</span>
+<span class="sd">    &gt;&gt;&gt; plt.colorbar()</span>
+<span class="sd">    &gt;&gt;&gt; plt.tight_layout()</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
     <span class="k">if</span> <span class="n">S</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
         <span class="n">S</span> <span class="o">=</span> <span class="n">power_to_db</span><span class="p">(</span><span class="n">melspectrogram</span><span class="p">(</span><span class="n">y</span><span class="o">=</span><span class="n">y</span><span class="p">,</span> <span class="n">sr</span><span class="o">=</span><span class="n">sr</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">))</span>
 
-    <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">filters</span><span class="o">.</span><span class="n">dct</span><span class="p">(</span><span class="n">n_mfcc</span><span class="p">,</span> <span class="n">S</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]),</span> <span class="n">S</span><span class="p">)</span></div>
+    <span class="k">return</span> <span class="n">scipy</span><span class="o">.</span><span class="n">fftpack</span><span class="o">.</span><span class="n">dct</span><span class="p">(</span><span class="n">S</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="nb">type</span><span class="o">=</span><span class="n">dct_type</span><span class="p">,</span> <span class="n">norm</span><span class="o">=</span><span class="n">norm</span><span class="p">)[:</span><span class="n">n_mfcc</span><span class="p">]</span></div>
 
 
 <div class="viewcode-block" id="melspectrogram"><a class="viewcode-back" href="../../../generated/librosa.feature.melspectrogram.html#librosa.feature.melspectrogram">[docs]</a><span class="k">def</span> <span class="nf">melspectrogram</span><span class="p">(</span><span class="n">y</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">sr</span><span class="o">=</span><span class="mi">22050</span><span class="p">,</span> <span class="n">S</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">n_fft</span><span class="o">=</span><span class="mi">2048</span><span class="p">,</span> <span class="n">hop_length</span><span class="o">=</span><span class="mi">512</span><span class="p">,</span>
@@ -1656,9 +1677,7 @@
 </pre></div>
 
            </div>
-           <div class="articleComments">
-            
-           </div>
+           
           </div>
           <footer>
   
@@ -1671,7 +1690,7 @@
 
     </p>
   </div>
-  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/snide/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
 
 </footer>
 
@@ -1685,7 +1704,7 @@
 <div class="rst-versions" data-toggle="rst-versions" role="note" aria-label="versions">
     <span class="rst-current-version" data-toggle="rst-current-version">
         <span class="fa fa-book"> Other Versions</span>
-        v: master
+        v: 0.6.1rc0
         <span class="fa fa-caret-down"></span>
     </span>
     <div class="rst-other-versions">
@@ -1704,13 +1723,13 @@
             <dd><a href="../../../0.6.0/index.html">0.6.0</a></dd>
             <dd><a href="../../../0.6.0rc0/index.html">0.6.0rc0</a></dd>
             <dd><a href="../../../0.6.0rc1/index.html">0.6.0rc1</a></dd>
+            <dd><a href="../../../0.6.1rc0/_modules/librosa/feature/spectral.html">0.6.1rc0</a></dd>
             <dd><a href="../../../v0.1.0/index.html">v0.1.0</a></dd>
             <dd><a href="../../../v0.4.0/index.html">v0.4.0</a></dd>
         </dl>
         <dl>
             <dt>Branches</dt>
-            <dd><a href="../../../display-bin-centering/index.html">display-bin-centering</a></dd>
-            <dd><a href="../../../master/_modules/librosa/feature/spectral.html">master</a></dd>
+            <dd><a href="../../../master/index.html">master</a></dd>
         </dl>
     </div>
 </div>
@@ -1721,7 +1740,8 @@
     <script type="text/javascript">
         var DOCUMENTATION_OPTIONS = {
             URL_ROOT:'../../../',
-            VERSION:'0.6.0',
+            VERSION:'0.6.1rc0',
+            LANGUAGE:'None',
             COLLAPSE_INDEX:false,
             FILE_SUFFIX:'.html',
             HAS_SOURCE:  true,
@@ -1731,7 +1751,7 @@
       <script type="text/javascript" src="../../../_static/jquery.js"></script>
       <script type="text/javascript" src="../../../_static/underscore.js"></script>
       <script type="text/javascript" src="../../../_static/doctools.js"></script>
-      <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.0/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+      <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
 
   
 
@@ -1740,14 +1760,11 @@
     <script type="text/javascript" src="../../../_static/js/theme.js"></script>
   
 
-  
-  
   <script type="text/javascript">
       jQuery(function () {
-          SphinxRtdTheme.StickyNav.enable();
+          SphinxRtdTheme.Navigation.enable(true);
       });
-  </script>
-   
+  </script> 
 
 </body>
 </html>

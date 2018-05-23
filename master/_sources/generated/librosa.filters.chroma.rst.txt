@@ -1,5 +1,5 @@
-librosa\.filters\.chroma
-========================
+librosa.filters.chroma
+======================
 
 .. currentmodule:: librosa.filters
 

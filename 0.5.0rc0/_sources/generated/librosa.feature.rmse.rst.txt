@@ -1,5 +1,5 @@
-librosa\.feature\.rmse
-======================
+librosa.feature.rmse
+====================
 
 .. currentmodule:: librosa.feature
 

@@ -1,5 +1,5 @@
-librosa\.filters\.get\_window
-=============================
+librosa.filters.get\_window
+===========================
 
 .. currentmodule:: librosa.filters
 

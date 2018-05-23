@@ -1,5 +1,5 @@
-librosa\.core\.ifptrack
-=======================
+librosa.core.ifptrack
+=====================
 
 .. currentmodule:: librosa.core
 

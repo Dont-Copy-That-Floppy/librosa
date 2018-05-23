@@ -1,5 +1,5 @@
-librosa\.util\.fix\_frames
-==========================
+librosa.util.fix\_frames
+========================
 
 .. currentmodule:: librosa.util
 

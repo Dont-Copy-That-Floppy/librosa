@@ -1,5 +1,5 @@
-librosa\.segment\.subsegment
-============================
+librosa.segment.subsegment
+==========================
 
 .. currentmodule:: librosa.segment
 

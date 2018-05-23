@@ -1,5 +1,5 @@
-librosa\.feature\.spectral\_contrast
-====================================
+librosa.feature.spectral\_contrast
+==================================
 
 .. currentmodule:: librosa.feature
 

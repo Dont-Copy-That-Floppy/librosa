@@ -1,5 +1,5 @@
-librosa\.util\.frame
-====================
+librosa.util.frame
+==================
 
 .. currentmodule:: librosa.util
 

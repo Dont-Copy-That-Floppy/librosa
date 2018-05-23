@@ -25,27 +25,18 @@
   
 
   
-  
     <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
-  
-
-  
-    <link rel="stylesheet" href="../../../_static/banner.css" type="text/css" />
-  
-
-  
-        <link rel="index" title="Index"
-              href="../../../genindex.html"/>
-        <link rel="search" title="Search" href="../../../search.html"/>
-    <link rel="top" title="librosa 0.4.2 documentation" href="../../../index.html"/>
-        <link rel="up" title="Module code" href="../../index.html"/> 
+  <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="../../../_static/banner.css" type="text/css" />
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" /> 
 
   
   <script src="../../../_static/js/modernizr.min.js"></script>
 
 </head>
 
-<body class="wy-body-for-nav" role="document">
+<body class="wy-body-for-nav">
 
    
   <div class="wy-grid-for-nav">
@@ -125,7 +116,7 @@
     <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
 
       
-      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+      <nav class="wy-nav-top" aria-label="top navigation">
         
           <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
           <a href="../../../index.html">librosa</a>
@@ -133,9 +124,10 @@
       </nav>
 
 
-      
       <div class="wy-nav-content">
+        
         <div class="rst-content">
+        
           
 
 
@@ -165,8 +157,6 @@
     
       <li class="wy-breadcrumbs-aside">
         
-            
-        
       </li>
     
   </ul>
@@ -177,7 +167,16 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
             
-  <h1>Source code for librosa.core.constantq</h1><div class="highlight"><pre>
+  
+
+
+    
+    
+
+
+
+    <p class="scv-banner scv-sphinx_rtd_theme"><b>Warning:</b> This document is for an old version of librosa.</p>
+<h1>Source code for librosa.core.constantq</h1><div class="highlight"><pre>
 <span></span><span class="ch">#!/usr/bin/env python</span>
 <span class="c1"># -*- coding: utf-8 -*-</span>
 <span class="sd">&#39;&#39;&#39;Pitch-tracking and tuning estimation&#39;&#39;&#39;</span>
@@ -199,8 +198,8 @@
 <span class="n">__all__</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;cqt&#39;</span><span class="p">,</span> <span class="s1">&#39;hybrid_cqt&#39;</span><span class="p">,</span> <span class="s1">&#39;pseudo_cqt&#39;</span><span class="p">]</span>
 
 
-<span class="nd">@cache</span>
-<div class="viewcode-block" id="cqt"><a class="viewcode-back" href="../../../generated/librosa.core.cqt.html#librosa.core.cqt">[docs]</a><span class="k">def</span> <span class="nf">cqt</span><span class="p">(</span><span class="n">y</span><span class="p">,</span> <span class="n">sr</span><span class="o">=</span><span class="mi">22050</span><span class="p">,</span> <span class="n">hop_length</span><span class="o">=</span><span class="mi">512</span><span class="p">,</span> <span class="n">fmin</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">n_bins</span><span class="o">=</span><span class="mi">84</span><span class="p">,</span>
+<div class="viewcode-block" id="cqt"><a class="viewcode-back" href="../../../generated/librosa.core.cqt.html#librosa.core.cqt">[docs]</a><span class="nd">@cache</span>
+<span class="k">def</span> <span class="nf">cqt</span><span class="p">(</span><span class="n">y</span><span class="p">,</span> <span class="n">sr</span><span class="o">=</span><span class="mi">22050</span><span class="p">,</span> <span class="n">hop_length</span><span class="o">=</span><span class="mi">512</span><span class="p">,</span> <span class="n">fmin</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">n_bins</span><span class="o">=</span><span class="mi">84</span><span class="p">,</span>
         <span class="n">bins_per_octave</span><span class="o">=</span><span class="mi">12</span><span class="p">,</span> <span class="n">tuning</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">filter_scale</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span>
         <span class="n">aggregate</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">norm</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">sparsity</span><span class="o">=</span><span class="mf">0.01</span><span class="p">,</span> <span class="n">real</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
         <span class="n">resolution</span><span class="o">=</span><span class="n">util</span><span class="o">.</span><span class="n">Deprecated</span><span class="p">()):</span>
@@ -449,8 +448,8 @@
     <span class="k">return</span> <span class="n">__trim_stack</span><span class="p">(</span><span class="n">cqt_resp</span><span class="p">,</span> <span class="n">n_bins</span><span class="p">,</span> <span class="n">real</span><span class="p">)</span></div>
 
 
-<span class="nd">@cache</span>
-<div class="viewcode-block" id="hybrid_cqt"><a class="viewcode-back" href="../../../generated/librosa.core.hybrid_cqt.html#librosa.core.hybrid_cqt">[docs]</a><span class="k">def</span> <span class="nf">hybrid_cqt</span><span class="p">(</span><span class="n">y</span><span class="p">,</span> <span class="n">sr</span><span class="o">=</span><span class="mi">22050</span><span class="p">,</span> <span class="n">hop_length</span><span class="o">=</span><span class="mi">512</span><span class="p">,</span> <span class="n">fmin</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">n_bins</span><span class="o">=</span><span class="mi">84</span><span class="p">,</span>
+<div class="viewcode-block" id="hybrid_cqt"><a class="viewcode-back" href="../../../generated/librosa.core.hybrid_cqt.html#librosa.core.hybrid_cqt">[docs]</a><span class="nd">@cache</span>
+<span class="k">def</span> <span class="nf">hybrid_cqt</span><span class="p">(</span><span class="n">y</span><span class="p">,</span> <span class="n">sr</span><span class="o">=</span><span class="mi">22050</span><span class="p">,</span> <span class="n">hop_length</span><span class="o">=</span><span class="mi">512</span><span class="p">,</span> <span class="n">fmin</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">n_bins</span><span class="o">=</span><span class="mi">84</span><span class="p">,</span>
                <span class="n">bins_per_octave</span><span class="o">=</span><span class="mi">12</span><span class="p">,</span> <span class="n">tuning</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">filter_scale</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span>
                <span class="n">norm</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">sparsity</span><span class="o">=</span><span class="mf">0.01</span><span class="p">,</span>
                <span class="n">resolution</span><span class="o">=</span><span class="n">util</span><span class="o">.</span><span class="n">Deprecated</span><span class="p">()):</span>
@@ -581,8 +580,8 @@
     <span class="k">return</span> <span class="n">__trim_stack</span><span class="p">(</span><span class="n">cqt_resp</span><span class="p">,</span> <span class="n">n_bins</span><span class="p">,</span> <span class="kc">True</span><span class="p">)</span></div>
 
 
-<span class="nd">@cache</span>
-<div class="viewcode-block" id="pseudo_cqt"><a class="viewcode-back" href="../../../generated/librosa.core.pseudo_cqt.html#librosa.core.pseudo_cqt">[docs]</a><span class="k">def</span> <span class="nf">pseudo_cqt</span><span class="p">(</span><span class="n">y</span><span class="p">,</span> <span class="n">sr</span><span class="o">=</span><span class="mi">22050</span><span class="p">,</span> <span class="n">hop_length</span><span class="o">=</span><span class="mi">512</span><span class="p">,</span> <span class="n">fmin</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">n_bins</span><span class="o">=</span><span class="mi">84</span><span class="p">,</span>
+<div class="viewcode-block" id="pseudo_cqt"><a class="viewcode-back" href="../../../generated/librosa.core.pseudo_cqt.html#librosa.core.pseudo_cqt">[docs]</a><span class="nd">@cache</span>
+<span class="k">def</span> <span class="nf">pseudo_cqt</span><span class="p">(</span><span class="n">y</span><span class="p">,</span> <span class="n">sr</span><span class="o">=</span><span class="mi">22050</span><span class="p">,</span> <span class="n">hop_length</span><span class="o">=</span><span class="mi">512</span><span class="p">,</span> <span class="n">fmin</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">n_bins</span><span class="o">=</span><span class="mi">84</span><span class="p">,</span>
                <span class="n">bins_per_octave</span><span class="o">=</span><span class="mi">12</span><span class="p">,</span> <span class="n">tuning</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">filter_scale</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span>
                <span class="n">norm</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">sparsity</span><span class="o">=</span><span class="mf">0.01</span><span class="p">,</span>
                <span class="n">resolution</span><span class="o">=</span><span class="n">util</span><span class="o">.</span><span class="n">Deprecated</span><span class="p">()):</span>
@@ -802,9 +801,7 @@
 </pre></div>
 
            </div>
-           <div class="articleComments">
-            
-           </div>
+           
           </div>
           <footer>
   
@@ -817,7 +814,7 @@
 
     </p>
   </div>
-  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/snide/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
 
 </footer>
 
@@ -850,12 +847,12 @@
             <dd><a href="../../../../0.6.0/index.html">0.6.0</a></dd>
             <dd><a href="../../../../0.6.0rc0/index.html">0.6.0rc0</a></dd>
             <dd><a href="../../../../0.6.0rc1/index.html">0.6.0rc1</a></dd>
+            <dd><a href="../../../../0.6.1rc0/index.html">0.6.1rc0</a></dd>
             <dd><a href="../../../../v0.1.0/index.html">v0.1.0</a></dd>
             <dd><a href="../../../../v0.4.0/index.html">v0.4.0</a></dd>
         </dl>
         <dl>
             <dt>Branches</dt>
-            <dd><a href="../../../../display-bin-centering/index.html">display-bin-centering</a></dd>
             <dd><a href="../../../../master/index.html">master</a></dd>
         </dl>
     </div>
@@ -868,6 +865,7 @@
         var DOCUMENTATION_OPTIONS = {
             URL_ROOT:'../../../',
             VERSION:'0.4.2',
+            LANGUAGE:'None',
             COLLAPSE_INDEX:false,
             FILE_SUFFIX:'.html',
             HAS_SOURCE:  true,
@@ -885,14 +883,11 @@
     <script type="text/javascript" src="../../../_static/js/theme.js"></script>
   
 
-  
-  
   <script type="text/javascript">
       jQuery(function () {
-          SphinxRtdTheme.StickyNav.enable();
+          SphinxRtdTheme.Navigation.enable(true);
       });
-  </script>
-   
+  </script> 
 
 </body>
 </html>

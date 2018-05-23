@@ -1,5 +1,5 @@
-librosa\.segment\.timelag\_filter
-=================================
+librosa.segment.timelag\_filter
+===============================
 
 .. currentmodule:: librosa.segment
 

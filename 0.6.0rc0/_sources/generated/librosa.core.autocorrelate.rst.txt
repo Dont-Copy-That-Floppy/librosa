@@ -1,5 +1,5 @@
-librosa\.core\.autocorrelate
-============================
+librosa.core.autocorrelate
+==========================
 
 .. currentmodule:: librosa.core
 

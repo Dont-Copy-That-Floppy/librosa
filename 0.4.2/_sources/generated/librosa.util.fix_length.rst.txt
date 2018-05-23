@@ -1,5 +1,5 @@
-librosa\.util\.fix\_length
-==========================
+librosa.util.fix\_length
+========================
 
 .. currentmodule:: librosa.util
 

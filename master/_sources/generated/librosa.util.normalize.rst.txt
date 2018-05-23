@@ -1,5 +1,5 @@
-librosa\.util\.normalize
-========================
+librosa.util.normalize
+======================
 
 .. currentmodule:: librosa.util
 

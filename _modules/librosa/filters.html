@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>librosa.filters &mdash; librosa 0.6.0 documentation</title>
+  <title>librosa.filters &mdash; librosa 0.6.1rc0 documentation</title>
   
 
   
@@ -25,29 +25,19 @@
   
 
   
-  
     <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
-  
-
-  
-    <link rel="stylesheet" href="../../_static/gallery.css" type="text/css" />
-  
-    <link rel="stylesheet" href="../../_static/banner.css" type="text/css" />
-  
-
-  
-        <link rel="index" title="Index"
-              href="../../genindex.html"/>
-        <link rel="search" title="Search" href="../../search.html"/>
-    <link rel="top" title="librosa 0.6.0 documentation" href="../../index.html"/>
-        <link rel="up" title="Module code" href="../index.html"/> 
+  <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="../../_static/gallery.css" type="text/css" />
+  <link rel="stylesheet" href="../../_static/banner.css" type="text/css" />
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" /> 
 
   
   <script src="../../_static/js/modernizr.min.js"></script>
 
 </head>
 
-<body class="wy-body-for-nav" role="document">
+<body class="wy-body-for-nav">
 
    
   <div class="wy-grid-for-nav">
@@ -107,6 +97,7 @@
 <li class="toctree-l1"><a class="reference internal" href="../../effects.html">Effects</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../output.html">Output</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../segment.html">Temporal segmentation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../sequence.html">Sequential modeling</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../util.html">Utilities</a></li>
 </ul>
 <ul>
@@ -129,7 +120,7 @@
     <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
 
       
-      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+      <nav class="wy-nav-top" aria-label="top navigation">
         
           <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
           <a href="../../index.html">librosa</a>
@@ -137,9 +128,10 @@
       </nav>
 
 
-      
       <div class="wy-nav-content">
+        
         <div class="rst-content">
+        
           
 
 
@@ -169,8 +161,6 @@
     
       <li class="wy-breadcrumbs-aside">
         
-            
-        
       </li>
     
   </ul>
@@ -181,7 +171,13 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
             
-  <h1>Source code for librosa.filters</h1><div class="highlight"><pre>
+  
+
+
+
+
+
+<h1>Source code for librosa.filters</h1><div class="highlight"><pre>
 <span></span><span class="ch">#!/usr/bin/env python</span>
 <span class="c1"># -*- coding: utf-8 -*-</span>
 <span class="sd">&quot;&quot;&quot;</span>
@@ -193,7 +189,6 @@
 <span class="sd">.. autosummary::</span>
 <span class="sd">    :toctree: generated/</span>
 
-<span class="sd">    dct</span>
 <span class="sd">    mel</span>
 <span class="sd">    chroma</span>
 <span class="sd">    constant_q</span>
@@ -219,6 +214,12 @@
 <span class="sd">    mr_frequencies</span>
 <span class="sd">    window_sumsquare</span>
 
+<span class="sd">Deprecated</span>
+<span class="sd">----------</span>
+<span class="sd">.. autosummary::</span>
+<span class="sd">    :toctree: generated/</span>
+
+<span class="sd">    dct</span>
 <span class="sd">&quot;&quot;&quot;</span>
 <span class="kn">import</span> <span class="nn">warnings</span>
 
@@ -232,6 +233,7 @@
 <span class="kn">from</span> <span class="nn">.</span> <span class="k">import</span> <span class="n">cache</span>
 <span class="kn">from</span> <span class="nn">.</span> <span class="k">import</span> <span class="n">util</span>
 <span class="kn">from</span> <span class="nn">.util.exceptions</span> <span class="k">import</span> <span class="n">ParameterError</span>
+<span class="kn">from</span> <span class="nn">.util.decorators</span> <span class="k">import</span> <span class="n">deprecated</span>
 
 <span class="kn">from</span> <span class="nn">.core.time_frequency</span> <span class="k">import</span> <span class="n">note_to_hz</span><span class="p">,</span> <span class="n">hz_to_midi</span><span class="p">,</span> <span class="n">midi_to_hz</span><span class="p">,</span> <span class="n">hz_to_octs</span>
 <span class="kn">from</span> <span class="nn">.core.time_frequency</span> <span class="k">import</span> <span class="n">fft_frequencies</span><span class="p">,</span> <span class="n">mel_frequencies</span>
@@ -293,11 +295,14 @@
                      <span class="s1">&#39;triangle&#39;</span><span class="p">:</span> <span class="mf">1.3331706523555851</span><span class="p">}</span>
 
 
-<span class="nd">@cache</span><span class="p">(</span><span class="n">level</span><span class="o">=</span><span class="mi">10</span><span class="p">)</span>
-<div class="viewcode-block" id="dct"><a class="viewcode-back" href="../../generated/librosa.filters.dct.html#librosa.filters.dct">[docs]</a><span class="k">def</span> <span class="nf">dct</span><span class="p">(</span><span class="n">n_filters</span><span class="p">,</span> <span class="n">n_input</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;Discrete cosine transform (DCT type-III) basis.</span>
+<div class="viewcode-block" id="dct"><a class="viewcode-back" href="../../generated/librosa.filters.dct.html#librosa.filters.dct">[docs]</a><span class="nd">@deprecated</span><span class="p">(</span><span class="s1">&#39;0.6.1&#39;</span><span class="p">,</span> <span class="s1">&#39;0.7.0&#39;</span><span class="p">)</span>
+<span class="k">def</span> <span class="nf">dct</span><span class="p">(</span><span class="n">n_filters</span><span class="p">,</span> <span class="n">n_input</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Discrete cosine transform (DCT type-II, normalized) basis.</span>
 
 <span class="sd">    .. [1] http://en.wikipedia.org/wiki/Discrete_cosine_transform</span>
+
+<span class="sd">    .. warning:: This function is deprecated in librosa 0.6.1. It will</span>
+<span class="sd">        be removed in 0.7.0.</span>
 
 <span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>
@@ -310,11 +315,15 @@
 <span class="sd">    Returns</span>
 <span class="sd">    -------</span>
 <span class="sd">    dct_basis: np.ndarray [shape=(n_filters, n_input)]</span>
-<span class="sd">        DCT (type-III) basis vectors [1]_</span>
+<span class="sd">        DCT (type-II) basis vectors [1]_</span>
 
 <span class="sd">    Notes</span>
 <span class="sd">    -----</span>
 <span class="sd">    This function caches at level 10.</span>
+
+<span class="sd">    See Also</span>
+<span class="sd">    --------</span>
+<span class="sd">    scipy.fftpack.dct</span>
 
 <span class="sd">    Examples</span>
 <span class="sd">    --------</span>
@@ -347,8 +356,8 @@
     <span class="k">return</span> <span class="n">basis</span></div>
 
 
-<span class="nd">@cache</span><span class="p">(</span><span class="n">level</span><span class="o">=</span><span class="mi">10</span><span class="p">)</span>
-<div class="viewcode-block" id="mel"><a class="viewcode-back" href="../../generated/librosa.filters.mel.html#librosa.filters.mel">[docs]</a><span class="k">def</span> <span class="nf">mel</span><span class="p">(</span><span class="n">sr</span><span class="p">,</span> <span class="n">n_fft</span><span class="p">,</span> <span class="n">n_mels</span><span class="o">=</span><span class="mi">128</span><span class="p">,</span> <span class="n">fmin</span><span class="o">=</span><span class="mf">0.0</span><span class="p">,</span> <span class="n">fmax</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">htk</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+<div class="viewcode-block" id="mel"><a class="viewcode-back" href="../../generated/librosa.filters.mel.html#librosa.filters.mel">[docs]</a><span class="nd">@cache</span><span class="p">(</span><span class="n">level</span><span class="o">=</span><span class="mi">10</span><span class="p">)</span>
+<span class="k">def</span> <span class="nf">mel</span><span class="p">(</span><span class="n">sr</span><span class="p">,</span> <span class="n">n_fft</span><span class="p">,</span> <span class="n">n_mels</span><span class="o">=</span><span class="mi">128</span><span class="p">,</span> <span class="n">fmin</span><span class="o">=</span><span class="mf">0.0</span><span class="p">,</span> <span class="n">fmax</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">htk</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
         <span class="n">norm</span><span class="o">=</span><span class="mi">1</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;Create a Filterbank matrix to combine FFT bins into Mel-frequency bins</span>
 
@@ -460,8 +469,8 @@
     <span class="k">return</span> <span class="n">weights</span></div>
 
 
-<span class="nd">@cache</span><span class="p">(</span><span class="n">level</span><span class="o">=</span><span class="mi">10</span><span class="p">)</span>
-<div class="viewcode-block" id="chroma"><a class="viewcode-back" href="../../generated/librosa.filters.chroma.html#librosa.filters.chroma">[docs]</a><span class="k">def</span> <span class="nf">chroma</span><span class="p">(</span><span class="n">sr</span><span class="p">,</span> <span class="n">n_fft</span><span class="p">,</span> <span class="n">n_chroma</span><span class="o">=</span><span class="mi">12</span><span class="p">,</span> <span class="n">A440</span><span class="o">=</span><span class="mf">440.0</span><span class="p">,</span> <span class="n">ctroct</span><span class="o">=</span><span class="mf">5.0</span><span class="p">,</span>
+<div class="viewcode-block" id="chroma"><a class="viewcode-back" href="../../generated/librosa.filters.chroma.html#librosa.filters.chroma">[docs]</a><span class="nd">@cache</span><span class="p">(</span><span class="n">level</span><span class="o">=</span><span class="mi">10</span><span class="p">)</span>
+<span class="k">def</span> <span class="nf">chroma</span><span class="p">(</span><span class="n">sr</span><span class="p">,</span> <span class="n">n_fft</span><span class="p">,</span> <span class="n">n_chroma</span><span class="o">=</span><span class="mi">12</span><span class="p">,</span> <span class="n">A440</span><span class="o">=</span><span class="mf">440.0</span><span class="p">,</span> <span class="n">ctroct</span><span class="o">=</span><span class="mf">5.0</span><span class="p">,</span>
            <span class="n">octwidth</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">norm</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">base_c</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;Create a Filterbank matrix to convert STFT to chroma</span>
 
@@ -618,8 +627,8 @@
     <span class="k">return</span> <span class="n">_wrap</span>
 
 
-<span class="nd">@cache</span><span class="p">(</span><span class="n">level</span><span class="o">=</span><span class="mi">10</span><span class="p">)</span>
-<div class="viewcode-block" id="constant_q"><a class="viewcode-back" href="../../generated/librosa.filters.constant_q.html#librosa.filters.constant_q">[docs]</a><span class="k">def</span> <span class="nf">constant_q</span><span class="p">(</span><span class="n">sr</span><span class="p">,</span> <span class="n">fmin</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">n_bins</span><span class="o">=</span><span class="mi">84</span><span class="p">,</span> <span class="n">bins_per_octave</span><span class="o">=</span><span class="mi">12</span><span class="p">,</span> <span class="n">tuning</span><span class="o">=</span><span class="mf">0.0</span><span class="p">,</span>
+<div class="viewcode-block" id="constant_q"><a class="viewcode-back" href="../../generated/librosa.filters.constant_q.html#librosa.filters.constant_q">[docs]</a><span class="nd">@cache</span><span class="p">(</span><span class="n">level</span><span class="o">=</span><span class="mi">10</span><span class="p">)</span>
+<span class="k">def</span> <span class="nf">constant_q</span><span class="p">(</span><span class="n">sr</span><span class="p">,</span> <span class="n">fmin</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">n_bins</span><span class="o">=</span><span class="mi">84</span><span class="p">,</span> <span class="n">bins_per_octave</span><span class="o">=</span><span class="mi">12</span><span class="p">,</span> <span class="n">tuning</span><span class="o">=</span><span class="mf">0.0</span><span class="p">,</span>
                <span class="n">window</span><span class="o">=</span><span class="s1">&#39;hann&#39;</span><span class="p">,</span> <span class="n">filter_scale</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">pad_fft</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">norm</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span>
                <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
     <span class="sa">r</span><span class="sd">&#39;&#39;&#39;Construct a constant-Q basis.</span>
@@ -770,8 +779,8 @@
     <span class="k">return</span> <span class="n">filters</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">lengths</span><span class="p">)</span></div>
 
 
-<span class="nd">@cache</span><span class="p">(</span><span class="n">level</span><span class="o">=</span><span class="mi">10</span><span class="p">)</span>
-<div class="viewcode-block" id="constant_q_lengths"><a class="viewcode-back" href="../../generated/librosa.filters.constant_q_lengths.html#librosa.filters.constant_q_lengths">[docs]</a><span class="k">def</span> <span class="nf">constant_q_lengths</span><span class="p">(</span><span class="n">sr</span><span class="p">,</span> <span class="n">fmin</span><span class="p">,</span> <span class="n">n_bins</span><span class="o">=</span><span class="mi">84</span><span class="p">,</span> <span class="n">bins_per_octave</span><span class="o">=</span><span class="mi">12</span><span class="p">,</span>
+<div class="viewcode-block" id="constant_q_lengths"><a class="viewcode-back" href="../../generated/librosa.filters.constant_q_lengths.html#librosa.filters.constant_q_lengths">[docs]</a><span class="nd">@cache</span><span class="p">(</span><span class="n">level</span><span class="o">=</span><span class="mi">10</span><span class="p">)</span>
+<span class="k">def</span> <span class="nf">constant_q_lengths</span><span class="p">(</span><span class="n">sr</span><span class="p">,</span> <span class="n">fmin</span><span class="p">,</span> <span class="n">n_bins</span><span class="o">=</span><span class="mi">84</span><span class="p">,</span> <span class="n">bins_per_octave</span><span class="o">=</span><span class="mi">12</span><span class="p">,</span>
                        <span class="n">tuning</span><span class="o">=</span><span class="mf">0.0</span><span class="p">,</span> <span class="n">window</span><span class="o">=</span><span class="s1">&#39;hann&#39;</span><span class="p">,</span> <span class="n">filter_scale</span><span class="o">=</span><span class="mi">1</span><span class="p">):</span>
     <span class="sa">r</span><span class="sd">&#39;&#39;&#39;Return length of each filter in a constant-Q basis.</span>
 
@@ -845,8 +854,8 @@
     <span class="k">return</span> <span class="n">lengths</span></div>
 
 
-<span class="nd">@cache</span><span class="p">(</span><span class="n">level</span><span class="o">=</span><span class="mi">10</span><span class="p">)</span>
-<div class="viewcode-block" id="cq_to_chroma"><a class="viewcode-back" href="../../generated/librosa.filters.cq_to_chroma.html#librosa.filters.cq_to_chroma">[docs]</a><span class="k">def</span> <span class="nf">cq_to_chroma</span><span class="p">(</span><span class="n">n_input</span><span class="p">,</span> <span class="n">bins_per_octave</span><span class="o">=</span><span class="mi">12</span><span class="p">,</span> <span class="n">n_chroma</span><span class="o">=</span><span class="mi">12</span><span class="p">,</span>
+<div class="viewcode-block" id="cq_to_chroma"><a class="viewcode-back" href="../../generated/librosa.filters.cq_to_chroma.html#librosa.filters.cq_to_chroma">[docs]</a><span class="nd">@cache</span><span class="p">(</span><span class="n">level</span><span class="o">=</span><span class="mi">10</span><span class="p">)</span>
+<span class="k">def</span> <span class="nf">cq_to_chroma</span><span class="p">(</span><span class="n">n_input</span><span class="p">,</span> <span class="n">bins_per_octave</span><span class="o">=</span><span class="mi">12</span><span class="p">,</span> <span class="n">n_chroma</span><span class="o">=</span><span class="mi">12</span><span class="p">,</span>
                  <span class="n">fmin</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">window</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">base_c</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
     <span class="sd">&#39;&#39;&#39;Convert a Constant-Q basis to Chroma.</span>
 
@@ -968,8 +977,8 @@
     <span class="k">return</span> <span class="n">cq_to_ch</span></div>
 
 
-<span class="nd">@cache</span><span class="p">(</span><span class="n">level</span><span class="o">=</span><span class="mi">10</span><span class="p">)</span>
-<div class="viewcode-block" id="window_bandwidth"><a class="viewcode-back" href="../../generated/librosa.filters.window_bandwidth.html#librosa.filters.window_bandwidth">[docs]</a><span class="k">def</span> <span class="nf">window_bandwidth</span><span class="p">(</span><span class="n">window</span><span class="p">,</span> <span class="n">n</span><span class="o">=</span><span class="mi">1000</span><span class="p">):</span>
+<div class="viewcode-block" id="window_bandwidth"><a class="viewcode-back" href="../../generated/librosa.filters.window_bandwidth.html#librosa.filters.window_bandwidth">[docs]</a><span class="nd">@cache</span><span class="p">(</span><span class="n">level</span><span class="o">=</span><span class="mi">10</span><span class="p">)</span>
+<span class="k">def</span> <span class="nf">window_bandwidth</span><span class="p">(</span><span class="n">window</span><span class="p">,</span> <span class="n">n</span><span class="o">=</span><span class="mi">1000</span><span class="p">):</span>
     <span class="sd">&#39;&#39;&#39;Get the equivalent noise bandwidth of a window function.</span>
 
 
@@ -1012,8 +1021,8 @@
     <span class="k">return</span> <span class="n">WINDOW_BANDWIDTHS</span><span class="p">[</span><span class="n">key</span><span class="p">]</span></div>
 
 
-<span class="nd">@cache</span><span class="p">(</span><span class="n">level</span><span class="o">=</span><span class="mi">10</span><span class="p">)</span>
-<div class="viewcode-block" id="get_window"><a class="viewcode-back" href="../../generated/librosa.filters.get_window.html#librosa.filters.get_window">[docs]</a><span class="k">def</span> <span class="nf">get_window</span><span class="p">(</span><span class="n">window</span><span class="p">,</span> <span class="n">Nx</span><span class="p">,</span> <span class="n">fftbins</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
+<div class="viewcode-block" id="get_window"><a class="viewcode-back" href="../../generated/librosa.filters.get_window.html#librosa.filters.get_window">[docs]</a><span class="nd">@cache</span><span class="p">(</span><span class="n">level</span><span class="o">=</span><span class="mi">10</span><span class="p">)</span>
+<span class="k">def</span> <span class="nf">get_window</span><span class="p">(</span><span class="n">window</span><span class="p">,</span> <span class="n">Nx</span><span class="p">,</span> <span class="n">fftbins</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
     <span class="sd">&#39;&#39;&#39;Compute a window function.</span>
 
 <span class="sd">    This is a wrapper for `scipy.signal.get_window` that additionally</span>
@@ -1078,8 +1087,8 @@
         <span class="k">raise</span> <span class="n">ParameterError</span><span class="p">(</span><span class="s1">&#39;Invalid window specification: </span><span class="si">{}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">window</span><span class="p">))</span></div>
 
 
-<span class="nd">@cache</span><span class="p">(</span><span class="n">level</span><span class="o">=</span><span class="mi">10</span><span class="p">)</span>
-<div class="viewcode-block" id="_multirate_fb"><a class="viewcode-back" href="../../generated/librosa.filters._multirate_fb.html#librosa.filters._multirate_fb">[docs]</a><span class="k">def</span> <span class="nf">_multirate_fb</span><span class="p">(</span><span class="n">center_freqs</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">sample_rates</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">Q</span><span class="o">=</span><span class="mf">25.0</span><span class="p">,</span>
+<div class="viewcode-block" id="_multirate_fb"><a class="viewcode-back" href="../../generated/librosa.filters._multirate_fb.html#librosa.filters._multirate_fb">[docs]</a><span class="nd">@cache</span><span class="p">(</span><span class="n">level</span><span class="o">=</span><span class="mi">10</span><span class="p">)</span>
+<span class="k">def</span> <span class="nf">_multirate_fb</span><span class="p">(</span><span class="n">center_freqs</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">sample_rates</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">Q</span><span class="o">=</span><span class="mf">25.0</span><span class="p">,</span>
                   <span class="n">passband_ripple</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">stopband_attenuation</span><span class="o">=</span><span class="mi">50</span><span class="p">,</span> <span class="n">ftype</span><span class="o">=</span><span class="s1">&#39;ellip&#39;</span><span class="p">):</span>
     <span class="sa">r</span><span class="sd">&#39;&#39;&#39;Helper function to construct a multirate filterbank.</span>
 
@@ -1166,13 +1175,13 @@
     <span class="k">return</span> <span class="n">filterbank</span><span class="p">,</span> <span class="n">sample_rates</span></div>
 
 
-<span class="nd">@cache</span><span class="p">(</span><span class="n">level</span><span class="o">=</span><span class="mi">10</span><span class="p">)</span>
-<div class="viewcode-block" id="mr_frequencies"><a class="viewcode-back" href="../../generated/librosa.filters.mr_frequencies.html#librosa.filters.mr_frequencies">[docs]</a><span class="k">def</span> <span class="nf">mr_frequencies</span><span class="p">(</span><span class="n">tuning</span><span class="p">):</span>
-    <span class="sa">r</span><span class="sd">&#39;&#39;&#39;Helper function for generating center frequency and samplerate pairs.</span>
+<div class="viewcode-block" id="mr_frequencies"><a class="viewcode-back" href="../../generated/librosa.filters.mr_frequencies.html#librosa.filters.mr_frequencies">[docs]</a><span class="nd">@cache</span><span class="p">(</span><span class="n">level</span><span class="o">=</span><span class="mi">10</span><span class="p">)</span>
+<span class="k">def</span> <span class="nf">mr_frequencies</span><span class="p">(</span><span class="n">tuning</span><span class="p">):</span>
+    <span class="sa">r</span><span class="sd">&#39;&#39;&#39;Helper function for generating center frequency and sample rate pairs.</span>
 
-<span class="sd">    This function will return center frequency and corresponding samplerates</span>
+<span class="sd">    This function will return center frequency and corresponding sample rates</span>
 <span class="sd">    to obtain similar pitch filterbank settings as described in [1]_.</span>
-<span class="sd">    (Instead of starting with MIDI pitch `A0`, we start with `C0`.)</span>
+<span class="sd">    Instead of starting with MIDI pitch `A0`, we start with `C0`.</span>
 
 <span class="sd">    .. [1] Müller, Meinard.</span>
 <span class="sd">           &quot;Information Retrieval for Music and Motion.&quot;</span>
@@ -1182,7 +1191,8 @@
 <span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>
 <span class="sd">    tuning : float in `[-0.5, +0.5)` [scalar]</span>
-<span class="sd">        Tuning deviation from A440 in fractions of a bin.</span>
+<span class="sd">        Tuning deviation from A440, measure as a fraction of the equally</span>
+<span class="sd">        tempered semitone (1/12 of an octave).</span>
 
 <span class="sd">    Returns</span>
 <span class="sd">    -------</span>
@@ -1191,7 +1201,7 @@
 <span class="sd">        Also defines the number of filters in the filterbank.</span>
 
 <span class="sd">    sample_rates : np.ndarray [shape=(n,), dtype=float]</span>
-<span class="sd">        Samplerate for each filter (used for multirate filterbank).</span>
+<span class="sd">        Sample rate for each filter, used for multirate filterbank.</span>
 
 <span class="sd">    Notes</span>
 <span class="sd">    -----</span>
@@ -1214,10 +1224,21 @@
 
 
 <div class="viewcode-block" id="semitone_filterbank"><a class="viewcode-back" href="../../generated/librosa.filters.semitone_filterbank.html#librosa.filters.semitone_filterbank">[docs]</a><span class="k">def</span> <span class="nf">semitone_filterbank</span><span class="p">(</span><span class="n">center_freqs</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">tuning</span><span class="o">=</span><span class="mf">0.0</span><span class="p">,</span> <span class="n">sample_rates</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
-    <span class="sa">r</span><span class="sd">&#39;&#39;&#39;Constructs a filterbank with 88 filters mimicing the equal-tempered scale.</span>
+    <span class="sa">r</span><span class="sd">&#39;&#39;&#39;Constructs a multirate filterbank of infinite-impulse response (IIR)</span>
+<span class="sd">    band-pass filters at user-defined center frequencies and sample rates.</span>
 
-<span class="sd">     When run with default parameters, a filter bank with 88 filters, each having</span>
-<span class="sd">     a bandwith of one semitone, is designed. For details, see [1]_.</span>
+<span class="sd">    By default, these center frequencies are set equal to the 88 fundamental</span>
+<span class="sd">    frequencies of the grand piano keyboard, according to a pitch tuning standard</span>
+<span class="sd">    of A440, that is, note A above middle C set to 440 Hz. The center frequencies</span>
+<span class="sd">    are tuned to the twelve-tone equal temperament, which means that they grow</span>
+<span class="sd">    exponentially at a rate of 2**(1/12), that is, twelve notes per octave.</span>
+
+<span class="sd">    The A440 tuning can be changed by the user while keeping twelve-tone equal</span>
+<span class="sd">    temperament. While A440 is currently the international standard in the music</span>
+<span class="sd">    industry (ISO 16), some orchestras tune to A441-A445, whereas baroque musicians</span>
+<span class="sd">    tune to A415.</span>
+
+<span class="sd">    See [1]_ for details.</span>
 
 <span class="sd">    .. [1] Müller, Meinard.</span>
 <span class="sd">           &quot;Information Retrieval for Music and Motion.&quot;</span>
@@ -1231,27 +1252,29 @@
 <span class="sd">        Also defines the number of filters in the filterbank.</span>
 
 <span class="sd">    tuning : float in `[-0.5, +0.5)` [scalar]</span>
-<span class="sd">        Tuning deviation from A440 in fractions of a bin.</span>
+<span class="sd">        Tuning deviation from A440 as a fraction of a semitone (1/12 of an octave</span>
+<span class="sd">        in equal temperament).</span>
 
 <span class="sd">    sample_rates : np.ndarray [shape=(n,), dtype=float]</span>
-<span class="sd">        Samplerate for each filter (used for multirate filterbank).</span>
+<span class="sd">        Sample rates of each filter in the multirate filterbank.</span>
 
 <span class="sd">    kwargs : additional keyword arguments</span>
-<span class="sd">        Additional arguments for `multirate_fb()`.</span>
+<span class="sd">        Additional arguments to the private function `_multirate_fb()`.</span>
 
 <span class="sd">    Returns</span>
 <span class="sd">    -------</span>
 <span class="sd">    filterbank : list [shape=(n,), dtype=float]</span>
-<span class="sd">        Each list entry comprises the filter coefficients for a single filter.</span>
+<span class="sd">        Each list entry contains the filter coefficients for a single filter.</span>
 
 <span class="sd">    fb_sample_rates : np.ndarray [shape=(n,), dtype=float]</span>
-<span class="sd">        Samplerate for each filter.</span>
+<span class="sd">        Sample rate for each filter.</span>
 
 <span class="sd">    See Also</span>
 <span class="sd">    --------</span>
-<span class="sd">    librosa.filters.multirate_fb</span>
-<span class="sd">    librosa.core.semitone_spectrogram</span>
 <span class="sd">    librosa.core.cqt</span>
+<span class="sd">    librosa.core.iirt</span>
+<span class="sd">    librosa.filters._multirate_fb</span>
+<span class="sd">    librosa.filters.mr_frequencies</span>
 <span class="sd">    scipy.signal.iirdesign</span>
 
 <span class="sd">    Examples</span>
@@ -1282,7 +1305,7 @@
 
 
 <span class="nd">@jit</span><span class="p">(</span><span class="n">nopython</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
-<span class="k">def</span> <span class="nf">__window_ss_fill</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">win_sq</span><span class="p">,</span> <span class="n">n_frames</span><span class="p">,</span> <span class="n">hop_length</span><span class="p">):</span>
+<span class="k">def</span> <span class="nf">__window_ss_fill</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">win_sq</span><span class="p">,</span> <span class="n">n_frames</span><span class="p">,</span> <span class="n">hop_length</span><span class="p">):</span>  <span class="c1"># pragma: no cover</span>
     <span class="sd">&#39;&#39;&#39;Helper function for window sum-square calculation.&#39;&#39;&#39;</span>
 
     <span class="n">n</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
@@ -1290,7 +1313,6 @@
     <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">n_frames</span><span class="p">):</span>
         <span class="n">sample</span> <span class="o">=</span> <span class="n">i</span> <span class="o">*</span> <span class="n">hop_length</span>
         <span class="n">x</span><span class="p">[</span><span class="n">sample</span><span class="p">:</span><span class="nb">min</span><span class="p">(</span><span class="n">n</span><span class="p">,</span> <span class="n">sample</span> <span class="o">+</span> <span class="n">n_fft</span><span class="p">)]</span> <span class="o">+=</span> <span class="n">win_sq</span><span class="p">[:</span><span class="nb">max</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="nb">min</span><span class="p">(</span><span class="n">n_fft</span><span class="p">,</span> <span class="n">n</span> <span class="o">-</span> <span class="n">sample</span><span class="p">))]</span>
-    <span class="k">pass</span>
 
 
 <div class="viewcode-block" id="window_sumsquare"><a class="viewcode-back" href="../../generated/librosa.filters.window_sumsquare.html#librosa.filters.window_sumsquare">[docs]</a><span class="k">def</span> <span class="nf">window_sumsquare</span><span class="p">(</span><span class="n">window</span><span class="p">,</span> <span class="n">n_frames</span><span class="p">,</span> <span class="n">hop_length</span><span class="o">=</span><span class="mi">512</span><span class="p">,</span> <span class="n">win_length</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">n_fft</span><span class="o">=</span><span class="mi">2048</span><span class="p">,</span>
@@ -1368,9 +1390,7 @@
 </pre></div>
 
            </div>
-           <div class="articleComments">
-            
-           </div>
+           
           </div>
           <footer>
   
@@ -1383,7 +1403,7 @@
 
     </p>
   </div>
-  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/snide/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
 
 </footer>
 
@@ -1397,7 +1417,7 @@
 <div class="rst-versions" data-toggle="rst-versions" role="note" aria-label="versions">
     <span class="rst-current-version" data-toggle="rst-current-version">
         <span class="fa fa-book"> Other Versions</span>
-        v: master
+        v: 0.6.1rc0
         <span class="fa fa-caret-down"></span>
     </span>
     <div class="rst-other-versions">
@@ -1416,13 +1436,13 @@
             <dd><a href="../../0.6.0/index.html">0.6.0</a></dd>
             <dd><a href="../../0.6.0rc0/index.html">0.6.0rc0</a></dd>
             <dd><a href="../../0.6.0rc1/index.html">0.6.0rc1</a></dd>
+            <dd><a href="../../0.6.1rc0/_modules/librosa/filters.html">0.6.1rc0</a></dd>
             <dd><a href="../../v0.1.0/index.html">v0.1.0</a></dd>
             <dd><a href="../../v0.4.0/index.html">v0.4.0</a></dd>
         </dl>
         <dl>
             <dt>Branches</dt>
-            <dd><a href="../../display-bin-centering/index.html">display-bin-centering</a></dd>
-            <dd><a href="../../master/_modules/librosa/filters.html">master</a></dd>
+            <dd><a href="../../master/index.html">master</a></dd>
         </dl>
     </div>
 </div>
@@ -1433,7 +1453,8 @@
     <script type="text/javascript">
         var DOCUMENTATION_OPTIONS = {
             URL_ROOT:'../../',
-            VERSION:'0.6.0',
+            VERSION:'0.6.1rc0',
+            LANGUAGE:'None',
             COLLAPSE_INDEX:false,
             FILE_SUFFIX:'.html',
             HAS_SOURCE:  true,
@@ -1443,7 +1464,7 @@
       <script type="text/javascript" src="../../_static/jquery.js"></script>
       <script type="text/javascript" src="../../_static/underscore.js"></script>
       <script type="text/javascript" src="../../_static/doctools.js"></script>
-      <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.0/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+      <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
 
   
 
@@ -1452,14 +1473,11 @@
     <script type="text/javascript" src="../../_static/js/theme.js"></script>
   
 
-  
-  
   <script type="text/javascript">
       jQuery(function () {
-          SphinxRtdTheme.StickyNav.enable();
+          SphinxRtdTheme.Navigation.enable(true);
       });
-  </script>
-   
+  </script> 
 
 </body>
 </html>

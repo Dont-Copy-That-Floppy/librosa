@@ -1,5 +1,5 @@
-librosa\.output\.annotation
-===========================
+librosa.output.annotation
+=========================
 
 .. currentmodule:: librosa.output
 

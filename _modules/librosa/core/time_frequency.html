@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>librosa.core.time_frequency &mdash; librosa 0.6.0 documentation</title>
+  <title>librosa.core.time_frequency &mdash; librosa 0.6.1rc0 documentation</title>
   
 
   
@@ -25,29 +25,19 @@
   
 
   
-  
     <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
-  
-
-  
-    <link rel="stylesheet" href="../../../_static/gallery.css" type="text/css" />
-  
-    <link rel="stylesheet" href="../../../_static/banner.css" type="text/css" />
-  
-
-  
-        <link rel="index" title="Index"
-              href="../../../genindex.html"/>
-        <link rel="search" title="Search" href="../../../search.html"/>
-    <link rel="top" title="librosa 0.6.0 documentation" href="../../../index.html"/>
-        <link rel="up" title="Module code" href="../../index.html"/> 
+  <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="../../../_static/gallery.css" type="text/css" />
+  <link rel="stylesheet" href="../../../_static/banner.css" type="text/css" />
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" /> 
 
   
   <script src="../../../_static/js/modernizr.min.js"></script>
 
 </head>
 
-<body class="wy-body-for-nav" role="document">
+<body class="wy-body-for-nav">
 
    
   <div class="wy-grid-for-nav">
@@ -107,6 +97,7 @@
 <li class="toctree-l1"><a class="reference internal" href="../../../effects.html">Effects</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../output.html">Output</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../segment.html">Temporal segmentation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../sequence.html">Sequential modeling</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../util.html">Utilities</a></li>
 </ul>
 <ul>
@@ -129,7 +120,7 @@
     <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
 
       
-      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+      <nav class="wy-nav-top" aria-label="top navigation">
         
           <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
           <a href="../../../index.html">librosa</a>
@@ -137,9 +128,10 @@
       </nav>
 
 
-      
       <div class="wy-nav-content">
+        
         <div class="rst-content">
+        
           
 
 
@@ -169,8 +161,6 @@
     
       <li class="wy-breadcrumbs-aside">
         
-            
-        
       </li>
     
   </ul>
@@ -181,7 +171,13 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
             
-  <h1>Source code for librosa.core.time_frequency</h1><div class="highlight"><pre>
+  
+
+
+
+
+
+<h1>Source code for librosa.core.time_frequency</h1><div class="highlight"><pre>
 <span></span><span class="ch">#!/usr/bin/env python</span>
 <span class="c1"># -*- coding: utf-8 -*-</span>
 <span class="sd">&#39;&#39;&#39;Time and frequency utilities&#39;&#39;&#39;</span>
@@ -1010,26 +1006,65 @@
 
 
 <div class="viewcode-block" id="mel_frequencies"><a class="viewcode-back" href="../../../generated/librosa.core.mel_frequencies.html#librosa.core.mel_frequencies">[docs]</a><span class="k">def</span> <span class="nf">mel_frequencies</span><span class="p">(</span><span class="n">n_mels</span><span class="o">=</span><span class="mi">128</span><span class="p">,</span> <span class="n">fmin</span><span class="o">=</span><span class="mf">0.0</span><span class="p">,</span> <span class="n">fmax</span><span class="o">=</span><span class="mf">11025.0</span><span class="p">,</span> <span class="n">htk</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;Compute the center frequencies of mel bands.</span>
+    <span class="sd">&quot;&quot;&quot;Compute an array of acoustic frequencies tuned to the mel scale.</span>
+
+<span class="sd">    The mel scale is a quasi-logarithmic function of acoustic frequency</span>
+<span class="sd">    designed such that perceptually similar pitch intervals (e.g. octaves)</span>
+<span class="sd">    appear equal in width over the full hearing range.</span>
+
+<span class="sd">    Because the definition of the mel scale is conditioned by a finite number</span>
+<span class="sd">    of subjective psychoaoustical experiments, several implementations coexist</span>
+<span class="sd">    in the audio signal processing literature [1]_. By default, librosa replicates</span>
+<span class="sd">    the behavior of the well-established MATLAB Auditory Toolbox of Slaney [2]_.</span>
+<span class="sd">    According to this default implementation,  the conversion from Hertz to mel is</span>
+<span class="sd">    linear below 1 kHz and logarithmic above 1 kHz. Another available implementation</span>
+<span class="sd">    replicates the Hidden Markov Toolkit [3]_ (HTK) according to the following formula:</span>
+
+<span class="sd">    `mel = 2595.0 * np.log10(1.0 + f / 700.0).`</span>
+
+<span class="sd">    The choice of implementation is determined by the `htk` keyword argument: setting</span>
+<span class="sd">    `htk=False` leads to the Auditory toolbox implementation, whereas setting it `htk=True`</span>
+<span class="sd">    leads to the HTK implementation.</span>
+
+<span class="sd">    .. [1] Umesh, S., Cohen, L., &amp; Nelson, D. Fitting the mel scale.</span>
+<span class="sd">        In Proc. International Conference on Acoustics, Speech, and Signal Processing</span>
+<span class="sd">        (ICASSP), vol. 1, pp. 217-220, 1998.</span>
+
+<span class="sd">    .. [2] Slaney, M. Auditory Toolbox: A MATLAB Toolbox for Auditory</span>
+<span class="sd">        Modeling Work. Technical Report, version 2, Interval Research Corporation, 1998.</span>
+
+<span class="sd">    .. [3] Young, S., Evermann, G., Gales, M., Hain, T., Kershaw, D., Liu, X.,</span>
+<span class="sd">        Moore, G., Odell, J., Ollason, D., Povey, D., Valtchev, V., &amp; Woodland, P.</span>
+<span class="sd">        The HTK book, version 3.4. Cambridge University, March 2009.</span>
+
+
+<span class="sd">    See Also</span>
+<span class="sd">    --------</span>
+<span class="sd">    hz_to_mel</span>
+<span class="sd">    mel_to_hz</span>
+<span class="sd">    librosa.feature.melspectrogram</span>
+<span class="sd">    librosa.feature.mfcc</span>
+
 
 <span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>
 <span class="sd">    n_mels    : int &gt; 0 [scalar]</span>
-<span class="sd">        number of Mel bins</span>
+<span class="sd">        Number of mel bins.</span>
 
 <span class="sd">    fmin      : float &gt;= 0 [scalar]</span>
-<span class="sd">        minimum frequency (Hz)</span>
+<span class="sd">        Minimum frequency (Hz).</span>
 
 <span class="sd">    fmax      : float &gt;= 0 [scalar]</span>
-<span class="sd">        maximum frequency (Hz)</span>
+<span class="sd">        Maximum frequency (Hz).</span>
 
 <span class="sd">    htk       : bool</span>
-<span class="sd">        use HTK formula instead of Slaney</span>
+<span class="sd">        If True, use HTK formula to convert Hz to mel.</span>
+<span class="sd">        Otherwise (False), use Slaney&#39;s Auditory Toolbox.</span>
 
 <span class="sd">    Returns</span>
 <span class="sd">    -------</span>
 <span class="sd">    bin_frequencies : ndarray [shape=(n_mels,)]</span>
-<span class="sd">        vector of n_mels frequencies in Hz which are uniformly spaced on the Mel</span>
+<span class="sd">        Vector of n_mels frequencies in Hz which are uniformly spaced on the Mel</span>
 <span class="sd">        axis.</span>
 
 <span class="sd">    Examples</span>
@@ -1155,9 +1190,7 @@
 </pre></div>
 
            </div>
-           <div class="articleComments">
-            
-           </div>
+           
           </div>
           <footer>
   
@@ -1170,7 +1203,7 @@
 
     </p>
   </div>
-  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/snide/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
 
 </footer>
 
@@ -1184,7 +1217,7 @@
 <div class="rst-versions" data-toggle="rst-versions" role="note" aria-label="versions">
     <span class="rst-current-version" data-toggle="rst-current-version">
         <span class="fa fa-book"> Other Versions</span>
-        v: master
+        v: 0.6.1rc0
         <span class="fa fa-caret-down"></span>
     </span>
     <div class="rst-other-versions">
@@ -1203,13 +1236,13 @@
             <dd><a href="../../../0.6.0/index.html">0.6.0</a></dd>
             <dd><a href="../../../0.6.0rc0/index.html">0.6.0rc0</a></dd>
             <dd><a href="../../../0.6.0rc1/index.html">0.6.0rc1</a></dd>
+            <dd><a href="../../../0.6.1rc0/_modules/librosa/core/time_frequency.html">0.6.1rc0</a></dd>
             <dd><a href="../../../v0.1.0/index.html">v0.1.0</a></dd>
             <dd><a href="../../../v0.4.0/index.html">v0.4.0</a></dd>
         </dl>
         <dl>
             <dt>Branches</dt>
-            <dd><a href="../../../display-bin-centering/index.html">display-bin-centering</a></dd>
-            <dd><a href="../../../master/_modules/librosa/core/time_frequency.html">master</a></dd>
+            <dd><a href="../../../master/index.html">master</a></dd>
         </dl>
     </div>
 </div>
@@ -1220,7 +1253,8 @@
     <script type="text/javascript">
         var DOCUMENTATION_OPTIONS = {
             URL_ROOT:'../../../',
-            VERSION:'0.6.0',
+            VERSION:'0.6.1rc0',
+            LANGUAGE:'None',
             COLLAPSE_INDEX:false,
             FILE_SUFFIX:'.html',
             HAS_SOURCE:  true,
@@ -1230,7 +1264,7 @@
       <script type="text/javascript" src="../../../_static/jquery.js"></script>
       <script type="text/javascript" src="../../../_static/underscore.js"></script>
       <script type="text/javascript" src="../../../_static/doctools.js"></script>
-      <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.0/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+      <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
 
   
 
@@ -1239,14 +1273,11 @@
     <script type="text/javascript" src="../../../_static/js/theme.js"></script>
   
 
-  
-  
   <script type="text/javascript">
       jQuery(function () {
-          SphinxRtdTheme.StickyNav.enable();
+          SphinxRtdTheme.Navigation.enable(true);
       });
-  </script>
-   
+  </script> 
 
 </body>
 </html>

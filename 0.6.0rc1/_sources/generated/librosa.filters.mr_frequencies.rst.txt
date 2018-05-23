@@ -1,5 +1,5 @@
-librosa\.filters\.mr\_frequencies
-=================================
+librosa.filters.mr\_frequencies
+===============================
 
 .. currentmodule:: librosa.filters
 

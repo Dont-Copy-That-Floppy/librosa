@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>librosa.util.utils &mdash; librosa 0.6.0 documentation</title>
+  <title>librosa.util.utils &mdash; librosa 0.6.1rc0 documentation</title>
   
 
   
@@ -25,29 +25,19 @@
   
 
   
-  
     <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
-  
-
-  
-    <link rel="stylesheet" href="../../../_static/gallery.css" type="text/css" />
-  
-    <link rel="stylesheet" href="../../../_static/banner.css" type="text/css" />
-  
-
-  
-        <link rel="index" title="Index"
-              href="../../../genindex.html"/>
-        <link rel="search" title="Search" href="../../../search.html"/>
-    <link rel="top" title="librosa 0.6.0 documentation" href="../../../index.html"/>
-        <link rel="up" title="Module code" href="../../index.html"/> 
+  <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="../../../_static/gallery.css" type="text/css" />
+  <link rel="stylesheet" href="../../../_static/banner.css" type="text/css" />
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" /> 
 
   
   <script src="../../../_static/js/modernizr.min.js"></script>
 
 </head>
 
-<body class="wy-body-for-nav" role="document">
+<body class="wy-body-for-nav">
 
    
   <div class="wy-grid-for-nav">
@@ -107,6 +97,7 @@
 <li class="toctree-l1"><a class="reference internal" href="../../../effects.html">Effects</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../output.html">Output</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../segment.html">Temporal segmentation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../sequence.html">Sequential modeling</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../util.html">Utilities</a></li>
 </ul>
 <ul>
@@ -129,7 +120,7 @@
     <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
 
       
-      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+      <nav class="wy-nav-top" aria-label="top navigation">
         
           <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
           <a href="../../../index.html">librosa</a>
@@ -137,9 +128,10 @@
       </nav>
 
 
-      
       <div class="wy-nav-content">
+        
         <div class="rst-content">
+        
           
 
 
@@ -169,8 +161,6 @@
     
       <li class="wy-breadcrumbs-aside">
         
-            
-        
       </li>
     
   </ul>
@@ -181,7 +171,13 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
             
-  <h1>Source code for librosa.util.utils</h1><div class="highlight"><pre>
+  
+
+
+
+
+
+<h1>Source code for librosa.util.utils</h1><div class="highlight"><pre>
 <span></span><span class="ch">#!/usr/bin/env python</span>
 <span class="c1"># -*- coding: utf-8 -*-</span>
 <span class="sd">&quot;&quot;&quot;Utility functions&quot;&quot;&quot;</span>
@@ -204,10 +200,10 @@
            <span class="s1">&#39;valid_audio&#39;</span><span class="p">,</span> <span class="s1">&#39;valid_int&#39;</span><span class="p">,</span> <span class="s1">&#39;valid_intervals&#39;</span><span class="p">,</span>
            <span class="s1">&#39;fix_frames&#39;</span><span class="p">,</span>
            <span class="s1">&#39;axis_sort&#39;</span><span class="p">,</span> <span class="s1">&#39;localmax&#39;</span><span class="p">,</span> <span class="s1">&#39;normalize&#39;</span><span class="p">,</span>
-           <span class="s1">&#39;match_intervals&#39;</span><span class="p">,</span> <span class="s1">&#39;match_events&#39;</span><span class="p">,</span>
            <span class="s1">&#39;peak_pick&#39;</span><span class="p">,</span>
            <span class="s1">&#39;sparsify_rows&#39;</span><span class="p">,</span>
            <span class="s1">&#39;roll_sparse&#39;</span><span class="p">,</span>
+           <span class="s1">&#39;fill_off_diagonal&#39;</span><span class="p">,</span>
            <span class="s1">&#39;index_to_slice&#39;</span><span class="p">,</span>
            <span class="s1">&#39;sync&#39;</span><span class="p">,</span>
            <span class="s1">&#39;softmask&#39;</span><span class="p">,</span>
@@ -215,7 +211,7 @@
            <span class="s1">&#39;tiny&#39;</span><span class="p">]</span>
 
 
-<div class="viewcode-block" id="frame"><a class="viewcode-back" href="../../../generated/librosa.util.frame.html#librosa.util.frame">[docs]</a><span class="k">def</span> <span class="nf">frame</span><span class="p">(</span><span class="n">y</span><span class="p">,</span> <span class="n">frame_length</span><span class="o">=</span><span class="mi">2048</span><span class="p">,</span> <span class="n">hop_length</span><span class="o">=</span><span class="mi">512</span><span class="p">):</span>
+<div class="viewcode-block" id="frame"><a class="viewcode-back" href="../../../generated/librosa.util.frame.html#librosa.core.frame">[docs]</a><span class="k">def</span> <span class="nf">frame</span><span class="p">(</span><span class="n">y</span><span class="p">,</span> <span class="n">frame_length</span><span class="o">=</span><span class="mi">2048</span><span class="p">,</span> <span class="n">hop_length</span><span class="o">=</span><span class="mi">512</span><span class="p">):</span>
     <span class="sd">&#39;&#39;&#39;Slice a time series into overlapping frames.</span>
 
 <span class="sd">    This implementation uses low-level stride manipulation to avoid</span>
@@ -291,8 +287,8 @@
     <span class="k">return</span> <span class="n">y_frames</span></div>
 
 
-<span class="nd">@cache</span><span class="p">(</span><span class="n">level</span><span class="o">=</span><span class="mi">20</span><span class="p">)</span>
-<div class="viewcode-block" id="valid_audio"><a class="viewcode-back" href="../../../generated/librosa.util.valid_audio.html#librosa.util.valid_audio">[docs]</a><span class="k">def</span> <span class="nf">valid_audio</span><span class="p">(</span><span class="n">y</span><span class="p">,</span> <span class="n">mono</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
+<div class="viewcode-block" id="valid_audio"><a class="viewcode-back" href="../../../generated/librosa.util.valid_audio.html#librosa.core.valid_audio">[docs]</a><span class="nd">@cache</span><span class="p">(</span><span class="n">level</span><span class="o">=</span><span class="mi">20</span><span class="p">)</span>
+<span class="k">def</span> <span class="nf">valid_audio</span><span class="p">(</span><span class="n">y</span><span class="p">,</span> <span class="n">mono</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
     <span class="sd">&#39;&#39;&#39;Validate whether a variable contains valid, mono audio data.</span>
 
 
@@ -356,7 +352,7 @@
     <span class="k">return</span> <span class="kc">True</span></div>
 
 
-<div class="viewcode-block" id="valid_int"><a class="viewcode-back" href="../../../generated/librosa.util.valid_int.html#librosa.util.valid_int">[docs]</a><span class="k">def</span> <span class="nf">valid_int</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">cast</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+<div class="viewcode-block" id="valid_int"><a class="viewcode-back" href="../../../generated/librosa.util.valid_int.html#librosa.core.valid_int">[docs]</a><span class="k">def</span> <span class="nf">valid_int</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">cast</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
     <span class="sd">&#39;&#39;&#39;Ensure that an input value is integer-typed.</span>
 <span class="sd">    This is primarily useful for ensuring integrable-valued</span>
 <span class="sd">    array indices.</span>
@@ -390,11 +386,12 @@
     <span class="k">return</span> <span class="nb">int</span><span class="p">(</span><span class="n">cast</span><span class="p">(</span><span class="n">x</span><span class="p">))</span></div>
 
 
-<div class="viewcode-block" id="valid_intervals"><a class="viewcode-back" href="../../../generated/librosa.util.valid_intervals.html#librosa.util.valid_intervals">[docs]</a><span class="k">def</span> <span class="nf">valid_intervals</span><span class="p">(</span><span class="n">intervals</span><span class="p">):</span>
+<div class="viewcode-block" id="valid_intervals"><a class="viewcode-back" href="../../../generated/librosa.util.valid_intervals.html#librosa.core.valid_intervals">[docs]</a><span class="k">def</span> <span class="nf">valid_intervals</span><span class="p">(</span><span class="n">intervals</span><span class="p">):</span>
     <span class="sd">&#39;&#39;&#39;Ensure that an array is a valid representation of time intervals:</span>
 
 <span class="sd">        - intervals.ndim == 2</span>
 <span class="sd">        - intervals.shape[1] == 2</span>
+<span class="sd">        - intervals[i, 0] &lt;= intervals[i, 1] for all i</span>
 
 <span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>
@@ -410,10 +407,13 @@
     <span class="k">if</span> <span class="n">intervals</span><span class="o">.</span><span class="n">ndim</span> <span class="o">!=</span> <span class="mi">2</span> <span class="ow">or</span> <span class="n">intervals</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="o">!=</span> <span class="mi">2</span><span class="p">:</span>
         <span class="k">raise</span> <span class="n">ParameterError</span><span class="p">(</span><span class="s1">&#39;intervals must have shape (n, 2)&#39;</span><span class="p">)</span>
 
+    <span class="k">if</span> <span class="n">np</span><span class="o">.</span><span class="n">any</span><span class="p">(</span><span class="n">intervals</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">]</span> <span class="o">&gt;</span> <span class="n">intervals</span><span class="p">[:,</span> <span class="mi">1</span><span class="p">]):</span>
+        <span class="k">raise</span> <span class="n">ParameterError</span><span class="p">(</span><span class="s1">&#39;intervals=</span><span class="si">{}</span><span class="s1"> must have non-negative durations&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">intervals</span><span class="p">))</span>
+
     <span class="k">return</span> <span class="kc">True</span></div>
 
 
-<div class="viewcode-block" id="pad_center"><a class="viewcode-back" href="../../../generated/librosa.util.pad_center.html#librosa.util.pad_center">[docs]</a><span class="k">def</span> <span class="nf">pad_center</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">size</span><span class="p">,</span> <span class="n">axis</span><span class="o">=-</span><span class="mi">1</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+<div class="viewcode-block" id="pad_center"><a class="viewcode-back" href="../../../generated/librosa.util.pad_center.html#librosa.core.pad_center">[docs]</a><span class="k">def</span> <span class="nf">pad_center</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">size</span><span class="p">,</span> <span class="n">axis</span><span class="o">=-</span><span class="mi">1</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
     <span class="sd">&#39;&#39;&#39;Wrapper for np.pad to automatically center an array prior to padding.</span>
 <span class="sd">    This is analogous to `str.center()`</span>
 
@@ -486,7 +486,7 @@
     <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">pad</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">lengths</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span></div>
 
 
-<div class="viewcode-block" id="fix_length"><a class="viewcode-back" href="../../../generated/librosa.util.fix_length.html#librosa.util.fix_length">[docs]</a><span class="k">def</span> <span class="nf">fix_length</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">size</span><span class="p">,</span> <span class="n">axis</span><span class="o">=-</span><span class="mi">1</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+<div class="viewcode-block" id="fix_length"><a class="viewcode-back" href="../../../generated/librosa.util.fix_length.html#librosa.core.fix_length">[docs]</a><span class="k">def</span> <span class="nf">fix_length</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">size</span><span class="p">,</span> <span class="n">axis</span><span class="o">=-</span><span class="mi">1</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
     <span class="sd">&#39;&#39;&#39;Fix the length an array `data` to exactly `size`.</span>
 
 <span class="sd">    If `data.shape[axis] &lt; n`, pad according to the provided kwargs.</span>
@@ -547,7 +547,7 @@
     <span class="k">return</span> <span class="n">data</span></div>
 
 
-<div class="viewcode-block" id="fix_frames"><a class="viewcode-back" href="../../../generated/librosa.util.fix_frames.html#librosa.util.fix_frames">[docs]</a><span class="k">def</span> <span class="nf">fix_frames</span><span class="p">(</span><span class="n">frames</span><span class="p">,</span> <span class="n">x_min</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">x_max</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">pad</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
+<div class="viewcode-block" id="fix_frames"><a class="viewcode-back" href="../../../generated/librosa.util.fix_frames.html#librosa.core.fix_frames">[docs]</a><span class="k">def</span> <span class="nf">fix_frames</span><span class="p">(</span><span class="n">frames</span><span class="p">,</span> <span class="n">x_min</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">x_max</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">pad</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
     <span class="sd">&#39;&#39;&#39;Fix a list of frames to lie within [x_min, x_max]</span>
 
 <span class="sd">    Examples</span>
@@ -632,7 +632,7 @@
     <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">unique</span><span class="p">(</span><span class="n">frames</span><span class="p">)</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="nb">int</span><span class="p">)</span></div>
 
 
-<div class="viewcode-block" id="axis_sort"><a class="viewcode-back" href="../../../generated/librosa.util.axis_sort.html#librosa.util.axis_sort">[docs]</a><span class="k">def</span> <span class="nf">axis_sort</span><span class="p">(</span><span class="n">S</span><span class="p">,</span> <span class="n">axis</span><span class="o">=-</span><span class="mi">1</span><span class="p">,</span> <span class="n">index</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">value</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+<div class="viewcode-block" id="axis_sort"><a class="viewcode-back" href="../../../generated/librosa.util.axis_sort.html#librosa.core.axis_sort">[docs]</a><span class="k">def</span> <span class="nf">axis_sort</span><span class="p">(</span><span class="n">S</span><span class="p">,</span> <span class="n">axis</span><span class="o">=-</span><span class="mi">1</span><span class="p">,</span> <span class="n">index</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">value</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
     <span class="sd">&#39;&#39;&#39;Sort an array along its rows or columns.</span>
 
 <span class="sd">    Examples</span>
@@ -729,8 +729,8 @@
         <span class="k">return</span> <span class="n">S</span><span class="p">[</span><span class="n">sort_slice</span><span class="p">]</span></div>
 
 
-<span class="nd">@cache</span><span class="p">(</span><span class="n">level</span><span class="o">=</span><span class="mi">40</span><span class="p">)</span>
-<div class="viewcode-block" id="normalize"><a class="viewcode-back" href="../../../generated/librosa.util.normalize.html#librosa.util.normalize">[docs]</a><span class="k">def</span> <span class="nf">normalize</span><span class="p">(</span><span class="n">S</span><span class="p">,</span> <span class="n">norm</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">inf</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">threshold</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">fill</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+<div class="viewcode-block" id="normalize"><a class="viewcode-back" href="../../../generated/librosa.util.normalize.html#librosa.core.normalize">[docs]</a><span class="nd">@cache</span><span class="p">(</span><span class="n">level</span><span class="o">=</span><span class="mi">40</span><span class="p">)</span>
+<span class="k">def</span> <span class="nf">normalize</span><span class="p">(</span><span class="n">S</span><span class="p">,</span> <span class="n">norm</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">inf</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">threshold</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">fill</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
     <span class="sd">&#39;&#39;&#39;Normalize an array along a chosen axis.</span>
 
 <span class="sd">    Given a norm (described below) and a target axis, the input</span>
@@ -957,190 +957,7 @@
     <span class="k">return</span> <span class="n">Snorm</span></div>
 
 
-<div class="viewcode-block" id="match_intervals"><a class="viewcode-back" href="../../../generated/librosa.util.match_intervals.html#librosa.util.match_intervals">[docs]</a><span class="k">def</span> <span class="nf">match_intervals</span><span class="p">(</span><span class="n">intervals_from</span><span class="p">,</span> <span class="n">intervals_to</span><span class="p">):</span>
-    <span class="sd">&#39;&#39;&#39;Match one set of time intervals to another.</span>
-
-<span class="sd">    This can be useful for tasks such as mapping beat timings</span>
-<span class="sd">    to segments.</span>
-
-<span class="sd">    .. note:: A target interval may be matched to multiple source</span>
-<span class="sd">      intervals.</span>
-
-<span class="sd">    Parameters</span>
-<span class="sd">    ----------</span>
-<span class="sd">    intervals_from : np.ndarray [shape=(n, 2)]</span>
-<span class="sd">        The time range for source intervals.</span>
-<span class="sd">        The `i` th interval spans time `intervals_from[i, 0]`</span>
-<span class="sd">        to `intervals_from[i, 1]`.</span>
-<span class="sd">        `intervals_from[0, 0]` should be 0, `intervals_from[-1, 1]`</span>
-<span class="sd">        should be the track duration.</span>
-
-<span class="sd">    intervals_to : np.ndarray [shape=(m, 2)]</span>
-<span class="sd">        Analogous to `intervals_from`.</span>
-
-<span class="sd">    Returns</span>
-<span class="sd">    -------</span>
-<span class="sd">    interval_mapping : np.ndarray [shape=(n,)]</span>
-<span class="sd">        For each interval in `intervals_from`, the</span>
-<span class="sd">        corresponding interval in `intervals_to`.</span>
-
-<span class="sd">    See Also</span>
-<span class="sd">    --------</span>
-<span class="sd">    match_events</span>
-
-<span class="sd">    Raises</span>
-<span class="sd">    ------</span>
-<span class="sd">    ParameterError</span>
-<span class="sd">        If either array of input intervals is not the correct shape</span>
-<span class="sd">    &#39;&#39;&#39;</span>
-
-    <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">intervals_from</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span> <span class="ow">or</span> <span class="nb">len</span><span class="p">(</span><span class="n">intervals_to</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
-        <span class="k">raise</span> <span class="n">ParameterError</span><span class="p">(</span><span class="s1">&#39;Attempting to match empty interval list&#39;</span><span class="p">)</span>
-
-    <span class="c1"># Verify that the input intervals has correct shape and size</span>
-    <span class="n">valid_intervals</span><span class="p">(</span><span class="n">intervals_from</span><span class="p">)</span>
-    <span class="n">valid_intervals</span><span class="p">(</span><span class="n">intervals_to</span><span class="p">)</span>
-
-    <span class="c1"># The overlap score of a beat with a segment is defined as</span>
-    <span class="c1">#   max(0, min(beat_end, segment_end) - max(beat_start, segment_start))</span>
-    <span class="n">output</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">empty</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">intervals_from</span><span class="p">),</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">int</span><span class="p">)</span>
-
-    <span class="n">n_rows</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">MAX_MEM_BLOCK</span> <span class="o">/</span> <span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">intervals_to</span><span class="p">)</span> <span class="o">*</span> <span class="n">intervals_to</span><span class="o">.</span><span class="n">itemsize</span><span class="p">))</span>
-    <span class="n">n_rows</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">n_rows</span><span class="p">)</span>
-
-    <span class="k">for</span> <span class="n">bl_s</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">intervals_from</span><span class="p">),</span> <span class="n">n_rows</span><span class="p">):</span>
-        <span class="n">bl_t</span> <span class="o">=</span> <span class="nb">min</span><span class="p">(</span><span class="n">bl_s</span> <span class="o">+</span> <span class="n">n_rows</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">intervals_from</span><span class="p">))</span>
-        <span class="n">tmp_from</span> <span class="o">=</span> <span class="n">intervals_from</span><span class="p">[</span><span class="n">bl_s</span><span class="p">:</span><span class="n">bl_t</span><span class="p">]</span>
-
-        <span class="n">starts</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">maximum</span><span class="o">.</span><span class="n">outer</span><span class="p">(</span><span class="n">tmp_from</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">],</span> <span class="n">intervals_to</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">])</span>
-        <span class="n">ends</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">minimum</span><span class="o">.</span><span class="n">outer</span><span class="p">(</span><span class="n">tmp_from</span><span class="p">[:,</span> <span class="mi">1</span><span class="p">],</span> <span class="n">intervals_to</span><span class="p">[:,</span> <span class="mi">1</span><span class="p">])</span>
-        <span class="n">score</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">maximum</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">ends</span> <span class="o">-</span> <span class="n">starts</span><span class="p">)</span>
-
-        <span class="n">output</span><span class="p">[</span><span class="n">bl_s</span><span class="p">:</span><span class="n">bl_t</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">argmax</span><span class="p">(</span><span class="n">score</span><span class="p">,</span> <span class="n">axis</span><span class="o">=-</span><span class="mi">1</span><span class="p">)</span>
-
-    <span class="k">return</span> <span class="n">output</span></div>
-
-
-<div class="viewcode-block" id="match_events"><a class="viewcode-back" href="../../../generated/librosa.util.match_events.html#librosa.util.match_events">[docs]</a><span class="k">def</span> <span class="nf">match_events</span><span class="p">(</span><span class="n">events_from</span><span class="p">,</span> <span class="n">events_to</span><span class="p">,</span> <span class="n">left</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">right</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
-    <span class="sd">&#39;&#39;&#39;Match one set of events to another.</span>
-
-<span class="sd">    This is useful for tasks such as matching beats to the nearest</span>
-<span class="sd">    detected onsets, or frame-aligned events to the nearest zero-crossing.</span>
-
-<span class="sd">    .. note:: A target event may be matched to multiple source events.</span>
-
-<span class="sd">    Examples</span>
-<span class="sd">    --------</span>
-<span class="sd">    &gt;&gt;&gt; # Sources are multiples of 7</span>
-<span class="sd">    &gt;&gt;&gt; s_from = np.arange(0, 100, 7)</span>
-<span class="sd">    &gt;&gt;&gt; s_from</span>
-<span class="sd">    array([ 0,  7, 14, 21, 28, 35, 42, 49, 56, 63, 70, 77, 84, 91,</span>
-<span class="sd">           98])</span>
-<span class="sd">    &gt;&gt;&gt; # Targets are multiples of 10</span>
-<span class="sd">    &gt;&gt;&gt; s_to = np.arange(0, 100, 10)</span>
-<span class="sd">    &gt;&gt;&gt; s_to</span>
-<span class="sd">    array([ 0, 10, 20, 30, 40, 50, 60, 70, 80, 90])</span>
-<span class="sd">    &gt;&gt;&gt; # Find the matching</span>
-<span class="sd">    &gt;&gt;&gt; idx = librosa.util.match_events(s_from, s_to)</span>
-<span class="sd">    &gt;&gt;&gt; idx</span>
-<span class="sd">    array([0, 1, 1, 2, 3, 3, 4, 5, 6, 6, 7, 8, 8, 9, 9])</span>
-<span class="sd">    &gt;&gt;&gt; # Print each source value to its matching target</span>
-<span class="sd">    &gt;&gt;&gt; zip(s_from, s_to[idx])</span>
-<span class="sd">    [(0, 0), (7, 10), (14, 10), (21, 20), (28, 30), (35, 30),</span>
-<span class="sd">     (42, 40), (49, 50), (56, 60), (63, 60), (70, 70), (77, 80),</span>
-<span class="sd">     (84, 80), (91, 90), (98, 90)]</span>
-
-<span class="sd">    Parameters</span>
-<span class="sd">    ----------</span>
-<span class="sd">    events_from : ndarray [shape=(n,)]</span>
-<span class="sd">      Array of events (eg, times, sample or frame indices) to match from.</span>
-
-<span class="sd">    events_to : ndarray [shape=(m,)]</span>
-<span class="sd">      Array of events (eg, times, sample or frame indices) to</span>
-<span class="sd">      match against.</span>
-
-<span class="sd">    left : bool</span>
-<span class="sd">    right : bool</span>
-<span class="sd">        If `False`, then matched events cannot be to the left (or right)</span>
-<span class="sd">        of source events.</span>
-
-<span class="sd">    Returns</span>
-<span class="sd">    -------</span>
-<span class="sd">    event_mapping : np.ndarray [shape=(n,)]</span>
-<span class="sd">        For each event in `events_from`, the corresponding event</span>
-<span class="sd">        index in `events_to`.</span>
-
-<span class="sd">        `event_mapping[i] == arg min |events_from[i] - events_to[:]|`</span>
-
-<span class="sd">    See Also</span>
-<span class="sd">    --------</span>
-<span class="sd">    match_intervals</span>
-
-<span class="sd">    Raises</span>
-<span class="sd">    ------</span>
-<span class="sd">    ParameterError</span>
-<span class="sd">        If either array of input events is not the correct shape</span>
-<span class="sd">    &#39;&#39;&#39;</span>
-
-    <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">events_from</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span> <span class="ow">or</span> <span class="nb">len</span><span class="p">(</span><span class="n">events_to</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
-        <span class="k">raise</span> <span class="n">ParameterError</span><span class="p">(</span><span class="s1">&#39;Attempting to match empty event list&#39;</span><span class="p">)</span>
-
-    <span class="c1"># If we can&#39;t match left or right, then only strict equivalence</span>
-    <span class="c1"># counts as a match.</span>
-    <span class="k">if</span> <span class="ow">not</span> <span class="p">(</span><span class="n">left</span> <span class="ow">or</span> <span class="n">right</span><span class="p">)</span> <span class="ow">and</span> <span class="ow">not</span> <span class="n">np</span><span class="o">.</span><span class="n">all</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">in1d</span><span class="p">(</span><span class="n">events_from</span><span class="p">,</span> <span class="n">events_to</span><span class="p">)):</span>
-            <span class="k">raise</span> <span class="n">ParameterError</span><span class="p">(</span><span class="s1">&#39;Cannot match events with left=right=False &#39;</span>
-                                 <span class="s1">&#39;and events_from is not contained &#39;</span>
-                                 <span class="s1">&#39;in events_to&#39;</span><span class="p">)</span>
-
-    <span class="c1"># If we can&#39;t match to the left, then there should be at least one</span>
-    <span class="c1"># target event greater-equal to every source event</span>
-    <span class="k">if</span> <span class="p">(</span><span class="ow">not</span> <span class="n">left</span><span class="p">)</span> <span class="ow">and</span> <span class="nb">max</span><span class="p">(</span><span class="n">events_to</span><span class="p">)</span> <span class="o">&lt;</span> <span class="nb">max</span><span class="p">(</span><span class="n">events_from</span><span class="p">):</span>
-        <span class="k">raise</span> <span class="n">ParameterError</span><span class="p">(</span><span class="s1">&#39;Cannot match events with left=False &#39;</span>
-                             <span class="s1">&#39;and max(events_to) &lt; max(events_from)&#39;</span><span class="p">)</span>
-
-    <span class="c1"># If we can&#39;t match to the right, then there should be at least one</span>
-    <span class="c1"># target event less-equal to every source event</span>
-    <span class="k">if</span> <span class="p">(</span><span class="ow">not</span> <span class="n">right</span><span class="p">)</span> <span class="ow">and</span> <span class="nb">min</span><span class="p">(</span><span class="n">events_to</span><span class="p">)</span> <span class="o">&gt;</span> <span class="nb">min</span><span class="p">(</span><span class="n">events_from</span><span class="p">):</span>
-        <span class="k">raise</span> <span class="n">ParameterError</span><span class="p">(</span><span class="s1">&#39;Cannot match events with right=False &#39;</span>
-                             <span class="s1">&#39;and min(events_to) &gt; min(events_from)&#39;</span><span class="p">)</span>
-
-    <span class="c1"># Pre-allocate the output array</span>
-    <span class="n">output</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">empty_like</span><span class="p">(</span><span class="n">events_from</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">int</span><span class="p">)</span>
-
-    <span class="c1"># Compute how many rows we can process at once within the memory block</span>
-    <span class="n">n_rows</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">MAX_MEM_BLOCK</span> <span class="o">/</span> <span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">prod</span><span class="p">(</span><span class="n">output</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">:])</span> <span class="o">*</span> <span class="nb">len</span><span class="p">(</span><span class="n">events_to</span><span class="p">)</span>
-                                  <span class="o">*</span> <span class="n">events_from</span><span class="o">.</span><span class="n">itemsize</span><span class="p">))</span>
-
-    <span class="c1"># Make sure we can at least make some progress</span>
-    <span class="n">n_rows</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">n_rows</span><span class="p">)</span>
-
-    <span class="c1"># Iterate over blocks of the data</span>
-    <span class="k">for</span> <span class="n">bl_s</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">events_from</span><span class="p">),</span> <span class="n">n_rows</span><span class="p">):</span>
-        <span class="n">bl_t</span> <span class="o">=</span> <span class="nb">min</span><span class="p">(</span><span class="n">bl_s</span> <span class="o">+</span> <span class="n">n_rows</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">events_from</span><span class="p">))</span>
-
-        <span class="n">event_block</span> <span class="o">=</span> <span class="n">events_from</span><span class="p">[</span><span class="n">bl_s</span><span class="p">:</span><span class="n">bl_t</span><span class="p">]</span>
-
-        <span class="c1"># distance[i, j] = |events_from - events_to[j]|</span>
-        <span class="n">distance</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">subtract</span><span class="o">.</span><span class="n">outer</span><span class="p">(</span><span class="n">event_block</span><span class="p">,</span>
-                                            <span class="n">events_to</span><span class="p">))</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">float</span><span class="p">)</span>
-
-        <span class="c1"># If we can&#39;t match to the right, squash all comparisons where</span>
-        <span class="c1"># events_to[j] &gt; events_from[i]</span>
-        <span class="k">if</span> <span class="ow">not</span> <span class="n">right</span><span class="p">:</span>
-            <span class="n">distance</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">less</span><span class="o">.</span><span class="n">outer</span><span class="p">(</span><span class="n">event_block</span><span class="p">,</span> <span class="n">events_to</span><span class="p">)]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">nan</span>
-
-        <span class="c1"># If we can&#39;t match to the left, squash all comparisons where</span>
-        <span class="c1"># events_to[j] &lt; events_from[i]</span>
-        <span class="k">if</span> <span class="ow">not</span> <span class="n">left</span><span class="p">:</span>
-            <span class="n">distance</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">greater</span><span class="o">.</span><span class="n">outer</span><span class="p">(</span><span class="n">event_block</span><span class="p">,</span> <span class="n">events_to</span><span class="p">)]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">nan</span>
-
-        <span class="c1"># Find the minimum distance point from whatever&#39;s left after squashing</span>
-        <span class="n">output</span><span class="p">[</span><span class="n">bl_s</span><span class="p">:</span><span class="n">bl_t</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">nanargmin</span><span class="p">(</span><span class="n">distance</span><span class="p">,</span> <span class="n">axis</span><span class="o">=-</span><span class="mi">1</span><span class="p">)</span>
-
-    <span class="k">return</span> <span class="n">output</span></div>
-
-
-<div class="viewcode-block" id="localmax"><a class="viewcode-back" href="../../../generated/librosa.util.localmax.html#librosa.util.localmax">[docs]</a><span class="k">def</span> <span class="nf">localmax</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">):</span>
+<div class="viewcode-block" id="localmax"><a class="viewcode-back" href="../../../generated/librosa.util.localmax.html#librosa.core.localmax">[docs]</a><span class="k">def</span> <span class="nf">localmax</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;Find local maxima in an array `x`.</span>
 
 <span class="sd">    Examples</span>
@@ -1189,7 +1006,7 @@
     <span class="k">return</span> <span class="p">(</span><span class="n">x</span> <span class="o">&gt;</span> <span class="n">x_pad</span><span class="p">[</span><span class="n">inds1</span><span class="p">])</span> <span class="o">&amp;</span> <span class="p">(</span><span class="n">x</span> <span class="o">&gt;=</span> <span class="n">x_pad</span><span class="p">[</span><span class="n">inds2</span><span class="p">])</span></div>
 
 
-<div class="viewcode-block" id="peak_pick"><a class="viewcode-back" href="../../../generated/librosa.util.peak_pick.html#librosa.util.peak_pick">[docs]</a><span class="k">def</span> <span class="nf">peak_pick</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">pre_max</span><span class="p">,</span> <span class="n">post_max</span><span class="p">,</span> <span class="n">pre_avg</span><span class="p">,</span> <span class="n">post_avg</span><span class="p">,</span> <span class="n">delta</span><span class="p">,</span> <span class="n">wait</span><span class="p">):</span>
+<div class="viewcode-block" id="peak_pick"><a class="viewcode-back" href="../../../generated/librosa.util.peak_pick.html#librosa.core.peak_pick">[docs]</a><span class="k">def</span> <span class="nf">peak_pick</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">pre_max</span><span class="p">,</span> <span class="n">post_max</span><span class="p">,</span> <span class="n">pre_avg</span><span class="p">,</span> <span class="n">post_avg</span><span class="p">,</span> <span class="n">delta</span><span class="p">,</span> <span class="n">wait</span><span class="p">):</span>
     <span class="sd">&#39;&#39;&#39;Uses a flexible heuristic to pick peaks in a signal.</span>
 
 <span class="sd">    A sample n is selected as an peak if the corresponding x[n]</span>
@@ -1359,8 +1176,8 @@
     <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">peaks</span><span class="p">)</span></div>
 
 
-<span class="nd">@cache</span><span class="p">(</span><span class="n">level</span><span class="o">=</span><span class="mi">40</span><span class="p">)</span>
-<div class="viewcode-block" id="sparsify_rows"><a class="viewcode-back" href="../../../generated/librosa.util.sparsify_rows.html#librosa.util.sparsify_rows">[docs]</a><span class="k">def</span> <span class="nf">sparsify_rows</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">quantile</span><span class="o">=</span><span class="mf">0.01</span><span class="p">):</span>
+<div class="viewcode-block" id="sparsify_rows"><a class="viewcode-back" href="../../../generated/librosa.util.sparsify_rows.html#librosa.core.sparsify_rows">[docs]</a><span class="nd">@cache</span><span class="p">(</span><span class="n">level</span><span class="o">=</span><span class="mi">40</span><span class="p">)</span>
+<span class="k">def</span> <span class="nf">sparsify_rows</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">quantile</span><span class="o">=</span><span class="mf">0.01</span><span class="p">):</span>
     <span class="sd">&#39;&#39;&#39;</span>
 <span class="sd">    Return a row-sparse matrix approximating the input `x`.</span>
 
@@ -1452,7 +1269,7 @@
     <span class="k">return</span> <span class="n">x_sparse</span><span class="o">.</span><span class="n">tocsr</span><span class="p">()</span></div>
 
 
-<div class="viewcode-block" id="roll_sparse"><a class="viewcode-back" href="../../../generated/librosa.util.roll_sparse.html#librosa.util.roll_sparse">[docs]</a><span class="k">def</span> <span class="nf">roll_sparse</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">shift</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">):</span>
+<div class="viewcode-block" id="roll_sparse"><a class="viewcode-back" href="../../../generated/librosa.util.roll_sparse.html#librosa.core.roll_sparse">[docs]</a><span class="k">def</span> <span class="nf">roll_sparse</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">shift</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">):</span>
     <span class="sd">&#39;&#39;&#39;Sparse matrix roll</span>
 
 <span class="sd">    This operation is equivalent to ``numpy.roll``, but operates on sparse matrices.</span>
@@ -1521,7 +1338,7 @@
     <span class="k">return</span> <span class="n">x_r</span><span class="o">.</span><span class="n">asformat</span><span class="p">(</span><span class="n">fmt</span><span class="p">)</span></div>
 
 
-<div class="viewcode-block" id="buf_to_float"><a class="viewcode-back" href="../../../generated/librosa.util.buf_to_float.html#librosa.util.buf_to_float">[docs]</a><span class="k">def</span> <span class="nf">buf_to_float</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">n_bytes</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">float32</span><span class="p">):</span>
+<div class="viewcode-block" id="buf_to_float"><a class="viewcode-back" href="../../../generated/librosa.util.buf_to_float.html#librosa.core.buf_to_float">[docs]</a><span class="k">def</span> <span class="nf">buf_to_float</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">n_bytes</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">float32</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;Convert an integer buffer to floating point values.</span>
 <span class="sd">    This is primarily useful when loading integer-valued wav data</span>
 <span class="sd">    into numpy arrays.</span>
@@ -1557,7 +1374,7 @@
     <span class="k">return</span> <span class="n">scale</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">frombuffer</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">fmt</span><span class="p">)</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="n">dtype</span><span class="p">)</span></div>
 
 
-<div class="viewcode-block" id="index_to_slice"><a class="viewcode-back" href="../../../generated/librosa.util.index_to_slice.html#librosa.util.index_to_slice">[docs]</a><span class="k">def</span> <span class="nf">index_to_slice</span><span class="p">(</span><span class="n">idx</span><span class="p">,</span> <span class="n">idx_min</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">idx_max</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">step</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">pad</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
+<div class="viewcode-block" id="index_to_slice"><a class="viewcode-back" href="../../../generated/librosa.util.index_to_slice.html#librosa.core.index_to_slice">[docs]</a><span class="k">def</span> <span class="nf">index_to_slice</span><span class="p">(</span><span class="n">idx</span><span class="p">,</span> <span class="n">idx_min</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">idx_max</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">step</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">pad</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
     <span class="sd">&#39;&#39;&#39;Generate a slice array from an index array.</span>
 
 <span class="sd">    Parameters</span>
@@ -1613,8 +1430,8 @@
     <span class="k">return</span> <span class="p">[</span><span class="nb">slice</span><span class="p">(</span><span class="n">start</span><span class="p">,</span> <span class="n">end</span><span class="p">,</span> <span class="n">step</span><span class="p">)</span> <span class="k">for</span> <span class="p">(</span><span class="n">start</span><span class="p">,</span> <span class="n">end</span><span class="p">)</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">idx_fixed</span><span class="p">,</span> <span class="n">idx_fixed</span><span class="p">[</span><span class="mi">1</span><span class="p">:])]</span></div>
 
 
-<span class="nd">@cache</span><span class="p">(</span><span class="n">level</span><span class="o">=</span><span class="mi">40</span><span class="p">)</span>
-<div class="viewcode-block" id="sync"><a class="viewcode-back" href="../../../generated/librosa.util.sync.html#librosa.util.sync">[docs]</a><span class="k">def</span> <span class="nf">sync</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">idx</span><span class="p">,</span> <span class="n">aggregate</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">pad</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">axis</span><span class="o">=-</span><span class="mi">1</span><span class="p">):</span>
+<div class="viewcode-block" id="sync"><a class="viewcode-back" href="../../../generated/librosa.util.sync.html#librosa.core.sync">[docs]</a><span class="nd">@cache</span><span class="p">(</span><span class="n">level</span><span class="o">=</span><span class="mi">40</span><span class="p">)</span>
+<span class="k">def</span> <span class="nf">sync</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">idx</span><span class="p">,</span> <span class="n">aggregate</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">pad</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">axis</span><span class="o">=-</span><span class="mi">1</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;Synchronous aggregation of a multi-dimensional array between boundaries</span>
 
 <span class="sd">    .. note::</span>
@@ -1742,7 +1559,7 @@
     <span class="k">return</span> <span class="n">data_agg</span></div>
 
 
-<div class="viewcode-block" id="softmask"><a class="viewcode-back" href="../../../generated/librosa.util.softmask.html#librosa.util.softmask">[docs]</a><span class="k">def</span> <span class="nf">softmask</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">X_ref</span><span class="p">,</span> <span class="n">power</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">split_zeros</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+<div class="viewcode-block" id="softmask"><a class="viewcode-back" href="../../../generated/librosa.util.softmask.html#librosa.core.softmask">[docs]</a><span class="k">def</span> <span class="nf">softmask</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">X_ref</span><span class="p">,</span> <span class="n">power</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">split_zeros</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
     <span class="sd">&#39;&#39;&#39;Robustly compute a softmask operation.</span>
 
 <span class="sd">        `M = X**power / (X**power + X_ref**power)`</span>
@@ -1861,7 +1678,7 @@
     <span class="k">return</span> <span class="n">mask</span></div>
 
 
-<div class="viewcode-block" id="tiny"><a class="viewcode-back" href="../../../generated/librosa.util.tiny.html#librosa.util.tiny">[docs]</a><span class="k">def</span> <span class="nf">tiny</span><span class="p">(</span><span class="n">x</span><span class="p">):</span>
+<div class="viewcode-block" id="tiny"><a class="viewcode-back" href="../../../generated/librosa.util.tiny.html#librosa.core.tiny">[docs]</a><span class="k">def</span> <span class="nf">tiny</span><span class="p">(</span><span class="n">x</span><span class="p">):</span>
     <span class="sd">&#39;&#39;&#39;Compute the tiny-value corresponding to an input&#39;s data type.</span>
 
 <span class="sd">    This is the smallest &quot;usable&quot; number representable in `x`&#39;s</span>
@@ -1926,12 +1743,76 @@
         <span class="n">dtype</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">float32</span>
 
     <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">finfo</span><span class="p">(</span><span class="n">dtype</span><span class="p">)</span><span class="o">.</span><span class="n">tiny</span></div>
+
+
+<div class="viewcode-block" id="fill_off_diagonal"><a class="viewcode-back" href="../../../generated/librosa.core.fill_off_diagonal.html#librosa.core.fill_off_diagonal">[docs]</a><span class="k">def</span> <span class="nf">fill_off_diagonal</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">radius</span><span class="p">,</span> <span class="n">value</span><span class="o">=</span><span class="mi">0</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Sets all cells of a matrix to a given ``value``</span>
+<span class="sd">    if they lie outside a constraint region.</span>
+<span class="sd">    In this case, the constraint region is the</span>
+<span class="sd">    Sakoe-Chiba band which runs with a fixed ``radius``</span>
+<span class="sd">    along the main diagonal.</span>
+<span class="sd">    When ``x.shape[0] != x.shape[1]``, the radius will be</span>
+<span class="sd">    expanded so that ``x[-1, -1] = 1`` always.</span>
+
+<span class="sd">    ``x`` will be modified in place.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    x : np.ndarray [shape=(N, M)]</span>
+<span class="sd">        Input matrix, will be modified in place.</span>
+<span class="sd">    radius : float</span>
+<span class="sd">        The band radius (1/2 of the width) will be</span>
+<span class="sd">        ``int(radius*min(x.shape))``.</span>
+<span class="sd">    value : int</span>
+<span class="sd">        ``x[n, m] = value`` when ``(n, m)`` lies outside the band.</span>
+
+<span class="sd">    Examples</span>
+<span class="sd">    --------</span>
+<span class="sd">    &gt;&gt;&gt; x = np.ones((8, 8))</span>
+<span class="sd">    &gt;&gt;&gt; librosa.util.fill_off_diagonal(x, 0.25)</span>
+<span class="sd">    &gt;&gt;&gt; x</span>
+<span class="sd">    array([[1, 1, 0, 0, 0, 0, 0, 0],</span>
+<span class="sd">           [1, 1, 1, 0, 0, 0, 0, 0],</span>
+<span class="sd">           [0, 1, 1, 1, 0, 0, 0, 0],</span>
+<span class="sd">           [0, 0, 1, 1, 1, 0, 0, 0],</span>
+<span class="sd">           [0, 0, 0, 1, 1, 1, 0, 0],</span>
+<span class="sd">           [0, 0, 0, 0, 1, 1, 1, 0],</span>
+<span class="sd">           [0, 0, 0, 0, 0, 1, 1, 1],</span>
+<span class="sd">           [0, 0, 0, 0, 0, 0, 1, 1]])</span>
+<span class="sd">    &gt;&gt;&gt; x = np.ones((8, 12))</span>
+<span class="sd">    &gt;&gt;&gt; librosa.util.fill_off_diagonal(x, 0.25)</span>
+<span class="sd">    &gt;&gt;&gt; x</span>
+<span class="sd">    array([[1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0],</span>
+<span class="sd">           [1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0],</span>
+<span class="sd">           [0, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0],</span>
+<span class="sd">           [0, 0, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0],</span>
+<span class="sd">           [0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 0, 0],</span>
+<span class="sd">           [0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 0],</span>
+<span class="sd">           [0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1],</span>
+<span class="sd">           [0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1]])</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">nx</span><span class="p">,</span> <span class="n">ny</span> <span class="o">=</span> <span class="n">x</span><span class="o">.</span><span class="n">shape</span>
+
+    <span class="c1"># Calculate the radius in indices, rather than proportion</span>
+    <span class="n">radius</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">round</span><span class="p">(</span><span class="n">radius</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">min</span><span class="p">(</span><span class="n">x</span><span class="o">.</span><span class="n">shape</span><span class="p">))</span>
+
+    <span class="n">nx</span><span class="p">,</span> <span class="n">ny</span> <span class="o">=</span> <span class="n">x</span><span class="o">.</span><span class="n">shape</span>
+    <span class="n">offset</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">((</span><span class="n">x</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">-</span> <span class="n">x</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">]))</span>
+
+    <span class="k">if</span> <span class="n">nx</span> <span class="o">&lt;</span> <span class="n">ny</span><span class="p">:</span>
+        <span class="n">idx_u</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">triu_indices_from</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">k</span><span class="o">=</span><span class="n">radius</span> <span class="o">+</span> <span class="n">offset</span><span class="p">)</span>
+        <span class="n">idx_l</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">tril_indices_from</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">k</span><span class="o">=-</span><span class="n">radius</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">idx_u</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">triu_indices_from</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">k</span><span class="o">=</span><span class="n">radius</span><span class="p">)</span>
+        <span class="n">idx_l</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">tril_indices_from</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">k</span><span class="o">=-</span><span class="n">radius</span> <span class="o">-</span> <span class="n">offset</span><span class="p">)</span>
+
+    <span class="c1"># modify input matrix</span>
+    <span class="n">x</span><span class="p">[</span><span class="n">idx_u</span><span class="p">]</span> <span class="o">=</span> <span class="n">value</span>
+    <span class="n">x</span><span class="p">[</span><span class="n">idx_l</span><span class="p">]</span> <span class="o">=</span> <span class="n">value</span></div>
 </pre></div>
 
            </div>
-           <div class="articleComments">
-            
-           </div>
+           
           </div>
           <footer>
   
@@ -1944,7 +1825,7 @@
 
     </p>
   </div>
-  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/snide/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
 
 </footer>
 
@@ -1958,7 +1839,7 @@
 <div class="rst-versions" data-toggle="rst-versions" role="note" aria-label="versions">
     <span class="rst-current-version" data-toggle="rst-current-version">
         <span class="fa fa-book"> Other Versions</span>
-        v: master
+        v: 0.6.1rc0
         <span class="fa fa-caret-down"></span>
     </span>
     <div class="rst-other-versions">
@@ -1977,13 +1858,13 @@
             <dd><a href="../../../0.6.0/index.html">0.6.0</a></dd>
             <dd><a href="../../../0.6.0rc0/index.html">0.6.0rc0</a></dd>
             <dd><a href="../../../0.6.0rc1/index.html">0.6.0rc1</a></dd>
+            <dd><a href="../../../0.6.1rc0/_modules/librosa/util/utils.html">0.6.1rc0</a></dd>
             <dd><a href="../../../v0.1.0/index.html">v0.1.0</a></dd>
             <dd><a href="../../../v0.4.0/index.html">v0.4.0</a></dd>
         </dl>
         <dl>
             <dt>Branches</dt>
-            <dd><a href="../../../display-bin-centering/index.html">display-bin-centering</a></dd>
-            <dd><a href="../../../master/_modules/librosa/util/utils.html">master</a></dd>
+            <dd><a href="../../../master/index.html">master</a></dd>
         </dl>
     </div>
 </div>
@@ -1994,7 +1875,8 @@
     <script type="text/javascript">
         var DOCUMENTATION_OPTIONS = {
             URL_ROOT:'../../../',
-            VERSION:'0.6.0',
+            VERSION:'0.6.1rc0',
+            LANGUAGE:'None',
             COLLAPSE_INDEX:false,
             FILE_SUFFIX:'.html',
             HAS_SOURCE:  true,
@@ -2004,7 +1886,7 @@
       <script type="text/javascript" src="../../../_static/jquery.js"></script>
       <script type="text/javascript" src="../../../_static/underscore.js"></script>
       <script type="text/javascript" src="../../../_static/doctools.js"></script>
-      <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.0/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+      <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
 
   
 
@@ -2013,14 +1895,11 @@
     <script type="text/javascript" src="../../../_static/js/theme.js"></script>
   
 
-  
-  
   <script type="text/javascript">
       jQuery(function () {
-          SphinxRtdTheme.StickyNav.enable();
+          SphinxRtdTheme.Navigation.enable(true);
       });
-  </script>
-   
+  </script> 
 
 </body>
 </html>

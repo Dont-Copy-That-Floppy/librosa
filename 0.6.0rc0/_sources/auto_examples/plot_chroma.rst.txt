@@ -265,7 +265,7 @@ and the result of our filtering.
 
 
 
-**Total running time of the script:** ( 0 minutes  26.156 seconds)
+**Total running time of the script:** ( 0 minutes  3.228 seconds)
 
 
 

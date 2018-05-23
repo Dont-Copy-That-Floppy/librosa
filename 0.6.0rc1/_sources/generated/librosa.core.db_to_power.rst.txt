@@ -1,5 +1,5 @@
-librosa\.core\.db\_to\_power
-============================
+librosa.core.db\_to\_power
+==========================
 
 .. currentmodule:: librosa.core
 

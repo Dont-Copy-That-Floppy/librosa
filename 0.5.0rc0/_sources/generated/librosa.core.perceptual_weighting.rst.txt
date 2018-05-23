@@ -1,5 +1,5 @@
-librosa\.core\.perceptual\_weighting
-====================================
+librosa.core.perceptual\_weighting
+==================================
 
 .. currentmodule:: librosa.core
 

@@ -1,5 +1,5 @@
-librosa\.filters\.window\_sumsquare
-===================================
+librosa.filters.window\_sumsquare
+=================================
 
 .. currentmodule:: librosa.filters
 

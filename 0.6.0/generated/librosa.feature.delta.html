@@ -25,31 +25,21 @@
   
 
   
-  
     <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
-  
-
-  
-    <link rel="stylesheet" href="../_static/gallery.css" type="text/css" />
-  
-    <link rel="stylesheet" href="../_static/banner.css" type="text/css" />
-  
-
-  
-        <link rel="index" title="Index"
-              href="../genindex.html"/>
-        <link rel="search" title="Search" href="../search.html"/>
-    <link rel="top" title="librosa 0.6.0 documentation" href="../index.html"/>
-        <link rel="up" title="Feature extraction" href="../feature.html"/>
-        <link rel="next" title="librosa.feature.stack_memory" href="librosa.feature.stack_memory.html"/>
-        <link rel="prev" title="librosa.feature.tempogram" href="librosa.feature.tempogram.html"/> 
+  <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/gallery.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/banner.css" type="text/css" />
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="librosa.feature.stack_memory" href="librosa.feature.stack_memory.html" />
+    <link rel="prev" title="librosa.feature.tempogram" href="librosa.feature.tempogram.html" /> 
 
   
   <script src="../_static/js/modernizr.min.js"></script>
 
 </head>
 
-<body class="wy-body-for-nav" role="document">
+<body class="wy-body-for-nav">
 
    
   <div class="wy-grid-for-nav">
@@ -140,7 +130,7 @@
     <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
 
       
-      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+      <nav class="wy-nav-top" aria-label="top navigation">
         
           <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
           <a href="../index.html">librosa</a>
@@ -148,9 +138,10 @@
       </nav>
 
 
-      
       <div class="wy-nav-content">
+        
         <div class="rst-content">
+        
           
 
 
@@ -194,7 +185,16 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
             
-  <div class="section" id="librosa-feature-delta">
+  
+
+
+    
+    
+
+
+
+    <p class="scv-banner scv-sphinx_rtd_theme"><a href="../../0.6.1rc0/generated/librosa.feature.delta.html"><b>Warning:</b> This document is for an old version of librosa. The latest version is 0.6.1rc0.</a></p>
+<div class="section" id="librosa-feature-delta">
 <h1>librosa.feature.delta<a class="headerlink" href="#librosa-feature-delta" title="Permalink to this headline">¶</a></h1>
 <dl class="function">
 <dt id="librosa.feature.delta">
@@ -206,58 +206,54 @@ of the input data along the selected axis.</p>
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>data</strong> : np.ndarray</p>
-<blockquote>
-<div><p>the input data matrix (eg, spectrogram)</p>
-</div></blockquote>
-<p><strong>width</strong> : int, positive, odd [scalar]</p>
-<blockquote>
-<div><p>Number of frames over which to compute the delta features.
-Cannot exceed the length of <code class="xref py py-obj docutils literal"><span class="pre">data</span></code> along the specified axis.
-If <em class="xref py py-obj">mode=&#8217;interp&#8217;</em>, then <em class="xref py py-obj">width</em> must be at least <em class="xref py py-obj">data.shape[axis]</em>.</p>
-</div></blockquote>
-<p><strong>order</strong> : int &gt; 0 [scalar]</p>
-<blockquote>
-<div><p>the order of the difference operator.
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><dl class="first docutils">
+<dt><strong>data</strong> <span class="classifier-delimiter">:</span> <span class="classifier">np.ndarray</span></dt>
+<dd><p class="first last">the input data matrix (eg, spectrogram)</p>
+</dd>
+<dt><strong>width</strong> <span class="classifier-delimiter">:</span> <span class="classifier">int, positive, odd [scalar]</span></dt>
+<dd><p class="first last">Number of frames over which to compute the delta features.
+Cannot exceed the length of <code class="xref py py-obj docutils literal notranslate"><span class="pre">data</span></code> along the specified axis.
+If <em class="xref py py-obj">mode=’interp’</em>, then <em class="xref py py-obj">width</em> must be at least <em class="xref py py-obj">data.shape[axis]</em>.</p>
+</dd>
+<dt><strong>order</strong> <span class="classifier-delimiter">:</span> <span class="classifier">int &gt; 0 [scalar]</span></dt>
+<dd><p class="first last">the order of the difference operator.
 1 for first derivative, 2 for second, etc.</p>
-</div></blockquote>
-<p><strong>axis</strong> : int [scalar]</p>
-<blockquote>
-<div><p>the axis along which to compute deltas.
+</dd>
+<dt><strong>axis</strong> <span class="classifier-delimiter">:</span> <span class="classifier">int [scalar]</span></dt>
+<dd><p class="first last">the axis along which to compute deltas.
 Default is -1 (columns).</p>
-</div></blockquote>
-<p><strong>trim</strong> : bool [DEPRECATED]</p>
-<blockquote>
-<div><p>This parameter is deprecated in 0.6.0 and will be removed
+</dd>
+<dt><strong>trim</strong> <span class="classifier-delimiter">:</span> <span class="classifier">bool [DEPRECATED]</span></dt>
+<dd><p class="first last">This parameter is deprecated in 0.6.0 and will be removed
 in 0.7.0.</p>
-</div></blockquote>
-<p><strong>mode</strong> : str, {&#8216;interp&#8217;, &#8216;nearest&#8217;, &#8216;mirror&#8217;, &#8216;constant&#8217;, &#8216;wrap&#8217;}</p>
-<blockquote>
-<div><p>Padding mode for estimating differences at the boundaries.</p>
-</div></blockquote>
-<p><strong>kwargs</strong> : additional keyword arguments</p>
-<blockquote>
-<div><p>See <a class="reference external" href="https://docs.scipy.org/doc/scipy/reference/generated/scipy.signal.savgol_filter.html#scipy.signal.savgol_filter" title="(in SciPy v1.0.0)"><code class="xref py py-obj docutils literal"><span class="pre">scipy.signal.savgol_filter</span></code></a></p>
-</div></blockquote>
+</dd>
+<dt><strong>mode</strong> <span class="classifier-delimiter">:</span> <span class="classifier">str, {‘interp’, ‘nearest’, ‘mirror’, ‘constant’, ‘wrap’}</span></dt>
+<dd><p class="first last">Padding mode for estimating differences at the boundaries.</p>
+</dd>
+<dt><strong>kwargs</strong> <span class="classifier-delimiter">:</span> <span class="classifier">additional keyword arguments</span></dt>
+<dd><p class="first last">See <a class="reference external" href="https://docs.scipy.org/doc/scipy/reference/generated/scipy.signal.savgol_filter.html#scipy.signal.savgol_filter" title="(in SciPy v1.1.0)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">scipy.signal.savgol_filter</span></code></a></p>
+</dd>
+</dl>
 </td>
 </tr>
-<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first"><strong>delta_data</strong> : np.ndarray [shape=(d, t)]</p>
-<blockquote class="last">
-<div><p>delta matrix of <code class="xref py py-obj docutils literal"><span class="pre">data</span></code> at specified order</p>
-</div></blockquote>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><dl class="first last docutils">
+<dt><strong>delta_data</strong> <span class="classifier-delimiter">:</span> <span class="classifier">np.ndarray [shape=(d, t)]</span></dt>
+<dd><p class="first last">delta matrix of <code class="xref py py-obj docutils literal notranslate"><span class="pre">data</span></code> at specified order</p>
+</dd>
+</dl>
 </td>
 </tr>
 </tbody>
 </table>
 <div class="admonition seealso">
 <p class="first admonition-title">See also</p>
-<p class="last"><a class="reference external" href="https://docs.scipy.org/doc/scipy/reference/generated/scipy.signal.savgol_filter.html#scipy.signal.savgol_filter" title="(in SciPy v1.0.0)"><code class="xref py py-obj docutils literal"><span class="pre">scipy.signal.savgol_filter</span></code></a></p>
+<p class="last"><a class="reference external" href="https://docs.scipy.org/doc/scipy/reference/generated/scipy.signal.savgol_filter.html#scipy.signal.savgol_filter" title="(in SciPy v1.1.0)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">scipy.signal.savgol_filter</span></code></a></p>
 </div>
 <p class="rubric">Notes</p>
 <p>This function caches at level 40.</p>
 <p class="rubric">Examples</p>
 <p>Compute MFCC deltas, delta-deltas</p>
-<div class="highlight-default"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">y</span><span class="p">,</span> <span class="n">sr</span> <span class="o">=</span> <span class="n">librosa</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">librosa</span><span class="o">.</span><span class="n">util</span><span class="o">.</span><span class="n">example_audio_file</span><span class="p">())</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">y</span><span class="p">,</span> <span class="n">sr</span> <span class="o">=</span> <span class="n">librosa</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">librosa</span><span class="o">.</span><span class="n">util</span><span class="o">.</span><span class="n">example_audio_file</span><span class="p">())</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">mfcc</span> <span class="o">=</span> <span class="n">librosa</span><span class="o">.</span><span class="n">feature</span><span class="o">.</span><span class="n">mfcc</span><span class="p">(</span><span class="n">y</span><span class="o">=</span><span class="n">y</span><span class="p">,</span> <span class="n">sr</span><span class="o">=</span><span class="n">sr</span><span class="p">)</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">mfcc_delta</span> <span class="o">=</span> <span class="n">librosa</span><span class="o">.</span><span class="n">feature</span><span class="o">.</span><span class="n">delta</span><span class="p">(</span><span class="n">mfcc</span><span class="p">)</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">mfcc_delta</span>
@@ -268,7 +264,7 @@ in 0.7.0.</p>
 <span class="go">       [  6.578e-01,   6.578e-01, ...,   7.597e-31,   7.597e-31]])</span>
 </pre></div>
 </div>
-<div class="highlight-default"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">mfcc_delta2</span> <span class="o">=</span> <span class="n">librosa</span><span class="o">.</span><span class="n">feature</span><span class="o">.</span><span class="n">delta</span><span class="p">(</span><span class="n">mfcc</span><span class="p">,</span> <span class="n">order</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">mfcc_delta2</span> <span class="o">=</span> <span class="n">librosa</span><span class="o">.</span><span class="n">feature</span><span class="o">.</span><span class="n">delta</span><span class="p">(</span><span class="n">mfcc</span><span class="p">,</span> <span class="n">order</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">mfcc_delta2</span>
 <span class="go">array([[ -1.703e+01,  -1.703e+01, ...,   3.834e-14,   3.834e-14],</span>
 <span class="go">       [ -1.108e+01,  -1.108e+01, ...,  -1.068e-30,  -1.068e-30],</span>
@@ -277,7 +273,7 @@ in 0.7.0.</p>
 <span class="go">       [  1.676e-01,   1.676e-01, ...,  -2.104e-30,  -2.104e-30]])</span>
 </pre></div>
 </div>
-<div class="highlight-default"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">plt</span><span class="o">.</span><span class="n">subplot</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">librosa</span><span class="o">.</span><span class="n">display</span><span class="o">.</span><span class="n">specshow</span><span class="p">(</span><span class="n">mfcc</span><span class="p">)</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s1">&#39;MFCC&#39;</span><span class="p">)</span>
@@ -303,9 +299,7 @@ in 0.7.0.</p>
 
 
            </div>
-           <div class="articleComments">
-            
-           </div>
+           
           </div>
           <footer>
   
@@ -327,7 +321,7 @@ in 0.7.0.</p>
 
     </p>
   </div>
-  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/snide/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
 
 </footer>
 
@@ -360,12 +354,12 @@ in 0.7.0.</p>
             <dd><a href="librosa.feature.delta.html">0.6.0</a></dd>
             <dd><a href="../../0.6.0rc0/generated/librosa.feature.delta.html">0.6.0rc0</a></dd>
             <dd><a href="../../0.6.0rc1/generated/librosa.feature.delta.html">0.6.0rc1</a></dd>
+            <dd><a href="../../0.6.1rc0/generated/librosa.feature.delta.html">0.6.1rc0</a></dd>
             <dd><a href="../../v0.1.0/index.html">v0.1.0</a></dd>
             <dd><a href="../../v0.4.0/index.html">v0.4.0</a></dd>
         </dl>
         <dl>
             <dt>Branches</dt>
-            <dd><a href="../../display-bin-centering/generated/librosa.feature.delta.html">display-bin-centering</a></dd>
             <dd><a href="../../master/generated/librosa.feature.delta.html">master</a></dd>
         </dl>
     </div>
@@ -378,6 +372,7 @@ in 0.7.0.</p>
         var DOCUMENTATION_OPTIONS = {
             URL_ROOT:'../',
             VERSION:'0.6.0',
+            LANGUAGE:'None',
             COLLAPSE_INDEX:false,
             FILE_SUFFIX:'.html',
             HAS_SOURCE:  true,
@@ -387,7 +382,7 @@ in 0.7.0.</p>
       <script type="text/javascript" src="../_static/jquery.js"></script>
       <script type="text/javascript" src="../_static/underscore.js"></script>
       <script type="text/javascript" src="../_static/doctools.js"></script>
-      <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.0/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+      <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
 
   
 
@@ -396,14 +391,11 @@ in 0.7.0.</p>
     <script type="text/javascript" src="../_static/js/theme.js"></script>
   
 
-  
-  
   <script type="text/javascript">
       jQuery(function () {
-          SphinxRtdTheme.StickyNav.enable();
+          SphinxRtdTheme.Navigation.enable(true);
       });
-  </script>
-   
+  </script> 
 
 </body>
 </html>

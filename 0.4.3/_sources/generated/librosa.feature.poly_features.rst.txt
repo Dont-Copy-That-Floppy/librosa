@@ -1,5 +1,5 @@
-librosa\.feature\.poly\_features
-================================
+librosa.feature.poly\_features
+==============================
 
 .. currentmodule:: librosa.feature
 

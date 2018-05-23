@@ -1,5 +1,5 @@
-librosa\.display\.waveplot
-==========================
+librosa.display.waveplot
+========================
 
 .. currentmodule:: librosa.display
 

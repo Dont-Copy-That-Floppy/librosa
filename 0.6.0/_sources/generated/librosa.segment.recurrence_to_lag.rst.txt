@@ -1,5 +1,5 @@
-librosa\.segment\.recurrence\_to\_lag
-=====================================
+librosa.segment.recurrence\_to\_lag
+===================================
 
 .. currentmodule:: librosa.segment
 

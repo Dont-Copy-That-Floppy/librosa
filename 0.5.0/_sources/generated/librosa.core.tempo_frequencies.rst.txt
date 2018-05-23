@@ -1,5 +1,5 @@
-librosa\.core\.tempo\_frequencies
-=================================
+librosa.core.tempo\_frequencies
+===============================
 
 .. currentmodule:: librosa.core
 

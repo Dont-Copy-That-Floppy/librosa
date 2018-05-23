@@ -1,5 +1,5 @@
-librosa\.util\.valid\_int
-=========================
+librosa.util.valid\_int
+=======================
 
 .. currentmodule:: librosa.util
 

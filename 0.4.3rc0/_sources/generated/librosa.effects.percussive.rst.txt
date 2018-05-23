@@ -1,5 +1,5 @@
-librosa\.effects\.percussive
-============================
+librosa.effects.percussive
+==========================
 
 .. currentmodule:: librosa.effects
 

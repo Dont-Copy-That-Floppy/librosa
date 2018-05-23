@@ -1,5 +1,5 @@
-librosa\.feature\.delta
-=======================
+librosa.feature.delta
+=====================
 
 .. currentmodule:: librosa.feature
 

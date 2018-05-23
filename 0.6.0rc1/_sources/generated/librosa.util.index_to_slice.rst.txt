@@ -1,5 +1,5 @@
-librosa\.util\.index\_to\_slice
-===============================
+librosa.util.index\_to\_slice
+=============================
 
 .. currentmodule:: librosa.util
 

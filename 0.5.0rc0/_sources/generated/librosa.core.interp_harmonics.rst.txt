@@ -1,5 +1,5 @@
-librosa\.core\.interp\_harmonics
-================================
+librosa.core.interp\_harmonics
+==============================
 
 .. currentmodule:: librosa.core
 

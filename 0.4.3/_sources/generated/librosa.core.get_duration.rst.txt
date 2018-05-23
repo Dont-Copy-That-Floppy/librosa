@@ -1,5 +1,5 @@
-librosa\.core\.get\_duration
-============================
+librosa.core.get\_duration
+==========================
 
 .. currentmodule:: librosa.core
 

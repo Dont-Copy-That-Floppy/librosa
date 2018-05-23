@@ -1,5 +1,5 @@
-librosa\.util\.match\_events
-============================
+librosa.util.match\_events
+==========================
 
 .. currentmodule:: librosa.util
 

@@ -1,5 +1,5 @@
-librosa\.core\.iirt
-===================
+librosa.core.iirt
+=================
 
 .. currentmodule:: librosa.core
 

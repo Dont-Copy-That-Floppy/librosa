@@ -1,5 +1,5 @@
-librosa\.feature\.zero\_crossing\_rate
-======================================
+librosa.feature.zero\_crossing\_rate
+====================================
 
 .. currentmodule:: librosa.feature
 

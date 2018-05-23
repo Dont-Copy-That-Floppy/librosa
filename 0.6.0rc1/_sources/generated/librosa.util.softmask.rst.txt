@@ -1,5 +1,5 @@
-librosa\.util\.softmask
-=======================
+librosa.util.softmask
+=====================
 
 .. currentmodule:: librosa.util
 

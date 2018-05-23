@@ -1,5 +1,5 @@
-librosa\.core\.stft
-===================
+librosa.core.stft
+=================
 
 .. currentmodule:: librosa.core
 

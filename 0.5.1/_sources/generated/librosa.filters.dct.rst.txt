@@ -1,5 +1,5 @@
-librosa\.filters\.dct
-=====================
+librosa.filters.dct
+===================
 
 .. currentmodule:: librosa.filters
 

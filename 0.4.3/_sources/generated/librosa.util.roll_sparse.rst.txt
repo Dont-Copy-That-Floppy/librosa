@@ -1,5 +1,5 @@
-librosa\.util\.roll\_sparse
-===========================
+librosa.util.roll\_sparse
+=========================
 
 .. currentmodule:: librosa.util
 

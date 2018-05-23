@@ -1,5 +1,5 @@
-librosa\.feature\.stack\_memory
-===============================
+librosa.feature.stack\_memory
+=============================
 
 .. currentmodule:: librosa.feature
 

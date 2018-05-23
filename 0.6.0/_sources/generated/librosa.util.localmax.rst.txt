@@ -1,5 +1,5 @@
-librosa\.util\.localmax
-=======================
+librosa.util.localmax
+=====================
 
 .. currentmodule:: librosa.util
 

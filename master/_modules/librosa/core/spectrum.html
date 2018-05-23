@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>librosa.core.spectrum &mdash; librosa 0.6.0 documentation</title>
+  <title>librosa.core.spectrum &mdash; librosa 0.6.1rc0 documentation</title>
   
 
   
@@ -25,29 +25,19 @@
   
 
   
-  
     <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
-  
-
-  
-    <link rel="stylesheet" href="../../../_static/gallery.css" type="text/css" />
-  
-    <link rel="stylesheet" href="../../../_static/banner.css" type="text/css" />
-  
-
-  
-        <link rel="index" title="Index"
-              href="../../../genindex.html"/>
-        <link rel="search" title="Search" href="../../../search.html"/>
-    <link rel="top" title="librosa 0.6.0 documentation" href="../../../index.html"/>
-        <link rel="up" title="Module code" href="../../index.html"/> 
+  <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="../../../_static/gallery.css" type="text/css" />
+  <link rel="stylesheet" href="../../../_static/banner.css" type="text/css" />
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" /> 
 
   
   <script src="../../../_static/js/modernizr.min.js"></script>
 
 </head>
 
-<body class="wy-body-for-nav" role="document">
+<body class="wy-body-for-nav">
 
    
   <div class="wy-grid-for-nav">
@@ -107,6 +97,7 @@
 <li class="toctree-l1"><a class="reference internal" href="../../../effects.html">Effects</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../output.html">Output</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../segment.html">Temporal segmentation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../sequence.html">Sequential modeling</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../util.html">Utilities</a></li>
 </ul>
 <ul>
@@ -129,7 +120,7 @@
     <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
 
       
-      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+      <nav class="wy-nav-top" aria-label="top navigation">
         
           <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
           <a href="../../../index.html">librosa</a>
@@ -137,9 +128,10 @@
       </nav>
 
 
-      
       <div class="wy-nav-content">
+        
         <div class="rst-content">
+        
           
 
 
@@ -169,8 +161,6 @@
     
       <li class="wy-breadcrumbs-aside">
         
-            
-        
       </li>
     
   </ul>
@@ -181,7 +171,16 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
             
-  <h1>Source code for librosa.core.spectrum</h1><div class="highlight"><pre>
+  
+
+
+    
+    
+
+
+
+    <p class="scv-banner scv-sphinx_rtd_theme"><b>Warning:</b> This document is for the development version of librosa.</p>
+<h1>Source code for librosa.core.spectrum</h1><div class="highlight"><pre>
 <span></span><span class="ch">#!/usr/bin/env python</span>
 <span class="c1"># -*- coding: utf-8 -*-</span>
 <span class="sd">&#39;&#39;&#39;Utilities for spectral processing&#39;&#39;&#39;</span>
@@ -190,6 +189,7 @@
 <span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
 <span class="kn">import</span> <span class="nn">scipy.fftpack</span> <span class="k">as</span> <span class="nn">fft</span>
 <span class="kn">import</span> <span class="nn">scipy</span>
+<span class="kn">import</span> <span class="nn">scipy.ndimage</span>
 <span class="kn">import</span> <span class="nn">scipy.signal</span>
 <span class="kn">import</span> <span class="nn">scipy.interpolate</span>
 <span class="kn">import</span> <span class="nn">six</span>
@@ -207,11 +207,11 @@
            <span class="s1">&#39;perceptual_weighting&#39;</span><span class="p">,</span>
            <span class="s1">&#39;power_to_db&#39;</span><span class="p">,</span> <span class="s1">&#39;db_to_power&#39;</span><span class="p">,</span>
            <span class="s1">&#39;amplitude_to_db&#39;</span><span class="p">,</span> <span class="s1">&#39;db_to_amplitude&#39;</span><span class="p">,</span>
-           <span class="s1">&#39;fmt&#39;</span><span class="p">]</span>
+           <span class="s1">&#39;fmt&#39;</span><span class="p">,</span> <span class="s1">&#39;pcen&#39;</span><span class="p">]</span>
 
 
-<span class="nd">@cache</span><span class="p">(</span><span class="n">level</span><span class="o">=</span><span class="mi">20</span><span class="p">)</span>
-<div class="viewcode-block" id="stft"><a class="viewcode-back" href="../../../generated/librosa.core.stft.html#librosa.core.stft">[docs]</a><span class="k">def</span> <span class="nf">stft</span><span class="p">(</span><span class="n">y</span><span class="p">,</span> <span class="n">n_fft</span><span class="o">=</span><span class="mi">2048</span><span class="p">,</span> <span class="n">hop_length</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">win_length</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">window</span><span class="o">=</span><span class="s1">&#39;hann&#39;</span><span class="p">,</span>
+<div class="viewcode-block" id="stft"><a class="viewcode-back" href="../../../generated/librosa.core.stft.html#librosa.core.stft">[docs]</a><span class="nd">@cache</span><span class="p">(</span><span class="n">level</span><span class="o">=</span><span class="mi">20</span><span class="p">)</span>
+<span class="k">def</span> <span class="nf">stft</span><span class="p">(</span><span class="n">y</span><span class="p">,</span> <span class="n">n_fft</span><span class="o">=</span><span class="mi">2048</span><span class="p">,</span> <span class="n">hop_length</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">win_length</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">window</span><span class="o">=</span><span class="s1">&#39;hann&#39;</span><span class="p">,</span>
          <span class="n">center</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">complex64</span><span class="p">,</span> <span class="n">pad_mode</span><span class="o">=</span><span class="s1">&#39;reflect&#39;</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;Short-time Fourier transform (STFT)</span>
 
@@ -257,7 +257,7 @@
 <span class="sd">    dtype       : numeric type</span>
 <span class="sd">        Complex numeric type for `D`.  Default is 64-bit complex.</span>
 
-<span class="sd">    mode : string</span>
+<span class="sd">    pad_mode : string</span>
 <span class="sd">        If `center=True`, the padding mode to use at the edges of the signal.</span>
 <span class="sd">        By default, STFT uses reflection padding.</span>
 
@@ -369,8 +369,8 @@
     <span class="k">return</span> <span class="n">stft_matrix</span></div>
 
 
-<span class="nd">@cache</span><span class="p">(</span><span class="n">level</span><span class="o">=</span><span class="mi">30</span><span class="p">)</span>
-<div class="viewcode-block" id="istft"><a class="viewcode-back" href="../../../generated/librosa.core.istft.html#librosa.core.istft">[docs]</a><span class="k">def</span> <span class="nf">istft</span><span class="p">(</span><span class="n">stft_matrix</span><span class="p">,</span> <span class="n">hop_length</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">win_length</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">window</span><span class="o">=</span><span class="s1">&#39;hann&#39;</span><span class="p">,</span>
+<div class="viewcode-block" id="istft"><a class="viewcode-back" href="../../../generated/librosa.core.istft.html#librosa.core.istft">[docs]</a><span class="nd">@cache</span><span class="p">(</span><span class="n">level</span><span class="o">=</span><span class="mi">30</span><span class="p">)</span>
+<span class="k">def</span> <span class="nf">istft</span><span class="p">(</span><span class="n">stft_matrix</span><span class="p">,</span> <span class="n">hop_length</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">win_length</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">window</span><span class="o">=</span><span class="s1">&#39;hann&#39;</span><span class="p">,</span>
           <span class="n">center</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">float32</span><span class="p">,</span> <span class="n">length</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Inverse short-time Fourier transform (ISTFT).</span>
@@ -581,7 +581,7 @@
 <span class="sd">    dtype : numeric type</span>
 <span class="sd">        Complex numeric type for `D`.  Default is 64-bit complex.</span>
 
-<span class="sd">    mode : string</span>
+<span class="sd">    pad_mode : string</span>
 <span class="sd">        If `center=True`, the padding mode to use at the edges of the signal.</span>
 <span class="sd">        By default, STFT uses reflection padding.</span>
 
@@ -815,8 +815,8 @@
     <span class="k">return</span> <span class="n">d_stretch</span></div>
 
 
-<span class="nd">@cache</span><span class="p">(</span><span class="n">level</span><span class="o">=</span><span class="mi">20</span><span class="p">)</span>
-<div class="viewcode-block" id="iirt"><a class="viewcode-back" href="../../../generated/librosa.core.iirt.html#librosa.core.iirt">[docs]</a><span class="k">def</span> <span class="nf">iirt</span><span class="p">(</span><span class="n">y</span><span class="p">,</span> <span class="n">sr</span><span class="o">=</span><span class="mi">22050</span><span class="p">,</span> <span class="n">win_length</span><span class="o">=</span><span class="mi">2048</span><span class="p">,</span> <span class="n">hop_length</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">center</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+<div class="viewcode-block" id="iirt"><a class="viewcode-back" href="../../../generated/librosa.core.iirt.html#librosa.core.iirt">[docs]</a><span class="nd">@cache</span><span class="p">(</span><span class="n">level</span><span class="o">=</span><span class="mi">20</span><span class="p">)</span>
+<span class="k">def</span> <span class="nf">iirt</span><span class="p">(</span><span class="n">y</span><span class="p">,</span> <span class="n">sr</span><span class="o">=</span><span class="mi">22050</span><span class="p">,</span> <span class="n">win_length</span><span class="o">=</span><span class="mi">2048</span><span class="p">,</span> <span class="n">hop_length</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">center</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
          <span class="n">tuning</span><span class="o">=</span><span class="mf">0.0</span><span class="p">,</span> <span class="n">pad_mode</span><span class="o">=</span><span class="s1">&#39;reflect&#39;</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
     <span class="sa">r</span><span class="sd">&#39;&#39;&#39;Time-frequency representation using IIR filters [1]_.</span>
 
@@ -945,8 +945,8 @@
     <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">bands_power</span><span class="p">)</span></div>
 
 
-<span class="nd">@cache</span><span class="p">(</span><span class="n">level</span><span class="o">=</span><span class="mi">30</span><span class="p">)</span>
-<div class="viewcode-block" id="power_to_db"><a class="viewcode-back" href="../../../generated/librosa.core.power_to_db.html#librosa.core.power_to_db">[docs]</a><span class="k">def</span> <span class="nf">power_to_db</span><span class="p">(</span><span class="n">S</span><span class="p">,</span> <span class="n">ref</span><span class="o">=</span><span class="mf">1.0</span><span class="p">,</span> <span class="n">amin</span><span class="o">=</span><span class="mf">1e-10</span><span class="p">,</span> <span class="n">top_db</span><span class="o">=</span><span class="mf">80.0</span><span class="p">):</span>
+<div class="viewcode-block" id="power_to_db"><a class="viewcode-back" href="../../../generated/librosa.core.power_to_db.html#librosa.core.power_to_db">[docs]</a><span class="nd">@cache</span><span class="p">(</span><span class="n">level</span><span class="o">=</span><span class="mi">30</span><span class="p">)</span>
+<span class="k">def</span> <span class="nf">power_to_db</span><span class="p">(</span><span class="n">S</span><span class="p">,</span> <span class="n">ref</span><span class="o">=</span><span class="mf">1.0</span><span class="p">,</span> <span class="n">amin</span><span class="o">=</span><span class="mf">1e-10</span><span class="p">,</span> <span class="n">top_db</span><span class="o">=</span><span class="mf">80.0</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;Convert a power spectrogram (amplitude squared) to decibel (dB) units</span>
 
 <span class="sd">    This computes the scaling ``10 * log10(S / ref)`` in a numerically</span>
@@ -1068,8 +1068,8 @@
     <span class="k">return</span> <span class="n">log_spec</span></div>
 
 
-<span class="nd">@cache</span><span class="p">(</span><span class="n">level</span><span class="o">=</span><span class="mi">30</span><span class="p">)</span>
-<div class="viewcode-block" id="db_to_power"><a class="viewcode-back" href="../../../generated/librosa.core.db_to_power.html#librosa.core.db_to_power">[docs]</a><span class="k">def</span> <span class="nf">db_to_power</span><span class="p">(</span><span class="n">S_db</span><span class="p">,</span> <span class="n">ref</span><span class="o">=</span><span class="mf">1.0</span><span class="p">):</span>
+<div class="viewcode-block" id="db_to_power"><a class="viewcode-back" href="../../../generated/librosa.core.db_to_power.html#librosa.core.db_to_power">[docs]</a><span class="nd">@cache</span><span class="p">(</span><span class="n">level</span><span class="o">=</span><span class="mi">30</span><span class="p">)</span>
+<span class="k">def</span> <span class="nf">db_to_power</span><span class="p">(</span><span class="n">S_db</span><span class="p">,</span> <span class="n">ref</span><span class="o">=</span><span class="mf">1.0</span><span class="p">):</span>
     <span class="sd">&#39;&#39;&#39;Convert a dB-scale spectrogram to a power spectrogram.</span>
 
 <span class="sd">    This effectively inverts `power_to_db`:</span>
@@ -1096,8 +1096,8 @@
     <span class="k">return</span> <span class="n">ref</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">power</span><span class="p">(</span><span class="mf">10.0</span><span class="p">,</span> <span class="mf">0.1</span> <span class="o">*</span> <span class="n">S_db</span><span class="p">)</span></div>
 
 
-<span class="nd">@cache</span><span class="p">(</span><span class="n">level</span><span class="o">=</span><span class="mi">30</span><span class="p">)</span>
-<div class="viewcode-block" id="amplitude_to_db"><a class="viewcode-back" href="../../../generated/librosa.core.amplitude_to_db.html#librosa.core.amplitude_to_db">[docs]</a><span class="k">def</span> <span class="nf">amplitude_to_db</span><span class="p">(</span><span class="n">S</span><span class="p">,</span> <span class="n">ref</span><span class="o">=</span><span class="mf">1.0</span><span class="p">,</span> <span class="n">amin</span><span class="o">=</span><span class="mf">1e-5</span><span class="p">,</span> <span class="n">top_db</span><span class="o">=</span><span class="mf">80.0</span><span class="p">):</span>
+<div class="viewcode-block" id="amplitude_to_db"><a class="viewcode-back" href="../../../generated/librosa.core.amplitude_to_db.html#librosa.core.amplitude_to_db">[docs]</a><span class="nd">@cache</span><span class="p">(</span><span class="n">level</span><span class="o">=</span><span class="mi">30</span><span class="p">)</span>
+<span class="k">def</span> <span class="nf">amplitude_to_db</span><span class="p">(</span><span class="n">S</span><span class="p">,</span> <span class="n">ref</span><span class="o">=</span><span class="mf">1.0</span><span class="p">,</span> <span class="n">amin</span><span class="o">=</span><span class="mf">1e-5</span><span class="p">,</span> <span class="n">top_db</span><span class="o">=</span><span class="mf">80.0</span><span class="p">):</span>
     <span class="sd">&#39;&#39;&#39;Convert an amplitude spectrogram to dB-scaled spectrogram.</span>
 
 <span class="sd">    This is equivalent to ``power_to_db(S**2)``, but is provided for convenience.</span>
@@ -1157,8 +1157,8 @@
                        <span class="n">top_db</span><span class="o">=</span><span class="n">top_db</span><span class="p">)</span></div>
 
 
-<span class="nd">@cache</span><span class="p">(</span><span class="n">level</span><span class="o">=</span><span class="mi">30</span><span class="p">)</span>
-<div class="viewcode-block" id="db_to_amplitude"><a class="viewcode-back" href="../../../generated/librosa.core.db_to_amplitude.html#librosa.core.db_to_amplitude">[docs]</a><span class="k">def</span> <span class="nf">db_to_amplitude</span><span class="p">(</span><span class="n">S_db</span><span class="p">,</span> <span class="n">ref</span><span class="o">=</span><span class="mf">1.0</span><span class="p">):</span>
+<div class="viewcode-block" id="db_to_amplitude"><a class="viewcode-back" href="../../../generated/librosa.core.db_to_amplitude.html#librosa.core.db_to_amplitude">[docs]</a><span class="nd">@cache</span><span class="p">(</span><span class="n">level</span><span class="o">=</span><span class="mi">30</span><span class="p">)</span>
+<span class="k">def</span> <span class="nf">db_to_amplitude</span><span class="p">(</span><span class="n">S_db</span><span class="p">,</span> <span class="n">ref</span><span class="o">=</span><span class="mf">1.0</span><span class="p">):</span>
     <span class="sd">&#39;&#39;&#39;Convert a dB-scaled spectrogram to an amplitude spectrogram.</span>
 
 <span class="sd">    This effectively inverts `amplitude_to_db`:</span>
@@ -1185,8 +1185,8 @@
     <span class="k">return</span> <span class="n">db_to_power</span><span class="p">(</span><span class="n">S_db</span><span class="p">,</span> <span class="n">ref</span><span class="o">=</span><span class="n">ref</span><span class="o">**</span><span class="mi">2</span><span class="p">)</span><span class="o">**</span><span class="mf">0.5</span></div>
 
 
-<span class="nd">@cache</span><span class="p">(</span><span class="n">level</span><span class="o">=</span><span class="mi">30</span><span class="p">)</span>
-<div class="viewcode-block" id="perceptual_weighting"><a class="viewcode-back" href="../../../generated/librosa.core.perceptual_weighting.html#librosa.core.perceptual_weighting">[docs]</a><span class="k">def</span> <span class="nf">perceptual_weighting</span><span class="p">(</span><span class="n">S</span><span class="p">,</span> <span class="n">frequencies</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+<div class="viewcode-block" id="perceptual_weighting"><a class="viewcode-back" href="../../../generated/librosa.core.perceptual_weighting.html#librosa.core.perceptual_weighting">[docs]</a><span class="nd">@cache</span><span class="p">(</span><span class="n">level</span><span class="o">=</span><span class="mi">30</span><span class="p">)</span>
+<span class="k">def</span> <span class="nf">perceptual_weighting</span><span class="p">(</span><span class="n">S</span><span class="p">,</span> <span class="n">frequencies</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
     <span class="sd">&#39;&#39;&#39;Perceptual weighting of a power spectrogram:</span>
 
 <span class="sd">    `S_p[f] = A_weighting(f) + 10*log(S[f] / ref)`</span>
@@ -1257,8 +1257,8 @@
     <span class="k">return</span> <span class="n">offset</span> <span class="o">+</span> <span class="n">power_to_db</span><span class="p">(</span><span class="n">S</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span></div>
 
 
-<span class="nd">@cache</span><span class="p">(</span><span class="n">level</span><span class="o">=</span><span class="mi">30</span><span class="p">)</span>
-<div class="viewcode-block" id="fmt"><a class="viewcode-back" href="../../../generated/librosa.core.fmt.html#librosa.core.fmt">[docs]</a><span class="k">def</span> <span class="nf">fmt</span><span class="p">(</span><span class="n">y</span><span class="p">,</span> <span class="n">t_min</span><span class="o">=</span><span class="mf">0.5</span><span class="p">,</span> <span class="n">n_fmt</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">kind</span><span class="o">=</span><span class="s1">&#39;cubic&#39;</span><span class="p">,</span> <span class="n">beta</span><span class="o">=</span><span class="mf">0.5</span><span class="p">,</span> <span class="n">over_sample</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">axis</span><span class="o">=-</span><span class="mi">1</span><span class="p">):</span>
+<div class="viewcode-block" id="fmt"><a class="viewcode-back" href="../../../generated/librosa.core.fmt.html#librosa.core.fmt">[docs]</a><span class="nd">@cache</span><span class="p">(</span><span class="n">level</span><span class="o">=</span><span class="mi">30</span><span class="p">)</span>
+<span class="k">def</span> <span class="nf">fmt</span><span class="p">(</span><span class="n">y</span><span class="p">,</span> <span class="n">t_min</span><span class="o">=</span><span class="mf">0.5</span><span class="p">,</span> <span class="n">n_fmt</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">kind</span><span class="o">=</span><span class="s1">&#39;cubic&#39;</span><span class="p">,</span> <span class="n">beta</span><span class="o">=</span><span class="mf">0.5</span><span class="p">,</span> <span class="n">over_sample</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">axis</span><span class="o">=-</span><span class="mi">1</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;The fast Mellin transform (FMT) [1]_ of a uniformly sampled signal y.</span>
 
 <span class="sd">    When the Mellin parameter (beta) is 1/2, it is also known as the scale transform [2]_.</span>
@@ -1465,6 +1465,211 @@
     <span class="k">return</span> <span class="n">result</span><span class="p">[</span><span class="n">idx</span><span class="p">]</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">n</span><span class="p">)</span> <span class="o">/</span> <span class="n">n_fmt</span></div>
 
 
+<div class="viewcode-block" id="pcen"><a class="viewcode-back" href="../../../generated/librosa.core.pcen.html#librosa.core.pcen">[docs]</a><span class="nd">@cache</span><span class="p">(</span><span class="n">level</span><span class="o">=</span><span class="mi">30</span><span class="p">)</span>
+<span class="k">def</span> <span class="nf">pcen</span><span class="p">(</span><span class="n">S</span><span class="p">,</span> <span class="n">sr</span><span class="o">=</span><span class="mi">22050</span><span class="p">,</span> <span class="n">hop_length</span><span class="o">=</span><span class="mi">512</span><span class="p">,</span> <span class="n">gain</span><span class="o">=</span><span class="mf">0.98</span><span class="p">,</span> <span class="n">bias</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">power</span><span class="o">=</span><span class="mf">0.5</span><span class="p">,</span>
+         <span class="n">time_constant</span><span class="o">=</span><span class="mf">0.400</span><span class="p">,</span> <span class="n">eps</span><span class="o">=</span><span class="mf">1e-6</span><span class="p">,</span> <span class="n">b</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">max_size</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">ref</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+         <span class="n">axis</span><span class="o">=-</span><span class="mi">1</span><span class="p">,</span> <span class="n">max_axis</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+    <span class="sd">&#39;&#39;&#39;Per-channel energy normalization (PCEN) [1]_</span>
+
+<span class="sd">    This function normalizes a time-frequency representation `S` by</span>
+<span class="sd">    performing automatic gain control, followed by nonlinear compression:</span>
+
+<span class="sd">        P[f, t] = (S / (eps + M[f, t])**gain + bias)**power - bias**power</span>
+
+<span class="sd">    where `M` is the result of applying a low-pass, temporal IIR filter</span>
+<span class="sd">    to `S`:</span>
+
+<span class="sd">        M[f, t] = (1 - b) * M[f, t - 1] + b * S[f, t]</span>
+
+<span class="sd">    If `b` is not provided, it is calculated as:</span>
+
+<span class="sd">        b = (sqrt(1 + 4* T**2) - 1) / (2 * T**2)</span>
+
+<span class="sd">    where `T = time_constant * sr / hop_length`.</span>
+
+<span class="sd">    This normalization is designed to suppress background noise and</span>
+<span class="sd">    emphasize foreground signals, and can be used as an alternative to</span>
+<span class="sd">    decibel scaling (`amplitude_to_db`).</span>
+
+<span class="sd">    This implementation also supports smoothing across frequency bins</span>
+<span class="sd">    by specifying `max_size &gt; 1`.  If this option is used, the filtered</span>
+<span class="sd">    spectrogram `M` is computed as</span>
+
+<span class="sd">        M[f, t] = (1 - b) * M[f, t - 1] + b * R[f, t]</span>
+
+<span class="sd">    where `R` has been max-filtered along the frequency axis, similar to</span>
+<span class="sd">    the SuperFlux algorithm implemented in `onset.onset_strength`:</span>
+
+<span class="sd">        R[f, t] = max(S[f - max_size//2: f + max_size//2, t])</span>
+
+<span class="sd">    This can be used to perform automatic gain control on signals that cross</span>
+<span class="sd">    or span multiple frequency bans, which may be desirable for spectrograms</span>
+<span class="sd">    with high frequency resolution.</span>
+
+<span class="sd">    .. [1] Wang, Y., Getreuer, P., Hughes, T., Lyon, R. F., &amp; Saurous, R. A.</span>
+<span class="sd">       (2017, March). Trainable frontend for robust and far-field keyword spotting.</span>
+<span class="sd">       In Acoustics, Speech and Signal Processing (ICASSP), 2017</span>
+<span class="sd">       IEEE International Conference on (pp. 5670-5674). IEEE.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    S : np.ndarray (non-negative)</span>
+<span class="sd">        The input (magnitude) spectrogram</span>
+
+<span class="sd">    sr : number &gt; 0 [scalar]</span>
+<span class="sd">        The audio sampling rate</span>
+
+<span class="sd">    hop_length : int &gt; 0 [scalar]</span>
+<span class="sd">        The hop length of `S`, expressed in samples</span>
+
+<span class="sd">    gain : number &gt;= 0 [scalar]</span>
+<span class="sd">        The gain factor.  Typical values should be slightly less than 1.</span>
+
+<span class="sd">    bias : number &gt;= 0 [scalar]</span>
+<span class="sd">        The bias point of the nonlinear compression (default: 2)</span>
+
+<span class="sd">    power : number &gt; 0 [scalar]</span>
+<span class="sd">        The compression exponent.  Typical values should be between 0 and 1.</span>
+<span class="sd">        Smaller values of `power` result in stronger compression.</span>
+
+<span class="sd">    time_constant : number &gt; 0 [scalar]</span>
+<span class="sd">        The time constant for IIR filtering, measured in seconds.</span>
+
+<span class="sd">    eps : number &gt; 0 [scalar]</span>
+<span class="sd">        A small constant used to ensure numerical stability of the filter.</span>
+
+<span class="sd">    b : number in [0, 1]  [scalar]</span>
+<span class="sd">        The filter coefficient for the low-pass filter.</span>
+<span class="sd">        If not provided, it will be inferred from `time_constant`.</span>
+
+<span class="sd">    max_size : int &gt; 0 [scalar]</span>
+<span class="sd">        The width of the max filter applied to the frequency axis.</span>
+<span class="sd">        If left as `1`, no filtering is performed.</span>
+
+<span class="sd">    ref : None or np.ndarray (shape=S.shape)</span>
+<span class="sd">        An optional pre-computed reference spectrum (`R` in the above).</span>
+<span class="sd">        If not provided it will be computed from `S`.</span>
+
+<span class="sd">    axis : int [scalar]</span>
+<span class="sd">        The (time) axis of the input spectrogram.</span>
+
+<span class="sd">    max_axis : None or int [scalar]</span>
+<span class="sd">        The frequency axis of the input spectrogram.</span>
+<span class="sd">        If `None`, and `S` is two-dimensional, it will be inferred</span>
+<span class="sd">        as the opposite from `axis`.</span>
+<span class="sd">        If `S` is not two-dimensional, and `max_size &gt; 1`, an error</span>
+<span class="sd">        will be raised.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    P : np.ndarray, non-negative [shape=(n, m)]</span>
+<span class="sd">        The per-channel energy normalized version of `S`.</span>
+
+<span class="sd">    See Also</span>
+<span class="sd">    --------</span>
+<span class="sd">    amplitude_to_db</span>
+<span class="sd">    librosa.onset.onset_strength</span>
+
+<span class="sd">    Examples</span>
+<span class="sd">    --------</span>
+
+<span class="sd">    Compare PCEN to log amplitude (dB) scaling on Mel spectra</span>
+
+<span class="sd">    &gt;&gt;&gt; import matplotlib.pyplot as plt</span>
+<span class="sd">    &gt;&gt;&gt; y, sr = librosa.load(librosa.util.example_audio_file(),</span>
+<span class="sd">    ...                      offset=10, duration=10)</span>
+
+<span class="sd">    &gt;&gt;&gt; # We&#39;ll use power=1 to get a magnitude spectrum</span>
+<span class="sd">    &gt;&gt;&gt; # instead of a power spectrum</span>
+<span class="sd">    &gt;&gt;&gt; S = librosa.feature.melspectrogram(y, sr=sr, power=1)</span>
+<span class="sd">    &gt;&gt;&gt; log_S = librosa.amplitude_to_db(S, ref=np.max)</span>
+<span class="sd">    &gt;&gt;&gt; pcen_S = librosa.pcen(S)</span>
+<span class="sd">    &gt;&gt;&gt; plt.figure()</span>
+<span class="sd">    &gt;&gt;&gt; plt.subplot(2,1,1)</span>
+<span class="sd">    &gt;&gt;&gt; librosa.display.specshow(log_S, x_axis=&#39;time&#39;, y_axis=&#39;mel&#39;)</span>
+<span class="sd">    &gt;&gt;&gt; plt.title(&#39;log amplitude (dB)&#39;)</span>
+<span class="sd">    &gt;&gt;&gt; plt.colorbar()</span>
+<span class="sd">    &gt;&gt;&gt; plt.subplot(2,1,2)</span>
+<span class="sd">    &gt;&gt;&gt; librosa.display.specshow(pcen_S, x_axis=&#39;time&#39;, y_axis=&#39;mel&#39;)</span>
+<span class="sd">    &gt;&gt;&gt; plt.title(&#39;Per-channel energy normalization&#39;)</span>
+<span class="sd">    &gt;&gt;&gt; plt.colorbar()</span>
+<span class="sd">    &gt;&gt;&gt; plt.tight_layout()</span>
+
+<span class="sd">    Compare PCEN with and without max-filtering</span>
+
+<span class="sd">    &gt;&gt;&gt; pcen_max = librosa.pcen(S, max_size=3)</span>
+<span class="sd">    &gt;&gt;&gt; plt.figure()</span>
+<span class="sd">    &gt;&gt;&gt; plt.subplot(2,1,1)</span>
+<span class="sd">    &gt;&gt;&gt; librosa.display.specshow(pcen_S, x_axis=&#39;time&#39;, y_axis=&#39;mel&#39;)</span>
+<span class="sd">    &gt;&gt;&gt; plt.title(&#39;Per-channel energy normalization (no max-filter)&#39;)</span>
+<span class="sd">    &gt;&gt;&gt; plt.colorbar()</span>
+<span class="sd">    &gt;&gt;&gt; plt.subplot(2,1,2)</span>
+<span class="sd">    &gt;&gt;&gt; librosa.display.specshow(pcen_max, x_axis=&#39;time&#39;, y_axis=&#39;mel&#39;)</span>
+<span class="sd">    &gt;&gt;&gt; plt.title(&#39;Per-channel energy normalization (max_size=3)&#39;)</span>
+<span class="sd">    &gt;&gt;&gt; plt.colorbar()</span>
+<span class="sd">    &gt;&gt;&gt; plt.tight_layout()</span>
+
+<span class="sd">    &#39;&#39;&#39;</span>
+
+    <span class="k">if</span> <span class="n">power</span> <span class="o">&lt;=</span> <span class="mi">0</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="n">ParameterError</span><span class="p">(</span><span class="s1">&#39;power=</span><span class="si">{}</span><span class="s1"> must be strictly positive&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">power</span><span class="p">))</span>
+
+    <span class="k">if</span> <span class="n">gain</span> <span class="o">&lt;</span> <span class="mi">0</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="n">ParameterError</span><span class="p">(</span><span class="s1">&#39;gain=</span><span class="si">{}</span><span class="s1"> must be non-negative&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">gain</span><span class="p">))</span>
+
+    <span class="k">if</span> <span class="n">bias</span> <span class="o">&lt;</span> <span class="mi">0</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="n">ParameterError</span><span class="p">(</span><span class="s1">&#39;bias=</span><span class="si">{}</span><span class="s1"> must be non-negative&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">bias</span><span class="p">))</span>
+
+    <span class="k">if</span> <span class="n">eps</span> <span class="o">&lt;=</span> <span class="mi">0</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="n">ParameterError</span><span class="p">(</span><span class="s1">&#39;eps=</span><span class="si">{}</span><span class="s1"> must be strictly positive&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">eps</span><span class="p">))</span>
+
+    <span class="k">if</span> <span class="n">time_constant</span> <span class="o">&lt;=</span> <span class="mi">0</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="n">ParameterError</span><span class="p">(</span><span class="s1">&#39;time_constant=</span><span class="si">{}</span><span class="s1"> must be strictly positive&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">time_constant</span><span class="p">))</span>
+
+    <span class="k">if</span> <span class="n">max_size</span> <span class="o">&lt;</span> <span class="mi">1</span> <span class="ow">or</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">max_size</span><span class="p">,</span> <span class="nb">int</span><span class="p">):</span>
+        <span class="k">raise</span> <span class="n">ParameterError</span><span class="p">(</span><span class="s1">&#39;max_size=</span><span class="si">{}</span><span class="s1"> must be a positive integer&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">max_size</span><span class="p">))</span>
+
+    <span class="k">if</span> <span class="n">b</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">t_frames</span> <span class="o">=</span> <span class="n">time_constant</span> <span class="o">*</span> <span class="n">sr</span> <span class="o">/</span> <span class="nb">float</span><span class="p">(</span><span class="n">hop_length</span><span class="p">)</span>
+        <span class="c1"># By default, this solves the equation for b:</span>
+        <span class="c1">#   b**2  + (1 - b) / t_frames  - 2 = 0</span>
+        <span class="c1"># which approximates the full-width half-max of the</span>
+        <span class="c1"># squared frequency response of the IIR low-pass filter</span>
+
+        <span class="n">b</span> <span class="o">=</span> <span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="mi">1</span> <span class="o">+</span> <span class="mi">4</span> <span class="o">*</span> <span class="n">t_frames</span><span class="o">**</span><span class="mi">2</span><span class="p">)</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span> <span class="o">/</span> <span class="p">(</span><span class="mi">2</span> <span class="o">*</span> <span class="n">t_frames</span><span class="o">**</span><span class="mi">2</span><span class="p">)</span>
+
+    <span class="k">if</span> <span class="ow">not</span> <span class="mi">0</span> <span class="o">&lt;=</span> <span class="n">b</span> <span class="o">&lt;=</span> <span class="mi">1</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="n">ParameterError</span><span class="p">(</span><span class="s1">&#39;b=</span><span class="si">{}</span><span class="s1"> must be between 0 and 1&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">b</span><span class="p">))</span>
+
+    <span class="k">if</span> <span class="n">np</span><span class="o">.</span><span class="n">issubdtype</span><span class="p">(</span><span class="n">S</span><span class="o">.</span><span class="n">dtype</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">complexfloating</span><span class="p">):</span>
+        <span class="n">warnings</span><span class="o">.</span><span class="n">warn</span><span class="p">(</span><span class="s1">&#39;pcen was called on complex input so phase &#39;</span>
+                      <span class="s1">&#39;information will be discarded. To suppress this warning, &#39;</span>
+                      <span class="s1">&#39;call pcen(np.abs(D)) instead.&#39;</span><span class="p">)</span>
+        <span class="n">S</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">S</span><span class="p">)</span>
+
+    <span class="k">if</span> <span class="n">ref</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">max_size</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
+            <span class="n">ref</span> <span class="o">=</span> <span class="n">S</span>
+        <span class="k">elif</span> <span class="n">S</span><span class="o">.</span><span class="n">ndim</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="n">ParameterError</span><span class="p">(</span><span class="s1">&#39;Max-filtering cannot be applied to 1-dimensional input&#39;</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">max_axis</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+                <span class="k">if</span> <span class="n">S</span><span class="o">.</span><span class="n">ndim</span> <span class="o">!=</span> <span class="mi">2</span><span class="p">:</span>
+                    <span class="k">raise</span> <span class="n">ParameterError</span><span class="p">(</span><span class="s1">&#39;Max-filtering a </span><span class="si">{:d}</span><span class="s1">-dimensional spectrogram &#39;</span>
+                                         <span class="s1">&#39;requires you to specify max_axis&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">S</span><span class="o">.</span><span class="n">ndim</span><span class="p">))</span>
+                <span class="c1"># if axis = 0, max_axis=1</span>
+                <span class="c1"># if axis = +- 1, max_axis = 0</span>
+                <span class="n">max_axis</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">mod</span><span class="p">(</span><span class="mi">1</span> <span class="o">-</span> <span class="n">axis</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span>
+
+            <span class="n">ref</span> <span class="o">=</span> <span class="n">scipy</span><span class="o">.</span><span class="n">ndimage</span><span class="o">.</span><span class="n">maximum_filter1d</span><span class="p">(</span><span class="n">S</span><span class="p">,</span> <span class="n">max_size</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="n">max_axis</span><span class="p">)</span>
+
+    <span class="n">S_smooth</span> <span class="o">=</span> <span class="n">scipy</span><span class="o">.</span><span class="n">signal</span><span class="o">.</span><span class="n">lfilter</span><span class="p">([</span><span class="n">b</span><span class="p">],</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="n">b</span> <span class="o">-</span> <span class="mi">1</span><span class="p">],</span> <span class="n">ref</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="n">axis</span><span class="p">)</span>
+
+    <span class="c1"># Working in log-space gives us some stability, and a slight speedup</span>
+    <span class="n">smooth</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">exp</span><span class="p">(</span><span class="o">-</span><span class="n">gain</span> <span class="o">*</span> <span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="n">eps</span><span class="p">)</span> <span class="o">+</span> <span class="n">np</span><span class="o">.</span><span class="n">log1p</span><span class="p">(</span><span class="n">S_smooth</span> <span class="o">/</span> <span class="n">eps</span><span class="p">)))</span>
+    <span class="k">return</span> <span class="p">(</span><span class="n">S</span> <span class="o">*</span> <span class="n">smooth</span> <span class="o">+</span> <span class="n">bias</span><span class="p">)</span><span class="o">**</span><span class="n">power</span> <span class="o">-</span> <span class="n">bias</span><span class="o">**</span><span class="n">power</span></div>
+
+
 <span class="k">def</span> <span class="nf">_spectrogram</span><span class="p">(</span><span class="n">y</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">S</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">n_fft</span><span class="o">=</span><span class="mi">2048</span><span class="p">,</span> <span class="n">hop_length</span><span class="o">=</span><span class="mi">512</span><span class="p">,</span> <span class="n">power</span><span class="o">=</span><span class="mi">1</span><span class="p">):</span>
     <span class="sd">&#39;&#39;&#39;Helper function to retrieve a magnitude spectrogram.</span>
 
@@ -1512,9 +1717,7 @@
 </pre></div>
 
            </div>
-           <div class="articleComments">
-            
-           </div>
+           
           </div>
           <footer>
   
@@ -1527,7 +1730,7 @@
 
     </p>
   </div>
-  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/snide/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
 
 </footer>
 
@@ -1560,12 +1763,12 @@
             <dd><a href="../../../../0.6.0/index.html">0.6.0</a></dd>
             <dd><a href="../../../../0.6.0rc0/index.html">0.6.0rc0</a></dd>
             <dd><a href="../../../../0.6.0rc1/index.html">0.6.0rc1</a></dd>
+            <dd><a href="../../../../0.6.1rc0/index.html">0.6.1rc0</a></dd>
             <dd><a href="../../../../v0.1.0/index.html">v0.1.0</a></dd>
             <dd><a href="../../../../v0.4.0/index.html">v0.4.0</a></dd>
         </dl>
         <dl>
             <dt>Branches</dt>
-            <dd><a href="../../../../display-bin-centering/index.html">display-bin-centering</a></dd>
             <dd><a href="spectrum.html">master</a></dd>
         </dl>
     </div>
@@ -1577,7 +1780,8 @@
     <script type="text/javascript">
         var DOCUMENTATION_OPTIONS = {
             URL_ROOT:'../../../',
-            VERSION:'0.6.0',
+            VERSION:'0.6.1rc0',
+            LANGUAGE:'None',
             COLLAPSE_INDEX:false,
             FILE_SUFFIX:'.html',
             HAS_SOURCE:  true,
@@ -1587,7 +1791,7 @@
       <script type="text/javascript" src="../../../_static/jquery.js"></script>
       <script type="text/javascript" src="../../../_static/underscore.js"></script>
       <script type="text/javascript" src="../../../_static/doctools.js"></script>
-      <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.0/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+      <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
 
   
 
@@ -1596,14 +1800,11 @@
     <script type="text/javascript" src="../../../_static/js/theme.js"></script>
   
 
-  
-  
   <script type="text/javascript">
       jQuery(function () {
-          SphinxRtdTheme.StickyNav.enable();
+          SphinxRtdTheme.Navigation.enable(true);
       });
-  </script>
-   
+  </script> 
 
 </body>
 </html>

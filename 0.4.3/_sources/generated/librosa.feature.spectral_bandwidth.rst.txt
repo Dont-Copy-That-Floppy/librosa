@@ -1,5 +1,5 @@
-librosa\.feature\.spectral\_bandwidth
-=====================================
+librosa.feature.spectral\_bandwidth
+===================================
 
 .. currentmodule:: librosa.feature
 

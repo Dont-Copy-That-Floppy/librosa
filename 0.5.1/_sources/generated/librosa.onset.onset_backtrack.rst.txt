@@ -1,5 +1,5 @@
-librosa\.onset\.onset\_backtrack
-================================
+librosa.onset.onset\_backtrack
+==============================
 
 .. currentmodule:: librosa.onset
 

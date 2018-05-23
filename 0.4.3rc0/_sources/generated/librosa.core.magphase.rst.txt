@@ -1,5 +1,5 @@
-librosa\.core\.magphase
-=======================
+librosa.core.magphase
+=====================
 
 .. currentmodule:: librosa.core
 

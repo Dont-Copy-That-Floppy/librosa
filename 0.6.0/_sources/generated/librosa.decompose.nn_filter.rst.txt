@@ -1,5 +1,5 @@
-librosa\.decompose\.nn\_filter
-==============================
+librosa.decompose.nn\_filter
+============================
 
 .. currentmodule:: librosa.decompose
 

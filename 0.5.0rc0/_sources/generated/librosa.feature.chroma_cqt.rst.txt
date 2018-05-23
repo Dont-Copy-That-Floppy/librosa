@@ -1,5 +1,5 @@
-librosa\.feature\.chroma\_cqt
-=============================
+librosa.feature.chroma\_cqt
+===========================
 
 .. currentmodule:: librosa.feature
 

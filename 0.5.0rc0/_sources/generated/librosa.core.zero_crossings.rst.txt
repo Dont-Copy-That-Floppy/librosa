@@ -1,5 +1,5 @@
-librosa\.core\.zero\_crossings
-==============================
+librosa.core.zero\_crossings
+============================
 
 .. currentmodule:: librosa.core
 

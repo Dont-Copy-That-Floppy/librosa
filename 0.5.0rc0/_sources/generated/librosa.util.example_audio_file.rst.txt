@@ -1,5 +1,5 @@
-librosa\.util\.example\_audio\_file
-===================================
+librosa.util.example\_audio\_file
+=================================
 
 .. currentmodule:: librosa.util
 

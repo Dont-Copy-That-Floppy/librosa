@@ -1,5 +1,5 @@
-librosa\.beat\.estimate\_tempo
-==============================
+librosa.beat.estimate\_tempo
+============================
 
 .. currentmodule:: librosa.beat
 

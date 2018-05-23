@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>librosa.util.match_intervals &mdash; librosa 0.6.0 documentation</title>
+  <title>librosa.util.match_intervals &mdash; librosa 0.6.1rc0 documentation</title>
   
 
   
@@ -25,31 +25,21 @@
   
 
   
-  
     <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
-  
-
-  
-    <link rel="stylesheet" href="../_static/gallery.css" type="text/css" />
-  
-    <link rel="stylesheet" href="../_static/banner.css" type="text/css" />
-  
-
-  
-        <link rel="index" title="Index"
-              href="../genindex.html"/>
-        <link rel="search" title="Search" href="../search.html"/>
-    <link rel="top" title="librosa 0.6.0 documentation" href="../index.html"/>
-        <link rel="up" title="Utilities" href="../util.html"/>
-        <link rel="next" title="librosa.util.match_events" href="librosa.util.match_events.html"/>
-        <link rel="prev" title="librosa.util.tiny" href="librosa.util.tiny.html"/> 
+  <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/gallery.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/banner.css" type="text/css" />
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="librosa.util.match_events" href="librosa.util.match_events.html" />
+    <link rel="prev" title="librosa.util.tiny" href="librosa.util.tiny.html" /> 
 
   
   <script src="../_static/js/modernizr.min.js"></script>
 
 </head>
 
-<body class="wy-body-for-nav" role="document">
+<body class="wy-body-for-nav">
 
    
   <div class="wy-grid-for-nav">
@@ -109,6 +99,7 @@
 <li class="toctree-l1"><a class="reference internal" href="../effects.html">Effects</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../output.html">Output</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../segment.html">Temporal segmentation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../sequence.html">Sequential modeling</a></li>
 <li class="toctree-l1 current"><a class="reference internal" href="../util.html">Utilities</a><ul class="current">
 <li class="toctree-l2"><a class="reference internal" href="../util.html#array-operations">Array operations</a></li>
 <li class="toctree-l2 current"><a class="reference internal" href="../util.html#matching">Matching</a><ul class="current">
@@ -142,7 +133,7 @@
     <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
 
       
-      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+      <nav class="wy-nav-top" aria-label="top navigation">
         
           <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
           <a href="../index.html">librosa</a>
@@ -150,9 +141,10 @@
       </nav>
 
 
-      
       <div class="wy-nav-content">
+        
         <div class="rst-content">
+        
           
 
 
@@ -196,65 +188,113 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
             
-  <div class="section" id="librosa-util-match-intervals">
+  
+
+
+    
+    
+
+
+
+    <p class="scv-banner scv-sphinx_rtd_theme"><a href="../../0.6.1rc0/generated/librosa.util.match_intervals.html"><b>Warning:</b> This document is for the development version of librosa. The latest version is 0.6.1rc0.</a></p>
+<div class="section" id="librosa-util-match-intervals">
 <h1>librosa.util.match_intervals<a class="headerlink" href="#librosa-util-match-intervals" title="Permalink to this headline">¶</a></h1>
 <dl class="function">
 <dt id="librosa.util.match_intervals">
-<code class="descclassname">librosa.util.</code><code class="descname">match_intervals</code><span class="sig-paren">(</span><em>intervals_from</em>, <em>intervals_to</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/librosa/util/utils.html#match_intervals"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#librosa.util.match_intervals" title="Permalink to this definition">¶</a></dt>
+<code class="descclassname">librosa.util.</code><code class="descname">match_intervals</code><span class="sig-paren">(</span><em>intervals_from</em>, <em>intervals_to</em>, <em>strict=True</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/librosa/util/matching.html#match_intervals"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#librosa.util.match_intervals" title="Permalink to this definition">¶</a></dt>
 <dd><p>Match one set of time intervals to another.</p>
 <p>This can be useful for tasks such as mapping beat timings
 to segments.</p>
+<p>Each element <em class="xref py py-obj">[a, b]</em> of <em class="xref py py-obj">intervals_from</em> is matched to the
+element <em class="xref py py-obj">[c, d]</em> of <em class="xref py py-obj">intervals_to</em> which maximizes the
+Jaccard similarity between the intervals:</p>
+<blockquote>
+<div><em class="xref py py-obj">max(0, |min(b, d) - max(a, c)|) / |max(d, b) - min(a, c)|</em></div></blockquote>
+<p>In <em class="xref py py-obj">strict=True</em> mode, if there is no interval with positive
+intersection with <em class="xref py py-obj">[a,b]</em>, an exception is thrown.</p>
+<p>In <em class="xref py py-obj">strict=False</em> mode, any interval <em class="xref py py-obj">[a, b]</em> that has no
+intersection with any element of <em class="xref py py-obj">intervals_to</em> is instead
+matched to the interval <em class="xref py py-obj">[c, d]</em> which minimizes</p>
+<blockquote>
+<div><em class="xref py py-obj">min(|b - c|, |a - d|)</em></div></blockquote>
+<p>that is, the disjoint interval <em class="xref py py-obj">[c, d]</em> with a boundary closest
+to <em class="xref py py-obj">[a, b]</em>.</p>
 <div class="admonition note">
 <p class="first admonition-title">Note</p>
-<p class="last">A target interval may be matched to multiple source
-intervals.</p>
+<p class="last">An element of <em class="xref py py-obj">intervals_to</em> may be matched to multiple
+entries of <em class="xref py py-obj">intervals_from</em>.</p>
 </div>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>intervals_from</strong> : np.ndarray [shape=(n, 2)]</p>
-<blockquote>
-<div><p>The time range for source intervals.
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><dl class="first docutils">
+<dt><strong>intervals_from</strong> <span class="classifier-delimiter">:</span> <span class="classifier">np.ndarray [shape=(n, 2)]</span></dt>
+<dd><p class="first last">The time range for source intervals.
 The <em class="xref py py-obj">i</em> th interval spans time <em class="xref py py-obj">intervals_from[i, 0]</em>
 to <em class="xref py py-obj">intervals_from[i, 1]</em>.
 <em class="xref py py-obj">intervals_from[0, 0]</em> should be 0, <em class="xref py py-obj">intervals_from[-1, 1]</em>
 should be the track duration.</p>
-</div></blockquote>
-<p><strong>intervals_to</strong> : np.ndarray [shape=(m, 2)]</p>
-<blockquote>
-<div><p>Analogous to <em class="xref py py-obj">intervals_from</em>.</p>
-</div></blockquote>
+</dd>
+<dt><strong>intervals_to</strong> <span class="classifier-delimiter">:</span> <span class="classifier">np.ndarray [shape=(m, 2)]</span></dt>
+<dd><p class="first last">Analogous to <em class="xref py py-obj">intervals_from</em>.</p>
+</dd>
+<dt><strong>strict</strong> <span class="classifier-delimiter">:</span> <span class="classifier">bool</span></dt>
+<dd><p class="first last">If <em class="xref py py-obj">True</em>, intervals can only match if they intersect.
+If <em class="xref py py-obj">False</em>, disjoint intervals can match.</p>
+</dd>
+</dl>
 </td>
 </tr>
-<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first"><strong>interval_mapping</strong> : np.ndarray [shape=(n,)]</p>
-<blockquote>
-<div><p>For each interval in <em class="xref py py-obj">intervals_from</em>, the
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><dl class="first docutils">
+<dt><strong>interval_mapping</strong> <span class="classifier-delimiter">:</span> <span class="classifier">np.ndarray [shape=(n,)]</span></dt>
+<dd><p class="first last">For each interval in <em class="xref py py-obj">intervals_from</em>, the
 corresponding interval in <em class="xref py py-obj">intervals_to</em>.</p>
-</div></blockquote>
+</dd>
+</dl>
 </td>
 </tr>
-<tr class="field-odd field"><th class="field-name">Raises:</th><td class="field-body"><p class="first"><strong>ParameterError</strong></p>
-<blockquote class="last">
-<div><p>If either array of input intervals is not the correct shape</p>
-</div></blockquote>
+<tr class="field-odd field"><th class="field-name">Raises:</th><td class="field-body"><dl class="first last docutils">
+<dt><strong>ParameterError</strong></dt>
+<dd><p class="first">If either array of input intervals is not the correct shape</p>
+<p class="last">If <em class="xref py py-obj">strict=True</em> and some element of <em class="xref py py-obj">intervals_from</em> is disjoint from
+every element of <em class="xref py py-obj">intervals_to</em>.</p>
+</dd>
+</dl>
 </td>
 </tr>
 </tbody>
 </table>
 <div class="admonition seealso">
 <p class="first admonition-title">See also</p>
-<p class="last"><a class="reference internal" href="librosa.util.match_events.html#librosa.util.match_events" title="librosa.util.match_events"><code class="xref py py-obj docutils literal"><span class="pre">match_events</span></code></a></p>
+<p class="last"><a class="reference internal" href="librosa.util.match_events.html#librosa.util.match_events" title="librosa.util.match_events"><code class="xref py py-obj docutils literal notranslate"><span class="pre">match_events</span></code></a></p>
 </div>
+<p class="rubric">Examples</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">ints_from</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([[</span><span class="mi">3</span><span class="p">,</span> <span class="mi">5</span><span class="p">],</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">4</span><span class="p">],</span> <span class="p">[</span><span class="mi">4</span><span class="p">,</span> <span class="mi">5</span><span class="p">]])</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">ints_to</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">2</span><span class="p">],</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">3</span><span class="p">],</span> <span class="p">[</span><span class="mi">4</span><span class="p">,</span> <span class="mi">5</span><span class="p">],</span> <span class="p">[</span><span class="mi">6</span><span class="p">,</span> <span class="mi">7</span><span class="p">]])</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">librosa</span><span class="o">.</span><span class="n">util</span><span class="o">.</span><span class="n">match_intervals</span><span class="p">(</span><span class="n">ints_from</span><span class="p">,</span> <span class="n">ints_to</span><span class="p">)</span>
+<span class="go">array([2, 1, 2], dtype=uint32)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="c1"># [3, 5] =&gt; [4, 5]  (ints_to[2])</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="c1"># [1, 4] =&gt; [1, 3]  (ints_to[1])</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="c1"># [4, 5] =&gt; [4, 5]  (ints_to[2])</span>
+</pre></div>
+</div>
+<p>The reverse matching of the above is not possible in <em class="xref py py-obj">strict</em> mode
+because <em class="xref py py-obj">[6, 7]</em> is disjoint from all intervals in <em class="xref py py-obj">ints_from</em>.
+With <em class="xref py py-obj">strict=False</em>, we get the following:
+&gt;&gt;&gt; librosa.util.match_intervals(ints_to, ints_from, strict=False)
+array([1, 1, 2, 2], dtype=uint32)
+&gt;&gt;&gt; # [0, 2] =&gt; [1, 4]  (ints_from[1])
+&gt;&gt;&gt; # [1, 3] =&gt; [1, 4]  (ints_from[1])
+&gt;&gt;&gt; # [4, 5] =&gt; [4, 5]  (ints_from[2])
+&gt;&gt;&gt; # [6, 7] =&gt; [4, 5]  (ints_from[2])</p>
 </dd></dl>
 
 </div>
 
 
            </div>
-           <div class="articleComments">
-            
-           </div>
+           
           </div>
           <footer>
   
@@ -276,7 +316,7 @@ corresponding interval in <em class="xref py py-obj">intervals_to</em>.</p>
 
     </p>
   </div>
-  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/snide/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
 
 </footer>
 
@@ -309,12 +349,12 @@ corresponding interval in <em class="xref py py-obj">intervals_to</em>.</p>
             <dd><a href="../../0.6.0/generated/librosa.util.match_intervals.html">0.6.0</a></dd>
             <dd><a href="../../0.6.0rc0/generated/librosa.util.match_intervals.html">0.6.0rc0</a></dd>
             <dd><a href="../../0.6.0rc1/generated/librosa.util.match_intervals.html">0.6.0rc1</a></dd>
+            <dd><a href="../../0.6.1rc0/generated/librosa.util.match_intervals.html">0.6.1rc0</a></dd>
             <dd><a href="../../v0.1.0/index.html">v0.1.0</a></dd>
             <dd><a href="../../v0.4.0/index.html">v0.4.0</a></dd>
         </dl>
         <dl>
             <dt>Branches</dt>
-            <dd><a href="../../display-bin-centering/generated/librosa.util.match_intervals.html">display-bin-centering</a></dd>
             <dd><a href="librosa.util.match_intervals.html">master</a></dd>
         </dl>
     </div>
@@ -326,7 +366,8 @@ corresponding interval in <em class="xref py py-obj">intervals_to</em>.</p>
     <script type="text/javascript">
         var DOCUMENTATION_OPTIONS = {
             URL_ROOT:'../',
-            VERSION:'0.6.0',
+            VERSION:'0.6.1rc0',
+            LANGUAGE:'None',
             COLLAPSE_INDEX:false,
             FILE_SUFFIX:'.html',
             HAS_SOURCE:  true,
@@ -336,7 +377,7 @@ corresponding interval in <em class="xref py py-obj">intervals_to</em>.</p>
       <script type="text/javascript" src="../_static/jquery.js"></script>
       <script type="text/javascript" src="../_static/underscore.js"></script>
       <script type="text/javascript" src="../_static/doctools.js"></script>
-      <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.0/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+      <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
 
   
 
@@ -345,14 +386,11 @@ corresponding interval in <em class="xref py py-obj">intervals_to</em>.</p>
     <script type="text/javascript" src="../_static/js/theme.js"></script>
   
 
-  
-  
   <script type="text/javascript">
       jQuery(function () {
-          SphinxRtdTheme.StickyNav.enable();
+          SphinxRtdTheme.Navigation.enable(true);
       });
-  </script>
-   
+  </script> 
 
 </body>
 </html>

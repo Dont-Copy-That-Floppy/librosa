@@ -1,5 +1,5 @@
-librosa\.display\.NoteFormatter
-===============================
+librosa.display.NoteFormatter
+=============================
 
 .. currentmodule:: librosa.display
 

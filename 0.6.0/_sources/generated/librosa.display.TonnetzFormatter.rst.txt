@@ -1,5 +1,5 @@
-librosa\.display\.TonnetzFormatter
-==================================
+librosa.display.TonnetzFormatter
+================================
 
 .. currentmodule:: librosa.display
 

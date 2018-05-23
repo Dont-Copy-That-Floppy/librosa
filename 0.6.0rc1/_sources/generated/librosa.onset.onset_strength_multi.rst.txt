@@ -1,5 +1,5 @@
-librosa\.onset\.onset\_strength\_multi
-======================================
+librosa.onset.onset\_strength\_multi
+====================================
 
 .. currentmodule:: librosa.onset
 

@@ -1,5 +1,5 @@
-librosa\.util\.tiny
-===================
+librosa.util.tiny
+=================
 
 .. currentmodule:: librosa.util
 

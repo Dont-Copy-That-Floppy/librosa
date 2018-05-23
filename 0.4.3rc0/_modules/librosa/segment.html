@@ -25,27 +25,18 @@
   
 
   
-  
     <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
-  
-
-  
-    <link rel="stylesheet" href="../../_static/banner.css" type="text/css" />
-  
-
-  
-        <link rel="index" title="Index"
-              href="../../genindex.html"/>
-        <link rel="search" title="Search" href="../../search.html"/>
-    <link rel="top" title="librosa 0.4.3rc0 documentation" href="../../index.html"/>
-        <link rel="up" title="Module code" href="../index.html"/> 
+  <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="../../_static/banner.css" type="text/css" />
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" /> 
 
   
   <script src="../../_static/js/modernizr.min.js"></script>
 
 </head>
 
-<body class="wy-body-for-nav" role="document">
+<body class="wy-body-for-nav">
 
    
   <div class="wy-grid-for-nav">
@@ -125,7 +116,7 @@
     <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
 
       
-      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+      <nav class="wy-nav-top" aria-label="top navigation">
         
           <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
           <a href="../../index.html">librosa</a>
@@ -133,9 +124,10 @@
       </nav>
 
 
-      
       <div class="wy-nav-content">
+        
         <div class="rst-content">
+        
           
 
 
@@ -165,8 +157,6 @@
     
       <li class="wy-breadcrumbs-aside">
         
-            
-        
       </li>
     
   </ul>
@@ -177,7 +167,16 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
             
-  <h1>Source code for librosa.segment</h1><div class="highlight"><pre>
+  
+
+
+    
+    
+
+
+
+    <p class="scv-banner scv-sphinx_rtd_theme"><b>Warning:</b> This document is for an old version of librosa.</p>
+<h1>Source code for librosa.segment</h1><div class="highlight"><pre>
 <span></span><span class="ch">#!/usr/bin/env python</span>
 <span class="c1"># -*- coding: utf-8 -*-</span>
 <span class="sd">&quot;&quot;&quot;</span>
@@ -235,8 +234,8 @@
            <span class="s1">&#39;structure_feature&#39;</span><span class="p">]</span>
 
 
-<span class="nd">@cache</span>
-<div class="viewcode-block" id="recurrence_matrix"><a class="viewcode-back" href="../../generated/librosa.segment.recurrence_matrix.html#librosa.segment.recurrence_matrix">[docs]</a><span class="k">def</span> <span class="nf">recurrence_matrix</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">k</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">width</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">metric</span><span class="o">=</span><span class="s1">&#39;euclidean&#39;</span><span class="p">,</span>
+<div class="viewcode-block" id="recurrence_matrix"><a class="viewcode-back" href="../../generated/librosa.segment.recurrence_matrix.html#librosa.segment.recurrence_matrix">[docs]</a><span class="nd">@cache</span>
+<span class="k">def</span> <span class="nf">recurrence_matrix</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">k</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">width</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">metric</span><span class="o">=</span><span class="s1">&#39;euclidean&#39;</span><span class="p">,</span>
                       <span class="n">sym</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">sparse</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">mode</span><span class="o">=</span><span class="s1">&#39;connectivity&#39;</span><span class="p">,</span>
                       <span class="n">bandwidth</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">axis</span><span class="o">=-</span><span class="mi">1</span><span class="p">):</span>
     <span class="sd">&#39;&#39;&#39;Compute a recurrence matrix from a data matrix.</span>
@@ -701,8 +700,8 @@
     <span class="k">return</span> <span class="n">decorator</span><span class="p">(</span><span class="n">__my_filter</span><span class="p">,</span> <span class="n">function</span><span class="p">)</span></div>
 
 
-<span class="nd">@cache</span>
-<div class="viewcode-block" id="subsegment"><a class="viewcode-back" href="../../generated/librosa.segment.subsegment.html#librosa.segment.subsegment">[docs]</a><span class="k">def</span> <span class="nf">subsegment</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">frames</span><span class="p">,</span> <span class="n">n_segments</span><span class="o">=</span><span class="mi">4</span><span class="p">,</span> <span class="n">axis</span><span class="o">=-</span><span class="mi">1</span><span class="p">):</span>
+<div class="viewcode-block" id="subsegment"><a class="viewcode-back" href="../../generated/librosa.segment.subsegment.html#librosa.segment.subsegment">[docs]</a><span class="nd">@cache</span>
+<span class="k">def</span> <span class="nf">subsegment</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">frames</span><span class="p">,</span> <span class="n">n_segments</span><span class="o">=</span><span class="mi">4</span><span class="p">,</span> <span class="n">axis</span><span class="o">=-</span><span class="mi">1</span><span class="p">):</span>
     <span class="sd">&#39;&#39;&#39;Sub-divide a segmentation by feature clustering.</span>
 
 <span class="sd">    Given a set of frame boundaries (`frames`), and a data matrix (`data`),</span>
@@ -882,9 +881,9 @@
 
 <span class="c1"># Deprecated functions</span>
 
-<span class="nd">@util</span><span class="o">.</span><span class="n">decorators</span><span class="o">.</span><span class="n">deprecated</span><span class="p">(</span><span class="s1">&#39;0.4&#39;</span><span class="p">,</span> <span class="s1">&#39;0.5&#39;</span><span class="p">)</span>
+<div class="viewcode-block" id="structure_feature"><a class="viewcode-back" href="../../generated/librosa.segment.structure_feature.html#librosa.segment.structure_feature">[docs]</a><span class="nd">@util</span><span class="o">.</span><span class="n">decorators</span><span class="o">.</span><span class="n">deprecated</span><span class="p">(</span><span class="s1">&#39;0.4&#39;</span><span class="p">,</span> <span class="s1">&#39;0.5&#39;</span><span class="p">)</span>
 <span class="nd">@cache</span>
-<div class="viewcode-block" id="structure_feature"><a class="viewcode-back" href="../../generated/librosa.segment.structure_feature.html#librosa.segment.structure_feature">[docs]</a><span class="k">def</span> <span class="nf">structure_feature</span><span class="p">(</span><span class="n">rec</span><span class="p">,</span> <span class="n">pad</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">inverse</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+<span class="k">def</span> <span class="nf">structure_feature</span><span class="p">(</span><span class="n">rec</span><span class="p">,</span> <span class="n">pad</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">inverse</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
     <span class="sd">&#39;&#39;&#39;Compute the structure feature from a recurrence matrix.</span>
 
 <span class="sd">    The i&#39;th column of the recurrence matrix is shifted up by i.</span>
@@ -961,9 +960,7 @@
 </pre></div>
 
            </div>
-           <div class="articleComments">
-            
-           </div>
+           
           </div>
           <footer>
   
@@ -976,7 +973,7 @@
 
     </p>
   </div>
-  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/snide/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
 
 </footer>
 
@@ -1009,12 +1006,12 @@
             <dd><a href="../../../0.6.0/index.html">0.6.0</a></dd>
             <dd><a href="../../../0.6.0rc0/index.html">0.6.0rc0</a></dd>
             <dd><a href="../../../0.6.0rc1/index.html">0.6.0rc1</a></dd>
+            <dd><a href="../../../0.6.1rc0/index.html">0.6.1rc0</a></dd>
             <dd><a href="../../../v0.1.0/index.html">v0.1.0</a></dd>
             <dd><a href="../../../v0.4.0/index.html">v0.4.0</a></dd>
         </dl>
         <dl>
             <dt>Branches</dt>
-            <dd><a href="../../../display-bin-centering/index.html">display-bin-centering</a></dd>
             <dd><a href="../../../master/index.html">master</a></dd>
         </dl>
     </div>
@@ -1027,6 +1024,7 @@
         var DOCUMENTATION_OPTIONS = {
             URL_ROOT:'../../',
             VERSION:'0.4.3rc0',
+            LANGUAGE:'None',
             COLLAPSE_INDEX:false,
             FILE_SUFFIX:'.html',
             HAS_SOURCE:  true,
@@ -1044,14 +1042,11 @@
     <script type="text/javascript" src="../../_static/js/theme.js"></script>
   
 
-  
-  
   <script type="text/javascript">
       jQuery(function () {
-          SphinxRtdTheme.StickyNav.enable();
+          SphinxRtdTheme.Navigation.enable(true);
       });
-  </script>
-   
+  </script> 
 
 </body>
 </html>

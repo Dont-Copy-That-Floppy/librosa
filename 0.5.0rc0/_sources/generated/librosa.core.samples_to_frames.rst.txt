@@ -1,5 +1,5 @@
-librosa\.core\.samples\_to\_frames
-==================================
+librosa.core.samples\_to\_frames
+================================
 
 .. currentmodule:: librosa.core
 

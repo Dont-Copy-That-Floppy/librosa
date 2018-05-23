@@ -1,5 +1,5 @@
-librosa\.core\.salience
-=======================
+librosa.core.salience
+=====================
 
 .. currentmodule:: librosa.core
 

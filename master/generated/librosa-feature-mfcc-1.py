@@ -1,6 +1,6 @@
 # Generate mfccs from a time series
 
-y, sr = librosa.load(librosa.util.example_audio_file())
+y, sr = librosa.load(librosa.util.example_audio_file(), offset=30, duration=5)
 librosa.feature.mfcc(y=y, sr=sr)
 # array([[ -5.229e+02,  -4.944e+02, ...,  -5.229e+02,  -5.229e+02],
 # [  7.105e-15,   3.787e+01, ...,  -7.105e-15,  -7.105e-15],
@@ -30,4 +30,19 @@ plt.figure(figsize=(10, 4))
 librosa.display.specshow(mfccs, x_axis='time')
 plt.colorbar()
 plt.title('MFCC')
+plt.tight_layout()
+
+# Compare different DCT bases
+
+m_slaney = librosa.feature.mfcc(y=y, sr=sr, dct_type=2)
+m_htk = librosa.feature.mfcc(y=y, sr=sr, dct_type=3)
+plt.figure(figsize=(10, 6))
+plt.subplot(2, 1, 1)
+librosa.display.specshow(m_slaney, x_axis='time')
+plt.title('RASTAMAT / Auditory toolbox (dct_type=2)')
+plt.colorbar()
+plt.subplot(2, 1, 2)
+librosa.display.specshow(m_htk, x_axis='time')
+plt.title('HTK-style (dct_type=3)')
+plt.colorbar()
 plt.tight_layout()

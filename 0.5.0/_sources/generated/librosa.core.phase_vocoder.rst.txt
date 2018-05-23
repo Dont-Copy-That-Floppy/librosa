@@ -1,5 +1,5 @@
-librosa\.core\.phase\_vocoder
-=============================
+librosa.core.phase\_vocoder
+===========================
 
 .. currentmodule:: librosa.core
 

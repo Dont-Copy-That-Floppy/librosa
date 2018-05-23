@@ -1,5 +1,5 @@
-librosa\.filters\.\_multirate\_fb
-=================================
+librosa.filters.\_multirate\_fb
+===============================
 
 .. currentmodule:: librosa.filters
 

@@ -1,5 +1,5 @@
-librosa\.effects\.pitch\_shift
-==============================
+librosa.effects.pitch\_shift
+============================
 
 .. currentmodule:: librosa.effects
 

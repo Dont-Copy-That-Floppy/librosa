@@ -1,5 +1,5 @@
-librosa\.feature\.spectral\_centroid
-====================================
+librosa.feature.spectral\_centroid
+==================================
 
 .. currentmodule:: librosa.feature
 

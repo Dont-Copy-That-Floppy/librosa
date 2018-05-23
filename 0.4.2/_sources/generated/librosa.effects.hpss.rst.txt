@@ -1,5 +1,5 @@
-librosa\.effects\.hpss
-======================
+librosa.effects.hpss
+====================
 
 .. currentmodule:: librosa.effects
 

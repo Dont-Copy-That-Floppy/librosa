@@ -1,5 +1,5 @@
-librosa\.segment\.agglomerative
-===============================
+librosa.segment.agglomerative
+=============================
 
 .. currentmodule:: librosa.segment
 

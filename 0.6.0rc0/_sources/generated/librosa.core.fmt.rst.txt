@@ -1,5 +1,5 @@
-librosa\.core\.fmt
-==================
+librosa.core.fmt
+================
 
 .. currentmodule:: librosa.core
 

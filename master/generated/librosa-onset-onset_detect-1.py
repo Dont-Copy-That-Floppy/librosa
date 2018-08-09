@@ -14,7 +14,7 @@ times = librosa.frames_to_time(np.arange(len(o_env)), sr=sr)
 onset_frames = librosa.onset.onset_detect(onset_envelope=o_env, sr=sr)
 
 import matplotlib.pyplot as plt
-D = librosa.stft(y)
+D = np.abs(librosa.stft(y))
 plt.figure()
 ax1 = plt.subplot(2, 1, 1)
 librosa.display.specshow(librosa.amplitude_to_db(D, ref=np.max),

@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>librosa.filters.cq_to_chroma &mdash; librosa 0.6.1 documentation</title>
+  <title>librosa.filters.cq_to_chroma &mdash; librosa 0.6.2 documentation</title>
   
 
   
@@ -24,8 +24,7 @@
 
   
 
-  
-    <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
   <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
   <link rel="stylesheet" href="../_static/gallery.css" type="text/css" />
   <link rel="stylesheet" href="../_static/banner.css" type="text/css" />
@@ -251,7 +250,7 @@ If False, the first chroma bin will start at ‘A’</p>
 <p class="rubric">Examples</p>
 <p>Get a CQT, and wrap bins to chroma</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">y</span><span class="p">,</span> <span class="n">sr</span> <span class="o">=</span> <span class="n">librosa</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">librosa</span><span class="o">.</span><span class="n">util</span><span class="o">.</span><span class="n">example_audio_file</span><span class="p">())</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">CQT</span> <span class="o">=</span> <span class="n">librosa</span><span class="o">.</span><span class="n">cqt</span><span class="p">(</span><span class="n">y</span><span class="p">,</span> <span class="n">sr</span><span class="o">=</span><span class="n">sr</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">CQT</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">librosa</span><span class="o">.</span><span class="n">cqt</span><span class="p">(</span><span class="n">y</span><span class="p">,</span> <span class="n">sr</span><span class="o">=</span><span class="n">sr</span><span class="p">))</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">chroma_map</span> <span class="o">=</span> <span class="n">librosa</span><span class="o">.</span><span class="n">filters</span><span class="o">.</span><span class="n">cq_to_chroma</span><span class="p">(</span><span class="n">CQT</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">chromagram</span> <span class="o">=</span> <span class="n">chroma_map</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">CQT</span><span class="p">)</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="c1"># Max-normalize each time step</span>
@@ -323,7 +322,7 @@ If False, the first chroma bin will start at ‘A’</p>
 <div class="rst-versions" data-toggle="rst-versions" role="note" aria-label="versions">
     <span class="rst-current-version" data-toggle="rst-current-version">
         <span class="fa fa-book"> Other Versions</span>
-        v: 0.6.1
+        v: 0.6.2
         <span class="fa fa-caret-down"></span>
     </span>
     <div class="rst-other-versions">
@@ -336,6 +335,7 @@ If False, the first chroma bin will start at ‘A’</p>
             <dd><a href="../0.5.1/generated/librosa.filters.cq_to_chroma.html">0.5.1</a></dd>
             <dd><a href="../0.6.0/generated/librosa.filters.cq_to_chroma.html">0.6.0</a></dd>
             <dd><a href="../0.6.1/generated/librosa.filters.cq_to_chroma.html">0.6.1</a></dd>
+            <dd><a href="../0.6.2/generated/librosa.filters.cq_to_chroma.html">0.6.2</a></dd>
             <dd><a href="../v0.1.0/index.html">v0.1.0</a></dd>
             <dd><a href="../v0.4.0/index.html">v0.4.0</a></dd>
         </dl>
@@ -352,7 +352,7 @@ If False, the first chroma bin will start at ‘A’</p>
     <script type="text/javascript">
         var DOCUMENTATION_OPTIONS = {
             URL_ROOT:'../',
-            VERSION:'0.6.1',
+            VERSION:'0.6.2',
             LANGUAGE:'None',
             COLLAPSE_INDEX:false,
             FILE_SUFFIX:'.html',
@@ -367,10 +367,7 @@ If False, the first chroma bin will start at ‘A’</p>
 
   
 
-  
-  
-    <script type="text/javascript" src="../_static/js/theme.js"></script>
-  
+  <script type="text/javascript" src="../_static/js/theme.js"></script>
 
   <script type="text/javascript">
       jQuery(function () {

@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Core IO and DSP &mdash; librosa 0.6.1 documentation</title>
+  <title>Core IO and DSP &mdash; librosa 0.6.2 documentation</title>
   
 
   
@@ -24,8 +24,7 @@
 
   
 
-  
-    <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
   <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
   <link rel="stylesheet" href="_static/gallery.css" type="text/css" />
   <link rel="stylesheet" href="_static/banner.css" type="text/css" />
@@ -99,6 +98,8 @@
 <li class="toctree-l3"><a class="reference internal" href="generated/librosa.core.autocorrelate.html">librosa.core.autocorrelate</a></li>
 <li class="toctree-l3"><a class="reference internal" href="generated/librosa.core.zero_crossings.html">librosa.core.zero_crossings</a></li>
 <li class="toctree-l3"><a class="reference internal" href="generated/librosa.core.clicks.html">librosa.core.clicks</a></li>
+<li class="toctree-l3"><a class="reference internal" href="generated/librosa.core.tone.html">librosa.core.tone</a></li>
+<li class="toctree-l3"><a class="reference internal" href="generated/librosa.core.chirp.html">librosa.core.chirp</a></li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="#spectral-representations">Spectral representations</a><ul>
@@ -148,6 +149,8 @@
 <li class="toctree-l3"><a class="reference internal" href="generated/librosa.core.cqt_frequencies.html">librosa.core.cqt_frequencies</a></li>
 <li class="toctree-l3"><a class="reference internal" href="generated/librosa.core.mel_frequencies.html">librosa.core.mel_frequencies</a></li>
 <li class="toctree-l3"><a class="reference internal" href="generated/librosa.core.tempo_frequencies.html">librosa.core.tempo_frequencies</a></li>
+<li class="toctree-l3"><a class="reference internal" href="generated/librosa.core.samples_like.html">librosa.core.samples_like</a></li>
+<li class="toctree-l3"><a class="reference internal" href="generated/librosa.core.times_like.html">librosa.core.times_like</a></li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="#pitch-and-tuning">Pitch and tuning</a><ul>
@@ -255,7 +258,7 @@
 
 
 
-    <p class="scv-banner scv-sphinx_rtd_theme"><a href="../0.6.1/core.html"><b>Warning:</b> This document is for the development version of librosa. The latest version is 0.6.1.</a></p>
+    <p class="scv-banner scv-sphinx_rtd_theme"><a href="../0.6.2/core.html"><b>Warning:</b> This document is for the development version of librosa. The latest version is 0.6.2.</a></p>
 <span class="target" id="module-librosa.core"><span id="core"></span></span><div class="section" id="core-io-and-dsp">
 <h1>Core IO and DSP<a class="headerlink" href="#core-io-and-dsp" title="Permalink to this headline">¶</a></h1>
 <div class="section" id="audio-processing">
@@ -286,6 +289,12 @@
 </tr>
 <tr class="row-odd"><td><a class="reference internal" href="generated/librosa.core.clicks.html#librosa.core.clicks" title="librosa.core.clicks"><code class="xref py py-obj docutils literal notranslate"><span class="pre">clicks</span></code></a>([times,&nbsp;frames,&nbsp;sr,&nbsp;hop_length,&nbsp;…])</td>
 <td>Returns a signal with the signal <code class="xref py py-obj docutils literal notranslate"><span class="pre">click</span></code> placed at each specified time</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="generated/librosa.core.tone.html#librosa.core.tone" title="librosa.core.tone"><code class="xref py py-obj docutils literal notranslate"><span class="pre">tone</span></code></a>(frequency[,&nbsp;sr,&nbsp;length,&nbsp;duration,&nbsp;phi])</td>
+<td>Returns a pure tone signal.</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="generated/librosa.core.chirp.html#librosa.core.chirp" title="librosa.core.chirp"><code class="xref py py-obj docutils literal notranslate"><span class="pre">chirp</span></code></a>(fmin,&nbsp;fmax[,&nbsp;sr,&nbsp;length,&nbsp;duration,&nbsp;…])</td>
+<td>Returns a chirp signal that goes from frequency <em class="xref py py-obj">fmin</em> to frequency <em class="xref py py-obj">fmax</em></td>
 </tr>
 </tbody>
 </table>
@@ -381,10 +390,10 @@
 </colgroup>
 <tbody valign="top">
 <tr class="row-odd"><td><a class="reference internal" href="generated/librosa.core.frames_to_samples.html#librosa.core.frames_to_samples" title="librosa.core.frames_to_samples"><code class="xref py py-obj docutils literal notranslate"><span class="pre">frames_to_samples</span></code></a>(frames[,&nbsp;hop_length,&nbsp;n_fft])</td>
-<td>Converts frame indices to audio sample indices</td>
+<td>Converts frame indices to audio sample indices.</td>
 </tr>
 <tr class="row-even"><td><a class="reference internal" href="generated/librosa.core.frames_to_time.html#librosa.core.frames_to_time" title="librosa.core.frames_to_time"><code class="xref py py-obj docutils literal notranslate"><span class="pre">frames_to_time</span></code></a>(frames[,&nbsp;sr,&nbsp;hop_length,&nbsp;n_fft])</td>
-<td>Converts frame counts to time (seconds)</td>
+<td>Converts frame counts to time (seconds).</td>
 </tr>
 <tr class="row-odd"><td><a class="reference internal" href="generated/librosa.core.samples_to_frames.html#librosa.core.samples_to_frames" title="librosa.core.samples_to_frames"><code class="xref py py-obj docutils literal notranslate"><span class="pre">samples_to_frames</span></code></a>(samples[,&nbsp;hop_length,&nbsp;n_fft])</td>
 <td>Converts sample indices into STFT frames.</td>
@@ -429,7 +438,7 @@
 <td>Convert octaves numbers to frequencies.</td>
 </tr>
 <tr class="row-odd"><td><a class="reference internal" href="generated/librosa.core.fft_frequencies.html#librosa.core.fft_frequencies" title="librosa.core.fft_frequencies"><code class="xref py py-obj docutils literal notranslate"><span class="pre">fft_frequencies</span></code></a>([sr,&nbsp;n_fft])</td>
-<td>Alternative implementation of <em class="xref py py-obj">np.fft.fftfreqs</em></td>
+<td>Alternative implementation of <em class="xref py py-obj">np.fft.fftfreq</em></td>
 </tr>
 <tr class="row-even"><td><a class="reference internal" href="generated/librosa.core.cqt_frequencies.html#librosa.core.cqt_frequencies" title="librosa.core.cqt_frequencies"><code class="xref py py-obj docutils literal notranslate"><span class="pre">cqt_frequencies</span></code></a>(n_bins,&nbsp;fmin[,&nbsp;…])</td>
 <td>Compute the center frequencies of Constant-Q bins.</td>
@@ -439,6 +448,12 @@
 </tr>
 <tr class="row-even"><td><a class="reference internal" href="generated/librosa.core.tempo_frequencies.html#librosa.core.tempo_frequencies" title="librosa.core.tempo_frequencies"><code class="xref py py-obj docutils literal notranslate"><span class="pre">tempo_frequencies</span></code></a>(n_bins[,&nbsp;hop_length,&nbsp;sr])</td>
 <td>Compute the frequencies (in beats-per-minute) corresponding to an onset auto-correlation or tempogram matrix.</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="generated/librosa.core.samples_like.html#librosa.core.samples_like" title="librosa.core.samples_like"><code class="xref py py-obj docutils literal notranslate"><span class="pre">samples_like</span></code></a>(X[,&nbsp;hop_length,&nbsp;n_fft,&nbsp;axis])</td>
+<td>Return an array of sample indices to match the time axis from a feature matrix.</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="generated/librosa.core.times_like.html#librosa.core.times_like" title="librosa.core.times_like"><code class="xref py py-obj docutils literal notranslate"><span class="pre">times_like</span></code></a>(X[,&nbsp;sr,&nbsp;hop_length,&nbsp;n_fft,&nbsp;axis])</td>
+<td>Return an array of time values to match the time axis from a feature matrix.</td>
 </tr>
 </tbody>
 </table>
@@ -533,6 +548,7 @@
             <dd><a href="../0.5.1/core.html">0.5.1</a></dd>
             <dd><a href="../0.6.0/core.html">0.6.0</a></dd>
             <dd><a href="../0.6.1/core.html">0.6.1</a></dd>
+            <dd><a href="../0.6.2/core.html">0.6.2</a></dd>
             <dd><a href="../v0.1.0/index.html">v0.1.0</a></dd>
             <dd><a href="../v0.4.0/core.html">v0.4.0</a></dd>
         </dl>
@@ -549,7 +565,7 @@
     <script type="text/javascript">
         var DOCUMENTATION_OPTIONS = {
             URL_ROOT:'./',
-            VERSION:'0.6.1',
+            VERSION:'0.6.2',
             LANGUAGE:'None',
             COLLAPSE_INDEX:false,
             FILE_SUFFIX:'.html',
@@ -564,10 +580,7 @@
 
   
 
-  
-  
-    <script type="text/javascript" src="_static/js/theme.js"></script>
-  
+  <script type="text/javascript" src="_static/js/theme.js"></script>
 
   <script type="text/javascript">
       jQuery(function () {

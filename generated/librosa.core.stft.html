@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>librosa.core.stft &mdash; librosa 0.6.1 documentation</title>
+  <title>librosa.core.stft &mdash; librosa 0.6.2 documentation</title>
   
 
   
@@ -24,15 +24,14 @@
 
   
 
-  
-    <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
   <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
   <link rel="stylesheet" href="../_static/gallery.css" type="text/css" />
   <link rel="stylesheet" href="../_static/banner.css" type="text/css" />
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
     <link rel="next" title="librosa.core.istft" href="librosa.core.istft.html" />
-    <link rel="prev" title="librosa.core.clicks" href="librosa.core.clicks.html" /> 
+    <link rel="prev" title="librosa.core.chirp" href="librosa.core.chirp.html" /> 
 
   
   <script src="../_static/js/modernizr.min.js"></script>
@@ -290,25 +289,29 @@ By default, STFT uses reflection padding.</p>
 <p>This function caches at level 20.</p>
 <p class="rubric">Examples</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">y</span><span class="p">,</span> <span class="n">sr</span> <span class="o">=</span> <span class="n">librosa</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">librosa</span><span class="o">.</span><span class="n">util</span><span class="o">.</span><span class="n">example_audio_file</span><span class="p">())</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">D</span> <span class="o">=</span> <span class="n">librosa</span><span class="o">.</span><span class="n">stft</span><span class="p">(</span><span class="n">y</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">D</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">librosa</span><span class="o">.</span><span class="n">stft</span><span class="p">(</span><span class="n">y</span><span class="p">))</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">D</span>
-<span class="go">array([[  2.576e-03 -0.000e+00j,   4.327e-02 -0.000e+00j, ...,</span>
-<span class="go">          3.189e-04 -0.000e+00j,  -5.961e-06 -0.000e+00j],</span>
-<span class="go">       [  2.441e-03 +2.884e-19j,   5.145e-02 -5.076e-03j, ...,</span>
-<span class="go">         -3.885e-04 -7.253e-05j,   7.334e-05 +3.868e-04j],</span>
-<span class="go">      ...,</span>
-<span class="go">       [ -7.120e-06 -1.029e-19j,  -1.951e-09 -3.568e-06j, ...,</span>
-<span class="go">         -4.912e-07 -1.487e-07j,   4.438e-06 -1.448e-05j],</span>
-<span class="go">       [  7.136e-06 -0.000e+00j,   3.561e-06 -0.000e+00j, ...,</span>
-<span class="go">         -5.144e-07 -0.000e+00j,  -1.514e-05 -0.000e+00j]], dtype=complex64)</span>
+<span class="go">array([[2.58028018e-03, 4.32422794e-02, 6.61255598e-01, ...,</span>
+<span class="go">        6.82710262e-04, 2.51654536e-04, 7.23036574e-05],</span>
+<span class="go">       [2.49403086e-03, 5.15930466e-02, 6.00107312e-01, ...,</span>
+<span class="go">        3.48026224e-04, 2.35853557e-04, 7.54836728e-05],</span>
+<span class="go">       [7.82410789e-04, 1.05394892e-01, 4.37517226e-01, ...,</span>
+<span class="go">        6.29352580e-04, 3.38571583e-04, 8.38094638e-05],</span>
+<span class="go">       ...,</span>
+<span class="go">       [9.48568513e-08, 4.74725084e-07, 1.50052492e-05, ...,</span>
+<span class="go">        1.85637656e-08, 2.89708542e-08, 5.74304337e-09],</span>
+<span class="go">       [1.25165826e-07, 8.58259284e-07, 1.11157215e-05, ...,</span>
+<span class="go">        3.49099771e-08, 3.11740926e-08, 5.29926236e-09],</span>
+<span class="go">       [1.70630571e-07, 8.92518756e-07, 1.23656537e-05, ...,</span>
+<span class="go">        5.33256745e-08, 3.33264900e-08, 5.13272980e-09]], dtype=float32)</span>
 </pre></div>
 </div>
 <p>Use left-aligned frames, instead of centered frames</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">D_left</span> <span class="o">=</span> <span class="n">librosa</span><span class="o">.</span><span class="n">stft</span><span class="p">(</span><span class="n">y</span><span class="p">,</span> <span class="n">center</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">D_left</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">librosa</span><span class="o">.</span><span class="n">stft</span><span class="p">(</span><span class="n">y</span><span class="p">,</span> <span class="n">center</span><span class="o">=</span><span class="kc">False</span><span class="p">))</span>
 </pre></div>
 </div>
 <p>Use a shorter hop length</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">D_short</span> <span class="o">=</span> <span class="n">librosa</span><span class="o">.</span><span class="n">stft</span><span class="p">(</span><span class="n">y</span><span class="p">,</span> <span class="n">hop_length</span><span class="o">=</span><span class="mi">64</span><span class="p">)</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">D_short</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">librosa</span><span class="o">.</span><span class="n">stft</span><span class="p">(</span><span class="n">y</span><span class="p">,</span> <span class="n">hop_length</span><span class="o">=</span><span class="mi">64</span><span class="p">))</span>
 </pre></div>
 </div>
 <p>Display a spectrogram</p>
@@ -340,7 +343,7 @@ By default, STFT uses reflection padding.</p>
         <a href="librosa.core.istft.html" class="btn btn-neutral float-right" title="librosa.core.istft" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
       
       
-        <a href="librosa.core.clicks.html" class="btn btn-neutral" title="librosa.core.clicks" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+        <a href="librosa.core.chirp.html" class="btn btn-neutral" title="librosa.core.chirp" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
       
     </div>
   
@@ -367,7 +370,7 @@ By default, STFT uses reflection padding.</p>
 <div class="rst-versions" data-toggle="rst-versions" role="note" aria-label="versions">
     <span class="rst-current-version" data-toggle="rst-current-version">
         <span class="fa fa-book"> Other Versions</span>
-        v: 0.6.1
+        v: 0.6.2
         <span class="fa fa-caret-down"></span>
     </span>
     <div class="rst-other-versions">
@@ -380,6 +383,7 @@ By default, STFT uses reflection padding.</p>
             <dd><a href="../0.5.1/generated/librosa.core.stft.html">0.5.1</a></dd>
             <dd><a href="../0.6.0/generated/librosa.core.stft.html">0.6.0</a></dd>
             <dd><a href="../0.6.1/generated/librosa.core.stft.html">0.6.1</a></dd>
+            <dd><a href="../0.6.2/generated/librosa.core.stft.html">0.6.2</a></dd>
             <dd><a href="../v0.1.0/index.html">v0.1.0</a></dd>
             <dd><a href="../v0.4.0/index.html">v0.4.0</a></dd>
         </dl>
@@ -396,7 +400,7 @@ By default, STFT uses reflection padding.</p>
     <script type="text/javascript">
         var DOCUMENTATION_OPTIONS = {
             URL_ROOT:'../',
-            VERSION:'0.6.1',
+            VERSION:'0.6.2',
             LANGUAGE:'None',
             COLLAPSE_INDEX:false,
             FILE_SUFFIX:'.html',
@@ -411,10 +415,7 @@ By default, STFT uses reflection padding.</p>
 
   
 
-  
-  
-    <script type="text/javascript" src="../_static/js/theme.js"></script>
-  
+  <script type="text/javascript" src="../_static/js/theme.js"></script>
 
   <script type="text/javascript">
       jQuery(function () {

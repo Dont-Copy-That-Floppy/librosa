@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>librosa.core.time_frequency &mdash; librosa 0.6.1 documentation</title>
+  <title>librosa.core.time_frequency &mdash; librosa 0.6.2 documentation</title>
   
 
   
@@ -24,8 +24,7 @@
 
   
 
-  
-    <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
   <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
   <link rel="stylesheet" href="../../../_static/gallery.css" type="text/css" />
   <link rel="stylesheet" href="../../../_static/banner.css" type="text/css" />
@@ -202,11 +201,13 @@
            <span class="s1">&#39;cqt_frequencies&#39;</span><span class="p">,</span>
            <span class="s1">&#39;mel_frequencies&#39;</span><span class="p">,</span>
            <span class="s1">&#39;tempo_frequencies&#39;</span><span class="p">,</span>
-           <span class="s1">&#39;A_weighting&#39;</span><span class="p">]</span>
+           <span class="s1">&#39;A_weighting&#39;</span><span class="p">,</span>
+           <span class="s1">&#39;samples_like&#39;</span><span class="p">,</span>
+           <span class="s1">&#39;times_like&#39;</span><span class="p">]</span>
 
 
 <div class="viewcode-block" id="frames_to_samples"><a class="viewcode-back" href="../../../generated/librosa.core.frames_to_samples.html#librosa.core.frames_to_samples">[docs]</a><span class="k">def</span> <span class="nf">frames_to_samples</span><span class="p">(</span><span class="n">frames</span><span class="p">,</span> <span class="n">hop_length</span><span class="o">=</span><span class="mi">512</span><span class="p">,</span> <span class="n">n_fft</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;Converts frame indices to audio sample indices</span>
+    <span class="sd">&quot;&quot;&quot;Converts frame indices to audio sample indices.</span>
 
 <span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>
@@ -297,7 +298,7 @@
 
 
 <div class="viewcode-block" id="frames_to_time"><a class="viewcode-back" href="../../../generated/librosa.core.frames_to_time.html#librosa.core.frames_to_time">[docs]</a><span class="k">def</span> <span class="nf">frames_to_time</span><span class="p">(</span><span class="n">frames</span><span class="p">,</span> <span class="n">sr</span><span class="o">=</span><span class="mi">22050</span><span class="p">,</span> <span class="n">hop_length</span><span class="o">=</span><span class="mi">512</span><span class="p">,</span> <span class="n">n_fft</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;Converts frame counts to time (seconds)</span>
+    <span class="sd">&quot;&quot;&quot;Converts frame counts to time (seconds).</span>
 
 <span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>
@@ -936,7 +937,7 @@
 
 
 <div class="viewcode-block" id="fft_frequencies"><a class="viewcode-back" href="../../../generated/librosa.core.fft_frequencies.html#librosa.core.fft_frequencies">[docs]</a><span class="k">def</span> <span class="nf">fft_frequencies</span><span class="p">(</span><span class="n">sr</span><span class="o">=</span><span class="mi">22050</span><span class="p">,</span> <span class="n">n_fft</span><span class="o">=</span><span class="mi">2048</span><span class="p">):</span>
-    <span class="sd">&#39;&#39;&#39;Alternative implementation of `np.fft.fftfreqs`</span>
+    <span class="sd">&#39;&#39;&#39;Alternative implementation of `np.fft.fftfreq`</span>
 
 <span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>
@@ -1187,6 +1188,116 @@
         <span class="n">weights</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">maximum</span><span class="p">(</span><span class="n">min_db</span><span class="p">,</span> <span class="n">weights</span><span class="p">)</span>
 
     <span class="k">return</span> <span class="n">weights</span></div>
+
+
+<div class="viewcode-block" id="times_like"><a class="viewcode-back" href="../../../generated/librosa.core.times_like.html#librosa.core.times_like">[docs]</a><span class="k">def</span> <span class="nf">times_like</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">sr</span><span class="o">=</span><span class="mi">22050</span><span class="p">,</span> <span class="n">hop_length</span><span class="o">=</span><span class="mi">512</span><span class="p">,</span> <span class="n">n_fft</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">axis</span><span class="o">=-</span><span class="mi">1</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Return an array of time values to match the time axis from a feature matrix.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    X : np.ndarray or scalar</span>
+<span class="sd">        - If ndarray, X is a feature matrix, e.g. STFT, chromagram, or mel spectrogram.</span>
+<span class="sd">        - If scalar, X represents the number of frames.</span>
+
+<span class="sd">    sr : number &gt; 0 [scalar]</span>
+<span class="sd">        audio sampling rate</span>
+
+<span class="sd">    hop_length : int &gt; 0 [scalar]</span>
+<span class="sd">        number of samples between successive frames</span>
+
+<span class="sd">    n_fft : None or int &gt; 0 [scalar]</span>
+<span class="sd">        Optional: length of the FFT window.</span>
+<span class="sd">        If given, time conversion will include an offset of `n_fft / 2`</span>
+<span class="sd">        to counteract windowing effects when using a non-centered STFT.</span>
+
+<span class="sd">    axis : int [scalar]</span>
+<span class="sd">        The axis representing the time axis of X.</span>
+<span class="sd">        By default, the last axis (-1) is taken.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    times : np.ndarray [shape=(n,)]</span>
+<span class="sd">        ndarray of times (in seconds) corresponding to each frame of X.</span>
+
+<span class="sd">    See Also</span>
+<span class="sd">    --------</span>
+<span class="sd">    samples_like : Return an array of sample indices to match the time axis from a feature matrix.</span>
+
+<span class="sd">    Examples</span>
+<span class="sd">    --------</span>
+<span class="sd">    Provide a feature matrix input:</span>
+
+<span class="sd">    &gt;&gt;&gt; y, sr = librosa.load(librosa.util.example_audio_file())</span>
+<span class="sd">    &gt;&gt;&gt; X = librosa.stft(y)</span>
+<span class="sd">    &gt;&gt;&gt; times = librosa.times_like(X)</span>
+<span class="sd">    &gt;&gt;&gt; times</span>
+<span class="sd">    array([  0.00000000e+00,   2.32199546e-02,   4.64399093e-02, ...,</span>
+<span class="sd">             6.13935601e+01,   6.14167800e+01,   6.14400000e+01])</span>
+
+<span class="sd">    Provide a scalar input:</span>
+
+<span class="sd">    &gt;&gt;&gt; n_frames = 2647</span>
+<span class="sd">    &gt;&gt;&gt; times = librosa.times_like(n_frames)</span>
+<span class="sd">    &gt;&gt;&gt; times</span>
+<span class="sd">    array([  0.00000000e+00,   2.32199546e-02,   4.64399093e-02, ...,</span>
+<span class="sd">             6.13935601e+01,   6.14167800e+01,   6.14400000e+01])</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">samples</span> <span class="o">=</span> <span class="n">samples_like</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">hop_length</span><span class="o">=</span><span class="n">hop_length</span><span class="p">,</span> <span class="n">n_fft</span><span class="o">=</span><span class="n">n_fft</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="n">axis</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">samples_to_time</span><span class="p">(</span><span class="n">samples</span><span class="p">,</span> <span class="n">sr</span><span class="o">=</span><span class="n">sr</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="samples_like"><a class="viewcode-back" href="../../../generated/librosa.core.samples_like.html#librosa.core.samples_like">[docs]</a><span class="k">def</span> <span class="nf">samples_like</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">hop_length</span><span class="o">=</span><span class="mi">512</span><span class="p">,</span> <span class="n">n_fft</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">axis</span><span class="o">=-</span><span class="mi">1</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Return an array of sample indices to match the time axis from a feature matrix.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    X : np.ndarray or scalar</span>
+<span class="sd">        - If ndarray, X is a feature matrix, e.g. STFT, chromagram, or mel spectrogram.</span>
+<span class="sd">        - If scalar, X represents the number of frames.</span>
+
+<span class="sd">    hop_length : int &gt; 0 [scalar]</span>
+<span class="sd">        number of samples between successive frames</span>
+
+<span class="sd">    n_fft : None or int &gt; 0 [scalar]</span>
+<span class="sd">        Optional: length of the FFT window.</span>
+<span class="sd">        If given, time conversion will include an offset of `n_fft / 2`</span>
+<span class="sd">        to counteract windowing effects when using a non-centered STFT.</span>
+
+<span class="sd">    axis : int [scalar]</span>
+<span class="sd">        The axis representing the time axis of X.</span>
+<span class="sd">        By default, the last axis (-1) is taken.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    samples : np.ndarray [shape=(n,)]</span>
+<span class="sd">        ndarray of sample indices corresponding to each frame of X.</span>
+
+<span class="sd">    See Also</span>
+<span class="sd">    --------</span>
+<span class="sd">    times_like : Return an array of time values to match the time axis from a feature matrix.</span>
+
+<span class="sd">    Examples</span>
+<span class="sd">    --------</span>
+<span class="sd">    Provide a feature matrix input:</span>
+
+<span class="sd">    &gt;&gt;&gt; y, sr = librosa.load(librosa.util.example_audio_file())</span>
+<span class="sd">    &gt;&gt;&gt; X = librosa.stft(y)</span>
+<span class="sd">    &gt;&gt;&gt; samples = librosa.samples_like(X)</span>
+<span class="sd">    &gt;&gt;&gt; samples</span>
+<span class="sd">    array([      0,     512,    1024, ..., 1353728, 1354240, 1354752])</span>
+
+<span class="sd">    Provide a scalar input:</span>
+
+<span class="sd">    &gt;&gt;&gt; n_frames = 2647</span>
+<span class="sd">    &gt;&gt;&gt; samples = librosa.samples_like(n_frames)</span>
+<span class="sd">    &gt;&gt;&gt; samples</span>
+<span class="sd">    array([      0,     512,    1024, ..., 1353728, 1354240, 1354752])</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="n">np</span><span class="o">.</span><span class="n">isscalar</span><span class="p">(</span><span class="n">X</span><span class="p">):</span>
+        <span class="n">frames</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="n">X</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">frames</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="n">X</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="n">axis</span><span class="p">])</span>
+    <span class="k">return</span> <span class="n">frames_to_samples</span><span class="p">(</span><span class="n">frames</span><span class="p">,</span> <span class="n">hop_length</span><span class="o">=</span><span class="n">hop_length</span><span class="p">,</span> <span class="n">n_fft</span><span class="o">=</span><span class="n">n_fft</span><span class="p">)</span></div>
 </pre></div>
 
            </div>
@@ -1217,7 +1328,7 @@
 <div class="rst-versions" data-toggle="rst-versions" role="note" aria-label="versions">
     <span class="rst-current-version" data-toggle="rst-current-version">
         <span class="fa fa-book"> Other Versions</span>
-        v: 0.6.1
+        v: 0.6.2
         <span class="fa fa-caret-down"></span>
     </span>
     <div class="rst-other-versions">
@@ -1229,7 +1340,8 @@
             <dd><a href="../../../0.5.0/index.html">0.5.0</a></dd>
             <dd><a href="../../../0.5.1/index.html">0.5.1</a></dd>
             <dd><a href="../../../0.6.0/index.html">0.6.0</a></dd>
-            <dd><a href="../../../0.6.1/_modules/librosa/core/time_frequency.html">0.6.1</a></dd>
+            <dd><a href="../../../0.6.1/index.html">0.6.1</a></dd>
+            <dd><a href="../../../0.6.2/_modules/librosa/core/time_frequency.html">0.6.2</a></dd>
             <dd><a href="../../../v0.1.0/index.html">v0.1.0</a></dd>
             <dd><a href="../../../v0.4.0/index.html">v0.4.0</a></dd>
         </dl>
@@ -1246,7 +1358,7 @@
     <script type="text/javascript">
         var DOCUMENTATION_OPTIONS = {
             URL_ROOT:'../../../',
-            VERSION:'0.6.1',
+            VERSION:'0.6.2',
             LANGUAGE:'None',
             COLLAPSE_INDEX:false,
             FILE_SUFFIX:'.html',
@@ -1261,10 +1373,7 @@
 
   
 
-  
-  
-    <script type="text/javascript" src="../../../_static/js/theme.js"></script>
-  
+  <script type="text/javascript" src="../../../_static/js/theme.js"></script>
 
   <script type="text/javascript">
       jQuery(function () {

@@ -1,9 +1,15 @@
 # From time-series input
 
 y, sr = librosa.load(librosa.util.example_audio_file())
+# Approximate maximum frequencies with roll_percent=0.85 (default)
 rolloff = librosa.feature.spectral_rolloff(y=y, sr=sr)
 rolloff
 # array([[ 8376.416,   968.994, ...,  8925.513,  9108.545]])
+# Approximate minimum frequencies with roll_percent=0.1
+rolloff = librosa.feature.spectral_rolloff(y=y, sr=sr, roll_percent=0.1)
+rolloff
+# array([[ 75.36621094,  64.59960938,  64.59960938, ...,  75.36621094,
+# 75.36621094,  64.59960938]])
 
 # From spectrogram input
 

@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Laplacian segmentation &mdash; librosa 0.6.1 documentation</title>
+  <title>Laplacian segmentation &mdash; librosa 0.6.2 documentation</title>
   
 
   
@@ -24,8 +24,7 @@
 
   
 
-  
-    <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
   <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
   <link rel="stylesheet" href="../_static/gallery.css" type="text/css" />
   <link rel="stylesheet" href="../_static/banner.css" type="text/css" />
@@ -223,9 +222,9 @@ helpful to read along.</p>
 <p>Next, we’ll compute and plot a log-power CQT</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">BINS_PER_OCTAVE</span> <span class="o">=</span> <span class="mi">12</span> <span class="o">*</span> <span class="mi">3</span>
 <span class="n">N_OCTAVES</span> <span class="o">=</span> <span class="mi">7</span>
-<span class="n">C</span> <span class="o">=</span> <span class="n">librosa</span><span class="o">.</span><span class="n">amplitude_to_db</span><span class="p">(</span><span class="n">librosa</span><span class="o">.</span><span class="n">cqt</span><span class="p">(</span><span class="n">y</span><span class="o">=</span><span class="n">y</span><span class="p">,</span> <span class="n">sr</span><span class="o">=</span><span class="n">sr</span><span class="p">,</span>
+<span class="n">C</span> <span class="o">=</span> <span class="n">librosa</span><span class="o">.</span><span class="n">amplitude_to_db</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">librosa</span><span class="o">.</span><span class="n">cqt</span><span class="p">(</span><span class="n">y</span><span class="o">=</span><span class="n">y</span><span class="p">,</span> <span class="n">sr</span><span class="o">=</span><span class="n">sr</span><span class="p">,</span>
                                         <span class="n">bins_per_octave</span><span class="o">=</span><span class="n">BINS_PER_OCTAVE</span><span class="p">,</span>
-                                        <span class="n">n_bins</span><span class="o">=</span><span class="n">N_OCTAVES</span> <span class="o">*</span> <span class="n">BINS_PER_OCTAVE</span><span class="p">),</span>
+                                        <span class="n">n_bins</span><span class="o">=</span><span class="n">N_OCTAVES</span> <span class="o">*</span> <span class="n">BINS_PER_OCTAVE</span><span class="p">)),</span>
                             <span class="n">ref</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">max</span><span class="p">)</span>
 
 <span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">12</span><span class="p">,</span> <span class="mi">4</span><span class="p">))</span>
@@ -419,7 +418,7 @@ mode=’affinity’ here implements S_rep (after Eq. 8)</p>
 </pre></div>
 </div>
 <img alt="../_images/sphx_glr_plot_segmentation_006.png" class="align-center" src="../_images/sphx_glr_plot_segmentation_006.png" />
-<p><strong>Total running time of the script:</strong> ( 0 minutes  8.753 seconds)</p>
+<p><strong>Total running time of the script:</strong> ( 0 minutes  10.606 seconds)</p>
 <div class="sphx-glr-footer docutils container">
 <div class="sphx-glr-download docutils container">
 <a class="reference download internal" href="../_downloads/plot_segmentation.py" download=""><code class="xref download docutils literal notranslate"><span class="pre">Download</span> <span class="pre">Python</span> <span class="pre">source</span> <span class="pre">code:</span> <span class="pre">plot_segmentation.py</span></code></a></div>
@@ -467,7 +466,7 @@ mode=’affinity’ here implements S_rep (after Eq. 8)</p>
 <div class="rst-versions" data-toggle="rst-versions" role="note" aria-label="versions">
     <span class="rst-current-version" data-toggle="rst-current-version">
         <span class="fa fa-book"> Other Versions</span>
-        v: 0.6.1
+        v: 0.6.2
         <span class="fa fa-caret-down"></span>
     </span>
     <div class="rst-other-versions">
@@ -480,6 +479,7 @@ mode=’affinity’ here implements S_rep (after Eq. 8)</p>
             <dd><a href="../0.5.1/index.html">0.5.1</a></dd>
             <dd><a href="../0.6.0/auto_examples/plot_segmentation.html">0.6.0</a></dd>
             <dd><a href="../0.6.1/auto_examples/plot_segmentation.html">0.6.1</a></dd>
+            <dd><a href="../0.6.2/auto_examples/plot_segmentation.html">0.6.2</a></dd>
             <dd><a href="../v0.1.0/index.html">v0.1.0</a></dd>
             <dd><a href="../v0.4.0/index.html">v0.4.0</a></dd>
         </dl>
@@ -496,7 +496,7 @@ mode=’affinity’ here implements S_rep (after Eq. 8)</p>
     <script type="text/javascript">
         var DOCUMENTATION_OPTIONS = {
             URL_ROOT:'../',
-            VERSION:'0.6.1',
+            VERSION:'0.6.2',
             LANGUAGE:'None',
             COLLAPSE_INDEX:false,
             FILE_SUFFIX:'.html',
@@ -511,10 +511,7 @@ mode=’affinity’ here implements S_rep (after Eq. 8)</p>
 
   
 
-  
-  
-    <script type="text/javascript" src="../_static/js/theme.js"></script>
-  
+  <script type="text/javascript" src="../_static/js/theme.js"></script>
 
   <script type="text/javascript">
       jQuery(function () {

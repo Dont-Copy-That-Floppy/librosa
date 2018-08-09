@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>librosa.feature.spectral_rolloff &mdash; librosa 0.6.1 documentation</title>
+  <title>librosa.feature.spectral_rolloff &mdash; librosa 0.6.2 documentation</title>
   
 
   
@@ -24,8 +24,7 @@
 
   
 
-  
-    <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
   <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
   <link rel="stylesheet" href="../_static/gallery.css" type="text/css" />
   <link rel="stylesheet" href="../_static/banner.css" type="text/css" />
@@ -209,7 +208,12 @@
 <dl class="function">
 <dt id="librosa.feature.spectral_rolloff">
 <code class="descclassname">librosa.feature.</code><code class="descname">spectral_rolloff</code><span class="sig-paren">(</span><em>y=None</em>, <em>sr=22050</em>, <em>S=None</em>, <em>n_fft=2048</em>, <em>hop_length=512</em>, <em>freq=None</em>, <em>roll_percent=0.85</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/librosa/feature/spectral.html#spectral_rolloff"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#librosa.feature.spectral_rolloff" title="Permalink to this definition">¶</a></dt>
-<dd><p>Compute roll-off frequency</p>
+<dd><p>Compute roll-off frequency.</p>
+<p>The roll-off frequency is defined for each frame as the center frequency
+for a spectrogram bin such that at least roll_percent (0.85 by default)
+of the energy of the spectrum in this frame is contained in this bin and
+the bins below. This can be used to, e.g., approximate the maximum (or
+minimum) frequency by setting roll_percent to a value close to 1 (or 0).</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
@@ -257,9 +261,15 @@ Otherwise, it can be a single array of <em class="xref py py-obj">d</em> center 
 <p class="rubric">Examples</p>
 <p>From time-series input</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">y</span><span class="p">,</span> <span class="n">sr</span> <span class="o">=</span> <span class="n">librosa</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">librosa</span><span class="o">.</span><span class="n">util</span><span class="o">.</span><span class="n">example_audio_file</span><span class="p">())</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="c1"># Approximate maximum frequencies with roll_percent=0.85 (default)</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">rolloff</span> <span class="o">=</span> <span class="n">librosa</span><span class="o">.</span><span class="n">feature</span><span class="o">.</span><span class="n">spectral_rolloff</span><span class="p">(</span><span class="n">y</span><span class="o">=</span><span class="n">y</span><span class="p">,</span> <span class="n">sr</span><span class="o">=</span><span class="n">sr</span><span class="p">)</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">rolloff</span>
 <span class="go">array([[ 8376.416,   968.994, ...,  8925.513,  9108.545]])</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="c1"># Approximate minimum frequencies with roll_percent=0.1</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">rolloff</span> <span class="o">=</span> <span class="n">librosa</span><span class="o">.</span><span class="n">feature</span><span class="o">.</span><span class="n">spectral_rolloff</span><span class="p">(</span><span class="n">y</span><span class="o">=</span><span class="n">y</span><span class="p">,</span> <span class="n">sr</span><span class="o">=</span><span class="n">sr</span><span class="p">,</span> <span class="n">roll_percent</span><span class="o">=</span><span class="mf">0.1</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">rolloff</span>
+<span class="go">array([[ 75.36621094,  64.59960938,  64.59960938, ...,  75.36621094,</span>
+<span class="go">     75.36621094,  64.59960938]])</span>
 </pre></div>
 </div>
 <p>From spectrogram input</p>
@@ -335,7 +345,7 @@ Otherwise, it can be a single array of <em class="xref py py-obj">d</em> center 
 <div class="rst-versions" data-toggle="rst-versions" role="note" aria-label="versions">
     <span class="rst-current-version" data-toggle="rst-current-version">
         <span class="fa fa-book"> Other Versions</span>
-        v: 0.6.1
+        v: 0.6.2
         <span class="fa fa-caret-down"></span>
     </span>
     <div class="rst-other-versions">
@@ -348,6 +358,7 @@ Otherwise, it can be a single array of <em class="xref py py-obj">d</em> center 
             <dd><a href="../0.5.1/generated/librosa.feature.spectral_rolloff.html">0.5.1</a></dd>
             <dd><a href="../0.6.0/generated/librosa.feature.spectral_rolloff.html">0.6.0</a></dd>
             <dd><a href="../0.6.1/generated/librosa.feature.spectral_rolloff.html">0.6.1</a></dd>
+            <dd><a href="../0.6.2/generated/librosa.feature.spectral_rolloff.html">0.6.2</a></dd>
             <dd><a href="../v0.1.0/index.html">v0.1.0</a></dd>
             <dd><a href="../v0.4.0/index.html">v0.4.0</a></dd>
         </dl>
@@ -364,7 +375,7 @@ Otherwise, it can be a single array of <em class="xref py py-obj">d</em> center 
     <script type="text/javascript">
         var DOCUMENTATION_OPTIONS = {
             URL_ROOT:'../',
-            VERSION:'0.6.1',
+            VERSION:'0.6.2',
             LANGUAGE:'None',
             COLLAPSE_INDEX:false,
             FILE_SUFFIX:'.html',
@@ -379,10 +390,7 @@ Otherwise, it can be a single array of <em class="xref py py-obj">d</em> center 
 
   
 
-  
-  
-    <script type="text/javascript" src="../_static/js/theme.js"></script>
-  
+  <script type="text/javascript" src="../_static/js/theme.js"></script>
 
   <script type="text/javascript">
       jQuery(function () {

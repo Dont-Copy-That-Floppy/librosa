@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>librosa.core.audio &mdash; librosa 0.6.1 documentation</title>
+  <title>librosa.core.audio &mdash; librosa 0.6.2 documentation</title>
   
 
   
@@ -24,8 +24,7 @@
 
   
 
-  
-    <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
   <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
   <link rel="stylesheet" href="../../../_static/gallery.css" type="text/css" />
   <link rel="stylesheet" href="../../../_static/banner.css" type="text/css" />
@@ -200,7 +199,7 @@
 <span class="kn">from</span> <span class="nn">..util.exceptions</span> <span class="k">import</span> <span class="n">ParameterError</span>
 
 <span class="n">__all__</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;load&#39;</span><span class="p">,</span> <span class="s1">&#39;to_mono&#39;</span><span class="p">,</span> <span class="s1">&#39;resample&#39;</span><span class="p">,</span> <span class="s1">&#39;get_duration&#39;</span><span class="p">,</span>
-           <span class="s1">&#39;autocorrelate&#39;</span><span class="p">,</span> <span class="s1">&#39;zero_crossings&#39;</span><span class="p">,</span> <span class="s1">&#39;clicks&#39;</span><span class="p">]</span>
+           <span class="s1">&#39;autocorrelate&#39;</span><span class="p">,</span> <span class="s1">&#39;zero_crossings&#39;</span><span class="p">,</span> <span class="s1">&#39;clicks&#39;</span><span class="p">,</span> <span class="s1">&#39;tone&#39;</span><span class="p">,</span> <span class="s1">&#39;chirp&#39;</span><span class="p">]</span>
 
 <span class="c1"># Resampling bandwidths as percentage of Nyquist</span>
 <span class="n">BW_BEST</span> <span class="o">=</span> <span class="n">resampy</span><span class="o">.</span><span class="n">filters</span><span class="o">.</span><span class="n">get_filter</span><span class="p">(</span><span class="s1">&#39;kaiser_best&#39;</span><span class="p">)[</span><span class="mi">2</span><span class="p">]</span>
@@ -487,7 +486,7 @@
 <span class="sd">    &gt;&gt;&gt; # Load the example audio file</span>
 <span class="sd">    &gt;&gt;&gt; y, sr = librosa.load(librosa.util.example_audio_file())</span>
 <span class="sd">    &gt;&gt;&gt; librosa.get_duration(y=y, sr=sr)</span>
-<span class="sd">    61.44</span>
+<span class="sd">    61.45886621315193</span>
 
 <span class="sd">    &gt;&gt;&gt; # Or directly from an audio file</span>
 <span class="sd">    &gt;&gt;&gt; librosa.get_duration(filename=librosa.util.example_audio_file())</span>
@@ -515,6 +514,9 @@
 <span class="sd">    S : np.ndarray [shape=(d, t)] or None</span>
 <span class="sd">        STFT matrix, or any STFT-derived matrix (e.g., chromagram</span>
 <span class="sd">        or mel spectrogram).</span>
+<span class="sd">        Durations calculated from spectrogram inputs are only accurate</span>
+<span class="sd">        up to the frame resolution. If high precision is required,</span>
+<span class="sd">        it is better to use the audio time series directly.</span>
 
 <span class="sd">    n_fft       : int &gt; 0 [scalar]</span>
 <span class="sd">        FFT window size for `S`</span>
@@ -627,7 +629,7 @@
     <span class="n">subslice</span> <span class="o">=</span> <span class="p">[</span><span class="nb">slice</span><span class="p">(</span><span class="kc">None</span><span class="p">)]</span> <span class="o">*</span> <span class="n">autocorr</span><span class="o">.</span><span class="n">ndim</span>
     <span class="n">subslice</span><span class="p">[</span><span class="n">axis</span><span class="p">]</span> <span class="o">=</span> <span class="nb">slice</span><span class="p">(</span><span class="n">max_size</span><span class="p">)</span>
 
-    <span class="n">autocorr</span> <span class="o">=</span> <span class="n">autocorr</span><span class="p">[</span><span class="n">subslice</span><span class="p">]</span>
+    <span class="n">autocorr</span> <span class="o">=</span> <span class="n">autocorr</span><span class="p">[</span><span class="nb">tuple</span><span class="p">(</span><span class="n">subslice</span><span class="p">)]</span>
 
     <span class="k">if</span> <span class="ow">not</span> <span class="n">np</span><span class="o">.</span><span class="n">iscomplexobj</span><span class="p">(</span><span class="n">y</span><span class="p">):</span>
         <span class="n">autocorr</span> <span class="o">=</span> <span class="n">autocorr</span><span class="o">.</span><span class="n">real</span>
@@ -754,7 +756,7 @@
     <span class="n">padding</span> <span class="o">=</span> <span class="p">[(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">)]</span> <span class="o">*</span> <span class="n">y</span><span class="o">.</span><span class="n">ndim</span>
     <span class="n">padding</span><span class="p">[</span><span class="n">axis</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
 
-    <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">pad</span><span class="p">((</span><span class="n">y_sign</span><span class="p">[</span><span class="n">slice_post</span><span class="p">]</span> <span class="o">!=</span> <span class="n">y_sign</span><span class="p">[</span><span class="n">slice_pre</span><span class="p">]),</span>
+    <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">pad</span><span class="p">((</span><span class="n">y_sign</span><span class="p">[</span><span class="nb">tuple</span><span class="p">(</span><span class="n">slice_post</span><span class="p">)]</span> <span class="o">!=</span> <span class="n">y_sign</span><span class="p">[</span><span class="nb">tuple</span><span class="p">(</span><span class="n">slice_pre</span><span class="p">)]),</span>
                   <span class="n">padding</span><span class="p">,</span>
                   <span class="n">mode</span><span class="o">=</span><span class="s1">&#39;constant&#39;</span><span class="p">,</span>
                   <span class="n">constant_values</span><span class="o">=</span><span class="n">pad</span><span class="p">)</span></div>
@@ -892,6 +894,174 @@
             <span class="n">click_signal</span><span class="p">[</span><span class="n">start</span><span class="p">:</span><span class="n">end</span><span class="p">]</span> <span class="o">+=</span> <span class="n">click</span>
 
     <span class="k">return</span> <span class="n">click_signal</span></div>
+
+
+<div class="viewcode-block" id="tone"><a class="viewcode-back" href="../../../generated/librosa.core.tone.html#librosa.core.tone">[docs]</a><span class="k">def</span> <span class="nf">tone</span><span class="p">(</span><span class="n">frequency</span><span class="p">,</span> <span class="n">sr</span><span class="o">=</span><span class="mi">22050</span><span class="p">,</span> <span class="n">length</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">duration</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">phi</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Returns a pure tone signal. The signal generated is a cosine wave.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    frequency : float &gt; 0</span>
+<span class="sd">        frequency</span>
+
+<span class="sd">    sr : number &gt; 0</span>
+<span class="sd">        desired sampling rate of the output signal</span>
+
+<span class="sd">    length : int &gt; 0</span>
+<span class="sd">        desired number of samples in the output signal. When both `duration` and `length` are defined, `length` would take priority.</span>
+
+<span class="sd">    duration : float &gt; 0</span>
+<span class="sd">        desired duration in seconds. When both `duration` and `length` are defined, `length` would take priority.</span>
+
+<span class="sd">    phi : float or None</span>
+<span class="sd">        phase offset, in radians. If unspecified, defaults to `-np.pi * 0.5`.</span>
+
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    tone_signal : np.ndarray [shape=(length,), dtype=float64]</span>
+<span class="sd">        Synthesized pure sine tone signal</span>
+
+
+<span class="sd">    Raises</span>
+<span class="sd">    ------</span>
+<span class="sd">    ParameterError</span>
+<span class="sd">        - If `frequency` is not provided.</span>
+<span class="sd">        - If neither `length` nor `duration` are provided.</span>
+
+
+<span class="sd">    Examples</span>
+<span class="sd">    --------</span>
+<span class="sd">    &gt;&gt;&gt; # Generate a pure sine tone A4</span>
+<span class="sd">    &gt;&gt;&gt; tone = librosa.tone(440, duration=1)</span>
+
+<span class="sd">    &gt;&gt;&gt; # Or generate the same signal using `length`</span>
+<span class="sd">    &gt;&gt;&gt; tone = librosa.tone(440, sr=22050, length=22050)</span>
+
+<span class="sd">    Display spectrogram</span>
+
+<span class="sd">    &gt;&gt;&gt; import matplotlib.pyplot as plt</span>
+<span class="sd">    &gt;&gt;&gt; plt.figure()</span>
+<span class="sd">    &gt;&gt;&gt; S = librosa.feature.melspectrogram(y=tone)</span>
+<span class="sd">    &gt;&gt;&gt; librosa.display.specshow(librosa.power_to_db(S, ref=np.max),</span>
+<span class="sd">    ...                          x_axis=&#39;time&#39;, y_axis=&#39;mel&#39;)</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">if</span> <span class="n">frequency</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="n">ParameterError</span><span class="p">(</span><span class="s1">&#39;&quot;frequency&quot; must be provided&#39;</span><span class="p">)</span>
+
+    <span class="c1"># Compute signal length</span>
+    <span class="k">if</span> <span class="n">length</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">duration</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="n">ParameterError</span><span class="p">(</span><span class="s1">&#39;either &quot;length&quot; or &quot;duration&quot; must be provided&#39;</span><span class="p">)</span>
+        <span class="n">length</span> <span class="o">=</span> <span class="n">duration</span> <span class="o">*</span> <span class="n">sr</span>
+
+    <span class="k">if</span> <span class="n">phi</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">phi</span> <span class="o">=</span> <span class="o">-</span><span class="n">np</span><span class="o">.</span><span class="n">pi</span> <span class="o">*</span> <span class="mf">0.5</span>
+
+    <span class="n">step</span> <span class="o">=</span> <span class="mf">1.0</span> <span class="o">/</span> <span class="n">sr</span>
+    <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">cos</span><span class="p">(</span><span class="mi">2</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">pi</span> <span class="o">*</span> <span class="n">frequency</span> <span class="o">*</span> <span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="n">step</span> <span class="o">*</span> <span class="n">length</span><span class="p">,</span> <span class="n">step</span><span class="o">=</span><span class="n">step</span><span class="p">))</span> <span class="o">+</span> <span class="n">phi</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="chirp"><a class="viewcode-back" href="../../../generated/librosa.core.chirp.html#librosa.core.chirp">[docs]</a><span class="k">def</span> <span class="nf">chirp</span><span class="p">(</span><span class="n">fmin</span><span class="p">,</span> <span class="n">fmax</span><span class="p">,</span> <span class="n">sr</span><span class="o">=</span><span class="mi">22050</span><span class="p">,</span> <span class="n">length</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">duration</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">linear</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">phi</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Returns a chirp signal that goes from frequency `fmin` to frequency `fmax`</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    fmin : float &gt; 0</span>
+<span class="sd">        initial frequency</span>
+
+<span class="sd">    fmax : float &gt; 0</span>
+<span class="sd">        final frequency</span>
+
+<span class="sd">    sr : number &gt; 0</span>
+<span class="sd">        desired sampling rate of the output signal</span>
+
+<span class="sd">    length : int &gt; 0</span>
+<span class="sd">        desired number of samples in the output signal.</span>
+<span class="sd">        When both `duration` and `length` are defined, `length` would take priority.</span>
+
+<span class="sd">    duration : float &gt; 0</span>
+<span class="sd">        desired duration in seconds.</span>
+<span class="sd">        When both `duration` and `length` are defined, `length` would take priority.</span>
+
+<span class="sd">    linear : boolean</span>
+<span class="sd">        - If `True`, use a linear sweep, i.e., frequency changes linearly with time</span>
+<span class="sd">        - If `False`, use a exponential sweep.</span>
+<span class="sd">        Default is `False`.</span>
+
+<span class="sd">    phi : float or None</span>
+<span class="sd">        phase offset, in radians.</span>
+<span class="sd">        If unspecified, defaults to `-np.pi * 0.5`.</span>
+
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    chirp_signal : np.ndarray [shape=(length,), dtype=float64]</span>
+<span class="sd">        Synthesized chirp signal</span>
+
+
+<span class="sd">    Raises</span>
+<span class="sd">    ------</span>
+<span class="sd">    ParameterError</span>
+<span class="sd">        - If either `fmin` or `fmax` are not provided.</span>
+<span class="sd">        - If neither `length` nor `duration` are provided.</span>
+
+
+<span class="sd">    See Also</span>
+<span class="sd">    --------</span>
+<span class="sd">    scipy.signal.chirp</span>
+
+
+<span class="sd">    Examples</span>
+<span class="sd">    --------</span>
+<span class="sd">    &gt;&gt;&gt; # Generate a exponential chirp from A4 to A5</span>
+<span class="sd">    &gt;&gt;&gt; exponential_chirp = librosa.chirp(440, 880, duration=1)</span>
+
+<span class="sd">    &gt;&gt;&gt; # Or generate the same signal using `length`</span>
+<span class="sd">    &gt;&gt;&gt; exponential_chirp = librosa.chirp(440, 880, sr=22050, length=22050)</span>
+
+<span class="sd">    &gt;&gt;&gt; # Or generate a linear chirp instead</span>
+<span class="sd">    &gt;&gt;&gt; linear_chirp = librosa.chirp(440, 880, duration=1, linear=True)</span>
+
+<span class="sd">    Display spectrogram for both exponential and linear chirps</span>
+
+<span class="sd">    &gt;&gt;&gt; import matplotlib.pyplot as plt</span>
+<span class="sd">    &gt;&gt;&gt; plt.figure()</span>
+<span class="sd">    &gt;&gt;&gt; S_exponential = librosa.feature.melspectrogram(y=exponential_chirp)</span>
+<span class="sd">    &gt;&gt;&gt; ax = plt.subplot(2,1,1)</span>
+<span class="sd">    &gt;&gt;&gt; librosa.display.specshow(librosa.power_to_db(S_exponential, ref=np.max),</span>
+<span class="sd">    ...                          x_axis=&#39;time&#39;, y_axis=&#39;mel&#39;)</span>
+<span class="sd">    &gt;&gt;&gt; plt.subplot(2,1,2, sharex=ax)</span>
+<span class="sd">    &gt;&gt;&gt; S_linear = librosa.feature.melspectrogram(y=linear_chirp)</span>
+<span class="sd">    &gt;&gt;&gt; librosa.display.specshow(librosa.power_to_db(S_linear, ref=np.max),</span>
+<span class="sd">    ...                          x_axis=&#39;time&#39;, y_axis=&#39;mel&#39;)</span>
+<span class="sd">    &gt;&gt;&gt; plt.tight_layout()</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">if</span> <span class="n">fmin</span> <span class="ow">is</span> <span class="kc">None</span> <span class="ow">or</span> <span class="n">fmax</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="n">ParameterError</span><span class="p">(</span><span class="s1">&#39;both &quot;fmin&quot; and &quot;fmax&quot; must be provided&#39;</span><span class="p">)</span>
+
+    <span class="c1"># Compute signal duration</span>
+    <span class="n">period</span> <span class="o">=</span> <span class="mf">1.0</span> <span class="o">/</span> <span class="n">sr</span>
+    <span class="k">if</span> <span class="n">length</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">duration</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="n">ParameterError</span><span class="p">(</span><span class="s1">&#39;either &quot;length&quot; or &quot;duration&quot; must be provided&#39;</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">duration</span> <span class="o">=</span> <span class="n">period</span> <span class="o">*</span> <span class="n">length</span>
+
+    <span class="k">if</span> <span class="n">phi</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">phi</span> <span class="o">=</span> <span class="o">-</span><span class="n">np</span><span class="o">.</span><span class="n">pi</span> <span class="o">*</span> <span class="mf">0.5</span>
+
+    <span class="n">method</span> <span class="o">=</span> <span class="s1">&#39;linear&#39;</span> <span class="k">if</span> <span class="n">linear</span> <span class="k">else</span> <span class="s1">&#39;logarithmic&#39;</span>
+    <span class="k">return</span> <span class="n">scipy</span><span class="o">.</span><span class="n">signal</span><span class="o">.</span><span class="n">chirp</span><span class="p">(</span>
+        <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="n">duration</span><span class="p">,</span> <span class="n">step</span><span class="o">=</span><span class="n">period</span><span class="p">),</span>
+        <span class="n">fmin</span><span class="p">,</span>
+        <span class="n">duration</span><span class="p">,</span>
+        <span class="n">fmax</span><span class="p">,</span>
+        <span class="n">method</span><span class="o">=</span><span class="n">method</span><span class="p">,</span>
+        <span class="n">phi</span><span class="o">=</span><span class="n">phi</span> <span class="o">/</span> <span class="n">np</span><span class="o">.</span><span class="n">pi</span> <span class="o">*</span> <span class="mi">180</span><span class="p">,</span>  <span class="c1"># scipy.signal.chirp uses degrees for phase offset</span>
+    <span class="p">)</span></div>
 </pre></div>
 
            </div>
@@ -935,6 +1105,7 @@
             <dd><a href="../../../../0.5.1/index.html">0.5.1</a></dd>
             <dd><a href="../../../../0.6.0/index.html">0.6.0</a></dd>
             <dd><a href="../../../../0.6.1/index.html">0.6.1</a></dd>
+            <dd><a href="../../../../0.6.2/index.html">0.6.2</a></dd>
             <dd><a href="../../../../v0.1.0/index.html">v0.1.0</a></dd>
             <dd><a href="../../../../v0.4.0/index.html">v0.4.0</a></dd>
         </dl>
@@ -951,7 +1122,7 @@
     <script type="text/javascript">
         var DOCUMENTATION_OPTIONS = {
             URL_ROOT:'../../../',
-            VERSION:'0.6.1',
+            VERSION:'0.6.2',
             LANGUAGE:'None',
             COLLAPSE_INDEX:false,
             FILE_SUFFIX:'.html',
@@ -966,10 +1137,7 @@
 
   
 
-  
-  
-    <script type="text/javascript" src="../../../_static/js/theme.js"></script>
-  
+  <script type="text/javascript" src="../../../_static/js/theme.js"></script>
 
   <script type="text/javascript">
       jQuery(function () {

@@ -3,7 +3,7 @@
 import matplotlib.pyplot as plt
 y, sr = librosa.load(librosa.util.example_audio_file(),
                      duration=10.0)
-D = librosa.stft(y)
+D = np.abs(librosa.stft(y))
 plt.figure()
 plt.subplot(2, 1, 1)
 librosa.display.specshow(librosa.amplitude_to_db(D, ref=np.max),

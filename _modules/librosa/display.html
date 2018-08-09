@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>librosa.display &mdash; librosa 0.6.1 documentation</title>
+  <title>librosa.display &mdash; librosa 0.6.2 documentation</title>
   
 
   
@@ -24,8 +24,7 @@
 
   
 
-  
-    <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
   <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
   <link rel="stylesheet" href="../../_static/gallery.css" type="text/css" />
   <link rel="stylesheet" href="../../_static/banner.css" type="text/css" />
@@ -760,7 +759,7 @@
 <span class="sd">    &gt;&gt;&gt; y, sr = librosa.load(librosa.util.example_audio_file())</span>
 <span class="sd">    &gt;&gt;&gt; plt.figure(figsize=(12, 8))</span>
 
-<span class="sd">    &gt;&gt;&gt; D = librosa.amplitude_to_db(librosa.stft(y), ref=np.max)</span>
+<span class="sd">    &gt;&gt;&gt; D = librosa.amplitude_to_db(np.abs(librosa.stft(y)), ref=np.max)</span>
 <span class="sd">    &gt;&gt;&gt; plt.subplot(4, 2, 1)</span>
 <span class="sd">    &gt;&gt;&gt; librosa.display.specshow(D, y_axis=&#39;linear&#39;)</span>
 <span class="sd">    &gt;&gt;&gt; plt.colorbar(format=&#39;%+2.0f dB&#39;)</span>
@@ -777,7 +776,7 @@
 
 <span class="sd">    Or use a CQT scale</span>
 
-<span class="sd">    &gt;&gt;&gt; CQT = librosa.amplitude_to_db(librosa.cqt(y, sr=sr), ref=np.max)</span>
+<span class="sd">    &gt;&gt;&gt; CQT = librosa.amplitude_to_db(np.abs(librosa.cqt(y, sr=sr)), ref=np.max)</span>
 <span class="sd">    &gt;&gt;&gt; plt.subplot(4, 2, 3)</span>
 <span class="sd">    &gt;&gt;&gt; librosa.display.specshow(CQT, y_axis=&#39;cqt_note&#39;)</span>
 <span class="sd">    &gt;&gt;&gt; plt.colorbar(format=&#39;%+2.0f dB&#39;)</span>
@@ -1129,7 +1128,7 @@
 <div class="rst-versions" data-toggle="rst-versions" role="note" aria-label="versions">
     <span class="rst-current-version" data-toggle="rst-current-version">
         <span class="fa fa-book"> Other Versions</span>
-        v: 0.6.1
+        v: 0.6.2
         <span class="fa fa-caret-down"></span>
     </span>
     <div class="rst-other-versions">
@@ -1141,7 +1140,8 @@
             <dd><a href="../../0.5.0/index.html">0.5.0</a></dd>
             <dd><a href="../../0.5.1/index.html">0.5.1</a></dd>
             <dd><a href="../../0.6.0/index.html">0.6.0</a></dd>
-            <dd><a href="../../0.6.1/_modules/librosa/display.html">0.6.1</a></dd>
+            <dd><a href="../../0.6.1/index.html">0.6.1</a></dd>
+            <dd><a href="../../0.6.2/_modules/librosa/display.html">0.6.2</a></dd>
             <dd><a href="../../v0.1.0/index.html">v0.1.0</a></dd>
             <dd><a href="../../v0.4.0/index.html">v0.4.0</a></dd>
         </dl>
@@ -1158,7 +1158,7 @@
     <script type="text/javascript">
         var DOCUMENTATION_OPTIONS = {
             URL_ROOT:'../../',
-            VERSION:'0.6.1',
+            VERSION:'0.6.2',
             LANGUAGE:'None',
             COLLAPSE_INDEX:false,
             FILE_SUFFIX:'.html',
@@ -1173,10 +1173,7 @@
 
   
 
-  
-  
-    <script type="text/javascript" src="../../_static/js/theme.js"></script>
-  
+  <script type="text/javascript" src="../../_static/js/theme.js"></script>
 
   <script type="text/javascript">
       jQuery(function () {

@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>librosa.core.constantq &mdash; librosa 0.6.1 documentation</title>
+  <title>librosa.core.constantq &mdash; librosa 0.6.2 documentation</title>
   
 
   
@@ -24,8 +24,7 @@
 
   
 
-  
-    <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
   <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
   <link rel="stylesheet" href="../../../_static/gallery.css" type="text/css" />
   <link rel="stylesheet" href="../../../_static/banner.css" type="text/css" />
@@ -298,7 +297,7 @@
 
 <span class="sd">    &gt;&gt;&gt; import matplotlib.pyplot as plt</span>
 <span class="sd">    &gt;&gt;&gt; y, sr = librosa.load(librosa.util.example_audio_file())</span>
-<span class="sd">    &gt;&gt;&gt; C = librosa.cqt(y, sr=sr)</span>
+<span class="sd">    &gt;&gt;&gt; C = np.abs(librosa.cqt(y, sr=sr))</span>
 <span class="sd">    &gt;&gt;&gt; librosa.display.specshow(librosa.amplitude_to_db(C, ref=np.max),</span>
 <span class="sd">    ...                          sr=sr, x_axis=&#39;time&#39;, y_axis=&#39;cqt_note&#39;)</span>
 <span class="sd">    &gt;&gt;&gt; plt.colorbar(format=&#39;%+2.0f dB&#39;)</span>
@@ -308,8 +307,8 @@
 
 <span class="sd">    Limit the frequency range</span>
 
-<span class="sd">    &gt;&gt;&gt; C = librosa.cqt(y, sr=sr, fmin=librosa.note_to_hz(&#39;C2&#39;),</span>
-<span class="sd">    ...                 n_bins=60)</span>
+<span class="sd">    &gt;&gt;&gt; C = np.abs(librosa.cqt(y, sr=sr, fmin=librosa.note_to_hz(&#39;C2&#39;),</span>
+<span class="sd">    ...                 n_bins=60))</span>
 <span class="sd">    &gt;&gt;&gt; C</span>
 <span class="sd">    array([[  8.827e-04,   9.293e-04, ...,   3.133e-07,   2.942e-07],</span>
 <span class="sd">           [  1.076e-03,   1.068e-03, ...,   1.153e-06,   1.148e-06],</span>
@@ -320,8 +319,8 @@
 
 <span class="sd">    Using a higher frequency resolution</span>
 
-<span class="sd">    &gt;&gt;&gt; C = librosa.cqt(y, sr=sr, fmin=librosa.note_to_hz(&#39;C2&#39;),</span>
-<span class="sd">    ...                 n_bins=60 * 2, bins_per_octave=12 * 2)</span>
+<span class="sd">    &gt;&gt;&gt; C = np.abs(librosa.cqt(y, sr=sr, fmin=librosa.note_to_hz(&#39;C2&#39;),</span>
+<span class="sd">    ...                 n_bins=60 * 2, bins_per_octave=12 * 2))</span>
 <span class="sd">    &gt;&gt;&gt; C</span>
 <span class="sd">    array([[  1.536e-05,   5.848e-05, ...,   3.241e-07,   2.453e-07],</span>
 <span class="sd">           [  1.856e-03,   1.854e-03, ...,   2.397e-08,   3.549e-08],</span>
@@ -1065,7 +1064,7 @@
 <div class="rst-versions" data-toggle="rst-versions" role="note" aria-label="versions">
     <span class="rst-current-version" data-toggle="rst-current-version">
         <span class="fa fa-book"> Other Versions</span>
-        v: 0.6.1
+        v: 0.6.2
         <span class="fa fa-caret-down"></span>
     </span>
     <div class="rst-other-versions">
@@ -1077,7 +1076,8 @@
             <dd><a href="../../../0.5.0/index.html">0.5.0</a></dd>
             <dd><a href="../../../0.5.1/index.html">0.5.1</a></dd>
             <dd><a href="../../../0.6.0/index.html">0.6.0</a></dd>
-            <dd><a href="../../../0.6.1/_modules/librosa/core/constantq.html">0.6.1</a></dd>
+            <dd><a href="../../../0.6.1/index.html">0.6.1</a></dd>
+            <dd><a href="../../../0.6.2/_modules/librosa/core/constantq.html">0.6.2</a></dd>
             <dd><a href="../../../v0.1.0/index.html">v0.1.0</a></dd>
             <dd><a href="../../../v0.4.0/index.html">v0.4.0</a></dd>
         </dl>
@@ -1094,7 +1094,7 @@
     <script type="text/javascript">
         var DOCUMENTATION_OPTIONS = {
             URL_ROOT:'../../../',
-            VERSION:'0.6.1',
+            VERSION:'0.6.2',
             LANGUAGE:'None',
             COLLAPSE_INDEX:false,
             FILE_SUFFIX:'.html',
@@ -1109,10 +1109,7 @@
 
   
 
-  
-  
-    <script type="text/javascript" src="../../../_static/js/theme.js"></script>
-  
+  <script type="text/javascript" src="../../../_static/js/theme.js"></script>
 
   <script type="text/javascript">
       jQuery(function () {

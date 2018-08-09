@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>librosa.onset &mdash; librosa 0.6.1 documentation</title>
+  <title>librosa.onset &mdash; librosa 0.6.2 documentation</title>
   
 
   
@@ -24,8 +24,7 @@
 
   
 
-  
-    <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
   <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
   <link rel="stylesheet" href="../../_static/gallery.css" type="text/css" />
   <link rel="stylesheet" href="../../_static/banner.css" type="text/css" />
@@ -302,7 +301,7 @@
 
 
 <span class="sd">    &gt;&gt;&gt; import matplotlib.pyplot as plt</span>
-<span class="sd">    &gt;&gt;&gt; D = librosa.stft(y)</span>
+<span class="sd">    &gt;&gt;&gt; D = np.abs(librosa.stft(y))</span>
 <span class="sd">    &gt;&gt;&gt; plt.figure()</span>
 <span class="sd">    &gt;&gt;&gt; ax1 = plt.subplot(2, 1, 1)</span>
 <span class="sd">    &gt;&gt;&gt; librosa.display.specshow(librosa.amplitude_to_db(D, ref=np.max),</span>
@@ -452,7 +451,7 @@
 <span class="sd">    &gt;&gt;&gt; import matplotlib.pyplot as plt</span>
 <span class="sd">    &gt;&gt;&gt; y, sr = librosa.load(librosa.util.example_audio_file(),</span>
 <span class="sd">    ...                      duration=10.0)</span>
-<span class="sd">    &gt;&gt;&gt; D = librosa.stft(y)</span>
+<span class="sd">    &gt;&gt;&gt; D = np.abs(librosa.stft(y))</span>
 <span class="sd">    &gt;&gt;&gt; times = librosa.frames_to_time(np.arange(D.shape[1]))</span>
 <span class="sd">    &gt;&gt;&gt; plt.figure()</span>
 <span class="sd">    &gt;&gt;&gt; ax1 = plt.subplot(2, 1, 1)</span>
@@ -656,7 +655,7 @@
 <span class="sd">    &gt;&gt;&gt; import matplotlib.pyplot as plt</span>
 <span class="sd">    &gt;&gt;&gt; y, sr = librosa.load(librosa.util.example_audio_file(),</span>
 <span class="sd">    ...                      duration=10.0)</span>
-<span class="sd">    &gt;&gt;&gt; D = librosa.stft(y)</span>
+<span class="sd">    &gt;&gt;&gt; D = np.abs(librosa.stft(y))</span>
 <span class="sd">    &gt;&gt;&gt; plt.figure()</span>
 <span class="sd">    &gt;&gt;&gt; plt.subplot(2, 1, 1)</span>
 <span class="sd">    &gt;&gt;&gt; librosa.display.specshow(librosa.amplitude_to_db(D, ref=np.max),</span>
@@ -790,6 +789,7 @@
             <dd><a href="../../../0.5.1/index.html">0.5.1</a></dd>
             <dd><a href="../../../0.6.0/index.html">0.6.0</a></dd>
             <dd><a href="../../../0.6.1/index.html">0.6.1</a></dd>
+            <dd><a href="../../../0.6.2/index.html">0.6.2</a></dd>
             <dd><a href="../../../v0.1.0/index.html">v0.1.0</a></dd>
             <dd><a href="../../../v0.4.0/index.html">v0.4.0</a></dd>
         </dl>
@@ -806,7 +806,7 @@
     <script type="text/javascript">
         var DOCUMENTATION_OPTIONS = {
             URL_ROOT:'../../',
-            VERSION:'0.6.1',
+            VERSION:'0.6.2',
             LANGUAGE:'None',
             COLLAPSE_INDEX:false,
             FILE_SUFFIX:'.html',
@@ -821,10 +821,7 @@
 
   
 
-  
-  
-    <script type="text/javascript" src="../../_static/js/theme.js"></script>
-  
+  <script type="text/javascript" src="../../_static/js/theme.js"></script>
 
   <script type="text/javascript">
       jQuery(function () {

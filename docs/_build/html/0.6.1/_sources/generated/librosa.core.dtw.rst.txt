@@ -1,0 +1,6 @@
+librosa.core.dtw
+================
+
+.. currentmodule:: librosa.core
+
+.. autofunction:: dtw

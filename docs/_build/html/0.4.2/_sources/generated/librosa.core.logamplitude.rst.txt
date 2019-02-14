@@ -1,0 +1,6 @@
+librosa.core.logamplitude
+=========================
+
+.. currentmodule:: librosa.core
+
+.. autofunction:: logamplitude

@@ -1,0 +1,6 @@
+librosa.output.frames\_csv
+==========================
+
+.. currentmodule:: librosa.output
+
+.. autofunction:: frames_csv

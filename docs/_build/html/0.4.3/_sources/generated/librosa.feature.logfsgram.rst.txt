@@ -1,0 +1,6 @@
+librosa.feature.logfsgram
+=========================
+
+.. currentmodule:: librosa.feature
+
+.. autofunction:: logfsgram

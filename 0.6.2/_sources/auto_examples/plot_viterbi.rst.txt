@@ -1,4 +1,8 @@
+.. note::
+    :class: sphx-glr-download-link-note
 
+    Click :ref:`here <sphx_glr_download_auto_examples_plot_viterbi.py>` to download the full example code
+.. rst-class:: sphx-glr-example-title
 
 .. _sphx_glr_auto_examples_plot_viterbi.py:
 
@@ -60,7 +64,7 @@ Load an example signal
 
 
 .. image:: /auto_examples/images/sphx_glr_plot_viterbi_001.png
-    :align: center
+    :class: sphx-glr-single-img
 
 
 
@@ -96,7 +100,7 @@ non-silence throughout this recording.
 
 
 .. image:: /auto_examples/images/sphx_glr_plot_viterbi_002.png
-    :align: center
+    :class: sphx-glr-single-img
 
 
 
@@ -134,7 +138,7 @@ range of the probability vector
 
 
 .. image:: /auto_examples/images/sphx_glr_plot_viterbi_003.png
-    :align: center
+    :class: sphx-glr-single-img
 
 
 
@@ -165,7 +169,7 @@ independently of its neighbors, which would result in the following plot:
 
 
 .. image:: /auto_examples/images/sphx_glr_plot_viterbi_004.png
-    :align: center
+    :class: sphx-glr-single-img
 
 
 
@@ -193,7 +197,9 @@ where `transition[i, j]` is the probability of moving from state
 
 .. rst-class:: sphx-glr-script-out
 
- Out::
+ Out:
+
+ .. code-block:: none
 
     [[0.5 0.5]
      [0.4 0.6]]
@@ -216,7 +222,9 @@ so we need to also compute the probability of silence as its complement.
 
 .. rst-class:: sphx-glr-script-out
 
- Out::
+ Out:
+
+ .. code-block:: none
 
     [[0.6666718  0.66667724 0.66667974 0.66668206 0.6666705  0.66665936
       0.66665924 0.66664785 0.6666527  0.6666621  0.6666511  0.66666025
@@ -355,7 +363,7 @@ state likelihoods conditional on data (in our case, data is rmse).
 
 
 .. image:: /auto_examples/images/sphx_glr_plot_viterbi_005.png
-    :align: center
+    :class: sphx-glr-single-img
 
 
 
@@ -367,13 +375,17 @@ A higher self-transition probability means that the decoder is less
 likely to change states.
 
 
-**Total running time of the script:** ( 0 minutes  1.977 seconds)
+**Total running time of the script:** ( 0 minutes  1.572 seconds)
 
+
+.. _sphx_glr_download_auto_examples_plot_viterbi.py:
 
 
 .. only :: html
 
  .. container:: sphx-glr-footer
+    :class: sphx-glr-footer-example
+
 
 
   .. container:: sphx-glr-download

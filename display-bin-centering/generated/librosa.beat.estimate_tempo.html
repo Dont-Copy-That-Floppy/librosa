@@ -17,45 +17,46 @@
   
 
   
+  <script type="text/javascript" src="../_static/js/modernizr.min.js"></script>
+  
+    
+      <script type="text/javascript">
+          var DOCUMENTATION_OPTIONS = {
+              URL_ROOT:'../',
+              VERSION:'0.5.1',
+              LANGUAGE:'None',
+              COLLAPSE_INDEX:false,
+              FILE_SUFFIX:'.html',
+              HAS_SOURCE:  true,
+              SOURCELINK_SUFFIX: '.txt'
+          };
+      </script>
+        <script type="text/javascript" src="../_static/jquery.js"></script>
+        <script type="text/javascript" src="../_static/underscore.js"></script>
+        <script type="text/javascript" src="../_static/doctools.js"></script>
+    
+    <script type="text/javascript" src="../_static/js/theme.js"></script>
 
-  
-  
     
 
   
-
-  
-  
-    <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
-  
-
-  
-    <link rel="stylesheet" href="../_static/banner.css" type="text/css" />
-  
-
-  
-        <link rel="index" title="Index"
-              href="../genindex.html"/>
-        <link rel="search" title="Search" href="../search.html"/>
-    <link rel="top" title="librosa 0.5.1 documentation" href="../index.html"/>
-        <link rel="up" title="Beat and tempo" href="../beat.html"/>
-        <link rel="next" title="Spectrogram decomposition" href="../decompose.html"/>
-        <link rel="prev" title="librosa.beat.tempo" href="librosa.beat.tempo.html"/> 
-
-  
-  <script src="../_static/js/modernizr.min.js"></script>
-
+  <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/banner.css" type="text/css" />
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Spectrogram decomposition" href="../decompose.html" />
+    <link rel="prev" title="librosa.beat.tempo" href="librosa.beat.tempo.html" /> 
 </head>
 
-<body class="wy-body-for-nav" role="document">
+<body class="wy-body-for-nav">
 
    
   <div class="wy-grid-for-nav">
-
     
     <nav data-toggle="wy-nav-shift" class="wy-nav-side">
       <div class="wy-side-scroll">
-        <div class="wy-side-nav-search">
+        <div class="wy-side-nav-search" >
           
 
           
@@ -136,7 +137,7 @@
     <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
 
       
-      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+      <nav class="wy-nav-top" aria-label="top navigation">
         
           <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
           <a href="../index.html">librosa</a>
@@ -144,9 +145,10 @@
       </nav>
 
 
-      
       <div class="wy-nav-content">
+        
         <div class="rst-content">
+        
           
 
 
@@ -190,7 +192,16 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
             
-  <div class="section" id="librosa-beat-estimate-tempo">
+  
+
+
+    
+    
+
+
+
+    <p class="scv-banner scv-sphinx_rtd_theme"><b>Warning:</b> This document is for the development version of librosa.</p>
+<div class="section" id="librosa-beat-estimate-tempo">
 <h1>librosa.beat.estimate_tempo<a class="headerlink" href="#librosa-beat-estimate-tempo" title="Permalink to this headline">¶</a></h1>
 <dl class="function">
 <dt id="librosa.beat.estimate_tempo">
@@ -200,62 +211,57 @@
 <p class="first admonition-title">Warning</p>
 <p class="last">Deprecated in librosa 0.5
 Functionality is superseded by
-<a class="reference internal" href="librosa.beat.tempo.html#librosa.beat.tempo" title="librosa.beat.tempo"><code class="xref py py-obj docutils literal"><span class="pre">librosa.beat.tempo</span></code></a>.</p>
+<a class="reference internal" href="librosa.beat.tempo.html#librosa.beat.tempo" title="librosa.beat.tempo"><code class="xref py py-obj docutils literal notranslate"><span class="pre">librosa.beat.tempo</span></code></a>.</p>
 </div>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>onset_envelope</strong> : np.ndarray [shape=(n,)]</p>
-<blockquote>
-<div><p>onset strength envelope</p>
-</div></blockquote>
-<p><strong>sr</strong> : number &gt; 0 [scalar]</p>
-<blockquote>
-<div><p>sampling rate of the time series</p>
-</div></blockquote>
-<p><strong>hop_length</strong> : int &gt; 0 [scalar]</p>
-<blockquote>
-<div><p>hop length of the time series</p>
-</div></blockquote>
-<p><strong>start_bpm</strong> : float [scalar]</p>
-<blockquote>
-<div><p>initial guess of the BPM</p>
-</div></blockquote>
-<p><strong>std_bpm</strong> : float &gt; 0 [scalar]</p>
-<blockquote>
-<div><p>standard deviation of tempo distribution</p>
-</div></blockquote>
-<p><strong>ac_size</strong> : float &gt; 0 [scalar]</p>
-<blockquote>
-<div><p>length (in seconds) of the auto-correlation window</p>
-</div></blockquote>
-<p><strong>duration</strong> : float &gt; 0 [scalar]</p>
-<blockquote>
-<div><p>length of signal (in seconds) to use in estimating tempo</p>
-</div></blockquote>
-<p><strong>offset</strong> : float &gt; 0 [scalar]</p>
-<blockquote>
-<div><p>offset (in seconds) of signal sample to use in estimating tempo</p>
-</div></blockquote>
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><dl class="first docutils">
+<dt><strong>onset_envelope</strong> <span class="classifier-delimiter">:</span> <span class="classifier">np.ndarray [shape=(n,)]</span></dt>
+<dd><p class="first last">onset strength envelope</p>
+</dd>
+<dt><strong>sr</strong> <span class="classifier-delimiter">:</span> <span class="classifier">number &gt; 0 [scalar]</span></dt>
+<dd><p class="first last">sampling rate of the time series</p>
+</dd>
+<dt><strong>hop_length</strong> <span class="classifier-delimiter">:</span> <span class="classifier">int &gt; 0 [scalar]</span></dt>
+<dd><p class="first last">hop length of the time series</p>
+</dd>
+<dt><strong>start_bpm</strong> <span class="classifier-delimiter">:</span> <span class="classifier">float [scalar]</span></dt>
+<dd><p class="first last">initial guess of the BPM</p>
+</dd>
+<dt><strong>std_bpm</strong> <span class="classifier-delimiter">:</span> <span class="classifier">float &gt; 0 [scalar]</span></dt>
+<dd><p class="first last">standard deviation of tempo distribution</p>
+</dd>
+<dt><strong>ac_size</strong> <span class="classifier-delimiter">:</span> <span class="classifier">float &gt; 0 [scalar]</span></dt>
+<dd><p class="first last">length (in seconds) of the auto-correlation window</p>
+</dd>
+<dt><strong>duration</strong> <span class="classifier-delimiter">:</span> <span class="classifier">float &gt; 0 [scalar]</span></dt>
+<dd><p class="first last">length of signal (in seconds) to use in estimating tempo</p>
+</dd>
+<dt><strong>offset</strong> <span class="classifier-delimiter">:</span> <span class="classifier">float &gt; 0 [scalar]</span></dt>
+<dd><p class="first last">offset (in seconds) of signal sample to use in estimating tempo</p>
+</dd>
+</dl>
 </td>
 </tr>
-<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first"><strong>tempo</strong> : float [scalar]</p>
-<blockquote class="last">
-<div><p>estimated tempo (beats per minute)</p>
-</div></blockquote>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><dl class="first last docutils">
+<dt><strong>tempo</strong> <span class="classifier-delimiter">:</span> <span class="classifier">float [scalar]</span></dt>
+<dd><p class="first last">estimated tempo (beats per minute)</p>
+</dd>
+</dl>
 </td>
 </tr>
 </tbody>
 </table>
 <div class="admonition seealso">
 <p class="first admonition-title">See also</p>
-<p class="last"><a class="reference internal" href="librosa.onset.onset_strength.html#librosa.onset.onset_strength" title="librosa.onset.onset_strength"><code class="xref py py-obj docutils literal"><span class="pre">librosa.onset.onset_strength</span></code></a></p>
+<p class="last"><a class="reference internal" href="librosa.onset.onset_strength.html#librosa.onset.onset_strength" title="librosa.onset.onset_strength"><code class="xref py py-obj docutils literal notranslate"><span class="pre">librosa.onset.onset_strength</span></code></a></p>
 </div>
 <p class="rubric">Notes</p>
 <p>This function caches at level 30.</p>
 <p class="rubric">Examples</p>
-<div class="highlight-default"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">y</span><span class="p">,</span> <span class="n">sr</span> <span class="o">=</span> <span class="n">librosa</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">librosa</span><span class="o">.</span><span class="n">util</span><span class="o">.</span><span class="n">example_audio_file</span><span class="p">())</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">y</span><span class="p">,</span> <span class="n">sr</span> <span class="o">=</span> <span class="n">librosa</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">librosa</span><span class="o">.</span><span class="n">util</span><span class="o">.</span><span class="n">example_audio_file</span><span class="p">())</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">onset_env</span> <span class="o">=</span> <span class="n">librosa</span><span class="o">.</span><span class="n">onset</span><span class="o">.</span><span class="n">onset_strength</span><span class="p">(</span><span class="n">y</span><span class="p">,</span> <span class="n">sr</span><span class="o">=</span><span class="n">sr</span><span class="p">)</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">tempo</span> <span class="o">=</span> <span class="n">librosa</span><span class="o">.</span><span class="n">beat</span><span class="o">.</span><span class="n">estimate_tempo</span><span class="p">(</span><span class="n">onset_env</span><span class="p">,</span> <span class="n">sr</span><span class="o">=</span><span class="n">sr</span><span class="p">)</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">tempo</span>
@@ -263,7 +269,7 @@ Functionality is superseded by
 </pre></div>
 </div>
 <p>Plot the estimated tempo against the onset autocorrelation</p>
-<div class="highlight-default"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="c1"># Compute 2-second windowed autocorrelation</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">hop_length</span> <span class="o">=</span> <span class="mi">512</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">ac</span> <span class="o">=</span> <span class="n">librosa</span><span class="o">.</span><span class="n">autocorrelate</span><span class="p">(</span><span class="n">onset_env</span><span class="p">,</span> <span class="mi">2</span> <span class="o">*</span> <span class="n">sr</span> <span class="o">//</span> <span class="n">hop_length</span><span class="p">)</span>
@@ -291,9 +297,7 @@ Functionality is superseded by
 
 
            </div>
-           <div class="articleComments">
-            
-           </div>
+           
           </div>
           <footer>
   
@@ -302,7 +306,7 @@ Functionality is superseded by
         <a href="../decompose.html" class="btn btn-neutral float-right" title="Spectrogram decomposition" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
       
       
-        <a href="librosa.beat.tempo.html" class="btn btn-neutral" title="librosa.beat.tempo" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+        <a href="librosa.beat.tempo.html" class="btn btn-neutral float-left" title="librosa.beat.tempo" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
       
     </div>
   
@@ -311,11 +315,11 @@ Functionality is superseded by
 
   <div role="contentinfo">
     <p>
-        &copy; Copyright 2013--2017, librosa development team.
+        &copy; Copyright 2013--2017, librosa development team
 
     </p>
   </div>
-  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/snide/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
 
 </footer>
 
@@ -335,19 +339,15 @@ Functionality is superseded by
     <div class="rst-other-versions">
         <dl>
             <dt>Tags</dt>
-            <dd><a href="../../0.4.0rc1/index.html">0.4.0rc1</a></dd>
-            <dd><a href="../../0.4.0rc2/index.html">0.4.0rc2</a></dd>
             <dd><a href="../../0.4.1/index.html">0.4.1</a></dd>
-            <dd><a href="../../0.4.1rc0/index.html">0.4.1rc0</a></dd>
             <dd><a href="../../0.4.2/generated/librosa.beat.estimate_tempo.html">0.4.2</a></dd>
             <dd><a href="../../0.4.3/generated/librosa.beat.estimate_tempo.html">0.4.3</a></dd>
-            <dd><a href="../../0.4.3rc0/generated/librosa.beat.estimate_tempo.html">0.4.3rc0</a></dd>
             <dd><a href="../../0.5.0/generated/librosa.beat.estimate_tempo.html">0.5.0</a></dd>
-            <dd><a href="../../0.5.0rc0/generated/librosa.beat.estimate_tempo.html">0.5.0rc0</a></dd>
             <dd><a href="../../0.5.1/generated/librosa.beat.estimate_tempo.html">0.5.1</a></dd>
             <dd><a href="../../0.6.0/index.html">0.6.0</a></dd>
-            <dd><a href="../../0.6.0rc0/index.html">0.6.0rc0</a></dd>
-            <dd><a href="../../0.6.0rc1/index.html">0.6.0rc1</a></dd>
+            <dd><a href="../../0.6.1/index.html">0.6.1</a></dd>
+            <dd><a href="../../0.6.2/index.html">0.6.2</a></dd>
+            <dd><a href="../../0.6.3/index.html">0.6.3</a></dd>
             <dd><a href="../../v0.1.0/index.html">v0.1.0</a></dd>
             <dd><a href="../../v0.4.0/index.html">v0.4.0</a></dd>
         </dl>
@@ -355,41 +355,22 @@ Functionality is superseded by
             <dt>Branches</dt>
             <dd><a href="librosa.beat.estimate_tempo.html">display-bin-centering</a></dd>
             <dd><a href="../../master/index.html">master</a></dd>
+            <dd><a href="../../mpl-test-2.1/index.html">mpl-test-2.1</a></dd>
+            <dd><a href="../../runnning/index.html">runnning</a></dd>
         </dl>
     </div>
 </div>
 
 
-  
-
-    <script type="text/javascript">
-        var DOCUMENTATION_OPTIONS = {
-            URL_ROOT:'../',
-            VERSION:'0.5.1',
-            COLLAPSE_INDEX:false,
-            FILE_SUFFIX:'.html',
-            HAS_SOURCE:  true,
-            SOURCELINK_SUFFIX: '.txt'
-        };
-    </script>
-      <script type="text/javascript" src="../_static/jquery.js"></script>
-      <script type="text/javascript" src="../_static/underscore.js"></script>
-      <script type="text/javascript" src="../_static/doctools.js"></script>
-
-  
-
-  
-  
-    <script type="text/javascript" src="../_static/js/theme.js"></script>
-  
-
-  
-  
   <script type="text/javascript">
       jQuery(function () {
-          SphinxRtdTheme.StickyNav.enable();
+          SphinxRtdTheme.Navigation.enable(true);
       });
   </script>
+
+  
+  
+    
    
 
 </body>

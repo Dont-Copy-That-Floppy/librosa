@@ -1,5 +1,5 @@
-librosa\.core\.piptrack
-=======================
+librosa.core.piptrack
+=====================
 
 .. currentmodule:: librosa.core
 

@@ -17,13 +17,30 @@
   
 
   
+  <script type="text/javascript" src="../_static/js/modernizr.min.js"></script>
+  
+    
+      <script type="text/javascript">
+          var DOCUMENTATION_OPTIONS = {
+              URL_ROOT:'../',
+              VERSION:'0.6.2',
+              LANGUAGE:'None',
+              COLLAPSE_INDEX:false,
+              FILE_SUFFIX:'.html',
+              HAS_SOURCE:  true,
+              SOURCELINK_SUFFIX: '.txt'
+          };
+      </script>
+        <script type="text/javascript" src="../_static/jquery.js"></script>
+        <script type="text/javascript" src="../_static/underscore.js"></script>
+        <script type="text/javascript" src="../_static/doctools.js"></script>
+        <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    
+    <script type="text/javascript" src="../_static/js/theme.js"></script>
 
-  
-  
     
 
   
-
   <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
   <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
   <link rel="stylesheet" href="../_static/gallery.css" type="text/css" />
@@ -32,21 +49,16 @@
     <link rel="search" title="Search" href="../search.html" />
     <link rel="next" title="Changelog" href="../changelog.html" />
     <link rel="prev" title="Enhanced chroma" href="plot_chroma.html" /> 
-
-  
-  <script src="../_static/js/modernizr.min.js"></script>
-
 </head>
 
 <body class="wy-body-for-nav">
 
    
   <div class="wy-grid-for-nav">
-
     
     <nav data-toggle="wy-nav-shift" class="wy-nav-side">
       <div class="wy-side-scroll">
-        <div class="wy-side-nav-search">
+        <div class="wy-side-nav-search" >
           
 
           
@@ -179,10 +191,17 @@
   
 
 
+    
+    
 
 
 
-<div class="section" id="laplacian-segmentation">
+    <p class="scv-banner scv-sphinx_rtd_theme"><a href="../../0.6.3/auto_examples/plot_segmentation.html"><b>Warning:</b> This document is for an old version of librosa. The latest version is 0.6.3.</a></p>
+<div class="sphx-glr-download-link-note admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">Click <a class="reference internal" href="#sphx-glr-download-auto-examples-plot-segmentation-py"><span class="std std-ref">here</span></a> to download the full example code</p>
+</div>
+<div class="sphx-glr-example-title section" id="laplacian-segmentation">
 <span id="sphx-glr-auto-examples-plot-segmentation-py"></span><h1>Laplacian segmentation<a class="headerlink" href="#laplacian-segmentation" title="Permalink to this headline">¶</a></h1>
 <p>This notebook implements the laplacian segmentation method of
 <a class="reference external" href="http://bmcfee.github.io/papers/ismir2014_spectral.pdf">McFee and Ellis, 2014</a>,
@@ -234,7 +253,7 @@ helpful to read along.</p>
 <span class="n">plt</span><span class="o">.</span><span class="n">tight_layout</span><span class="p">()</span>
 </pre></div>
 </div>
-<img alt="../_images/sphx_glr_plot_segmentation_001.png" class="align-center" src="../_images/sphx_glr_plot_segmentation_001.png" />
+<img alt="../_images/sphx_glr_plot_segmentation_001.png" class="sphx-glr-single-img" src="../_images/sphx_glr_plot_segmentation_001.png" />
 <p>To reduce dimensionality, we’ll beat-synchronous the CQT</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">tempo</span><span class="p">,</span> <span class="n">beats</span> <span class="o">=</span> <span class="n">librosa</span><span class="o">.</span><span class="n">beat</span><span class="o">.</span><span class="n">beat_track</span><span class="p">(</span><span class="n">y</span><span class="o">=</span><span class="n">y</span><span class="p">,</span> <span class="n">sr</span><span class="o">=</span><span class="n">sr</span><span class="p">,</span> <span class="n">trim</span><span class="o">=</span><span class="bp">False</span><span class="p">)</span>
 <span class="n">Csync</span> <span class="o">=</span> <span class="n">librosa</span><span class="o">.</span><span class="n">util</span><span class="o">.</span><span class="n">sync</span><span class="p">(</span><span class="n">C</span><span class="p">,</span> <span class="n">beats</span><span class="p">,</span> <span class="n">aggregate</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">median</span><span class="p">)</span>
@@ -253,7 +272,7 @@ helpful to read along.</p>
 <span class="n">plt</span><span class="o">.</span><span class="n">tight_layout</span><span class="p">()</span>
 </pre></div>
 </div>
-<img alt="../_images/sphx_glr_plot_segmentation_002.png" class="align-center" src="../_images/sphx_glr_plot_segmentation_002.png" />
+<img alt="../_images/sphx_glr_plot_segmentation_002.png" class="sphx-glr-single-img" src="../_images/sphx_glr_plot_segmentation_002.png" />
 <p>Let’s build a weighted recurrence matrix using beat-synchronous CQT
 (Equation 1)
 width=3 prevents links within the same bar
@@ -304,7 +323,7 @@ mode=’affinity’ here implements S_rep (after Eq. 8)</p>
 <span class="n">plt</span><span class="o">.</span><span class="n">tight_layout</span><span class="p">()</span>
 </pre></div>
 </div>
-<img alt="../_images/sphx_glr_plot_segmentation_003.png" class="align-center" src="../_images/sphx_glr_plot_segmentation_003.png" />
+<img alt="../_images/sphx_glr_plot_segmentation_003.png" class="sphx-glr-single-img" src="../_images/sphx_glr_plot_segmentation_003.png" />
 <p>Now let’s compute the normalized Laplacian (Eq. 10)</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">L</span> <span class="o">=</span> <span class="n">scipy</span><span class="o">.</span><span class="n">sparse</span><span class="o">.</span><span class="n">csgraph</span><span class="o">.</span><span class="n">laplacian</span><span class="p">(</span><span class="n">A</span><span class="p">,</span> <span class="n">normed</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
 
@@ -344,7 +363,7 @@ mode=’affinity’ here implements S_rep (after Eq. 8)</p>
 <span class="n">plt</span><span class="o">.</span><span class="n">tight_layout</span><span class="p">()</span>
 </pre></div>
 </div>
-<img alt="../_images/sphx_glr_plot_segmentation_004.png" class="align-center" src="../_images/sphx_glr_plot_segmentation_004.png" />
+<img alt="../_images/sphx_glr_plot_segmentation_004.png" class="sphx-glr-single-img" src="../_images/sphx_glr_plot_segmentation_004.png" />
 <p>Let’s use these k components to cluster beats into segments
 (Algorithm 1)</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">KM</span> <span class="o">=</span> <span class="n">sklearn</span><span class="o">.</span><span class="n">cluster</span><span class="o">.</span><span class="n">KMeans</span><span class="p">(</span><span class="n">n_clusters</span><span class="o">=</span><span class="n">k</span><span class="p">)</span>
@@ -371,7 +390,7 @@ mode=’affinity’ here implements S_rep (after Eq. 8)</p>
 <span class="n">plt</span><span class="o">.</span><span class="n">tight_layout</span><span class="p">()</span>
 </pre></div>
 </div>
-<img alt="../_images/sphx_glr_plot_segmentation_005.png" class="align-center" src="../_images/sphx_glr_plot_segmentation_005.png" />
+<img alt="../_images/sphx_glr_plot_segmentation_005.png" class="sphx-glr-single-img" src="../_images/sphx_glr_plot_segmentation_005.png" />
 <p>Locate segment boundaries from the label sequence</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">bound_beats</span> <span class="o">=</span> <span class="mi">1</span> <span class="o">+</span> <span class="n">np</span><span class="o">.</span><span class="n">flatnonzero</span><span class="p">(</span><span class="n">seg_ids</span><span class="p">[:</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="o">!=</span> <span class="n">seg_ids</span><span class="p">[</span><span class="mi">1</span><span class="p">:])</span>
 
@@ -417,9 +436,9 @@ mode=’affinity’ here implements S_rep (after Eq. 8)</p>
 <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
 </pre></div>
 </div>
-<img alt="../_images/sphx_glr_plot_segmentation_006.png" class="align-center" src="../_images/sphx_glr_plot_segmentation_006.png" />
-<p><strong>Total running time of the script:</strong> ( 0 minutes  10.606 seconds)</p>
-<div class="sphx-glr-footer docutils container">
+<img alt="../_images/sphx_glr_plot_segmentation_006.png" class="sphx-glr-single-img" src="../_images/sphx_glr_plot_segmentation_006.png" />
+<p><strong>Total running time of the script:</strong> ( 0 minutes  8.256 seconds)</p>
+<div class="sphx-glr-footer class sphx-glr-footer-example docutils container" id="sphx-glr-download-auto-examples-plot-segmentation-py">
 <div class="sphx-glr-download docutils container">
 <a class="reference download internal" href="../_downloads/plot_segmentation.py" download=""><code class="xref download docutils literal notranslate"><span class="pre">Download</span> <span class="pre">Python</span> <span class="pre">source</span> <span class="pre">code:</span> <span class="pre">plot_segmentation.py</span></code></a></div>
 <div class="sphx-glr-download docutils container">
@@ -439,7 +458,7 @@ mode=’affinity’ here implements S_rep (after Eq. 8)</p>
         <a href="../changelog.html" class="btn btn-neutral float-right" title="Changelog" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
       
       
-        <a href="plot_chroma.html" class="btn btn-neutral" title="Enhanced chroma" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+        <a href="plot_chroma.html" class="btn btn-neutral float-left" title="Enhanced chroma" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
       
     </div>
   
@@ -448,7 +467,7 @@ mode=’affinity’ here implements S_rep (after Eq. 8)</p>
 
   <div role="contentinfo">
     <p>
-        &copy; Copyright 2013--2018, librosa development team.
+        &copy; Copyright 2013--2018, librosa development team
 
     </p>
   </div>
@@ -480,44 +499,31 @@ mode=’affinity’ here implements S_rep (after Eq. 8)</p>
             <dd><a href="../../0.6.0/auto_examples/plot_segmentation.html">0.6.0</a></dd>
             <dd><a href="../../0.6.1/auto_examples/plot_segmentation.html">0.6.1</a></dd>
             <dd><a href="plot_segmentation.html">0.6.2</a></dd>
+            <dd><a href="../../0.6.3/auto_examples/plot_segmentation.html">0.6.3</a></dd>
             <dd><a href="../../v0.1.0/index.html">v0.1.0</a></dd>
             <dd><a href="../../v0.4.0/index.html">v0.4.0</a></dd>
         </dl>
         <dl>
             <dt>Branches</dt>
+            <dd><a href="../../display-bin-centering/index.html">display-bin-centering</a></dd>
             <dd><a href="../../master/auto_examples/plot_segmentation.html">master</a></dd>
+            <dd><a href="../../mpl-test-2.1/auto_examples/plot_segmentation.html">mpl-test-2.1</a></dd>
+            <dd><a href="../../runnning/auto_examples/plot_segmentation.html">runnning</a></dd>
         </dl>
     </div>
 </div>
 
 
-  
-
-    <script type="text/javascript">
-        var DOCUMENTATION_OPTIONS = {
-            URL_ROOT:'../',
-            VERSION:'0.6.2',
-            LANGUAGE:'None',
-            COLLAPSE_INDEX:false,
-            FILE_SUFFIX:'.html',
-            HAS_SOURCE:  true,
-            SOURCELINK_SUFFIX: '.txt'
-        };
-    </script>
-      <script type="text/javascript" src="../_static/jquery.js"></script>
-      <script type="text/javascript" src="../_static/underscore.js"></script>
-      <script type="text/javascript" src="../_static/doctools.js"></script>
-      <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
-
-  
-
-  <script type="text/javascript" src="../_static/js/theme.js"></script>
-
   <script type="text/javascript">
       jQuery(function () {
           SphinxRtdTheme.Navigation.enable(true);
       });
-  </script> 
+  </script>
+
+  
+  
+    
+   
 
 </body>
 </html>

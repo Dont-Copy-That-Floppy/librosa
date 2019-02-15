@@ -17,45 +17,46 @@
   
 
   
+  <script type="text/javascript" src="../_static/js/modernizr.min.js"></script>
+  
+    
+      <script type="text/javascript">
+          var DOCUMENTATION_OPTIONS = {
+              URL_ROOT:'../',
+              VERSION:'0.5.1',
+              LANGUAGE:'None',
+              COLLAPSE_INDEX:false,
+              FILE_SUFFIX:'.html',
+              HAS_SOURCE:  true,
+              SOURCELINK_SUFFIX: '.txt'
+          };
+      </script>
+        <script type="text/javascript" src="../_static/jquery.js"></script>
+        <script type="text/javascript" src="../_static/underscore.js"></script>
+        <script type="text/javascript" src="../_static/doctools.js"></script>
+    
+    <script type="text/javascript" src="../_static/js/theme.js"></script>
 
-  
-  
     
 
   
-
-  
-  
-    <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
-  
-
-  
-    <link rel="stylesheet" href="../_static/banner.css" type="text/css" />
-  
-
-  
-        <link rel="index" title="Index"
-              href="../genindex.html"/>
-        <link rel="search" title="Search" href="../search.html"/>
-    <link rel="top" title="librosa 0.5.1 documentation" href="../index.html"/>
-        <link rel="up" title="Core IO and DSP" href="../core.html"/>
-        <link rel="next" title="librosa.core.samples_to_time" href="librosa.core.samples_to_time.html"/>
-        <link rel="prev" title="librosa.core.frames_to_time" href="librosa.core.frames_to_time.html"/> 
-
-  
-  <script src="../_static/js/modernizr.min.js"></script>
-
+  <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/banner.css" type="text/css" />
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="librosa.core.samples_to_time" href="librosa.core.samples_to_time.html" />
+    <link rel="prev" title="librosa.core.frames_to_time" href="librosa.core.frames_to_time.html" /> 
 </head>
 
-<body class="wy-body-for-nav" role="document">
+<body class="wy-body-for-nav">
 
    
   <div class="wy-grid-for-nav">
-
     
     <nav data-toggle="wy-nav-shift" class="wy-nav-side">
       <div class="wy-side-scroll">
-        <div class="wy-side-nav-search">
+        <div class="wy-side-nav-search" >
           
 
           
@@ -159,7 +160,7 @@
     <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
 
       
-      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+      <nav class="wy-nav-top" aria-label="top navigation">
         
           <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
           <a href="../index.html">librosa</a>
@@ -167,9 +168,10 @@
       </nav>
 
 
-      
       <div class="wy-nav-content">
+        
         <div class="rst-content">
+        
           
 
 
@@ -213,7 +215,16 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
             
-  <div class="section" id="librosa-core-samples-to-frames">
+  
+
+
+    
+    
+
+
+
+    <p class="scv-banner scv-sphinx_rtd_theme"><a href="../../0.6.3/generated/librosa.core.samples_to_frames.html"><b>Warning:</b> This document is for the development version of librosa. The latest version is 0.6.3.</a></p>
+<div class="section" id="librosa-core-samples-to-frames">
 <h1>librosa.core.samples_to_frames<a class="headerlink" href="#librosa-core-samples-to-frames" title="Permalink to this headline">¶</a></h1>
 <dl class="function">
 <dt id="librosa.core.samples_to_frames">
@@ -223,31 +234,31 @@
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>samples</strong> : np.ndarray [shape=(n,)]</p>
-<blockquote>
-<div><p>vector of sample indices</p>
-</div></blockquote>
-<p><strong>hop_length</strong> : int &gt; 0 [scalar]</p>
-<blockquote>
-<div><p>number of samples between successive frames</p>
-</div></blockquote>
-<p><strong>n_fft</strong> : None or int &gt; 0 [scalar]</p>
-<blockquote>
-<div><p>Optional: length of the FFT window.
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><dl class="first docutils">
+<dt><strong>samples</strong> <span class="classifier-delimiter">:</span> <span class="classifier">np.ndarray [shape=(n,)]</span></dt>
+<dd><p class="first last">vector of sample indices</p>
+</dd>
+<dt><strong>hop_length</strong> <span class="classifier-delimiter">:</span> <span class="classifier">int &gt; 0 [scalar]</span></dt>
+<dd><p class="first last">number of samples between successive frames</p>
+</dd>
+<dt><strong>n_fft</strong> <span class="classifier-delimiter">:</span> <span class="classifier">None or int &gt; 0 [scalar]</span></dt>
+<dd><p class="first">Optional: length of the FFT window.
 If given, time conversion will include an offset of <em class="xref py py-obj">- n_fft / 2</em>
 to counteract windowing effects in STFT.</p>
-<div class="admonition note">
+<div class="last admonition note">
 <p class="first admonition-title">Note</p>
 <p class="last">This may result in negative frame indices.</p>
 </div>
-</div></blockquote>
+</dd>
+</dl>
 </td>
 </tr>
-<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first"><strong>frames</strong> : np.ndarray [shape=(n,), dtype=int]</p>
-<blockquote class="last">
-<div><p>Frame numbers corresponding to the given times:
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><dl class="first last docutils">
+<dt><strong>frames</strong> <span class="classifier-delimiter">:</span> <span class="classifier">np.ndarray [shape=(n,), dtype=int]</span></dt>
+<dd><p class="first last">Frame numbers corresponding to the given times:
 <em class="xref py py-obj">frames[i] = floor( samples[i] / hop_length )</em></p>
-</div></blockquote>
+</dd>
+</dl>
 </td>
 </tr>
 </tbody>
@@ -255,14 +266,14 @@ to counteract windowing effects in STFT.</p>
 <div class="admonition seealso">
 <p class="first admonition-title">See also</p>
 <dl class="last docutils">
-<dt><a class="reference internal" href="librosa.core.samples_to_time.html#librosa.core.samples_to_time" title="librosa.core.samples_to_time"><code class="xref py py-obj docutils literal"><span class="pre">samples_to_time</span></code></a></dt>
+<dt><a class="reference internal" href="librosa.core.samples_to_time.html#librosa.core.samples_to_time" title="librosa.core.samples_to_time"><code class="xref py py-obj docutils literal notranslate"><span class="pre">samples_to_time</span></code></a></dt>
 <dd>convert sample indices to time values</dd>
-<dt><a class="reference internal" href="librosa.core.frames_to_samples.html#librosa.core.frames_to_samples" title="librosa.core.frames_to_samples"><code class="xref py py-obj docutils literal"><span class="pre">frames_to_samples</span></code></a></dt>
+<dt><a class="reference internal" href="librosa.core.frames_to_samples.html#librosa.core.frames_to_samples" title="librosa.core.frames_to_samples"><code class="xref py py-obj docutils literal notranslate"><span class="pre">frames_to_samples</span></code></a></dt>
 <dd>convert frame indices to sample indices</dd>
 </dl>
 </div>
 <p class="rubric">Examples</p>
-<div class="highlight-default"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="c1"># Get the frame numbers for every 256 samples</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="c1"># Get the frame numbers for every 256 samples</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">librosa</span><span class="o">.</span><span class="n">samples_to_frames</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">22050</span><span class="p">,</span> <span class="mi">256</span><span class="p">))</span>
 <span class="go">array([ 0,  0,  1,  1,  2,  2,  3,  3,  4,  4,  5,  5,  6,  6,</span>
 <span class="go">        7,  7,  8,  8,  9,  9, 10, 10, 11, 11, 12, 12, 13, 13,</span>
@@ -279,9 +290,7 @@ to counteract windowing effects in STFT.</p>
 
 
            </div>
-           <div class="articleComments">
-            
-           </div>
+           
           </div>
           <footer>
   
@@ -290,7 +299,7 @@ to counteract windowing effects in STFT.</p>
         <a href="librosa.core.samples_to_time.html" class="btn btn-neutral float-right" title="librosa.core.samples_to_time" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
       
       
-        <a href="librosa.core.frames_to_time.html" class="btn btn-neutral" title="librosa.core.frames_to_time" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+        <a href="librosa.core.frames_to_time.html" class="btn btn-neutral float-left" title="librosa.core.frames_to_time" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
       
     </div>
   
@@ -299,11 +308,11 @@ to counteract windowing effects in STFT.</p>
 
   <div role="contentinfo">
     <p>
-        &copy; Copyright 2013--2017, librosa development team.
+        &copy; Copyright 2013--2017, librosa development team
 
     </p>
   </div>
-  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/snide/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
 
 </footer>
 
@@ -323,19 +332,15 @@ to counteract windowing effects in STFT.</p>
     <div class="rst-other-versions">
         <dl>
             <dt>Tags</dt>
-            <dd><a href="../../0.4.0rc1/index.html">0.4.0rc1</a></dd>
-            <dd><a href="../../0.4.0rc2/index.html">0.4.0rc2</a></dd>
             <dd><a href="../../0.4.1/index.html">0.4.1</a></dd>
-            <dd><a href="../../0.4.1rc0/index.html">0.4.1rc0</a></dd>
             <dd><a href="../../0.4.2/generated/librosa.core.samples_to_frames.html">0.4.2</a></dd>
             <dd><a href="../../0.4.3/generated/librosa.core.samples_to_frames.html">0.4.3</a></dd>
-            <dd><a href="../../0.4.3rc0/generated/librosa.core.samples_to_frames.html">0.4.3rc0</a></dd>
             <dd><a href="../../0.5.0/generated/librosa.core.samples_to_frames.html">0.5.0</a></dd>
-            <dd><a href="../../0.5.0rc0/generated/librosa.core.samples_to_frames.html">0.5.0rc0</a></dd>
             <dd><a href="../../0.5.1/generated/librosa.core.samples_to_frames.html">0.5.1</a></dd>
             <dd><a href="../../0.6.0/generated/librosa.core.samples_to_frames.html">0.6.0</a></dd>
-            <dd><a href="../../0.6.0rc0/generated/librosa.core.samples_to_frames.html">0.6.0rc0</a></dd>
-            <dd><a href="../../0.6.0rc1/generated/librosa.core.samples_to_frames.html">0.6.0rc1</a></dd>
+            <dd><a href="../../0.6.1/generated/librosa.core.samples_to_frames.html">0.6.1</a></dd>
+            <dd><a href="../../0.6.2/generated/librosa.core.samples_to_frames.html">0.6.2</a></dd>
+            <dd><a href="../../0.6.3/generated/librosa.core.samples_to_frames.html">0.6.3</a></dd>
             <dd><a href="../../v0.1.0/index.html">v0.1.0</a></dd>
             <dd><a href="../../v0.4.0/index.html">v0.4.0</a></dd>
         </dl>
@@ -343,41 +348,22 @@ to counteract windowing effects in STFT.</p>
             <dt>Branches</dt>
             <dd><a href="librosa.core.samples_to_frames.html">display-bin-centering</a></dd>
             <dd><a href="../../master/generated/librosa.core.samples_to_frames.html">master</a></dd>
+            <dd><a href="../../mpl-test-2.1/generated/librosa.core.samples_to_frames.html">mpl-test-2.1</a></dd>
+            <dd><a href="../../runnning/generated/librosa.core.samples_to_frames.html">runnning</a></dd>
         </dl>
     </div>
 </div>
 
 
-  
-
-    <script type="text/javascript">
-        var DOCUMENTATION_OPTIONS = {
-            URL_ROOT:'../',
-            VERSION:'0.5.1',
-            COLLAPSE_INDEX:false,
-            FILE_SUFFIX:'.html',
-            HAS_SOURCE:  true,
-            SOURCELINK_SUFFIX: '.txt'
-        };
-    </script>
-      <script type="text/javascript" src="../_static/jquery.js"></script>
-      <script type="text/javascript" src="../_static/underscore.js"></script>
-      <script type="text/javascript" src="../_static/doctools.js"></script>
-
-  
-
-  
-  
-    <script type="text/javascript" src="../_static/js/theme.js"></script>
-  
-
-  
-  
   <script type="text/javascript">
       jQuery(function () {
-          SphinxRtdTheme.StickyNav.enable();
+          SphinxRtdTheme.Navigation.enable(true);
       });
   </script>
+
+  
+  
+    
    
 
 </body>

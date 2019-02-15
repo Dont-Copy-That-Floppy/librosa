@@ -17,45 +17,46 @@
   
 
   
+  <script type="text/javascript" src="../_static/js/modernizr.min.js"></script>
+  
+    
+      <script type="text/javascript">
+          var DOCUMENTATION_OPTIONS = {
+              URL_ROOT:'../',
+              VERSION:'0.5.1',
+              LANGUAGE:'None',
+              COLLAPSE_INDEX:false,
+              FILE_SUFFIX:'.html',
+              HAS_SOURCE:  true,
+              SOURCELINK_SUFFIX: '.txt'
+          };
+      </script>
+        <script type="text/javascript" src="../_static/jquery.js"></script>
+        <script type="text/javascript" src="../_static/underscore.js"></script>
+        <script type="text/javascript" src="../_static/doctools.js"></script>
+    
+    <script type="text/javascript" src="../_static/js/theme.js"></script>
 
-  
-  
     
 
   
-
-  
-  
-    <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
-  
-
-  
-    <link rel="stylesheet" href="../_static/banner.css" type="text/css" />
-  
-
-  
-        <link rel="index" title="Index"
-              href="../genindex.html"/>
-        <link rel="search" title="Search" href="../search.html"/>
-    <link rel="top" title="librosa 0.5.1 documentation" href="../index.html"/>
-        <link rel="up" title="Filters" href="../filters.html"/>
-        <link rel="next" title="Caching" href="../cache.html"/>
-        <link rel="prev" title="librosa.filters.cq_to_chroma" href="librosa.filters.cq_to_chroma.html"/> 
-
-  
-  <script src="../_static/js/modernizr.min.js"></script>
-
+  <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/banner.css" type="text/css" />
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Caching" href="../cache.html" />
+    <link rel="prev" title="librosa.filters.cq_to_chroma" href="librosa.filters.cq_to_chroma.html" /> 
 </head>
 
-<body class="wy-body-for-nav" role="document">
+<body class="wy-body-for-nav">
 
    
   <div class="wy-grid-for-nav">
-
     
     <nav data-toggle="wy-nav-shift" class="wy-nav-side">
       <div class="wy-side-scroll">
-        <div class="wy-side-nav-search">
+        <div class="wy-side-nav-search" >
           
 
           
@@ -138,7 +139,7 @@
     <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
 
       
-      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+      <nav class="wy-nav-top" aria-label="top navigation">
         
           <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
           <a href="../index.html">librosa</a>
@@ -146,9 +147,10 @@
       </nav>
 
 
-      
       <div class="wy-nav-content">
+        
         <div class="rst-content">
+        
           
 
 
@@ -192,20 +194,29 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
             
-  <div class="section" id="librosa-filters-mr-frequencies">
+  
+
+
+    
+    
+
+
+
+    <p class="scv-banner scv-sphinx_rtd_theme"><a href="../../0.6.3/generated/librosa.filters.mr_frequencies.html"><b>Warning:</b> This document is for the development version of librosa. The latest version is 0.6.3.</a></p>
+<div class="section" id="librosa-filters-mr-frequencies">
 <h1>librosa.filters.mr_frequencies<a class="headerlink" href="#librosa-filters-mr-frequencies" title="Permalink to this headline">¶</a></h1>
 <dl class="function">
 <dt id="librosa.filters.mr_frequencies">
 <code class="descclassname">librosa.filters.</code><code class="descname">mr_frequencies</code><span class="sig-paren">(</span><em>tuning</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/librosa/filters.html#mr_frequencies"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#librosa.filters.mr_frequencies" title="Permalink to this definition">¶</a></dt>
 <dd><p>Helper function for generating center frequency and samplerate pairs.</p>
 <p>This function will return center frequency and corresponding samplerates
-to obtain similar pitch filterbank settings as described in <a class="reference internal" href="#r8585" id="id1">[R8585]</a>.
+to obtain similar pitch filterbank settings as described in <a class="reference internal" href="#ra5cd99337b26-1" id="id1">[1]</a>.
 (Instead of starting with MIDI pitch <em class="xref py py-obj">A0</em>, we start with <em class="xref py py-obj">C0</em>.)</p>
-<table class="docutils citation" frame="void" id="r8585" rules="none">
+<table class="docutils citation" frame="void" id="ra5cd99337b26-1" rules="none">
 <colgroup><col class="label" /><col /></colgroup>
 <tbody valign="top">
-<tr><td class="label"><a class="fn-backref" href="#id1">[R8585]</a></td><td>Müller, Meinard.
-&#8220;Information Retrieval for Music and Motion.&#8221;
+<tr><td class="label"><a class="fn-backref" href="#id1">[1]</a></td><td>Müller, Meinard.
+“Information Retrieval for Music and Motion.”
 Springer Verlag. 2007.</td></tr>
 </tbody>
 </table>
@@ -213,28 +224,29 @@ Springer Verlag. 2007.</td></tr>
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>tuning</strong> : float in <em class="xref py py-obj">[-0.5, +0.5)</em> [scalar]</p>
-<blockquote>
-<div><p>Tuning deviation from A440 in fractions of a bin.</p>
-</div></blockquote>
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><dl class="first docutils">
+<dt><strong>tuning</strong> <span class="classifier-delimiter">:</span> <span class="classifier">float in <em class="xref py py-obj">[-0.5, +0.5)</em> [scalar]</span></dt>
+<dd><p class="first last">Tuning deviation from A440 in fractions of a bin.</p>
+</dd>
+</dl>
 </td>
 </tr>
-<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first"><strong>center_freqs</strong> : np.ndarray [shape=(n,), dtype=float]</p>
-<blockquote>
-<div><p>Center frequencies of the filter kernels.
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><dl class="first last docutils">
+<dt><strong>center_freqs</strong> <span class="classifier-delimiter">:</span> <span class="classifier">np.ndarray [shape=(n,), dtype=float]</span></dt>
+<dd><p class="first last">Center frequencies of the filter kernels.
 Also defines the number of filters in the filterbank.</p>
-</div></blockquote>
-<p><strong>sample_rates</strong> : np.ndarray [shape=(n,), dtype=float]</p>
-<blockquote class="last">
-<div><p>Samplerate for each filter (used for multirate filterbank).</p>
-</div></blockquote>
+</dd>
+<dt><strong>sample_rates</strong> <span class="classifier-delimiter">:</span> <span class="classifier">np.ndarray [shape=(n,), dtype=float]</span></dt>
+<dd><p class="first last">Samplerate for each filter (used for multirate filterbank).</p>
+</dd>
+</dl>
 </td>
 </tr>
 </tbody>
 </table>
 <div class="admonition seealso">
 <p class="first admonition-title">See also</p>
-<p class="last"><a class="reference internal" href="librosa.filters.semitone_filterbank.html#librosa.filters.semitone_filterbank" title="librosa.filters.semitone_filterbank"><code class="xref py py-obj docutils literal"><span class="pre">librosa.filters.semitone_filterbank</span></code></a>, <a class="reference internal" href="librosa.filters._multirate_fb.html#librosa.filters._multirate_fb" title="librosa.filters._multirate_fb"><code class="xref py py-obj docutils literal"><span class="pre">librosa.filters._multirate_fb</span></code></a></p>
+<p class="last"><a class="reference internal" href="librosa.filters.semitone_filterbank.html#librosa.filters.semitone_filterbank" title="librosa.filters.semitone_filterbank"><code class="xref py py-obj docutils literal notranslate"><span class="pre">librosa.filters.semitone_filterbank</span></code></a>, <a class="reference internal" href="librosa.filters._multirate_fb.html#librosa.filters._multirate_fb" title="librosa.filters._multirate_fb"><code class="xref py py-obj docutils literal notranslate"><span class="pre">librosa.filters._multirate_fb</span></code></a></p>
 </div>
 <p class="rubric">Notes</p>
 <p>This function caches at level 10.</p>
@@ -244,9 +256,7 @@ Also defines the number of filters in the filterbank.</p>
 
 
            </div>
-           <div class="articleComments">
-            
-           </div>
+           
           </div>
           <footer>
   
@@ -255,7 +265,7 @@ Also defines the number of filters in the filterbank.</p>
         <a href="../cache.html" class="btn btn-neutral float-right" title="Caching" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
       
       
-        <a href="librosa.filters.cq_to_chroma.html" class="btn btn-neutral" title="librosa.filters.cq_to_chroma" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+        <a href="librosa.filters.cq_to_chroma.html" class="btn btn-neutral float-left" title="librosa.filters.cq_to_chroma" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
       
     </div>
   
@@ -264,11 +274,11 @@ Also defines the number of filters in the filterbank.</p>
 
   <div role="contentinfo">
     <p>
-        &copy; Copyright 2013--2017, librosa development team.
+        &copy; Copyright 2013--2017, librosa development team
 
     </p>
   </div>
-  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/snide/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
 
 </footer>
 
@@ -288,19 +298,15 @@ Also defines the number of filters in the filterbank.</p>
     <div class="rst-other-versions">
         <dl>
             <dt>Tags</dt>
-            <dd><a href="../../0.4.0rc1/index.html">0.4.0rc1</a></dd>
-            <dd><a href="../../0.4.0rc2/index.html">0.4.0rc2</a></dd>
             <dd><a href="../../0.4.1/index.html">0.4.1</a></dd>
-            <dd><a href="../../0.4.1rc0/index.html">0.4.1rc0</a></dd>
             <dd><a href="../../0.4.2/index.html">0.4.2</a></dd>
             <dd><a href="../../0.4.3/index.html">0.4.3</a></dd>
-            <dd><a href="../../0.4.3rc0/index.html">0.4.3rc0</a></dd>
             <dd><a href="../../0.5.0/index.html">0.5.0</a></dd>
-            <dd><a href="../../0.5.0rc0/index.html">0.5.0rc0</a></dd>
             <dd><a href="../../0.5.1/index.html">0.5.1</a></dd>
             <dd><a href="../../0.6.0/generated/librosa.filters.mr_frequencies.html">0.6.0</a></dd>
-            <dd><a href="../../0.6.0rc0/generated/librosa.filters.mr_frequencies.html">0.6.0rc0</a></dd>
-            <dd><a href="../../0.6.0rc1/generated/librosa.filters.mr_frequencies.html">0.6.0rc1</a></dd>
+            <dd><a href="../../0.6.1/generated/librosa.filters.mr_frequencies.html">0.6.1</a></dd>
+            <dd><a href="../../0.6.2/generated/librosa.filters.mr_frequencies.html">0.6.2</a></dd>
+            <dd><a href="../../0.6.3/generated/librosa.filters.mr_frequencies.html">0.6.3</a></dd>
             <dd><a href="../../v0.1.0/index.html">v0.1.0</a></dd>
             <dd><a href="../../v0.4.0/index.html">v0.4.0</a></dd>
         </dl>
@@ -308,41 +314,22 @@ Also defines the number of filters in the filterbank.</p>
             <dt>Branches</dt>
             <dd><a href="librosa.filters.mr_frequencies.html">display-bin-centering</a></dd>
             <dd><a href="../../master/generated/librosa.filters.mr_frequencies.html">master</a></dd>
+            <dd><a href="../../mpl-test-2.1/generated/librosa.filters.mr_frequencies.html">mpl-test-2.1</a></dd>
+            <dd><a href="../../runnning/generated/librosa.filters.mr_frequencies.html">runnning</a></dd>
         </dl>
     </div>
 </div>
 
 
-  
-
-    <script type="text/javascript">
-        var DOCUMENTATION_OPTIONS = {
-            URL_ROOT:'../',
-            VERSION:'0.5.1',
-            COLLAPSE_INDEX:false,
-            FILE_SUFFIX:'.html',
-            HAS_SOURCE:  true,
-            SOURCELINK_SUFFIX: '.txt'
-        };
-    </script>
-      <script type="text/javascript" src="../_static/jquery.js"></script>
-      <script type="text/javascript" src="../_static/underscore.js"></script>
-      <script type="text/javascript" src="../_static/doctools.js"></script>
-
-  
-
-  
-  
-    <script type="text/javascript" src="../_static/js/theme.js"></script>
-  
-
-  
-  
   <script type="text/javascript">
       jQuery(function () {
-          SphinxRtdTheme.StickyNav.enable();
+          SphinxRtdTheme.Navigation.enable(true);
       });
   </script>
+
+  
+  
+    
    
 
 </body>

@@ -17,13 +17,29 @@
   
 
   
+  <script type="text/javascript" src="../_static/js/modernizr.min.js"></script>
+  
+    
+      <script type="text/javascript">
+          var DOCUMENTATION_OPTIONS = {
+              URL_ROOT:'../',
+              VERSION:'0.5.0',
+              LANGUAGE:'None',
+              COLLAPSE_INDEX:false,
+              FILE_SUFFIX:'.html',
+              HAS_SOURCE:  true,
+              SOURCELINK_SUFFIX: '.txt'
+          };
+      </script>
+        <script type="text/javascript" src="../_static/jquery.js"></script>
+        <script type="text/javascript" src="../_static/underscore.js"></script>
+        <script type="text/javascript" src="../_static/doctools.js"></script>
+    
+    <script type="text/javascript" src="../_static/js/theme.js"></script>
 
-  
-  
     
 
   
-
   <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
   <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
   <link rel="stylesheet" href="../_static/banner.css" type="text/css" />
@@ -31,21 +47,16 @@
     <link rel="search" title="Search" href="../search.html" />
     <link rel="next" title="librosa.filters.constant_q_lengths" href="librosa.filters.constant_q_lengths.html" />
     <link rel="prev" title="librosa.filters.window_bandwidth" href="librosa.filters.window_bandwidth.html" /> 
-
-  
-  <script src="../_static/js/modernizr.min.js"></script>
-
 </head>
 
 <body class="wy-body-for-nav">
 
    
   <div class="wy-grid-for-nav">
-
     
     <nav data-toggle="wy-nav-shift" class="wy-nav-side">
       <div class="wy-side-scroll">
-        <div class="wy-side-nav-search">
+        <div class="wy-side-nav-search" >
           
 
           
@@ -190,14 +201,14 @@
 
 
 
-    <p class="scv-banner scv-sphinx_rtd_theme"><a href="../../0.6.2/generated/librosa.filters.get_window.html"><b>Warning:</b> This document is for an old version of librosa. The latest version is 0.6.2.</a></p>
+    <p class="scv-banner scv-sphinx_rtd_theme"><a href="../../0.6.3/generated/librosa.filters.get_window.html"><b>Warning:</b> This document is for an old version of librosa. The latest version is 0.6.3.</a></p>
 <div class="section" id="librosa-filters-get-window">
 <h1>librosa.filters.get_window<a class="headerlink" href="#librosa-filters-get-window" title="Permalink to this headline">¶</a></h1>
 <dl class="function">
 <dt id="librosa.filters.get_window">
 <code class="descclassname">librosa.filters.</code><code class="descname">get_window</code><span class="sig-paren">(</span><em>window</em>, <em>Nx</em>, <em>fftbins=True</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/librosa/filters.html#get_window"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#librosa.filters.get_window" title="Permalink to this definition">¶</a></dt>
 <dd><p>Compute a window function.</p>
-<p>This is a wrapper for <a class="reference external" href="https://docs.scipy.org/doc/scipy/reference/generated/scipy.signal.get_window.html#scipy.signal.get_window" title="(in SciPy v1.1.0)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">scipy.signal.get_window</span></code></a> that additionally
+<p>This is a wrapper for <a class="reference external" href="https://docs.scipy.org/doc/scipy/reference/generated/scipy.signal.get_window.html#scipy.signal.get_window" title="(in SciPy v1.2.1)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">scipy.signal.get_window</span></code></a> that additionally
 supports callable or pre-computed windows.</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
@@ -211,7 +222,7 @@ supports callable or pre-computed windows.</p>
 <li>If tuple, it’s the name of the window function and any parameters
 (e.g., <em class="xref py py-obj">(‘kaiser’, 4.0)</em>)</li>
 <li>If numeric, it is treated as the beta parameter of the <em class="xref py py-obj">‘kaiser’</em>
-window, as in <a class="reference external" href="https://docs.scipy.org/doc/scipy/reference/generated/scipy.signal.get_window.html#scipy.signal.get_window" title="(in SciPy v1.1.0)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">scipy.signal.get_window</span></code></a>.</li>
+window, as in <a class="reference external" href="https://docs.scipy.org/doc/scipy/reference/generated/scipy.signal.get_window.html#scipy.signal.get_window" title="(in SciPy v1.2.1)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">scipy.signal.get_window</span></code></a>.</li>
 <li>If callable, it’s a function that accepts one integer argument
 (the window length)</li>
 <li>If list-like, it’s a pre-computed window of the correct length <em class="xref py py-obj">Nx</em></li>
@@ -246,7 +257,7 @@ or is otherwise mis-specified.</p>
 </table>
 <div class="admonition seealso">
 <p class="first admonition-title">See also</p>
-<p class="last"><a class="reference external" href="https://docs.scipy.org/doc/scipy/reference/generated/scipy.signal.get_window.html#scipy.signal.get_window" title="(in SciPy v1.1.0)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">scipy.signal.get_window</span></code></a></p>
+<p class="last"><a class="reference external" href="https://docs.scipy.org/doc/scipy/reference/generated/scipy.signal.get_window.html#scipy.signal.get_window" title="(in SciPy v1.2.1)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">scipy.signal.get_window</span></code></a></p>
 </div>
 <p class="rubric">Notes</p>
 <p>This function caches at level 10.</p>
@@ -265,7 +276,7 @@ or is otherwise mis-specified.</p>
         <a href="librosa.filters.constant_q_lengths.html" class="btn btn-neutral float-right" title="librosa.filters.constant_q_lengths" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
       
       
-        <a href="librosa.filters.window_bandwidth.html" class="btn btn-neutral" title="librosa.filters.window_bandwidth" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+        <a href="librosa.filters.window_bandwidth.html" class="btn btn-neutral float-left" title="librosa.filters.window_bandwidth" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
       
     </div>
   
@@ -274,7 +285,7 @@ or is otherwise mis-specified.</p>
 
   <div role="contentinfo">
     <p>
-        &copy; Copyright 2013--2017, librosa development team.
+        &copy; Copyright 2013--2017, librosa development team
 
     </p>
   </div>
@@ -306,43 +317,31 @@ or is otherwise mis-specified.</p>
             <dd><a href="../../0.6.0/generated/librosa.filters.get_window.html">0.6.0</a></dd>
             <dd><a href="../../0.6.1/generated/librosa.filters.get_window.html">0.6.1</a></dd>
             <dd><a href="../../0.6.2/generated/librosa.filters.get_window.html">0.6.2</a></dd>
+            <dd><a href="../../0.6.3/generated/librosa.filters.get_window.html">0.6.3</a></dd>
             <dd><a href="../../v0.1.0/index.html">v0.1.0</a></dd>
             <dd><a href="../../v0.4.0/index.html">v0.4.0</a></dd>
         </dl>
         <dl>
             <dt>Branches</dt>
+            <dd><a href="../../display-bin-centering/generated/librosa.filters.get_window.html">display-bin-centering</a></dd>
             <dd><a href="../../master/generated/librosa.filters.get_window.html">master</a></dd>
+            <dd><a href="../../mpl-test-2.1/generated/librosa.filters.get_window.html">mpl-test-2.1</a></dd>
+            <dd><a href="../../runnning/generated/librosa.filters.get_window.html">runnning</a></dd>
         </dl>
     </div>
 </div>
 
 
-  
-
-    <script type="text/javascript">
-        var DOCUMENTATION_OPTIONS = {
-            URL_ROOT:'../',
-            VERSION:'0.5.0',
-            LANGUAGE:'None',
-            COLLAPSE_INDEX:false,
-            FILE_SUFFIX:'.html',
-            HAS_SOURCE:  true,
-            SOURCELINK_SUFFIX: '.txt'
-        };
-    </script>
-      <script type="text/javascript" src="../_static/jquery.js"></script>
-      <script type="text/javascript" src="../_static/underscore.js"></script>
-      <script type="text/javascript" src="../_static/doctools.js"></script>
-
-  
-
-  <script type="text/javascript" src="../_static/js/theme.js"></script>
-
   <script type="text/javascript">
       jQuery(function () {
           SphinxRtdTheme.Navigation.enable(true);
       });
-  </script> 
+  </script>
+
+  
+  
+    
+   
 
 </body>
 </html>

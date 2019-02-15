@@ -128,7 +128,7 @@ Advanced examples
 
 .. raw:: html
 
-    <div class="sphx-glr-thumbcontainer" tooltip="This notebook demonstrates a variety of techniques for enhancing chroma features.">
+    <div class="sphx-glr-thumbcontainer" tooltip="This notebook demonstrates a variety of techniques for enhancing chroma features and  also, int...">
 
 .. only:: html
 
@@ -174,17 +174,18 @@ Advanced examples
 .. only :: html
 
  .. container:: sphx-glr-footer
+    :class: sphx-glr-footer-gallery
 
 
   .. container:: sphx-glr-download
 
-    :download:`Download all examples in Python source code: auto_examples_python.zip <//tmp/tmppn66uttksphinxcontrib_versioning/a4c98ca35a9eb34a2c4bda2ca6bfb2b0f75b8be4/docs/auto_examples/auto_examples_python.zip>`
+    :download:`Download all examples in Python source code: auto_examples_python.zip <//tmp/tmpweur61whsphinxcontrib_versioning/22ac95e957d282432b833bf59e48bdf99e52e8d9/docs/auto_examples/auto_examples_python.zip>`
 
 
 
   .. container:: sphx-glr-download
 
-    :download:`Download all examples in Jupyter notebooks: auto_examples_jupyter.zip <//tmp/tmppn66uttksphinxcontrib_versioning/a4c98ca35a9eb34a2c4bda2ca6bfb2b0f75b8be4/docs/auto_examples/auto_examples_jupyter.zip>`
+    :download:`Download all examples in Jupyter notebooks: auto_examples_jupyter.zip <//tmp/tmpweur61whsphinxcontrib_versioning/22ac95e957d282432b833bf59e48bdf99e52e8d9/docs/auto_examples/auto_examples_jupyter.zip>`
 
 
 .. only:: html

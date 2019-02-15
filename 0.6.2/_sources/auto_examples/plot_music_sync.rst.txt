@@ -1,4 +1,8 @@
+.. note::
+    :class: sphx-glr-download-link-note
 
+    Click :ref:`here <sphx_glr_download_auto_examples_plot_music_sync.py>` to download the full example code
+.. rst-class:: sphx-glr-example-title
 
 .. _sphx_glr_auto_examples_plot_music_sync.py:
 
@@ -62,7 +66,7 @@ First, let's load a first version of our audio recordings.
 
 
 .. image:: /auto_examples/images/sphx_glr_plot_music_sync_001.png
-    :align: center
+    :class: sphx-glr-single-img
 
 
 
@@ -83,7 +87,7 @@ And a second version, slightly faster.
 
 
 .. image:: /auto_examples/images/sphx_glr_plot_music_sync_002.png
-    :align: center
+    :class: sphx-glr-single-img
 
 
 
@@ -122,7 +126,7 @@ Extract Chroma Features
 
 
 .. image:: /auto_examples/images/sphx_glr_plot_music_sync_003.png
-    :align: center
+    :class: sphx-glr-single-img
 
 
 
@@ -152,7 +156,7 @@ Align Chroma Sequences
 
 
 .. image:: /auto_examples/images/sphx_glr_plot_music_sync_004.png
-    :align: center
+    :class: sphx-glr-single-img
 
 
 
@@ -207,7 +211,7 @@ Red lines connect corresponding time positions in the input signals.
 
 
 .. image:: /auto_examples/images/sphx_glr_plot_music_sync_005.png
-    :align: center
+    :class: sphx-glr-single-img
 
 
 
@@ -234,13 +238,17 @@ Literature
 Springer Verlag, 2015.
 
 
-**Total running time of the script:** ( 0 minutes  1.982 seconds)
+**Total running time of the script:** ( 0 minutes  1.622 seconds)
 
+
+.. _sphx_glr_download_auto_examples_plot_music_sync.py:
 
 
 .. only :: html
 
  .. container:: sphx-glr-footer
+    :class: sphx-glr-footer-example
+
 
 
   .. container:: sphx-glr-download

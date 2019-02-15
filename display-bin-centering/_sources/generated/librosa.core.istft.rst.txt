@@ -1,5 +1,5 @@
-librosa\.core\.istft
-====================
+librosa.core.istft
+==================
 
 .. currentmodule:: librosa.core
 

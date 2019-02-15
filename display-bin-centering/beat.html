@@ -17,44 +17,46 @@
   
 
   
+  <script type="text/javascript" src="_static/js/modernizr.min.js"></script>
+  
+    
+      <script type="text/javascript">
+          var DOCUMENTATION_OPTIONS = {
+              URL_ROOT:'./',
+              VERSION:'0.5.1',
+              LANGUAGE:'None',
+              COLLAPSE_INDEX:false,
+              FILE_SUFFIX:'.html',
+              HAS_SOURCE:  true,
+              SOURCELINK_SUFFIX: '.txt'
+          };
+      </script>
+        <script type="text/javascript" src="_static/jquery.js"></script>
+        <script type="text/javascript" src="_static/underscore.js"></script>
+        <script type="text/javascript" src="_static/doctools.js"></script>
+    
+    <script type="text/javascript" src="_static/js/theme.js"></script>
 
-  
-  
     
 
   
-
-  
-  
-    <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
-  
-
-  
-    <link rel="stylesheet" href="_static/banner.css" type="text/css" />
-  
-
-  
-        <link rel="index" title="Index"
-              href="genindex.html"/>
-        <link rel="search" title="Search" href="search.html"/>
-    <link rel="top" title="librosa 0.5.1 documentation" href="index.html"/>
-        <link rel="next" title="librosa.beat.beat_track" href="generated/librosa.beat.beat_track.html"/>
-        <link rel="prev" title="librosa.onset.onset_strength_multi" href="generated/librosa.onset.onset_strength_multi.html"/> 
-
-  
-  <script src="_static/js/modernizr.min.js"></script>
-
+  <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="_static/banner.css" type="text/css" />
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="librosa.beat.beat_track" href="generated/librosa.beat.beat_track.html" />
+    <link rel="prev" title="librosa.onset.onset_strength_multi" href="generated/librosa.onset.onset_strength_multi.html" /> 
 </head>
 
-<body class="wy-body-for-nav" role="document">
+<body class="wy-body-for-nav">
 
    
   <div class="wy-grid-for-nav">
-
     
     <nav data-toggle="wy-nav-shift" class="wy-nav-side">
       <div class="wy-side-scroll">
-        <div class="wy-side-nav-search">
+        <div class="wy-side-nav-search" >
           
 
           
@@ -135,7 +137,7 @@
     <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
 
       
-      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+      <nav class="wy-nav-top" aria-label="top navigation">
         
           <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
           <a href="index.html">librosa</a>
@@ -143,9 +145,10 @@
       </nav>
 
 
-      
       <div class="wy-nav-content">
+        
         <div class="rst-content">
+        
           
 
 
@@ -187,7 +190,16 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
             
-  <span class="target" id="module-librosa.beat"><span id="beat"></span></span><div class="section" id="beat-and-tempo">
+  
+
+
+    
+    
+
+
+
+    <p class="scv-banner scv-sphinx_rtd_theme"><a href="../0.6.3/beat.html"><b>Warning:</b> This document is for the development version of librosa. The latest version is 0.6.3.</a></p>
+<span class="target" id="module-librosa.beat"><span id="beat"></span></span><div class="section" id="beat-and-tempo">
 <h1>Beat and tempo<a class="headerlink" href="#beat-and-tempo" title="Permalink to this headline">¶</a></h1>
 <table border="1" class="longtable docutils">
 <colgroup>
@@ -195,10 +207,10 @@
 <col width="90%" />
 </colgroup>
 <tbody valign="top">
-<tr class="row-odd"><td><a class="reference internal" href="generated/librosa.beat.beat_track.html#librosa.beat.beat_track" title="librosa.beat.beat_track"><code class="xref py py-obj docutils literal"><span class="pre">beat_track</span></code></a>([y,&nbsp;sr,&nbsp;onset_envelope,&nbsp;...])</td>
+<tr class="row-odd"><td><a class="reference internal" href="generated/librosa.beat.beat_track.html#librosa.beat.beat_track" title="librosa.beat.beat_track"><code class="xref py py-obj docutils literal notranslate"><span class="pre">beat_track</span></code></a>([y,&nbsp;sr,&nbsp;onset_envelope,&nbsp;…])</td>
 <td>Dynamic programming beat tracker.</td>
 </tr>
-<tr class="row-even"><td><a class="reference internal" href="generated/librosa.beat.tempo.html#librosa.beat.tempo" title="librosa.beat.tempo"><code class="xref py py-obj docutils literal"><span class="pre">tempo</span></code></a>([y,&nbsp;sr,&nbsp;onset_envelope,&nbsp;hop_length,&nbsp;...])</td>
+<tr class="row-even"><td><a class="reference internal" href="generated/librosa.beat.tempo.html#librosa.beat.tempo" title="librosa.beat.tempo"><code class="xref py py-obj docutils literal notranslate"><span class="pre">tempo</span></code></a>([y,&nbsp;sr,&nbsp;onset_envelope,&nbsp;hop_length,&nbsp;…])</td>
 <td>Estimate the tempo (beats per minute)</td>
 </tr>
 </tbody>
@@ -211,7 +223,7 @@
 <col width="90%" />
 </colgroup>
 <tbody valign="top">
-<tr class="row-odd"><td><a class="reference internal" href="generated/librosa.beat.estimate_tempo.html#librosa.beat.estimate_tempo" title="librosa.beat.estimate_tempo"><code class="xref py py-obj docutils literal"><span class="pre">estimate_tempo</span></code></a>(onset_envelope[,&nbsp;sr,&nbsp;...])</td>
+<tr class="row-odd"><td><a class="reference internal" href="generated/librosa.beat.estimate_tempo.html#librosa.beat.estimate_tempo" title="librosa.beat.estimate_tempo"><code class="xref py py-obj docutils literal notranslate"><span class="pre">estimate_tempo</span></code></a>(onset_envelope[,&nbsp;sr,&nbsp;…])</td>
 <td>Estimate the tempo (beats per minute) from an onset envelope</td>
 </tr>
 </tbody>
@@ -221,9 +233,7 @@
 
 
            </div>
-           <div class="articleComments">
-            
-           </div>
+           
           </div>
           <footer>
   
@@ -232,7 +242,7 @@
         <a href="generated/librosa.beat.beat_track.html" class="btn btn-neutral float-right" title="librosa.beat.beat_track" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
       
       
-        <a href="generated/librosa.onset.onset_strength_multi.html" class="btn btn-neutral" title="librosa.onset.onset_strength_multi" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+        <a href="generated/librosa.onset.onset_strength_multi.html" class="btn btn-neutral float-left" title="librosa.onset.onset_strength_multi" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
       
     </div>
   
@@ -241,11 +251,11 @@
 
   <div role="contentinfo">
     <p>
-        &copy; Copyright 2013--2017, librosa development team.
+        &copy; Copyright 2013--2017, librosa development team
 
     </p>
   </div>
-  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/snide/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
 
 </footer>
 
@@ -265,19 +275,15 @@
     <div class="rst-other-versions">
         <dl>
             <dt>Tags</dt>
-            <dd><a href="../0.4.0rc1/beat.html">0.4.0rc1</a></dd>
-            <dd><a href="../0.4.0rc2/beat.html">0.4.0rc2</a></dd>
             <dd><a href="../0.4.1/beat.html">0.4.1</a></dd>
-            <dd><a href="../0.4.1rc0/beat.html">0.4.1rc0</a></dd>
             <dd><a href="../0.4.2/beat.html">0.4.2</a></dd>
             <dd><a href="../0.4.3/beat.html">0.4.3</a></dd>
-            <dd><a href="../0.4.3rc0/beat.html">0.4.3rc0</a></dd>
             <dd><a href="../0.5.0/beat.html">0.5.0</a></dd>
-            <dd><a href="../0.5.0rc0/beat.html">0.5.0rc0</a></dd>
             <dd><a href="../0.5.1/beat.html">0.5.1</a></dd>
             <dd><a href="../0.6.0/beat.html">0.6.0</a></dd>
-            <dd><a href="../0.6.0rc0/beat.html">0.6.0rc0</a></dd>
-            <dd><a href="../0.6.0rc1/beat.html">0.6.0rc1</a></dd>
+            <dd><a href="../0.6.1/beat.html">0.6.1</a></dd>
+            <dd><a href="../0.6.2/beat.html">0.6.2</a></dd>
+            <dd><a href="../0.6.3/beat.html">0.6.3</a></dd>
             <dd><a href="../v0.1.0/index.html">v0.1.0</a></dd>
             <dd><a href="../v0.4.0/beat.html">v0.4.0</a></dd>
         </dl>
@@ -285,41 +291,22 @@
             <dt>Branches</dt>
             <dd><a href="beat.html">display-bin-centering</a></dd>
             <dd><a href="../master/beat.html">master</a></dd>
+            <dd><a href="../mpl-test-2.1/beat.html">mpl-test-2.1</a></dd>
+            <dd><a href="../runnning/beat.html">runnning</a></dd>
         </dl>
     </div>
 </div>
 
 
-  
-
-    <script type="text/javascript">
-        var DOCUMENTATION_OPTIONS = {
-            URL_ROOT:'./',
-            VERSION:'0.5.1',
-            COLLAPSE_INDEX:false,
-            FILE_SUFFIX:'.html',
-            HAS_SOURCE:  true,
-            SOURCELINK_SUFFIX: '.txt'
-        };
-    </script>
-      <script type="text/javascript" src="_static/jquery.js"></script>
-      <script type="text/javascript" src="_static/underscore.js"></script>
-      <script type="text/javascript" src="_static/doctools.js"></script>
-
-  
-
-  
-  
-    <script type="text/javascript" src="_static/js/theme.js"></script>
-  
-
-  
-  
   <script type="text/javascript">
       jQuery(function () {
-          SphinxRtdTheme.StickyNav.enable();
+          SphinxRtdTheme.Navigation.enable(true);
       });
   </script>
+
+  
+  
+    
    
 
 </body>

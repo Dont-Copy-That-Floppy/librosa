@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Feature extraction &mdash; librosa 0.6.2 documentation</title>
+  <title>Feature extraction &mdash; librosa 0.6.3 documentation</title>
   
 
   
@@ -17,13 +17,30 @@
   
 
   
+  <script type="text/javascript" src="_static/js/modernizr.min.js"></script>
+  
+    
+      <script type="text/javascript">
+          var DOCUMENTATION_OPTIONS = {
+              URL_ROOT:'./',
+              VERSION:'0.6.3',
+              LANGUAGE:'None',
+              COLLAPSE_INDEX:false,
+              FILE_SUFFIX:'.html',
+              HAS_SOURCE:  true,
+              SOURCELINK_SUFFIX: '.txt'
+          };
+      </script>
+        <script type="text/javascript" src="_static/jquery.js"></script>
+        <script type="text/javascript" src="_static/underscore.js"></script>
+        <script type="text/javascript" src="_static/doctools.js"></script>
+        <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    
+    <script type="text/javascript" src="_static/js/theme.js"></script>
 
-  
-  
     
 
   
-
   <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
   <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
   <link rel="stylesheet" href="_static/gallery.css" type="text/css" />
@@ -32,21 +49,16 @@
     <link rel="search" title="Search" href="search.html" />
     <link rel="next" title="librosa.feature.chroma_stft" href="generated/librosa.feature.chroma_stft.html" />
     <link rel="prev" title="librosa.display.TonnetzFormatter" href="generated/librosa.display.TonnetzFormatter.html" /> 
-
-  
-  <script src="_static/js/modernizr.min.js"></script>
-
 </head>
 
 <body class="wy-body-for-nav">
 
    
   <div class="wy-grid-for-nav">
-
     
     <nav data-toggle="wy-nav-shift" class="wy-nav-side">
       <div class="wy-side-scroll">
-        <div class="wy-side-nav-search">
+        <div class="wy-side-nav-search" >
           
 
           
@@ -98,6 +110,7 @@
 <li class="toctree-l3"><a class="reference internal" href="generated/librosa.feature.chroma_cens.html">librosa.feature.chroma_cens</a></li>
 <li class="toctree-l3"><a class="reference internal" href="generated/librosa.feature.melspectrogram.html">librosa.feature.melspectrogram</a></li>
 <li class="toctree-l3"><a class="reference internal" href="generated/librosa.feature.mfcc.html">librosa.feature.mfcc</a></li>
+<li class="toctree-l3"><a class="reference internal" href="generated/librosa.feature.rms.html">librosa.feature.rms</a></li>
 <li class="toctree-l3"><a class="reference internal" href="generated/librosa.feature.rmse.html">librosa.feature.rmse</a></li>
 <li class="toctree-l3"><a class="reference internal" href="generated/librosa.feature.spectral_centroid.html">librosa.feature.spectral_centroid</a></li>
 <li class="toctree-l3"><a class="reference internal" href="generated/librosa.feature.spectral_bandwidth.html">librosa.feature.spectral_bandwidth</a></li>
@@ -210,7 +223,7 @@
 
 
 
-    <p class="scv-banner scv-sphinx_rtd_theme"><a href="../0.6.2/feature.html"><b>Warning:</b> This document is for the development version of librosa. The latest version is 0.6.2.</a></p>
+    <p class="scv-banner scv-sphinx_rtd_theme"><a href="../0.6.3/feature.html"><b>Warning:</b> This document is for the development version of librosa. The latest version is 0.6.3.</a></p>
 <span class="target" id="module-librosa.feature"><span id="feature"></span></span><div class="section" id="feature-extraction">
 <h1>Feature extraction<a class="headerlink" href="#feature-extraction" title="Permalink to this headline">¶</a></h1>
 <div class="section" id="spectral-features">
@@ -236,31 +249,34 @@
 <tr class="row-odd"><td><a class="reference internal" href="generated/librosa.feature.mfcc.html#librosa.feature.mfcc" title="librosa.feature.mfcc"><code class="xref py py-obj docutils literal notranslate"><span class="pre">mfcc</span></code></a>([y,&nbsp;sr,&nbsp;S,&nbsp;n_mfcc,&nbsp;dct_type,&nbsp;norm])</td>
 <td>Mel-frequency cepstral coefficients (MFCCs)</td>
 </tr>
-<tr class="row-even"><td><a class="reference internal" href="generated/librosa.feature.rmse.html#librosa.feature.rmse" title="librosa.feature.rmse"><code class="xref py py-obj docutils literal notranslate"><span class="pre">rmse</span></code></a>([y,&nbsp;S,&nbsp;frame_length,&nbsp;hop_length,&nbsp;…])</td>
-<td>Compute root-mean-square (RMS) energy for each frame, either from the audio samples <em class="xref py py-obj">y</em> or from a spectrogram <em class="xref py py-obj">S</em>.</td>
+<tr class="row-even"><td><a class="reference internal" href="generated/librosa.feature.rms.html#librosa.feature.rms" title="librosa.feature.rms"><code class="xref py py-obj docutils literal notranslate"><span class="pre">rms</span></code></a>([y,&nbsp;S,&nbsp;frame_length,&nbsp;hop_length,&nbsp;…])</td>
+<td>Compute root-mean-square (RMS) value for each frame, either from the audio samples <em class="xref py py-obj">y</em> or from a spectrogram <em class="xref py py-obj">S</em>.</td>
 </tr>
-<tr class="row-odd"><td><a class="reference internal" href="generated/librosa.feature.spectral_centroid.html#librosa.feature.spectral_centroid" title="librosa.feature.spectral_centroid"><code class="xref py py-obj docutils literal notranslate"><span class="pre">spectral_centroid</span></code></a>([y,&nbsp;sr,&nbsp;S,&nbsp;n_fft,&nbsp;…])</td>
+<tr class="row-odd"><td><a class="reference internal" href="generated/librosa.feature.rmse.html#librosa.feature.rmse" title="librosa.feature.rmse"><code class="xref py py-obj docutils literal notranslate"><span class="pre">rmse</span></code></a>([y,&nbsp;S,&nbsp;frame_length,&nbsp;hop_length,&nbsp;…])</td>
+<td>Compute root-mean-square (RMS) value for each frame, either from the audio samples <em class="xref py py-obj">y</em> or from a spectrogram <em class="xref py py-obj">S</em>.</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="generated/librosa.feature.spectral_centroid.html#librosa.feature.spectral_centroid" title="librosa.feature.spectral_centroid"><code class="xref py py-obj docutils literal notranslate"><span class="pre">spectral_centroid</span></code></a>([y,&nbsp;sr,&nbsp;S,&nbsp;n_fft,&nbsp;…])</td>
 <td>Compute the spectral centroid.</td>
 </tr>
-<tr class="row-even"><td><a class="reference internal" href="generated/librosa.feature.spectral_bandwidth.html#librosa.feature.spectral_bandwidth" title="librosa.feature.spectral_bandwidth"><code class="xref py py-obj docutils literal notranslate"><span class="pre">spectral_bandwidth</span></code></a>([y,&nbsp;sr,&nbsp;S,&nbsp;n_fft,&nbsp;…])</td>
+<tr class="row-odd"><td><a class="reference internal" href="generated/librosa.feature.spectral_bandwidth.html#librosa.feature.spectral_bandwidth" title="librosa.feature.spectral_bandwidth"><code class="xref py py-obj docutils literal notranslate"><span class="pre">spectral_bandwidth</span></code></a>([y,&nbsp;sr,&nbsp;S,&nbsp;n_fft,&nbsp;…])</td>
 <td>Compute p’th-order spectral bandwidth:</td>
 </tr>
-<tr class="row-odd"><td><a class="reference internal" href="generated/librosa.feature.spectral_contrast.html#librosa.feature.spectral_contrast" title="librosa.feature.spectral_contrast"><code class="xref py py-obj docutils literal notranslate"><span class="pre">spectral_contrast</span></code></a>([y,&nbsp;sr,&nbsp;S,&nbsp;n_fft,&nbsp;…])</td>
+<tr class="row-even"><td><a class="reference internal" href="generated/librosa.feature.spectral_contrast.html#librosa.feature.spectral_contrast" title="librosa.feature.spectral_contrast"><code class="xref py py-obj docutils literal notranslate"><span class="pre">spectral_contrast</span></code></a>([y,&nbsp;sr,&nbsp;S,&nbsp;n_fft,&nbsp;…])</td>
 <td>Compute spectral contrast <a class="reference internal" href="generated/librosa.feature.spectral_contrast.html#r6ffcc01153df-1" id="id2">[R6ffcc01153df-1]</a></td>
 </tr>
-<tr class="row-even"><td><a class="reference internal" href="generated/librosa.feature.spectral_flatness.html#librosa.feature.spectral_flatness" title="librosa.feature.spectral_flatness"><code class="xref py py-obj docutils literal notranslate"><span class="pre">spectral_flatness</span></code></a>([y,&nbsp;S,&nbsp;n_fft,&nbsp;hop_length,&nbsp;…])</td>
+<tr class="row-odd"><td><a class="reference internal" href="generated/librosa.feature.spectral_flatness.html#librosa.feature.spectral_flatness" title="librosa.feature.spectral_flatness"><code class="xref py py-obj docutils literal notranslate"><span class="pre">spectral_flatness</span></code></a>([y,&nbsp;S,&nbsp;n_fft,&nbsp;hop_length,&nbsp;…])</td>
 <td>Compute spectral flatness</td>
 </tr>
-<tr class="row-odd"><td><a class="reference internal" href="generated/librosa.feature.spectral_rolloff.html#librosa.feature.spectral_rolloff" title="librosa.feature.spectral_rolloff"><code class="xref py py-obj docutils literal notranslate"><span class="pre">spectral_rolloff</span></code></a>([y,&nbsp;sr,&nbsp;S,&nbsp;n_fft,&nbsp;…])</td>
+<tr class="row-even"><td><a class="reference internal" href="generated/librosa.feature.spectral_rolloff.html#librosa.feature.spectral_rolloff" title="librosa.feature.spectral_rolloff"><code class="xref py py-obj docutils literal notranslate"><span class="pre">spectral_rolloff</span></code></a>([y,&nbsp;sr,&nbsp;S,&nbsp;n_fft,&nbsp;…])</td>
 <td>Compute roll-off frequency.</td>
 </tr>
-<tr class="row-even"><td><a class="reference internal" href="generated/librosa.feature.poly_features.html#librosa.feature.poly_features" title="librosa.feature.poly_features"><code class="xref py py-obj docutils literal notranslate"><span class="pre">poly_features</span></code></a>([y,&nbsp;sr,&nbsp;S,&nbsp;n_fft,&nbsp;hop_length,&nbsp;…])</td>
+<tr class="row-odd"><td><a class="reference internal" href="generated/librosa.feature.poly_features.html#librosa.feature.poly_features" title="librosa.feature.poly_features"><code class="xref py py-obj docutils literal notranslate"><span class="pre">poly_features</span></code></a>([y,&nbsp;sr,&nbsp;S,&nbsp;n_fft,&nbsp;hop_length,&nbsp;…])</td>
 <td>Get coefficients of fitting an nth-order polynomial to the columns of a spectrogram.</td>
 </tr>
-<tr class="row-odd"><td><a class="reference internal" href="generated/librosa.feature.tonnetz.html#librosa.feature.tonnetz" title="librosa.feature.tonnetz"><code class="xref py py-obj docutils literal notranslate"><span class="pre">tonnetz</span></code></a>([y,&nbsp;sr,&nbsp;chroma])</td>
+<tr class="row-even"><td><a class="reference internal" href="generated/librosa.feature.tonnetz.html#librosa.feature.tonnetz" title="librosa.feature.tonnetz"><code class="xref py py-obj docutils literal notranslate"><span class="pre">tonnetz</span></code></a>([y,&nbsp;sr,&nbsp;chroma])</td>
 <td>Computes the tonal centroid features (tonnetz), following the method of <a class="reference internal" href="generated/librosa.feature.tonnetz.html#recf246e5a035-1" id="id3">[Recf246e5a035-1]</a>.</td>
 </tr>
-<tr class="row-even"><td><a class="reference internal" href="generated/librosa.feature.zero_crossing_rate.html#librosa.feature.zero_crossing_rate" title="librosa.feature.zero_crossing_rate"><code class="xref py py-obj docutils literal notranslate"><span class="pre">zero_crossing_rate</span></code></a>(y[,&nbsp;frame_length,&nbsp;…])</td>
+<tr class="row-odd"><td><a class="reference internal" href="generated/librosa.feature.zero_crossing_rate.html#librosa.feature.zero_crossing_rate" title="librosa.feature.zero_crossing_rate"><code class="xref py py-obj docutils literal notranslate"><span class="pre">zero_crossing_rate</span></code></a>(y[,&nbsp;frame_length,&nbsp;…])</td>
 <td>Compute the zero-crossing rate of an audio time series.</td>
 </tr>
 </tbody>
@@ -310,7 +326,7 @@
         <a href="generated/librosa.feature.chroma_stft.html" class="btn btn-neutral float-right" title="librosa.feature.chroma_stft" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
       
       
-        <a href="generated/librosa.display.TonnetzFormatter.html" class="btn btn-neutral" title="librosa.display.TonnetzFormatter" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+        <a href="generated/librosa.display.TonnetzFormatter.html" class="btn btn-neutral float-left" title="librosa.display.TonnetzFormatter" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
       
     </div>
   
@@ -319,7 +335,7 @@
 
   <div role="contentinfo">
     <p>
-        &copy; Copyright 2013--2018, librosa development team.
+        &copy; Copyright 2013--2018, librosa development team
 
     </p>
   </div>
@@ -351,44 +367,31 @@
             <dd><a href="../0.6.0/feature.html">0.6.0</a></dd>
             <dd><a href="../0.6.1/feature.html">0.6.1</a></dd>
             <dd><a href="../0.6.2/feature.html">0.6.2</a></dd>
+            <dd><a href="../0.6.3/feature.html">0.6.3</a></dd>
             <dd><a href="../v0.1.0/index.html">v0.1.0</a></dd>
             <dd><a href="../v0.4.0/feature.html">v0.4.0</a></dd>
         </dl>
         <dl>
             <dt>Branches</dt>
+            <dd><a href="../display-bin-centering/feature.html">display-bin-centering</a></dd>
             <dd><a href="feature.html">master</a></dd>
+            <dd><a href="../mpl-test-2.1/feature.html">mpl-test-2.1</a></dd>
+            <dd><a href="../runnning/feature.html">runnning</a></dd>
         </dl>
     </div>
 </div>
 
 
-  
-
-    <script type="text/javascript">
-        var DOCUMENTATION_OPTIONS = {
-            URL_ROOT:'./',
-            VERSION:'0.6.2',
-            LANGUAGE:'None',
-            COLLAPSE_INDEX:false,
-            FILE_SUFFIX:'.html',
-            HAS_SOURCE:  true,
-            SOURCELINK_SUFFIX: '.txt'
-        };
-    </script>
-      <script type="text/javascript" src="_static/jquery.js"></script>
-      <script type="text/javascript" src="_static/underscore.js"></script>
-      <script type="text/javascript" src="_static/doctools.js"></script>
-      <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
-
-  
-
-  <script type="text/javascript" src="_static/js/theme.js"></script>
-
   <script type="text/javascript">
       jQuery(function () {
           SphinxRtdTheme.Navigation.enable(true);
       });
-  </script> 
+  </script>
+
+  
+  
+    
+   
 
 </body>
 </html>

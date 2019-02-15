@@ -17,45 +17,46 @@
   
 
   
+  <script type="text/javascript" src="../_static/js/modernizr.min.js"></script>
+  
+    
+      <script type="text/javascript">
+          var DOCUMENTATION_OPTIONS = {
+              URL_ROOT:'../',
+              VERSION:'0.5.1',
+              LANGUAGE:'None',
+              COLLAPSE_INDEX:false,
+              FILE_SUFFIX:'.html',
+              HAS_SOURCE:  true,
+              SOURCELINK_SUFFIX: '.txt'
+          };
+      </script>
+        <script type="text/javascript" src="../_static/jquery.js"></script>
+        <script type="text/javascript" src="../_static/underscore.js"></script>
+        <script type="text/javascript" src="../_static/doctools.js"></script>
+    
+    <script type="text/javascript" src="../_static/js/theme.js"></script>
 
-  
-  
     
 
   
-
-  
-  
-    <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
-  
-
-  
-    <link rel="stylesheet" href="../_static/banner.css" type="text/css" />
-  
-
-  
-        <link rel="index" title="Index"
-              href="../genindex.html"/>
-        <link rel="search" title="Search" href="../search.html"/>
-    <link rel="top" title="librosa 0.5.1 documentation" href="../index.html"/>
-        <link rel="up" title="Filters" href="../filters.html"/>
-        <link rel="next" title="librosa.filters._multirate_fb" href="librosa.filters._multirate_fb.html"/>
-        <link rel="prev" title="librosa.filters.chroma" href="librosa.filters.chroma.html"/> 
-
-  
-  <script src="../_static/js/modernizr.min.js"></script>
-
+  <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/banner.css" type="text/css" />
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="librosa.filters._multirate_fb" href="librosa.filters._multirate_fb.html" />
+    <link rel="prev" title="librosa.filters.chroma" href="librosa.filters.chroma.html" /> 
 </head>
 
-<body class="wy-body-for-nav" role="document">
+<body class="wy-body-for-nav">
 
    
   <div class="wy-grid-for-nav">
-
     
     <nav data-toggle="wy-nav-shift" class="wy-nav-side">
       <div class="wy-side-scroll">
-        <div class="wy-side-nav-search">
+        <div class="wy-side-nav-search" >
           
 
           
@@ -141,7 +142,7 @@
     <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
 
       
-      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+      <nav class="wy-nav-top" aria-label="top navigation">
         
           <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
           <a href="../index.html">librosa</a>
@@ -149,9 +150,10 @@
       </nav>
 
 
-      
       <div class="wy-nav-content">
+        
         <div class="rst-content">
+        
           
 
 
@@ -195,18 +197,27 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
             
-  <div class="section" id="librosa-filters-constant-q">
+  
+
+
+    
+    
+
+
+
+    <p class="scv-banner scv-sphinx_rtd_theme"><a href="../../0.6.3/generated/librosa.filters.constant_q.html"><b>Warning:</b> This document is for the development version of librosa. The latest version is 0.6.3.</a></p>
+<div class="section" id="librosa-filters-constant-q">
 <h1>librosa.filters.constant_q<a class="headerlink" href="#librosa-filters-constant-q" title="Permalink to this headline">¶</a></h1>
 <dl class="function">
 <dt id="librosa.filters.constant_q">
 <code class="descclassname">librosa.filters.</code><code class="descname">constant_q</code><span class="sig-paren">(</span><em>sr</em>, <em>fmin=None</em>, <em>n_bins=84</em>, <em>bins_per_octave=12</em>, <em>tuning=0.0</em>, <em>window='hann'</em>, <em>filter_scale=1</em>, <em>pad_fft=True</em>, <em>norm=1</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/librosa/filters.html#constant_q"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#librosa.filters.constant_q" title="Permalink to this definition">¶</a></dt>
 <dd><p>Construct a constant-Q basis.</p>
-<p>This uses the filter bank described by <a class="reference internal" href="#r8181" id="id1">[R8181]</a>.</p>
-<table class="docutils citation" frame="void" id="r8181" rules="none">
+<p>This uses the filter bank described by <a class="reference internal" href="#rba42580c218c-1" id="id1">[1]</a>.</p>
+<table class="docutils citation" frame="void" id="rba42580c218c-1" rules="none">
 <colgroup><col class="label" /><col /></colgroup>
 <tbody valign="top">
-<tr><td class="label"><a class="fn-backref" href="#id1">[R8181]</a></td><td>McVicar, Matthew.
-&#8220;A machine learning approach to automatic chord extraction.&#8221;
+<tr><td class="label"><a class="fn-backref" href="#id1">[1]</a></td><td>McVicar, Matthew.
+“A machine learning approach to automatic chord extraction.”
 Dissertation, University of Bristol. 2013.</td></tr>
 </tbody>
 </table>
@@ -214,77 +225,69 @@ Dissertation, University of Bristol. 2013.</td></tr>
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>sr</strong> : number &gt; 0 [scalar]</p>
-<blockquote>
-<div><p>Audio sampling rate</p>
-</div></blockquote>
-<p><strong>fmin</strong> : float &gt; 0 [scalar]</p>
-<blockquote>
-<div><p>Minimum frequency bin. Defaults to <em class="xref py py-obj">C1 ~= 32.70</em></p>
-</div></blockquote>
-<p><strong>n_bins</strong> : int &gt; 0 [scalar]</p>
-<blockquote>
-<div><p>Number of frequencies.  Defaults to 7 octaves (84 bins).</p>
-</div></blockquote>
-<p><strong>bins_per_octave</strong> : int &gt; 0 [scalar]</p>
-<blockquote>
-<div><p>Number of bins per octave</p>
-</div></blockquote>
-<p><strong>tuning</strong> : float in <em class="xref py py-obj">[-0.5, +0.5)</em> [scalar]</p>
-<blockquote>
-<div><p>Tuning deviation from A440 in fractions of a bin</p>
-</div></blockquote>
-<p><strong>window</strong> : string, tuple, number, or function</p>
-<blockquote>
-<div><p>Windowing function to apply to filters.</p>
-</div></blockquote>
-<p><strong>filter_scale</strong> : float &gt; 0 [scalar]</p>
-<blockquote>
-<div><p>Scale of filter windows.
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><dl class="first docutils">
+<dt><strong>sr</strong> <span class="classifier-delimiter">:</span> <span class="classifier">number &gt; 0 [scalar]</span></dt>
+<dd><p class="first last">Audio sampling rate</p>
+</dd>
+<dt><strong>fmin</strong> <span class="classifier-delimiter">:</span> <span class="classifier">float &gt; 0 [scalar]</span></dt>
+<dd><p class="first last">Minimum frequency bin. Defaults to <em class="xref py py-obj">C1 ~= 32.70</em></p>
+</dd>
+<dt><strong>n_bins</strong> <span class="classifier-delimiter">:</span> <span class="classifier">int &gt; 0 [scalar]</span></dt>
+<dd><p class="first last">Number of frequencies.  Defaults to 7 octaves (84 bins).</p>
+</dd>
+<dt><strong>bins_per_octave</strong> <span class="classifier-delimiter">:</span> <span class="classifier">int &gt; 0 [scalar]</span></dt>
+<dd><p class="first last">Number of bins per octave</p>
+</dd>
+<dt><strong>tuning</strong> <span class="classifier-delimiter">:</span> <span class="classifier">float in <em class="xref py py-obj">[-0.5, +0.5)</em> [scalar]</span></dt>
+<dd><p class="first last">Tuning deviation from A440 in fractions of a bin</p>
+</dd>
+<dt><strong>window</strong> <span class="classifier-delimiter">:</span> <span class="classifier">string, tuple, number, or function</span></dt>
+<dd><p class="first last">Windowing function to apply to filters.</p>
+</dd>
+<dt><strong>filter_scale</strong> <span class="classifier-delimiter">:</span> <span class="classifier">float &gt; 0 [scalar]</span></dt>
+<dd><p class="first last">Scale of filter windows.
 Small values (&lt;1) use shorter windows for higher temporal resolution.</p>
-</div></blockquote>
-<p><strong>pad_fft</strong> : boolean</p>
-<blockquote>
-<div><p>Center-pad all filters up to the nearest integral power of 2.</p>
-<p>By default, padding is done with zeros, but this can be overridden
+</dd>
+<dt><strong>pad_fft</strong> <span class="classifier-delimiter">:</span> <span class="classifier">boolean</span></dt>
+<dd><p class="first">Center-pad all filters up to the nearest integral power of 2.</p>
+<p class="last">By default, padding is done with zeros, but this can be overridden
 by setting the <em class="xref py py-obj">mode=</em> field in <em>kwargs</em>.</p>
-</div></blockquote>
-<p><strong>norm</strong> : {inf, -inf, 0, float &gt; 0}</p>
-<blockquote>
-<div><p>Type of norm to use for basis function normalization.
+</dd>
+<dt><strong>norm</strong> <span class="classifier-delimiter">:</span> <span class="classifier">{inf, -inf, 0, float &gt; 0}</span></dt>
+<dd><p class="first last">Type of norm to use for basis function normalization.
 See librosa.util.normalize</p>
-</div></blockquote>
-<p><strong>kwargs</strong> : additional keyword arguments</p>
-<blockquote>
-<div><p>Arguments to <em class="xref py py-obj">np.pad()</em> when <em class="xref py py-obj">pad==True</em>.</p>
-</div></blockquote>
+</dd>
+<dt><strong>kwargs</strong> <span class="classifier-delimiter">:</span> <span class="classifier">additional keyword arguments</span></dt>
+<dd><p class="first last">Arguments to <em class="xref py py-obj">np.pad()</em> when <em class="xref py py-obj">pad==True</em>.</p>
+</dd>
+</dl>
 </td>
 </tr>
-<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first"><strong>filters</strong> : np.ndarray, <em class="xref py py-obj">len(filters) == n_bins</em></p>
-<blockquote>
-<div><p><em class="xref py py-obj">filters[i]</em> is <em class="xref py py-obj">i</em>th time-domain CQT basis filter</p>
-</div></blockquote>
-<p><strong>lengths</strong> : np.ndarray, <em class="xref py py-obj">len(lengths) == n_bins</em></p>
-<blockquote class="last">
-<div><p>The (fractional) length of each filter</p>
-</div></blockquote>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><dl class="first last docutils">
+<dt><strong>filters</strong> <span class="classifier-delimiter">:</span> <span class="classifier">np.ndarray, <em class="xref py py-obj">len(filters) == n_bins</em></span></dt>
+<dd><p class="first last"><em class="xref py py-obj">filters[i]</em> is <em class="xref py py-obj">i</em>th time-domain CQT basis filter</p>
+</dd>
+<dt><strong>lengths</strong> <span class="classifier-delimiter">:</span> <span class="classifier">np.ndarray, <em class="xref py py-obj">len(lengths) == n_bins</em></span></dt>
+<dd><p class="first last">The (fractional) length of each filter</p>
+</dd>
+</dl>
 </td>
 </tr>
 </tbody>
 </table>
 <div class="admonition seealso">
 <p class="first admonition-title">See also</p>
-<p class="last"><a class="reference internal" href="librosa.filters.constant_q_lengths.html#librosa.filters.constant_q_lengths" title="librosa.filters.constant_q_lengths"><code class="xref py py-obj docutils literal"><span class="pre">constant_q_lengths</span></code></a>, <a class="reference internal" href="librosa.core.cqt.html#librosa.core.cqt" title="librosa.core.cqt"><code class="xref py py-obj docutils literal"><span class="pre">librosa.core.cqt</span></code></a>, <a class="reference internal" href="librosa.util.normalize.html#librosa.util.normalize" title="librosa.util.normalize"><code class="xref py py-obj docutils literal"><span class="pre">librosa.util.normalize</span></code></a></p>
+<p class="last"><a class="reference internal" href="librosa.filters.constant_q_lengths.html#librosa.filters.constant_q_lengths" title="librosa.filters.constant_q_lengths"><code class="xref py py-obj docutils literal notranslate"><span class="pre">constant_q_lengths</span></code></a>, <a class="reference internal" href="librosa.core.cqt.html#librosa.core.cqt" title="librosa.core.cqt"><code class="xref py py-obj docutils literal notranslate"><span class="pre">librosa.core.cqt</span></code></a>, <a class="reference internal" href="librosa.util.normalize.html#librosa.util.normalize" title="librosa.util.normalize"><code class="xref py py-obj docutils literal notranslate"><span class="pre">librosa.util.normalize</span></code></a></p>
 </div>
 <p class="rubric">Notes</p>
 <p>This function caches at level 10.</p>
 <p class="rubric">Examples</p>
 <p>Use a shorter window for each filter</p>
-<div class="highlight-default"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">basis</span><span class="p">,</span> <span class="n">lengths</span> <span class="o">=</span> <span class="n">librosa</span><span class="o">.</span><span class="n">filters</span><span class="o">.</span><span class="n">constant_q</span><span class="p">(</span><span class="mi">22050</span><span class="p">,</span> <span class="n">filter_scale</span><span class="o">=</span><span class="mf">0.5</span><span class="p">)</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">basis</span><span class="p">,</span> <span class="n">lengths</span> <span class="o">=</span> <span class="n">librosa</span><span class="o">.</span><span class="n">filters</span><span class="o">.</span><span class="n">constant_q</span><span class="p">(</span><span class="mi">22050</span><span class="p">,</span> <span class="n">filter_scale</span><span class="o">=</span><span class="mf">0.5</span><span class="p">)</span>
 </pre></div>
 </div>
 <p>Plot one octave of filters in time and frequency</p>
-<div class="highlight-default"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">basis</span><span class="p">,</span> <span class="n">lengths</span> <span class="o">=</span> <span class="n">librosa</span><span class="o">.</span><span class="n">filters</span><span class="o">.</span><span class="n">constant_q</span><span class="p">(</span><span class="mi">22050</span><span class="p">)</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="mi">6</span><span class="p">))</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">plt</span><span class="o">.</span><span class="n">subplot</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
@@ -320,9 +323,7 @@ See librosa.util.normalize</p>
 
 
            </div>
-           <div class="articleComments">
-            
-           </div>
+           
           </div>
           <footer>
   
@@ -331,7 +332,7 @@ See librosa.util.normalize</p>
         <a href="librosa.filters._multirate_fb.html" class="btn btn-neutral float-right" title="librosa.filters._multirate_fb" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
       
       
-        <a href="librosa.filters.chroma.html" class="btn btn-neutral" title="librosa.filters.chroma" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+        <a href="librosa.filters.chroma.html" class="btn btn-neutral float-left" title="librosa.filters.chroma" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
       
     </div>
   
@@ -340,11 +341,11 @@ See librosa.util.normalize</p>
 
   <div role="contentinfo">
     <p>
-        &copy; Copyright 2013--2017, librosa development team.
+        &copy; Copyright 2013--2017, librosa development team
 
     </p>
   </div>
-  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/snide/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
 
 </footer>
 
@@ -364,19 +365,15 @@ See librosa.util.normalize</p>
     <div class="rst-other-versions">
         <dl>
             <dt>Tags</dt>
-            <dd><a href="../../0.4.0rc1/index.html">0.4.0rc1</a></dd>
-            <dd><a href="../../0.4.0rc2/index.html">0.4.0rc2</a></dd>
             <dd><a href="../../0.4.1/index.html">0.4.1</a></dd>
-            <dd><a href="../../0.4.1rc0/index.html">0.4.1rc0</a></dd>
             <dd><a href="../../0.4.2/generated/librosa.filters.constant_q.html">0.4.2</a></dd>
             <dd><a href="../../0.4.3/generated/librosa.filters.constant_q.html">0.4.3</a></dd>
-            <dd><a href="../../0.4.3rc0/generated/librosa.filters.constant_q.html">0.4.3rc0</a></dd>
             <dd><a href="../../0.5.0/generated/librosa.filters.constant_q.html">0.5.0</a></dd>
-            <dd><a href="../../0.5.0rc0/generated/librosa.filters.constant_q.html">0.5.0rc0</a></dd>
             <dd><a href="../../0.5.1/generated/librosa.filters.constant_q.html">0.5.1</a></dd>
             <dd><a href="../../0.6.0/generated/librosa.filters.constant_q.html">0.6.0</a></dd>
-            <dd><a href="../../0.6.0rc0/generated/librosa.filters.constant_q.html">0.6.0rc0</a></dd>
-            <dd><a href="../../0.6.0rc1/generated/librosa.filters.constant_q.html">0.6.0rc1</a></dd>
+            <dd><a href="../../0.6.1/generated/librosa.filters.constant_q.html">0.6.1</a></dd>
+            <dd><a href="../../0.6.2/generated/librosa.filters.constant_q.html">0.6.2</a></dd>
+            <dd><a href="../../0.6.3/generated/librosa.filters.constant_q.html">0.6.3</a></dd>
             <dd><a href="../../v0.1.0/index.html">v0.1.0</a></dd>
             <dd><a href="../../v0.4.0/index.html">v0.4.0</a></dd>
         </dl>
@@ -384,41 +381,22 @@ See librosa.util.normalize</p>
             <dt>Branches</dt>
             <dd><a href="librosa.filters.constant_q.html">display-bin-centering</a></dd>
             <dd><a href="../../master/generated/librosa.filters.constant_q.html">master</a></dd>
+            <dd><a href="../../mpl-test-2.1/generated/librosa.filters.constant_q.html">mpl-test-2.1</a></dd>
+            <dd><a href="../../runnning/generated/librosa.filters.constant_q.html">runnning</a></dd>
         </dl>
     </div>
 </div>
 
 
-  
-
-    <script type="text/javascript">
-        var DOCUMENTATION_OPTIONS = {
-            URL_ROOT:'../',
-            VERSION:'0.5.1',
-            COLLAPSE_INDEX:false,
-            FILE_SUFFIX:'.html',
-            HAS_SOURCE:  true,
-            SOURCELINK_SUFFIX: '.txt'
-        };
-    </script>
-      <script type="text/javascript" src="../_static/jquery.js"></script>
-      <script type="text/javascript" src="../_static/underscore.js"></script>
-      <script type="text/javascript" src="../_static/doctools.js"></script>
-
-  
-
-  
-  
-    <script type="text/javascript" src="../_static/js/theme.js"></script>
-  
-
-  
-  
   <script type="text/javascript">
       jQuery(function () {
-          SphinxRtdTheme.StickyNav.enable();
+          SphinxRtdTheme.Navigation.enable(true);
       });
   </script>
+
+  
+  
+    
    
 
 </body>

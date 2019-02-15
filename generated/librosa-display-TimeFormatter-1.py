@@ -9,6 +9,16 @@ ax.plot(times, values)
 ax.xaxis.set_major_formatter(librosa.display.TimeFormatter())
 ax.set_xlabel('Time')
 
+# Manually set the physical time unit of the x-axis to milliseconds
+
+times = np.arange(100)
+values = np.random.randn(len(times))
+plt.figure()
+ax = plt.gca()
+ax.plot(times, values)
+ax.xaxis.set_major_formatter(librosa.display.TimeFormatter(unit='ms'))
+ax.set_xlabel('Time (ms)')
+
 # For lag plots
 
 times = np.arange(60)

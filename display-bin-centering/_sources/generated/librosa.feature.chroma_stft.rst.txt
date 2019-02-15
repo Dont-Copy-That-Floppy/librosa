@@ -1,5 +1,5 @@
-librosa\.feature\.chroma\_stft
-==============================
+librosa.feature.chroma\_stft
+============================
 
 .. currentmodule:: librosa.feature
 

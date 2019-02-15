@@ -1,5 +1,5 @@
-librosa\.core\.mel\_frequencies
-===============================
+librosa.core.mel\_frequencies
+=============================
 
 .. currentmodule:: librosa.core
 

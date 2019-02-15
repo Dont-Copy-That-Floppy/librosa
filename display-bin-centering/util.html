@@ -17,44 +17,46 @@
   
 
   
+  <script type="text/javascript" src="_static/js/modernizr.min.js"></script>
+  
+    
+      <script type="text/javascript">
+          var DOCUMENTATION_OPTIONS = {
+              URL_ROOT:'./',
+              VERSION:'0.5.1',
+              LANGUAGE:'None',
+              COLLAPSE_INDEX:false,
+              FILE_SUFFIX:'.html',
+              HAS_SOURCE:  true,
+              SOURCELINK_SUFFIX: '.txt'
+          };
+      </script>
+        <script type="text/javascript" src="_static/jquery.js"></script>
+        <script type="text/javascript" src="_static/underscore.js"></script>
+        <script type="text/javascript" src="_static/doctools.js"></script>
+    
+    <script type="text/javascript" src="_static/js/theme.js"></script>
 
-  
-  
     
 
   
-
-  
-  
-    <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
-  
-
-  
-    <link rel="stylesheet" href="_static/banner.css" type="text/css" />
-  
-
-  
-        <link rel="index" title="Index"
-              href="genindex.html"/>
-        <link rel="search" title="Search" href="search.html"/>
-    <link rel="top" title="librosa 0.5.1 documentation" href="index.html"/>
-        <link rel="next" title="librosa.util.frame" href="generated/librosa.util.frame.html"/>
-        <link rel="prev" title="librosa.segment.subsegment" href="generated/librosa.segment.subsegment.html"/> 
-
-  
-  <script src="_static/js/modernizr.min.js"></script>
-
+  <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="_static/banner.css" type="text/css" />
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="librosa.util.frame" href="generated/librosa.util.frame.html" />
+    <link rel="prev" title="librosa.segment.subsegment" href="generated/librosa.segment.subsegment.html" /> 
 </head>
 
-<body class="wy-body-for-nav" role="document">
+<body class="wy-body-for-nav">
 
    
   <div class="wy-grid-for-nav">
-
     
     <nav data-toggle="wy-nav-shift" class="wy-nav-side">
       <div class="wy-side-scroll">
-        <div class="wy-side-nav-search">
+        <div class="wy-side-nav-search" >
           
 
           
@@ -167,7 +169,7 @@
     <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
 
       
-      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+      <nav class="wy-nav-top" aria-label="top navigation">
         
           <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
           <a href="index.html">librosa</a>
@@ -175,9 +177,10 @@
       </nav>
 
 
-      
       <div class="wy-nav-content">
+        
         <div class="rst-content">
+        
           
 
 
@@ -219,7 +222,16 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
             
-  <span class="target" id="module-librosa.util"><span id="util"></span></span><div class="section" id="utilities">
+  
+
+
+    
+    
+
+
+
+    <p class="scv-banner scv-sphinx_rtd_theme"><a href="../0.6.3/util.html"><b>Warning:</b> This document is for the development version of librosa. The latest version is 0.6.3.</a></p>
+<span class="target" id="module-librosa.util"><span id="util"></span></span><div class="section" id="utilities">
 <h1>Utilities<a class="headerlink" href="#utilities" title="Permalink to this headline">¶</a></h1>
 <div class="section" id="array-operations">
 <h2>Array operations<a class="headerlink" href="#array-operations" title="Permalink to this headline">¶</a></h2>
@@ -229,47 +241,47 @@
 <col width="90%" />
 </colgroup>
 <tbody valign="top">
-<tr class="row-odd"><td><a class="reference internal" href="generated/librosa.util.frame.html#librosa.util.frame" title="librosa.util.frame"><code class="xref py py-obj docutils literal"><span class="pre">frame</span></code></a>(y[,&nbsp;frame_length,&nbsp;hop_length])</td>
+<tr class="row-odd"><td><a class="reference internal" href="generated/librosa.util.frame.html#librosa.util.frame" title="librosa.util.frame"><code class="xref py py-obj docutils literal notranslate"><span class="pre">frame</span></code></a>(y[,&nbsp;frame_length,&nbsp;hop_length])</td>
 <td>Slice a time series into overlapping frames.</td>
 </tr>
-<tr class="row-even"><td><a class="reference internal" href="generated/librosa.util.pad_center.html#librosa.util.pad_center" title="librosa.util.pad_center"><code class="xref py py-obj docutils literal"><span class="pre">pad_center</span></code></a>(data,&nbsp;size[,&nbsp;axis])</td>
+<tr class="row-even"><td><a class="reference internal" href="generated/librosa.util.pad_center.html#librosa.util.pad_center" title="librosa.util.pad_center"><code class="xref py py-obj docutils literal notranslate"><span class="pre">pad_center</span></code></a>(data,&nbsp;size[,&nbsp;axis])</td>
 <td>Wrapper for np.pad to automatically center an array prior to padding.</td>
 </tr>
-<tr class="row-odd"><td><a class="reference internal" href="generated/librosa.util.fix_length.html#librosa.util.fix_length" title="librosa.util.fix_length"><code class="xref py py-obj docutils literal"><span class="pre">fix_length</span></code></a>(data,&nbsp;size[,&nbsp;axis])</td>
-<td>Fix the length an array <code class="xref py py-obj docutils literal"><span class="pre">data</span></code> to exactly <em class="xref py py-obj">size</em>.</td>
+<tr class="row-odd"><td><a class="reference internal" href="generated/librosa.util.fix_length.html#librosa.util.fix_length" title="librosa.util.fix_length"><code class="xref py py-obj docutils literal notranslate"><span class="pre">fix_length</span></code></a>(data,&nbsp;size[,&nbsp;axis])</td>
+<td>Fix the length an array <em class="xref py py-obj">data</em> to exactly <em class="xref py py-obj">size</em>.</td>
 </tr>
-<tr class="row-even"><td><a class="reference internal" href="generated/librosa.util.fix_frames.html#librosa.util.fix_frames" title="librosa.util.fix_frames"><code class="xref py py-obj docutils literal"><span class="pre">fix_frames</span></code></a>(frames[,&nbsp;x_min,&nbsp;x_max,&nbsp;pad])</td>
+<tr class="row-even"><td><a class="reference internal" href="generated/librosa.util.fix_frames.html#librosa.util.fix_frames" title="librosa.util.fix_frames"><code class="xref py py-obj docutils literal notranslate"><span class="pre">fix_frames</span></code></a>(frames[,&nbsp;x_min,&nbsp;x_max,&nbsp;pad])</td>
 <td>Fix a list of frames to lie within [x_min, x_max]</td>
 </tr>
-<tr class="row-odd"><td><a class="reference internal" href="generated/librosa.util.index_to_slice.html#librosa.util.index_to_slice" title="librosa.util.index_to_slice"><code class="xref py py-obj docutils literal"><span class="pre">index_to_slice</span></code></a>(idx[,&nbsp;idx_min,&nbsp;idx_max,&nbsp;...])</td>
+<tr class="row-odd"><td><a class="reference internal" href="generated/librosa.util.index_to_slice.html#librosa.util.index_to_slice" title="librosa.util.index_to_slice"><code class="xref py py-obj docutils literal notranslate"><span class="pre">index_to_slice</span></code></a>(idx[,&nbsp;idx_min,&nbsp;idx_max,&nbsp;…])</td>
 <td>Generate a slice array from an index array.</td>
 </tr>
-<tr class="row-even"><td><a class="reference internal" href="generated/librosa.util.softmask.html#librosa.util.softmask" title="librosa.util.softmask"><code class="xref py py-obj docutils literal"><span class="pre">softmask</span></code></a>(X,&nbsp;X_ref[,&nbsp;power,&nbsp;split_zeros])</td>
+<tr class="row-even"><td><a class="reference internal" href="generated/librosa.util.softmask.html#librosa.util.softmask" title="librosa.util.softmask"><code class="xref py py-obj docutils literal notranslate"><span class="pre">softmask</span></code></a>(X,&nbsp;X_ref[,&nbsp;power,&nbsp;split_zeros])</td>
 <td>Robustly compute a softmask operation.</td>
 </tr>
-<tr class="row-odd"><td><a class="reference internal" href="generated/librosa.util.sync.html#librosa.util.sync" title="librosa.util.sync"><code class="xref py py-obj docutils literal"><span class="pre">sync</span></code></a>(data,&nbsp;idx[,&nbsp;aggregate,&nbsp;pad,&nbsp;axis])</td>
+<tr class="row-odd"><td><a class="reference internal" href="generated/librosa.util.sync.html#librosa.util.sync" title="librosa.util.sync"><code class="xref py py-obj docutils literal notranslate"><span class="pre">sync</span></code></a>(data,&nbsp;idx[,&nbsp;aggregate,&nbsp;pad,&nbsp;axis])</td>
 <td>Synchronous aggregation of a multi-dimensional array between boundaries</td>
 </tr>
-<tr class="row-even"><td><a class="reference internal" href="generated/librosa.util.softmask.html#librosa.util.softmask" title="librosa.util.softmask"><code class="xref py py-obj docutils literal"><span class="pre">softmask</span></code></a>(X,&nbsp;X_ref[,&nbsp;power,&nbsp;split_zeros])</td>
+<tr class="row-even"><td><a class="reference internal" href="generated/librosa.util.softmask.html#librosa.util.softmask" title="librosa.util.softmask"><code class="xref py py-obj docutils literal notranslate"><span class="pre">softmask</span></code></a>(X,&nbsp;X_ref[,&nbsp;power,&nbsp;split_zeros])</td>
 <td>Robustly compute a softmask operation.</td>
 </tr>
-<tr class="row-odd"><td><a class="reference internal" href="generated/librosa.util.axis_sort.html#librosa.util.axis_sort" title="librosa.util.axis_sort"><code class="xref py py-obj docutils literal"><span class="pre">axis_sort</span></code></a>(S[,&nbsp;axis,&nbsp;index,&nbsp;value])</td>
+<tr class="row-odd"><td><a class="reference internal" href="generated/librosa.util.axis_sort.html#librosa.util.axis_sort" title="librosa.util.axis_sort"><code class="xref py py-obj docutils literal notranslate"><span class="pre">axis_sort</span></code></a>(S[,&nbsp;axis,&nbsp;index,&nbsp;value])</td>
 <td>Sort an array along its rows or columns.</td>
 </tr>
-<tr class="row-even"><td><a class="reference internal" href="generated/librosa.util.normalize.html#librosa.util.normalize" title="librosa.util.normalize"><code class="xref py py-obj docutils literal"><span class="pre">normalize</span></code></a>(S[,&nbsp;norm,&nbsp;axis,&nbsp;threshold,&nbsp;fill])</td>
+<tr class="row-even"><td><a class="reference internal" href="generated/librosa.util.normalize.html#librosa.util.normalize" title="librosa.util.normalize"><code class="xref py py-obj docutils literal notranslate"><span class="pre">normalize</span></code></a>(S[,&nbsp;norm,&nbsp;axis,&nbsp;threshold,&nbsp;fill])</td>
 <td>Normalize an array along a chosen axis.</td>
 </tr>
-<tr class="row-odd"><td><a class="reference internal" href="generated/librosa.util.roll_sparse.html#librosa.util.roll_sparse" title="librosa.util.roll_sparse"><code class="xref py py-obj docutils literal"><span class="pre">roll_sparse</span></code></a>(x,&nbsp;shift[,&nbsp;axis])</td>
+<tr class="row-odd"><td><a class="reference internal" href="generated/librosa.util.roll_sparse.html#librosa.util.roll_sparse" title="librosa.util.roll_sparse"><code class="xref py py-obj docutils literal notranslate"><span class="pre">roll_sparse</span></code></a>(x,&nbsp;shift[,&nbsp;axis])</td>
 <td>Sparse matrix roll</td>
 </tr>
-<tr class="row-even"><td><a class="reference internal" href="generated/librosa.util.sparsify_rows.html#librosa.util.sparsify_rows" title="librosa.util.sparsify_rows"><code class="xref py py-obj docutils literal"><span class="pre">sparsify_rows</span></code></a>(x[,&nbsp;quantile])</td>
+<tr class="row-even"><td><a class="reference internal" href="generated/librosa.util.sparsify_rows.html#librosa.util.sparsify_rows" title="librosa.util.sparsify_rows"><code class="xref py py-obj docutils literal notranslate"><span class="pre">sparsify_rows</span></code></a>(x[,&nbsp;quantile])</td>
 <td>Return a row-sparse matrix approximating the input <em class="xref py py-obj">x</em>.</td>
 </tr>
-<tr class="row-odd"><td><a class="reference internal" href="generated/librosa.util.buf_to_float.html#librosa.util.buf_to_float" title="librosa.util.buf_to_float"><code class="xref py py-obj docutils literal"><span class="pre">buf_to_float</span></code></a>(x[,&nbsp;n_bytes,&nbsp;dtype])</td>
+<tr class="row-odd"><td><a class="reference internal" href="generated/librosa.util.buf_to_float.html#librosa.util.buf_to_float" title="librosa.util.buf_to_float"><code class="xref py py-obj docutils literal notranslate"><span class="pre">buf_to_float</span></code></a>(x[,&nbsp;n_bytes,&nbsp;dtype])</td>
 <td>Convert an integer buffer to floating point values.</td>
 </tr>
-<tr class="row-even"><td><a class="reference internal" href="generated/librosa.util.tiny.html#librosa.util.tiny" title="librosa.util.tiny"><code class="xref py py-obj docutils literal"><span class="pre">tiny</span></code></a>(x)</td>
-<td>Compute the tiny-value corresponding to an input&#8217;s data type.</td>
+<tr class="row-even"><td><a class="reference internal" href="generated/librosa.util.tiny.html#librosa.util.tiny" title="librosa.util.tiny"><code class="xref py py-obj docutils literal notranslate"><span class="pre">tiny</span></code></a>(x)</td>
+<td>Compute the tiny-value corresponding to an input’s data type.</td>
 </tr>
 </tbody>
 </table>
@@ -282,10 +294,10 @@
 <col width="90%" />
 </colgroup>
 <tbody valign="top">
-<tr class="row-odd"><td><a class="reference internal" href="generated/librosa.util.match_intervals.html#librosa.util.match_intervals" title="librosa.util.match_intervals"><code class="xref py py-obj docutils literal"><span class="pre">match_intervals</span></code></a>(intervals_from,&nbsp;intervals_to)</td>
+<tr class="row-odd"><td><a class="reference internal" href="generated/librosa.util.match_intervals.html#librosa.util.match_intervals" title="librosa.util.match_intervals"><code class="xref py py-obj docutils literal notranslate"><span class="pre">match_intervals</span></code></a>(intervals_from,&nbsp;intervals_to)</td>
 <td>Match one set of time intervals to another.</td>
 </tr>
-<tr class="row-even"><td><a class="reference internal" href="generated/librosa.util.match_events.html#librosa.util.match_events" title="librosa.util.match_events"><code class="xref py py-obj docutils literal"><span class="pre">match_events</span></code></a>(events_from,&nbsp;events_to[,&nbsp;left,&nbsp;...])</td>
+<tr class="row-even"><td><a class="reference internal" href="generated/librosa.util.match_events.html#librosa.util.match_events" title="librosa.util.match_events"><code class="xref py py-obj docutils literal notranslate"><span class="pre">match_events</span></code></a>(events_from,&nbsp;events_to[,&nbsp;left,&nbsp;…])</td>
 <td>Match one set of events to another.</td>
 </tr>
 </tbody>
@@ -299,10 +311,10 @@
 <col width="90%" />
 </colgroup>
 <tbody valign="top">
-<tr class="row-odd"><td><a class="reference internal" href="generated/librosa.util.localmax.html#librosa.util.localmax" title="librosa.util.localmax"><code class="xref py py-obj docutils literal"><span class="pre">localmax</span></code></a>(x[,&nbsp;axis])</td>
+<tr class="row-odd"><td><a class="reference internal" href="generated/librosa.util.localmax.html#librosa.util.localmax" title="librosa.util.localmax"><code class="xref py py-obj docutils literal notranslate"><span class="pre">localmax</span></code></a>(x[,&nbsp;axis])</td>
 <td>Find local maxima in an array <em class="xref py py-obj">x</em>.</td>
 </tr>
-<tr class="row-even"><td><a class="reference internal" href="generated/librosa.util.peak_pick.html#librosa.util.peak_pick" title="librosa.util.peak_pick"><code class="xref py py-obj docutils literal"><span class="pre">peak_pick</span></code></a>(x,&nbsp;pre_max,&nbsp;post_max,&nbsp;pre_avg,&nbsp;...)</td>
+<tr class="row-even"><td><a class="reference internal" href="generated/librosa.util.peak_pick.html#librosa.util.peak_pick" title="librosa.util.peak_pick"><code class="xref py py-obj docutils literal notranslate"><span class="pre">peak_pick</span></code></a>(x,&nbsp;pre_max,&nbsp;post_max,&nbsp;pre_avg,&nbsp;…)</td>
 <td>Uses a flexible heuristic to pick peaks in a signal.</td>
 </tr>
 </tbody>
@@ -316,13 +328,13 @@
 <col width="90%" />
 </colgroup>
 <tbody valign="top">
-<tr class="row-odd"><td><a class="reference internal" href="generated/librosa.util.valid_audio.html#librosa.util.valid_audio" title="librosa.util.valid_audio"><code class="xref py py-obj docutils literal"><span class="pre">valid_audio</span></code></a>(y[,&nbsp;mono])</td>
+<tr class="row-odd"><td><a class="reference internal" href="generated/librosa.util.valid_audio.html#librosa.util.valid_audio" title="librosa.util.valid_audio"><code class="xref py py-obj docutils literal notranslate"><span class="pre">valid_audio</span></code></a>(y[,&nbsp;mono])</td>
 <td>Validate whether a variable contains valid, mono audio data.</td>
 </tr>
-<tr class="row-even"><td><a class="reference internal" href="generated/librosa.util.valid_int.html#librosa.util.valid_int" title="librosa.util.valid_int"><code class="xref py py-obj docutils literal"><span class="pre">valid_int</span></code></a>(x[,&nbsp;cast])</td>
+<tr class="row-even"><td><a class="reference internal" href="generated/librosa.util.valid_int.html#librosa.util.valid_int" title="librosa.util.valid_int"><code class="xref py py-obj docutils literal notranslate"><span class="pre">valid_int</span></code></a>(x[,&nbsp;cast])</td>
 <td>Ensure that an input value is integer-typed.</td>
 </tr>
-<tr class="row-odd"><td><a class="reference internal" href="generated/librosa.util.valid_intervals.html#librosa.util.valid_intervals" title="librosa.util.valid_intervals"><code class="xref py py-obj docutils literal"><span class="pre">valid_intervals</span></code></a>(intervals)</td>
+<tr class="row-odd"><td><a class="reference internal" href="generated/librosa.util.valid_intervals.html#librosa.util.valid_intervals" title="librosa.util.valid_intervals"><code class="xref py py-obj docutils literal notranslate"><span class="pre">valid_intervals</span></code></a>(intervals)</td>
 <td>Ensure that an array is a valid representation of time intervals:</td>
 </tr>
 </tbody>
@@ -336,10 +348,10 @@
 <col width="90%" />
 </colgroup>
 <tbody valign="top">
-<tr class="row-odd"><td><a class="reference internal" href="generated/librosa.util.example_audio_file.html#librosa.util.example_audio_file" title="librosa.util.example_audio_file"><code class="xref py py-obj docutils literal"><span class="pre">example_audio_file</span></code></a>()</td>
+<tr class="row-odd"><td><a class="reference internal" href="generated/librosa.util.example_audio_file.html#librosa.util.example_audio_file" title="librosa.util.example_audio_file"><code class="xref py py-obj docutils literal notranslate"><span class="pre">example_audio_file</span></code></a>()</td>
 <td>Get the path to an included audio example file.</td>
 </tr>
-<tr class="row-even"><td><a class="reference internal" href="generated/librosa.util.find_files.html#librosa.util.find_files" title="librosa.util.find_files"><code class="xref py py-obj docutils literal"><span class="pre">find_files</span></code></a>(directory[,&nbsp;ext,&nbsp;recurse,&nbsp;...])</td>
+<tr class="row-even"><td><a class="reference internal" href="generated/librosa.util.find_files.html#librosa.util.find_files" title="librosa.util.find_files"><code class="xref py py-obj docutils literal notranslate"><span class="pre">find_files</span></code></a>(directory[,&nbsp;ext,&nbsp;recurse,&nbsp;…])</td>
 <td>Get a sorted list of (audio) files in a directory or directory sub-tree.</td>
 </tr>
 </tbody>
@@ -349,9 +361,7 @@
 
 
            </div>
-           <div class="articleComments">
-            
-           </div>
+           
           </div>
           <footer>
   
@@ -360,7 +370,7 @@
         <a href="generated/librosa.util.frame.html" class="btn btn-neutral float-right" title="librosa.util.frame" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
       
       
-        <a href="generated/librosa.segment.subsegment.html" class="btn btn-neutral" title="librosa.segment.subsegment" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+        <a href="generated/librosa.segment.subsegment.html" class="btn btn-neutral float-left" title="librosa.segment.subsegment" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
       
     </div>
   
@@ -369,11 +379,11 @@
 
   <div role="contentinfo">
     <p>
-        &copy; Copyright 2013--2017, librosa development team.
+        &copy; Copyright 2013--2017, librosa development team
 
     </p>
   </div>
-  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/snide/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
 
 </footer>
 
@@ -393,19 +403,15 @@
     <div class="rst-other-versions">
         <dl>
             <dt>Tags</dt>
-            <dd><a href="../0.4.0rc1/util.html">0.4.0rc1</a></dd>
-            <dd><a href="../0.4.0rc2/util.html">0.4.0rc2</a></dd>
             <dd><a href="../0.4.1/util.html">0.4.1</a></dd>
-            <dd><a href="../0.4.1rc0/util.html">0.4.1rc0</a></dd>
             <dd><a href="../0.4.2/util.html">0.4.2</a></dd>
             <dd><a href="../0.4.3/util.html">0.4.3</a></dd>
-            <dd><a href="../0.4.3rc0/util.html">0.4.3rc0</a></dd>
             <dd><a href="../0.5.0/util.html">0.5.0</a></dd>
-            <dd><a href="../0.5.0rc0/util.html">0.5.0rc0</a></dd>
             <dd><a href="../0.5.1/util.html">0.5.1</a></dd>
             <dd><a href="../0.6.0/util.html">0.6.0</a></dd>
-            <dd><a href="../0.6.0rc0/util.html">0.6.0rc0</a></dd>
-            <dd><a href="../0.6.0rc1/util.html">0.6.0rc1</a></dd>
+            <dd><a href="../0.6.1/util.html">0.6.1</a></dd>
+            <dd><a href="../0.6.2/util.html">0.6.2</a></dd>
+            <dd><a href="../0.6.3/util.html">0.6.3</a></dd>
             <dd><a href="../v0.1.0/index.html">v0.1.0</a></dd>
             <dd><a href="../v0.4.0/util.html">v0.4.0</a></dd>
         </dl>
@@ -413,41 +419,22 @@
             <dt>Branches</dt>
             <dd><a href="util.html">display-bin-centering</a></dd>
             <dd><a href="../master/util.html">master</a></dd>
+            <dd><a href="../mpl-test-2.1/util.html">mpl-test-2.1</a></dd>
+            <dd><a href="../runnning/util.html">runnning</a></dd>
         </dl>
     </div>
 </div>
 
 
-  
-
-    <script type="text/javascript">
-        var DOCUMENTATION_OPTIONS = {
-            URL_ROOT:'./',
-            VERSION:'0.5.1',
-            COLLAPSE_INDEX:false,
-            FILE_SUFFIX:'.html',
-            HAS_SOURCE:  true,
-            SOURCELINK_SUFFIX: '.txt'
-        };
-    </script>
-      <script type="text/javascript" src="_static/jquery.js"></script>
-      <script type="text/javascript" src="_static/underscore.js"></script>
-      <script type="text/javascript" src="_static/doctools.js"></script>
-
-  
-
-  
-  
-    <script type="text/javascript" src="_static/js/theme.js"></script>
-  
-
-  
-  
   <script type="text/javascript">
       jQuery(function () {
-          SphinxRtdTheme.StickyNav.enable();
+          SphinxRtdTheme.Navigation.enable(true);
       });
   </script>
+
+  
+  
+    
    
 
 </body>

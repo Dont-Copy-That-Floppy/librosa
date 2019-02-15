@@ -17,13 +17,30 @@
   
 
   
+  <script type="text/javascript" src="../_static/js/modernizr.min.js"></script>
+  
+    
+      <script type="text/javascript">
+          var DOCUMENTATION_OPTIONS = {
+              URL_ROOT:'../',
+              VERSION:'0.6.1',
+              LANGUAGE:'None',
+              COLLAPSE_INDEX:false,
+              FILE_SUFFIX:'.html',
+              HAS_SOURCE:  true,
+              SOURCELINK_SUFFIX: '.txt'
+          };
+      </script>
+        <script type="text/javascript" src="../_static/jquery.js"></script>
+        <script type="text/javascript" src="../_static/underscore.js"></script>
+        <script type="text/javascript" src="../_static/doctools.js"></script>
+        <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    
+    <script type="text/javascript" src="../_static/js/theme.js"></script>
 
-  
-  
     
 
   
-
   <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
   <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
   <link rel="stylesheet" href="../_static/gallery.css" type="text/css" />
@@ -32,21 +49,16 @@
     <link rel="search" title="Search" href="../search.html" />
     <link rel="next" title="Vocal separation" href="plot_vocal_separation.html" />
     <link rel="prev" title="Viterbi decoding" href="plot_viterbi.html" /> 
-
-  
-  <script src="../_static/js/modernizr.min.js"></script>
-
 </head>
 
 <body class="wy-body-for-nav">
 
    
   <div class="wy-grid-for-nav">
-
     
     <nav data-toggle="wy-nav-shift" class="wy-nav-side">
       <div class="wy-side-scroll">
-        <div class="wy-side-nav-search">
+        <div class="wy-side-nav-search" >
           
 
           
@@ -184,8 +196,12 @@
 
 
 
-    <p class="scv-banner scv-sphinx_rtd_theme"><a href="../../0.6.2/auto_examples/plot_hprss.html"><b>Warning:</b> This document is for an old version of librosa. The latest version is 0.6.2.</a></p>
-<div class="section" id="harmonic-percussive-source-separation">
+    <p class="scv-banner scv-sphinx_rtd_theme"><a href="../../0.6.3/auto_examples/plot_hprss.html"><b>Warning:</b> This document is for an old version of librosa. The latest version is 0.6.3.</a></p>
+<div class="sphx-glr-download-link-note admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">Click <a class="reference internal" href="#sphx-glr-download-auto-examples-plot-hprss-py"><span class="std std-ref">here</span></a> to download the full example code</p>
+</div>
+<div class="sphx-glr-example-title section" id="harmonic-percussive-source-separation">
 <span id="sphx-glr-auto-examples-plot-hprss-py"></span><h1>Harmonic-percussive source separation<a class="headerlink" href="#harmonic-percussive-source-separation" title="Permalink to this headline">¶</a></h1>
 <p>This notebook illustrates how to separate an audio signal into
 its harmonic and percussive components.</p>
@@ -236,7 +252,7 @@ and its margin-based extension due to <a class="reference external" href="http:/
 <span class="n">plt</span><span class="o">.</span><span class="n">tight_layout</span><span class="p">()</span>
 </pre></div>
 </div>
-<img alt="../_images/sphx_glr_plot_hprss_001.png" class="align-center" src="../_images/sphx_glr_plot_hprss_001.png" />
+<img alt="../_images/sphx_glr_plot_hprss_001.png" class="sphx-glr-single-img" src="../_images/sphx_glr_plot_hprss_001.png" />
 <p>The default HPSS above assigns energy to each time-frequency bin according to
 whether a horizontal (harmonic) or vertical (percussive) filter responds higher
 at that position.</p>
@@ -309,9 +325,9 @@ components, and vocals have been suppressed in the percussive components.</p>
 <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
 </pre></div>
 </div>
-<img alt="../_images/sphx_glr_plot_hprss_002.png" class="align-center" src="../_images/sphx_glr_plot_hprss_002.png" />
-<p><strong>Total running time of the script:</strong> ( 0 minutes  4.321 seconds)</p>
-<div class="sphx-glr-footer docutils container">
+<img alt="../_images/sphx_glr_plot_hprss_002.png" class="sphx-glr-single-img" src="../_images/sphx_glr_plot_hprss_002.png" />
+<p><strong>Total running time of the script:</strong> ( 0 minutes  4.119 seconds)</p>
+<div class="sphx-glr-footer class sphx-glr-footer-example docutils container" id="sphx-glr-download-auto-examples-plot-hprss-py">
 <div class="sphx-glr-download docutils container">
 <a class="reference download internal" href="../_downloads/plot_hprss.py" download=""><code class="xref download docutils literal notranslate"><span class="pre">Download</span> <span class="pre">Python</span> <span class="pre">source</span> <span class="pre">code:</span> <span class="pre">plot_hprss.py</span></code></a></div>
 <div class="sphx-glr-download docutils container">
@@ -331,7 +347,7 @@ components, and vocals have been suppressed in the percussive components.</p>
         <a href="plot_vocal_separation.html" class="btn btn-neutral float-right" title="Vocal separation" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
       
       
-        <a href="plot_viterbi.html" class="btn btn-neutral" title="Viterbi decoding" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+        <a href="plot_viterbi.html" class="btn btn-neutral float-left" title="Viterbi decoding" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
       
     </div>
   
@@ -340,7 +356,7 @@ components, and vocals have been suppressed in the percussive components.</p>
 
   <div role="contentinfo">
     <p>
-        &copy; Copyright 2013--2018, librosa development team.
+        &copy; Copyright 2013--2018, librosa development team
 
     </p>
   </div>
@@ -372,44 +388,31 @@ components, and vocals have been suppressed in the percussive components.</p>
             <dd><a href="../../0.6.0/auto_examples/plot_hprss.html">0.6.0</a></dd>
             <dd><a href="plot_hprss.html">0.6.1</a></dd>
             <dd><a href="../../0.6.2/auto_examples/plot_hprss.html">0.6.2</a></dd>
+            <dd><a href="../../0.6.3/auto_examples/plot_hprss.html">0.6.3</a></dd>
             <dd><a href="../../v0.1.0/index.html">v0.1.0</a></dd>
             <dd><a href="../../v0.4.0/index.html">v0.4.0</a></dd>
         </dl>
         <dl>
             <dt>Branches</dt>
+            <dd><a href="../../display-bin-centering/index.html">display-bin-centering</a></dd>
             <dd><a href="../../master/auto_examples/plot_hprss.html">master</a></dd>
+            <dd><a href="../../mpl-test-2.1/auto_examples/plot_hprss.html">mpl-test-2.1</a></dd>
+            <dd><a href="../../runnning/auto_examples/plot_hprss.html">runnning</a></dd>
         </dl>
     </div>
 </div>
 
 
-  
-
-    <script type="text/javascript">
-        var DOCUMENTATION_OPTIONS = {
-            URL_ROOT:'../',
-            VERSION:'0.6.1',
-            LANGUAGE:'None',
-            COLLAPSE_INDEX:false,
-            FILE_SUFFIX:'.html',
-            HAS_SOURCE:  true,
-            SOURCELINK_SUFFIX: '.txt'
-        };
-    </script>
-      <script type="text/javascript" src="../_static/jquery.js"></script>
-      <script type="text/javascript" src="../_static/underscore.js"></script>
-      <script type="text/javascript" src="../_static/doctools.js"></script>
-      <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
-
-  
-
-  <script type="text/javascript" src="../_static/js/theme.js"></script>
-
   <script type="text/javascript">
       jQuery(function () {
           SphinxRtdTheme.Navigation.enable(true);
       });
-  </script> 
+  </script>
+
+  
+  
+    
+   
 
 </body>
 </html>

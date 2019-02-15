@@ -17,45 +17,46 @@
   
 
   
+  <script type="text/javascript" src="../_static/js/modernizr.min.js"></script>
+  
+    
+      <script type="text/javascript">
+          var DOCUMENTATION_OPTIONS = {
+              URL_ROOT:'../',
+              VERSION:'0.5.1',
+              LANGUAGE:'None',
+              COLLAPSE_INDEX:false,
+              FILE_SUFFIX:'.html',
+              HAS_SOURCE:  true,
+              SOURCELINK_SUFFIX: '.txt'
+          };
+      </script>
+        <script type="text/javascript" src="../_static/jquery.js"></script>
+        <script type="text/javascript" src="../_static/underscore.js"></script>
+        <script type="text/javascript" src="../_static/doctools.js"></script>
+    
+    <script type="text/javascript" src="../_static/js/theme.js"></script>
 
-  
-  
     
 
   
-
-  
-  
-    <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
-  
-
-  
-    <link rel="stylesheet" href="../_static/banner.css" type="text/css" />
-  
-
-  
-        <link rel="index" title="Index"
-              href="../genindex.html"/>
-        <link rel="search" title="Search" href="../search.html"/>
-    <link rel="top" title="librosa 0.5.1 documentation" href="../index.html"/>
-        <link rel="up" title="Feature extraction" href="../feature.html"/>
-        <link rel="next" title="librosa.feature.tempogram" href="librosa.feature.tempogram.html"/>
-        <link rel="prev" title="librosa.feature.tonnetz" href="librosa.feature.tonnetz.html"/> 
-
-  
-  <script src="../_static/js/modernizr.min.js"></script>
-
+  <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/banner.css" type="text/css" />
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="librosa.feature.tempogram" href="librosa.feature.tempogram.html" />
+    <link rel="prev" title="librosa.feature.tonnetz" href="librosa.feature.tonnetz.html" /> 
 </head>
 
-<body class="wy-body-for-nav" role="document">
+<body class="wy-body-for-nav">
 
    
   <div class="wy-grid-for-nav">
-
     
     <nav data-toggle="wy-nav-shift" class="wy-nav-side">
       <div class="wy-side-scroll">
-        <div class="wy-side-nav-search">
+        <div class="wy-side-nav-search" >
           
 
           
@@ -148,7 +149,7 @@
     <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
 
       
-      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+      <nav class="wy-nav-top" aria-label="top navigation">
         
           <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
           <a href="../index.html">librosa</a>
@@ -156,9 +157,10 @@
       </nav>
 
 
-      
       <div class="wy-nav-content">
+        
         <div class="rst-content">
+        
           
 
 
@@ -202,7 +204,16 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
             
-  <div class="section" id="librosa-feature-zero-crossing-rate">
+  
+
+
+    
+    
+
+
+
+    <p class="scv-banner scv-sphinx_rtd_theme"><a href="../../0.6.3/generated/librosa.feature.zero_crossing_rate.html"><b>Warning:</b> This document is for the development version of librosa. The latest version is 0.6.3.</a></p>
+<div class="section" id="librosa-feature-zero-crossing-rate">
 <h1>librosa.feature.zero_crossing_rate<a class="headerlink" href="#librosa-feature-zero-crossing-rate" title="Permalink to this headline">¶</a></h1>
 <dl class="function">
 <dt id="librosa.feature.zero_crossing_rate">
@@ -212,41 +223,39 @@
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>y</strong> : np.ndarray [shape=(n,)]</p>
-<blockquote>
-<div><p>Audio time series</p>
-</div></blockquote>
-<p><strong>frame_length</strong> : int &gt; 0</p>
-<blockquote>
-<div><p>Length of the frame over which to compute zero crossing rates</p>
-</div></blockquote>
-<p><strong>hop_length</strong> : int &gt; 0</p>
-<blockquote>
-<div><p>Number of samples to advance for each frame</p>
-</div></blockquote>
-<p><strong>center</strong> : bool</p>
-<blockquote>
-<div><p>If <em class="xref py py-obj">True</em>, frames are centered by padding the edges of <em class="xref py py-obj">y</em>.
-This is similar to the padding in <a class="reference internal" href="librosa.core.stft.html#librosa.core.stft" title="librosa.core.stft"><code class="xref py py-obj docutils literal"><span class="pre">librosa.core.stft</span></code></a>,
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><dl class="first docutils">
+<dt><strong>y</strong> <span class="classifier-delimiter">:</span> <span class="classifier">np.ndarray [shape=(n,)]</span></dt>
+<dd><p class="first last">Audio time series</p>
+</dd>
+<dt><strong>frame_length</strong> <span class="classifier-delimiter">:</span> <span class="classifier">int &gt; 0</span></dt>
+<dd><p class="first last">Length of the frame over which to compute zero crossing rates</p>
+</dd>
+<dt><strong>hop_length</strong> <span class="classifier-delimiter">:</span> <span class="classifier">int &gt; 0</span></dt>
+<dd><p class="first last">Number of samples to advance for each frame</p>
+</dd>
+<dt><strong>center</strong> <span class="classifier-delimiter">:</span> <span class="classifier">bool</span></dt>
+<dd><p class="first last">If <em class="xref py py-obj">True</em>, frames are centered by padding the edges of <em class="xref py py-obj">y</em>.
+This is similar to the padding in <a class="reference internal" href="librosa.core.stft.html#librosa.core.stft" title="librosa.core.stft"><code class="xref py py-obj docutils literal notranslate"><span class="pre">librosa.core.stft</span></code></a>,
 but uses edge-value copies instead of reflection.</p>
-</div></blockquote>
-<p><strong>kwargs</strong> : additional keyword arguments</p>
-<blockquote>
-<div><p>See <a class="reference internal" href="librosa.core.zero_crossings.html#librosa.core.zero_crossings" title="librosa.core.zero_crossings"><code class="xref py py-obj docutils literal"><span class="pre">librosa.core.zero_crossings</span></code></a></p>
-<div class="admonition note">
+</dd>
+<dt><strong>kwargs</strong> <span class="classifier-delimiter">:</span> <span class="classifier">additional keyword arguments</span></dt>
+<dd><p class="first">See <a class="reference internal" href="librosa.core.zero_crossings.html#librosa.core.zero_crossings" title="librosa.core.zero_crossings"><code class="xref py py-obj docutils literal notranslate"><span class="pre">librosa.core.zero_crossings</span></code></a></p>
+<div class="last admonition note">
 <p class="first admonition-title">Note</p>
 <p class="last">By default, the <em class="xref py py-obj">pad</em> parameter is set to <em class="xref py py-obj">False</em>, which
 differs from the default specified by
-<a class="reference internal" href="librosa.core.zero_crossings.html#librosa.core.zero_crossings" title="librosa.core.zero_crossings"><code class="xref py py-obj docutils literal"><span class="pre">librosa.core.zero_crossings</span></code></a>.</p>
+<a class="reference internal" href="librosa.core.zero_crossings.html#librosa.core.zero_crossings" title="librosa.core.zero_crossings"><code class="xref py py-obj docutils literal notranslate"><span class="pre">librosa.core.zero_crossings</span></code></a>.</p>
 </div>
-</div></blockquote>
+</dd>
+</dl>
 </td>
 </tr>
-<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first"><strong>zcr</strong> : np.ndarray [shape=(1, t)]</p>
-<blockquote class="last">
-<div><p><em class="xref py py-obj">zcr[0, i]</em> is the fraction of zero crossings in the
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><dl class="first last docutils">
+<dt><strong>zcr</strong> <span class="classifier-delimiter">:</span> <span class="classifier">np.ndarray [shape=(1, t)]</span></dt>
+<dd><p class="first last"><em class="xref py py-obj">zcr[0, i]</em> is the fraction of zero crossings in the
 <em class="xref py py-obj">i</em> th frame</p>
-</div></blockquote>
+</dd>
+</dl>
 </td>
 </tr>
 </tbody>
@@ -254,12 +263,12 @@ differs from the default specified by
 <div class="admonition seealso">
 <p class="first admonition-title">See also</p>
 <dl class="last docutils">
-<dt><a class="reference internal" href="librosa.core.zero_crossings.html#librosa.core.zero_crossings" title="librosa.core.zero_crossings"><code class="xref py py-obj docutils literal"><span class="pre">librosa.core.zero_crossings</span></code></a></dt>
+<dt><a class="reference internal" href="librosa.core.zero_crossings.html#librosa.core.zero_crossings" title="librosa.core.zero_crossings"><code class="xref py py-obj docutils literal notranslate"><span class="pre">librosa.core.zero_crossings</span></code></a></dt>
 <dd>Compute zero-crossings in a time-series</dd>
 </dl>
 </div>
 <p class="rubric">Examples</p>
-<div class="highlight-default"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">y</span><span class="p">,</span> <span class="n">sr</span> <span class="o">=</span> <span class="n">librosa</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">librosa</span><span class="o">.</span><span class="n">util</span><span class="o">.</span><span class="n">example_audio_file</span><span class="p">())</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">y</span><span class="p">,</span> <span class="n">sr</span> <span class="o">=</span> <span class="n">librosa</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">librosa</span><span class="o">.</span><span class="n">util</span><span class="o">.</span><span class="n">example_audio_file</span><span class="p">())</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">librosa</span><span class="o">.</span><span class="n">feature</span><span class="o">.</span><span class="n">zero_crossing_rate</span><span class="p">(</span><span class="n">y</span><span class="p">)</span>
 <span class="go">array([[ 0.134,  0.139, ...,  0.387,  0.322]])</span>
 </pre></div>
@@ -270,9 +279,7 @@ differs from the default specified by
 
 
            </div>
-           <div class="articleComments">
-            
-           </div>
+           
           </div>
           <footer>
   
@@ -281,7 +288,7 @@ differs from the default specified by
         <a href="librosa.feature.tempogram.html" class="btn btn-neutral float-right" title="librosa.feature.tempogram" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
       
       
-        <a href="librosa.feature.tonnetz.html" class="btn btn-neutral" title="librosa.feature.tonnetz" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+        <a href="librosa.feature.tonnetz.html" class="btn btn-neutral float-left" title="librosa.feature.tonnetz" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
       
     </div>
   
@@ -290,11 +297,11 @@ differs from the default specified by
 
   <div role="contentinfo">
     <p>
-        &copy; Copyright 2013--2017, librosa development team.
+        &copy; Copyright 2013--2017, librosa development team
 
     </p>
   </div>
-  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/snide/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
 
 </footer>
 
@@ -314,19 +321,15 @@ differs from the default specified by
     <div class="rst-other-versions">
         <dl>
             <dt>Tags</dt>
-            <dd><a href="../../0.4.0rc1/index.html">0.4.0rc1</a></dd>
-            <dd><a href="../../0.4.0rc2/index.html">0.4.0rc2</a></dd>
             <dd><a href="../../0.4.1/index.html">0.4.1</a></dd>
-            <dd><a href="../../0.4.1rc0/index.html">0.4.1rc0</a></dd>
             <dd><a href="../../0.4.2/generated/librosa.feature.zero_crossing_rate.html">0.4.2</a></dd>
             <dd><a href="../../0.4.3/generated/librosa.feature.zero_crossing_rate.html">0.4.3</a></dd>
-            <dd><a href="../../0.4.3rc0/generated/librosa.feature.zero_crossing_rate.html">0.4.3rc0</a></dd>
             <dd><a href="../../0.5.0/generated/librosa.feature.zero_crossing_rate.html">0.5.0</a></dd>
-            <dd><a href="../../0.5.0rc0/generated/librosa.feature.zero_crossing_rate.html">0.5.0rc0</a></dd>
             <dd><a href="../../0.5.1/generated/librosa.feature.zero_crossing_rate.html">0.5.1</a></dd>
             <dd><a href="../../0.6.0/generated/librosa.feature.zero_crossing_rate.html">0.6.0</a></dd>
-            <dd><a href="../../0.6.0rc0/generated/librosa.feature.zero_crossing_rate.html">0.6.0rc0</a></dd>
-            <dd><a href="../../0.6.0rc1/generated/librosa.feature.zero_crossing_rate.html">0.6.0rc1</a></dd>
+            <dd><a href="../../0.6.1/generated/librosa.feature.zero_crossing_rate.html">0.6.1</a></dd>
+            <dd><a href="../../0.6.2/generated/librosa.feature.zero_crossing_rate.html">0.6.2</a></dd>
+            <dd><a href="../../0.6.3/generated/librosa.feature.zero_crossing_rate.html">0.6.3</a></dd>
             <dd><a href="../../v0.1.0/index.html">v0.1.0</a></dd>
             <dd><a href="../../v0.4.0/index.html">v0.4.0</a></dd>
         </dl>
@@ -334,41 +337,22 @@ differs from the default specified by
             <dt>Branches</dt>
             <dd><a href="librosa.feature.zero_crossing_rate.html">display-bin-centering</a></dd>
             <dd><a href="../../master/generated/librosa.feature.zero_crossing_rate.html">master</a></dd>
+            <dd><a href="../../mpl-test-2.1/generated/librosa.feature.zero_crossing_rate.html">mpl-test-2.1</a></dd>
+            <dd><a href="../../runnning/generated/librosa.feature.zero_crossing_rate.html">runnning</a></dd>
         </dl>
     </div>
 </div>
 
 
-  
-
-    <script type="text/javascript">
-        var DOCUMENTATION_OPTIONS = {
-            URL_ROOT:'../',
-            VERSION:'0.5.1',
-            COLLAPSE_INDEX:false,
-            FILE_SUFFIX:'.html',
-            HAS_SOURCE:  true,
-            SOURCELINK_SUFFIX: '.txt'
-        };
-    </script>
-      <script type="text/javascript" src="../_static/jquery.js"></script>
-      <script type="text/javascript" src="../_static/underscore.js"></script>
-      <script type="text/javascript" src="../_static/doctools.js"></script>
-
-  
-
-  
-  
-    <script type="text/javascript" src="../_static/js/theme.js"></script>
-  
-
-  
-  
   <script type="text/javascript">
       jQuery(function () {
-          SphinxRtdTheme.StickyNav.enable();
+          SphinxRtdTheme.Navigation.enable(true);
       });
   </script>
+
+  
+  
+    
    
 
 </body>

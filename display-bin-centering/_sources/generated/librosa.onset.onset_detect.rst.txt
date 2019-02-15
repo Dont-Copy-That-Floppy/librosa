@@ -1,5 +1,5 @@
-librosa\.onset\.onset\_detect
-=============================
+librosa.onset.onset\_detect
+===========================
 
 .. currentmodule:: librosa.onset
 

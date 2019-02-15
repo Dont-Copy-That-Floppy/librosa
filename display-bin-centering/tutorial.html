@@ -17,44 +17,46 @@
   
 
   
+  <script type="text/javascript" src="_static/js/modernizr.min.js"></script>
+  
+    
+      <script type="text/javascript">
+          var DOCUMENTATION_OPTIONS = {
+              URL_ROOT:'./',
+              VERSION:'0.5.1',
+              LANGUAGE:'None',
+              COLLAPSE_INDEX:false,
+              FILE_SUFFIX:'.html',
+              HAS_SOURCE:  true,
+              SOURCELINK_SUFFIX: '.txt'
+          };
+      </script>
+        <script type="text/javascript" src="_static/jquery.js"></script>
+        <script type="text/javascript" src="_static/underscore.js"></script>
+        <script type="text/javascript" src="_static/doctools.js"></script>
+    
+    <script type="text/javascript" src="_static/js/theme.js"></script>
 
-  
-  
     
 
   
-
-  
-  
-    <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
-  
-
-  
-    <link rel="stylesheet" href="_static/banner.css" type="text/css" />
-  
-
-  
-        <link rel="index" title="Index"
-              href="genindex.html"/>
-        <link rel="search" title="Search" href="search.html"/>
-    <link rel="top" title="librosa 0.5.1 documentation" href="index.html"/>
-        <link rel="next" title="Core IO and DSP" href="core.html"/>
-        <link rel="prev" title="Installation instructions" href="install.html"/> 
-
-  
-  <script src="_static/js/modernizr.min.js"></script>
-
+  <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="_static/banner.css" type="text/css" />
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Core IO and DSP" href="core.html" />
+    <link rel="prev" title="Installation instructions" href="install.html" /> 
 </head>
 
-<body class="wy-body-for-nav" role="document">
+<body class="wy-body-for-nav">
 
    
   <div class="wy-grid-for-nav">
-
     
     <nav data-toggle="wy-nav-shift" class="wy-nav-side">
       <div class="wy-side-scroll">
-        <div class="wy-side-nav-search">
+        <div class="wy-side-nav-search" >
           
 
           
@@ -133,7 +135,7 @@
     <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
 
       
-      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+      <nav class="wy-nav-top" aria-label="top navigation">
         
           <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
           <a href="index.html">librosa</a>
@@ -141,9 +143,10 @@
       </nav>
 
 
-      
       <div class="wy-nav-content">
+        
         <div class="rst-content">
+        
           
 
 
@@ -185,7 +188,16 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
             
-  <div class="section" id="tutorial">
+  
+
+
+    
+    
+
+
+
+    <p class="scv-banner scv-sphinx_rtd_theme"><a href="../0.6.3/tutorial.html"><b>Warning:</b> This document is for the development version of librosa. The latest version is 0.6.3.</a></p>
+<div class="section" id="tutorial">
 <h1>Tutorial<a class="headerlink" href="#tutorial" title="Permalink to this headline">¶</a></h1>
 <p>This section covers the fundamentals of developing with <em>librosa</em>, including
 a package overview, basic and advanced usage, and integration with the <em>scikit-learn</em>
@@ -206,7 +218,7 @@ package.  We will assume basic familiarity with Python and NumPy/SciPy.</p>
 <dd>Core functionality includes functions to load audio from disk, compute various
 spectrogram representations, and a variety of commonly used tools for
 music analysis.  For convenience, all functionality in this submodule is
-directly accessible from the top-level <code class="docutils literal"><span class="pre">librosa.*</span></code> namespace.</dd>
+directly accessible from the top-level <code class="docutils literal notranslate"><span class="pre">librosa.*</span></code> namespace.</dd>
 </dl>
 </li>
 <li><dl class="first docutils">
@@ -218,7 +230,7 @@ spectrogram decomposition using matrix decomposition methods implemented in
 </li>
 <li><dl class="first docutils">
 <dt><a class="reference internal" href="display.html#display"><span class="std std-ref">librosa.display</span></a></dt>
-<dd>Visualization and display routines using <code class="xref py py-obj docutils literal"><span class="pre">matplotlib</span></code>.</dd>
+<dd>Visualization and display routines using <code class="xref py py-obj docutils literal notranslate"><span class="pre">matplotlib</span></code>.</dd>
 </dl>
 </li>
 <li><dl class="first docutils">
@@ -272,8 +284,8 @@ clustering.</dd>
 </div>
 <div class="section" id="quickstart">
 <span id="id1"></span><h2>Quickstart<a class="headerlink" href="#quickstart" title="Permalink to this headline">¶</a></h2>
-<p>Before diving into the details, we&#8217;ll walk through a brief example program</p>
-<div class="highlight-python"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre> 1
+<p>Before diving into the details, we’ll walk through a brief example program</p>
+<div class="highlight-python notranslate"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre> 1
  2
  3
  4
@@ -317,44 +329,44 @@ clustering.</dd>
 </pre></div>
 </td></tr></table></div>
 <p>The first step of the program:</p>
-<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">filename</span> <span class="o">=</span> <span class="n">librosa</span><span class="o">.</span><span class="n">util</span><span class="o">.</span><span class="n">example_audio_file</span><span class="p">()</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">filename</span> <span class="o">=</span> <span class="n">librosa</span><span class="o">.</span><span class="n">util</span><span class="o">.</span><span class="n">example_audio_file</span><span class="p">()</span>
 </pre></div>
 </div>
 <p>gets the path to the audio example file included with <em>librosa</em>.  After this step,
-<code class="docutils literal"><span class="pre">filename</span></code> will be a string variable containing the path to the example audio file.
+<code class="docutils literal notranslate"><span class="pre">filename</span></code> will be a string variable containing the path to the example audio file.
 The example is encoded in OGG Vorbis format, so you will need the appropriate codec
 installed for <a class="reference external" href="https://github.com/sampsyo/audioread">audioread</a>.</p>
 <p>The second step:</p>
-<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">y</span><span class="p">,</span> <span class="n">sr</span> <span class="o">=</span> <span class="n">librosa</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">filename</span><span class="p">)</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">y</span><span class="p">,</span> <span class="n">sr</span> <span class="o">=</span> <span class="n">librosa</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">filename</span><span class="p">)</span>
 </pre></div>
 </div>
-<p>loads and decodes the audio as a <a class="reference internal" href="glossary.html#term-time-series"><span class="xref std std-term">time series</span></a> <code class="docutils literal"><span class="pre">y</span></code>, represented as a one-dimensional
-NumPy floating point array.  The variable <code class="docutils literal"><span class="pre">sr</span></code> contains the <a class="reference internal" href="glossary.html#term-sampling-rate"><span class="xref std std-term">sampling rate</span></a> of
-<code class="docutils literal"><span class="pre">y</span></code>, that is, the number of samples per second of audio.  By default, all audio is
+<p>loads and decodes the audio as a <a class="reference internal" href="glossary.html#term-time-series"><span class="xref std std-term">time series</span></a> <code class="docutils literal notranslate"><span class="pre">y</span></code>, represented as a one-dimensional
+NumPy floating point array.  The variable <code class="docutils literal notranslate"><span class="pre">sr</span></code> contains the <a class="reference internal" href="glossary.html#term-sampling-rate"><span class="xref std std-term">sampling rate</span></a> of
+<code class="docutils literal notranslate"><span class="pre">y</span></code>, that is, the number of samples per second of audio.  By default, all audio is
 mixed to mono and resampled to 22050 Hz at load time.  This behavior can be overridden
-by supplying additional arguments to <code class="docutils literal"><span class="pre">librosa.load()</span></code>.</p>
+by supplying additional arguments to <code class="docutils literal notranslate"><span class="pre">librosa.load()</span></code>.</p>
 <p>Next, we run the beat tracker:</p>
-<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">tempo</span><span class="p">,</span> <span class="n">beat_frames</span> <span class="o">=</span> <span class="n">librosa</span><span class="o">.</span><span class="n">beat</span><span class="o">.</span><span class="n">beat_track</span><span class="p">(</span><span class="n">y</span><span class="o">=</span><span class="n">y</span><span class="p">,</span> <span class="n">sr</span><span class="o">=</span><span class="n">sr</span><span class="p">)</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">tempo</span><span class="p">,</span> <span class="n">beat_frames</span> <span class="o">=</span> <span class="n">librosa</span><span class="o">.</span><span class="n">beat</span><span class="o">.</span><span class="n">beat_track</span><span class="p">(</span><span class="n">y</span><span class="o">=</span><span class="n">y</span><span class="p">,</span> <span class="n">sr</span><span class="o">=</span><span class="n">sr</span><span class="p">)</span>
 </pre></div>
 </div>
 <p>The output of the beat tracker is an estimate of the tempo (in beats per minute),
 and an array of frame numbers corresponding to detected beat events.</p>
-<p><a class="reference internal" href="glossary.html#term-frame"><span class="xref std std-term">Frames</span></a> here correspond to short windows of the signal (<code class="docutils literal"><span class="pre">y</span></code>), each
-separated by <code class="docutils literal"><span class="pre">hop_length</span> <span class="pre">=</span> <span class="pre">512</span></code> samples.  Since v0.3, <em>librosa</em> uses centered frames, so
-that the <em>k</em>th frame is centered around sample <code class="docutils literal"><span class="pre">k</span> <span class="pre">*</span> <span class="pre">hop_length</span></code>.</p>
-<p>The next operation converts the frame numbers <code class="docutils literal"><span class="pre">beat_frames</span></code> into timings:</p>
-<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">beat_times</span> <span class="o">=</span> <span class="n">librosa</span><span class="o">.</span><span class="n">frames_to_time</span><span class="p">(</span><span class="n">beat_frames</span><span class="p">,</span> <span class="n">sr</span><span class="o">=</span><span class="n">sr</span><span class="p">)</span>
+<p><a class="reference internal" href="glossary.html#term-frame"><span class="xref std std-term">Frames</span></a> here correspond to short windows of the signal (<code class="docutils literal notranslate"><span class="pre">y</span></code>), each
+separated by <code class="docutils literal notranslate"><span class="pre">hop_length</span> <span class="pre">=</span> <span class="pre">512</span></code> samples.  Since v0.3, <em>librosa</em> uses centered frames, so
+that the <em>k</em>th frame is centered around sample <code class="docutils literal notranslate"><span class="pre">k</span> <span class="pre">*</span> <span class="pre">hop_length</span></code>.</p>
+<p>The next operation converts the frame numbers <code class="docutils literal notranslate"><span class="pre">beat_frames</span></code> into timings:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">beat_times</span> <span class="o">=</span> <span class="n">librosa</span><span class="o">.</span><span class="n">frames_to_time</span><span class="p">(</span><span class="n">beat_frames</span><span class="p">,</span> <span class="n">sr</span><span class="o">=</span><span class="n">sr</span><span class="p">)</span>
 </pre></div>
 </div>
-<p>Now, <code class="docutils literal"><span class="pre">beat_times</span></code> will be an array of timestamps (in seconds) corresponding to
+<p>Now, <code class="docutils literal notranslate"><span class="pre">beat_times</span></code> will be an array of timestamps (in seconds) corresponding to
 detected beat events.</p>
 <p>Finally, we can store the detected beat timestamps as a comma-separated values (CSV)
 file:</p>
-<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">librosa</span><span class="o">.</span><span class="n">output</span><span class="o">.</span><span class="n">times_csv</span><span class="p">(</span><span class="s1">&#39;beat_times.csv&#39;</span><span class="p">,</span> <span class="n">beat_times</span><span class="p">)</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">librosa</span><span class="o">.</span><span class="n">output</span><span class="o">.</span><span class="n">times_csv</span><span class="p">(</span><span class="s1">&#39;beat_times.csv&#39;</span><span class="p">,</span> <span class="n">beat_times</span><span class="p">)</span>
 </pre></div>
 </div>
-<p>The contents of <code class="docutils literal"><span class="pre">beat_times.csv</span></code> should look something like this:</p>
-<div class="highlight-default"><div class="highlight"><pre><span></span><span class="mf">7.43</span>
+<p>The contents of <code class="docutils literal notranslate"><span class="pre">beat_times.csv</span></code> should look something like this:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="mf">7.43</span>
 <span class="mf">8.29</span>
 <span class="mf">9.218</span>
 <span class="mf">10.124</span>
@@ -367,9 +379,9 @@ file:</p>
 </div>
 <div class="section" id="advanced-usage">
 <h2>Advanced usage<a class="headerlink" href="#advanced-usage" title="Permalink to this headline">¶</a></h2>
-<p>Here we&#8217;ll cover a more advanced example, integrating harmonic-percussive separation,
+<p>Here we’ll cover a more advanced example, integrating harmonic-percussive separation,
 multiple spectral features, and beat-synchronous feature aggregation.</p>
-<div class="highlight-python"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre> 1
+<div class="highlight-python notranslate"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre> 1
  2
  3
  4
@@ -450,73 +462,73 @@ multiple spectral features, and beat-synchronous feature aggregation.</p>
 <span class="n">beat_features</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">vstack</span><span class="p">([</span><span class="n">beat_chroma</span><span class="p">,</span> <span class="n">beat_mfcc_delta</span><span class="p">])</span>
 </pre></div>
 </td></tr></table></div>
-<p>This example builds on tools we&#8217;ve already covered in the <a class="reference internal" href="#quickstart"><span class="std std-ref">quickstart example</span></a>, so here we&#8217;ll focus just on the new parts.</p>
+<p>This example builds on tools we’ve already covered in the <a class="reference internal" href="#quickstart"><span class="std std-ref">quickstart example</span></a>, so here we’ll focus just on the new parts.</p>
 <p>The first difference is the use of the <a class="reference internal" href="effects.html#effects"><span class="std std-ref">effects module</span></a> for time-series
 harmonic-percussive separation:</p>
-<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">y_harmonic</span><span class="p">,</span> <span class="n">y_percussive</span> <span class="o">=</span> <span class="n">librosa</span><span class="o">.</span><span class="n">effects</span><span class="o">.</span><span class="n">hpss</span><span class="p">(</span><span class="n">y</span><span class="p">)</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">y_harmonic</span><span class="p">,</span> <span class="n">y_percussive</span> <span class="o">=</span> <span class="n">librosa</span><span class="o">.</span><span class="n">effects</span><span class="o">.</span><span class="n">hpss</span><span class="p">(</span><span class="n">y</span><span class="p">)</span>
 </pre></div>
 </div>
-<p>The result of this line is that the time series <code class="docutils literal"><span class="pre">y</span></code> has been separated into two time
+<p>The result of this line is that the time series <code class="docutils literal notranslate"><span class="pre">y</span></code> has been separated into two time
 series, containing the harmonic (tonal) and percussive (transient) portions of the
-signal.  Each of <code class="docutils literal"><span class="pre">y_harmonic</span></code> and <code class="docutils literal"><span class="pre">y_percussive</span></code> have the same shape and duration
-as <code class="docutils literal"><span class="pre">y</span></code>.</p>
+signal.  Each of <code class="docutils literal notranslate"><span class="pre">y_harmonic</span></code> and <code class="docutils literal notranslate"><span class="pre">y_percussive</span></code> have the same shape and duration
+as <code class="docutils literal notranslate"><span class="pre">y</span></code>.</p>
 <p>The motivation for this kind of operation is two-fold: first, percussive elements
 tend to be stronger indicators of rhythmic content, and can help provide more stable
 beat tracking results; second, percussive elements can pollute tonal feature
 representations (such as chroma) by contributing energy across all frequency bands, so
-we&#8217;d be better off without them.</p>
+we’d be better off without them.</p>
 <p>Next, we introduce the <a class="reference internal" href="feature.html#feature"><span class="std std-ref">feature module</span></a> and extract the Mel-frequency
-cepstral coefficients from the raw signal <code class="docutils literal"><span class="pre">y</span></code>:</p>
-<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">mfcc</span> <span class="o">=</span> <span class="n">librosa</span><span class="o">.</span><span class="n">feature</span><span class="o">.</span><span class="n">mfcc</span><span class="p">(</span><span class="n">y</span><span class="o">=</span><span class="n">y</span><span class="p">,</span> <span class="n">sr</span><span class="o">=</span><span class="n">sr</span><span class="p">,</span> <span class="n">hop_length</span><span class="o">=</span><span class="n">hop_length</span><span class="p">,</span> <span class="n">n_mfcc</span><span class="o">=</span><span class="mi">13</span><span class="p">)</span>
+cepstral coefficients from the raw signal <code class="docutils literal notranslate"><span class="pre">y</span></code>:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">mfcc</span> <span class="o">=</span> <span class="n">librosa</span><span class="o">.</span><span class="n">feature</span><span class="o">.</span><span class="n">mfcc</span><span class="p">(</span><span class="n">y</span><span class="o">=</span><span class="n">y</span><span class="p">,</span> <span class="n">sr</span><span class="o">=</span><span class="n">sr</span><span class="p">,</span> <span class="n">hop_length</span><span class="o">=</span><span class="n">hop_length</span><span class="p">,</span> <span class="n">n_mfcc</span><span class="o">=</span><span class="mi">13</span><span class="p">)</span>
 </pre></div>
 </div>
-<p>The output of this function is the matrix <code class="docutils literal"><span class="pre">mfcc</span></code>, which is an <em>numpy.ndarray</em> of
-size <code class="docutils literal"><span class="pre">(n_mfcc,</span> <span class="pre">T)</span></code> (where <code class="docutils literal"><span class="pre">T</span></code> denotes the track duration in frames).  Note that we
-use the same <code class="docutils literal"><span class="pre">hop_length</span></code> here as in the beat tracker, so the detected <code class="docutils literal"><span class="pre">beat_frames</span></code>
-values correspond to columns of <code class="docutils literal"><span class="pre">mfcc</span></code>.</p>
-<p>The first type of feature manipulation we introduce is <code class="docutils literal"><span class="pre">delta</span></code>, which computes
+<p>The output of this function is the matrix <code class="docutils literal notranslate"><span class="pre">mfcc</span></code>, which is an <em>numpy.ndarray</em> of
+size <code class="docutils literal notranslate"><span class="pre">(n_mfcc,</span> <span class="pre">T)</span></code> (where <code class="docutils literal notranslate"><span class="pre">T</span></code> denotes the track duration in frames).  Note that we
+use the same <code class="docutils literal notranslate"><span class="pre">hop_length</span></code> here as in the beat tracker, so the detected <code class="docutils literal notranslate"><span class="pre">beat_frames</span></code>
+values correspond to columns of <code class="docutils literal notranslate"><span class="pre">mfcc</span></code>.</p>
+<p>The first type of feature manipulation we introduce is <code class="docutils literal notranslate"><span class="pre">delta</span></code>, which computes
 (smoothed) first-order differences among columns of its input:</p>
-<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">mfcc_delta</span> <span class="o">=</span> <span class="n">librosa</span><span class="o">.</span><span class="n">feature</span><span class="o">.</span><span class="n">delta</span><span class="p">(</span><span class="n">mfcc</span><span class="p">)</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">mfcc_delta</span> <span class="o">=</span> <span class="n">librosa</span><span class="o">.</span><span class="n">feature</span><span class="o">.</span><span class="n">delta</span><span class="p">(</span><span class="n">mfcc</span><span class="p">)</span>
 </pre></div>
 </div>
-<p>The resulting matrix <code class="docutils literal"><span class="pre">mfcc_delta</span></code> has the same shape as the input <code class="docutils literal"><span class="pre">mfcc</span></code>.</p>
-<p>The second type of feature manipulation is <code class="docutils literal"><span class="pre">sync</span></code>, which aggregates columns of its
+<p>The resulting matrix <code class="docutils literal notranslate"><span class="pre">mfcc_delta</span></code> has the same shape as the input <code class="docutils literal notranslate"><span class="pre">mfcc</span></code>.</p>
+<p>The second type of feature manipulation is <code class="docutils literal notranslate"><span class="pre">sync</span></code>, which aggregates columns of its
 input between sample indices (e.g., beat frames):</p>
-<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">beat_mfcc_delta</span> <span class="o">=</span> <span class="n">librosa</span><span class="o">.</span><span class="n">util</span><span class="o">.</span><span class="n">sync</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">vstack</span><span class="p">([</span><span class="n">mfcc</span><span class="p">,</span> <span class="n">mfcc_delta</span><span class="p">]),</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">beat_mfcc_delta</span> <span class="o">=</span> <span class="n">librosa</span><span class="o">.</span><span class="n">util</span><span class="o">.</span><span class="n">sync</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">vstack</span><span class="p">([</span><span class="n">mfcc</span><span class="p">,</span> <span class="n">mfcc_delta</span><span class="p">]),</span>
                                     <span class="n">beat_frames</span><span class="p">)</span>
 </pre></div>
 </div>
-<p>Here, we&#8217;ve vertically stacked the <code class="docutils literal"><span class="pre">mfcc</span></code> and <code class="docutils literal"><span class="pre">mfcc_delta</span></code> matrices together.  The
-result of this operation is a matrix <code class="docutils literal"><span class="pre">beat_mfcc_delta</span></code> with the same number of rows
-as its input, but the number of columns depends on <code class="docutils literal"><span class="pre">beat_frames</span></code>.  Each column
-<code class="docutils literal"><span class="pre">beat_mfcc_delta[:,</span> <span class="pre">k]</span></code> will be the <em>average</em> of input columns between
-<code class="docutils literal"><span class="pre">beat_frames[k]</span></code> and <code class="docutils literal"><span class="pre">beat_frames[k+1]</span></code>.  (<code class="docutils literal"><span class="pre">beat_frames</span></code> will be expanded to
-span the full range <code class="docutils literal"><span class="pre">[0,</span> <span class="pre">T]</span></code> so that all data is accounted for.)</p>
+<p>Here, we’ve vertically stacked the <code class="docutils literal notranslate"><span class="pre">mfcc</span></code> and <code class="docutils literal notranslate"><span class="pre">mfcc_delta</span></code> matrices together.  The
+result of this operation is a matrix <code class="docutils literal notranslate"><span class="pre">beat_mfcc_delta</span></code> with the same number of rows
+as its input, but the number of columns depends on <code class="docutils literal notranslate"><span class="pre">beat_frames</span></code>.  Each column
+<code class="docutils literal notranslate"><span class="pre">beat_mfcc_delta[:,</span> <span class="pre">k]</span></code> will be the <em>average</em> of input columns between
+<code class="docutils literal notranslate"><span class="pre">beat_frames[k]</span></code> and <code class="docutils literal notranslate"><span class="pre">beat_frames[k+1]</span></code>.  (<code class="docutils literal notranslate"><span class="pre">beat_frames</span></code> will be expanded to
+span the full range <code class="docutils literal notranslate"><span class="pre">[0,</span> <span class="pre">T]</span></code> so that all data is accounted for.)</p>
 <p>Next, we compute a chromagram using just the harmonic component:</p>
-<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">chromagram</span> <span class="o">=</span> <span class="n">librosa</span><span class="o">.</span><span class="n">feature</span><span class="o">.</span><span class="n">chroma_cqt</span><span class="p">(</span><span class="n">y</span><span class="o">=</span><span class="n">y_harmonic</span><span class="p">,</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">chromagram</span> <span class="o">=</span> <span class="n">librosa</span><span class="o">.</span><span class="n">feature</span><span class="o">.</span><span class="n">chroma_cqt</span><span class="p">(</span><span class="n">y</span><span class="o">=</span><span class="n">y_harmonic</span><span class="p">,</span>
                                         <span class="n">sr</span><span class="o">=</span><span class="n">sr</span><span class="p">)</span>
 </pre></div>
 </div>
-<p>After this line, <code class="docutils literal"><span class="pre">chromagram</span></code> will be a <em>numpy.ndarray</em> of size <code class="docutils literal"><span class="pre">(12,</span> <span class="pre">T)</span></code>, and
+<p>After this line, <code class="docutils literal notranslate"><span class="pre">chromagram</span></code> will be a <em>numpy.ndarray</em> of size <code class="docutils literal notranslate"><span class="pre">(12,</span> <span class="pre">T)</span></code>, and
 each row corresponds to a pitch class (e.g., <em>C</em>, <em>C#</em>, etc.).  Each column of
-<code class="docutils literal"><span class="pre">chromagram</span></code> is normalized by its peak value, though this behavior can be overridden
-by setting the <code class="docutils literal"><span class="pre">norm</span></code> parameter.</p>
+<code class="docutils literal notranslate"><span class="pre">chromagram</span></code> is normalized by its peak value, though this behavior can be overridden
+by setting the <code class="docutils literal notranslate"><span class="pre">norm</span></code> parameter.</p>
 <p>Once we have the chromagram and list of beat frames, we again synchronize the chroma
 between beat events:</p>
-<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">beat_chroma</span> <span class="o">=</span> <span class="n">librosa</span><span class="o">.</span><span class="n">util</span><span class="o">.</span><span class="n">sync</span><span class="p">(</span><span class="n">chromagram</span><span class="p">,</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">beat_chroma</span> <span class="o">=</span> <span class="n">librosa</span><span class="o">.</span><span class="n">util</span><span class="o">.</span><span class="n">sync</span><span class="p">(</span><span class="n">chromagram</span><span class="p">,</span>
                                 <span class="n">beat_frames</span><span class="p">,</span>
                                 <span class="n">aggregate</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">median</span><span class="p">)</span>
 </pre></div>
 </div>
-<p>This time, we&#8217;ve replaced the default aggregate operation (<em>average</em>, as used above
+<p>This time, we’ve replaced the default aggregate operation (<em>average</em>, as used above
 for MFCCs) with the <em>median</em>.  In general, any statistical summarization function can
 be supplied here, including <em class="xref py py-obj">np.max()</em>, <em class="xref py py-obj">np.min()</em>, <em class="xref py py-obj">np.std()</em>, etc.</p>
 <p>Finally, the all features are vertically stacked again:</p>
-<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">beat_features</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">vstack</span><span class="p">([</span><span class="n">beat_chroma</span><span class="p">,</span> <span class="n">beat_mfcc_delta</span><span class="p">])</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">beat_features</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">vstack</span><span class="p">([</span><span class="n">beat_chroma</span><span class="p">,</span> <span class="n">beat_mfcc_delta</span><span class="p">])</span>
 </pre></div>
 </div>
-<p>resulting in a feature matrix <code class="docutils literal"><span class="pre">beat_features</span></code> of dimension
-<code class="docutils literal"><span class="pre">(12</span> <span class="pre">+</span> <span class="pre">13</span> <span class="pre">+</span> <span class="pre">13,</span> <span class="pre">#</span> <span class="pre">beat</span> <span class="pre">intervals)</span></code>.</p>
+<p>resulting in a feature matrix <code class="docutils literal notranslate"><span class="pre">beat_features</span></code> of dimension
+<code class="docutils literal notranslate"><span class="pre">(12</span> <span class="pre">+</span> <span class="pre">13</span> <span class="pre">+</span> <span class="pre">13,</span> <span class="pre">#</span> <span class="pre">beat</span> <span class="pre">intervals)</span></code>.</p>
 </div>
 <div class="section" id="more-examples">
 <h2>More examples<a class="headerlink" href="#more-examples" title="Permalink to this headline">¶</a></h2>
@@ -526,9 +538,7 @@ be supplied here, including <em class="xref py py-obj">np.max()</em>, <em class=
 
 
            </div>
-           <div class="articleComments">
-            
-           </div>
+           
           </div>
           <footer>
   
@@ -537,7 +547,7 @@ be supplied here, including <em class="xref py py-obj">np.max()</em>, <em class=
         <a href="core.html" class="btn btn-neutral float-right" title="Core IO and DSP" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
       
       
-        <a href="install.html" class="btn btn-neutral" title="Installation instructions" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+        <a href="install.html" class="btn btn-neutral float-left" title="Installation instructions" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
       
     </div>
   
@@ -546,11 +556,11 @@ be supplied here, including <em class="xref py py-obj">np.max()</em>, <em class=
 
   <div role="contentinfo">
     <p>
-        &copy; Copyright 2013--2017, librosa development team.
+        &copy; Copyright 2013--2017, librosa development team
 
     </p>
   </div>
-  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/snide/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
 
 </footer>
 
@@ -570,19 +580,15 @@ be supplied here, including <em class="xref py py-obj">np.max()</em>, <em class=
     <div class="rst-other-versions">
         <dl>
             <dt>Tags</dt>
-            <dd><a href="../0.4.0rc1/tutorial.html">0.4.0rc1</a></dd>
-            <dd><a href="../0.4.0rc2/tutorial.html">0.4.0rc2</a></dd>
             <dd><a href="../0.4.1/tutorial.html">0.4.1</a></dd>
-            <dd><a href="../0.4.1rc0/tutorial.html">0.4.1rc0</a></dd>
             <dd><a href="../0.4.2/tutorial.html">0.4.2</a></dd>
             <dd><a href="../0.4.3/tutorial.html">0.4.3</a></dd>
-            <dd><a href="../0.4.3rc0/tutorial.html">0.4.3rc0</a></dd>
             <dd><a href="../0.5.0/tutorial.html">0.5.0</a></dd>
-            <dd><a href="../0.5.0rc0/tutorial.html">0.5.0rc0</a></dd>
             <dd><a href="../0.5.1/tutorial.html">0.5.1</a></dd>
             <dd><a href="../0.6.0/tutorial.html">0.6.0</a></dd>
-            <dd><a href="../0.6.0rc0/tutorial.html">0.6.0rc0</a></dd>
-            <dd><a href="../0.6.0rc1/tutorial.html">0.6.0rc1</a></dd>
+            <dd><a href="../0.6.1/tutorial.html">0.6.1</a></dd>
+            <dd><a href="../0.6.2/tutorial.html">0.6.2</a></dd>
+            <dd><a href="../0.6.3/tutorial.html">0.6.3</a></dd>
             <dd><a href="../v0.1.0/index.html">v0.1.0</a></dd>
             <dd><a href="../v0.4.0/tutorial.html">v0.4.0</a></dd>
         </dl>
@@ -590,41 +596,22 @@ be supplied here, including <em class="xref py py-obj">np.max()</em>, <em class=
             <dt>Branches</dt>
             <dd><a href="tutorial.html">display-bin-centering</a></dd>
             <dd><a href="../master/tutorial.html">master</a></dd>
+            <dd><a href="../mpl-test-2.1/tutorial.html">mpl-test-2.1</a></dd>
+            <dd><a href="../runnning/tutorial.html">runnning</a></dd>
         </dl>
     </div>
 </div>
 
 
-  
-
-    <script type="text/javascript">
-        var DOCUMENTATION_OPTIONS = {
-            URL_ROOT:'./',
-            VERSION:'0.5.1',
-            COLLAPSE_INDEX:false,
-            FILE_SUFFIX:'.html',
-            HAS_SOURCE:  true,
-            SOURCELINK_SUFFIX: '.txt'
-        };
-    </script>
-      <script type="text/javascript" src="_static/jquery.js"></script>
-      <script type="text/javascript" src="_static/underscore.js"></script>
-      <script type="text/javascript" src="_static/doctools.js"></script>
-
-  
-
-  
-  
-    <script type="text/javascript" src="_static/js/theme.js"></script>
-  
-
-  
-  
   <script type="text/javascript">
       jQuery(function () {
-          SphinxRtdTheme.StickyNav.enable();
+          SphinxRtdTheme.Navigation.enable(true);
       });
   </script>
+
+  
+  
+    
    
 
 </body>

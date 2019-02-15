@@ -17,13 +17,29 @@
   
 
   
+  <script type="text/javascript" src="../_static/js/modernizr.min.js"></script>
+  
+    
+      <script type="text/javascript">
+          var DOCUMENTATION_OPTIONS = {
+              URL_ROOT:'../',
+              VERSION:'0.4.2',
+              LANGUAGE:'None',
+              COLLAPSE_INDEX:false,
+              FILE_SUFFIX:'.html',
+              HAS_SOURCE:  true,
+              SOURCELINK_SUFFIX: '.txt'
+          };
+      </script>
+        <script type="text/javascript" src="../_static/jquery.js"></script>
+        <script type="text/javascript" src="../_static/underscore.js"></script>
+        <script type="text/javascript" src="../_static/doctools.js"></script>
+    
+    <script type="text/javascript" src="../_static/js/theme.js"></script>
 
-  
-  
     
 
   
-
   <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
   <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
   <link rel="stylesheet" href="../_static/banner.css" type="text/css" />
@@ -31,21 +47,16 @@
     <link rel="search" title="Search" href="../search.html" />
     <link rel="next" title="librosa.feature.rmse" href="librosa.feature.rmse.html" />
     <link rel="prev" title="librosa.feature.melspectrogram" href="librosa.feature.melspectrogram.html" /> 
-
-  
-  <script src="../_static/js/modernizr.min.js"></script>
-
 </head>
 
 <body class="wy-body-for-nav">
 
    
   <div class="wy-grid-for-nav">
-
     
     <nav data-toggle="wy-nav-shift" class="wy-nav-side">
       <div class="wy-side-scroll">
-        <div class="wy-side-nav-search">
+        <div class="wy-side-nav-search" >
           
 
           
@@ -200,7 +211,7 @@
 
 
 
-    <p class="scv-banner scv-sphinx_rtd_theme"><a href="../../0.6.2/generated/librosa.feature.mfcc.html"><b>Warning:</b> This document is for an old version of librosa. The latest version is 0.6.2.</a></p>
+    <p class="scv-banner scv-sphinx_rtd_theme"><a href="../../0.6.3/generated/librosa.feature.mfcc.html"><b>Warning:</b> This document is for an old version of librosa. The latest version is 0.6.3.</a></p>
 <div class="section" id="librosa-feature-mfcc">
 <h1>librosa.feature.mfcc<a class="headerlink" href="#librosa-feature-mfcc" title="Permalink to this headline">¶</a></h1>
 <dl class="function">
@@ -250,7 +261,7 @@ on time series input</p>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">librosa</span><span class="o">.</span><span class="n">feature</span><span class="o">.</span><span class="n">mfcc</span><span class="p">(</span><span class="n">y</span><span class="o">=</span><span class="n">y</span><span class="p">,</span> <span class="n">sr</span><span class="o">=</span><span class="n">sr</span><span class="p">)</span>
 <span class="go">array([[ -5.229e+02,  -4.944e+02, ...,  -5.229e+02,  -5.229e+02],</span>
 <span class="go">       [  7.105e-15,   3.787e+01, ...,  -7.105e-15,  -7.105e-15],</span>
-<span class="go">       ...,</span>
+<span class="go">       ..., </span>
 <span class="go">       [  1.066e-14,  -7.500e+00, ...,   1.421e-14,   1.421e-14],</span>
 <span class="go">       [  3.109e-14,  -5.058e+00, ...,   2.931e-14,   2.931e-14]])</span>
 </pre></div>
@@ -261,7 +272,7 @@ on time series input</p>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">librosa</span><span class="o">.</span><span class="n">feature</span><span class="o">.</span><span class="n">mfcc</span><span class="p">(</span><span class="n">S</span><span class="o">=</span><span class="n">librosa</span><span class="o">.</span><span class="n">logamplitude</span><span class="p">(</span><span class="n">S</span><span class="p">))</span>
 <span class="go">array([[ -5.207e+02,  -4.898e+02, ...,  -5.207e+02,  -5.207e+02],</span>
 <span class="go">       [ -2.576e-14,   4.054e+01, ...,  -3.997e-14,  -3.997e-14],</span>
-<span class="go">       ...,</span>
+<span class="go">       ..., </span>
 <span class="go">       [  7.105e-15,  -3.534e+00, ...,   0.000e+00,   0.000e+00],</span>
 <span class="go">       [  3.020e-14,  -2.613e+00, ...,   3.553e-14,   3.553e-14]])</span>
 </pre></div>
@@ -297,7 +308,7 @@ on time series input</p>
         <a href="librosa.feature.rmse.html" class="btn btn-neutral float-right" title="librosa.feature.rmse" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
       
       
-        <a href="librosa.feature.melspectrogram.html" class="btn btn-neutral" title="librosa.feature.melspectrogram" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+        <a href="librosa.feature.melspectrogram.html" class="btn btn-neutral float-left" title="librosa.feature.melspectrogram" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
       
     </div>
   
@@ -306,7 +317,7 @@ on time series input</p>
 
   <div role="contentinfo">
     <p>
-        &copy; Copyright 2016, librosa development team.
+        &copy; Copyright 2016, librosa development team
 
     </p>
   </div>
@@ -338,43 +349,31 @@ on time series input</p>
             <dd><a href="../../0.6.0/generated/librosa.feature.mfcc.html">0.6.0</a></dd>
             <dd><a href="../../0.6.1/generated/librosa.feature.mfcc.html">0.6.1</a></dd>
             <dd><a href="../../0.6.2/generated/librosa.feature.mfcc.html">0.6.2</a></dd>
+            <dd><a href="../../0.6.3/generated/librosa.feature.mfcc.html">0.6.3</a></dd>
             <dd><a href="../../v0.1.0/index.html">v0.1.0</a></dd>
             <dd><a href="../../v0.4.0/index.html">v0.4.0</a></dd>
         </dl>
         <dl>
             <dt>Branches</dt>
+            <dd><a href="../../display-bin-centering/generated/librosa.feature.mfcc.html">display-bin-centering</a></dd>
             <dd><a href="../../master/generated/librosa.feature.mfcc.html">master</a></dd>
+            <dd><a href="../../mpl-test-2.1/generated/librosa.feature.mfcc.html">mpl-test-2.1</a></dd>
+            <dd><a href="../../runnning/generated/librosa.feature.mfcc.html">runnning</a></dd>
         </dl>
     </div>
 </div>
 
 
-  
-
-    <script type="text/javascript">
-        var DOCUMENTATION_OPTIONS = {
-            URL_ROOT:'../',
-            VERSION:'0.4.2',
-            LANGUAGE:'None',
-            COLLAPSE_INDEX:false,
-            FILE_SUFFIX:'.html',
-            HAS_SOURCE:  true,
-            SOURCELINK_SUFFIX: '.txt'
-        };
-    </script>
-      <script type="text/javascript" src="../_static/jquery.js"></script>
-      <script type="text/javascript" src="../_static/underscore.js"></script>
-      <script type="text/javascript" src="../_static/doctools.js"></script>
-
-  
-
-  <script type="text/javascript" src="../_static/js/theme.js"></script>
-
   <script type="text/javascript">
       jQuery(function () {
           SphinxRtdTheme.Navigation.enable(true);
       });
-  </script> 
+  </script>
+
+  
+  
+    
+   
 
 </body>
 </html>

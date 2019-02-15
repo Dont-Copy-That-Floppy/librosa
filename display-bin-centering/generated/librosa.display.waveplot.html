@@ -17,45 +17,46 @@
   
 
   
+  <script type="text/javascript" src="../_static/js/modernizr.min.js"></script>
+  
+    
+      <script type="text/javascript">
+          var DOCUMENTATION_OPTIONS = {
+              URL_ROOT:'../',
+              VERSION:'0.5.1',
+              LANGUAGE:'None',
+              COLLAPSE_INDEX:false,
+              FILE_SUFFIX:'.html',
+              HAS_SOURCE:  true,
+              SOURCELINK_SUFFIX: '.txt'
+          };
+      </script>
+        <script type="text/javascript" src="../_static/jquery.js"></script>
+        <script type="text/javascript" src="../_static/underscore.js"></script>
+        <script type="text/javascript" src="../_static/doctools.js"></script>
+    
+    <script type="text/javascript" src="../_static/js/theme.js"></script>
 
-  
-  
     
 
   
-
-  
-  
-    <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
-  
-
-  
-    <link rel="stylesheet" href="../_static/banner.css" type="text/css" />
-  
-
-  
-        <link rel="index" title="Index"
-              href="../genindex.html"/>
-        <link rel="search" title="Search" href="../search.html"/>
-    <link rel="top" title="librosa 0.5.1 documentation" href="../index.html"/>
-        <link rel="up" title="Display" href="../display.html"/>
-        <link rel="next" title="librosa.display.cmap" href="librosa.display.cmap.html"/>
-        <link rel="prev" title="librosa.display.specshow" href="librosa.display.specshow.html"/> 
-
-  
-  <script src="../_static/js/modernizr.min.js"></script>
-
+  <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/banner.css" type="text/css" />
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="librosa.display.cmap" href="librosa.display.cmap.html" />
+    <link rel="prev" title="librosa.display.specshow" href="librosa.display.specshow.html" /> 
 </head>
 
-<body class="wy-body-for-nav" role="document">
+<body class="wy-body-for-nav">
 
    
   <div class="wy-grid-for-nav">
-
     
     <nav data-toggle="wy-nav-shift" class="wy-nav-side">
       <div class="wy-side-scroll">
-        <div class="wy-side-nav-search">
+        <div class="wy-side-nav-search" >
           
 
           
@@ -138,7 +139,7 @@
     <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
 
       
-      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+      <nav class="wy-nav-top" aria-label="top navigation">
         
           <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
           <a href="../index.html">librosa</a>
@@ -146,9 +147,10 @@
       </nav>
 
 
-      
       <div class="wy-nav-content">
+        
         <div class="rst-content">
+        
           
 
 
@@ -192,7 +194,16 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
             
-  <div class="section" id="librosa-display-waveplot">
+  
+
+
+    
+    
+
+
+
+    <p class="scv-banner scv-sphinx_rtd_theme"><a href="../../0.6.3/generated/librosa.display.waveplot.html"><b>Warning:</b> This document is for the development version of librosa. The latest version is 0.6.3.</a></p>
+<div class="section" id="librosa-display-waveplot">
 <h1>librosa.display.waveplot<a class="headerlink" href="#librosa-display-waveplot" title="Permalink to this headline">¶</a></h1>
 <dl class="function">
 <dt id="librosa.display.waveplot">
@@ -208,53 +219,49 @@ most <em class="xref py py-obj">max_sr</em> before plotting.</p>
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>y</strong> : np.ndarray [shape=(n,) or (2,n)]</p>
-<blockquote>
-<div><p>audio time series (mono or stereo)</p>
-</div></blockquote>
-<p><strong>sr</strong> : number &gt; 0 [scalar]</p>
-<blockquote>
-<div><p>sampling rate of <em class="xref py py-obj">y</em></p>
-</div></blockquote>
-<p><strong>max_points</strong> : postive number or None</p>
-<blockquote>
-<div><p>Maximum number of time-points to plot: if <em class="xref py py-obj">max_points</em> exceeds
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><dl class="first docutils">
+<dt><strong>y</strong> <span class="classifier-delimiter">:</span> <span class="classifier">np.ndarray [shape=(n,) or (2,n)]</span></dt>
+<dd><p class="first last">audio time series (mono or stereo)</p>
+</dd>
+<dt><strong>sr</strong> <span class="classifier-delimiter">:</span> <span class="classifier">number &gt; 0 [scalar]</span></dt>
+<dd><p class="first last">sampling rate of <em class="xref py py-obj">y</em></p>
+</dd>
+<dt><strong>max_points</strong> <span class="classifier-delimiter">:</span> <span class="classifier">postive number or None</span></dt>
+<dd><p class="first">Maximum number of time-points to plot: if <em class="xref py py-obj">max_points</em> exceeds
 the duration of <em class="xref py py-obj">y</em>, then <em class="xref py py-obj">y</em> is downsampled.</p>
-<p>If <em class="xref py py-obj">None</em>, no downsampling is performed.</p>
-</div></blockquote>
-<p><strong>x_axis</strong> : str {&#8216;time&#8217;, &#8216;off&#8217;, &#8216;none&#8217;} or None</p>
-<blockquote>
-<div><p>If &#8216;time&#8217;, the x-axis is given time tick-marks.</p>
-</div></blockquote>
-<p><strong>offset</strong> : float</p>
-<blockquote>
-<div><p>Horizontal offset (in time) to start the waveform plot</p>
-</div></blockquote>
-<p><strong>max_sr</strong> : number &gt; 0 [scalar]</p>
-<blockquote>
-<div><p>Maximum sampling rate for the visualization</p>
-</div></blockquote>
-<p><strong>kwargs</strong></p>
-<blockquote>
-<div><p>Additional keyword arguments to <a class="reference external" href="https://matplotlib.org/api/_as_gen/matplotlib.pyplot.fill_between.html#matplotlib.pyplot.fill_between" title="(in Matplotlib v2.1.2)"><code class="xref py py-obj docutils literal"><span class="pre">matplotlib.pyplot.fill_between</span></code></a></p>
-</div></blockquote>
+<p class="last">If <em class="xref py py-obj">None</em>, no downsampling is performed.</p>
+</dd>
+<dt><strong>x_axis</strong> <span class="classifier-delimiter">:</span> <span class="classifier">str {‘time’, ‘off’, ‘none’} or None</span></dt>
+<dd><p class="first last">If ‘time’, the x-axis is given time tick-marks.</p>
+</dd>
+<dt><strong>offset</strong> <span class="classifier-delimiter">:</span> <span class="classifier">float</span></dt>
+<dd><p class="first last">Horizontal offset (in time) to start the waveform plot</p>
+</dd>
+<dt><strong>max_sr</strong> <span class="classifier-delimiter">:</span> <span class="classifier">number &gt; 0 [scalar]</span></dt>
+<dd><p class="first last">Maximum sampling rate for the visualization</p>
+</dd>
+<dt><strong>kwargs</strong></dt>
+<dd><p class="first last">Additional keyword arguments to <a class="reference external" href="https://matplotlib.org/api/_as_gen/matplotlib.pyplot.fill_between.html#matplotlib.pyplot.fill_between" title="(in Matplotlib v3.0.2)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">matplotlib.pyplot.fill_between</span></code></a></p>
+</dd>
+</dl>
 </td>
 </tr>
-<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first"><strong>pc</strong> : matplotlib.collections.PolyCollection</p>
-<blockquote class="last">
-<div><p>The PolyCollection created by <em class="xref py py-obj">fill_between</em>.</p>
-</div></blockquote>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><dl class="first last docutils">
+<dt><strong>pc</strong> <span class="classifier-delimiter">:</span> <span class="classifier">matplotlib.collections.PolyCollection</span></dt>
+<dd><p class="first last">The PolyCollection created by <em class="xref py py-obj">fill_between</em>.</p>
+</dd>
+</dl>
 </td>
 </tr>
 </tbody>
 </table>
 <div class="admonition seealso">
 <p class="first admonition-title">See also</p>
-<p class="last"><a class="reference internal" href="librosa.core.resample.html#librosa.core.resample" title="librosa.core.resample"><code class="xref py py-obj docutils literal"><span class="pre">librosa.core.resample</span></code></a>, <a class="reference external" href="https://matplotlib.org/api/_as_gen/matplotlib.pyplot.fill_between.html#matplotlib.pyplot.fill_between" title="(in Matplotlib v2.1.2)"><code class="xref py py-obj docutils literal"><span class="pre">matplotlib.pyplot.fill_between</span></code></a></p>
+<p class="last"><a class="reference internal" href="librosa.core.resample.html#librosa.core.resample" title="librosa.core.resample"><code class="xref py py-obj docutils literal notranslate"><span class="pre">librosa.core.resample</span></code></a>, <a class="reference external" href="https://matplotlib.org/api/_as_gen/matplotlib.pyplot.fill_between.html#matplotlib.pyplot.fill_between" title="(in Matplotlib v3.0.2)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">matplotlib.pyplot.fill_between</span></code></a></p>
 </div>
 <p class="rubric">Examples</p>
 <p>Plot a monophonic waveform</p>
-<div class="highlight-default"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">y</span><span class="p">,</span> <span class="n">sr</span> <span class="o">=</span> <span class="n">librosa</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">librosa</span><span class="o">.</span><span class="n">util</span><span class="o">.</span><span class="n">example_audio_file</span><span class="p">(),</span> <span class="n">duration</span><span class="o">=</span><span class="mi">10</span><span class="p">)</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">()</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">plt</span><span class="o">.</span><span class="n">subplot</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
@@ -263,7 +270,7 @@ the duration of <em class="xref py py-obj">y</em>, then <em class="xref py py-ob
 </pre></div>
 </div>
 <p>Or a stereo waveform</p>
-<div class="highlight-default"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">y</span><span class="p">,</span> <span class="n">sr</span> <span class="o">=</span> <span class="n">librosa</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">librosa</span><span class="o">.</span><span class="n">util</span><span class="o">.</span><span class="n">example_audio_file</span><span class="p">(),</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">y</span><span class="p">,</span> <span class="n">sr</span> <span class="o">=</span> <span class="n">librosa</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">librosa</span><span class="o">.</span><span class="n">util</span><span class="o">.</span><span class="n">example_audio_file</span><span class="p">(),</span>
 <span class="gp">... </span>                     <span class="n">mono</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">duration</span><span class="o">=</span><span class="mi">10</span><span class="p">)</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">plt</span><span class="o">.</span><span class="n">subplot</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">librosa</span><span class="o">.</span><span class="n">display</span><span class="o">.</span><span class="n">waveplot</span><span class="p">(</span><span class="n">y</span><span class="p">,</span> <span class="n">sr</span><span class="o">=</span><span class="n">sr</span><span class="p">)</span>
@@ -271,7 +278,7 @@ the duration of <em class="xref py py-obj">y</em>, then <em class="xref py py-ob
 </pre></div>
 </div>
 <p>Or harmonic and percussive components with transparency</p>
-<div class="highlight-default"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">y</span><span class="p">,</span> <span class="n">sr</span> <span class="o">=</span> <span class="n">librosa</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">librosa</span><span class="o">.</span><span class="n">util</span><span class="o">.</span><span class="n">example_audio_file</span><span class="p">(),</span> <span class="n">duration</span><span class="o">=</span><span class="mi">10</span><span class="p">)</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">y</span><span class="p">,</span> <span class="n">sr</span> <span class="o">=</span> <span class="n">librosa</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">librosa</span><span class="o">.</span><span class="n">util</span><span class="o">.</span><span class="n">example_audio_file</span><span class="p">(),</span> <span class="n">duration</span><span class="o">=</span><span class="mi">10</span><span class="p">)</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">y_harm</span><span class="p">,</span> <span class="n">y_perc</span> <span class="o">=</span> <span class="n">librosa</span><span class="o">.</span><span class="n">effects</span><span class="o">.</span><span class="n">hpss</span><span class="p">(</span><span class="n">y</span><span class="p">)</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">plt</span><span class="o">.</span><span class="n">subplot</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">3</span><span class="p">)</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">librosa</span><span class="o">.</span><span class="n">display</span><span class="o">.</span><span class="n">waveplot</span><span class="p">(</span><span class="n">y_harm</span><span class="p">,</span> <span class="n">sr</span><span class="o">=</span><span class="n">sr</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.25</span><span class="p">)</span>
@@ -290,9 +297,7 @@ the duration of <em class="xref py py-obj">y</em>, then <em class="xref py py-ob
 
 
            </div>
-           <div class="articleComments">
-            
-           </div>
+           
           </div>
           <footer>
   
@@ -301,7 +306,7 @@ the duration of <em class="xref py py-obj">y</em>, then <em class="xref py py-ob
         <a href="librosa.display.cmap.html" class="btn btn-neutral float-right" title="librosa.display.cmap" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
       
       
-        <a href="librosa.display.specshow.html" class="btn btn-neutral" title="librosa.display.specshow" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+        <a href="librosa.display.specshow.html" class="btn btn-neutral float-left" title="librosa.display.specshow" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
       
     </div>
   
@@ -310,11 +315,11 @@ the duration of <em class="xref py py-obj">y</em>, then <em class="xref py py-ob
 
   <div role="contentinfo">
     <p>
-        &copy; Copyright 2013--2017, librosa development team.
+        &copy; Copyright 2013--2017, librosa development team
 
     </p>
   </div>
-  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/snide/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
 
 </footer>
 
@@ -334,19 +339,15 @@ the duration of <em class="xref py py-obj">y</em>, then <em class="xref py py-ob
     <div class="rst-other-versions">
         <dl>
             <dt>Tags</dt>
-            <dd><a href="../../0.4.0rc1/index.html">0.4.0rc1</a></dd>
-            <dd><a href="../../0.4.0rc2/index.html">0.4.0rc2</a></dd>
             <dd><a href="../../0.4.1/index.html">0.4.1</a></dd>
-            <dd><a href="../../0.4.1rc0/index.html">0.4.1rc0</a></dd>
             <dd><a href="../../0.4.2/generated/librosa.display.waveplot.html">0.4.2</a></dd>
             <dd><a href="../../0.4.3/generated/librosa.display.waveplot.html">0.4.3</a></dd>
-            <dd><a href="../../0.4.3rc0/generated/librosa.display.waveplot.html">0.4.3rc0</a></dd>
             <dd><a href="../../0.5.0/generated/librosa.display.waveplot.html">0.5.0</a></dd>
-            <dd><a href="../../0.5.0rc0/generated/librosa.display.waveplot.html">0.5.0rc0</a></dd>
             <dd><a href="../../0.5.1/generated/librosa.display.waveplot.html">0.5.1</a></dd>
             <dd><a href="../../0.6.0/generated/librosa.display.waveplot.html">0.6.0</a></dd>
-            <dd><a href="../../0.6.0rc0/generated/librosa.display.waveplot.html">0.6.0rc0</a></dd>
-            <dd><a href="../../0.6.0rc1/generated/librosa.display.waveplot.html">0.6.0rc1</a></dd>
+            <dd><a href="../../0.6.1/generated/librosa.display.waveplot.html">0.6.1</a></dd>
+            <dd><a href="../../0.6.2/generated/librosa.display.waveplot.html">0.6.2</a></dd>
+            <dd><a href="../../0.6.3/generated/librosa.display.waveplot.html">0.6.3</a></dd>
             <dd><a href="../../v0.1.0/index.html">v0.1.0</a></dd>
             <dd><a href="../../v0.4.0/index.html">v0.4.0</a></dd>
         </dl>
@@ -354,41 +355,22 @@ the duration of <em class="xref py py-obj">y</em>, then <em class="xref py py-ob
             <dt>Branches</dt>
             <dd><a href="librosa.display.waveplot.html">display-bin-centering</a></dd>
             <dd><a href="../../master/generated/librosa.display.waveplot.html">master</a></dd>
+            <dd><a href="../../mpl-test-2.1/generated/librosa.display.waveplot.html">mpl-test-2.1</a></dd>
+            <dd><a href="../../runnning/generated/librosa.display.waveplot.html">runnning</a></dd>
         </dl>
     </div>
 </div>
 
 
-  
-
-    <script type="text/javascript">
-        var DOCUMENTATION_OPTIONS = {
-            URL_ROOT:'../',
-            VERSION:'0.5.1',
-            COLLAPSE_INDEX:false,
-            FILE_SUFFIX:'.html',
-            HAS_SOURCE:  true,
-            SOURCELINK_SUFFIX: '.txt'
-        };
-    </script>
-      <script type="text/javascript" src="../_static/jquery.js"></script>
-      <script type="text/javascript" src="../_static/underscore.js"></script>
-      <script type="text/javascript" src="../_static/doctools.js"></script>
-
-  
-
-  
-  
-    <script type="text/javascript" src="../_static/js/theme.js"></script>
-  
-
-  
-  
   <script type="text/javascript">
       jQuery(function () {
-          SphinxRtdTheme.StickyNav.enable();
+          SphinxRtdTheme.Navigation.enable(true);
       });
   </script>
+
+  
+  
+    
    
 
 </body>

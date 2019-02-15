@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>librosa.display.TimeFormatter &mdash; librosa 0.6.2 documentation</title>
+  <title>librosa.display.TimeFormatter &mdash; librosa 0.6.3 documentation</title>
   
 
   
@@ -17,13 +17,30 @@
   
 
   
+  <script type="text/javascript" src="../_static/js/modernizr.min.js"></script>
+  
+    
+      <script type="text/javascript">
+          var DOCUMENTATION_OPTIONS = {
+              URL_ROOT:'../',
+              VERSION:'0.6.3',
+              LANGUAGE:'None',
+              COLLAPSE_INDEX:false,
+              FILE_SUFFIX:'.html',
+              HAS_SOURCE:  true,
+              SOURCELINK_SUFFIX: '.txt'
+          };
+      </script>
+        <script type="text/javascript" src="../_static/jquery.js"></script>
+        <script type="text/javascript" src="../_static/underscore.js"></script>
+        <script type="text/javascript" src="../_static/doctools.js"></script>
+        <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    
+    <script type="text/javascript" src="../_static/js/theme.js"></script>
 
-  
-  
     
 
   
-
   <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
   <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
   <link rel="stylesheet" href="../_static/gallery.css" type="text/css" />
@@ -32,21 +49,16 @@
     <link rel="search" title="Search" href="../search.html" />
     <link rel="next" title="librosa.display.NoteFormatter" href="librosa.display.NoteFormatter.html" />
     <link rel="prev" title="librosa.display.cmap" href="librosa.display.cmap.html" /> 
-
-  
-  <script src="../_static/js/modernizr.min.js"></script>
-
 </head>
 
 <body class="wy-body-for-nav">
 
    
   <div class="wy-grid-for-nav">
-
     
     <nav data-toggle="wy-nav-shift" class="wy-nav-side">
       <div class="wy-side-scroll">
-        <div class="wy-side-nav-search">
+        <div class="wy-side-nav-search" >
           
 
           
@@ -196,7 +208,7 @@
 <h1>librosa.display.TimeFormatter<a class="headerlink" href="#librosa-display-timeformatter" title="Permalink to this headline">¶</a></h1>
 <dl class="class">
 <dt id="librosa.display.TimeFormatter">
-<em class="property">class </em><code class="descclassname">librosa.display.</code><code class="descname">TimeFormatter</code><span class="sig-paren">(</span><em>lag=False</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/librosa/display.html#TimeFormatter"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#librosa.display.TimeFormatter" title="Permalink to this definition">¶</a></dt>
+<em class="property">class </em><code class="descclassname">librosa.display.</code><code class="descname">TimeFormatter</code><span class="sig-paren">(</span><em>lag=False</em>, <em>unit=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/librosa/display.html#TimeFormatter"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#librosa.display.TimeFormatter" title="Permalink to this definition">¶</a></dt>
 <dd><p>A tick formatter for time axes.</p>
 <p>Automatically switches between seconds, minutes:seconds,
 or hours:minutes:seconds.</p>
@@ -207,7 +219,15 @@ or hours:minutes:seconds.</p>
 <tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><dl class="first last docutils">
 <dt><strong>lag</strong> <span class="classifier-delimiter">:</span> <span class="classifier">bool</span></dt>
 <dd><p class="first last">If <em class="xref py py-obj">True</em>, then the time axis is interpreted in lag coordinates.
-Anything past the mid-point will be converted to negative time.</p>
+Anything past the midpoint will be converted to negative time.</p>
+</dd>
+<dt><strong>unit</strong> <span class="classifier-delimiter">:</span> <span class="classifier">str or None</span></dt>
+<dd><p class="first last">Abbreviation of the physical unit for axis labels and ticks.
+Either equal to <em class="xref py py-obj">s</em> (seconds) or <em class="xref py py-obj">ms</em> (milliseconds) or None (default).
+If set to None, the resulting TimeFormatter object adapts its string
+representation to the duration of the underlying time range:
+<em class="xref py py-obj">hh:mm:ss</em> above 3600 seconds; <em class="xref py py-obj">mm:ss</em> between 60 and 3600 seconds;
+and <em class="xref py py-obj">ss</em> below 60 seconds.</p>
 </dd>
 </dl>
 </td>
@@ -216,7 +236,7 @@ Anything past the mid-point will be converted to negative time.</p>
 </table>
 <div class="admonition seealso">
 <p class="first admonition-title">See also</p>
-<p class="last"><a class="reference external" href="https://matplotlib.org/api/ticker_api.html#matplotlib.ticker.Formatter" title="(in Matplotlib v2.2.2)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">matplotlib.ticker.Formatter</span></code></a></p>
+<p class="last"><a class="reference external" href="https://matplotlib.org/api/ticker_api.html#matplotlib.ticker.Formatter" title="(in Matplotlib v3.0.2)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">matplotlib.ticker.Formatter</span></code></a></p>
 </div>
 <p class="rubric">Examples</p>
 <p>For normal time</p>
@@ -228,6 +248,16 @@ Anything past the mid-point will be converted to negative time.</p>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">times</span><span class="p">,</span> <span class="n">values</span><span class="p">)</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">ax</span><span class="o">.</span><span class="n">xaxis</span><span class="o">.</span><span class="n">set_major_formatter</span><span class="p">(</span><span class="n">librosa</span><span class="o">.</span><span class="n">display</span><span class="o">.</span><span class="n">TimeFormatter</span><span class="p">())</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">ax</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="s1">&#39;Time&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Manually set the physical time unit of the x-axis to milliseconds</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">times</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="mi">100</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">values</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">randn</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">times</span><span class="p">))</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">gca</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">times</span><span class="p">,</span> <span class="n">values</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">ax</span><span class="o">.</span><span class="n">xaxis</span><span class="o">.</span><span class="n">set_major_formatter</span><span class="p">(</span><span class="n">librosa</span><span class="o">.</span><span class="n">display</span><span class="o">.</span><span class="n">TimeFormatter</span><span class="p">(</span><span class="n">unit</span><span class="o">=</span><span class="s1">&#39;ms&#39;</span><span class="p">))</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">ax</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="s1">&#39;Time (ms)&#39;</span><span class="p">)</span>
 </pre></div>
 </div>
 <p>For lag plots</p>
@@ -247,9 +277,12 @@ Anything past the mid-point will be converted to negative time.</p>
 <div class="figure">
 <img alt="../_images/librosa-display-TimeFormatter-1_01.png" src="../_images/librosa-display-TimeFormatter-1_01.png" />
 </div>
+<div class="figure">
+<img alt="../_images/librosa-display-TimeFormatter-1_02.png" src="../_images/librosa-display-TimeFormatter-1_02.png" />
+</div>
 <dl class="method">
 <dt id="librosa.display.TimeFormatter.__init__">
-<code class="descname">__init__</code><span class="sig-paren">(</span><em>lag=False</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/librosa/display.html#TimeFormatter.__init__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#librosa.display.TimeFormatter.__init__" title="Permalink to this definition">¶</a></dt>
+<code class="descname">__init__</code><span class="sig-paren">(</span><em>lag=False</em>, <em>unit=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/librosa/display.html#TimeFormatter.__init__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#librosa.display.TimeFormatter.__init__" title="Permalink to this definition">¶</a></dt>
 <dd><p>Initialize self.  See help(type(self)) for accurate signature.</p>
 </dd></dl>
 
@@ -260,7 +293,7 @@ Anything past the mid-point will be converted to negative time.</p>
 <col width="90%" />
 </colgroup>
 <tbody valign="top">
-<tr class="row-odd"><td><a class="reference internal" href="#librosa.display.TimeFormatter.__init__" title="librosa.display.TimeFormatter.__init__"><code class="xref py py-obj docutils literal notranslate"><span class="pre">__init__</span></code></a>([lag])</td>
+<tr class="row-odd"><td><a class="reference internal" href="#librosa.display.TimeFormatter.__init__" title="librosa.display.TimeFormatter.__init__"><code class="xref py py-obj docutils literal notranslate"><span class="pre">__init__</span></code></a>([lag,&nbsp;unit])</td>
 <td>Initialize self.</td>
 </tr>
 <tr class="row-even"><td><code class="xref py py-obj docutils literal notranslate"><span class="pre">create_dummy_axis</span></code>(**kwargs)</td>
@@ -325,7 +358,7 @@ Anything past the mid-point will be converted to negative time.</p>
         <a href="librosa.display.NoteFormatter.html" class="btn btn-neutral float-right" title="librosa.display.NoteFormatter" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
       
       
-        <a href="librosa.display.cmap.html" class="btn btn-neutral" title="librosa.display.cmap" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+        <a href="librosa.display.cmap.html" class="btn btn-neutral float-left" title="librosa.display.cmap" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
       
     </div>
   
@@ -334,7 +367,7 @@ Anything past the mid-point will be converted to negative time.</p>
 
   <div role="contentinfo">
     <p>
-        &copy; Copyright 2013--2018, librosa development team.
+        &copy; Copyright 2013--2018, librosa development team
 
     </p>
   </div>
@@ -352,7 +385,7 @@ Anything past the mid-point will be converted to negative time.</p>
 <div class="rst-versions" data-toggle="rst-versions" role="note" aria-label="versions">
     <span class="rst-current-version" data-toggle="rst-current-version">
         <span class="fa fa-book"> Other Versions</span>
-        v: 0.6.2
+        v: 0.6.3
         <span class="fa fa-caret-down"></span>
     </span>
     <div class="rst-other-versions">
@@ -366,44 +399,31 @@ Anything past the mid-point will be converted to negative time.</p>
             <dd><a href="../0.6.0/generated/librosa.display.TimeFormatter.html">0.6.0</a></dd>
             <dd><a href="../0.6.1/generated/librosa.display.TimeFormatter.html">0.6.1</a></dd>
             <dd><a href="../0.6.2/generated/librosa.display.TimeFormatter.html">0.6.2</a></dd>
+            <dd><a href="../0.6.3/generated/librosa.display.TimeFormatter.html">0.6.3</a></dd>
             <dd><a href="../v0.1.0/index.html">v0.1.0</a></dd>
             <dd><a href="../v0.4.0/index.html">v0.4.0</a></dd>
         </dl>
         <dl>
             <dt>Branches</dt>
+            <dd><a href="../display-bin-centering/generated/librosa.display.TimeFormatter.html">display-bin-centering</a></dd>
             <dd><a href="../master/generated/librosa.display.TimeFormatter.html">master</a></dd>
+            <dd><a href="../mpl-test-2.1/generated/librosa.display.TimeFormatter.html">mpl-test-2.1</a></dd>
+            <dd><a href="../runnning/generated/librosa.display.TimeFormatter.html">runnning</a></dd>
         </dl>
     </div>
 </div>
 
 
-  
-
-    <script type="text/javascript">
-        var DOCUMENTATION_OPTIONS = {
-            URL_ROOT:'../',
-            VERSION:'0.6.2',
-            LANGUAGE:'None',
-            COLLAPSE_INDEX:false,
-            FILE_SUFFIX:'.html',
-            HAS_SOURCE:  true,
-            SOURCELINK_SUFFIX: '.txt'
-        };
-    </script>
-      <script type="text/javascript" src="../_static/jquery.js"></script>
-      <script type="text/javascript" src="../_static/underscore.js"></script>
-      <script type="text/javascript" src="../_static/doctools.js"></script>
-      <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
-
-  
-
-  <script type="text/javascript" src="../_static/js/theme.js"></script>
-
   <script type="text/javascript">
       jQuery(function () {
           SphinxRtdTheme.Navigation.enable(true);
       });
-  </script> 
+  </script>
+
+  
+  
+    
+   
 
 </body>
 </html>

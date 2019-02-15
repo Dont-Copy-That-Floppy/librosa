@@ -17,45 +17,46 @@
   
 
   
+  <script type="text/javascript" src="../_static/js/modernizr.min.js"></script>
+  
+    
+      <script type="text/javascript">
+          var DOCUMENTATION_OPTIONS = {
+              URL_ROOT:'../',
+              VERSION:'0.5.1',
+              LANGUAGE:'None',
+              COLLAPSE_INDEX:false,
+              FILE_SUFFIX:'.html',
+              HAS_SOURCE:  true,
+              SOURCELINK_SUFFIX: '.txt'
+          };
+      </script>
+        <script type="text/javascript" src="../_static/jquery.js"></script>
+        <script type="text/javascript" src="../_static/underscore.js"></script>
+        <script type="text/javascript" src="../_static/doctools.js"></script>
+    
+    <script type="text/javascript" src="../_static/js/theme.js"></script>
 
-  
-  
     
 
   
-
-  
-  
-    <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
-  
-
-  
-    <link rel="stylesheet" href="../_static/banner.css" type="text/css" />
-  
-
-  
-        <link rel="index" title="Index"
-              href="../genindex.html"/>
-        <link rel="search" title="Search" href="../search.html"/>
-    <link rel="top" title="librosa 0.5.1 documentation" href="../index.html"/>
-        <link rel="up" title="Onset detection" href="../onset.html"/>
-        <link rel="next" title="Beat and tempo" href="../beat.html"/>
-        <link rel="prev" title="librosa.onset.onset_strength" href="librosa.onset.onset_strength.html"/> 
-
-  
-  <script src="../_static/js/modernizr.min.js"></script>
-
+  <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/banner.css" type="text/css" />
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Beat and tempo" href="../beat.html" />
+    <link rel="prev" title="librosa.onset.onset_strength" href="librosa.onset.onset_strength.html" /> 
 </head>
 
-<body class="wy-body-for-nav" role="document">
+<body class="wy-body-for-nav">
 
    
   <div class="wy-grid-for-nav">
-
     
     <nav data-toggle="wy-nav-shift" class="wy-nav-side">
       <div class="wy-side-scroll">
-        <div class="wy-side-nav-search">
+        <div class="wy-side-nav-search" >
           
 
           
@@ -134,7 +135,7 @@
     <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
 
       
-      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+      <nav class="wy-nav-top" aria-label="top navigation">
         
           <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
           <a href="../index.html">librosa</a>
@@ -142,9 +143,10 @@
       </nav>
 
 
-      
       <div class="wy-nav-content">
+        
         <div class="rst-content">
+        
           
 
 
@@ -188,7 +190,16 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
             
-  <div class="section" id="librosa-onset-onset-strength-multi">
+  
+
+
+    
+    
+
+
+
+    <p class="scv-banner scv-sphinx_rtd_theme"><a href="../../0.6.3/generated/librosa.onset.onset_strength_multi.html"><b>Warning:</b> This document is for the development version of librosa. The latest version is 0.6.3.</a></p>
+<div class="section" id="librosa-onset-onset-strength-multi">
 <h1>librosa.onset.onset_strength_multi<a class="headerlink" href="#librosa-onset-onset-strength-multi" title="Permalink to this headline">¶</a></h1>
 <dl class="function">
 <dt id="librosa.onset.onset_strength_multi">
@@ -200,80 +211,73 @@
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>y</strong> : np.ndarray [shape=(n,)]</p>
-<blockquote>
-<div><p>audio time-series</p>
-</div></blockquote>
-<p><strong>sr</strong> : number &gt; 0 [scalar]</p>
-<blockquote>
-<div><p>sampling rate of <em class="xref py py-obj">y</em></p>
-</div></blockquote>
-<p><strong>S</strong> : np.ndarray [shape=(d, m)]</p>
-<blockquote>
-<div><p>pre-computed (log-power) spectrogram</p>
-</div></blockquote>
-<p><strong>lag</strong> : int &gt; 0</p>
-<blockquote>
-<div><p>time lag for computing differences</p>
-</div></blockquote>
-<p><strong>max_size</strong> : int &gt; 0</p>
-<blockquote>
-<div><p>size (in frequency bins) of the local max filter.
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><dl class="first docutils">
+<dt><strong>y</strong> <span class="classifier-delimiter">:</span> <span class="classifier">np.ndarray [shape=(n,)]</span></dt>
+<dd><p class="first last">audio time-series</p>
+</dd>
+<dt><strong>sr</strong> <span class="classifier-delimiter">:</span> <span class="classifier">number &gt; 0 [scalar]</span></dt>
+<dd><p class="first last">sampling rate of <em class="xref py py-obj">y</em></p>
+</dd>
+<dt><strong>S</strong> <span class="classifier-delimiter">:</span> <span class="classifier">np.ndarray [shape=(d, m)]</span></dt>
+<dd><p class="first last">pre-computed (log-power) spectrogram</p>
+</dd>
+<dt><strong>lag</strong> <span class="classifier-delimiter">:</span> <span class="classifier">int &gt; 0</span></dt>
+<dd><p class="first last">time lag for computing differences</p>
+</dd>
+<dt><strong>max_size</strong> <span class="classifier-delimiter">:</span> <span class="classifier">int &gt; 0</span></dt>
+<dd><p class="first last">size (in frequency bins) of the local max filter.
 set to <em class="xref py py-obj">1</em> to disable filtering.</p>
-</div></blockquote>
-<p><strong>detrend</strong> : bool [scalar]</p>
-<blockquote>
-<div><p>Filter the onset strength to remove the DC component</p>
-</div></blockquote>
-<p><strong>center</strong> : bool [scalar]</p>
-<blockquote>
-<div><p>Shift the onset function by <em class="xref py py-obj">n_fft / (2 * hop_length)</em> frames</p>
-</div></blockquote>
-<p><strong>feature</strong> : function</p>
-<blockquote>
-<div><p>Function for computing time-series features, eg, scaled spectrograms.
-By default, uses <a class="reference internal" href="librosa.feature.melspectrogram.html#librosa.feature.melspectrogram" title="librosa.feature.melspectrogram"><code class="xref py py-obj docutils literal"><span class="pre">librosa.feature.melspectrogram</span></code></a> with <em class="xref py py-obj">fmax=11025.0</em></p>
-</div></blockquote>
-<p><strong>aggregate</strong> : function</p>
-<blockquote>
-<div><p>Aggregation function to use when combining onsets
+</dd>
+<dt><strong>detrend</strong> <span class="classifier-delimiter">:</span> <span class="classifier">bool [scalar]</span></dt>
+<dd><p class="first last">Filter the onset strength to remove the DC component</p>
+</dd>
+<dt><strong>center</strong> <span class="classifier-delimiter">:</span> <span class="classifier">bool [scalar]</span></dt>
+<dd><p class="first last">Shift the onset function by <em class="xref py py-obj">n_fft / (2 * hop_length)</em> frames</p>
+</dd>
+<dt><strong>feature</strong> <span class="classifier-delimiter">:</span> <span class="classifier">function</span></dt>
+<dd><p class="first last">Function for computing time-series features, eg, scaled spectrograms.
+By default, uses <a class="reference internal" href="librosa.feature.melspectrogram.html#librosa.feature.melspectrogram" title="librosa.feature.melspectrogram"><code class="xref py py-obj docutils literal notranslate"><span class="pre">librosa.feature.melspectrogram</span></code></a> with <em class="xref py py-obj">fmax=11025.0</em></p>
+</dd>
+<dt><strong>aggregate</strong> <span class="classifier-delimiter">:</span> <span class="classifier">function</span></dt>
+<dd><p class="first">Aggregation function to use when combining onsets
 at different frequency bins.</p>
-<p>Default: <code class="xref py py-obj docutils literal"><span class="pre">np.mean</span></code></p>
-</div></blockquote>
-<p><strong>channels</strong> : list or None</p>
-<blockquote>
-<div><p>Array of channel boundaries or slice objects.
+<p class="last">Default: <code class="xref py py-obj docutils literal notranslate"><span class="pre">np.mean</span></code></p>
+</dd>
+<dt><strong>channels</strong> <span class="classifier-delimiter">:</span> <span class="classifier">list or None</span></dt>
+<dd><p class="first last">Array of channel boundaries or slice objects.
 If <em class="xref py py-obj">None</em>, then a single channel is generated to span all bands.</p>
-</div></blockquote>
-<p><strong>kwargs</strong> : additional keyword arguments</p>
-<blockquote>
-<div><p>Additional parameters to <em class="xref py py-obj">feature()</em>, if <em class="xref py py-obj">S</em> is not provided.</p>
-</div></blockquote>
+</dd>
+<dt><strong>kwargs</strong> <span class="classifier-delimiter">:</span> <span class="classifier">additional keyword arguments</span></dt>
+<dd><p class="first last">Additional parameters to <em class="xref py py-obj">feature()</em>, if <em class="xref py py-obj">S</em> is not provided.</p>
+</dd>
+</dl>
 </td>
 </tr>
-<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first"><strong>onset_envelope</strong> : np.ndarray [shape=(n_channels, m)]</p>
-<blockquote>
-<div><p>array containing the onset strength envelope for each specified channel</p>
-</div></blockquote>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><dl class="first docutils">
+<dt><strong>onset_envelope</strong> <span class="classifier-delimiter">:</span> <span class="classifier">np.ndarray [shape=(n_channels, m)]</span></dt>
+<dd><p class="first last">array containing the onset strength envelope for each specified channel</p>
+</dd>
+</dl>
 </td>
 </tr>
-<tr class="field-odd field"><th class="field-name">Raises:</th><td class="field-body"><p class="first"><strong>ParameterError</strong></p>
-<blockquote class="last">
-<div><p>if neither <em class="xref py py-obj">(y, sr)</em> nor <em class="xref py py-obj">S</em> are provided</p>
-</div></blockquote>
+<tr class="field-odd field"><th class="field-name">Raises:</th><td class="field-body"><dl class="first last docutils">
+<dt><strong>ParameterError</strong></dt>
+<dd><p class="first last">if neither <em class="xref py py-obj">(y, sr)</em> nor <em class="xref py py-obj">S</em> are provided</p>
+</dd>
+</dl>
 </td>
 </tr>
 </tbody>
 </table>
 <div class="admonition seealso">
 <p class="first admonition-title">See also</p>
-<p class="last"><a class="reference internal" href="librosa.onset.onset_strength.html#librosa.onset.onset_strength" title="librosa.onset.onset_strength"><code class="xref py py-obj docutils literal"><span class="pre">onset_strength</span></code></a></p>
+<p class="last"><a class="reference internal" href="librosa.onset.onset_strength.html#librosa.onset.onset_strength" title="librosa.onset.onset_strength"><code class="xref py py-obj docutils literal notranslate"><span class="pre">onset_strength</span></code></a></p>
 </div>
 <p class="rubric">Notes</p>
 <p>This function caches at level 30.</p>
 <p class="rubric">Examples</p>
 <p>First, load some audio and plot the spectrogram</p>
-<div class="highlight-default"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">y</span><span class="p">,</span> <span class="n">sr</span> <span class="o">=</span> <span class="n">librosa</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">librosa</span><span class="o">.</span><span class="n">util</span><span class="o">.</span><span class="n">example_audio_file</span><span class="p">(),</span>
 <span class="gp">... </span>                     <span class="n">duration</span><span class="o">=</span><span class="mf">10.0</span><span class="p">)</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">D</span> <span class="o">=</span> <span class="n">librosa</span><span class="o">.</span><span class="n">stft</span><span class="p">(</span><span class="n">y</span><span class="p">)</span>
@@ -285,7 +289,7 @@ If <em class="xref py py-obj">None</em>, then a single channel is generated to s
 </pre></div>
 </div>
 <p>Construct a standard onset function over four sub-bands</p>
-<div class="highlight-default"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">onset_subbands</span> <span class="o">=</span> <span class="n">librosa</span><span class="o">.</span><span class="n">onset</span><span class="o">.</span><span class="n">onset_strength_multi</span><span class="p">(</span><span class="n">y</span><span class="o">=</span><span class="n">y</span><span class="p">,</span> <span class="n">sr</span><span class="o">=</span><span class="n">sr</span><span class="p">,</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">onset_subbands</span> <span class="o">=</span> <span class="n">librosa</span><span class="o">.</span><span class="n">onset</span><span class="o">.</span><span class="n">onset_strength_multi</span><span class="p">(</span><span class="n">y</span><span class="o">=</span><span class="n">y</span><span class="p">,</span> <span class="n">sr</span><span class="o">=</span><span class="n">sr</span><span class="p">,</span>
 <span class="gp">... </span>                                                    <span class="n">channels</span><span class="o">=</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">32</span><span class="p">,</span> <span class="mi">64</span><span class="p">,</span> <span class="mi">96</span><span class="p">,</span> <span class="mi">128</span><span class="p">])</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">plt</span><span class="o">.</span><span class="n">subplot</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">librosa</span><span class="o">.</span><span class="n">display</span><span class="o">.</span><span class="n">specshow</span><span class="p">(</span><span class="n">onset_subbands</span><span class="p">,</span> <span class="n">x_axis</span><span class="o">=</span><span class="s1">&#39;time&#39;</span><span class="p">)</span>
@@ -303,9 +307,7 @@ If <em class="xref py py-obj">None</em>, then a single channel is generated to s
 
 
            </div>
-           <div class="articleComments">
-            
-           </div>
+           
           </div>
           <footer>
   
@@ -314,7 +316,7 @@ If <em class="xref py py-obj">None</em>, then a single channel is generated to s
         <a href="../beat.html" class="btn btn-neutral float-right" title="Beat and tempo" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
       
       
-        <a href="librosa.onset.onset_strength.html" class="btn btn-neutral" title="librosa.onset.onset_strength" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+        <a href="librosa.onset.onset_strength.html" class="btn btn-neutral float-left" title="librosa.onset.onset_strength" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
       
     </div>
   
@@ -323,11 +325,11 @@ If <em class="xref py py-obj">None</em>, then a single channel is generated to s
 
   <div role="contentinfo">
     <p>
-        &copy; Copyright 2013--2017, librosa development team.
+        &copy; Copyright 2013--2017, librosa development team
 
     </p>
   </div>
-  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/snide/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
 
 </footer>
 
@@ -347,19 +349,15 @@ If <em class="xref py py-obj">None</em>, then a single channel is generated to s
     <div class="rst-other-versions">
         <dl>
             <dt>Tags</dt>
-            <dd><a href="../../0.4.0rc1/index.html">0.4.0rc1</a></dd>
-            <dd><a href="../../0.4.0rc2/index.html">0.4.0rc2</a></dd>
             <dd><a href="../../0.4.1/index.html">0.4.1</a></dd>
-            <dd><a href="../../0.4.1rc0/index.html">0.4.1rc0</a></dd>
             <dd><a href="../../0.4.2/generated/librosa.onset.onset_strength_multi.html">0.4.2</a></dd>
             <dd><a href="../../0.4.3/generated/librosa.onset.onset_strength_multi.html">0.4.3</a></dd>
-            <dd><a href="../../0.4.3rc0/generated/librosa.onset.onset_strength_multi.html">0.4.3rc0</a></dd>
             <dd><a href="../../0.5.0/generated/librosa.onset.onset_strength_multi.html">0.5.0</a></dd>
-            <dd><a href="../../0.5.0rc0/generated/librosa.onset.onset_strength_multi.html">0.5.0rc0</a></dd>
             <dd><a href="../../0.5.1/generated/librosa.onset.onset_strength_multi.html">0.5.1</a></dd>
             <dd><a href="../../0.6.0/generated/librosa.onset.onset_strength_multi.html">0.6.0</a></dd>
-            <dd><a href="../../0.6.0rc0/generated/librosa.onset.onset_strength_multi.html">0.6.0rc0</a></dd>
-            <dd><a href="../../0.6.0rc1/generated/librosa.onset.onset_strength_multi.html">0.6.0rc1</a></dd>
+            <dd><a href="../../0.6.1/generated/librosa.onset.onset_strength_multi.html">0.6.1</a></dd>
+            <dd><a href="../../0.6.2/generated/librosa.onset.onset_strength_multi.html">0.6.2</a></dd>
+            <dd><a href="../../0.6.3/generated/librosa.onset.onset_strength_multi.html">0.6.3</a></dd>
             <dd><a href="../../v0.1.0/index.html">v0.1.0</a></dd>
             <dd><a href="../../v0.4.0/index.html">v0.4.0</a></dd>
         </dl>
@@ -367,41 +365,22 @@ If <em class="xref py py-obj">None</em>, then a single channel is generated to s
             <dt>Branches</dt>
             <dd><a href="librosa.onset.onset_strength_multi.html">display-bin-centering</a></dd>
             <dd><a href="../../master/generated/librosa.onset.onset_strength_multi.html">master</a></dd>
+            <dd><a href="../../mpl-test-2.1/generated/librosa.onset.onset_strength_multi.html">mpl-test-2.1</a></dd>
+            <dd><a href="../../runnning/generated/librosa.onset.onset_strength_multi.html">runnning</a></dd>
         </dl>
     </div>
 </div>
 
 
-  
-
-    <script type="text/javascript">
-        var DOCUMENTATION_OPTIONS = {
-            URL_ROOT:'../',
-            VERSION:'0.5.1',
-            COLLAPSE_INDEX:false,
-            FILE_SUFFIX:'.html',
-            HAS_SOURCE:  true,
-            SOURCELINK_SUFFIX: '.txt'
-        };
-    </script>
-      <script type="text/javascript" src="../_static/jquery.js"></script>
-      <script type="text/javascript" src="../_static/underscore.js"></script>
-      <script type="text/javascript" src="../_static/doctools.js"></script>
-
-  
-
-  
-  
-    <script type="text/javascript" src="../_static/js/theme.js"></script>
-  
-
-  
-  
   <script type="text/javascript">
       jQuery(function () {
-          SphinxRtdTheme.StickyNav.enable();
+          SphinxRtdTheme.Navigation.enable(true);
       });
   </script>
+
+  
+  
+    
    
 
 </body>

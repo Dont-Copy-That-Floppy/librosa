@@ -17,45 +17,46 @@
   
 
   
+  <script type="text/javascript" src="../_static/js/modernizr.min.js"></script>
+  
+    
+      <script type="text/javascript">
+          var DOCUMENTATION_OPTIONS = {
+              URL_ROOT:'../',
+              VERSION:'0.5.1',
+              LANGUAGE:'None',
+              COLLAPSE_INDEX:false,
+              FILE_SUFFIX:'.html',
+              HAS_SOURCE:  true,
+              SOURCELINK_SUFFIX: '.txt'
+          };
+      </script>
+        <script type="text/javascript" src="../_static/jquery.js"></script>
+        <script type="text/javascript" src="../_static/underscore.js"></script>
+        <script type="text/javascript" src="../_static/doctools.js"></script>
+    
+    <script type="text/javascript" src="../_static/js/theme.js"></script>
 
-  
-  
     
 
   
-
-  
-  
-    <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
-  
-
-  
-    <link rel="stylesheet" href="../_static/banner.css" type="text/css" />
-  
-
-  
-        <link rel="index" title="Index"
-              href="../genindex.html"/>
-        <link rel="search" title="Search" href="../search.html"/>
-    <link rel="top" title="librosa 0.5.1 documentation" href="../index.html"/>
-        <link rel="up" title="Feature extraction" href="../feature.html"/>
-        <link rel="next" title="librosa.feature.zero_crossing_rate" href="librosa.feature.zero_crossing_rate.html"/>
-        <link rel="prev" title="librosa.feature.poly_features" href="librosa.feature.poly_features.html"/> 
-
-  
-  <script src="../_static/js/modernizr.min.js"></script>
-
+  <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/banner.css" type="text/css" />
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="librosa.feature.zero_crossing_rate" href="librosa.feature.zero_crossing_rate.html" />
+    <link rel="prev" title="librosa.feature.poly_features" href="librosa.feature.poly_features.html" /> 
 </head>
 
-<body class="wy-body-for-nav" role="document">
+<body class="wy-body-for-nav">
 
    
   <div class="wy-grid-for-nav">
-
     
     <nav data-toggle="wy-nav-shift" class="wy-nav-side">
       <div class="wy-side-scroll">
-        <div class="wy-side-nav-search">
+        <div class="wy-side-nav-search" >
           
 
           
@@ -148,7 +149,7 @@
     <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
 
       
-      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+      <nav class="wy-nav-top" aria-label="top navigation">
         
           <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
           <a href="../index.html">librosa</a>
@@ -156,9 +157,10 @@
       </nav>
 
 
-      
       <div class="wy-nav-content">
+        
         <div class="rst-content">
+        
           
 
 
@@ -202,18 +204,27 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
             
-  <div class="section" id="librosa-feature-tonnetz">
+  
+
+
+    
+    
+
+
+
+    <p class="scv-banner scv-sphinx_rtd_theme"><a href="../../0.6.3/generated/librosa.feature.tonnetz.html"><b>Warning:</b> This document is for the development version of librosa. The latest version is 0.6.3.</a></p>
+<div class="section" id="librosa-feature-tonnetz">
 <h1>librosa.feature.tonnetz<a class="headerlink" href="#librosa-feature-tonnetz" title="Permalink to this headline">¶</a></h1>
 <dl class="function">
 <dt id="librosa.feature.tonnetz">
 <code class="descclassname">librosa.feature.</code><code class="descname">tonnetz</code><span class="sig-paren">(</span><em>y=None</em>, <em>sr=22050</em>, <em>chroma=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/librosa/feature/spectral.html#tonnetz"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#librosa.feature.tonnetz" title="Permalink to this definition">¶</a></dt>
 <dd><p>Computes the tonal centroid features (tonnetz), following the method of
-<a class="reference internal" href="#r7979" id="id1">[R7979]</a>.</p>
-<table class="docutils citation" frame="void" id="r7979" rules="none">
+<a class="reference internal" href="#recf246e5a035-1" id="id1">[1]</a>.</p>
+<table class="docutils citation" frame="void" id="recf246e5a035-1" rules="none">
 <colgroup><col class="label" /><col /></colgroup>
 <tbody valign="top">
-<tr><td class="label"><a class="fn-backref" href="#id1">[R7979]</a></td><td>Harte, C., Sandler, M., &amp; Gasser, M. (2006). &#8220;Detecting Harmonic
-Change in Musical Audio.&#8221; In Proceedings of the 1st ACM Workshop
+<tr><td class="label"><a class="fn-backref" href="#id1">[1]</a></td><td>Harte, C., Sandler, M., &amp; Gasser, M. (2006). “Detecting Harmonic
+Change in Musical Audio.” In Proceedings of the 1st ACM Workshop
 on Audio and Music Computing Multimedia (pp. 21-26).
 Santa Barbara, CA, USA: ACM Press. doi:10.1145/1178723.1178727.</td></tr>
 </tbody>
@@ -222,25 +233,24 @@ Santa Barbara, CA, USA: ACM Press. doi:10.1145/1178723.1178727.</td></tr>
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>y</strong> : np.ndarray [shape=(n,)] or None</p>
-<blockquote>
-<div><p>Audio time series.</p>
-</div></blockquote>
-<p><strong>sr</strong> : number &gt; 0 [scalar]</p>
-<blockquote>
-<div><p>sampling rate of <em class="xref py py-obj">y</em></p>
-</div></blockquote>
-<p><strong>chroma</strong> : np.ndarray [shape=(n_chroma, t)] or None</p>
-<blockquote>
-<div><p>Normalized energy for each chroma bin at each frame.</p>
-<p>If <em class="xref py py-obj">None</em>, a cqt chromagram is performed.</p>
-</div></blockquote>
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><dl class="first docutils">
+<dt><strong>y</strong> <span class="classifier-delimiter">:</span> <span class="classifier">np.ndarray [shape=(n,)] or None</span></dt>
+<dd><p class="first last">Audio time series.</p>
+</dd>
+<dt><strong>sr</strong> <span class="classifier-delimiter">:</span> <span class="classifier">number &gt; 0 [scalar]</span></dt>
+<dd><p class="first last">sampling rate of <em class="xref py py-obj">y</em></p>
+</dd>
+<dt><strong>chroma</strong> <span class="classifier-delimiter">:</span> <span class="classifier">np.ndarray [shape=(n_chroma, t)] or None</span></dt>
+<dd><p class="first">Normalized energy for each chroma bin at each frame.</p>
+<p class="last">If <em class="xref py py-obj">None</em>, a cqt chromagram is performed.</p>
+</dd>
+</dl>
 </td>
 </tr>
-<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first"><strong>tonnetz</strong> : np.ndarray [shape(6, t)]</p>
-<blockquote class="last">
-<div><p>Tonal centroid features for each frame.</p>
-<dl class="docutils">
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><dl class="first last docutils">
+<dt><strong>tonnetz</strong> <span class="classifier-delimiter">:</span> <span class="classifier">np.ndarray [shape(6, t)]</span></dt>
+<dd><p class="first">Tonal centroid features for each frame.</p>
+<dl class="last docutils">
 <dt>Tonnetz dimensions:</dt>
 <dd><ul class="first last simple">
 <li>0: Fifth x-axis</li>
@@ -252,7 +262,8 @@ Santa Barbara, CA, USA: ACM Press. doi:10.1145/1178723.1178727.</td></tr>
 </ul>
 </dd>
 </dl>
-</div></blockquote>
+</dd>
+</dl>
 </td>
 </tr>
 </tbody>
@@ -260,15 +271,15 @@ Santa Barbara, CA, USA: ACM Press. doi:10.1145/1178723.1178727.</td></tr>
 <div class="admonition seealso">
 <p class="first admonition-title">See also</p>
 <dl class="last docutils">
-<dt><a class="reference internal" href="librosa.feature.chroma_cqt.html#librosa.feature.chroma_cqt" title="librosa.feature.chroma_cqt"><code class="xref py py-obj docutils literal"><span class="pre">chroma_cqt</span></code></a></dt>
+<dt><a class="reference internal" href="librosa.feature.chroma_cqt.html#librosa.feature.chroma_cqt" title="librosa.feature.chroma_cqt"><code class="xref py py-obj docutils literal notranslate"><span class="pre">chroma_cqt</span></code></a></dt>
 <dd>Compute a chromagram from a constant-Q transform.</dd>
-<dt><a class="reference internal" href="librosa.feature.chroma_stft.html#librosa.feature.chroma_stft" title="librosa.feature.chroma_stft"><code class="xref py py-obj docutils literal"><span class="pre">chroma_stft</span></code></a></dt>
+<dt><a class="reference internal" href="librosa.feature.chroma_stft.html#librosa.feature.chroma_stft" title="librosa.feature.chroma_stft"><code class="xref py py-obj docutils literal notranslate"><span class="pre">chroma_stft</span></code></a></dt>
 <dd>Compute a chromagram from an STFT spectrogram or waveform.</dd>
 </dl>
 </div>
 <p class="rubric">Examples</p>
 <p>Compute tonnetz features from the harmonic component of a song</p>
-<div class="highlight-default"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">y</span><span class="p">,</span> <span class="n">sr</span> <span class="o">=</span> <span class="n">librosa</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">librosa</span><span class="o">.</span><span class="n">util</span><span class="o">.</span><span class="n">example_audio_file</span><span class="p">())</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">y</span><span class="p">,</span> <span class="n">sr</span> <span class="o">=</span> <span class="n">librosa</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">librosa</span><span class="o">.</span><span class="n">util</span><span class="o">.</span><span class="n">example_audio_file</span><span class="p">())</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">y</span> <span class="o">=</span> <span class="n">librosa</span><span class="o">.</span><span class="n">effects</span><span class="o">.</span><span class="n">harmonic</span><span class="p">(</span><span class="n">y</span><span class="p">)</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">tonnetz</span> <span class="o">=</span> <span class="n">librosa</span><span class="o">.</span><span class="n">feature</span><span class="o">.</span><span class="n">tonnetz</span><span class="p">(</span><span class="n">y</span><span class="o">=</span><span class="n">y</span><span class="p">,</span> <span class="n">sr</span><span class="o">=</span><span class="n">sr</span><span class="p">)</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">tonnetz</span>
@@ -279,8 +290,8 @@ Santa Barbara, CA, USA: ACM Press. doi:10.1145/1178723.1178727.</td></tr>
 <span class="go">       [ 0.005,  0.002, ...,  0.011,  0.017]])</span>
 </pre></div>
 </div>
-<p>Compare the tonnetz features to <a class="reference internal" href="librosa.feature.chroma_cqt.html#librosa.feature.chroma_cqt" title="librosa.feature.chroma_cqt"><code class="xref py py-obj docutils literal"><span class="pre">chroma_cqt</span></code></a></p>
-<div class="highlight-default"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
+<p>Compare the tonnetz features to <a class="reference internal" href="librosa.feature.chroma_cqt.html#librosa.feature.chroma_cqt" title="librosa.feature.chroma_cqt"><code class="xref py py-obj docutils literal notranslate"><span class="pre">chroma_cqt</span></code></a></p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">plt</span><span class="o">.</span><span class="n">subplot</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">librosa</span><span class="o">.</span><span class="n">display</span><span class="o">.</span><span class="n">specshow</span><span class="p">(</span><span class="n">tonnetz</span><span class="p">,</span> <span class="n">y_axis</span><span class="o">=</span><span class="s1">&#39;tonnetz&#39;</span><span class="p">)</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">plt</span><span class="o">.</span><span class="n">colorbar</span><span class="p">()</span>
@@ -303,9 +314,7 @@ Santa Barbara, CA, USA: ACM Press. doi:10.1145/1178723.1178727.</td></tr>
 
 
            </div>
-           <div class="articleComments">
-            
-           </div>
+           
           </div>
           <footer>
   
@@ -314,7 +323,7 @@ Santa Barbara, CA, USA: ACM Press. doi:10.1145/1178723.1178727.</td></tr>
         <a href="librosa.feature.zero_crossing_rate.html" class="btn btn-neutral float-right" title="librosa.feature.zero_crossing_rate" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
       
       
-        <a href="librosa.feature.poly_features.html" class="btn btn-neutral" title="librosa.feature.poly_features" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+        <a href="librosa.feature.poly_features.html" class="btn btn-neutral float-left" title="librosa.feature.poly_features" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
       
     </div>
   
@@ -323,11 +332,11 @@ Santa Barbara, CA, USA: ACM Press. doi:10.1145/1178723.1178727.</td></tr>
 
   <div role="contentinfo">
     <p>
-        &copy; Copyright 2013--2017, librosa development team.
+        &copy; Copyright 2013--2017, librosa development team
 
     </p>
   </div>
-  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/snide/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
 
 </footer>
 
@@ -347,19 +356,15 @@ Santa Barbara, CA, USA: ACM Press. doi:10.1145/1178723.1178727.</td></tr>
     <div class="rst-other-versions">
         <dl>
             <dt>Tags</dt>
-            <dd><a href="../../0.4.0rc1/index.html">0.4.0rc1</a></dd>
-            <dd><a href="../../0.4.0rc2/index.html">0.4.0rc2</a></dd>
             <dd><a href="../../0.4.1/index.html">0.4.1</a></dd>
-            <dd><a href="../../0.4.1rc0/index.html">0.4.1rc0</a></dd>
             <dd><a href="../../0.4.2/generated/librosa.feature.tonnetz.html">0.4.2</a></dd>
             <dd><a href="../../0.4.3/generated/librosa.feature.tonnetz.html">0.4.3</a></dd>
-            <dd><a href="../../0.4.3rc0/generated/librosa.feature.tonnetz.html">0.4.3rc0</a></dd>
             <dd><a href="../../0.5.0/generated/librosa.feature.tonnetz.html">0.5.0</a></dd>
-            <dd><a href="../../0.5.0rc0/generated/librosa.feature.tonnetz.html">0.5.0rc0</a></dd>
             <dd><a href="../../0.5.1/generated/librosa.feature.tonnetz.html">0.5.1</a></dd>
             <dd><a href="../../0.6.0/generated/librosa.feature.tonnetz.html">0.6.0</a></dd>
-            <dd><a href="../../0.6.0rc0/generated/librosa.feature.tonnetz.html">0.6.0rc0</a></dd>
-            <dd><a href="../../0.6.0rc1/generated/librosa.feature.tonnetz.html">0.6.0rc1</a></dd>
+            <dd><a href="../../0.6.1/generated/librosa.feature.tonnetz.html">0.6.1</a></dd>
+            <dd><a href="../../0.6.2/generated/librosa.feature.tonnetz.html">0.6.2</a></dd>
+            <dd><a href="../../0.6.3/generated/librosa.feature.tonnetz.html">0.6.3</a></dd>
             <dd><a href="../../v0.1.0/index.html">v0.1.0</a></dd>
             <dd><a href="../../v0.4.0/index.html">v0.4.0</a></dd>
         </dl>
@@ -367,41 +372,22 @@ Santa Barbara, CA, USA: ACM Press. doi:10.1145/1178723.1178727.</td></tr>
             <dt>Branches</dt>
             <dd><a href="librosa.feature.tonnetz.html">display-bin-centering</a></dd>
             <dd><a href="../../master/generated/librosa.feature.tonnetz.html">master</a></dd>
+            <dd><a href="../../mpl-test-2.1/generated/librosa.feature.tonnetz.html">mpl-test-2.1</a></dd>
+            <dd><a href="../../runnning/generated/librosa.feature.tonnetz.html">runnning</a></dd>
         </dl>
     </div>
 </div>
 
 
-  
-
-    <script type="text/javascript">
-        var DOCUMENTATION_OPTIONS = {
-            URL_ROOT:'../',
-            VERSION:'0.5.1',
-            COLLAPSE_INDEX:false,
-            FILE_SUFFIX:'.html',
-            HAS_SOURCE:  true,
-            SOURCELINK_SUFFIX: '.txt'
-        };
-    </script>
-      <script type="text/javascript" src="../_static/jquery.js"></script>
-      <script type="text/javascript" src="../_static/underscore.js"></script>
-      <script type="text/javascript" src="../_static/doctools.js"></script>
-
-  
-
-  
-  
-    <script type="text/javascript" src="../_static/js/theme.js"></script>
-  
-
-  
-  
   <script type="text/javascript">
       jQuery(function () {
-          SphinxRtdTheme.StickyNav.enable();
+          SphinxRtdTheme.Navigation.enable(true);
       });
   </script>
+
+  
+  
+    
    
 
 </body>

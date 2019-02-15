@@ -1,4 +1,8 @@
+.. note::
+    :class: sphx-glr-download-link-note
 
+    Click :ref:`here <sphx_glr_download_auto_examples_plot_segmentation.py>` to download the full example code
+.. rst-class:: sphx-glr-example-title
 
 .. _sphx_glr_auto_examples_plot_segmentation.py:
 
@@ -96,7 +100,7 @@ Next, we'll compute and plot a log-power CQT
 
 
 .. image:: /auto_examples/images/sphx_glr_plot_segmentation_001.png
-    :align: center
+    :class: sphx-glr-single-img
 
 
 
@@ -128,7 +132,7 @@ To reduce dimensionality, we'll beat-synchronous the CQT
 
 
 .. image:: /auto_examples/images/sphx_glr_plot_segmentation_002.png
-    :align: center
+    :class: sphx-glr-single-img
 
 
 
@@ -228,7 +232,7 @@ Plot the resulting graphs (Figure 1, left and center)
 
 
 .. image:: /auto_examples/images/sphx_glr_plot_segmentation_003.png
-    :align: center
+    :class: sphx-glr-single-img
 
 
 
@@ -281,7 +285,7 @@ Now let's compute the normalized Laplacian (Eq. 10)
 
 
 .. image:: /auto_examples/images/sphx_glr_plot_segmentation_004.png
-    :align: center
+    :class: sphx-glr-single-img
 
 
 
@@ -321,7 +325,7 @@ Let's use these k components to cluster beats into segments
 
 
 .. image:: /auto_examples/images/sphx_glr_plot_segmentation_005.png
-    :align: center
+    :class: sphx-glr-single-img
 
 
 
@@ -390,18 +394,22 @@ And plot the final segmentation over original CQT
 
 
 .. image:: /auto_examples/images/sphx_glr_plot_segmentation_006.png
-    :align: center
+    :class: sphx-glr-single-img
 
 
 
 
-**Total running time of the script:** ( 0 minutes  9.364 seconds)
+**Total running time of the script:** ( 0 minutes  8.142 seconds)
 
+
+.. _sphx_glr_download_auto_examples_plot_segmentation.py:
 
 
 .. only :: html
 
  .. container:: sphx-glr-footer
+    :class: sphx-glr-footer-example
+
 
 
   .. container:: sphx-glr-download

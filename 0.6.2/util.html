@@ -17,13 +17,30 @@
   
 
   
+  <script type="text/javascript" src="_static/js/modernizr.min.js"></script>
+  
+    
+      <script type="text/javascript">
+          var DOCUMENTATION_OPTIONS = {
+              URL_ROOT:'./',
+              VERSION:'0.6.2',
+              LANGUAGE:'None',
+              COLLAPSE_INDEX:false,
+              FILE_SUFFIX:'.html',
+              HAS_SOURCE:  true,
+              SOURCELINK_SUFFIX: '.txt'
+          };
+      </script>
+        <script type="text/javascript" src="_static/jquery.js"></script>
+        <script type="text/javascript" src="_static/underscore.js"></script>
+        <script type="text/javascript" src="_static/doctools.js"></script>
+        <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    
+    <script type="text/javascript" src="_static/js/theme.js"></script>
 
-  
-  
     
 
   
-
   <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
   <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
   <link rel="stylesheet" href="_static/gallery.css" type="text/css" />
@@ -32,21 +49,16 @@
     <link rel="search" title="Search" href="search.html" />
     <link rel="next" title="librosa.util.frame" href="generated/librosa.util.frame.html" />
     <link rel="prev" title="librosa.sequence.transition_local" href="generated/librosa.sequence.transition_local.html" /> 
-
-  
-  <script src="_static/js/modernizr.min.js"></script>
-
 </head>
 
 <body class="wy-body-for-nav">
 
    
   <div class="wy-grid-for-nav">
-
     
     <nav data-toggle="wy-nav-shift" class="wy-nav-side">
       <div class="wy-side-scroll">
-        <div class="wy-side-nav-search">
+        <div class="wy-side-nav-search" >
           
 
           
@@ -217,9 +229,12 @@
   
 
 
+    
+    
 
 
 
+    <p class="scv-banner scv-sphinx_rtd_theme"><a href="../0.6.3/util.html"><b>Warning:</b> This document is for an old version of librosa. The latest version is 0.6.3.</a></p>
 <span class="target" id="module-librosa.util"><span id="util"></span></span><div class="section" id="utilities">
 <h1>Utilities<a class="headerlink" href="#utilities" title="Permalink to this headline">¶</a></h1>
 <div class="section" id="array-operations">
@@ -237,7 +252,7 @@
 <td>Wrapper for np.pad to automatically center an array prior to padding.</td>
 </tr>
 <tr class="row-odd"><td><a class="reference internal" href="generated/librosa.util.fix_length.html#librosa.util.fix_length" title="librosa.util.fix_length"><code class="xref py py-obj docutils literal notranslate"><span class="pre">fix_length</span></code></a>(data,&nbsp;size[,&nbsp;axis])</td>
-<td>Fix the length an array <code class="xref py py-obj docutils literal notranslate"><span class="pre">data</span></code> to exactly <em class="xref py py-obj">size</em>.</td>
+<td>Fix the length an array <em class="xref py py-obj">data</em> to exactly <em class="xref py py-obj">size</em>.</td>
 </tr>
 <tr class="row-even"><td><a class="reference internal" href="generated/librosa.util.fix_frames.html#librosa.util.fix_frames" title="librosa.util.fix_frames"><code class="xref py py-obj docutils literal notranslate"><span class="pre">fix_frames</span></code></a>(frames[,&nbsp;x_min,&nbsp;x_max,&nbsp;pad])</td>
 <td>Fix a list of frames to lie within [x_min, x_max]</td>
@@ -359,7 +374,7 @@
         <a href="generated/librosa.util.frame.html" class="btn btn-neutral float-right" title="librosa.util.frame" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
       
       
-        <a href="generated/librosa.sequence.transition_local.html" class="btn btn-neutral" title="librosa.sequence.transition_local" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+        <a href="generated/librosa.sequence.transition_local.html" class="btn btn-neutral float-left" title="librosa.sequence.transition_local" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
       
     </div>
   
@@ -368,7 +383,7 @@
 
   <div role="contentinfo">
     <p>
-        &copy; Copyright 2013--2018, librosa development team.
+        &copy; Copyright 2013--2018, librosa development team
 
     </p>
   </div>
@@ -400,44 +415,31 @@
             <dd><a href="../0.6.0/util.html">0.6.0</a></dd>
             <dd><a href="../0.6.1/util.html">0.6.1</a></dd>
             <dd><a href="util.html">0.6.2</a></dd>
+            <dd><a href="../0.6.3/util.html">0.6.3</a></dd>
             <dd><a href="../v0.1.0/index.html">v0.1.0</a></dd>
             <dd><a href="../v0.4.0/util.html">v0.4.0</a></dd>
         </dl>
         <dl>
             <dt>Branches</dt>
+            <dd><a href="../display-bin-centering/util.html">display-bin-centering</a></dd>
             <dd><a href="../master/util.html">master</a></dd>
+            <dd><a href="../mpl-test-2.1/util.html">mpl-test-2.1</a></dd>
+            <dd><a href="../runnning/util.html">runnning</a></dd>
         </dl>
     </div>
 </div>
 
 
-  
-
-    <script type="text/javascript">
-        var DOCUMENTATION_OPTIONS = {
-            URL_ROOT:'./',
-            VERSION:'0.6.2',
-            LANGUAGE:'None',
-            COLLAPSE_INDEX:false,
-            FILE_SUFFIX:'.html',
-            HAS_SOURCE:  true,
-            SOURCELINK_SUFFIX: '.txt'
-        };
-    </script>
-      <script type="text/javascript" src="_static/jquery.js"></script>
-      <script type="text/javascript" src="_static/underscore.js"></script>
-      <script type="text/javascript" src="_static/doctools.js"></script>
-      <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
-
-  
-
-  <script type="text/javascript" src="_static/js/theme.js"></script>
-
   <script type="text/javascript">
       jQuery(function () {
           SphinxRtdTheme.Navigation.enable(true);
       });
-  </script> 
+  </script>
+
+  
+  
+    
+   
 
 </body>
 </html>

@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Changelog &mdash; librosa 0.6.2 documentation</title>
+  <title>Changelog &mdash; librosa 0.6.3 documentation</title>
   
 
   
@@ -17,13 +17,30 @@
   
 
   
+  <script type="text/javascript" src="_static/js/modernizr.min.js"></script>
+  
+    
+      <script type="text/javascript">
+          var DOCUMENTATION_OPTIONS = {
+              URL_ROOT:'./',
+              VERSION:'0.6.3',
+              LANGUAGE:'None',
+              COLLAPSE_INDEX:false,
+              FILE_SUFFIX:'.html',
+              HAS_SOURCE:  true,
+              SOURCELINK_SUFFIX: '.txt'
+          };
+      </script>
+        <script type="text/javascript" src="_static/jquery.js"></script>
+        <script type="text/javascript" src="_static/underscore.js"></script>
+        <script type="text/javascript" src="_static/doctools.js"></script>
+        <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    
+    <script type="text/javascript" src="_static/js/theme.js"></script>
 
-  
-  
     
 
   
-
   <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
   <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
   <link rel="stylesheet" href="_static/gallery.css" type="text/css" />
@@ -32,21 +49,16 @@
     <link rel="search" title="Search" href="search.html" />
     <link rel="next" title="Glossary" href="glossary.html" />
     <link rel="prev" title="Laplacian segmentation" href="auto_examples/plot_segmentation.html" /> 
-
-  
-  <script src="_static/js/modernizr.min.js"></script>
-
 </head>
 
 <body class="wy-body-for-nav">
 
    
   <div class="wy-grid-for-nav">
-
     
     <nav data-toggle="wy-nav-shift" class="wy-nav-side">
       <div class="wy-side-scroll">
-        <div class="wy-side-nav-search">
+        <div class="wy-side-nav-search" >
           
 
           
@@ -109,6 +121,7 @@
 </ul>
 <ul class="current">
 <li class="toctree-l1 current"><a class="current reference internal" href="#">Changelog</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#v0-6-3">v0.6.3</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#v0-6-2">v0.6.2</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#v0-6-1">v0.6.1</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#v0-6-0">v0.6.0</a></li>
@@ -198,6 +211,40 @@
 
 <div class="section" id="changelog">
 <h1>Changelog<a class="headerlink" href="#changelog" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="v0-6-3">
+<h2>v0.6.3<a class="headerlink" href="#v0-6-3" title="Permalink to this headline">¶</a></h2>
+<p>2019-01-XX</p>
+<p>Bug fixes</p>
+<blockquote>
+<div><ul class="simple">
+<li><a class="reference external" href="https://github.com/librosa/librosa/issues/806">#806</a> Fixed a bug in <em class="xref py py-obj">estimate_tuning</em>. <em>&#64;robrib, Monsij Biswal, Brian McFee</em></li>
+<li><a class="reference external" href="https://github.com/librosa/librosa/issues/799">#799</a> Enhanced stability of elliptical filter implementation in <em class="xref py py-obj">iirt</em>. <em>Frank Zalkow</em></li>
+</ul>
+</div></blockquote>
+<p>New features</p>
+<blockquote>
+<div><ul class="simple">
+<li><a class="reference external" href="https://github.com/librosa/librosa/issues/766">#766</a> made smoothing optional in <em class="xref py py-obj">feature.chroma_cens</em>. <em>Kyungyun Lee</em></li>
+<li><a class="reference external" href="https://github.com/librosa/librosa/issues/760">#760</a> allow explicit units for time axis decoration in <em class="xref py py-obj">display</em>. <em>Kyungyun Lee</em></li>
+</ul>
+</div></blockquote>
+<p>Other changes</p>
+<blockquote>
+<div><ul class="simple">
+<li><a class="reference external" href="https://github.com/librosa/librosa/issues/813">#813</a> updated <em class="xref py py-obj">core.load</em> documentation to cover bit depth truncation. <em>Andy Sarroff</em></li>
+<li><a class="reference external" href="https://github.com/librosa/librosa/issues/805">#805</a> updated documentation for <em class="xref py py-obj">core.localmax</em>. <em>Brian McFee</em></li>
+<li><a class="reference external" href="https://github.com/librosa/librosa/issues/801">#801</a> renamed <em class="xref py py-obj">feature.rmse</em> to <em class="xref py py-obj">feature.rms</em>. <em>&#64;nullmightybofo</em></li>
+<li><a class="reference external" href="https://github.com/librosa/librosa/issues/793">#793</a> updated comments in <em class="xref py py-obj">stft</em>. <em>Dan Ellis</em></li>
+<li><a class="reference external" href="https://github.com/librosa/librosa/issues/791">#791</a> updated documentation for <em class="xref py py-obj">write_wav</em>. <em>Brian McFee</em></li>
+<li><a class="reference external" href="https://github.com/librosa/librosa/issues/790">#790</a> removed dependency on deprecated <a class="reference external" href="https://docs.python.org/3/library/imp.html#module-imp" title="(in Python v3.7)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">imp</span></code></a> module. <em>Brian McFee</em></li>
+<li><a class="reference external" href="https://github.com/librosa/librosa/issues/787">#787</a> fixed typos in CONTRIBUTING documentation. <em>Vincent Lostanlen</em></li>
+<li><a class="reference external" href="https://github.com/librosa/librosa/issues/785">#785</a> removed all run-time assertions in favor of proper exceptions. <em>Brian McFee</em></li>
+<li><a class="reference external" href="https://github.com/librosa/librosa/issues/783">#783</a> migrated test infrastructure from <code class="xref py py-obj docutils literal notranslate"><span class="pre">nose</span></code> to <code class="xref py py-obj docutils literal notranslate"><span class="pre">pytest</span></code>. <em>Brian McFee</em></li>
+<li><a class="reference external" href="https://github.com/librosa/librosa/issues/777">#777</a> include LICENSE file in source distribution. <em>toddrme2178</em></li>
+<li><a class="reference external" href="https://github.com/librosa/librosa/issues/769">#769</a> updated documentation in <em class="xref py py-obj">core.istft</em>. <em>Shayenne Moura</em></li>
+</ul>
+</div></blockquote>
+</div>
 <div class="section" id="v0-6-2">
 <h2>v0.6.2<a class="headerlink" href="#v0-6-2" title="Permalink to this headline">¶</a></h2>
 <p>2018-08-09</p>
@@ -216,9 +263,9 @@ corresponding to an existing feature matrix or shape specification. <em>Steve Tj
 </dd>
 <dt>Other changes</dt>
 <dd><ul class="first last simple">
-<li><a class="reference external" href="https://github.com/librosa/librosa/pull/727">#727</a> updated documentation for <em class="xref py py-obj">core.get_duration</em> <a class="reference external" href="http://github.com/nehz">http://github.com/nehz</a></li>
-<li><a class="reference external" href="https://github.com/librosa/librosa/pull/731">#731</a> fixed a typo in documentation for <em class="xref py py-obj">core.fft_frequencies</em> <em>Ziyao Wei</em></li>
-<li><a class="reference external" href="https://github.com/librosa/librosa/pull/734">#734</a> expanded documentation for <em class="xref py py-obj">feature.spectrall_rolloff</em> <em>Ziyao Wei</em></li>
+<li><a class="reference external" href="https://github.com/librosa/librosa/pull/727">#727</a> updated documentation for <em class="xref py py-obj">core.get_duration</em>. <em>Zhen Wang</em></li>
+<li><a class="reference external" href="https://github.com/librosa/librosa/pull/731">#731</a> fixed a typo in documentation for <em class="xref py py-obj">core.fft_frequencies</em>. <em>Ziyao Wei</em></li>
+<li><a class="reference external" href="https://github.com/librosa/librosa/pull/734">#734</a> expanded documentation for <em class="xref py py-obj">feature.spectrall_rolloff</em>. <em>Ziyao Wei</em></li>
 <li><a class="reference external" href="https://github.com/librosa/librosa/pull/751">#751</a> fixed example documentation for proper handling of phase in dB-scaling. <em>Vincent Lostanlen</em></li>
 <li><a class="reference external" href="https://github.com/librosa/librosa/pull/755">#755</a> forward support and future-proofing for fancy indexing with <code class="docutils literal notranslate"><span class="pre">numpy&gt;1.15</span></code>. <em>Brian McFee</em></li>
 </ul>
@@ -958,7 +1005,7 @@ matches <code class="docutils literal notranslate"><span class="pre">stft</span>
         <a href="glossary.html" class="btn btn-neutral float-right" title="Glossary" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
       
       
-        <a href="auto_examples/plot_segmentation.html" class="btn btn-neutral" title="Laplacian segmentation" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+        <a href="auto_examples/plot_segmentation.html" class="btn btn-neutral float-left" title="Laplacian segmentation" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
       
     </div>
   
@@ -967,7 +1014,7 @@ matches <code class="docutils literal notranslate"><span class="pre">stft</span>
 
   <div role="contentinfo">
     <p>
-        &copy; Copyright 2013--2018, librosa development team.
+        &copy; Copyright 2013--2018, librosa development team
 
     </p>
   </div>
@@ -985,7 +1032,7 @@ matches <code class="docutils literal notranslate"><span class="pre">stft</span>
 <div class="rst-versions" data-toggle="rst-versions" role="note" aria-label="versions">
     <span class="rst-current-version" data-toggle="rst-current-version">
         <span class="fa fa-book"> Other Versions</span>
-        v: 0.6.2
+        v: 0.6.3
         <span class="fa fa-caret-down"></span>
     </span>
     <div class="rst-other-versions">
@@ -999,44 +1046,31 @@ matches <code class="docutils literal notranslate"><span class="pre">stft</span>
             <dd><a href="0.6.0/changelog.html">0.6.0</a></dd>
             <dd><a href="0.6.1/changelog.html">0.6.1</a></dd>
             <dd><a href="0.6.2/changelog.html">0.6.2</a></dd>
+            <dd><a href="0.6.3/changelog.html">0.6.3</a></dd>
             <dd><a href="v0.1.0/index.html">v0.1.0</a></dd>
             <dd><a href="v0.4.0/changelog.html">v0.4.0</a></dd>
         </dl>
         <dl>
             <dt>Branches</dt>
+            <dd><a href="display-bin-centering/changelog.html">display-bin-centering</a></dd>
             <dd><a href="master/changelog.html">master</a></dd>
+            <dd><a href="mpl-test-2.1/changelog.html">mpl-test-2.1</a></dd>
+            <dd><a href="runnning/changelog.html">runnning</a></dd>
         </dl>
     </div>
 </div>
 
 
-  
-
-    <script type="text/javascript">
-        var DOCUMENTATION_OPTIONS = {
-            URL_ROOT:'./',
-            VERSION:'0.6.2',
-            LANGUAGE:'None',
-            COLLAPSE_INDEX:false,
-            FILE_SUFFIX:'.html',
-            HAS_SOURCE:  true,
-            SOURCELINK_SUFFIX: '.txt'
-        };
-    </script>
-      <script type="text/javascript" src="_static/jquery.js"></script>
-      <script type="text/javascript" src="_static/underscore.js"></script>
-      <script type="text/javascript" src="_static/doctools.js"></script>
-      <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
-
-  
-
-  <script type="text/javascript" src="_static/js/theme.js"></script>
-
   <script type="text/javascript">
       jQuery(function () {
           SphinxRtdTheme.Navigation.enable(true);
       });
-  </script> 
+  </script>
+
+  
+  
+    
+   
 
 </body>
 </html>

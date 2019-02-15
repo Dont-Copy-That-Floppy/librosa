@@ -17,45 +17,46 @@
   
 
   
+  <script type="text/javascript" src="../_static/js/modernizr.min.js"></script>
+  
+    
+      <script type="text/javascript">
+          var DOCUMENTATION_OPTIONS = {
+              URL_ROOT:'../',
+              VERSION:'0.5.1',
+              LANGUAGE:'None',
+              COLLAPSE_INDEX:false,
+              FILE_SUFFIX:'.html',
+              HAS_SOURCE:  true,
+              SOURCELINK_SUFFIX: '.txt'
+          };
+      </script>
+        <script type="text/javascript" src="../_static/jquery.js"></script>
+        <script type="text/javascript" src="../_static/underscore.js"></script>
+        <script type="text/javascript" src="../_static/doctools.js"></script>
+    
+    <script type="text/javascript" src="../_static/js/theme.js"></script>
 
-  
-  
     
 
   
-
-  
-  
-    <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
-  
-
-  
-    <link rel="stylesheet" href="../_static/banner.css" type="text/css" />
-  
-
-  
-        <link rel="index" title="Index"
-              href="../genindex.html"/>
-        <link rel="search" title="Search" href="../search.html"/>
-    <link rel="top" title="librosa 0.5.1 documentation" href="../index.html"/>
-        <link rel="up" title="Utilities" href="../util.html"/>
-        <link rel="next" title="librosa.util.match_intervals" href="librosa.util.match_intervals.html"/>
-        <link rel="prev" title="librosa.util.buf_to_float" href="librosa.util.buf_to_float.html"/> 
-
-  
-  <script src="../_static/js/modernizr.min.js"></script>
-
+  <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/banner.css" type="text/css" />
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="librosa.util.match_intervals" href="librosa.util.match_intervals.html" />
+    <link rel="prev" title="librosa.util.buf_to_float" href="librosa.util.buf_to_float.html" /> 
 </head>
 
-<body class="wy-body-for-nav" role="document">
+<body class="wy-body-for-nav">
 
    
   <div class="wy-grid-for-nav">
-
     
     <nav data-toggle="wy-nav-shift" class="wy-nav-side">
       <div class="wy-side-scroll">
-        <div class="wy-side-nav-search">
+        <div class="wy-side-nav-search" >
           
 
           
@@ -151,7 +152,7 @@
     <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
 
       
-      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+      <nav class="wy-nav-top" aria-label="top navigation">
         
           <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
           <a href="../index.html">librosa</a>
@@ -159,9 +160,10 @@
       </nav>
 
 
-      
       <div class="wy-nav-content">
+        
         <div class="rst-content">
+        
           
 
 
@@ -205,13 +207,22 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
             
-  <div class="section" id="librosa-util-tiny">
+  
+
+
+    
+    
+
+
+
+    <p class="scv-banner scv-sphinx_rtd_theme"><a href="../../0.6.3/generated/librosa.util.tiny.html"><b>Warning:</b> This document is for the development version of librosa. The latest version is 0.6.3.</a></p>
+<div class="section" id="librosa-util-tiny">
 <h1>librosa.util.tiny<a class="headerlink" href="#librosa-util-tiny" title="Permalink to this headline">¶</a></h1>
 <dl class="function">
 <dt id="librosa.util.tiny">
 <code class="descclassname">librosa.util.</code><code class="descname">tiny</code><span class="sig-paren">(</span><em>x</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/librosa/util/utils.html#tiny"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#librosa.util.tiny" title="Permalink to this definition">¶</a></dt>
-<dd><p>Compute the tiny-value corresponding to an input&#8217;s data type.</p>
-<p>This is the smallest &#8220;usable&#8221; number representable in <em class="xref py py-obj">x</em>&#8216;s
+<dd><p>Compute the tiny-value corresponding to an input’s data type.</p>
+<p>This is the smallest “usable” number representable in <em class="xref py py-obj">x</em>’s
 data type (e.g., float32).</p>
 <p>This is primarily useful for determining a threshold for
 numerical underflow in division or multiplication operations.</p>
@@ -219,50 +230,52 @@ numerical underflow in division or multiplication operations.</p>
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>x</strong> : number or np.ndarray</p>
-<blockquote>
-<div><p>The array to compute the tiny-value for.
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><dl class="first docutils">
+<dt><strong>x</strong> <span class="classifier-delimiter">:</span> <span class="classifier">number or np.ndarray</span></dt>
+<dd><p class="first last">The array to compute the tiny-value for.
 All that matters here is <em class="xref py py-obj">x.dtype</em>.</p>
-</div></blockquote>
+</dd>
+</dl>
 </td>
 </tr>
-<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first"><strong>tiny_value</strong> : float</p>
-<blockquote class="last">
-<div><p>The smallest positive usable number for the type of <em class="xref py py-obj">x</em>.
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><dl class="first last docutils">
+<dt><strong>tiny_value</strong> <span class="classifier-delimiter">:</span> <span class="classifier">float</span></dt>
+<dd><p class="first last">The smallest positive usable number for the type of <em class="xref py py-obj">x</em>.
 If <em class="xref py py-obj">x</em> is integer-typed, then the tiny value for <em class="xref py py-obj">np.float32</em>
 is returned instead.</p>
-</div></blockquote>
+</dd>
+</dl>
 </td>
 </tr>
 </tbody>
 </table>
 <div class="admonition seealso">
 <p class="first admonition-title">See also</p>
-<p class="last"><a class="reference external" href="https://docs.scipy.org/doc/numpy/reference/generated/numpy.finfo.html#numpy.finfo" title="(in NumPy v1.14)"><code class="xref py py-obj docutils literal"><span class="pre">numpy.finfo</span></code></a></p>
+<p class="last"><a class="reference external" href="https://docs.scipy.org/doc/numpy/reference/generated/numpy.finfo.html#numpy.finfo" title="(in NumPy v1.16)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">numpy.finfo</span></code></a></p>
 </div>
 <p class="rubric">Examples</p>
 <p>For a standard double-precision floating point number:</p>
-<div class="highlight-default"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">librosa</span><span class="o">.</span><span class="n">util</span><span class="o">.</span><span class="n">tiny</span><span class="p">(</span><span class="mf">1.0</span><span class="p">)</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">librosa</span><span class="o">.</span><span class="n">util</span><span class="o">.</span><span class="n">tiny</span><span class="p">(</span><span class="mf">1.0</span><span class="p">)</span>
 <span class="go">2.2250738585072014e-308</span>
 </pre></div>
 </div>
 <p>Or explicitly as double-precision</p>
-<div class="highlight-default"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">librosa</span><span class="o">.</span><span class="n">util</span><span class="o">.</span><span class="n">tiny</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="mf">1e-5</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">float64</span><span class="p">))</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">librosa</span><span class="o">.</span><span class="n">util</span><span class="o">.</span><span class="n">tiny</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="mf">1e-5</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">float64</span><span class="p">))</span>
 <span class="go">2.2250738585072014e-308</span>
 </pre></div>
 </div>
 <p>Or complex numbers</p>
-<div class="highlight-default"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">librosa</span><span class="o">.</span><span class="n">util</span><span class="o">.</span><span class="n">tiny</span><span class="p">(</span><span class="mi">1</span><span class="n">j</span><span class="p">)</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">librosa</span><span class="o">.</span><span class="n">util</span><span class="o">.</span><span class="n">tiny</span><span class="p">(</span><span class="mi">1</span><span class="n">j</span><span class="p">)</span>
 <span class="go">2.2250738585072014e-308</span>
 </pre></div>
 </div>
 <p>Single-precision floating point:</p>
-<div class="highlight-default"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">librosa</span><span class="o">.</span><span class="n">util</span><span class="o">.</span><span class="n">tiny</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="mf">1e-5</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">float32</span><span class="p">))</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">librosa</span><span class="o">.</span><span class="n">util</span><span class="o">.</span><span class="n">tiny</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="mf">1e-5</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">float32</span><span class="p">))</span>
 <span class="go">1.1754944e-38</span>
 </pre></div>
 </div>
 <p>Integer</p>
-<div class="highlight-default"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">librosa</span><span class="o">.</span><span class="n">util</span><span class="o">.</span><span class="n">tiny</span><span class="p">(</span><span class="mi">5</span><span class="p">)</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">librosa</span><span class="o">.</span><span class="n">util</span><span class="o">.</span><span class="n">tiny</span><span class="p">(</span><span class="mi">5</span><span class="p">)</span>
 <span class="go">1.1754944e-38</span>
 </pre></div>
 </div>
@@ -272,9 +285,7 @@ is returned instead.</p>
 
 
            </div>
-           <div class="articleComments">
-            
-           </div>
+           
           </div>
           <footer>
   
@@ -283,7 +294,7 @@ is returned instead.</p>
         <a href="librosa.util.match_intervals.html" class="btn btn-neutral float-right" title="librosa.util.match_intervals" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
       
       
-        <a href="librosa.util.buf_to_float.html" class="btn btn-neutral" title="librosa.util.buf_to_float" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+        <a href="librosa.util.buf_to_float.html" class="btn btn-neutral float-left" title="librosa.util.buf_to_float" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
       
     </div>
   
@@ -292,11 +303,11 @@ is returned instead.</p>
 
   <div role="contentinfo">
     <p>
-        &copy; Copyright 2013--2017, librosa development team.
+        &copy; Copyright 2013--2017, librosa development team
 
     </p>
   </div>
-  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/snide/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
 
 </footer>
 
@@ -316,19 +327,15 @@ is returned instead.</p>
     <div class="rst-other-versions">
         <dl>
             <dt>Tags</dt>
-            <dd><a href="../../0.4.0rc1/index.html">0.4.0rc1</a></dd>
-            <dd><a href="../../0.4.0rc2/index.html">0.4.0rc2</a></dd>
             <dd><a href="../../0.4.1/index.html">0.4.1</a></dd>
-            <dd><a href="../../0.4.1rc0/index.html">0.4.1rc0</a></dd>
             <dd><a href="../../0.4.2/index.html">0.4.2</a></dd>
             <dd><a href="../../0.4.3/index.html">0.4.3</a></dd>
-            <dd><a href="../../0.4.3rc0/index.html">0.4.3rc0</a></dd>
             <dd><a href="../../0.5.0/generated/librosa.util.tiny.html">0.5.0</a></dd>
-            <dd><a href="../../0.5.0rc0/generated/librosa.util.tiny.html">0.5.0rc0</a></dd>
             <dd><a href="../../0.5.1/generated/librosa.util.tiny.html">0.5.1</a></dd>
             <dd><a href="../../0.6.0/generated/librosa.util.tiny.html">0.6.0</a></dd>
-            <dd><a href="../../0.6.0rc0/generated/librosa.util.tiny.html">0.6.0rc0</a></dd>
-            <dd><a href="../../0.6.0rc1/generated/librosa.util.tiny.html">0.6.0rc1</a></dd>
+            <dd><a href="../../0.6.1/generated/librosa.util.tiny.html">0.6.1</a></dd>
+            <dd><a href="../../0.6.2/generated/librosa.util.tiny.html">0.6.2</a></dd>
+            <dd><a href="../../0.6.3/generated/librosa.util.tiny.html">0.6.3</a></dd>
             <dd><a href="../../v0.1.0/index.html">v0.1.0</a></dd>
             <dd><a href="../../v0.4.0/index.html">v0.4.0</a></dd>
         </dl>
@@ -336,41 +343,22 @@ is returned instead.</p>
             <dt>Branches</dt>
             <dd><a href="librosa.util.tiny.html">display-bin-centering</a></dd>
             <dd><a href="../../master/generated/librosa.util.tiny.html">master</a></dd>
+            <dd><a href="../../mpl-test-2.1/generated/librosa.util.tiny.html">mpl-test-2.1</a></dd>
+            <dd><a href="../../runnning/generated/librosa.util.tiny.html">runnning</a></dd>
         </dl>
     </div>
 </div>
 
 
-  
-
-    <script type="text/javascript">
-        var DOCUMENTATION_OPTIONS = {
-            URL_ROOT:'../',
-            VERSION:'0.5.1',
-            COLLAPSE_INDEX:false,
-            FILE_SUFFIX:'.html',
-            HAS_SOURCE:  true,
-            SOURCELINK_SUFFIX: '.txt'
-        };
-    </script>
-      <script type="text/javascript" src="../_static/jquery.js"></script>
-      <script type="text/javascript" src="../_static/underscore.js"></script>
-      <script type="text/javascript" src="../_static/doctools.js"></script>
-
-  
-
-  
-  
-    <script type="text/javascript" src="../_static/js/theme.js"></script>
-  
-
-  
-  
   <script type="text/javascript">
       jQuery(function () {
-          SphinxRtdTheme.StickyNav.enable();
+          SphinxRtdTheme.Navigation.enable(true);
       });
   </script>
+
+  
+  
+    
    
 
 </body>

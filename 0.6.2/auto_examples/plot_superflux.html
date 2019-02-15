@@ -17,13 +17,30 @@
   
 
   
+  <script type="text/javascript" src="../_static/js/modernizr.min.js"></script>
+  
+    
+      <script type="text/javascript">
+          var DOCUMENTATION_OPTIONS = {
+              URL_ROOT:'../',
+              VERSION:'0.6.2',
+              LANGUAGE:'None',
+              COLLAPSE_INDEX:false,
+              FILE_SUFFIX:'.html',
+              HAS_SOURCE:  true,
+              SOURCELINK_SUFFIX: '.txt'
+          };
+      </script>
+        <script type="text/javascript" src="../_static/jquery.js"></script>
+        <script type="text/javascript" src="../_static/underscore.js"></script>
+        <script type="text/javascript" src="../_static/doctools.js"></script>
+        <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    
+    <script type="text/javascript" src="../_static/js/theme.js"></script>
 
-  
-  
     
 
   
-
   <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
   <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
   <link rel="stylesheet" href="../_static/gallery.css" type="text/css" />
@@ -32,21 +49,16 @@
     <link rel="search" title="Search" href="../search.html" />
     <link rel="next" title="Viterbi decoding" href="plot_viterbi.html" />
     <link rel="prev" title="Presets" href="plot_presets.html" /> 
-
-  
-  <script src="../_static/js/modernizr.min.js"></script>
-
 </head>
 
 <body class="wy-body-for-nav">
 
    
   <div class="wy-grid-for-nav">
-
     
     <nav data-toggle="wy-nav-shift" class="wy-nav-side">
       <div class="wy-side-scroll">
-        <div class="wy-side-nav-search">
+        <div class="wy-side-nav-search" >
           
 
           
@@ -179,10 +191,17 @@
   
 
 
+    
+    
 
 
 
-<div class="section" id="superflux-onsets">
+    <p class="scv-banner scv-sphinx_rtd_theme"><a href="../../0.6.3/auto_examples/plot_superflux.html"><b>Warning:</b> This document is for an old version of librosa. The latest version is 0.6.3.</a></p>
+<div class="sphx-glr-download-link-note admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">Click <a class="reference internal" href="#sphx-glr-download-auto-examples-plot-superflux-py"><span class="std std-ref">here</span></a> to download the full example code</p>
+</div>
+<div class="sphx-glr-example-title section" id="superflux-onsets">
 <span id="sphx-glr-auto-examples-plot-superflux-py"></span><h1>Superflux onsets<a class="headerlink" href="#superflux-onsets" title="Permalink to this headline">¶</a></h1>
 <p>This notebook demonstrates how to recover the Superflux onset detection algorithm of
 <a class="reference external" href="http://dafx13.nuim.ie/papers/09.dafx2013_submission_12.pdf">Boeck and Widmer, 2013</a>
@@ -237,7 +256,7 @@ simplicity, we’ll use a Mel spectrogram instead.</p>
 <span class="n">plt</span><span class="o">.</span><span class="n">tight_layout</span><span class="p">()</span>
 </pre></div>
 </div>
-<img alt="../_images/sphx_glr_plot_superflux_001.png" class="align-center" src="../_images/sphx_glr_plot_superflux_001.png" />
+<img alt="../_images/sphx_glr_plot_superflux_001.png" class="sphx-glr-single-img" src="../_images/sphx_glr_plot_superflux_001.png" />
 <p>Now we’ll compute the onset strength envelope and onset events
 using the librosa defaults.</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">odf_default</span> <span class="o">=</span> <span class="n">librosa</span><span class="o">.</span><span class="n">onset</span><span class="o">.</span><span class="n">onset_strength</span><span class="p">(</span><span class="n">y</span><span class="o">=</span><span class="n">y</span><span class="p">,</span> <span class="n">sr</span><span class="o">=</span><span class="n">sr</span><span class="p">,</span> <span class="n">hop_length</span><span class="o">=</span><span class="n">hop_length</span><span class="p">)</span>
@@ -294,9 +313,9 @@ does not detect onset events at those points.</p>
 <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
 </pre></div>
 </div>
-<img alt="../_images/sphx_glr_plot_superflux_002.png" class="align-center" src="../_images/sphx_glr_plot_superflux_002.png" />
-<p><strong>Total running time of the script:</strong> ( 0 minutes  1.118 seconds)</p>
-<div class="sphx-glr-footer docutils container">
+<img alt="../_images/sphx_glr_plot_superflux_002.png" class="sphx-glr-single-img" src="../_images/sphx_glr_plot_superflux_002.png" />
+<p><strong>Total running time of the script:</strong> ( 0 minutes  0.533 seconds)</p>
+<div class="sphx-glr-footer class sphx-glr-footer-example docutils container" id="sphx-glr-download-auto-examples-plot-superflux-py">
 <div class="sphx-glr-download docutils container">
 <a class="reference download internal" href="../_downloads/plot_superflux.py" download=""><code class="xref download docutils literal notranslate"><span class="pre">Download</span> <span class="pre">Python</span> <span class="pre">source</span> <span class="pre">code:</span> <span class="pre">plot_superflux.py</span></code></a></div>
 <div class="sphx-glr-download docutils container">
@@ -316,7 +335,7 @@ does not detect onset events at those points.</p>
         <a href="plot_viterbi.html" class="btn btn-neutral float-right" title="Viterbi decoding" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
       
       
-        <a href="plot_presets.html" class="btn btn-neutral" title="Presets" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+        <a href="plot_presets.html" class="btn btn-neutral float-left" title="Presets" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
       
     </div>
   
@@ -325,7 +344,7 @@ does not detect onset events at those points.</p>
 
   <div role="contentinfo">
     <p>
-        &copy; Copyright 2013--2018, librosa development team.
+        &copy; Copyright 2013--2018, librosa development team
 
     </p>
   </div>
@@ -357,44 +376,31 @@ does not detect onset events at those points.</p>
             <dd><a href="../../0.6.0/auto_examples/plot_superflux.html">0.6.0</a></dd>
             <dd><a href="../../0.6.1/auto_examples/plot_superflux.html">0.6.1</a></dd>
             <dd><a href="plot_superflux.html">0.6.2</a></dd>
+            <dd><a href="../../0.6.3/auto_examples/plot_superflux.html">0.6.3</a></dd>
             <dd><a href="../../v0.1.0/index.html">v0.1.0</a></dd>
             <dd><a href="../../v0.4.0/index.html">v0.4.0</a></dd>
         </dl>
         <dl>
             <dt>Branches</dt>
+            <dd><a href="../../display-bin-centering/index.html">display-bin-centering</a></dd>
             <dd><a href="../../master/auto_examples/plot_superflux.html">master</a></dd>
+            <dd><a href="../../mpl-test-2.1/auto_examples/plot_superflux.html">mpl-test-2.1</a></dd>
+            <dd><a href="../../runnning/auto_examples/plot_superflux.html">runnning</a></dd>
         </dl>
     </div>
 </div>
 
 
-  
-
-    <script type="text/javascript">
-        var DOCUMENTATION_OPTIONS = {
-            URL_ROOT:'../',
-            VERSION:'0.6.2',
-            LANGUAGE:'None',
-            COLLAPSE_INDEX:false,
-            FILE_SUFFIX:'.html',
-            HAS_SOURCE:  true,
-            SOURCELINK_SUFFIX: '.txt'
-        };
-    </script>
-      <script type="text/javascript" src="../_static/jquery.js"></script>
-      <script type="text/javascript" src="../_static/underscore.js"></script>
-      <script type="text/javascript" src="../_static/doctools.js"></script>
-      <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
-
-  
-
-  <script type="text/javascript" src="../_static/js/theme.js"></script>
-
   <script type="text/javascript">
       jQuery(function () {
           SphinxRtdTheme.Navigation.enable(true);
       });
-  </script> 
+  </script>
+
+  
+  
+    
+   
 
 </body>
 </html>

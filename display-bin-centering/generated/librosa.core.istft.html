@@ -17,45 +17,46 @@
   
 
   
+  <script type="text/javascript" src="../_static/js/modernizr.min.js"></script>
+  
+    
+      <script type="text/javascript">
+          var DOCUMENTATION_OPTIONS = {
+              URL_ROOT:'../',
+              VERSION:'0.5.1',
+              LANGUAGE:'None',
+              COLLAPSE_INDEX:false,
+              FILE_SUFFIX:'.html',
+              HAS_SOURCE:  true,
+              SOURCELINK_SUFFIX: '.txt'
+          };
+      </script>
+        <script type="text/javascript" src="../_static/jquery.js"></script>
+        <script type="text/javascript" src="../_static/underscore.js"></script>
+        <script type="text/javascript" src="../_static/doctools.js"></script>
+    
+    <script type="text/javascript" src="../_static/js/theme.js"></script>
 
-  
-  
     
 
   
-
-  
-  
-    <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
-  
-
-  
-    <link rel="stylesheet" href="../_static/banner.css" type="text/css" />
-  
-
-  
-        <link rel="index" title="Index"
-              href="../genindex.html"/>
-        <link rel="search" title="Search" href="../search.html"/>
-    <link rel="top" title="librosa 0.5.1 documentation" href="../index.html"/>
-        <link rel="up" title="Core IO and DSP" href="../core.html"/>
-        <link rel="next" title="librosa.core.ifgram" href="librosa.core.ifgram.html"/>
-        <link rel="prev" title="librosa.core.stft" href="librosa.core.stft.html"/> 
-
-  
-  <script src="../_static/js/modernizr.min.js"></script>
-
+  <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/banner.css" type="text/css" />
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="librosa.core.ifgram" href="librosa.core.ifgram.html" />
+    <link rel="prev" title="librosa.core.stft" href="librosa.core.stft.html" /> 
 </head>
 
-<body class="wy-body-for-nav" role="document">
+<body class="wy-body-for-nav">
 
    
   <div class="wy-grid-for-nav">
-
     
     <nav data-toggle="wy-nav-shift" class="wy-nav-side">
       <div class="wy-side-scroll">
-        <div class="wy-side-nav-search">
+        <div class="wy-side-nav-search" >
           
 
           
@@ -150,7 +151,7 @@
     <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
 
       
-      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+      <nav class="wy-nav-top" aria-label="top navigation">
         
           <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
           <a href="../index.html">librosa</a>
@@ -158,9 +159,10 @@
       </nav>
 
 
-      
       <div class="wy-nav-content">
+        
         <div class="rst-content">
+        
           
 
 
@@ -204,7 +206,16 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
             
-  <div class="section" id="librosa-core-istft">
+  
+
+
+    
+    
+
+
+
+    <p class="scv-banner scv-sphinx_rtd_theme"><a href="../../0.6.3/generated/librosa.core.istft.html"><b>Warning:</b> This document is for the development version of librosa. The latest version is 0.6.3.</a></p>
+<div class="section" id="librosa-core-istft">
 <h1>librosa.core.istft<a class="headerlink" href="#librosa-core-istft" title="Permalink to this headline">¶</a></h1>
 <dl class="function">
 <dt id="librosa.core.istft">
@@ -212,15 +223,15 @@
 <dd><p>Inverse short-time Fourier transform (ISTFT).</p>
 <p>Converts a complex-valued spectrogram <em class="xref py py-obj">stft_matrix</em> to time-series <em class="xref py py-obj">y</em>
 by minimizing the mean squared error between <em class="xref py py-obj">stft_matrix</em> and STFT of
-<em class="xref py py-obj">y</em> as described in <a class="reference internal" href="#r5757" id="id1">[R5757]</a>.</p>
+<em class="xref py py-obj">y</em> as described in <a class="reference internal" href="#rf78226130860-1" id="id1">[1]</a>.</p>
 <p>In general, window function, hop length and other parameters should be same
 as in stft, which mostly leads to perfect reconstruction of a signal from
 unmodified <em class="xref py py-obj">stft_matrix</em>.</p>
-<table class="docutils citation" frame="void" id="r5757" rules="none">
+<table class="docutils citation" frame="void" id="rf78226130860-1" rules="none">
 <colgroup><col class="label" /><col /></colgroup>
 <tbody valign="top">
-<tr><td class="label"><a class="fn-backref" href="#id1">[R5757]</a></td><td>D. W. Griffin and J. S. Lim,
-&#8220;Signal estimation from modified short-time Fourier transform,&#8221;
+<tr><td class="label"><a class="fn-backref" href="#id1">[1]</a></td><td>D. W. Griffin and J. S. Lim,
+“Signal estimation from modified short-time Fourier transform,”
 IEEE Trans. ASSP, vol.32, no.2, pp.236–243, Apr. 1984.</td></tr>
 </tbody>
 </table>
@@ -228,53 +239,49 @@ IEEE Trans. ASSP, vol.32, no.2, pp.236–243, Apr. 1984.</td></tr>
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>stft_matrix</strong> : np.ndarray [shape=(1 + n_fft/2, t)]</p>
-<blockquote>
-<div><p>STFT matrix from <a class="reference internal" href="librosa.core.stft.html#librosa.core.stft" title="librosa.core.stft"><code class="xref py py-obj docutils literal"><span class="pre">stft</span></code></a></p>
-</div></blockquote>
-<p><strong>hop_length</strong> : int &gt; 0 [scalar]</p>
-<blockquote>
-<div><p>Number of frames between STFT columns.
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><dl class="first docutils">
+<dt><strong>stft_matrix</strong> <span class="classifier-delimiter">:</span> <span class="classifier">np.ndarray [shape=(1 + n_fft/2, t)]</span></dt>
+<dd><p class="first last">STFT matrix from <a class="reference internal" href="librosa.core.stft.html#librosa.core.stft" title="librosa.core.stft"><code class="xref py py-obj docutils literal notranslate"><span class="pre">stft</span></code></a></p>
+</dd>
+<dt><strong>hop_length</strong> <span class="classifier-delimiter">:</span> <span class="classifier">int &gt; 0 [scalar]</span></dt>
+<dd><p class="first last">Number of frames between STFT columns.
 If unspecified, defaults to <em class="xref py py-obj">win_length / 4</em>.</p>
-</div></blockquote>
-<p><strong>win_length</strong> : int &lt;= n_fft = 2 * (stft_matrix.shape[0] - 1)</p>
-<blockquote>
-<div><p>When reconstructing the time series, each frame is windowed
+</dd>
+<dt><strong>win_length</strong> <span class="classifier-delimiter">:</span> <span class="classifier">int &lt;= n_fft = 2 * (stft_matrix.shape[0] - 1)</span></dt>
+<dd><p class="first">When reconstructing the time series, each frame is windowed
 and each sample is normalized by the sum of squared window
 according to the <em class="xref py py-obj">window</em> function (see below).</p>
-<p>If unspecified, defaults to <em class="xref py py-obj">n_fft</em>.</p>
-</div></blockquote>
-<p><strong>window</strong> : string, tuple, number, function, np.ndarray [shape=(n_fft,)]</p>
-<blockquote>
-<div><ul class="simple">
+<p class="last">If unspecified, defaults to <em class="xref py py-obj">n_fft</em>.</p>
+</dd>
+<dt><strong>window</strong> <span class="classifier-delimiter">:</span> <span class="classifier">string, tuple, number, function, np.ndarray [shape=(n_fft,)]</span></dt>
+<dd><ul class="first last simple">
 <li>a window specification (string, tuple, or number);
-see <a class="reference external" href="https://docs.scipy.org/doc/scipy/reference/generated/scipy.signal.get_window.html#scipy.signal.get_window" title="(in SciPy v1.0.0)"><code class="xref py py-obj docutils literal"><span class="pre">scipy.signal.get_window</span></code></a></li>
-<li>a window function, such as <a class="reference external" href="https://docs.scipy.org/doc/scipy/reference/generated/scipy.signal.hanning.html#scipy.signal.hanning" title="(in SciPy v1.0.0)"><code class="xref py py-obj docutils literal"><span class="pre">scipy.signal.hanning</span></code></a></li>
+see <a class="reference external" href="https://docs.scipy.org/doc/scipy/reference/generated/scipy.signal.get_window.html#scipy.signal.get_window" title="(in SciPy v1.2.1)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">scipy.signal.get_window</span></code></a></li>
+<li>a window function, such as <code class="xref py py-obj docutils literal notranslate"><span class="pre">scipy.signal.hanning</span></code></li>
 <li>a user-specified window vector of length <em class="xref py py-obj">n_fft</em></li>
 </ul>
-</div></blockquote>
-<p><strong>center</strong> : boolean</p>
-<blockquote>
-<div><ul class="simple">
+</dd>
+<dt><strong>center</strong> <span class="classifier-delimiter">:</span> <span class="classifier">boolean</span></dt>
+<dd><ul class="first last simple">
 <li>If <em class="xref py py-obj">True</em>, <em class="xref py py-obj">D</em> is assumed to have centered frames.</li>
 <li>If <em class="xref py py-obj">False</em>, <em class="xref py py-obj">D</em> is assumed to have left-aligned frames.</li>
 </ul>
-</div></blockquote>
-<p><strong>dtype</strong> : numeric type</p>
-<blockquote>
-<div><p>Real numeric type for <em class="xref py py-obj">y</em>.  Default is 32-bit float.</p>
-</div></blockquote>
-<p><strong>length</strong> : int &gt; 0, optional</p>
-<blockquote>
-<div><p>If provided, the output <em class="xref py py-obj">y</em> is zero-padded or clipped to exactly
+</dd>
+<dt><strong>dtype</strong> <span class="classifier-delimiter">:</span> <span class="classifier">numeric type</span></dt>
+<dd><p class="first last">Real numeric type for <em class="xref py py-obj">y</em>.  Default is 32-bit float.</p>
+</dd>
+<dt><strong>length</strong> <span class="classifier-delimiter">:</span> <span class="classifier">int &gt; 0, optional</span></dt>
+<dd><p class="first last">If provided, the output <em class="xref py py-obj">y</em> is zero-padded or clipped to exactly
 <em class="xref py py-obj">length</em> samples.</p>
-</div></blockquote>
+</dd>
+</dl>
 </td>
 </tr>
-<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first"><strong>y</strong> : np.ndarray [shape=(n,)]</p>
-<blockquote class="last">
-<div><p>time domain signal reconstructed from <em class="xref py py-obj">stft_matrix</em></p>
-</div></blockquote>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><dl class="first last docutils">
+<dt><strong>y</strong> <span class="classifier-delimiter">:</span> <span class="classifier">np.ndarray [shape=(n,)]</span></dt>
+<dd><p class="first last">time domain signal reconstructed from <em class="xref py py-obj">stft_matrix</em></p>
+</dd>
+</dl>
 </td>
 </tr>
 </tbody>
@@ -282,14 +289,14 @@ see <a class="reference external" href="https://docs.scipy.org/doc/scipy/referen
 <div class="admonition seealso">
 <p class="first admonition-title">See also</p>
 <dl class="last docutils">
-<dt><a class="reference internal" href="librosa.core.stft.html#librosa.core.stft" title="librosa.core.stft"><code class="xref py py-obj docutils literal"><span class="pre">stft</span></code></a></dt>
+<dt><a class="reference internal" href="librosa.core.stft.html#librosa.core.stft" title="librosa.core.stft"><code class="xref py py-obj docutils literal notranslate"><span class="pre">stft</span></code></a></dt>
 <dd>Short-time Fourier Transform</dd>
 </dl>
 </div>
 <p class="rubric">Notes</p>
 <p>This function caches at level 30.</p>
 <p class="rubric">Examples</p>
-<div class="highlight-default"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">y</span><span class="p">,</span> <span class="n">sr</span> <span class="o">=</span> <span class="n">librosa</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">librosa</span><span class="o">.</span><span class="n">util</span><span class="o">.</span><span class="n">example_audio_file</span><span class="p">())</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">y</span><span class="p">,</span> <span class="n">sr</span> <span class="o">=</span> <span class="n">librosa</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">librosa</span><span class="o">.</span><span class="n">util</span><span class="o">.</span><span class="n">example_audio_file</span><span class="p">())</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">D</span> <span class="o">=</span> <span class="n">librosa</span><span class="o">.</span><span class="n">stft</span><span class="p">(</span><span class="n">y</span><span class="p">)</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">y_hat</span> <span class="o">=</span> <span class="n">librosa</span><span class="o">.</span><span class="n">istft</span><span class="p">(</span><span class="n">D</span><span class="p">)</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">y_hat</span>
@@ -298,7 +305,7 @@ see <a class="reference external" href="https://docs.scipy.org/doc/scipy/referen
 </div>
 <p>Exactly preserving length of the input signal requires explicit padding.
 Otherwise, a partial frame at the end of <em class="xref py py-obj">y</em> will not be represented.</p>
-<div class="highlight-default"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">n</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">y</span><span class="p">)</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">n</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">y</span><span class="p">)</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">n_fft</span> <span class="o">=</span> <span class="mi">2048</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">y_pad</span> <span class="o">=</span> <span class="n">librosa</span><span class="o">.</span><span class="n">util</span><span class="o">.</span><span class="n">fix_length</span><span class="p">(</span><span class="n">y</span><span class="p">,</span> <span class="n">n</span> <span class="o">+</span> <span class="n">n_fft</span> <span class="o">//</span> <span class="mi">2</span><span class="p">)</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">D</span> <span class="o">=</span> <span class="n">librosa</span><span class="o">.</span><span class="n">stft</span><span class="p">(</span><span class="n">y_pad</span><span class="p">,</span> <span class="n">n_fft</span><span class="o">=</span><span class="n">n_fft</span><span class="p">)</span>
@@ -313,9 +320,7 @@ Otherwise, a partial frame at the end of <em class="xref py py-obj">y</em> will 
 
 
            </div>
-           <div class="articleComments">
-            
-           </div>
+           
           </div>
           <footer>
   
@@ -324,7 +329,7 @@ Otherwise, a partial frame at the end of <em class="xref py py-obj">y</em> will 
         <a href="librosa.core.ifgram.html" class="btn btn-neutral float-right" title="librosa.core.ifgram" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
       
       
-        <a href="librosa.core.stft.html" class="btn btn-neutral" title="librosa.core.stft" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+        <a href="librosa.core.stft.html" class="btn btn-neutral float-left" title="librosa.core.stft" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
       
     </div>
   
@@ -333,11 +338,11 @@ Otherwise, a partial frame at the end of <em class="xref py py-obj">y</em> will 
 
   <div role="contentinfo">
     <p>
-        &copy; Copyright 2013--2017, librosa development team.
+        &copy; Copyright 2013--2017, librosa development team
 
     </p>
   </div>
-  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/snide/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
 
 </footer>
 
@@ -357,19 +362,15 @@ Otherwise, a partial frame at the end of <em class="xref py py-obj">y</em> will 
     <div class="rst-other-versions">
         <dl>
             <dt>Tags</dt>
-            <dd><a href="../../0.4.0rc1/index.html">0.4.0rc1</a></dd>
-            <dd><a href="../../0.4.0rc2/index.html">0.4.0rc2</a></dd>
             <dd><a href="../../0.4.1/index.html">0.4.1</a></dd>
-            <dd><a href="../../0.4.1rc0/index.html">0.4.1rc0</a></dd>
             <dd><a href="../../0.4.2/generated/librosa.core.istft.html">0.4.2</a></dd>
             <dd><a href="../../0.4.3/generated/librosa.core.istft.html">0.4.3</a></dd>
-            <dd><a href="../../0.4.3rc0/generated/librosa.core.istft.html">0.4.3rc0</a></dd>
             <dd><a href="../../0.5.0/generated/librosa.core.istft.html">0.5.0</a></dd>
-            <dd><a href="../../0.5.0rc0/generated/librosa.core.istft.html">0.5.0rc0</a></dd>
             <dd><a href="../../0.5.1/generated/librosa.core.istft.html">0.5.1</a></dd>
             <dd><a href="../../0.6.0/generated/librosa.core.istft.html">0.6.0</a></dd>
-            <dd><a href="../../0.6.0rc0/generated/librosa.core.istft.html">0.6.0rc0</a></dd>
-            <dd><a href="../../0.6.0rc1/generated/librosa.core.istft.html">0.6.0rc1</a></dd>
+            <dd><a href="../../0.6.1/generated/librosa.core.istft.html">0.6.1</a></dd>
+            <dd><a href="../../0.6.2/generated/librosa.core.istft.html">0.6.2</a></dd>
+            <dd><a href="../../0.6.3/generated/librosa.core.istft.html">0.6.3</a></dd>
             <dd><a href="../../v0.1.0/index.html">v0.1.0</a></dd>
             <dd><a href="../../v0.4.0/index.html">v0.4.0</a></dd>
         </dl>
@@ -377,41 +378,22 @@ Otherwise, a partial frame at the end of <em class="xref py py-obj">y</em> will 
             <dt>Branches</dt>
             <dd><a href="librosa.core.istft.html">display-bin-centering</a></dd>
             <dd><a href="../../master/generated/librosa.core.istft.html">master</a></dd>
+            <dd><a href="../../mpl-test-2.1/generated/librosa.core.istft.html">mpl-test-2.1</a></dd>
+            <dd><a href="../../runnning/generated/librosa.core.istft.html">runnning</a></dd>
         </dl>
     </div>
 </div>
 
 
-  
-
-    <script type="text/javascript">
-        var DOCUMENTATION_OPTIONS = {
-            URL_ROOT:'../',
-            VERSION:'0.5.1',
-            COLLAPSE_INDEX:false,
-            FILE_SUFFIX:'.html',
-            HAS_SOURCE:  true,
-            SOURCELINK_SUFFIX: '.txt'
-        };
-    </script>
-      <script type="text/javascript" src="../_static/jquery.js"></script>
-      <script type="text/javascript" src="../_static/underscore.js"></script>
-      <script type="text/javascript" src="../_static/doctools.js"></script>
-
-  
-
-  
-  
-    <script type="text/javascript" src="../_static/js/theme.js"></script>
-  
-
-  
-  
   <script type="text/javascript">
       jQuery(function () {
-          SphinxRtdTheme.StickyNav.enable();
+          SphinxRtdTheme.Navigation.enable(true);
       });
   </script>
+
+  
+  
+    
    
 
 </body>

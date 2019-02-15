@@ -17,45 +17,46 @@
   
 
   
+  <script type="text/javascript" src="../_static/js/modernizr.min.js"></script>
+  
+    
+      <script type="text/javascript">
+          var DOCUMENTATION_OPTIONS = {
+              URL_ROOT:'../',
+              VERSION:'0.5.1',
+              LANGUAGE:'None',
+              COLLAPSE_INDEX:false,
+              FILE_SUFFIX:'.html',
+              HAS_SOURCE:  true,
+              SOURCELINK_SUFFIX: '.txt'
+          };
+      </script>
+        <script type="text/javascript" src="../_static/jquery.js"></script>
+        <script type="text/javascript" src="../_static/underscore.js"></script>
+        <script type="text/javascript" src="../_static/doctools.js"></script>
+    
+    <script type="text/javascript" src="../_static/js/theme.js"></script>
 
-  
-  
     
 
   
-
-  
-  
-    <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
-  
-
-  
-    <link rel="stylesheet" href="../_static/banner.css" type="text/css" />
-  
-
-  
-        <link rel="index" title="Index"
-              href="../genindex.html"/>
-        <link rel="search" title="Search" href="../search.html"/>
-    <link rel="top" title="librosa 0.5.1 documentation" href="../index.html"/>
-        <link rel="up" title="Core IO and DSP" href="../core.html"/>
-        <link rel="next" title="librosa.core.db_to_power" href="librosa.core.db_to_power.html"/>
-        <link rel="prev" title="librosa.core.db_to_amplitude" href="librosa.core.db_to_amplitude.html"/> 
-
-  
-  <script src="../_static/js/modernizr.min.js"></script>
-
+  <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/banner.css" type="text/css" />
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="librosa.core.db_to_power" href="librosa.core.db_to_power.html" />
+    <link rel="prev" title="librosa.core.db_to_amplitude" href="librosa.core.db_to_amplitude.html" /> 
 </head>
 
-<body class="wy-body-for-nav" role="document">
+<body class="wy-body-for-nav">
 
    
   <div class="wy-grid-for-nav">
-
     
     <nav data-toggle="wy-nav-shift" class="wy-nav-side">
       <div class="wy-side-scroll">
-        <div class="wy-side-nav-search">
+        <div class="wy-side-nav-search" >
           
 
           
@@ -145,7 +146,7 @@
     <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
 
       
-      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+      <nav class="wy-nav-top" aria-label="top navigation">
         
           <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
           <a href="../index.html">librosa</a>
@@ -153,9 +154,10 @@
       </nav>
 
 
-      
       <div class="wy-nav-content">
+        
         <div class="rst-content">
+        
           
 
 
@@ -199,66 +201,73 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
             
-  <div class="section" id="librosa-core-power-to-db">
+  
+
+
+    
+    
+
+
+
+    <p class="scv-banner scv-sphinx_rtd_theme"><a href="../../0.6.3/generated/librosa.core.power_to_db.html"><b>Warning:</b> This document is for the development version of librosa. The latest version is 0.6.3.</a></p>
+<div class="section" id="librosa-core-power-to-db">
 <h1>librosa.core.power_to_db<a class="headerlink" href="#librosa-core-power-to-db" title="Permalink to this headline">¶</a></h1>
 <dl class="function">
 <dt id="librosa.core.power_to_db">
 <code class="descclassname">librosa.core.</code><code class="descname">power_to_db</code><span class="sig-paren">(</span><em>S</em>, <em>ref=1.0</em>, <em>amin=1e-10</em>, <em>top_db=80.0</em>, <em>ref_power=&lt;DEPRECATED parameter&gt;</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/librosa/core/spectrum.html#power_to_db"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#librosa.core.power_to_db" title="Permalink to this definition">¶</a></dt>
 <dd><p>Convert a power spectrogram (amplitude squared) to decibel (dB) units</p>
-<p>This computes the scaling <code class="docutils literal"><span class="pre">10</span> <span class="pre">*</span> <span class="pre">log10(S</span> <span class="pre">/</span> <span class="pre">ref)</span></code> in a numerically
+<p>This computes the scaling <code class="docutils literal notranslate"><span class="pre">10</span> <span class="pre">*</span> <span class="pre">log10(S</span> <span class="pre">/</span> <span class="pre">ref)</span></code> in a numerically
 stable way.</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>S</strong> : np.ndarray</p>
-<blockquote>
-<div><p>input power</p>
-</div></blockquote>
-<p><strong>ref</strong> : scalar or callable</p>
-<blockquote>
-<div><p>If scalar, the amplitude <em class="xref py py-obj">abs(S)</em> is scaled relative to <em class="xref py py-obj">ref</em>:
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><dl class="first docutils">
+<dt><strong>S</strong> <span class="classifier-delimiter">:</span> <span class="classifier">np.ndarray</span></dt>
+<dd><p class="first last">input power</p>
+</dd>
+<dt><strong>ref</strong> <span class="classifier-delimiter">:</span> <span class="classifier">scalar or callable</span></dt>
+<dd><p class="first">If scalar, the amplitude <em class="xref py py-obj">abs(S)</em> is scaled relative to <em class="xref py py-obj">ref</em>:
 <em class="xref py py-obj">10 * log10(S / ref)</em>.
 Zeros in the output correspond to positions where <em class="xref py py-obj">S == ref</em>.</p>
-<p>If callable, the reference value is computed as <em class="xref py py-obj">ref(S)</em>.</p>
-</div></blockquote>
-<p><strong>amin</strong> : float &gt; 0 [scalar]</p>
-<blockquote>
-<div><p>minimum threshold for <em class="xref py py-obj">abs(S)</em> and <em class="xref py py-obj">ref</em></p>
-</div></blockquote>
-<p><strong>top_db</strong> : float &gt;= 0 [scalar]</p>
-<blockquote>
-<div><p>threshold the output at <em class="xref py py-obj">top_db</em> below the peak:
-<code class="docutils literal"><span class="pre">max(10</span> <span class="pre">*</span> <span class="pre">log10(S))</span> <span class="pre">-</span> <span class="pre">top_db</span></code></p>
-</div></blockquote>
-<p><strong>ref_power</strong> : scalar or callable</p>
-<blockquote>
-<div><div class="admonition warning">
+<p class="last">If callable, the reference value is computed as <em class="xref py py-obj">ref(S)</em>.</p>
+</dd>
+<dt><strong>amin</strong> <span class="classifier-delimiter">:</span> <span class="classifier">float &gt; 0 [scalar]</span></dt>
+<dd><p class="first last">minimum threshold for <em class="xref py py-obj">abs(S)</em> and <em class="xref py py-obj">ref</em></p>
+</dd>
+<dt><strong>top_db</strong> <span class="classifier-delimiter">:</span> <span class="classifier">float &gt;= 0 [scalar]</span></dt>
+<dd><p class="first last">threshold the output at <em class="xref py py-obj">top_db</em> below the peak:
+<code class="docutils literal notranslate"><span class="pre">max(10</span> <span class="pre">*</span> <span class="pre">log10(S))</span> <span class="pre">-</span> <span class="pre">top_db</span></code></p>
+</dd>
+<dt><strong>ref_power</strong> <span class="classifier-delimiter">:</span> <span class="classifier">scalar or callable</span></dt>
+<dd><div class="first last admonition warning">
 <p class="first admonition-title">Warning</p>
 <p class="last">This parameter name was deprecated in librosa 0.5.0.
 Use the <em class="xref py py-obj">ref</em> parameter instead.
 The <em class="xref py py-obj">ref_power</em> parameter will be removed in librosa 0.6.0.</p>
 </div>
-</div></blockquote>
+</dd>
+</dl>
 </td>
 </tr>
-<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first"><strong>S_db</strong> : np.ndarray</p>
-<blockquote class="last">
-<div><p><code class="docutils literal"><span class="pre">S_db</span> <span class="pre">~=</span> <span class="pre">10</span> <span class="pre">*</span> <span class="pre">log10(S)</span> <span class="pre">-</span> <span class="pre">10</span> <span class="pre">*</span> <span class="pre">log10(ref)</span></code></p>
-</div></blockquote>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><dl class="first last docutils">
+<dt><strong>S_db</strong> <span class="classifier-delimiter">:</span> <span class="classifier">np.ndarray</span></dt>
+<dd><p class="first last"><code class="docutils literal notranslate"><span class="pre">S_db</span> <span class="pre">~=</span> <span class="pre">10</span> <span class="pre">*</span> <span class="pre">log10(S)</span> <span class="pre">-</span> <span class="pre">10</span> <span class="pre">*</span> <span class="pre">log10(ref)</span></code></p>
+</dd>
+</dl>
 </td>
 </tr>
 </tbody>
 </table>
 <div class="admonition seealso">
 <p class="first admonition-title">See also</p>
-<p class="last"><a class="reference internal" href="librosa.core.perceptual_weighting.html#librosa.core.perceptual_weighting" title="librosa.core.perceptual_weighting"><code class="xref py py-obj docutils literal"><span class="pre">perceptual_weighting</span></code></a>, <a class="reference internal" href="librosa.core.db_to_power.html#librosa.core.db_to_power" title="librosa.core.db_to_power"><code class="xref py py-obj docutils literal"><span class="pre">db_to_power</span></code></a>, <a class="reference internal" href="librosa.core.amplitude_to_db.html#librosa.core.amplitude_to_db" title="librosa.core.amplitude_to_db"><code class="xref py py-obj docutils literal"><span class="pre">amplitude_to_db</span></code></a>, <a class="reference internal" href="librosa.core.db_to_amplitude.html#librosa.core.db_to_amplitude" title="librosa.core.db_to_amplitude"><code class="xref py py-obj docutils literal"><span class="pre">db_to_amplitude</span></code></a></p>
+<p class="last"><a class="reference internal" href="librosa.core.perceptual_weighting.html#librosa.core.perceptual_weighting" title="librosa.core.perceptual_weighting"><code class="xref py py-obj docutils literal notranslate"><span class="pre">perceptual_weighting</span></code></a>, <a class="reference internal" href="librosa.core.db_to_power.html#librosa.core.db_to_power" title="librosa.core.db_to_power"><code class="xref py py-obj docutils literal notranslate"><span class="pre">db_to_power</span></code></a>, <a class="reference internal" href="librosa.core.amplitude_to_db.html#librosa.core.amplitude_to_db" title="librosa.core.amplitude_to_db"><code class="xref py py-obj docutils literal notranslate"><span class="pre">amplitude_to_db</span></code></a>, <a class="reference internal" href="librosa.core.db_to_amplitude.html#librosa.core.db_to_amplitude" title="librosa.core.db_to_amplitude"><code class="xref py py-obj docutils literal notranslate"><span class="pre">db_to_amplitude</span></code></a></p>
 </div>
 <p class="rubric">Notes</p>
 <p>This function caches at level 30.</p>
 <p class="rubric">Examples</p>
-<p>Get a power spectrogram from a waveform <code class="docutils literal"><span class="pre">y</span></code></p>
-<div class="highlight-default"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">y</span><span class="p">,</span> <span class="n">sr</span> <span class="o">=</span> <span class="n">librosa</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">librosa</span><span class="o">.</span><span class="n">util</span><span class="o">.</span><span class="n">example_audio_file</span><span class="p">())</span>
+<p>Get a power spectrogram from a waveform <code class="docutils literal notranslate"><span class="pre">y</span></code></p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">y</span><span class="p">,</span> <span class="n">sr</span> <span class="o">=</span> <span class="n">librosa</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">librosa</span><span class="o">.</span><span class="n">util</span><span class="o">.</span><span class="n">example_audio_file</span><span class="p">())</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">S</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">librosa</span><span class="o">.</span><span class="n">stft</span><span class="p">(</span><span class="n">y</span><span class="p">))</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">librosa</span><span class="o">.</span><span class="n">power_to_db</span><span class="p">(</span><span class="n">S</span><span class="o">**</span><span class="mi">2</span><span class="p">)</span>
 <span class="go">array([[-33.293, -27.32 , ..., -33.293, -33.293],</span>
@@ -269,7 +278,7 @@ The <em class="xref py py-obj">ref_power</em> parameter will be removed in libro
 </pre></div>
 </div>
 <p>Compute dB relative to peak power</p>
-<div class="highlight-default"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">librosa</span><span class="o">.</span><span class="n">power_to_db</span><span class="p">(</span><span class="n">S</span><span class="o">**</span><span class="mi">2</span><span class="p">,</span> <span class="n">ref</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">max</span><span class="p">)</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">librosa</span><span class="o">.</span><span class="n">power_to_db</span><span class="p">(</span><span class="n">S</span><span class="o">**</span><span class="mi">2</span><span class="p">,</span> <span class="n">ref</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">max</span><span class="p">)</span>
 <span class="go">array([[-80.   , -74.027, ..., -80.   , -80.   ],</span>
 <span class="go">       [-80.   , -72.431, ..., -80.   , -80.   ],</span>
 <span class="go">       ...,</span>
@@ -278,7 +287,7 @@ The <em class="xref py py-obj">ref_power</em> parameter will be removed in libro
 </pre></div>
 </div>
 <p>Or compare to median power</p>
-<div class="highlight-default"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">librosa</span><span class="o">.</span><span class="n">power_to_db</span><span class="p">(</span><span class="n">S</span><span class="o">**</span><span class="mi">2</span><span class="p">,</span> <span class="n">ref</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">median</span><span class="p">)</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">librosa</span><span class="o">.</span><span class="n">power_to_db</span><span class="p">(</span><span class="n">S</span><span class="o">**</span><span class="mi">2</span><span class="p">,</span> <span class="n">ref</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">median</span><span class="p">)</span>
 <span class="go">array([[-0.189,  5.784, ..., -0.189, -0.189],</span>
 <span class="go">       [-0.189,  7.381, ..., -0.189, -0.189],</span>
 <span class="go">       ...,</span>
@@ -287,7 +296,7 @@ The <em class="xref py py-obj">ref_power</em> parameter will be removed in libro
 </pre></div>
 </div>
 <p>And plot the results</p>
-<div class="highlight-default"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">()</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">plt</span><span class="o">.</span><span class="n">subplot</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">librosa</span><span class="o">.</span><span class="n">display</span><span class="o">.</span><span class="n">specshow</span><span class="p">(</span><span class="n">S</span><span class="o">**</span><span class="mi">2</span><span class="p">,</span> <span class="n">sr</span><span class="o">=</span><span class="n">sr</span><span class="p">,</span> <span class="n">y_axis</span><span class="o">=</span><span class="s1">&#39;log&#39;</span><span class="p">)</span>
@@ -311,9 +320,7 @@ The <em class="xref py py-obj">ref_power</em> parameter will be removed in libro
 
 
            </div>
-           <div class="articleComments">
-            
-           </div>
+           
           </div>
           <footer>
   
@@ -322,7 +329,7 @@ The <em class="xref py py-obj">ref_power</em> parameter will be removed in libro
         <a href="librosa.core.db_to_power.html" class="btn btn-neutral float-right" title="librosa.core.db_to_power" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
       
       
-        <a href="librosa.core.db_to_amplitude.html" class="btn btn-neutral" title="librosa.core.db_to_amplitude" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+        <a href="librosa.core.db_to_amplitude.html" class="btn btn-neutral float-left" title="librosa.core.db_to_amplitude" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
       
     </div>
   
@@ -331,11 +338,11 @@ The <em class="xref py py-obj">ref_power</em> parameter will be removed in libro
 
   <div role="contentinfo">
     <p>
-        &copy; Copyright 2013--2017, librosa development team.
+        &copy; Copyright 2013--2017, librosa development team
 
     </p>
   </div>
-  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/snide/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
 
 </footer>
 
@@ -355,19 +362,15 @@ The <em class="xref py py-obj">ref_power</em> parameter will be removed in libro
     <div class="rst-other-versions">
         <dl>
             <dt>Tags</dt>
-            <dd><a href="../../0.4.0rc1/index.html">0.4.0rc1</a></dd>
-            <dd><a href="../../0.4.0rc2/index.html">0.4.0rc2</a></dd>
             <dd><a href="../../0.4.1/index.html">0.4.1</a></dd>
-            <dd><a href="../../0.4.1rc0/index.html">0.4.1rc0</a></dd>
             <dd><a href="../../0.4.2/index.html">0.4.2</a></dd>
             <dd><a href="../../0.4.3/index.html">0.4.3</a></dd>
-            <dd><a href="../../0.4.3rc0/index.html">0.4.3rc0</a></dd>
             <dd><a href="../../0.5.0/generated/librosa.core.power_to_db.html">0.5.0</a></dd>
-            <dd><a href="../../0.5.0rc0/generated/librosa.core.power_to_db.html">0.5.0rc0</a></dd>
             <dd><a href="../../0.5.1/generated/librosa.core.power_to_db.html">0.5.1</a></dd>
             <dd><a href="../../0.6.0/generated/librosa.core.power_to_db.html">0.6.0</a></dd>
-            <dd><a href="../../0.6.0rc0/generated/librosa.core.power_to_db.html">0.6.0rc0</a></dd>
-            <dd><a href="../../0.6.0rc1/generated/librosa.core.power_to_db.html">0.6.0rc1</a></dd>
+            <dd><a href="../../0.6.1/generated/librosa.core.power_to_db.html">0.6.1</a></dd>
+            <dd><a href="../../0.6.2/generated/librosa.core.power_to_db.html">0.6.2</a></dd>
+            <dd><a href="../../0.6.3/generated/librosa.core.power_to_db.html">0.6.3</a></dd>
             <dd><a href="../../v0.1.0/index.html">v0.1.0</a></dd>
             <dd><a href="../../v0.4.0/index.html">v0.4.0</a></dd>
         </dl>
@@ -375,41 +378,22 @@ The <em class="xref py py-obj">ref_power</em> parameter will be removed in libro
             <dt>Branches</dt>
             <dd><a href="librosa.core.power_to_db.html">display-bin-centering</a></dd>
             <dd><a href="../../master/generated/librosa.core.power_to_db.html">master</a></dd>
+            <dd><a href="../../mpl-test-2.1/generated/librosa.core.power_to_db.html">mpl-test-2.1</a></dd>
+            <dd><a href="../../runnning/generated/librosa.core.power_to_db.html">runnning</a></dd>
         </dl>
     </div>
 </div>
 
 
-  
-
-    <script type="text/javascript">
-        var DOCUMENTATION_OPTIONS = {
-            URL_ROOT:'../',
-            VERSION:'0.5.1',
-            COLLAPSE_INDEX:false,
-            FILE_SUFFIX:'.html',
-            HAS_SOURCE:  true,
-            SOURCELINK_SUFFIX: '.txt'
-        };
-    </script>
-      <script type="text/javascript" src="../_static/jquery.js"></script>
-      <script type="text/javascript" src="../_static/underscore.js"></script>
-      <script type="text/javascript" src="../_static/doctools.js"></script>
-
-  
-
-  
-  
-    <script type="text/javascript" src="../_static/js/theme.js"></script>
-  
-
-  
-  
   <script type="text/javascript">
       jQuery(function () {
-          SphinxRtdTheme.StickyNav.enable();
+          SphinxRtdTheme.Navigation.enable(true);
       });
   </script>
+
+  
+  
+    
    
 
 </body>

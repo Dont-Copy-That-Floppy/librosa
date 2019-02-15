@@ -17,13 +17,29 @@
   
 
   
+  <script type="text/javascript" src="../_static/js/modernizr.min.js"></script>
+  
+    
+      <script type="text/javascript">
+          var DOCUMENTATION_OPTIONS = {
+              URL_ROOT:'../',
+              VERSION:'0.4.2',
+              LANGUAGE:'None',
+              COLLAPSE_INDEX:false,
+              FILE_SUFFIX:'.html',
+              HAS_SOURCE:  true,
+              SOURCELINK_SUFFIX: '.txt'
+          };
+      </script>
+        <script type="text/javascript" src="../_static/jquery.js"></script>
+        <script type="text/javascript" src="../_static/underscore.js"></script>
+        <script type="text/javascript" src="../_static/doctools.js"></script>
+    
+    <script type="text/javascript" src="../_static/js/theme.js"></script>
 
-  
-  
     
 
   
-
   <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
   <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
   <link rel="stylesheet" href="../_static/banner.css" type="text/css" />
@@ -31,21 +47,16 @@
     <link rel="search" title="Search" href="../search.html" />
     <link rel="next" title="librosa.util.fix_frames" href="librosa.util.fix_frames.html" />
     <link rel="prev" title="librosa.util.pad_center" href="librosa.util.pad_center.html" /> 
-
-  
-  <script src="../_static/js/modernizr.min.js"></script>
-
 </head>
 
 <body class="wy-body-for-nav">
 
    
   <div class="wy-grid-for-nav">
-
     
     <nav data-toggle="wy-nav-shift" class="wy-nav-side">
       <div class="wy-side-scroll">
-        <div class="wy-side-nav-search">
+        <div class="wy-side-nav-search" >
           
 
           
@@ -200,15 +211,15 @@
 
 
 
-    <p class="scv-banner scv-sphinx_rtd_theme"><a href="../../0.6.2/generated/librosa.util.fix_length.html"><b>Warning:</b> This document is for an old version of librosa. The latest version is 0.6.2.</a></p>
+    <p class="scv-banner scv-sphinx_rtd_theme"><a href="../../0.6.3/generated/librosa.util.fix_length.html"><b>Warning:</b> This document is for an old version of librosa. The latest version is 0.6.3.</a></p>
 <div class="section" id="librosa-util-fix-length">
 <h1>librosa.util.fix_length<a class="headerlink" href="#librosa-util-fix-length" title="Permalink to this headline">¶</a></h1>
 <dl class="function">
 <dt id="librosa.util.fix_length">
 <code class="descclassname">librosa.util.</code><code class="descname">fix_length</code><span class="sig-paren">(</span><em>data</em>, <em>size</em>, <em>axis=-1</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/librosa/util/utils.html#fix_length"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#librosa.util.fix_length" title="Permalink to this definition">¶</a></dt>
-<dd><p>Fix the length an array <code class="xref py py-obj docutils literal notranslate"><span class="pre">data</span></code> to exactly <em class="xref py py-obj">size</em>.</p>
+<dd><p>Fix the length an array <em class="xref py py-obj">data</em> to exactly <em class="xref py py-obj">size</em>.</p>
 <p>If <em class="xref py py-obj">data.shape[axis] &lt; n</em>, pad according to the provided kwargs.
-By default, <code class="xref py py-obj docutils literal notranslate"><span class="pre">data</span></code> is padded with trailing zeros.</p>
+By default, <em class="xref py py-obj">data</em> is padded with trailing zeros.</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
@@ -231,7 +242,7 @@ By default, <code class="xref py py-obj docutils literal notranslate"><span clas
 </tr>
 <tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><dl class="first last docutils">
 <dt><strong>data_fixed</strong> <span class="classifier-delimiter">:</span> <span class="classifier">np.ndarray [shape=data.shape]</span></dt>
-<dd><p class="first last"><code class="xref py py-obj docutils literal notranslate"><span class="pre">data</span></code> either trimmed or padded to length <em class="xref py py-obj">size</em>
+<dd><p class="first last"><em class="xref py py-obj">data</em> either trimmed or padded to length <em class="xref py py-obj">size</em>
 along the specified axis.</p>
 </dd>
 </dl>
@@ -241,7 +252,7 @@ along the specified axis.</p>
 </table>
 <div class="admonition seealso">
 <p class="first admonition-title">See also</p>
-<p class="last"><a class="reference external" href="https://docs.scipy.org/doc/numpy/reference/generated/numpy.pad.html#numpy.pad" title="(in NumPy v1.15)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">numpy.pad</span></code></a></p>
+<p class="last"><a class="reference external" href="https://docs.scipy.org/doc/numpy/reference/generated/numpy.pad.html#numpy.pad" title="(in NumPy v1.16)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">numpy.pad</span></code></a></p>
 </div>
 <p class="rubric">Examples</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">y</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="mi">7</span><span class="p">)</span>
@@ -271,7 +282,7 @@ along the specified axis.</p>
         <a href="librosa.util.fix_frames.html" class="btn btn-neutral float-right" title="librosa.util.fix_frames" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
       
       
-        <a href="librosa.util.pad_center.html" class="btn btn-neutral" title="librosa.util.pad_center" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+        <a href="librosa.util.pad_center.html" class="btn btn-neutral float-left" title="librosa.util.pad_center" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
       
     </div>
   
@@ -280,7 +291,7 @@ along the specified axis.</p>
 
   <div role="contentinfo">
     <p>
-        &copy; Copyright 2016, librosa development team.
+        &copy; Copyright 2016, librosa development team
 
     </p>
   </div>
@@ -312,43 +323,31 @@ along the specified axis.</p>
             <dd><a href="../../0.6.0/generated/librosa.util.fix_length.html">0.6.0</a></dd>
             <dd><a href="../../0.6.1/generated/librosa.util.fix_length.html">0.6.1</a></dd>
             <dd><a href="../../0.6.2/generated/librosa.util.fix_length.html">0.6.2</a></dd>
+            <dd><a href="../../0.6.3/generated/librosa.util.fix_length.html">0.6.3</a></dd>
             <dd><a href="../../v0.1.0/index.html">v0.1.0</a></dd>
             <dd><a href="../../v0.4.0/index.html">v0.4.0</a></dd>
         </dl>
         <dl>
             <dt>Branches</dt>
+            <dd><a href="../../display-bin-centering/generated/librosa.util.fix_length.html">display-bin-centering</a></dd>
             <dd><a href="../../master/generated/librosa.util.fix_length.html">master</a></dd>
+            <dd><a href="../../mpl-test-2.1/generated/librosa.util.fix_length.html">mpl-test-2.1</a></dd>
+            <dd><a href="../../runnning/generated/librosa.util.fix_length.html">runnning</a></dd>
         </dl>
     </div>
 </div>
 
 
-  
-
-    <script type="text/javascript">
-        var DOCUMENTATION_OPTIONS = {
-            URL_ROOT:'../',
-            VERSION:'0.4.2',
-            LANGUAGE:'None',
-            COLLAPSE_INDEX:false,
-            FILE_SUFFIX:'.html',
-            HAS_SOURCE:  true,
-            SOURCELINK_SUFFIX: '.txt'
-        };
-    </script>
-      <script type="text/javascript" src="../_static/jquery.js"></script>
-      <script type="text/javascript" src="../_static/underscore.js"></script>
-      <script type="text/javascript" src="../_static/doctools.js"></script>
-
-  
-
-  <script type="text/javascript" src="../_static/js/theme.js"></script>
-
   <script type="text/javascript">
       jQuery(function () {
           SphinxRtdTheme.Navigation.enable(true);
       });
-  </script> 
+  </script>
+
+  
+  
+    
+   
 
 </body>
 </html>

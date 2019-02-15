@@ -17,45 +17,46 @@
   
 
   
+  <script type="text/javascript" src="../_static/js/modernizr.min.js"></script>
+  
+    
+      <script type="text/javascript">
+          var DOCUMENTATION_OPTIONS = {
+              URL_ROOT:'../',
+              VERSION:'0.5.1',
+              LANGUAGE:'None',
+              COLLAPSE_INDEX:false,
+              FILE_SUFFIX:'.html',
+              HAS_SOURCE:  true,
+              SOURCELINK_SUFFIX: '.txt'
+          };
+      </script>
+        <script type="text/javascript" src="../_static/jquery.js"></script>
+        <script type="text/javascript" src="../_static/underscore.js"></script>
+        <script type="text/javascript" src="../_static/doctools.js"></script>
+    
+    <script type="text/javascript" src="../_static/js/theme.js"></script>
 
-  
-  
     
 
   
-
-  
-  
-    <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
-  
-
-  
-    <link rel="stylesheet" href="../_static/banner.css" type="text/css" />
-  
-
-  
-        <link rel="index" title="Index"
-              href="../genindex.html"/>
-        <link rel="search" title="Search" href="../search.html"/>
-    <link rel="top" title="librosa 0.5.1 documentation" href="../index.html"/>
-        <link rel="up" title="Spectrogram decomposition" href="../decompose.html"/>
-        <link rel="next" title="librosa.decompose.nn_filter" href="librosa.decompose.nn_filter.html"/>
-        <link rel="prev" title="librosa.decompose.decompose" href="librosa.decompose.decompose.html"/> 
-
-  
-  <script src="../_static/js/modernizr.min.js"></script>
-
+  <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/banner.css" type="text/css" />
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="librosa.decompose.nn_filter" href="librosa.decompose.nn_filter.html" />
+    <link rel="prev" title="librosa.decompose.decompose" href="librosa.decompose.decompose.html" /> 
 </head>
 
-<body class="wy-body-for-nav" role="document">
+<body class="wy-body-for-nav">
 
    
   <div class="wy-grid-for-nav">
-
     
     <nav data-toggle="wy-nav-shift" class="wy-nav-side">
       <div class="wy-side-scroll">
-        <div class="wy-side-nav-search">
+        <div class="wy-side-nav-search" >
           
 
           
@@ -133,7 +134,7 @@
     <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
 
       
-      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+      <nav class="wy-nav-top" aria-label="top navigation">
         
           <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
           <a href="../index.html">librosa</a>
@@ -141,9 +142,10 @@
       </nav>
 
 
-      
       <div class="wy-nav-content">
+        
         <div class="rst-content">
+        
           
 
 
@@ -187,7 +189,16 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
             
-  <div class="section" id="librosa-decompose-hpss">
+  
+
+
+    
+    
+
+
+
+    <p class="scv-banner scv-sphinx_rtd_theme"><a href="../../0.6.3/generated/librosa.decompose.hpss.html"><b>Warning:</b> This document is for the development version of librosa. The latest version is 0.6.3.</a></p>
+<div class="section" id="librosa-decompose-hpss">
 <h1>librosa.decompose.hpss<a class="headerlink" href="#librosa-decompose-hpss" title="Permalink to this headline">¶</a></h1>
 <dl class="function">
 <dt id="librosa.decompose.hpss">
@@ -198,21 +209,21 @@ where <em class="xref py py-obj">H</em> contains the harmonic components,
 and <em class="xref py py-obj">P</em> contains the percussive components.</p>
 <p>If <em class="xref py py-obj">margin &gt; 1.0</em>, decomposes an input spectrogram <em class="xref py py-obj">S = H + P + R</em>
 where <em class="xref py py-obj">R</em> contains residual components not included in <em class="xref py py-obj">H</em> or <em class="xref py py-obj">P</em>.</p>
-<p>This implementation is based upon the algorithm described by <a class="reference internal" href="#r6364" id="id1">[R6364]</a> and <a class="reference internal" href="#r6464" id="id2">[R6464]</a>.</p>
-<table class="docutils citation" frame="void" id="r6364" rules="none">
+<p>This implementation is based upon the algorithm described by <a class="reference internal" href="#r2a300cf79772-1" id="id1">[1]</a> and <a class="reference internal" href="#r2a300cf79772-2" id="id2">[2]</a>.</p>
+<table class="docutils citation" frame="void" id="r2a300cf79772-1" rules="none">
 <colgroup><col class="label" /><col /></colgroup>
 <tbody valign="top">
-<tr><td class="label"><a class="fn-backref" href="#id1">[R6364]</a></td><td>Fitzgerald, Derry.
-&#8220;Harmonic/percussive separation using median filtering.&#8221;
+<tr><td class="label"><a class="fn-backref" href="#id1">[1]</a></td><td>Fitzgerald, Derry.
+“Harmonic/percussive separation using median filtering.”
 13th International Conference on Digital Audio Effects (DAFX10),
 Graz, Austria, 2010.</td></tr>
 </tbody>
 </table>
-<table class="docutils citation" frame="void" id="r6464" rules="none">
+<table class="docutils citation" frame="void" id="r2a300cf79772-2" rules="none">
 <colgroup><col class="label" /><col /></colgroup>
 <tbody valign="top">
-<tr><td class="label">[R6464]</td><td><em>(<a class="fn-backref" href="#id2">1</a>, <a class="fn-backref" href="#id3">2</a>)</em> Driedger, Müller, Disch.
-&#8220;Extending harmonic-percussive separation of audio.&#8221;
+<tr><td class="label">[2]</td><td><em>(<a class="fn-backref" href="#id2">1</a>, <a class="fn-backref" href="#id3">2</a>)</em> Driedger, Müller, Disch.
+“Extending harmonic-percussive separation of audio.”
 15th International Society for Music Information Retrieval Conference (ISMIR 2014),
 Taipei, Taiwan, 2014.</td></tr>
 </tbody>
@@ -221,71 +232,68 @@ Taipei, Taiwan, 2014.</td></tr>
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>S</strong> : np.ndarray [shape=(d, n)]</p>
-<blockquote>
-<div><p>input spectrogram. May be real (magnitude) or complex.</p>
-</div></blockquote>
-<p><strong>kernel_size</strong> : int or tuple (kernel_harmonic, kernel_percussive)</p>
-<blockquote>
-<div><p>kernel size(s) for the median filters.</p>
-<ul class="simple">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><dl class="first docutils">
+<dt><strong>S</strong> <span class="classifier-delimiter">:</span> <span class="classifier">np.ndarray [shape=(d, n)]</span></dt>
+<dd><p class="first last">input spectrogram. May be real (magnitude) or complex.</p>
+</dd>
+<dt><strong>kernel_size</strong> <span class="classifier-delimiter">:</span> <span class="classifier">int or tuple (kernel_harmonic, kernel_percussive)</span></dt>
+<dd><p class="first">kernel size(s) for the median filters.</p>
+<ul class="last simple">
 <li>If scalar, the same size is used for both harmonic and percussive.</li>
 <li>If tuple, the first value specifies the width of the
 harmonic filter, and the second value specifies the width
 of the percussive filter.</li>
 </ul>
-</div></blockquote>
-<p><strong>power</strong> : float &gt; 0 [scalar]</p>
-<blockquote>
-<div><p>Exponent for the Wiener filter when constructing soft mask matrices.</p>
-</div></blockquote>
-<p><strong>mask</strong> : bool</p>
-<blockquote>
-<div><p>Return the masking matrices instead of components.</p>
+</dd>
+<dt><strong>power</strong> <span class="classifier-delimiter">:</span> <span class="classifier">float &gt; 0 [scalar]</span></dt>
+<dd><p class="first last">Exponent for the Wiener filter when constructing soft mask matrices.</p>
+</dd>
+<dt><strong>mask</strong> <span class="classifier-delimiter">:</span> <span class="classifier">bool</span></dt>
+<dd><p class="first">Return the masking matrices instead of components.</p>
 <p>Masking matrices contain non-negative real values that
 can be used to measure the assignment of energy from <em class="xref py py-obj">S</em>
 into harmonic or percussive components.</p>
-<p>Components can be recovered by multiplying <em class="xref py py-obj">S * mask_H</em>
+<p class="last">Components can be recovered by multiplying <em class="xref py py-obj">S * mask_H</em>
 or <em class="xref py py-obj">S * mask_P</em>.</p>
-</div></blockquote>
-<p><strong>margin</strong> : float or tuple (margin_harmonic, margin_percussive)</p>
-<blockquote>
-<div><p>margin size(s) for the masks (as described in <a class="reference internal" href="#r6464" id="id3">[R6464]</a>)</p>
-<ul class="simple">
+</dd>
+<dt><strong>margin</strong> <span class="classifier-delimiter">:</span> <span class="classifier">float or tuple (margin_harmonic, margin_percussive)</span></dt>
+<dd><p class="first">margin size(s) for the masks (as described in <a class="reference internal" href="#r2a300cf79772-2" id="id3">[2]</a>)</p>
+<ul class="last simple">
 <li>If scalar, the same size is used for both harmonic and percussive.</li>
 <li>If tuple, the first value specifies the margin of the
 harmonic mask, and the second value specifies the margin
 of the percussive mask.</li>
 </ul>
-</div></blockquote>
+</dd>
+</dl>
 </td>
 </tr>
-<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first"><strong>harmonic</strong> : np.ndarray [shape=(d, n)]</p>
-<blockquote>
-<div><p>harmonic component (or mask)</p>
-</div></blockquote>
-<p><strong>percussive</strong> : np.ndarray [shape=(d, n)]</p>
-<blockquote class="last">
-<div><p>percussive component (or mask)</p>
-</div></blockquote>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><dl class="first last docutils">
+<dt><strong>harmonic</strong> <span class="classifier-delimiter">:</span> <span class="classifier">np.ndarray [shape=(d, n)]</span></dt>
+<dd><p class="first last">harmonic component (or mask)</p>
+</dd>
+<dt><strong>percussive</strong> <span class="classifier-delimiter">:</span> <span class="classifier">np.ndarray [shape=(d, n)]</span></dt>
+<dd><p class="first last">percussive component (or mask)</p>
+</dd>
+</dl>
 </td>
 </tr>
 </tbody>
 </table>
 <div class="admonition seealso">
 <p class="first admonition-title">See also</p>
-<p class="last"><code class="xref py py-obj docutils literal"><span class="pre">util.softmask</span></code></p>
+<p class="last"><code class="xref py py-obj docutils literal notranslate"><span class="pre">util.softmask</span></code></p>
 </div>
 <p class="rubric">Notes</p>
 <p>This function caches at level 30.</p>
 <p class="rubric">Examples</p>
 <p>Separate into harmonic and percussive</p>
-<div class="highlight-default"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">y</span><span class="p">,</span> <span class="n">sr</span> <span class="o">=</span> <span class="n">librosa</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">librosa</span><span class="o">.</span><span class="n">util</span><span class="o">.</span><span class="n">example_audio_file</span><span class="p">(),</span> <span class="n">duration</span><span class="o">=</span><span class="mi">15</span><span class="p">)</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">y</span><span class="p">,</span> <span class="n">sr</span> <span class="o">=</span> <span class="n">librosa</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">librosa</span><span class="o">.</span><span class="n">util</span><span class="o">.</span><span class="n">example_audio_file</span><span class="p">(),</span> <span class="n">duration</span><span class="o">=</span><span class="mi">15</span><span class="p">)</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">D</span> <span class="o">=</span> <span class="n">librosa</span><span class="o">.</span><span class="n">stft</span><span class="p">(</span><span class="n">y</span><span class="p">)</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">H</span><span class="p">,</span> <span class="n">P</span> <span class="o">=</span> <span class="n">librosa</span><span class="o">.</span><span class="n">decompose</span><span class="o">.</span><span class="n">hpss</span><span class="p">(</span><span class="n">D</span><span class="p">)</span>
 </pre></div>
 </div>
-<div class="highlight-default"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">()</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">plt</span><span class="o">.</span><span class="n">subplot</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">librosa</span><span class="o">.</span><span class="n">display</span><span class="o">.</span><span class="n">specshow</span><span class="p">(</span><span class="n">librosa</span><span class="o">.</span><span class="n">amplitude_to_db</span><span class="p">(</span><span class="n">D</span><span class="p">,</span>
@@ -309,11 +317,11 @@ of the percussive mask.</li>
 </pre></div>
 </div>
 <p>Or with a narrower horizontal filter</p>
-<div class="highlight-default"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">H</span><span class="p">,</span> <span class="n">P</span> <span class="o">=</span> <span class="n">librosa</span><span class="o">.</span><span class="n">decompose</span><span class="o">.</span><span class="n">hpss</span><span class="p">(</span><span class="n">D</span><span class="p">,</span> <span class="n">kernel_size</span><span class="o">=</span><span class="p">(</span><span class="mi">13</span><span class="p">,</span> <span class="mi">31</span><span class="p">))</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">H</span><span class="p">,</span> <span class="n">P</span> <span class="o">=</span> <span class="n">librosa</span><span class="o">.</span><span class="n">decompose</span><span class="o">.</span><span class="n">hpss</span><span class="p">(</span><span class="n">D</span><span class="p">,</span> <span class="n">kernel_size</span><span class="o">=</span><span class="p">(</span><span class="mi">13</span><span class="p">,</span> <span class="mi">31</span><span class="p">))</span>
 </pre></div>
 </div>
 <p>Just get harmonic/percussive masks, not the spectra</p>
-<div class="highlight-default"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">mask_H</span><span class="p">,</span> <span class="n">mask_P</span> <span class="o">=</span> <span class="n">librosa</span><span class="o">.</span><span class="n">decompose</span><span class="o">.</span><span class="n">hpss</span><span class="p">(</span><span class="n">D</span><span class="p">,</span> <span class="n">mask</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">mask_H</span><span class="p">,</span> <span class="n">mask_P</span> <span class="o">=</span> <span class="n">librosa</span><span class="o">.</span><span class="n">decompose</span><span class="o">.</span><span class="n">hpss</span><span class="p">(</span><span class="n">D</span><span class="p">,</span> <span class="n">mask</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">mask_H</span>
 <span class="go">array([[  1.000e+00,   1.469e-01, ...,   2.648e-03,   2.164e-03],</span>
 <span class="go">       [  1.000e+00,   2.368e-01, ...,   9.413e-03,   7.703e-03],</span>
@@ -329,7 +337,7 @@ of the percussive mask.</li>
 </pre></div>
 </div>
 <p>Separate into harmonic/percussive/residual components by using a margin &gt; 1.0</p>
-<div class="highlight-default"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">H</span><span class="p">,</span> <span class="n">P</span> <span class="o">=</span> <span class="n">librosa</span><span class="o">.</span><span class="n">decompose</span><span class="o">.</span><span class="n">hpss</span><span class="p">(</span><span class="n">D</span><span class="p">,</span> <span class="n">margin</span><span class="o">=</span><span class="mf">3.0</span><span class="p">)</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">H</span><span class="p">,</span> <span class="n">P</span> <span class="o">=</span> <span class="n">librosa</span><span class="o">.</span><span class="n">decompose</span><span class="o">.</span><span class="n">hpss</span><span class="p">(</span><span class="n">D</span><span class="p">,</span> <span class="n">margin</span><span class="o">=</span><span class="mf">3.0</span><span class="p">)</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">R</span> <span class="o">=</span> <span class="n">D</span> <span class="o">-</span> <span class="p">(</span><span class="n">H</span><span class="o">+</span><span class="n">P</span><span class="p">)</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">y_harm</span> <span class="o">=</span> <span class="n">librosa</span><span class="o">.</span><span class="n">core</span><span class="o">.</span><span class="n">istft</span><span class="p">(</span><span class="n">H</span><span class="p">)</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">y_perc</span> <span class="o">=</span> <span class="n">librosa</span><span class="o">.</span><span class="n">core</span><span class="o">.</span><span class="n">istft</span><span class="p">(</span><span class="n">P</span><span class="p">)</span>
@@ -337,7 +345,7 @@ of the percussive mask.</li>
 </pre></div>
 </div>
 <p>Get a more isolated percussive component by widening its margin</p>
-<div class="highlight-default"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">H</span><span class="p">,</span> <span class="n">P</span> <span class="o">=</span> <span class="n">librosa</span><span class="o">.</span><span class="n">decompose</span><span class="o">.</span><span class="n">hpss</span><span class="p">(</span><span class="n">D</span><span class="p">,</span> <span class="n">margin</span><span class="o">=</span><span class="p">(</span><span class="mf">1.0</span><span class="p">,</span><span class="mf">5.0</span><span class="p">))</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">H</span><span class="p">,</span> <span class="n">P</span> <span class="o">=</span> <span class="n">librosa</span><span class="o">.</span><span class="n">decompose</span><span class="o">.</span><span class="n">hpss</span><span class="p">(</span><span class="n">D</span><span class="p">,</span> <span class="n">margin</span><span class="o">=</span><span class="p">(</span><span class="mf">1.0</span><span class="p">,</span><span class="mf">5.0</span><span class="p">))</span>
 </pre></div>
 </div>
 <p>(<a class="reference external" href="../generated/librosa-decompose-hpss-1.py">Source code</a>)</p>
@@ -350,9 +358,7 @@ of the percussive mask.</li>
 
 
            </div>
-           <div class="articleComments">
-            
-           </div>
+           
           </div>
           <footer>
   
@@ -361,7 +367,7 @@ of the percussive mask.</li>
         <a href="librosa.decompose.nn_filter.html" class="btn btn-neutral float-right" title="librosa.decompose.nn_filter" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
       
       
-        <a href="librosa.decompose.decompose.html" class="btn btn-neutral" title="librosa.decompose.decompose" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+        <a href="librosa.decompose.decompose.html" class="btn btn-neutral float-left" title="librosa.decompose.decompose" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
       
     </div>
   
@@ -370,11 +376,11 @@ of the percussive mask.</li>
 
   <div role="contentinfo">
     <p>
-        &copy; Copyright 2013--2017, librosa development team.
+        &copy; Copyright 2013--2017, librosa development team
 
     </p>
   </div>
-  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/snide/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
 
 </footer>
 
@@ -394,19 +400,15 @@ of the percussive mask.</li>
     <div class="rst-other-versions">
         <dl>
             <dt>Tags</dt>
-            <dd><a href="../../0.4.0rc1/index.html">0.4.0rc1</a></dd>
-            <dd><a href="../../0.4.0rc2/index.html">0.4.0rc2</a></dd>
             <dd><a href="../../0.4.1/index.html">0.4.1</a></dd>
-            <dd><a href="../../0.4.1rc0/index.html">0.4.1rc0</a></dd>
             <dd><a href="../../0.4.2/generated/librosa.decompose.hpss.html">0.4.2</a></dd>
             <dd><a href="../../0.4.3/generated/librosa.decompose.hpss.html">0.4.3</a></dd>
-            <dd><a href="../../0.4.3rc0/generated/librosa.decompose.hpss.html">0.4.3rc0</a></dd>
             <dd><a href="../../0.5.0/generated/librosa.decompose.hpss.html">0.5.0</a></dd>
-            <dd><a href="../../0.5.0rc0/generated/librosa.decompose.hpss.html">0.5.0rc0</a></dd>
             <dd><a href="../../0.5.1/generated/librosa.decompose.hpss.html">0.5.1</a></dd>
             <dd><a href="../../0.6.0/generated/librosa.decompose.hpss.html">0.6.0</a></dd>
-            <dd><a href="../../0.6.0rc0/generated/librosa.decompose.hpss.html">0.6.0rc0</a></dd>
-            <dd><a href="../../0.6.0rc1/generated/librosa.decompose.hpss.html">0.6.0rc1</a></dd>
+            <dd><a href="../../0.6.1/generated/librosa.decompose.hpss.html">0.6.1</a></dd>
+            <dd><a href="../../0.6.2/generated/librosa.decompose.hpss.html">0.6.2</a></dd>
+            <dd><a href="../../0.6.3/generated/librosa.decompose.hpss.html">0.6.3</a></dd>
             <dd><a href="../../v0.1.0/index.html">v0.1.0</a></dd>
             <dd><a href="../../v0.4.0/index.html">v0.4.0</a></dd>
         </dl>
@@ -414,41 +416,22 @@ of the percussive mask.</li>
             <dt>Branches</dt>
             <dd><a href="librosa.decompose.hpss.html">display-bin-centering</a></dd>
             <dd><a href="../../master/generated/librosa.decompose.hpss.html">master</a></dd>
+            <dd><a href="../../mpl-test-2.1/generated/librosa.decompose.hpss.html">mpl-test-2.1</a></dd>
+            <dd><a href="../../runnning/generated/librosa.decompose.hpss.html">runnning</a></dd>
         </dl>
     </div>
 </div>
 
 
-  
-
-    <script type="text/javascript">
-        var DOCUMENTATION_OPTIONS = {
-            URL_ROOT:'../',
-            VERSION:'0.5.1',
-            COLLAPSE_INDEX:false,
-            FILE_SUFFIX:'.html',
-            HAS_SOURCE:  true,
-            SOURCELINK_SUFFIX: '.txt'
-        };
-    </script>
-      <script type="text/javascript" src="../_static/jquery.js"></script>
-      <script type="text/javascript" src="../_static/underscore.js"></script>
-      <script type="text/javascript" src="../_static/doctools.js"></script>
-
-  
-
-  
-  
-    <script type="text/javascript" src="../_static/js/theme.js"></script>
-  
-
-  
-  
   <script type="text/javascript">
       jQuery(function () {
-          SphinxRtdTheme.StickyNav.enable();
+          SphinxRtdTheme.Navigation.enable(true);
       });
   </script>
+
+  
+  
+    
    
 
 </body>

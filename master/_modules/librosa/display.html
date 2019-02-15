@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>librosa.display &mdash; librosa 0.6.2 documentation</title>
+  <title>librosa.display &mdash; librosa 0.6.3 documentation</title>
   
 
   
@@ -17,34 +17,46 @@
   
 
   
+  <script type="text/javascript" src="../../_static/js/modernizr.min.js"></script>
+  
+    
+      <script type="text/javascript">
+          var DOCUMENTATION_OPTIONS = {
+              URL_ROOT:'../../',
+              VERSION:'0.6.3',
+              LANGUAGE:'None',
+              COLLAPSE_INDEX:false,
+              FILE_SUFFIX:'.html',
+              HAS_SOURCE:  true,
+              SOURCELINK_SUFFIX: '.txt'
+          };
+      </script>
+        <script type="text/javascript" src="../../_static/jquery.js"></script>
+        <script type="text/javascript" src="../../_static/underscore.js"></script>
+        <script type="text/javascript" src="../../_static/doctools.js"></script>
+        <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    
+    <script type="text/javascript" src="../../_static/js/theme.js"></script>
 
-  
-  
     
 
   
-
   <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
   <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
   <link rel="stylesheet" href="../../_static/gallery.css" type="text/css" />
   <link rel="stylesheet" href="../../_static/banner.css" type="text/css" />
     <link rel="index" title="Index" href="../../genindex.html" />
     <link rel="search" title="Search" href="../../search.html" /> 
-
-  
-  <script src="../../_static/js/modernizr.min.js"></script>
-
 </head>
 
 <body class="wy-body-for-nav">
 
    
   <div class="wy-grid-for-nav">
-
     
     <nav data-toggle="wy-nav-shift" class="wy-nav-side">
       <div class="wy-side-scroll">
-        <div class="wy-side-nav-search">
+        <div class="wy-side-nav-search" >
           
 
           
@@ -232,7 +244,15 @@
 <span class="sd">    ----------</span>
 <span class="sd">    lag : bool</span>
 <span class="sd">        If `True`, then the time axis is interpreted in lag coordinates.</span>
-<span class="sd">        Anything past the mid-point will be converted to negative time.</span>
+<span class="sd">        Anything past the midpoint will be converted to negative time.</span>
+
+<span class="sd">    unit : str or None</span>
+<span class="sd">        Abbreviation of the physical unit for axis labels and ticks.</span>
+<span class="sd">        Either equal to `s` (seconds) or `ms` (milliseconds) or None (default).</span>
+<span class="sd">        If set to None, the resulting TimeFormatter object adapts its string</span>
+<span class="sd">        representation to the duration of the underlying time range:</span>
+<span class="sd">        `hh:mm:ss` above 3600 seconds; `mm:ss` between 60 and 3600 seconds;</span>
+<span class="sd">        and `ss` below 60 seconds.</span>
 
 
 <span class="sd">    See also</span>
@@ -254,6 +274,16 @@
 <span class="sd">    &gt;&gt;&gt; ax.xaxis.set_major_formatter(librosa.display.TimeFormatter())</span>
 <span class="sd">    &gt;&gt;&gt; ax.set_xlabel(&#39;Time&#39;)</span>
 
+<span class="sd">    Manually set the physical time unit of the x-axis to milliseconds</span>
+
+<span class="sd">    &gt;&gt;&gt; times = np.arange(100)</span>
+<span class="sd">    &gt;&gt;&gt; values = np.random.randn(len(times))</span>
+<span class="sd">    &gt;&gt;&gt; plt.figure()</span>
+<span class="sd">    &gt;&gt;&gt; ax = plt.gca()</span>
+<span class="sd">    &gt;&gt;&gt; ax.plot(times, values)</span>
+<span class="sd">    &gt;&gt;&gt; ax.xaxis.set_major_formatter(librosa.display.TimeFormatter(unit=&#39;ms&#39;))</span>
+<span class="sd">    &gt;&gt;&gt; ax.set_xlabel(&#39;Time (ms)&#39;)</span>
+
 <span class="sd">    For lag plots</span>
 
 <span class="sd">    &gt;&gt;&gt; times = np.arange(60)</span>
@@ -265,8 +295,12 @@
 <span class="sd">    &gt;&gt;&gt; ax.set_xlabel(&#39;Lag&#39;)</span>
 <span class="sd">    &#39;&#39;&#39;</span>
 
-<div class="viewcode-block" id="TimeFormatter.__init__"><a class="viewcode-back" href="../../generated/librosa.display.TimeFormatter.html#librosa.display.TimeFormatter.__init__">[docs]</a>    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">lag</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+<div class="viewcode-block" id="TimeFormatter.__init__"><a class="viewcode-back" href="../../generated/librosa.display.TimeFormatter.html#librosa.display.TimeFormatter.__init__">[docs]</a>    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">lag</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">unit</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
 
+        <span class="k">if</span> <span class="n">unit</span> <span class="ow">not</span> <span class="ow">in</span> <span class="p">[</span><span class="s1">&#39;s&#39;</span><span class="p">,</span> <span class="s1">&#39;ms&#39;</span><span class="p">,</span> <span class="kc">None</span><span class="p">]:</span>
+            <span class="k">raise</span> <span class="n">ParameterError</span><span class="p">(</span><span class="s1">&#39;Unknown time unit: </span><span class="si">{}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">unit</span><span class="p">))</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">unit</span> <span class="o">=</span> <span class="n">unit</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">lag</span> <span class="o">=</span> <span class="n">lag</span></div>
 
     <span class="k">def</span> <span class="nf">__call__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="n">pos</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
@@ -287,15 +321,20 @@
             <span class="n">value</span> <span class="o">=</span> <span class="n">x</span>
             <span class="n">sign</span> <span class="o">=</span> <span class="s1">&#39;&#39;</span>
 
-        <span class="k">if</span> <span class="n">vmax</span> <span class="o">-</span> <span class="n">vmin</span> <span class="o">&gt;</span> <span class="mi">3600</span><span class="p">:</span>
-            <span class="n">s</span> <span class="o">=</span> <span class="s1">&#39;</span><span class="si">{:d}</span><span class="s1">:</span><span class="si">{:02d}</span><span class="s1">:</span><span class="si">{:02d}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="nb">int</span><span class="p">(</span><span class="n">value</span> <span class="o">/</span> <span class="mf">3600.0</span><span class="p">),</span>
-                                            <span class="nb">int</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">mod</span><span class="p">(</span><span class="n">value</span> <span class="o">/</span> <span class="mf">60.0</span><span class="p">,</span> <span class="mi">60</span><span class="p">)),</span>
-                                            <span class="nb">int</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">mod</span><span class="p">(</span><span class="n">value</span><span class="p">,</span> <span class="mi">60</span><span class="p">)))</span>
-        <span class="k">elif</span> <span class="n">vmax</span> <span class="o">-</span> <span class="n">vmin</span> <span class="o">&gt;</span> <span class="mi">60</span><span class="p">:</span>
-            <span class="n">s</span> <span class="o">=</span> <span class="s1">&#39;</span><span class="si">{:d}</span><span class="s1">:</span><span class="si">{:02d}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="nb">int</span><span class="p">(</span><span class="n">value</span> <span class="o">/</span> <span class="mf">60.0</span><span class="p">),</span>
-                                     <span class="nb">int</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">mod</span><span class="p">(</span><span class="n">value</span><span class="p">,</span> <span class="mi">60</span><span class="p">)))</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">unit</span> <span class="o">==</span> <span class="s1">&#39;s&#39;</span><span class="p">:</span>
+            <span class="n">s</span> <span class="o">=</span> <span class="s1">&#39;</span><span class="si">{:.3g}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">value</span><span class="p">)</span>
+        <span class="k">elif</span> <span class="bp">self</span><span class="o">.</span><span class="n">unit</span> <span class="o">==</span> <span class="s1">&#39;ms&#39;</span><span class="p">:</span>
+            <span class="n">s</span> <span class="o">=</span> <span class="s1">&#39;</span><span class="si">{:.3g}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">value</span> <span class="o">*</span> <span class="mi">1000</span><span class="p">)</span>
         <span class="k">else</span><span class="p">:</span>
-            <span class="n">s</span> <span class="o">=</span> <span class="s1">&#39;</span><span class="si">{:.2g}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">value</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">vmax</span> <span class="o">-</span> <span class="n">vmin</span> <span class="o">&gt;</span> <span class="mi">3600</span><span class="p">:</span>
+                <span class="n">s</span> <span class="o">=</span> <span class="s1">&#39;</span><span class="si">{:d}</span><span class="s1">:</span><span class="si">{:02d}</span><span class="s1">:</span><span class="si">{:02d}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="nb">int</span><span class="p">(</span><span class="n">value</span> <span class="o">/</span> <span class="mf">3600.0</span><span class="p">),</span>
+                                                <span class="nb">int</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">mod</span><span class="p">(</span><span class="n">value</span> <span class="o">/</span> <span class="mf">60.0</span><span class="p">,</span> <span class="mi">60</span><span class="p">)),</span>
+                                                <span class="nb">int</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">mod</span><span class="p">(</span><span class="n">value</span><span class="p">,</span> <span class="mi">60</span><span class="p">)))</span>
+            <span class="k">elif</span> <span class="n">vmax</span> <span class="o">-</span> <span class="n">vmin</span> <span class="o">&gt;</span> <span class="mi">60</span><span class="p">:</span>
+                <span class="n">s</span> <span class="o">=</span> <span class="s1">&#39;</span><span class="si">{:d}</span><span class="s1">:</span><span class="si">{:02d}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="nb">int</span><span class="p">(</span><span class="n">value</span> <span class="o">/</span> <span class="mf">60.0</span><span class="p">),</span>
+                                         <span class="nb">int</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">mod</span><span class="p">(</span><span class="n">value</span><span class="p">,</span> <span class="mi">60</span><span class="p">)))</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">s</span> <span class="o">=</span> <span class="s1">&#39;</span><span class="si">{:.2g}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">value</span><span class="p">)</span>
 
         <span class="k">return</span> <span class="s1">&#39;</span><span class="si">{:s}{:s}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">sign</span><span class="p">,</span> <span class="n">s</span><span class="p">)</span></div>
 
@@ -543,7 +582,7 @@
 <span class="sd">        Axes to plot on instead of the default `plt.gca()`.</span>
 
 <span class="sd">    offset : float</span>
-<span class="sd">        Horizontal offset (in time) to start the waveform plot</span>
+<span class="sd">        Horizontal offset (in seconds) to start the waveform plot</span>
 
 <span class="sd">    max_sr : number &gt; 0 [scalar]</span>
 <span class="sd">        Maximum sampling rate for the visualization</span>
@@ -628,6 +667,7 @@
     <span class="n">locs</span> <span class="o">=</span> <span class="n">offset</span> <span class="o">+</span> <span class="n">core</span><span class="o">.</span><span class="n">frames_to_time</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">y_top</span><span class="p">)),</span>
                                         <span class="n">sr</span><span class="o">=</span><span class="n">sr</span><span class="p">,</span>
                                         <span class="n">hop_length</span><span class="o">=</span><span class="n">hop_length</span><span class="p">)</span>
+
     <span class="n">out</span> <span class="o">=</span> <span class="n">axes</span><span class="o">.</span><span class="n">fill_between</span><span class="p">(</span><span class="n">locs</span><span class="p">,</span> <span class="n">y_bottom</span><span class="p">,</span> <span class="n">y_top</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
 
     <span class="n">axes</span><span class="o">.</span><span class="n">set_xlim</span><span class="p">([</span><span class="n">locs</span><span class="o">.</span><span class="n">min</span><span class="p">(),</span> <span class="n">locs</span><span class="o">.</span><span class="n">max</span><span class="p">()])</span>
@@ -691,15 +731,18 @@
 <span class="sd">        - &#39;tonnetz&#39; : axes are labeled by Tonnetz dimensions (0-5)</span>
 <span class="sd">        - &#39;frames&#39; : markers are shown as frame counts.</span>
 
-
 <span class="sd">        Time types:</span>
 
 <span class="sd">        - &#39;time&#39; : markers are shown as milliseconds, seconds,</span>
-<span class="sd">          minutes, or hours</span>
-<span class="sd">        - &#39;lag&#39; : like time, but past the half-way point counts</span>
-<span class="sd">          as negative values.</span>
+<span class="sd">          minutes, or hours.</span>
+<span class="sd">          Values are plotted in units of seconds.</span>
+<span class="sd">        - &#39;s&#39; : markers are shown as seconds.</span>
+<span class="sd">        - &#39;ms&#39; : markers are shown as milliseconds.</span>
 
-<span class="sd">        All time types are plotted in units of seconds.</span>
+<span class="sd">        - &#39;lag&#39; : like time, but past the halfway point counts</span>
+<span class="sd">          as negative values.</span>
+<span class="sd">        - &#39;lag_s&#39; : same as lag, but in seconds.</span>
+<span class="sd">        - &#39;lag_ms&#39; : same as lag, but in milliseconds.</span>
 
 <span class="sd">        Other:</span>
 
@@ -912,7 +955,11 @@
                  <span class="s1">&#39;cqt_note&#39;</span><span class="p">:</span> <span class="n">__coord_cqt_hz</span><span class="p">,</span>
                  <span class="s1">&#39;chroma&#39;</span><span class="p">:</span> <span class="n">__coord_chroma</span><span class="p">,</span>
                  <span class="s1">&#39;time&#39;</span><span class="p">:</span> <span class="n">__coord_time</span><span class="p">,</span>
+                 <span class="s1">&#39;s&#39;</span><span class="p">:</span> <span class="n">__coord_time</span><span class="p">,</span>
+                 <span class="s1">&#39;ms&#39;</span><span class="p">:</span> <span class="n">__coord_time</span><span class="p">,</span>
                  <span class="s1">&#39;lag&#39;</span><span class="p">:</span> <span class="n">__coord_time</span><span class="p">,</span>
+                 <span class="s1">&#39;lag_s&#39;</span><span class="p">:</span> <span class="n">__coord_time</span><span class="p">,</span>
+                 <span class="s1">&#39;lag_ms&#39;</span><span class="p">:</span> <span class="n">__coord_time</span><span class="p">,</span>
                  <span class="s1">&#39;tonnetz&#39;</span><span class="p">:</span> <span class="n">__coord_n</span><span class="p">,</span>
                  <span class="s1">&#39;off&#39;</span><span class="p">:</span> <span class="n">__coord_n</span><span class="p">,</span>
                  <span class="s1">&#39;tempo&#39;</span><span class="p">:</span> <span class="n">__coord_tempo</span><span class="p">,</span>
@@ -921,7 +968,6 @@
 
     <span class="k">if</span> <span class="n">ax_type</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">coord_map</span><span class="p">:</span>
         <span class="k">raise</span> <span class="n">ParameterError</span><span class="p">(</span><span class="s1">&#39;Unknown axis type: </span><span class="si">{}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">ax_type</span><span class="p">))</span>
-
     <span class="k">return</span> <span class="n">coord_map</span><span class="p">[</span><span class="n">ax_type</span><span class="p">](</span><span class="n">n</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
 
 
@@ -1000,16 +1046,40 @@
         <span class="n">axis</span><span class="o">.</span><span class="n">set_label_text</span><span class="p">(</span><span class="s1">&#39;BPM&#39;</span><span class="p">)</span>
 
     <span class="k">elif</span> <span class="n">ax_type</span> <span class="o">==</span> <span class="s1">&#39;time&#39;</span><span class="p">:</span>
-        <span class="n">axis</span><span class="o">.</span><span class="n">set_major_formatter</span><span class="p">(</span><span class="n">TimeFormatter</span><span class="p">(</span><span class="n">lag</span><span class="o">=</span><span class="kc">False</span><span class="p">))</span>
+        <span class="n">axis</span><span class="o">.</span><span class="n">set_major_formatter</span><span class="p">(</span><span class="n">TimeFormatter</span><span class="p">(</span><span class="n">unit</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">lag</span><span class="o">=</span><span class="kc">False</span><span class="p">))</span>
         <span class="n">axis</span><span class="o">.</span><span class="n">set_major_locator</span><span class="p">(</span><span class="n">MaxNLocator</span><span class="p">(</span><span class="n">prune</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
                                            <span class="n">steps</span><span class="o">=</span><span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mf">1.5</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">6</span><span class="p">,</span> <span class="mi">10</span><span class="p">]))</span>
         <span class="n">axis</span><span class="o">.</span><span class="n">set_label_text</span><span class="p">(</span><span class="s1">&#39;Time&#39;</span><span class="p">)</span>
 
+    <span class="k">elif</span> <span class="n">ax_type</span> <span class="o">==</span> <span class="s1">&#39;s&#39;</span><span class="p">:</span>
+        <span class="n">axis</span><span class="o">.</span><span class="n">set_major_formatter</span><span class="p">(</span><span class="n">TimeFormatter</span><span class="p">(</span><span class="n">unit</span><span class="o">=</span><span class="s1">&#39;s&#39;</span><span class="p">,</span> <span class="n">lag</span><span class="o">=</span><span class="kc">False</span><span class="p">))</span>
+        <span class="n">axis</span><span class="o">.</span><span class="n">set_major_locator</span><span class="p">(</span><span class="n">MaxNLocator</span><span class="p">(</span><span class="n">prune</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+                                           <span class="n">steps</span><span class="o">=</span><span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mf">1.5</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">6</span><span class="p">,</span> <span class="mi">10</span><span class="p">]))</span>
+        <span class="n">axis</span><span class="o">.</span><span class="n">set_label_text</span><span class="p">(</span><span class="s1">&#39;Time (s)&#39;</span><span class="p">)</span>
+
+    <span class="k">elif</span> <span class="n">ax_type</span> <span class="o">==</span> <span class="s1">&#39;ms&#39;</span><span class="p">:</span>
+        <span class="n">axis</span><span class="o">.</span><span class="n">set_major_formatter</span><span class="p">(</span><span class="n">TimeFormatter</span><span class="p">(</span><span class="n">unit</span><span class="o">=</span><span class="s1">&#39;ms&#39;</span><span class="p">,</span> <span class="n">lag</span><span class="o">=</span><span class="kc">False</span><span class="p">))</span>
+        <span class="n">axis</span><span class="o">.</span><span class="n">set_major_locator</span><span class="p">(</span><span class="n">MaxNLocator</span><span class="p">(</span><span class="n">prune</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+                                           <span class="n">steps</span><span class="o">=</span><span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mf">1.5</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">6</span><span class="p">,</span> <span class="mi">10</span><span class="p">]))</span>
+        <span class="n">axis</span><span class="o">.</span><span class="n">set_label_text</span><span class="p">(</span><span class="s1">&#39;Time (ms)&#39;</span><span class="p">)</span>
+
     <span class="k">elif</span> <span class="n">ax_type</span> <span class="o">==</span> <span class="s1">&#39;lag&#39;</span><span class="p">:</span>
-        <span class="n">axis</span><span class="o">.</span><span class="n">set_major_formatter</span><span class="p">(</span><span class="n">TimeFormatter</span><span class="p">(</span><span class="n">lag</span><span class="o">=</span><span class="kc">True</span><span class="p">))</span>
+        <span class="n">axis</span><span class="o">.</span><span class="n">set_major_formatter</span><span class="p">(</span><span class="n">TimeFormatter</span><span class="p">(</span><span class="n">unit</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">lag</span><span class="o">=</span><span class="kc">True</span><span class="p">))</span>
         <span class="n">axis</span><span class="o">.</span><span class="n">set_major_locator</span><span class="p">(</span><span class="n">MaxNLocator</span><span class="p">(</span><span class="n">prune</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
                                            <span class="n">steps</span><span class="o">=</span><span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mf">1.5</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">6</span><span class="p">,</span> <span class="mi">10</span><span class="p">]))</span>
         <span class="n">axis</span><span class="o">.</span><span class="n">set_label_text</span><span class="p">(</span><span class="s1">&#39;Lag&#39;</span><span class="p">)</span>
+
+    <span class="k">elif</span> <span class="n">ax_type</span> <span class="o">==</span> <span class="s1">&#39;lag_s&#39;</span><span class="p">:</span>
+        <span class="n">axis</span><span class="o">.</span><span class="n">set_major_formatter</span><span class="p">(</span><span class="n">TimeFormatter</span><span class="p">(</span><span class="n">unit</span><span class="o">=</span><span class="s1">&#39;s&#39;</span><span class="p">,</span> <span class="n">lag</span><span class="o">=</span><span class="kc">True</span><span class="p">))</span>
+        <span class="n">axis</span><span class="o">.</span><span class="n">set_major_locator</span><span class="p">(</span><span class="n">MaxNLocator</span><span class="p">(</span><span class="n">prune</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+                                           <span class="n">steps</span><span class="o">=</span><span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mf">1.5</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">6</span><span class="p">,</span> <span class="mi">10</span><span class="p">]))</span>
+        <span class="n">axis</span><span class="o">.</span><span class="n">set_label_text</span><span class="p">(</span><span class="s1">&#39;Lag (s)&#39;</span><span class="p">)</span>
+
+    <span class="k">elif</span> <span class="n">ax_type</span> <span class="o">==</span> <span class="s1">&#39;lag_ms&#39;</span><span class="p">:</span>
+        <span class="n">axis</span><span class="o">.</span><span class="n">set_major_formatter</span><span class="p">(</span><span class="n">TimeFormatter</span><span class="p">(</span><span class="n">unit</span><span class="o">=</span><span class="s1">&#39;ms&#39;</span><span class="p">,</span> <span class="n">lag</span><span class="o">=</span><span class="kc">True</span><span class="p">))</span>
+        <span class="n">axis</span><span class="o">.</span><span class="n">set_major_locator</span><span class="p">(</span><span class="n">MaxNLocator</span><span class="p">(</span><span class="n">prune</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+                                           <span class="n">steps</span><span class="o">=</span><span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mf">1.5</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">6</span><span class="p">,</span> <span class="mi">10</span><span class="p">]))</span>
+        <span class="n">axis</span><span class="o">.</span><span class="n">set_label_text</span><span class="p">(</span><span class="s1">&#39;Lag (ms)&#39;</span><span class="p">)</span>
 
     <span class="k">elif</span> <span class="n">ax_type</span> <span class="o">==</span> <span class="s1">&#39;cqt_note&#39;</span><span class="p">:</span>
         <span class="n">axis</span><span class="o">.</span><span class="n">set_major_formatter</span><span class="p">(</span><span class="n">NoteFormatter</span><span class="p">())</span>
@@ -1113,7 +1183,7 @@
 
   <div role="contentinfo">
     <p>
-        &copy; Copyright 2013--2018, librosa development team.
+        &copy; Copyright 2013--2018, librosa development team
 
     </p>
   </div>
@@ -1145,44 +1215,31 @@
             <dd><a href="../../../0.6.0/index.html">0.6.0</a></dd>
             <dd><a href="../../../0.6.1/index.html">0.6.1</a></dd>
             <dd><a href="../../../0.6.2/index.html">0.6.2</a></dd>
+            <dd><a href="../../../0.6.3/index.html">0.6.3</a></dd>
             <dd><a href="../../../v0.1.0/index.html">v0.1.0</a></dd>
             <dd><a href="../../../v0.4.0/index.html">v0.4.0</a></dd>
         </dl>
         <dl>
             <dt>Branches</dt>
+            <dd><a href="../../../display-bin-centering/index.html">display-bin-centering</a></dd>
             <dd><a href="display.html">master</a></dd>
+            <dd><a href="../../../mpl-test-2.1/index.html">mpl-test-2.1</a></dd>
+            <dd><a href="../../../runnning/index.html">runnning</a></dd>
         </dl>
     </div>
 </div>
 
 
-  
-
-    <script type="text/javascript">
-        var DOCUMENTATION_OPTIONS = {
-            URL_ROOT:'../../',
-            VERSION:'0.6.2',
-            LANGUAGE:'None',
-            COLLAPSE_INDEX:false,
-            FILE_SUFFIX:'.html',
-            HAS_SOURCE:  true,
-            SOURCELINK_SUFFIX: '.txt'
-        };
-    </script>
-      <script type="text/javascript" src="../../_static/jquery.js"></script>
-      <script type="text/javascript" src="../../_static/underscore.js"></script>
-      <script type="text/javascript" src="../../_static/doctools.js"></script>
-      <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
-
-  
-
-  <script type="text/javascript" src="../../_static/js/theme.js"></script>
-
   <script type="text/javascript">
       jQuery(function () {
           SphinxRtdTheme.Navigation.enable(true);
       });
-  </script> 
+  </script>
+
+  
+  
+    
+   
 
 </body>
 </html>

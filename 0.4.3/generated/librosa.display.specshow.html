@@ -17,13 +17,29 @@
   
 
   
+  <script type="text/javascript" src="../_static/js/modernizr.min.js"></script>
+  
+    
+      <script type="text/javascript">
+          var DOCUMENTATION_OPTIONS = {
+              URL_ROOT:'../',
+              VERSION:'0.4.3',
+              LANGUAGE:'None',
+              COLLAPSE_INDEX:false,
+              FILE_SUFFIX:'.html',
+              HAS_SOURCE:  true,
+              SOURCELINK_SUFFIX: '.txt'
+          };
+      </script>
+        <script type="text/javascript" src="../_static/jquery.js"></script>
+        <script type="text/javascript" src="../_static/underscore.js"></script>
+        <script type="text/javascript" src="../_static/doctools.js"></script>
+    
+    <script type="text/javascript" src="../_static/js/theme.js"></script>
 
-  
-  
     
 
   
-
   <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
   <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
   <link rel="stylesheet" href="../_static/banner.css" type="text/css" />
@@ -31,21 +47,16 @@
     <link rel="search" title="Search" href="../search.html" />
     <link rel="next" title="librosa.display.waveplot" href="librosa.display.waveplot.html" />
     <link rel="prev" title="Display" href="../display.html" /> 
-
-  
-  <script src="../_static/js/modernizr.min.js"></script>
-
 </head>
 
 <body class="wy-body-for-nav">
 
    
   <div class="wy-grid-for-nav">
-
     
     <nav data-toggle="wy-nav-shift" class="wy-nav-side">
       <div class="wy-side-scroll">
-        <div class="wy-side-nav-search">
+        <div class="wy-side-nav-search" >
           
 
           
@@ -186,14 +197,14 @@
 
 
 
-    <p class="scv-banner scv-sphinx_rtd_theme"><a href="../../0.6.2/generated/librosa.display.specshow.html"><b>Warning:</b> This document is for an old version of librosa. The latest version is 0.6.2.</a></p>
+    <p class="scv-banner scv-sphinx_rtd_theme"><a href="../../0.6.3/generated/librosa.display.specshow.html"><b>Warning:</b> This document is for an old version of librosa. The latest version is 0.6.3.</a></p>
 <div class="section" id="librosa-display-specshow">
 <h1>librosa.display.specshow<a class="headerlink" href="#librosa-display-specshow" title="Permalink to this headline">¶</a></h1>
 <dl class="function">
 <dt id="librosa.display.specshow">
 <code class="descclassname">librosa.display.</code><code class="descname">specshow</code><span class="sig-paren">(</span><em>data</em>, <em>sr=22050</em>, <em>hop_length=512</em>, <em>x_axis=None</em>, <em>y_axis=None</em>, <em>n_xticks=5</em>, <em>n_yticks=5</em>, <em>fmin=None</em>, <em>fmax=None</em>, <em>bins_per_octave=12</em>, <em>tmin=16</em>, <em>tmax=240</em>, <em>freq_fmt='Hz'</em>, <em>time_fmt=None</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/librosa/display.html#specshow"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#librosa.display.specshow" title="Permalink to this definition">¶</a></dt>
 <dd><p>Display a spectrogram/chromagram/cqt/etc.</p>
-<p>Functions as a drop-in replacement for <a class="reference external" href="https://matplotlib.org/api/_as_gen/matplotlib.pyplot.imshow.html#matplotlib.pyplot.imshow" title="(in Matplotlib v2.2.2)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">matplotlib.pyplot.imshow</span></code></a>,
+<p>Functions as a drop-in replacement for <a class="reference external" href="https://matplotlib.org/api/_as_gen/matplotlib.pyplot.imshow.html#matplotlib.pyplot.imshow" title="(in Matplotlib v3.0.2)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">matplotlib.pyplot.imshow</span></code></a>,
 but with useful defaults.</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
@@ -271,14 +282,14 @@ as measured in beats per minute.</p>
 <p class="last">See <a class="reference internal" href="librosa.display.time_ticks.html#librosa.display.time_ticks" title="librosa.display.time_ticks"><code class="xref py py-obj docutils literal notranslate"><span class="pre">time_ticks</span></code></a>.</p>
 </dd>
 <dt><strong>kwargs</strong> <span class="classifier-delimiter">:</span> <span class="classifier">additional keyword arguments</span></dt>
-<dd><p class="first last">Arguments passed through to <a class="reference external" href="https://matplotlib.org/api/_as_gen/matplotlib.pyplot.imshow.html#matplotlib.pyplot.imshow" title="(in Matplotlib v2.2.2)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">matplotlib.pyplot.imshow</span></code></a>.</p>
+<dd><p class="first last">Arguments passed through to <a class="reference external" href="https://matplotlib.org/api/_as_gen/matplotlib.pyplot.imshow.html#matplotlib.pyplot.imshow" title="(in Matplotlib v3.0.2)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">matplotlib.pyplot.imshow</span></code></a>.</p>
 </dd>
 </dl>
 </td>
 </tr>
 <tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><dl class="first last docutils">
-<dt><strong>image</strong> <span class="classifier-delimiter">:</span> <span class="classifier"><a class="reference external" href="https://matplotlib.org/api/image_api.html#matplotlib.image.AxesImage" title="(in Matplotlib v2.2.2)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">matplotlib.image.AxesImage</span></code></a></span></dt>
-<dd><p class="first last">As returned from <a class="reference external" href="https://matplotlib.org/api/_as_gen/matplotlib.pyplot.imshow.html#matplotlib.pyplot.imshow" title="(in Matplotlib v2.2.2)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">matplotlib.pyplot.imshow</span></code></a>.</p>
+<dt><strong>image</strong> <span class="classifier-delimiter">:</span> <span class="classifier"><a class="reference external" href="https://matplotlib.org/api/image_api.html#matplotlib.image.AxesImage" title="(in Matplotlib v3.0.2)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">matplotlib.image.AxesImage</span></code></a></span></dt>
+<dd><p class="first last">As returned from <a class="reference external" href="https://matplotlib.org/api/_as_gen/matplotlib.pyplot.imshow.html#matplotlib.pyplot.imshow" title="(in Matplotlib v3.0.2)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">matplotlib.pyplot.imshow</span></code></a>.</p>
 </dd>
 </dl>
 </td>
@@ -295,7 +306,7 @@ as measured in beats per minute.</p>
 <dt><code class="xref py py-obj docutils literal notranslate"><span class="pre">frequency_ticks</span></code></dt>
 <dd>frequency-formatted tick marks</dd>
 </dl>
-<p class="last"><a class="reference external" href="https://matplotlib.org/api/_as_gen/matplotlib.pyplot.imshow.html#matplotlib.pyplot.imshow" title="(in Matplotlib v2.2.2)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">matplotlib.pyplot.imshow</span></code></a></p>
+<p class="last"><a class="reference external" href="https://matplotlib.org/api/_as_gen/matplotlib.pyplot.imshow.html#matplotlib.pyplot.imshow" title="(in Matplotlib v3.0.2)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">matplotlib.pyplot.imshow</span></code></a></p>
 </div>
 <p class="rubric">Examples</p>
 <p>Visualize an STFT power spectrum</p>
@@ -382,7 +393,7 @@ as measured in beats per minute.</p>
         <a href="librosa.display.waveplot.html" class="btn btn-neutral float-right" title="librosa.display.waveplot" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
       
       
-        <a href="../display.html" class="btn btn-neutral" title="Display" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+        <a href="../display.html" class="btn btn-neutral float-left" title="Display" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
       
     </div>
   
@@ -391,7 +402,7 @@ as measured in beats per minute.</p>
 
   <div role="contentinfo">
     <p>
-        &copy; Copyright 2016, librosa development team.
+        &copy; Copyright 2016, librosa development team
 
     </p>
   </div>
@@ -423,43 +434,31 @@ as measured in beats per minute.</p>
             <dd><a href="../../0.6.0/generated/librosa.display.specshow.html">0.6.0</a></dd>
             <dd><a href="../../0.6.1/generated/librosa.display.specshow.html">0.6.1</a></dd>
             <dd><a href="../../0.6.2/generated/librosa.display.specshow.html">0.6.2</a></dd>
+            <dd><a href="../../0.6.3/generated/librosa.display.specshow.html">0.6.3</a></dd>
             <dd><a href="../../v0.1.0/index.html">v0.1.0</a></dd>
             <dd><a href="../../v0.4.0/index.html">v0.4.0</a></dd>
         </dl>
         <dl>
             <dt>Branches</dt>
+            <dd><a href="../../display-bin-centering/generated/librosa.display.specshow.html">display-bin-centering</a></dd>
             <dd><a href="../../master/generated/librosa.display.specshow.html">master</a></dd>
+            <dd><a href="../../mpl-test-2.1/generated/librosa.display.specshow.html">mpl-test-2.1</a></dd>
+            <dd><a href="../../runnning/generated/librosa.display.specshow.html">runnning</a></dd>
         </dl>
     </div>
 </div>
 
 
-  
-
-    <script type="text/javascript">
-        var DOCUMENTATION_OPTIONS = {
-            URL_ROOT:'../',
-            VERSION:'0.4.3',
-            LANGUAGE:'None',
-            COLLAPSE_INDEX:false,
-            FILE_SUFFIX:'.html',
-            HAS_SOURCE:  true,
-            SOURCELINK_SUFFIX: '.txt'
-        };
-    </script>
-      <script type="text/javascript" src="../_static/jquery.js"></script>
-      <script type="text/javascript" src="../_static/underscore.js"></script>
-      <script type="text/javascript" src="../_static/doctools.js"></script>
-
-  
-
-  <script type="text/javascript" src="../_static/js/theme.js"></script>
-
   <script type="text/javascript">
       jQuery(function () {
           SphinxRtdTheme.Navigation.enable(true);
       });
-  </script> 
+  </script>
+
+  
+  
+    
+   
 
 </body>
 </html>

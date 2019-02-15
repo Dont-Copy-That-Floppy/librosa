@@ -17,44 +17,46 @@
   
 
   
+  <script type="text/javascript" src="_static/js/modernizr.min.js"></script>
+  
+    
+      <script type="text/javascript">
+          var DOCUMENTATION_OPTIONS = {
+              URL_ROOT:'./',
+              VERSION:'0.5.1',
+              LANGUAGE:'None',
+              COLLAPSE_INDEX:false,
+              FILE_SUFFIX:'.html',
+              HAS_SOURCE:  true,
+              SOURCELINK_SUFFIX: '.txt'
+          };
+      </script>
+        <script type="text/javascript" src="_static/jquery.js"></script>
+        <script type="text/javascript" src="_static/underscore.js"></script>
+        <script type="text/javascript" src="_static/doctools.js"></script>
+    
+    <script type="text/javascript" src="_static/js/theme.js"></script>
 
-  
-  
     
 
   
-
-  
-  
-    <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
-  
-
-  
-    <link rel="stylesheet" href="_static/banner.css" type="text/css" />
-  
-
-  
-        <link rel="index" title="Index"
-              href="genindex.html"/>
-        <link rel="search" title="Search" href="search.html"/>
-    <link rel="top" title="librosa 0.5.1 documentation" href="index.html"/>
-        <link rel="next" title="librosa.onset.onset_detect" href="generated/librosa.onset.onset_detect.html"/>
-        <link rel="prev" title="librosa.feature.stack_memory" href="generated/librosa.feature.stack_memory.html"/> 
-
-  
-  <script src="_static/js/modernizr.min.js"></script>
-
+  <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="_static/banner.css" type="text/css" />
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="librosa.onset.onset_detect" href="generated/librosa.onset.onset_detect.html" />
+    <link rel="prev" title="librosa.feature.stack_memory" href="generated/librosa.feature.stack_memory.html" /> 
 </head>
 
-<body class="wy-body-for-nav" role="document">
+<body class="wy-body-for-nav">
 
    
   <div class="wy-grid-for-nav">
-
     
     <nav data-toggle="wy-nav-shift" class="wy-nav-side">
       <div class="wy-side-scroll">
-        <div class="wy-side-nav-search">
+        <div class="wy-side-nav-search" >
           
 
           
@@ -133,7 +135,7 @@
     <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
 
       
-      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+      <nav class="wy-nav-top" aria-label="top navigation">
         
           <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
           <a href="index.html">librosa</a>
@@ -141,9 +143,10 @@
       </nav>
 
 
-      
       <div class="wy-nav-content">
+        
         <div class="rst-content">
+        
           
 
 
@@ -185,7 +188,16 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
             
-  <span class="target" id="module-librosa.onset"><span id="onset"></span></span><div class="section" id="onset-detection">
+  
+
+
+    
+    
+
+
+
+    <p class="scv-banner scv-sphinx_rtd_theme"><a href="../0.6.3/onset.html"><b>Warning:</b> This document is for the development version of librosa. The latest version is 0.6.3.</a></p>
+<span class="target" id="module-librosa.onset"><span id="onset"></span></span><div class="section" id="onset-detection">
 <h1>Onset detection<a class="headerlink" href="#onset-detection" title="Permalink to this headline">¶</a></h1>
 <table border="1" class="longtable docutils">
 <colgroup>
@@ -193,16 +205,16 @@
 <col width="90%" />
 </colgroup>
 <tbody valign="top">
-<tr class="row-odd"><td><a class="reference internal" href="generated/librosa.onset.onset_detect.html#librosa.onset.onset_detect" title="librosa.onset.onset_detect"><code class="xref py py-obj docutils literal"><span class="pre">onset_detect</span></code></a>([y,&nbsp;sr,&nbsp;onset_envelope,&nbsp;...])</td>
+<tr class="row-odd"><td><a class="reference internal" href="generated/librosa.onset.onset_detect.html#librosa.onset.onset_detect" title="librosa.onset.onset_detect"><code class="xref py py-obj docutils literal notranslate"><span class="pre">onset_detect</span></code></a>([y,&nbsp;sr,&nbsp;onset_envelope,&nbsp;…])</td>
 <td>Basic onset detector.</td>
 </tr>
-<tr class="row-even"><td><a class="reference internal" href="generated/librosa.onset.onset_backtrack.html#librosa.onset.onset_backtrack" title="librosa.onset.onset_backtrack"><code class="xref py py-obj docutils literal"><span class="pre">onset_backtrack</span></code></a>(events,&nbsp;energy)</td>
+<tr class="row-even"><td><a class="reference internal" href="generated/librosa.onset.onset_backtrack.html#librosa.onset.onset_backtrack" title="librosa.onset.onset_backtrack"><code class="xref py py-obj docutils literal notranslate"><span class="pre">onset_backtrack</span></code></a>(events,&nbsp;energy)</td>
 <td>Backtrack detected onset events to the nearest preceding local minimum of an energy function.</td>
 </tr>
-<tr class="row-odd"><td><a class="reference internal" href="generated/librosa.onset.onset_strength.html#librosa.onset.onset_strength" title="librosa.onset.onset_strength"><code class="xref py py-obj docutils literal"><span class="pre">onset_strength</span></code></a>([y,&nbsp;sr,&nbsp;S,&nbsp;lag,&nbsp;max_size,&nbsp;...])</td>
+<tr class="row-odd"><td><a class="reference internal" href="generated/librosa.onset.onset_strength.html#librosa.onset.onset_strength" title="librosa.onset.onset_strength"><code class="xref py py-obj docutils literal notranslate"><span class="pre">onset_strength</span></code></a>([y,&nbsp;sr,&nbsp;S,&nbsp;lag,&nbsp;max_size,&nbsp;…])</td>
 <td>Compute a spectral flux onset strength envelope.</td>
 </tr>
-<tr class="row-even"><td><a class="reference internal" href="generated/librosa.onset.onset_strength_multi.html#librosa.onset.onset_strength_multi" title="librosa.onset.onset_strength_multi"><code class="xref py py-obj docutils literal"><span class="pre">onset_strength_multi</span></code></a>([y,&nbsp;sr,&nbsp;S,&nbsp;lag,&nbsp;...])</td>
+<tr class="row-even"><td><a class="reference internal" href="generated/librosa.onset.onset_strength_multi.html#librosa.onset.onset_strength_multi" title="librosa.onset.onset_strength_multi"><code class="xref py py-obj docutils literal notranslate"><span class="pre">onset_strength_multi</span></code></a>([y,&nbsp;sr,&nbsp;S,&nbsp;lag,&nbsp;…])</td>
 <td>Compute a spectral flux onset strength envelope across multiple channels.</td>
 </tr>
 </tbody>
@@ -211,9 +223,7 @@
 
 
            </div>
-           <div class="articleComments">
-            
-           </div>
+           
           </div>
           <footer>
   
@@ -222,7 +232,7 @@
         <a href="generated/librosa.onset.onset_detect.html" class="btn btn-neutral float-right" title="librosa.onset.onset_detect" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
       
       
-        <a href="generated/librosa.feature.stack_memory.html" class="btn btn-neutral" title="librosa.feature.stack_memory" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+        <a href="generated/librosa.feature.stack_memory.html" class="btn btn-neutral float-left" title="librosa.feature.stack_memory" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
       
     </div>
   
@@ -231,11 +241,11 @@
 
   <div role="contentinfo">
     <p>
-        &copy; Copyright 2013--2017, librosa development team.
+        &copy; Copyright 2013--2017, librosa development team
 
     </p>
   </div>
-  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/snide/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
 
 </footer>
 
@@ -255,19 +265,15 @@
     <div class="rst-other-versions">
         <dl>
             <dt>Tags</dt>
-            <dd><a href="../0.4.0rc1/onset.html">0.4.0rc1</a></dd>
-            <dd><a href="../0.4.0rc2/onset.html">0.4.0rc2</a></dd>
             <dd><a href="../0.4.1/onset.html">0.4.1</a></dd>
-            <dd><a href="../0.4.1rc0/onset.html">0.4.1rc0</a></dd>
             <dd><a href="../0.4.2/onset.html">0.4.2</a></dd>
             <dd><a href="../0.4.3/onset.html">0.4.3</a></dd>
-            <dd><a href="../0.4.3rc0/onset.html">0.4.3rc0</a></dd>
             <dd><a href="../0.5.0/onset.html">0.5.0</a></dd>
-            <dd><a href="../0.5.0rc0/onset.html">0.5.0rc0</a></dd>
             <dd><a href="../0.5.1/onset.html">0.5.1</a></dd>
             <dd><a href="../0.6.0/onset.html">0.6.0</a></dd>
-            <dd><a href="../0.6.0rc0/onset.html">0.6.0rc0</a></dd>
-            <dd><a href="../0.6.0rc1/onset.html">0.6.0rc1</a></dd>
+            <dd><a href="../0.6.1/onset.html">0.6.1</a></dd>
+            <dd><a href="../0.6.2/onset.html">0.6.2</a></dd>
+            <dd><a href="../0.6.3/onset.html">0.6.3</a></dd>
             <dd><a href="../v0.1.0/index.html">v0.1.0</a></dd>
             <dd><a href="../v0.4.0/onset.html">v0.4.0</a></dd>
         </dl>
@@ -275,41 +281,22 @@
             <dt>Branches</dt>
             <dd><a href="onset.html">display-bin-centering</a></dd>
             <dd><a href="../master/onset.html">master</a></dd>
+            <dd><a href="../mpl-test-2.1/onset.html">mpl-test-2.1</a></dd>
+            <dd><a href="../runnning/onset.html">runnning</a></dd>
         </dl>
     </div>
 </div>
 
 
-  
-
-    <script type="text/javascript">
-        var DOCUMENTATION_OPTIONS = {
-            URL_ROOT:'./',
-            VERSION:'0.5.1',
-            COLLAPSE_INDEX:false,
-            FILE_SUFFIX:'.html',
-            HAS_SOURCE:  true,
-            SOURCELINK_SUFFIX: '.txt'
-        };
-    </script>
-      <script type="text/javascript" src="_static/jquery.js"></script>
-      <script type="text/javascript" src="_static/underscore.js"></script>
-      <script type="text/javascript" src="_static/doctools.js"></script>
-
-  
-
-  
-  
-    <script type="text/javascript" src="_static/js/theme.js"></script>
-  
-
-  
-  
   <script type="text/javascript">
       jQuery(function () {
-          SphinxRtdTheme.StickyNav.enable();
+          SphinxRtdTheme.Navigation.enable(true);
       });
   </script>
+
+  
+  
+    
    
 
 </body>

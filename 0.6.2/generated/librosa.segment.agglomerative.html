@@ -17,13 +17,30 @@
   
 
   
+  <script type="text/javascript" src="../_static/js/modernizr.min.js"></script>
+  
+    
+      <script type="text/javascript">
+          var DOCUMENTATION_OPTIONS = {
+              URL_ROOT:'../',
+              VERSION:'0.6.2',
+              LANGUAGE:'None',
+              COLLAPSE_INDEX:false,
+              FILE_SUFFIX:'.html',
+              HAS_SOURCE:  true,
+              SOURCELINK_SUFFIX: '.txt'
+          };
+      </script>
+        <script type="text/javascript" src="../_static/jquery.js"></script>
+        <script type="text/javascript" src="../_static/underscore.js"></script>
+        <script type="text/javascript" src="../_static/doctools.js"></script>
+        <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    
+    <script type="text/javascript" src="../_static/js/theme.js"></script>
 
-  
-  
     
 
   
-
   <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
   <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
   <link rel="stylesheet" href="../_static/gallery.css" type="text/css" />
@@ -32,21 +49,16 @@
     <link rel="search" title="Search" href="../search.html" />
     <link rel="next" title="librosa.segment.subsegment" href="librosa.segment.subsegment.html" />
     <link rel="prev" title="librosa.segment.timelag_filter" href="librosa.segment.timelag_filter.html" /> 
-
-  
-  <script src="../_static/js/modernizr.min.js"></script>
-
 </head>
 
 <body class="wy-body-for-nav">
 
    
   <div class="wy-grid-for-nav">
-
     
     <nav data-toggle="wy-nav-shift" class="wy-nav-side">
       <div class="wy-side-scroll">
-        <div class="wy-side-nav-search">
+        <div class="wy-side-nav-search" >
           
 
           
@@ -187,9 +199,12 @@
   
 
 
+    
+    
 
 
 
+    <p class="scv-banner scv-sphinx_rtd_theme"><a href="../../0.6.3/generated/librosa.segment.agglomerative.html"><b>Warning:</b> This document is for an old version of librosa. The latest version is 0.6.3.</a></p>
 <div class="section" id="librosa-segment-agglomerative">
 <h1>librosa.segment.agglomerative<a class="headerlink" href="#librosa-segment-agglomerative" title="Permalink to this headline">¶</a></h1>
 <dl class="function">
@@ -197,7 +212,7 @@
 <code class="descclassname">librosa.segment.</code><code class="descname">agglomerative</code><span class="sig-paren">(</span><em>data</em>, <em>k</em>, <em>clusterer=None</em>, <em>axis=-1</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/librosa/segment.html#agglomerative"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#librosa.segment.agglomerative" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bottom-up temporal segmentation.</p>
 <p>Use a temporally-constrained agglomerative clustering routine to partition
-<code class="xref py py-obj docutils literal notranslate"><span class="pre">data</span></code> into <em class="xref py py-obj">k</em> contiguous segments.</p>
+<em class="xref py py-obj">data</em> into <em class="xref py py-obj">k</em> contiguous segments.</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
@@ -232,7 +247,7 @@ will always include <em class="xref py py-obj">0</em> as the first left-boundary
 </table>
 <div class="admonition seealso">
 <p class="first admonition-title">See also</p>
-<p class="last"><a class="reference external" href="http://scikit-learn.org/stable/modules/generated/sklearn.cluster.AgglomerativeClustering.html#sklearn.cluster.AgglomerativeClustering" title="(in scikit-learn v0.19.2)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">sklearn.cluster.AgglomerativeClustering</span></code></a></p>
+<p class="last"><a class="reference external" href="https://scikit-learn.org/stable/modules/generated/sklearn.cluster.AgglomerativeClustering.html#sklearn.cluster.AgglomerativeClustering" title="(in scikit-learn v0.20.2)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">sklearn.cluster.AgglomerativeClustering</span></code></a></p>
 </div>
 <p class="rubric">Examples</p>
 <p>Cluster by chroma similarity, break into 20 segments</p>
@@ -278,7 +293,7 @@ will always include <em class="xref py py-obj">0</em> as the first left-boundary
         <a href="librosa.segment.subsegment.html" class="btn btn-neutral float-right" title="librosa.segment.subsegment" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
       
       
-        <a href="librosa.segment.timelag_filter.html" class="btn btn-neutral" title="librosa.segment.timelag_filter" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+        <a href="librosa.segment.timelag_filter.html" class="btn btn-neutral float-left" title="librosa.segment.timelag_filter" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
       
     </div>
   
@@ -287,7 +302,7 @@ will always include <em class="xref py py-obj">0</em> as the first left-boundary
 
   <div role="contentinfo">
     <p>
-        &copy; Copyright 2013--2018, librosa development team.
+        &copy; Copyright 2013--2018, librosa development team
 
     </p>
   </div>
@@ -319,44 +334,31 @@ will always include <em class="xref py py-obj">0</em> as the first left-boundary
             <dd><a href="../../0.6.0/generated/librosa.segment.agglomerative.html">0.6.0</a></dd>
             <dd><a href="../../0.6.1/generated/librosa.segment.agglomerative.html">0.6.1</a></dd>
             <dd><a href="librosa.segment.agglomerative.html">0.6.2</a></dd>
+            <dd><a href="../../0.6.3/generated/librosa.segment.agglomerative.html">0.6.3</a></dd>
             <dd><a href="../../v0.1.0/index.html">v0.1.0</a></dd>
             <dd><a href="../../v0.4.0/index.html">v0.4.0</a></dd>
         </dl>
         <dl>
             <dt>Branches</dt>
+            <dd><a href="../../display-bin-centering/generated/librosa.segment.agglomerative.html">display-bin-centering</a></dd>
             <dd><a href="../../master/generated/librosa.segment.agglomerative.html">master</a></dd>
+            <dd><a href="../../mpl-test-2.1/generated/librosa.segment.agglomerative.html">mpl-test-2.1</a></dd>
+            <dd><a href="../../runnning/generated/librosa.segment.agglomerative.html">runnning</a></dd>
         </dl>
     </div>
 </div>
 
 
-  
-
-    <script type="text/javascript">
-        var DOCUMENTATION_OPTIONS = {
-            URL_ROOT:'../',
-            VERSION:'0.6.2',
-            LANGUAGE:'None',
-            COLLAPSE_INDEX:false,
-            FILE_SUFFIX:'.html',
-            HAS_SOURCE:  true,
-            SOURCELINK_SUFFIX: '.txt'
-        };
-    </script>
-      <script type="text/javascript" src="../_static/jquery.js"></script>
-      <script type="text/javascript" src="../_static/underscore.js"></script>
-      <script type="text/javascript" src="../_static/doctools.js"></script>
-      <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
-
-  
-
-  <script type="text/javascript" src="../_static/js/theme.js"></script>
-
   <script type="text/javascript">
       jQuery(function () {
           SphinxRtdTheme.Navigation.enable(true);
       });
-  </script> 
+  </script>
+
+  
+  
+    
+   
 
 </body>
 </html>

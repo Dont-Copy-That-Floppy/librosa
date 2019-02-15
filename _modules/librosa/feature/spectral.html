@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>librosa.feature.spectral &mdash; librosa 0.6.2 documentation</title>
+  <title>librosa.feature.spectral &mdash; librosa 0.6.3 documentation</title>
   
 
   
@@ -17,34 +17,46 @@
   
 
   
+  <script type="text/javascript" src="../../../_static/js/modernizr.min.js"></script>
+  
+    
+      <script type="text/javascript">
+          var DOCUMENTATION_OPTIONS = {
+              URL_ROOT:'../../../',
+              VERSION:'0.6.3',
+              LANGUAGE:'None',
+              COLLAPSE_INDEX:false,
+              FILE_SUFFIX:'.html',
+              HAS_SOURCE:  true,
+              SOURCELINK_SUFFIX: '.txt'
+          };
+      </script>
+        <script type="text/javascript" src="../../../_static/jquery.js"></script>
+        <script type="text/javascript" src="../../../_static/underscore.js"></script>
+        <script type="text/javascript" src="../../../_static/doctools.js"></script>
+        <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    
+    <script type="text/javascript" src="../../../_static/js/theme.js"></script>
 
-  
-  
     
 
   
-
   <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
   <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
   <link rel="stylesheet" href="../../../_static/gallery.css" type="text/css" />
   <link rel="stylesheet" href="../../../_static/banner.css" type="text/css" />
     <link rel="index" title="Index" href="../../../genindex.html" />
     <link rel="search" title="Search" href="../../../search.html" /> 
-
-  
-  <script src="../../../_static/js/modernizr.min.js"></script>
-
 </head>
 
 <body class="wy-body-for-nav">
 
    
   <div class="wy-grid-for-nav">
-
     
     <nav data-toggle="wy-nav-shift" class="wy-nav-side">
       <div class="wy-side-scroll">
-        <div class="wy-side-nav-search">
+        <div class="wy-side-nav-search" >
           
 
           
@@ -189,6 +201,7 @@
 <span class="kn">from</span> <span class="nn">..</span> <span class="k">import</span> <span class="n">util</span>
 <span class="kn">from</span> <span class="nn">..</span> <span class="k">import</span> <span class="n">filters</span>
 <span class="kn">from</span> <span class="nn">..util.exceptions</span> <span class="k">import</span> <span class="n">ParameterError</span>
+<span class="kn">from</span> <span class="nn">..util.decorators</span> <span class="k">import</span> <span class="n">moved</span>
 
 <span class="kn">from</span> <span class="nn">..core.time_frequency</span> <span class="k">import</span> <span class="n">fft_frequencies</span>
 <span class="kn">from</span> <span class="nn">..core.audio</span> <span class="k">import</span> <span class="n">zero_crossings</span><span class="p">,</span> <span class="n">to_mono</span>
@@ -203,6 +216,7 @@
            <span class="s1">&#39;spectral_rolloff&#39;</span><span class="p">,</span>
            <span class="s1">&#39;spectral_flatness&#39;</span><span class="p">,</span>
            <span class="s1">&#39;poly_features&#39;</span><span class="p">,</span>
+           <span class="s1">&#39;rms&#39;</span><span class="p">,</span>
            <span class="s1">&#39;rmse&#39;</span><span class="p">,</span>
            <span class="s1">&#39;zero_crossing_rate&#39;</span><span class="p">,</span>
            <span class="s1">&#39;chroma_stft&#39;</span><span class="p">,</span>
@@ -781,13 +795,13 @@
     <span class="k">return</span> <span class="n">gmean</span> <span class="o">/</span> <span class="n">amean</span></div>
 
 
-<div class="viewcode-block" id="rmse"><a class="viewcode-back" href="../../../generated/librosa.feature.rmse.html#librosa.feature.rmse">[docs]</a><span class="k">def</span> <span class="nf">rmse</span><span class="p">(</span><span class="n">y</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">S</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">frame_length</span><span class="o">=</span><span class="mi">2048</span><span class="p">,</span> <span class="n">hop_length</span><span class="o">=</span><span class="mi">512</span><span class="p">,</span>
-         <span class="n">center</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">pad_mode</span><span class="o">=</span><span class="s1">&#39;reflect&#39;</span><span class="p">):</span>
-    <span class="sd">&#39;&#39;&#39;Compute root-mean-square (RMS) energy for each frame, either from the</span>
+<div class="viewcode-block" id="rms"><a class="viewcode-back" href="../../../generated/librosa.feature.rms.html#librosa.feature.rms">[docs]</a><span class="k">def</span> <span class="nf">rms</span><span class="p">(</span><span class="n">y</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">S</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">frame_length</span><span class="o">=</span><span class="mi">2048</span><span class="p">,</span> <span class="n">hop_length</span><span class="o">=</span><span class="mi">512</span><span class="p">,</span>
+        <span class="n">center</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">pad_mode</span><span class="o">=</span><span class="s1">&#39;reflect&#39;</span><span class="p">):</span>
+    <span class="sd">&#39;&#39;&#39;Compute root-mean-square (RMS) value for each frame, either from the</span>
 <span class="sd">    audio samples `y` or from a spectrogram `S`.</span>
 
-<span class="sd">    Computing the energy from audio samples is faster as it doesn&#39;t require a</span>
-<span class="sd">    STFT calculation. However, using a spectrogram will give a more accurate</span>
+<span class="sd">    Computing the RMS value from audio samples is faster as it doesn&#39;t require</span>
+<span class="sd">    a STFT calculation. However, using a spectrogram will give a more accurate</span>
 <span class="sd">    representation of energy over time because its frames can be windowed,</span>
 <span class="sd">    thus prefer using `S` if it&#39;s already available.</span>
 
@@ -825,13 +839,13 @@
 <span class="sd">    Examples</span>
 <span class="sd">    --------</span>
 <span class="sd">    &gt;&gt;&gt; y, sr = librosa.load(librosa.util.example_audio_file())</span>
-<span class="sd">    &gt;&gt;&gt; librosa.feature.rmse(y=y)</span>
+<span class="sd">    &gt;&gt;&gt; librosa.feature.rms(y=y)</span>
 <span class="sd">    array([[ 0.   ,  0.056, ...,  0.   ,  0.   ]], dtype=float32)</span>
 
 <span class="sd">    Or from spectrogram input</span>
 
 <span class="sd">    &gt;&gt;&gt; S, phase = librosa.magphase(librosa.stft(y))</span>
-<span class="sd">    &gt;&gt;&gt; rms = librosa.feature.rmse(S=S)</span>
+<span class="sd">    &gt;&gt;&gt; rms = librosa.feature.rms(S=S)</span>
 
 <span class="sd">    &gt;&gt;&gt; import matplotlib.pyplot as plt</span>
 <span class="sd">    &gt;&gt;&gt; plt.figure()</span>
@@ -847,10 +861,10 @@
 <span class="sd">    &gt;&gt;&gt; plt.tight_layout()</span>
 
 <span class="sd">    Use a STFT window of constant ones and no frame centering to get consistent</span>
-<span class="sd">    results with the RMS energy computed from the audio samples `y`</span>
+<span class="sd">    results with the RMS computed from the audio samples `y`</span>
 
 <span class="sd">    &gt;&gt;&gt; S = librosa.magphase(librosa.stft(y, window=np.ones, center=False))[0]</span>
-<span class="sd">    &gt;&gt;&gt; librosa.feature.rmse(S=S)</span>
+<span class="sd">    &gt;&gt;&gt; librosa.feature.rms(S=S)</span>
 
 <span class="sd">    &#39;&#39;&#39;</span>
     <span class="k">if</span> <span class="n">y</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="ow">and</span> <span class="n">S</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
@@ -870,6 +884,9 @@
     <span class="k">else</span><span class="p">:</span>
         <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s1">&#39;Either `y` or `S` must be input.&#39;</span><span class="p">)</span>
     <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">x</span><span class="p">)</span><span class="o">**</span><span class="mi">2</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">keepdims</span><span class="o">=</span><span class="kc">True</span><span class="p">))</span></div>
+
+
+<span class="n">rmse</span> <span class="o">=</span> <span class="n">moved</span><span class="p">(</span><span class="s1">&#39;librosa.feature.rmse&#39;</span><span class="p">,</span> <span class="s1">&#39;0.6.3&#39;</span><span class="p">,</span> <span class="s1">&#39;0.7.0&#39;</span><span class="p">)(</span><span class="n">rms</span><span class="p">)</span>
 
 
 <div class="viewcode-block" id="poly_features"><a class="viewcode-back" href="../../../generated/librosa.feature.poly_features.html#librosa.feature.poly_features">[docs]</a><span class="k">def</span> <span class="nf">poly_features</span><span class="p">(</span><span class="n">y</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">sr</span><span class="o">=</span><span class="mi">22050</span><span class="p">,</span> <span class="n">S</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">n_fft</span><span class="o">=</span><span class="mi">2048</span><span class="p">,</span> <span class="n">hop_length</span><span class="o">=</span><span class="mi">512</span><span class="p">,</span>
@@ -1273,11 +1290,20 @@
 <div class="viewcode-block" id="chroma_cens"><a class="viewcode-back" href="../../../generated/librosa.feature.chroma_cens.html#librosa.feature.chroma_cens">[docs]</a><span class="k">def</span> <span class="nf">chroma_cens</span><span class="p">(</span><span class="n">y</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">sr</span><span class="o">=</span><span class="mi">22050</span><span class="p">,</span> <span class="n">C</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">hop_length</span><span class="o">=</span><span class="mi">512</span><span class="p">,</span> <span class="n">fmin</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
                 <span class="n">tuning</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">n_chroma</span><span class="o">=</span><span class="mi">12</span><span class="p">,</span>
                 <span class="n">n_octaves</span><span class="o">=</span><span class="mi">7</span><span class="p">,</span> <span class="n">bins_per_octave</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">cqt_mode</span><span class="o">=</span><span class="s1">&#39;full&#39;</span><span class="p">,</span> <span class="n">window</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
-                <span class="n">norm</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">win_len_smooth</span><span class="o">=</span><span class="mi">41</span><span class="p">):</span>
+                <span class="n">norm</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">win_len_smooth</span><span class="o">=</span><span class="mi">41</span><span class="p">,</span> <span class="n">smoothing_window</span><span class="o">=</span><span class="s1">&#39;hann&#39;</span><span class="p">):</span>
     <span class="sa">r</span><span class="sd">&#39;&#39;&#39;Computes the chroma variant &quot;Chroma Energy Normalized&quot; (CENS), following [1]_.</span>
 
+<span class="sd">    To compute CENS features, following steps are taken after obtaining chroma vectors using `chroma_cqt`:</span>
+<span class="sd">    1. L-1 normalization of each chroma vector</span>
+<span class="sd">    2. Quantization of amplitude based on &quot;log-like&quot; amplitude thresholds</span>
+<span class="sd">    3. (optional) Smoothing with sliding window. Default window length = 41 frames</span>
+<span class="sd">    4. (not implemented) Downsampling</span>
+
+<span class="sd">    CENS features are robust to dynamics, timbre and articulation, thus these are commonly used in audio</span>
+<span class="sd">    matching and retrieval applications.</span>
+
 <span class="sd">    .. [1] Meinard Müller and Sebastian Ewert</span>
-<span class="sd">           Chroma Toolbox: MATLAB implementations for extracting variants of chroma-based audio features</span>
+<span class="sd">           &quot;Chroma Toolbox: MATLAB implementations for extracting variants of chroma-based audio features&quot;</span>
 <span class="sd">           In Proceedings of the International Conference on Music Information Retrieval (ISMIR), 2011.</span>
 
 <span class="sd">    Parameters</span>
@@ -1320,9 +1346,13 @@
 <span class="sd">    cqt_mode : [&#39;full&#39;, &#39;hybrid&#39;]</span>
 <span class="sd">        Constant-Q transform mode</span>
 
-<span class="sd">    win_len_smooth : int &gt; 0</span>
-<span class="sd">        Length of temporal smoothing window.</span>
+<span class="sd">    win_len_smooth : int &gt; 0 or None</span>
+<span class="sd">        Length of temporal smoothing window. `None` disables temporal smoothing.</span>
 <span class="sd">        Default: 41</span>
+
+<span class="sd">    smoothing_window : str, float or tuple</span>
+<span class="sd">        Type of window function for temporal smoothing. See `filters.get_window` for possible inputs.</span>
+<span class="sd">        Default: &#39;hann&#39;</span>
 
 <span class="sd">    Returns</span>
 <span class="sd">    -------</span>
@@ -1336,6 +1366,9 @@
 
 <span class="sd">    chroma_stft</span>
 <span class="sd">        Compute a chromagram from an STFT spectrogram or waveform.</span>
+
+<span class="sd">    filters.get_window</span>
+<span class="sd">        Compute a window function.</span>
 
 <span class="sd">    Examples</span>
 <span class="sd">    --------</span>
@@ -1359,6 +1392,9 @@
 <span class="sd">    &gt;&gt;&gt; plt.colorbar()</span>
 <span class="sd">    &gt;&gt;&gt; plt.tight_layout()</span>
 <span class="sd">    &#39;&#39;&#39;</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="p">((</span><span class="n">win_len_smooth</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">)</span> <span class="ow">or</span> <span class="p">(</span><span class="nb">isinstance</span><span class="p">(</span><span class="n">win_len_smooth</span><span class="p">,</span> <span class="nb">int</span><span class="p">)</span> <span class="ow">and</span> <span class="n">win_len_smooth</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">)):</span>
+        <span class="k">raise</span> <span class="n">ParameterError</span><span class="p">(</span><span class="s1">&#39;win_len_smooth=</span><span class="si">{}</span><span class="s1"> must be a positive integer or None&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">win_len_smooth</span><span class="p">))</span>
+
     <span class="n">chroma</span> <span class="o">=</span> <span class="n">chroma_cqt</span><span class="p">(</span><span class="n">y</span><span class="o">=</span><span class="n">y</span><span class="p">,</span> <span class="n">C</span><span class="o">=</span><span class="n">C</span><span class="p">,</span> <span class="n">sr</span><span class="o">=</span><span class="n">sr</span><span class="p">,</span>
                         <span class="n">hop_length</span><span class="o">=</span><span class="n">hop_length</span><span class="p">,</span>
                         <span class="n">fmin</span><span class="o">=</span><span class="n">fmin</span><span class="p">,</span>
@@ -1382,13 +1418,16 @@
     <span class="k">for</span> <span class="n">cur_quant_step_idx</span><span class="p">,</span> <span class="n">cur_quant_step</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">QUANT_STEPS</span><span class="p">):</span>
         <span class="n">chroma_quant</span> <span class="o">+=</span> <span class="p">(</span><span class="n">chroma</span> <span class="o">&gt;</span> <span class="n">cur_quant_step</span><span class="p">)</span> <span class="o">*</span> <span class="n">QUANT_WEIGHTS</span><span class="p">[</span><span class="n">cur_quant_step_idx</span><span class="p">]</span>
 
-    <span class="c1"># Apply temporal smoothing</span>
-    <span class="n">win</span> <span class="o">=</span> <span class="n">filters</span><span class="o">.</span><span class="n">get_window</span><span class="p">(</span><span class="s1">&#39;hann&#39;</span><span class="p">,</span> <span class="n">win_len_smooth</span> <span class="o">+</span> <span class="mi">2</span><span class="p">,</span> <span class="n">fftbins</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
-    <span class="n">win</span> <span class="o">/=</span> <span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">win</span><span class="p">)</span>
-    <span class="n">win</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">atleast_2d</span><span class="p">(</span><span class="n">win</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">win_len_smooth</span><span class="p">:</span>
+        <span class="c1"># Apply temporal smoothing</span>
+        <span class="n">win</span> <span class="o">=</span> <span class="n">filters</span><span class="o">.</span><span class="n">get_window</span><span class="p">(</span><span class="n">smoothing_window</span><span class="p">,</span> <span class="n">win_len_smooth</span> <span class="o">+</span> <span class="mi">2</span><span class="p">,</span> <span class="n">fftbins</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+        <span class="n">win</span> <span class="o">/=</span> <span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">win</span><span class="p">)</span>
+        <span class="n">win</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">atleast_2d</span><span class="p">(</span><span class="n">win</span><span class="p">)</span>
 
-    <span class="n">cens</span> <span class="o">=</span> <span class="n">scipy</span><span class="o">.</span><span class="n">signal</span><span class="o">.</span><span class="n">convolve2d</span><span class="p">(</span><span class="n">chroma_quant</span><span class="p">,</span> <span class="n">win</span><span class="p">,</span>
-                                   <span class="n">mode</span><span class="o">=</span><span class="s1">&#39;same&#39;</span><span class="p">,</span> <span class="n">boundary</span><span class="o">=</span><span class="s1">&#39;fill&#39;</span><span class="p">)</span>
+        <span class="n">cens</span> <span class="o">=</span> <span class="n">scipy</span><span class="o">.</span><span class="n">signal</span><span class="o">.</span><span class="n">convolve2d</span><span class="p">(</span><span class="n">chroma_quant</span><span class="p">,</span> <span class="n">win</span><span class="p">,</span>
+                                       <span class="n">mode</span><span class="o">=</span><span class="s1">&#39;same&#39;</span><span class="p">,</span> <span class="n">boundary</span><span class="o">=</span><span class="s1">&#39;fill&#39;</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">cens</span> <span class="o">=</span> <span class="n">chroma_quant</span>
 
     <span class="c1"># L2-Normalization</span>
     <span class="k">return</span> <span class="n">util</span><span class="o">.</span><span class="n">normalize</span><span class="p">(</span><span class="n">cens</span><span class="p">,</span> <span class="n">norm</span><span class="o">=</span><span class="n">norm</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span></div>
@@ -1698,7 +1737,7 @@
 
   <div role="contentinfo">
     <p>
-        &copy; Copyright 2013--2018, librosa development team.
+        &copy; Copyright 2013--2018, librosa development team
 
     </p>
   </div>
@@ -1716,7 +1755,7 @@
 <div class="rst-versions" data-toggle="rst-versions" role="note" aria-label="versions">
     <span class="rst-current-version" data-toggle="rst-current-version">
         <span class="fa fa-book"> Other Versions</span>
-        v: 0.6.2
+        v: 0.6.3
         <span class="fa fa-caret-down"></span>
     </span>
     <div class="rst-other-versions">
@@ -1729,45 +1768,32 @@
             <dd><a href="../../../0.5.1/index.html">0.5.1</a></dd>
             <dd><a href="../../../0.6.0/index.html">0.6.0</a></dd>
             <dd><a href="../../../0.6.1/index.html">0.6.1</a></dd>
-            <dd><a href="../../../0.6.2/_modules/librosa/feature/spectral.html">0.6.2</a></dd>
+            <dd><a href="../../../0.6.2/index.html">0.6.2</a></dd>
+            <dd><a href="../../../0.6.3/_modules/librosa/feature/spectral.html">0.6.3</a></dd>
             <dd><a href="../../../v0.1.0/index.html">v0.1.0</a></dd>
             <dd><a href="../../../v0.4.0/index.html">v0.4.0</a></dd>
         </dl>
         <dl>
             <dt>Branches</dt>
+            <dd><a href="../../../display-bin-centering/index.html">display-bin-centering</a></dd>
             <dd><a href="../../../master/index.html">master</a></dd>
+            <dd><a href="../../../mpl-test-2.1/index.html">mpl-test-2.1</a></dd>
+            <dd><a href="../../../runnning/index.html">runnning</a></dd>
         </dl>
     </div>
 </div>
 
 
-  
-
-    <script type="text/javascript">
-        var DOCUMENTATION_OPTIONS = {
-            URL_ROOT:'../../../',
-            VERSION:'0.6.2',
-            LANGUAGE:'None',
-            COLLAPSE_INDEX:false,
-            FILE_SUFFIX:'.html',
-            HAS_SOURCE:  true,
-            SOURCELINK_SUFFIX: '.txt'
-        };
-    </script>
-      <script type="text/javascript" src="../../../_static/jquery.js"></script>
-      <script type="text/javascript" src="../../../_static/underscore.js"></script>
-      <script type="text/javascript" src="../../../_static/doctools.js"></script>
-      <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
-
-  
-
-  <script type="text/javascript" src="../../../_static/js/theme.js"></script>
-
   <script type="text/javascript">
       jQuery(function () {
           SphinxRtdTheme.Navigation.enable(true);
       });
-  </script> 
+  </script>
+
+  
+  
+    
+   
 
 </body>
 </html>

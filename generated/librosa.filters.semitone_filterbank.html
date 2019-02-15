@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>librosa.filters.semitone_filterbank &mdash; librosa 0.6.2 documentation</title>
+  <title>librosa.filters.semitone_filterbank &mdash; librosa 0.6.3 documentation</title>
   
 
   
@@ -17,13 +17,30 @@
   
 
   
+  <script type="text/javascript" src="../_static/js/modernizr.min.js"></script>
+  
+    
+      <script type="text/javascript">
+          var DOCUMENTATION_OPTIONS = {
+              URL_ROOT:'../',
+              VERSION:'0.6.3',
+              LANGUAGE:'None',
+              COLLAPSE_INDEX:false,
+              FILE_SUFFIX:'.html',
+              HAS_SOURCE:  true,
+              SOURCELINK_SUFFIX: '.txt'
+          };
+      </script>
+        <script type="text/javascript" src="../_static/jquery.js"></script>
+        <script type="text/javascript" src="../_static/underscore.js"></script>
+        <script type="text/javascript" src="../_static/doctools.js"></script>
+        <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    
+    <script type="text/javascript" src="../_static/js/theme.js"></script>
 
-  
-  
     
 
   
-
   <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
   <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
   <link rel="stylesheet" href="../_static/gallery.css" type="text/css" />
@@ -32,21 +49,16 @@
     <link rel="search" title="Search" href="../search.html" />
     <link rel="next" title="librosa.filters.window_bandwidth" href="librosa.filters.window_bandwidth.html" />
     <link rel="prev" title="librosa.filters._multirate_fb" href="librosa.filters._multirate_fb.html" /> 
-
-  
-  <script src="../_static/js/modernizr.min.js"></script>
-
 </head>
 
 <body class="wy-body-for-nav">
 
    
   <div class="wy-grid-for-nav">
-
     
     <nav data-toggle="wy-nav-shift" class="wy-nav-side">
       <div class="wy-side-scroll">
-        <div class="wy-side-nav-search">
+        <div class="wy-side-nav-search" >
           
 
           
@@ -199,7 +211,7 @@
 <h1>librosa.filters.semitone_filterbank<a class="headerlink" href="#librosa-filters-semitone-filterbank" title="Permalink to this headline">¶</a></h1>
 <dl class="function">
 <dt id="librosa.filters.semitone_filterbank">
-<code class="descclassname">librosa.filters.</code><code class="descname">semitone_filterbank</code><span class="sig-paren">(</span><em>center_freqs=None</em>, <em>tuning=0.0</em>, <em>sample_rates=None</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/librosa/filters.html#semitone_filterbank"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#librosa.filters.semitone_filterbank" title="Permalink to this definition">¶</a></dt>
+<code class="descclassname">librosa.filters.</code><code class="descname">semitone_filterbank</code><span class="sig-paren">(</span><em>center_freqs=None</em>, <em>tuning=0.0</em>, <em>sample_rates=None</em>, <em>flayout='ba'</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/librosa/filters.html#semitone_filterbank"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#librosa.filters.semitone_filterbank" title="Permalink to this definition">¶</a></dt>
 <dd><p>Constructs a multirate filterbank of infinite-impulse response (IIR)
 band-pass filters at user-defined center frequencies and sample rates.</p>
 <p>By default, these center frequencies are set equal to the 88 fundamental
@@ -236,6 +248,14 @@ in equal temperament).</p>
 <dt><strong>sample_rates</strong> <span class="classifier-delimiter">:</span> <span class="classifier">np.ndarray [shape=(n,), dtype=float]</span></dt>
 <dd><p class="first last">Sample rates of each filter in the multirate filterbank.</p>
 </dd>
+<dt><strong>flayout</strong> <span class="classifier-delimiter">:</span> <span class="classifier">string</span></dt>
+<dd><ul class="first last simple">
+<li>If <em class="xref py py-obj">ba</em>, the standard difference equation is used for filtering with <a class="reference external" href="https://docs.scipy.org/doc/scipy/reference/generated/scipy.signal.filtfilt.html#scipy.signal.filtfilt" title="(in SciPy v1.2.1)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">scipy.signal.filtfilt</span></code></a>.
+Can be unstable for high-order filters.</li>
+<li>If <em class="xref py py-obj">sos</em>, a series of second-order filters is used for filtering with <a class="reference external" href="https://docs.scipy.org/doc/scipy/reference/generated/scipy.signal.sosfiltfilt.html#scipy.signal.sosfiltfilt" title="(in SciPy v1.2.1)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">scipy.signal.sosfiltfilt</span></code></a>.
+Minimizes numerical precision errors for high-order filters, but is slower.</li>
+</ul>
+</dd>
 <dt><strong>kwargs</strong> <span class="classifier-delimiter">:</span> <span class="classifier">additional keyword arguments</span></dt>
 <dd><p class="first last">Additional arguments to the private function <em class="xref py py-obj">_multirate_fb()</em>.</p>
 </dd>
@@ -256,7 +276,7 @@ in equal temperament).</p>
 </table>
 <div class="admonition seealso">
 <p class="first admonition-title">See also</p>
-<p class="last"><a class="reference internal" href="librosa.core.cqt.html#librosa.core.cqt" title="librosa.core.cqt"><code class="xref py py-obj docutils literal notranslate"><span class="pre">librosa.core.cqt</span></code></a>, <a class="reference internal" href="librosa.core.iirt.html#librosa.core.iirt" title="librosa.core.iirt"><code class="xref py py-obj docutils literal notranslate"><span class="pre">librosa.core.iirt</span></code></a>, <a class="reference internal" href="librosa.filters._multirate_fb.html#librosa.filters._multirate_fb" title="librosa.filters._multirate_fb"><code class="xref py py-obj docutils literal notranslate"><span class="pre">librosa.filters._multirate_fb</span></code></a>, <a class="reference internal" href="librosa.filters.mr_frequencies.html#librosa.filters.mr_frequencies" title="librosa.filters.mr_frequencies"><code class="xref py py-obj docutils literal notranslate"><span class="pre">librosa.filters.mr_frequencies</span></code></a>, <a class="reference external" href="https://docs.scipy.org/doc/scipy/reference/generated/scipy.signal.iirdesign.html#scipy.signal.iirdesign" title="(in SciPy v1.1.0)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">scipy.signal.iirdesign</span></code></a></p>
+<p class="last"><a class="reference internal" href="librosa.core.cqt.html#librosa.core.cqt" title="librosa.core.cqt"><code class="xref py py-obj docutils literal notranslate"><span class="pre">librosa.core.cqt</span></code></a>, <a class="reference internal" href="librosa.core.iirt.html#librosa.core.iirt" title="librosa.core.iirt"><code class="xref py py-obj docutils literal notranslate"><span class="pre">librosa.core.iirt</span></code></a>, <a class="reference internal" href="librosa.filters._multirate_fb.html#librosa.filters._multirate_fb" title="librosa.filters._multirate_fb"><code class="xref py py-obj docutils literal notranslate"><span class="pre">librosa.filters._multirate_fb</span></code></a>, <a class="reference internal" href="librosa.filters.mr_frequencies.html#librosa.filters.mr_frequencies" title="librosa.filters.mr_frequencies"><code class="xref py py-obj docutils literal notranslate"><span class="pre">librosa.filters.mr_frequencies</span></code></a>, <a class="reference external" href="https://docs.scipy.org/doc/scipy/reference/generated/scipy.signal.iirdesign.html#scipy.signal.iirdesign" title="(in SciPy v1.2.1)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">scipy.signal.iirdesign</span></code></a></p>
 </div>
 <p class="rubric">Examples</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
@@ -295,7 +315,7 @@ in equal temperament).</p>
         <a href="librosa.filters.window_bandwidth.html" class="btn btn-neutral float-right" title="librosa.filters.window_bandwidth" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
       
       
-        <a href="librosa.filters._multirate_fb.html" class="btn btn-neutral" title="librosa.filters._multirate_fb" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+        <a href="librosa.filters._multirate_fb.html" class="btn btn-neutral float-left" title="librosa.filters._multirate_fb" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
       
     </div>
   
@@ -304,7 +324,7 @@ in equal temperament).</p>
 
   <div role="contentinfo">
     <p>
-        &copy; Copyright 2013--2018, librosa development team.
+        &copy; Copyright 2013--2018, librosa development team
 
     </p>
   </div>
@@ -322,7 +342,7 @@ in equal temperament).</p>
 <div class="rst-versions" data-toggle="rst-versions" role="note" aria-label="versions">
     <span class="rst-current-version" data-toggle="rst-current-version">
         <span class="fa fa-book"> Other Versions</span>
-        v: 0.6.2
+        v: 0.6.3
         <span class="fa fa-caret-down"></span>
     </span>
     <div class="rst-other-versions">
@@ -336,44 +356,31 @@ in equal temperament).</p>
             <dd><a href="../0.6.0/generated/librosa.filters.semitone_filterbank.html">0.6.0</a></dd>
             <dd><a href="../0.6.1/generated/librosa.filters.semitone_filterbank.html">0.6.1</a></dd>
             <dd><a href="../0.6.2/generated/librosa.filters.semitone_filterbank.html">0.6.2</a></dd>
+            <dd><a href="../0.6.3/generated/librosa.filters.semitone_filterbank.html">0.6.3</a></dd>
             <dd><a href="../v0.1.0/index.html">v0.1.0</a></dd>
             <dd><a href="../v0.4.0/index.html">v0.4.0</a></dd>
         </dl>
         <dl>
             <dt>Branches</dt>
+            <dd><a href="../display-bin-centering/generated/librosa.filters.semitone_filterbank.html">display-bin-centering</a></dd>
             <dd><a href="../master/generated/librosa.filters.semitone_filterbank.html">master</a></dd>
+            <dd><a href="../mpl-test-2.1/generated/librosa.filters.semitone_filterbank.html">mpl-test-2.1</a></dd>
+            <dd><a href="../runnning/generated/librosa.filters.semitone_filterbank.html">runnning</a></dd>
         </dl>
     </div>
 </div>
 
 
-  
-
-    <script type="text/javascript">
-        var DOCUMENTATION_OPTIONS = {
-            URL_ROOT:'../',
-            VERSION:'0.6.2',
-            LANGUAGE:'None',
-            COLLAPSE_INDEX:false,
-            FILE_SUFFIX:'.html',
-            HAS_SOURCE:  true,
-            SOURCELINK_SUFFIX: '.txt'
-        };
-    </script>
-      <script type="text/javascript" src="../_static/jquery.js"></script>
-      <script type="text/javascript" src="../_static/underscore.js"></script>
-      <script type="text/javascript" src="../_static/doctools.js"></script>
-      <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
-
-  
-
-  <script type="text/javascript" src="../_static/js/theme.js"></script>
-
   <script type="text/javascript">
       jQuery(function () {
           SphinxRtdTheme.Navigation.enable(true);
       });
-  </script> 
+  </script>
+
+  
+  
+    
+   
 
 </body>
 </html>

@@ -17,45 +17,46 @@
   
 
   
+  <script type="text/javascript" src="../_static/js/modernizr.min.js"></script>
+  
+    
+      <script type="text/javascript">
+          var DOCUMENTATION_OPTIONS = {
+              URL_ROOT:'../',
+              VERSION:'0.5.1',
+              LANGUAGE:'None',
+              COLLAPSE_INDEX:false,
+              FILE_SUFFIX:'.html',
+              HAS_SOURCE:  true,
+              SOURCELINK_SUFFIX: '.txt'
+          };
+      </script>
+        <script type="text/javascript" src="../_static/jquery.js"></script>
+        <script type="text/javascript" src="../_static/underscore.js"></script>
+        <script type="text/javascript" src="../_static/doctools.js"></script>
+    
+    <script type="text/javascript" src="../_static/js/theme.js"></script>
 
-  
-  
     
 
   
-
-  
-  
-    <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
-  
-
-  
-    <link rel="stylesheet" href="../_static/banner.css" type="text/css" />
-  
-
-  
-        <link rel="index" title="Index"
-              href="../genindex.html"/>
-        <link rel="search" title="Search" href="../search.html"/>
-    <link rel="top" title="librosa 0.5.1 documentation" href="../index.html"/>
-        <link rel="up" title="Utilities" href="../util.html"/>
-        <link rel="next" title="librosa.util.normalize" href="librosa.util.normalize.html"/>
-        <link rel="prev" title="librosa.util.sync" href="librosa.util.sync.html"/> 
-
-  
-  <script src="../_static/js/modernizr.min.js"></script>
-
+  <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/banner.css" type="text/css" />
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="librosa.util.normalize" href="librosa.util.normalize.html" />
+    <link rel="prev" title="librosa.util.sync" href="librosa.util.sync.html" /> 
 </head>
 
-<body class="wy-body-for-nav" role="document">
+<body class="wy-body-for-nav">
 
    
   <div class="wy-grid-for-nav">
-
     
     <nav data-toggle="wy-nav-shift" class="wy-nav-side">
       <div class="wy-side-scroll">
-        <div class="wy-side-nav-search">
+        <div class="wy-side-nav-search" >
           
 
           
@@ -151,7 +152,7 @@
     <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
 
       
-      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+      <nav class="wy-nav-top" aria-label="top navigation">
         
           <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
           <a href="../index.html">librosa</a>
@@ -159,9 +160,10 @@
       </nav>
 
 
-      
       <div class="wy-nav-content">
+        
         <div class="rst-content">
+        
           
 
 
@@ -205,7 +207,16 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
             
-  <div class="section" id="librosa-util-axis-sort">
+  
+
+
+    
+    
+
+
+
+    <p class="scv-banner scv-sphinx_rtd_theme"><a href="../../0.6.3/generated/librosa.util.axis_sort.html"><b>Warning:</b> This document is for the development version of librosa. The latest version is 0.6.3.</a></p>
+<div class="section" id="librosa-util-axis-sort">
 <h1>librosa.util.axis_sort<a class="headerlink" href="#librosa-util-axis-sort" title="Permalink to this headline">¶</a></h1>
 <dl class="function">
 <dt id="librosa.util.axis_sort">
@@ -215,51 +226,50 @@
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>S</strong> : np.ndarray [shape=(d, n)]</p>
-<blockquote>
-<div><p>Array to be sorted</p>
-</div></blockquote>
-<p><strong>axis</strong> : int [scalar]</p>
-<blockquote>
-<div><p>The axis along which to compute the sorting values</p>
-<ul class="simple">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><dl class="first docutils">
+<dt><strong>S</strong> <span class="classifier-delimiter">:</span> <span class="classifier">np.ndarray [shape=(d, n)]</span></dt>
+<dd><p class="first last">Array to be sorted</p>
+</dd>
+<dt><strong>axis</strong> <span class="classifier-delimiter">:</span> <span class="classifier">int [scalar]</span></dt>
+<dd><p class="first">The axis along which to compute the sorting values</p>
+<ul class="last simple">
 <li><em class="xref py py-obj">axis=0</em> to sort rows by peak column index</li>
 <li><em class="xref py py-obj">axis=1</em> to sort columns by peak row index</li>
 </ul>
-</div></blockquote>
-<p><strong>index</strong> : boolean [scalar]</p>
-<blockquote>
-<div><p>If true, returns the index array as well as the permuted data.</p>
-</div></blockquote>
-<p><strong>value</strong> : function</p>
-<blockquote>
-<div><p>function to return the index corresponding to the sort order.
+</dd>
+<dt><strong>index</strong> <span class="classifier-delimiter">:</span> <span class="classifier">boolean [scalar]</span></dt>
+<dd><p class="first last">If true, returns the index array as well as the permuted data.</p>
+</dd>
+<dt><strong>value</strong> <span class="classifier-delimiter">:</span> <span class="classifier">function</span></dt>
+<dd><p class="first last">function to return the index corresponding to the sort order.
 Default: <em class="xref py py-obj">np.argmax</em>.</p>
-</div></blockquote>
+</dd>
+</dl>
 </td>
 </tr>
-<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first"><strong>S_sort</strong> : np.ndarray [shape=(d, n)]</p>
-<blockquote>
-<div><p><em class="xref py py-obj">S</em> with the columns or rows permuted in sorting order</p>
-</div></blockquote>
-<p><strong>idx</strong> : np.ndarray (optional) [shape=(d,) or (n,)]</p>
-<blockquote>
-<div><p>If <em class="xref py py-obj">index == True</em>, the sorting index used to permute <em class="xref py py-obj">S</em>.
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><dl class="first docutils">
+<dt><strong>S_sort</strong> <span class="classifier-delimiter">:</span> <span class="classifier">np.ndarray [shape=(d, n)]</span></dt>
+<dd><p class="first last"><em class="xref py py-obj">S</em> with the columns or rows permuted in sorting order</p>
+</dd>
+<dt><strong>idx</strong> <span class="classifier-delimiter">:</span> <span class="classifier">np.ndarray (optional) [shape=(d,) or (n,)]</span></dt>
+<dd><p class="first last">If <em class="xref py py-obj">index == True</em>, the sorting index used to permute <em class="xref py py-obj">S</em>.
 Length of <em class="xref py py-obj">idx</em> corresponds to the selected <em class="xref py py-obj">axis</em>.</p>
-</div></blockquote>
+</dd>
+</dl>
 </td>
 </tr>
-<tr class="field-odd field"><th class="field-name">Raises:</th><td class="field-body"><p class="first"><strong>ParameterError</strong></p>
-<blockquote class="last">
-<div><p>If <em class="xref py py-obj">S</em> does not have exactly 2 dimensions (<em class="xref py py-obj">S.ndim != 2</em>)</p>
-</div></blockquote>
+<tr class="field-odd field"><th class="field-name">Raises:</th><td class="field-body"><dl class="first last docutils">
+<dt><strong>ParameterError</strong></dt>
+<dd><p class="first last">If <em class="xref py py-obj">S</em> does not have exactly 2 dimensions (<em class="xref py py-obj">S.ndim != 2</em>)</p>
+</dd>
+</dl>
 </td>
 </tr>
 </tbody>
 </table>
 <p class="rubric">Examples</p>
 <p>Visualize NMF output for a spectrogram S</p>
-<div class="highlight-default"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="c1"># Sort the columns of W by peak frequency bin</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="c1"># Sort the columns of W by peak frequency bin</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">y</span><span class="p">,</span> <span class="n">sr</span> <span class="o">=</span> <span class="n">librosa</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">librosa</span><span class="o">.</span><span class="n">util</span><span class="o">.</span><span class="n">example_audio_file</span><span class="p">())</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">S</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">librosa</span><span class="o">.</span><span class="n">stft</span><span class="p">(</span><span class="n">y</span><span class="p">))</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">W</span><span class="p">,</span> <span class="n">H</span> <span class="o">=</span> <span class="n">librosa</span><span class="o">.</span><span class="n">decompose</span><span class="o">.</span><span class="n">decompose</span><span class="p">(</span><span class="n">S</span><span class="p">,</span> <span class="n">n_components</span><span class="o">=</span><span class="mi">32</span><span class="p">)</span>
@@ -267,19 +277,19 @@ Length of <em class="xref py py-obj">idx</em> corresponds to the selected <em cl
 </pre></div>
 </div>
 <p>Or sort by the lowest frequency bin</p>
-<div class="highlight-default"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">W_sort</span> <span class="o">=</span> <span class="n">librosa</span><span class="o">.</span><span class="n">util</span><span class="o">.</span><span class="n">axis_sort</span><span class="p">(</span><span class="n">W</span><span class="p">,</span> <span class="n">value</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">argmin</span><span class="p">)</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">W_sort</span> <span class="o">=</span> <span class="n">librosa</span><span class="o">.</span><span class="n">util</span><span class="o">.</span><span class="n">axis_sort</span><span class="p">(</span><span class="n">W</span><span class="p">,</span> <span class="n">value</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">argmin</span><span class="p">)</span>
 </pre></div>
 </div>
 <p>Or sort the rows instead of the columns</p>
-<div class="highlight-default"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">W_sort_rows</span> <span class="o">=</span> <span class="n">librosa</span><span class="o">.</span><span class="n">util</span><span class="o">.</span><span class="n">axis_sort</span><span class="p">(</span><span class="n">W</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">W_sort_rows</span> <span class="o">=</span> <span class="n">librosa</span><span class="o">.</span><span class="n">util</span><span class="o">.</span><span class="n">axis_sort</span><span class="p">(</span><span class="n">W</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
 </pre></div>
 </div>
 <p>Get the sorting index also, and use it to permute the rows of H</p>
-<div class="highlight-default"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">W_sort</span><span class="p">,</span> <span class="n">idx</span> <span class="o">=</span> <span class="n">librosa</span><span class="o">.</span><span class="n">util</span><span class="o">.</span><span class="n">axis_sort</span><span class="p">(</span><span class="n">W</span><span class="p">,</span> <span class="n">index</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">W_sort</span><span class="p">,</span> <span class="n">idx</span> <span class="o">=</span> <span class="n">librosa</span><span class="o">.</span><span class="n">util</span><span class="o">.</span><span class="n">axis_sort</span><span class="p">(</span><span class="n">W</span><span class="p">,</span> <span class="n">index</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">H_sort</span> <span class="o">=</span> <span class="n">H</span><span class="p">[</span><span class="n">idx</span><span class="p">,</span> <span class="p">:]</span>
 </pre></div>
 </div>
-<div class="highlight-default"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">()</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">plt</span><span class="o">.</span><span class="n">subplot</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">librosa</span><span class="o">.</span><span class="n">display</span><span class="o">.</span><span class="n">specshow</span><span class="p">(</span><span class="n">librosa</span><span class="o">.</span><span class="n">amplitude_to_db</span><span class="p">(</span><span class="n">W</span><span class="p">,</span> <span class="n">ref</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">max</span><span class="p">),</span>
@@ -300,18 +310,13 @@ Length of <em class="xref py py-obj">idx</em> corresponds to the selected <em cl
 </pre></div>
 </div>
 <p>(<a class="reference external" href="../generated/librosa-util-axis_sort-1.py">Source code</a>)</p>
-<div class="figure">
-<img alt="../_images/librosa-util-axis_sort-1.png" src="../_images/librosa-util-axis_sort-1.png" />
-</div>
 </dd></dl>
 
 </div>
 
 
            </div>
-           <div class="articleComments">
-            
-           </div>
+           
           </div>
           <footer>
   
@@ -320,7 +325,7 @@ Length of <em class="xref py py-obj">idx</em> corresponds to the selected <em cl
         <a href="librosa.util.normalize.html" class="btn btn-neutral float-right" title="librosa.util.normalize" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
       
       
-        <a href="librosa.util.sync.html" class="btn btn-neutral" title="librosa.util.sync" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+        <a href="librosa.util.sync.html" class="btn btn-neutral float-left" title="librosa.util.sync" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
       
     </div>
   
@@ -329,11 +334,11 @@ Length of <em class="xref py py-obj">idx</em> corresponds to the selected <em cl
 
   <div role="contentinfo">
     <p>
-        &copy; Copyright 2013--2017, librosa development team.
+        &copy; Copyright 2013--2017, librosa development team
 
     </p>
   </div>
-  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/snide/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
 
 </footer>
 
@@ -353,19 +358,15 @@ Length of <em class="xref py py-obj">idx</em> corresponds to the selected <em cl
     <div class="rst-other-versions">
         <dl>
             <dt>Tags</dt>
-            <dd><a href="../../0.4.0rc1/index.html">0.4.0rc1</a></dd>
-            <dd><a href="../../0.4.0rc2/index.html">0.4.0rc2</a></dd>
             <dd><a href="../../0.4.1/index.html">0.4.1</a></dd>
-            <dd><a href="../../0.4.1rc0/index.html">0.4.1rc0</a></dd>
             <dd><a href="../../0.4.2/generated/librosa.util.axis_sort.html">0.4.2</a></dd>
             <dd><a href="../../0.4.3/generated/librosa.util.axis_sort.html">0.4.3</a></dd>
-            <dd><a href="../../0.4.3rc0/generated/librosa.util.axis_sort.html">0.4.3rc0</a></dd>
             <dd><a href="../../0.5.0/generated/librosa.util.axis_sort.html">0.5.0</a></dd>
-            <dd><a href="../../0.5.0rc0/generated/librosa.util.axis_sort.html">0.5.0rc0</a></dd>
             <dd><a href="../../0.5.1/generated/librosa.util.axis_sort.html">0.5.1</a></dd>
             <dd><a href="../../0.6.0/generated/librosa.util.axis_sort.html">0.6.0</a></dd>
-            <dd><a href="../../0.6.0rc0/generated/librosa.util.axis_sort.html">0.6.0rc0</a></dd>
-            <dd><a href="../../0.6.0rc1/generated/librosa.util.axis_sort.html">0.6.0rc1</a></dd>
+            <dd><a href="../../0.6.1/generated/librosa.util.axis_sort.html">0.6.1</a></dd>
+            <dd><a href="../../0.6.2/generated/librosa.util.axis_sort.html">0.6.2</a></dd>
+            <dd><a href="../../0.6.3/generated/librosa.util.axis_sort.html">0.6.3</a></dd>
             <dd><a href="../../v0.1.0/index.html">v0.1.0</a></dd>
             <dd><a href="../../v0.4.0/index.html">v0.4.0</a></dd>
         </dl>
@@ -373,41 +374,22 @@ Length of <em class="xref py py-obj">idx</em> corresponds to the selected <em cl
             <dt>Branches</dt>
             <dd><a href="librosa.util.axis_sort.html">display-bin-centering</a></dd>
             <dd><a href="../../master/generated/librosa.util.axis_sort.html">master</a></dd>
+            <dd><a href="../../mpl-test-2.1/generated/librosa.util.axis_sort.html">mpl-test-2.1</a></dd>
+            <dd><a href="../../runnning/generated/librosa.util.axis_sort.html">runnning</a></dd>
         </dl>
     </div>
 </div>
 
 
-  
-
-    <script type="text/javascript">
-        var DOCUMENTATION_OPTIONS = {
-            URL_ROOT:'../',
-            VERSION:'0.5.1',
-            COLLAPSE_INDEX:false,
-            FILE_SUFFIX:'.html',
-            HAS_SOURCE:  true,
-            SOURCELINK_SUFFIX: '.txt'
-        };
-    </script>
-      <script type="text/javascript" src="../_static/jquery.js"></script>
-      <script type="text/javascript" src="../_static/underscore.js"></script>
-      <script type="text/javascript" src="../_static/doctools.js"></script>
-
-  
-
-  
-  
-    <script type="text/javascript" src="../_static/js/theme.js"></script>
-  
-
-  
-  
   <script type="text/javascript">
       jQuery(function () {
-          SphinxRtdTheme.StickyNav.enable();
+          SphinxRtdTheme.Navigation.enable(true);
       });
   </script>
+
+  
+  
+    
    
 
 </body>

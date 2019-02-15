@@ -1,11 +1,11 @@
 y, sr = librosa.load(librosa.util.example_audio_file())
-librosa.feature.rmse(y=y)
+librosa.feature.rms(y=y)
 # array([[ 0.   ,  0.056, ...,  0.   ,  0.   ]], dtype=float32)
 
 # Or from spectrogram input
 
 S, phase = librosa.magphase(librosa.stft(y))
-rms = librosa.feature.rmse(S=S)
+rms = librosa.feature.rms(S=S)
 
 import matplotlib.pyplot as plt
 plt.figure()
@@ -21,7 +21,7 @@ plt.title('log Power spectrogram')
 plt.tight_layout()
 
 # Use a STFT window of constant ones and no frame centering to get consistent
-# results with the RMS energy computed from the audio samples `y`
+# results with the RMS computed from the audio samples `y`
 
 S = librosa.magphase(librosa.stft(y, window=np.ones, center=False))[0]
-librosa.feature.rmse(S=S)
+librosa.feature.rms(S=S)

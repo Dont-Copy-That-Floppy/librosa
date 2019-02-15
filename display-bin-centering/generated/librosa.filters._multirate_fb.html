@@ -17,45 +17,46 @@
   
 
   
+  <script type="text/javascript" src="../_static/js/modernizr.min.js"></script>
+  
+    
+      <script type="text/javascript">
+          var DOCUMENTATION_OPTIONS = {
+              URL_ROOT:'../',
+              VERSION:'0.5.1',
+              LANGUAGE:'None',
+              COLLAPSE_INDEX:false,
+              FILE_SUFFIX:'.html',
+              HAS_SOURCE:  true,
+              SOURCELINK_SUFFIX: '.txt'
+          };
+      </script>
+        <script type="text/javascript" src="../_static/jquery.js"></script>
+        <script type="text/javascript" src="../_static/underscore.js"></script>
+        <script type="text/javascript" src="../_static/doctools.js"></script>
+    
+    <script type="text/javascript" src="../_static/js/theme.js"></script>
 
-  
-  
     
 
   
-
-  
-  
-    <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
-  
-
-  
-    <link rel="stylesheet" href="../_static/banner.css" type="text/css" />
-  
-
-  
-        <link rel="index" title="Index"
-              href="../genindex.html"/>
-        <link rel="search" title="Search" href="../search.html"/>
-    <link rel="top" title="librosa 0.5.1 documentation" href="../index.html"/>
-        <link rel="up" title="Filters" href="../filters.html"/>
-        <link rel="next" title="librosa.filters.semitone_filterbank" href="librosa.filters.semitone_filterbank.html"/>
-        <link rel="prev" title="librosa.filters.constant_q" href="librosa.filters.constant_q.html"/> 
-
-  
-  <script src="../_static/js/modernizr.min.js"></script>
-
+  <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/banner.css" type="text/css" />
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="librosa.filters.semitone_filterbank" href="librosa.filters.semitone_filterbank.html" />
+    <link rel="prev" title="librosa.filters.constant_q" href="librosa.filters.constant_q.html" /> 
 </head>
 
-<body class="wy-body-for-nav" role="document">
+<body class="wy-body-for-nav">
 
    
   <div class="wy-grid-for-nav">
-
     
     <nav data-toggle="wy-nav-shift" class="wy-nav-side">
       <div class="wy-side-scroll">
-        <div class="wy-side-nav-search">
+        <div class="wy-side-nav-search" >
           
 
           
@@ -141,7 +142,7 @@
     <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
 
       
-      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+      <nav class="wy-nav-top" aria-label="top navigation">
         
           <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
           <a href="../index.html">librosa</a>
@@ -149,9 +150,10 @@
       </nav>
 
 
-      
       <div class="wy-nav-content">
+        
         <div class="rst-content">
+        
           
 
 
@@ -195,7 +197,16 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
             
-  <div class="section" id="librosa-filters-multirate-fb">
+  
+
+
+    
+    
+
+
+
+    <p class="scv-banner scv-sphinx_rtd_theme"><a href="../../0.6.3/generated/librosa.filters._multirate_fb.html"><b>Warning:</b> This document is for the development version of librosa. The latest version is 0.6.3.</a></p>
+<div class="section" id="librosa-filters-multirate-fb">
 <h1>librosa.filters._multirate_fb<a class="headerlink" href="#librosa-filters-multirate-fb" title="Permalink to this headline">¶</a></h1>
 <dl class="function">
 <dt id="librosa.filters._multirate_fb">
@@ -206,65 +217,62 @@
 into subbands. In the case of a multirate filter bank, the band-pass filters
 operate with resampled versions of the input signal, e.g. to keep the length
 of a filter constant while shifting its center frequency.</p>
-<p>This implementation uses <a class="reference external" href="https://docs.scipy.org/doc/scipy/reference/generated/scipy.signal.iirdesign.html#scipy.signal.iirdesign" title="(in SciPy v1.0.0)"><code class="xref py py-obj docutils literal"><span class="pre">scipy.signal.iirdesign</span></code></a> to design the filters.</p>
+<p>This implementation uses <a class="reference external" href="https://docs.scipy.org/doc/scipy/reference/generated/scipy.signal.iirdesign.html#scipy.signal.iirdesign" title="(in SciPy v1.2.1)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">scipy.signal.iirdesign</span></code></a> to design the filters.</p>
 </div></blockquote>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>center_freqs</strong> : np.ndarray [shape=(n,), dtype=float]</p>
-<blockquote>
-<div><p>Center frequencies of the filter kernels.
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><dl class="first docutils">
+<dt><strong>center_freqs</strong> <span class="classifier-delimiter">:</span> <span class="classifier">np.ndarray [shape=(n,), dtype=float]</span></dt>
+<dd><p class="first last">Center frequencies of the filter kernels.
 Also defines the number of filters in the filterbank.</p>
-</div></blockquote>
-<p><strong>sample_rates</strong> : np.ndarray [shape=(n,), dtype=float]</p>
-<blockquote>
-<div><p>Samplerate for each filter (used for multirate filterbank).</p>
-</div></blockquote>
-<p><strong>Q</strong> : float</p>
-<blockquote>
-<div><p>Q factor (influences the filter bandwith).</p>
-</div></blockquote>
-<p><strong>passband_ripple</strong> : float</p>
-<blockquote>
-<div><p>The maximum loss in the passband (dB)
-See <a class="reference external" href="https://docs.scipy.org/doc/scipy/reference/generated/scipy.signal.iirdesign.html#scipy.signal.iirdesign" title="(in SciPy v1.0.0)"><code class="xref py py-obj docutils literal"><span class="pre">scipy.signal.iirdesign</span></code></a> for details.</p>
-</div></blockquote>
-<p><strong>stopband_attenuation</strong> : float</p>
-<blockquote>
-<div><p>The minimum attenuation in the stopband (dB)
-See <a class="reference external" href="https://docs.scipy.org/doc/scipy/reference/generated/scipy.signal.iirdesign.html#scipy.signal.iirdesign" title="(in SciPy v1.0.0)"><code class="xref py py-obj docutils literal"><span class="pre">scipy.signal.iirdesign</span></code></a> for details.</p>
-</div></blockquote>
-<p><strong>ftype</strong> : str</p>
-<blockquote>
-<div><p>The type of IIR filter to design
-See <a class="reference external" href="https://docs.scipy.org/doc/scipy/reference/generated/scipy.signal.iirdesign.html#scipy.signal.iirdesign" title="(in SciPy v1.0.0)"><code class="xref py py-obj docutils literal"><span class="pre">scipy.signal.iirdesign</span></code></a> for details.</p>
-</div></blockquote>
+</dd>
+<dt><strong>sample_rates</strong> <span class="classifier-delimiter">:</span> <span class="classifier">np.ndarray [shape=(n,), dtype=float]</span></dt>
+<dd><p class="first last">Samplerate for each filter (used for multirate filterbank).</p>
+</dd>
+<dt><strong>Q</strong> <span class="classifier-delimiter">:</span> <span class="classifier">float</span></dt>
+<dd><p class="first last">Q factor (influences the filter bandwith).</p>
+</dd>
+<dt><strong>passband_ripple</strong> <span class="classifier-delimiter">:</span> <span class="classifier">float</span></dt>
+<dd><p class="first last">The maximum loss in the passband (dB)
+See <a class="reference external" href="https://docs.scipy.org/doc/scipy/reference/generated/scipy.signal.iirdesign.html#scipy.signal.iirdesign" title="(in SciPy v1.2.1)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">scipy.signal.iirdesign</span></code></a> for details.</p>
+</dd>
+<dt><strong>stopband_attenuation</strong> <span class="classifier-delimiter">:</span> <span class="classifier">float</span></dt>
+<dd><p class="first last">The minimum attenuation in the stopband (dB)
+See <a class="reference external" href="https://docs.scipy.org/doc/scipy/reference/generated/scipy.signal.iirdesign.html#scipy.signal.iirdesign" title="(in SciPy v1.2.1)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">scipy.signal.iirdesign</span></code></a> for details.</p>
+</dd>
+<dt><strong>ftype</strong> <span class="classifier-delimiter">:</span> <span class="classifier">str</span></dt>
+<dd><p class="first last">The type of IIR filter to design
+See <a class="reference external" href="https://docs.scipy.org/doc/scipy/reference/generated/scipy.signal.iirdesign.html#scipy.signal.iirdesign" title="(in SciPy v1.2.1)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">scipy.signal.iirdesign</span></code></a> for details.</p>
+</dd>
+</dl>
 </td>
 </tr>
-<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first"><strong>filterbank</strong> : list [shape=(n,), dtype=float]</p>
-<blockquote>
-<div><p>Each list entry comprises the filter coefficients for a single filter.</p>
-</div></blockquote>
-<p><strong>sample_rates</strong> : np.ndarray [shape=(n,), dtype=float]</p>
-<blockquote>
-<div><p>Samplerate for each filter.</p>
-</div></blockquote>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><dl class="first docutils">
+<dt><strong>filterbank</strong> <span class="classifier-delimiter">:</span> <span class="classifier">list [shape=(n,), dtype=float]</span></dt>
+<dd><p class="first last">Each list entry comprises the filter coefficients for a single filter.</p>
+</dd>
+<dt><strong>sample_rates</strong> <span class="classifier-delimiter">:</span> <span class="classifier">np.ndarray [shape=(n,), dtype=float]</span></dt>
+<dd><p class="first last">Samplerate for each filter.</p>
+</dd>
+</dl>
 </td>
 </tr>
-<tr class="field-odd field"><th class="field-name">Raises:</th><td class="field-body"><p class="first"><strong>ParameterError</strong></p>
-<blockquote class="last">
-<div><p>If <em class="xref py py-obj">center_freqs</em> is <em class="xref py py-obj">None</em>.
+<tr class="field-odd field"><th class="field-name">Raises:</th><td class="field-body"><dl class="first last docutils">
+<dt><strong>ParameterError</strong></dt>
+<dd><p class="first last">If <em class="xref py py-obj">center_freqs</em> is <em class="xref py py-obj">None</em>.
 If <em class="xref py py-obj">sample_rates</em> is <em class="xref py py-obj">None</em>.
 If <em class="xref py py-obj">center_freqs.shape</em> does not match <em class="xref py py-obj">sample_rates.shape</em>.</p>
-</div></blockquote>
+</dd>
+</dl>
 </td>
 </tr>
 </tbody>
 </table>
 <div class="admonition seealso">
 <p class="first admonition-title">See also</p>
-<p class="last"><a class="reference external" href="https://docs.scipy.org/doc/scipy/reference/generated/scipy.signal.iirdesign.html#scipy.signal.iirdesign" title="(in SciPy v1.0.0)"><code class="xref py py-obj docutils literal"><span class="pre">scipy.signal.iirdesign</span></code></a></p>
+<p class="last"><a class="reference external" href="https://docs.scipy.org/doc/scipy/reference/generated/scipy.signal.iirdesign.html#scipy.signal.iirdesign" title="(in SciPy v1.2.1)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">scipy.signal.iirdesign</span></code></a></p>
 </div>
 <p class="rubric">Notes</p>
 <p>This function caches at level 10.</p>
@@ -274,9 +282,7 @@ If <em class="xref py py-obj">center_freqs.shape</em> does not match <em class="
 
 
            </div>
-           <div class="articleComments">
-            
-           </div>
+           
           </div>
           <footer>
   
@@ -285,7 +291,7 @@ If <em class="xref py py-obj">center_freqs.shape</em> does not match <em class="
         <a href="librosa.filters.semitone_filterbank.html" class="btn btn-neutral float-right" title="librosa.filters.semitone_filterbank" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
       
       
-        <a href="librosa.filters.constant_q.html" class="btn btn-neutral" title="librosa.filters.constant_q" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+        <a href="librosa.filters.constant_q.html" class="btn btn-neutral float-left" title="librosa.filters.constant_q" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
       
     </div>
   
@@ -294,11 +300,11 @@ If <em class="xref py py-obj">center_freqs.shape</em> does not match <em class="
 
   <div role="contentinfo">
     <p>
-        &copy; Copyright 2013--2017, librosa development team.
+        &copy; Copyright 2013--2017, librosa development team
 
     </p>
   </div>
-  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/snide/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
 
 </footer>
 
@@ -318,19 +324,15 @@ If <em class="xref py py-obj">center_freqs.shape</em> does not match <em class="
     <div class="rst-other-versions">
         <dl>
             <dt>Tags</dt>
-            <dd><a href="../../0.4.0rc1/index.html">0.4.0rc1</a></dd>
-            <dd><a href="../../0.4.0rc2/index.html">0.4.0rc2</a></dd>
             <dd><a href="../../0.4.1/index.html">0.4.1</a></dd>
-            <dd><a href="../../0.4.1rc0/index.html">0.4.1rc0</a></dd>
             <dd><a href="../../0.4.2/index.html">0.4.2</a></dd>
             <dd><a href="../../0.4.3/index.html">0.4.3</a></dd>
-            <dd><a href="../../0.4.3rc0/index.html">0.4.3rc0</a></dd>
             <dd><a href="../../0.5.0/index.html">0.5.0</a></dd>
-            <dd><a href="../../0.5.0rc0/index.html">0.5.0rc0</a></dd>
             <dd><a href="../../0.5.1/index.html">0.5.1</a></dd>
             <dd><a href="../../0.6.0/generated/librosa.filters._multirate_fb.html">0.6.0</a></dd>
-            <dd><a href="../../0.6.0rc0/generated/librosa.filters._multirate_fb.html">0.6.0rc0</a></dd>
-            <dd><a href="../../0.6.0rc1/generated/librosa.filters._multirate_fb.html">0.6.0rc1</a></dd>
+            <dd><a href="../../0.6.1/generated/librosa.filters._multirate_fb.html">0.6.1</a></dd>
+            <dd><a href="../../0.6.2/generated/librosa.filters._multirate_fb.html">0.6.2</a></dd>
+            <dd><a href="../../0.6.3/generated/librosa.filters._multirate_fb.html">0.6.3</a></dd>
             <dd><a href="../../v0.1.0/index.html">v0.1.0</a></dd>
             <dd><a href="../../v0.4.0/index.html">v0.4.0</a></dd>
         </dl>
@@ -338,41 +340,22 @@ If <em class="xref py py-obj">center_freqs.shape</em> does not match <em class="
             <dt>Branches</dt>
             <dd><a href="librosa.filters._multirate_fb.html">display-bin-centering</a></dd>
             <dd><a href="../../master/generated/librosa.filters._multirate_fb.html">master</a></dd>
+            <dd><a href="../../mpl-test-2.1/generated/librosa.filters._multirate_fb.html">mpl-test-2.1</a></dd>
+            <dd><a href="../../runnning/generated/librosa.filters._multirate_fb.html">runnning</a></dd>
         </dl>
     </div>
 </div>
 
 
-  
-
-    <script type="text/javascript">
-        var DOCUMENTATION_OPTIONS = {
-            URL_ROOT:'../',
-            VERSION:'0.5.1',
-            COLLAPSE_INDEX:false,
-            FILE_SUFFIX:'.html',
-            HAS_SOURCE:  true,
-            SOURCELINK_SUFFIX: '.txt'
-        };
-    </script>
-      <script type="text/javascript" src="../_static/jquery.js"></script>
-      <script type="text/javascript" src="../_static/underscore.js"></script>
-      <script type="text/javascript" src="../_static/doctools.js"></script>
-
-  
-
-  
-  
-    <script type="text/javascript" src="../_static/js/theme.js"></script>
-  
-
-  
-  
   <script type="text/javascript">
       jQuery(function () {
-          SphinxRtdTheme.StickyNav.enable();
+          SphinxRtdTheme.Navigation.enable(true);
       });
   </script>
+
+  
+  
+    
    
 
 </body>

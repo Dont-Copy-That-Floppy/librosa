@@ -17,45 +17,46 @@
   
 
   
+  <script type="text/javascript" src="../_static/js/modernizr.min.js"></script>
+  
+    
+      <script type="text/javascript">
+          var DOCUMENTATION_OPTIONS = {
+              URL_ROOT:'../',
+              VERSION:'0.5.1',
+              LANGUAGE:'None',
+              COLLAPSE_INDEX:false,
+              FILE_SUFFIX:'.html',
+              HAS_SOURCE:  true,
+              SOURCELINK_SUFFIX: '.txt'
+          };
+      </script>
+        <script type="text/javascript" src="../_static/jquery.js"></script>
+        <script type="text/javascript" src="../_static/underscore.js"></script>
+        <script type="text/javascript" src="../_static/doctools.js"></script>
+    
+    <script type="text/javascript" src="../_static/js/theme.js"></script>
 
-  
-  
     
 
   
-
-  
-  
-    <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
-  
-
-  
-    <link rel="stylesheet" href="../_static/banner.css" type="text/css" />
-  
-
-  
-        <link rel="index" title="Index"
-              href="../genindex.html"/>
-        <link rel="search" title="Search" href="../search.html"/>
-    <link rel="top" title="librosa 0.5.1 documentation" href="../index.html"/>
-        <link rel="up" title="Temporal segmentation" href="../segment.html"/>
-        <link rel="next" title="Utilities" href="../util.html"/>
-        <link rel="prev" title="librosa.segment.agglomerative" href="librosa.segment.agglomerative.html"/> 
-
-  
-  <script src="../_static/js/modernizr.min.js"></script>
-
+  <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/banner.css" type="text/css" />
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Utilities" href="../util.html" />
+    <link rel="prev" title="librosa.segment.agglomerative" href="librosa.segment.agglomerative.html" /> 
 </head>
 
-<body class="wy-body-for-nav" role="document">
+<body class="wy-body-for-nav">
 
    
   <div class="wy-grid-for-nav">
-
     
     <nav data-toggle="wy-nav-shift" class="wy-nav-side">
       <div class="wy-side-scroll">
-        <div class="wy-side-nav-search">
+        <div class="wy-side-nav-search" >
           
 
           
@@ -136,7 +137,7 @@
     <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
 
       
-      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+      <nav class="wy-nav-top" aria-label="top navigation">
         
           <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
           <a href="../index.html">librosa</a>
@@ -144,9 +145,10 @@
       </nav>
 
 
-      
       <div class="wy-nav-content">
+        
         <div class="rst-content">
+        
           
 
 
@@ -190,13 +192,22 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
             
-  <div class="section" id="librosa-segment-subsegment">
+  
+
+
+    
+    
+
+
+
+    <p class="scv-banner scv-sphinx_rtd_theme"><a href="../../0.6.3/generated/librosa.segment.subsegment.html"><b>Warning:</b> This document is for the development version of librosa. The latest version is 0.6.3.</a></p>
+<div class="section" id="librosa-segment-subsegment">
 <h1>librosa.segment.subsegment<a class="headerlink" href="#librosa-segment-subsegment" title="Permalink to this headline">¶</a></h1>
 <dl class="function">
 <dt id="librosa.segment.subsegment">
 <code class="descclassname">librosa.segment.</code><code class="descname">subsegment</code><span class="sig-paren">(</span><em>data</em>, <em>frames</em>, <em>n_segments=4</em>, <em>axis=-1</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/librosa/segment.html#subsegment"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#librosa.segment.subsegment" title="Permalink to this definition">¶</a></dt>
 <dd><p>Sub-divide a segmentation by feature clustering.</p>
-<p>Given a set of frame boundaries (<em class="xref py py-obj">frames</em>), and a data matrix (<code class="xref py py-obj docutils literal"><span class="pre">data</span></code>),
+<p>Given a set of frame boundaries (<em class="xref py py-obj">frames</em>), and a data matrix (<em class="xref py py-obj">data</em>),
 each successive interval defined by <em class="xref py py-obj">frames</em> is partitioned into
 <em class="xref py py-obj">n_segments</em> by constrained agglomerative clustering.</p>
 <div class="admonition note">
@@ -208,32 +219,31 @@ frame becomes a sub-segment.</p>
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>data</strong> : np.ndarray</p>
-<blockquote>
-<div><p>Data matrix to use in clustering</p>
-</div></blockquote>
-<p><strong>frames</strong> : np.ndarray [shape=(n_boundaries,)], dtype=int, non-negative]</p>
-<blockquote>
-<div><p>Array of beat or segment boundaries, as provided by
-<a class="reference internal" href="librosa.beat.beat_track.html#librosa.beat.beat_track" title="librosa.beat.beat_track"><code class="xref py py-obj docutils literal"><span class="pre">librosa.beat.beat_track</span></code></a>,
-<a class="reference internal" href="librosa.onset.onset_detect.html#librosa.onset.onset_detect" title="librosa.onset.onset_detect"><code class="xref py py-obj docutils literal"><span class="pre">librosa.onset.onset_detect</span></code></a>,
-or <a class="reference internal" href="librosa.segment.agglomerative.html#librosa.segment.agglomerative" title="librosa.segment.agglomerative"><code class="xref py py-obj docutils literal"><span class="pre">agglomerative</span></code></a>.</p>
-</div></blockquote>
-<p><strong>n_segments</strong> : int &gt; 0</p>
-<blockquote>
-<div><p>Maximum number of frames to sub-divide each interval.</p>
-</div></blockquote>
-<p><strong>axis</strong> : int</p>
-<blockquote>
-<div><p>Axis along which to apply the segmentation.
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><dl class="first docutils">
+<dt><strong>data</strong> <span class="classifier-delimiter">:</span> <span class="classifier">np.ndarray</span></dt>
+<dd><p class="first last">Data matrix to use in clustering</p>
+</dd>
+<dt><strong>frames</strong> <span class="classifier-delimiter">:</span> <span class="classifier">np.ndarray [shape=(n_boundaries,)], dtype=int, non-negative]</span></dt>
+<dd><p class="first last">Array of beat or segment boundaries, as provided by
+<a class="reference internal" href="librosa.beat.beat_track.html#librosa.beat.beat_track" title="librosa.beat.beat_track"><code class="xref py py-obj docutils literal notranslate"><span class="pre">librosa.beat.beat_track</span></code></a>,
+<a class="reference internal" href="librosa.onset.onset_detect.html#librosa.onset.onset_detect" title="librosa.onset.onset_detect"><code class="xref py py-obj docutils literal notranslate"><span class="pre">librosa.onset.onset_detect</span></code></a>,
+or <a class="reference internal" href="librosa.segment.agglomerative.html#librosa.segment.agglomerative" title="librosa.segment.agglomerative"><code class="xref py py-obj docutils literal notranslate"><span class="pre">agglomerative</span></code></a>.</p>
+</dd>
+<dt><strong>n_segments</strong> <span class="classifier-delimiter">:</span> <span class="classifier">int &gt; 0</span></dt>
+<dd><p class="first last">Maximum number of frames to sub-divide each interval.</p>
+</dd>
+<dt><strong>axis</strong> <span class="classifier-delimiter">:</span> <span class="classifier">int</span></dt>
+<dd><p class="first last">Axis along which to apply the segmentation.
 By default, the last index (-1) is taken.</p>
-</div></blockquote>
+</dd>
+</dl>
 </td>
 </tr>
-<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first"><strong>boundaries</strong> : np.ndarray [shape=(n_subboundaries,)]</p>
-<blockquote class="last">
-<div><p>List of sub-divided segment boundaries</p>
-</div></blockquote>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><dl class="first last docutils">
+<dt><strong>boundaries</strong> <span class="classifier-delimiter">:</span> <span class="classifier">np.ndarray [shape=(n_subboundaries,)]</span></dt>
+<dd><p class="first last">List of sub-divided segment boundaries</p>
+</dd>
+</dl>
 </td>
 </tr>
 </tbody>
@@ -241,11 +251,11 @@ By default, the last index (-1) is taken.</p>
 <div class="admonition seealso">
 <p class="first admonition-title">See also</p>
 <dl class="last docutils">
-<dt><a class="reference internal" href="librosa.segment.agglomerative.html#librosa.segment.agglomerative" title="librosa.segment.agglomerative"><code class="xref py py-obj docutils literal"><span class="pre">agglomerative</span></code></a></dt>
+<dt><a class="reference internal" href="librosa.segment.agglomerative.html#librosa.segment.agglomerative" title="librosa.segment.agglomerative"><code class="xref py py-obj docutils literal notranslate"><span class="pre">agglomerative</span></code></a></dt>
 <dd>Temporal segmentation</dd>
-<dt><a class="reference internal" href="librosa.onset.onset_detect.html#librosa.onset.onset_detect" title="librosa.onset.onset_detect"><code class="xref py py-obj docutils literal"><span class="pre">librosa.onset.onset_detect</span></code></a></dt>
+<dt><a class="reference internal" href="librosa.onset.onset_detect.html#librosa.onset.onset_detect" title="librosa.onset.onset_detect"><code class="xref py py-obj docutils literal notranslate"><span class="pre">librosa.onset.onset_detect</span></code></a></dt>
 <dd>Onset detection</dd>
-<dt><a class="reference internal" href="librosa.beat.beat_track.html#librosa.beat.beat_track" title="librosa.beat.beat_track"><code class="xref py py-obj docutils literal"><span class="pre">librosa.beat.beat_track</span></code></a></dt>
+<dt><a class="reference internal" href="librosa.beat.beat_track.html#librosa.beat.beat_track" title="librosa.beat.beat_track"><code class="xref py py-obj docutils literal notranslate"><span class="pre">librosa.beat.beat_track</span></code></a></dt>
 <dd>Beat tracking</dd>
 </dl>
 </div>
@@ -253,7 +263,7 @@ By default, the last index (-1) is taken.</p>
 <p>This function caches at level 30.</p>
 <p class="rubric">Examples</p>
 <p>Load audio, detect beat frames, and subdivide in twos by CQT</p>
-<div class="highlight-default"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">y</span><span class="p">,</span> <span class="n">sr</span> <span class="o">=</span> <span class="n">librosa</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">librosa</span><span class="o">.</span><span class="n">util</span><span class="o">.</span><span class="n">example_audio_file</span><span class="p">(),</span> <span class="n">duration</span><span class="o">=</span><span class="mi">8</span><span class="p">)</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">y</span><span class="p">,</span> <span class="n">sr</span> <span class="o">=</span> <span class="n">librosa</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">librosa</span><span class="o">.</span><span class="n">util</span><span class="o">.</span><span class="n">example_audio_file</span><span class="p">(),</span> <span class="n">duration</span><span class="o">=</span><span class="mi">8</span><span class="p">)</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">tempo</span><span class="p">,</span> <span class="n">beats</span> <span class="o">=</span> <span class="n">librosa</span><span class="o">.</span><span class="n">beat</span><span class="o">.</span><span class="n">beat_track</span><span class="p">(</span><span class="n">y</span><span class="o">=</span><span class="n">y</span><span class="p">,</span> <span class="n">sr</span><span class="o">=</span><span class="n">sr</span><span class="p">,</span> <span class="n">hop_length</span><span class="o">=</span><span class="mi">512</span><span class="p">)</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">beat_times</span> <span class="o">=</span> <span class="n">librosa</span><span class="o">.</span><span class="n">frames_to_time</span><span class="p">(</span><span class="n">beats</span><span class="p">,</span> <span class="n">sr</span><span class="o">=</span><span class="n">sr</span><span class="p">,</span> <span class="n">hop_length</span><span class="o">=</span><span class="mi">512</span><span class="p">)</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">cqt</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">librosa</span><span class="o">.</span><span class="n">cqt</span><span class="p">(</span><span class="n">y</span><span class="p">,</span> <span class="n">sr</span><span class="o">=</span><span class="n">sr</span><span class="p">,</span> <span class="n">hop_length</span><span class="o">=</span><span class="mi">512</span><span class="p">))</span>
@@ -268,7 +278,7 @@ By default, the last index (-1) is taken.</p>
 <span class="go">       527, 535, 544, 553, 558, 571, 578, 590, 607, 609, 638])</span>
 </pre></div>
 </div>
-<div class="highlight-default"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">()</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">librosa</span><span class="o">.</span><span class="n">display</span><span class="o">.</span><span class="n">specshow</span><span class="p">(</span><span class="n">librosa</span><span class="o">.</span><span class="n">amplitude_to_db</span><span class="p">(</span><span class="n">cqt</span><span class="p">,</span>
 <span class="gp">... </span>                                                 <span class="n">ref</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">max</span><span class="p">),</span>
@@ -284,18 +294,13 @@ By default, the last index (-1) is taken.</p>
 </pre></div>
 </div>
 <p>(<a class="reference external" href="../generated/librosa-segment-subsegment-1.py">Source code</a>)</p>
-<div class="figure">
-<img alt="../_images/librosa-segment-subsegment-1.png" src="../_images/librosa-segment-subsegment-1.png" />
-</div>
 </dd></dl>
 
 </div>
 
 
            </div>
-           <div class="articleComments">
-            
-           </div>
+           
           </div>
           <footer>
   
@@ -304,7 +309,7 @@ By default, the last index (-1) is taken.</p>
         <a href="../util.html" class="btn btn-neutral float-right" title="Utilities" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
       
       
-        <a href="librosa.segment.agglomerative.html" class="btn btn-neutral" title="librosa.segment.agglomerative" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+        <a href="librosa.segment.agglomerative.html" class="btn btn-neutral float-left" title="librosa.segment.agglomerative" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
       
     </div>
   
@@ -313,11 +318,11 @@ By default, the last index (-1) is taken.</p>
 
   <div role="contentinfo">
     <p>
-        &copy; Copyright 2013--2017, librosa development team.
+        &copy; Copyright 2013--2017, librosa development team
 
     </p>
   </div>
-  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/snide/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
 
 </footer>
 
@@ -337,19 +342,15 @@ By default, the last index (-1) is taken.</p>
     <div class="rst-other-versions">
         <dl>
             <dt>Tags</dt>
-            <dd><a href="../../0.4.0rc1/index.html">0.4.0rc1</a></dd>
-            <dd><a href="../../0.4.0rc2/index.html">0.4.0rc2</a></dd>
             <dd><a href="../../0.4.1/index.html">0.4.1</a></dd>
-            <dd><a href="../../0.4.1rc0/index.html">0.4.1rc0</a></dd>
             <dd><a href="../../0.4.2/generated/librosa.segment.subsegment.html">0.4.2</a></dd>
             <dd><a href="../../0.4.3/generated/librosa.segment.subsegment.html">0.4.3</a></dd>
-            <dd><a href="../../0.4.3rc0/generated/librosa.segment.subsegment.html">0.4.3rc0</a></dd>
             <dd><a href="../../0.5.0/generated/librosa.segment.subsegment.html">0.5.0</a></dd>
-            <dd><a href="../../0.5.0rc0/generated/librosa.segment.subsegment.html">0.5.0rc0</a></dd>
             <dd><a href="../../0.5.1/generated/librosa.segment.subsegment.html">0.5.1</a></dd>
             <dd><a href="../../0.6.0/generated/librosa.segment.subsegment.html">0.6.0</a></dd>
-            <dd><a href="../../0.6.0rc0/generated/librosa.segment.subsegment.html">0.6.0rc0</a></dd>
-            <dd><a href="../../0.6.0rc1/generated/librosa.segment.subsegment.html">0.6.0rc1</a></dd>
+            <dd><a href="../../0.6.1/generated/librosa.segment.subsegment.html">0.6.1</a></dd>
+            <dd><a href="../../0.6.2/generated/librosa.segment.subsegment.html">0.6.2</a></dd>
+            <dd><a href="../../0.6.3/generated/librosa.segment.subsegment.html">0.6.3</a></dd>
             <dd><a href="../../v0.1.0/index.html">v0.1.0</a></dd>
             <dd><a href="../../v0.4.0/index.html">v0.4.0</a></dd>
         </dl>
@@ -357,41 +358,22 @@ By default, the last index (-1) is taken.</p>
             <dt>Branches</dt>
             <dd><a href="librosa.segment.subsegment.html">display-bin-centering</a></dd>
             <dd><a href="../../master/generated/librosa.segment.subsegment.html">master</a></dd>
+            <dd><a href="../../mpl-test-2.1/generated/librosa.segment.subsegment.html">mpl-test-2.1</a></dd>
+            <dd><a href="../../runnning/generated/librosa.segment.subsegment.html">runnning</a></dd>
         </dl>
     </div>
 </div>
 
 
-  
-
-    <script type="text/javascript">
-        var DOCUMENTATION_OPTIONS = {
-            URL_ROOT:'../',
-            VERSION:'0.5.1',
-            COLLAPSE_INDEX:false,
-            FILE_SUFFIX:'.html',
-            HAS_SOURCE:  true,
-            SOURCELINK_SUFFIX: '.txt'
-        };
-    </script>
-      <script type="text/javascript" src="../_static/jquery.js"></script>
-      <script type="text/javascript" src="../_static/underscore.js"></script>
-      <script type="text/javascript" src="../_static/doctools.js"></script>
-
-  
-
-  
-  
-    <script type="text/javascript" src="../_static/js/theme.js"></script>
-  
-
-  
-  
   <script type="text/javascript">
       jQuery(function () {
-          SphinxRtdTheme.StickyNav.enable();
+          SphinxRtdTheme.Navigation.enable(true);
       });
   </script>
+
+  
+  
+    
    
 
 </body>

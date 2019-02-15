@@ -17,45 +17,46 @@
   
 
   
+  <script type="text/javascript" src="../_static/js/modernizr.min.js"></script>
+  
+    
+      <script type="text/javascript">
+          var DOCUMENTATION_OPTIONS = {
+              URL_ROOT:'../',
+              VERSION:'0.5.1',
+              LANGUAGE:'None',
+              COLLAPSE_INDEX:false,
+              FILE_SUFFIX:'.html',
+              HAS_SOURCE:  true,
+              SOURCELINK_SUFFIX: '.txt'
+          };
+      </script>
+        <script type="text/javascript" src="../_static/jquery.js"></script>
+        <script type="text/javascript" src="../_static/underscore.js"></script>
+        <script type="text/javascript" src="../_static/doctools.js"></script>
+    
+    <script type="text/javascript" src="../_static/js/theme.js"></script>
 
-  
-  
     
 
   
-
-  
-  
-    <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
-  
-
-  
-    <link rel="stylesheet" href="../_static/banner.css" type="text/css" />
-  
-
-  
-        <link rel="index" title="Index"
-              href="../genindex.html"/>
-        <link rel="search" title="Search" href="../search.html"/>
-    <link rel="top" title="librosa 0.5.1 documentation" href="../index.html"/>
-        <link rel="up" title="Temporal segmentation" href="../segment.html"/>
-        <link rel="next" title="librosa.segment.subsegment" href="librosa.segment.subsegment.html"/>
-        <link rel="prev" title="librosa.segment.timelag_filter" href="librosa.segment.timelag_filter.html"/> 
-
-  
-  <script src="../_static/js/modernizr.min.js"></script>
-
+  <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/banner.css" type="text/css" />
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="librosa.segment.subsegment" href="librosa.segment.subsegment.html" />
+    <link rel="prev" title="librosa.segment.timelag_filter" href="librosa.segment.timelag_filter.html" /> 
 </head>
 
-<body class="wy-body-for-nav" role="document">
+<body class="wy-body-for-nav">
 
    
   <div class="wy-grid-for-nav">
-
     
     <nav data-toggle="wy-nav-shift" class="wy-nav-side">
       <div class="wy-side-scroll">
-        <div class="wy-side-nav-search">
+        <div class="wy-side-nav-search" >
           
 
           
@@ -136,7 +137,7 @@
     <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
 
       
-      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+      <nav class="wy-nav-top" aria-label="top navigation">
         
           <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
           <a href="../index.html">librosa</a>
@@ -144,9 +145,10 @@
       </nav>
 
 
-      
       <div class="wy-nav-content">
+        
         <div class="rst-content">
+        
           
 
 
@@ -190,54 +192,62 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
             
-  <div class="section" id="librosa-segment-agglomerative">
+  
+
+
+    
+    
+
+
+
+    <p class="scv-banner scv-sphinx_rtd_theme"><a href="../../0.6.3/generated/librosa.segment.agglomerative.html"><b>Warning:</b> This document is for the development version of librosa. The latest version is 0.6.3.</a></p>
+<div class="section" id="librosa-segment-agglomerative">
 <h1>librosa.segment.agglomerative<a class="headerlink" href="#librosa-segment-agglomerative" title="Permalink to this headline">¶</a></h1>
 <dl class="function">
 <dt id="librosa.segment.agglomerative">
 <code class="descclassname">librosa.segment.</code><code class="descname">agglomerative</code><span class="sig-paren">(</span><em>data</em>, <em>k</em>, <em>clusterer=None</em>, <em>axis=-1</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/librosa/segment.html#agglomerative"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#librosa.segment.agglomerative" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bottom-up temporal segmentation.</p>
 <p>Use a temporally-constrained agglomerative clustering routine to partition
-<code class="xref py py-obj docutils literal"><span class="pre">data</span></code> into <em class="xref py py-obj">k</em> contiguous segments.</p>
+<em class="xref py py-obj">data</em> into <em class="xref py py-obj">k</em> contiguous segments.</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>data</strong> : np.ndarray</p>
-<blockquote>
-<div><p>data to cluster</p>
-</div></blockquote>
-<p><strong>k</strong> : int &gt; 0 [scalar]</p>
-<blockquote>
-<div><p>number of segments to produce</p>
-</div></blockquote>
-<p><strong>clusterer</strong> : sklearn.cluster.AgglomerativeClustering, optional</p>
-<blockquote>
-<div><p>An optional AgglomerativeClustering object.
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><dl class="first docutils">
+<dt><strong>data</strong> <span class="classifier-delimiter">:</span> <span class="classifier">np.ndarray</span></dt>
+<dd><p class="first last">data to cluster</p>
+</dd>
+<dt><strong>k</strong> <span class="classifier-delimiter">:</span> <span class="classifier">int &gt; 0 [scalar]</span></dt>
+<dd><p class="first last">number of segments to produce</p>
+</dd>
+<dt><strong>clusterer</strong> <span class="classifier-delimiter">:</span> <span class="classifier">sklearn.cluster.AgglomerativeClustering, optional</span></dt>
+<dd><p class="first last">An optional AgglomerativeClustering object.
 If <em class="xref py py-obj">None</em>, a constrained Ward object is instantiated.</p>
-</div></blockquote>
-<p><strong>axis</strong> : int</p>
-<blockquote>
-<div><p>axis along which to cluster.
+</dd>
+<dt><strong>axis</strong> <span class="classifier-delimiter">:</span> <span class="classifier">int</span></dt>
+<dd><p class="first last">axis along which to cluster.
 By default, the last axis (-1) is chosen.</p>
-</div></blockquote>
+</dd>
+</dl>
 </td>
 </tr>
-<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first"><strong>boundaries</strong> : np.ndarray [shape=(k,)]</p>
-<blockquote class="last">
-<div><p>left-boundaries (frame numbers) of detected segments. This
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><dl class="first last docutils">
+<dt><strong>boundaries</strong> <span class="classifier-delimiter">:</span> <span class="classifier">np.ndarray [shape=(k,)]</span></dt>
+<dd><p class="first last">left-boundaries (frame numbers) of detected segments. This
 will always include <em class="xref py py-obj">0</em> as the first left-boundary.</p>
-</div></blockquote>
+</dd>
+</dl>
 </td>
 </tr>
 </tbody>
 </table>
 <div class="admonition seealso">
 <p class="first admonition-title">See also</p>
-<p class="last"><a class="reference external" href="http://scikit-learn.org/stable/modules/generated/sklearn.cluster.AgglomerativeClustering.html#sklearn.cluster.AgglomerativeClustering" title="(in scikit-learn v0.19.1)"><code class="xref py py-obj docutils literal"><span class="pre">sklearn.cluster.AgglomerativeClustering</span></code></a></p>
+<p class="last"><a class="reference external" href="https://scikit-learn.org/stable/modules/generated/sklearn.cluster.AgglomerativeClustering.html#sklearn.cluster.AgglomerativeClustering" title="(in scikit-learn v0.20.2)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">sklearn.cluster.AgglomerativeClustering</span></code></a></p>
 </div>
 <p class="rubric">Examples</p>
 <p>Cluster by chroma similarity, break into 20 segments</p>
-<div class="highlight-default"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">y</span><span class="p">,</span> <span class="n">sr</span> <span class="o">=</span> <span class="n">librosa</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">librosa</span><span class="o">.</span><span class="n">util</span><span class="o">.</span><span class="n">example_audio_file</span><span class="p">(),</span> <span class="n">duration</span><span class="o">=</span><span class="mi">15</span><span class="p">)</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">y</span><span class="p">,</span> <span class="n">sr</span> <span class="o">=</span> <span class="n">librosa</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">librosa</span><span class="o">.</span><span class="n">util</span><span class="o">.</span><span class="n">example_audio_file</span><span class="p">(),</span> <span class="n">duration</span><span class="o">=</span><span class="mi">15</span><span class="p">)</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">chroma</span> <span class="o">=</span> <span class="n">librosa</span><span class="o">.</span><span class="n">feature</span><span class="o">.</span><span class="n">chroma_cqt</span><span class="p">(</span><span class="n">y</span><span class="o">=</span><span class="n">y</span><span class="p">,</span> <span class="n">sr</span><span class="o">=</span><span class="n">sr</span><span class="p">)</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">bounds</span> <span class="o">=</span> <span class="n">librosa</span><span class="o">.</span><span class="n">segment</span><span class="o">.</span><span class="n">agglomerative</span><span class="p">(</span><span class="n">chroma</span><span class="p">,</span> <span class="mi">20</span><span class="p">)</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">bound_times</span> <span class="o">=</span> <span class="n">librosa</span><span class="o">.</span><span class="n">frames_to_time</span><span class="p">(</span><span class="n">bounds</span><span class="p">,</span> <span class="n">sr</span><span class="o">=</span><span class="n">sr</span><span class="p">)</span>
@@ -249,7 +259,7 @@ will always include <em class="xref py py-obj">0</em> as the first left-boundary
 </pre></div>
 </div>
 <p>Plot the segmentation over the chromagram</p>
-<div class="highlight-default"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">()</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">librosa</span><span class="o">.</span><span class="n">display</span><span class="o">.</span><span class="n">specshow</span><span class="p">(</span><span class="n">chroma</span><span class="p">,</span> <span class="n">y_axis</span><span class="o">=</span><span class="s1">&#39;chroma&#39;</span><span class="p">,</span> <span class="n">x_axis</span><span class="o">=</span><span class="s1">&#39;time&#39;</span><span class="p">)</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">plt</span><span class="o">.</span><span class="n">vlines</span><span class="p">(</span><span class="n">bound_times</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="n">chroma</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;linen&#39;</span><span class="p">,</span> <span class="n">linestyle</span><span class="o">=</span><span class="s1">&#39;--&#39;</span><span class="p">,</span>
@@ -270,9 +280,7 @@ will always include <em class="xref py py-obj">0</em> as the first left-boundary
 
 
            </div>
-           <div class="articleComments">
-            
-           </div>
+           
           </div>
           <footer>
   
@@ -281,7 +289,7 @@ will always include <em class="xref py py-obj">0</em> as the first left-boundary
         <a href="librosa.segment.subsegment.html" class="btn btn-neutral float-right" title="librosa.segment.subsegment" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
       
       
-        <a href="librosa.segment.timelag_filter.html" class="btn btn-neutral" title="librosa.segment.timelag_filter" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+        <a href="librosa.segment.timelag_filter.html" class="btn btn-neutral float-left" title="librosa.segment.timelag_filter" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
       
     </div>
   
@@ -290,11 +298,11 @@ will always include <em class="xref py py-obj">0</em> as the first left-boundary
 
   <div role="contentinfo">
     <p>
-        &copy; Copyright 2013--2017, librosa development team.
+        &copy; Copyright 2013--2017, librosa development team
 
     </p>
   </div>
-  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/snide/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
 
 </footer>
 
@@ -314,19 +322,15 @@ will always include <em class="xref py py-obj">0</em> as the first left-boundary
     <div class="rst-other-versions">
         <dl>
             <dt>Tags</dt>
-            <dd><a href="../../0.4.0rc1/index.html">0.4.0rc1</a></dd>
-            <dd><a href="../../0.4.0rc2/index.html">0.4.0rc2</a></dd>
             <dd><a href="../../0.4.1/index.html">0.4.1</a></dd>
-            <dd><a href="../../0.4.1rc0/index.html">0.4.1rc0</a></dd>
             <dd><a href="../../0.4.2/generated/librosa.segment.agglomerative.html">0.4.2</a></dd>
             <dd><a href="../../0.4.3/generated/librosa.segment.agglomerative.html">0.4.3</a></dd>
-            <dd><a href="../../0.4.3rc0/generated/librosa.segment.agglomerative.html">0.4.3rc0</a></dd>
             <dd><a href="../../0.5.0/generated/librosa.segment.agglomerative.html">0.5.0</a></dd>
-            <dd><a href="../../0.5.0rc0/generated/librosa.segment.agglomerative.html">0.5.0rc0</a></dd>
             <dd><a href="../../0.5.1/generated/librosa.segment.agglomerative.html">0.5.1</a></dd>
             <dd><a href="../../0.6.0/generated/librosa.segment.agglomerative.html">0.6.0</a></dd>
-            <dd><a href="../../0.6.0rc0/generated/librosa.segment.agglomerative.html">0.6.0rc0</a></dd>
-            <dd><a href="../../0.6.0rc1/generated/librosa.segment.agglomerative.html">0.6.0rc1</a></dd>
+            <dd><a href="../../0.6.1/generated/librosa.segment.agglomerative.html">0.6.1</a></dd>
+            <dd><a href="../../0.6.2/generated/librosa.segment.agglomerative.html">0.6.2</a></dd>
+            <dd><a href="../../0.6.3/generated/librosa.segment.agglomerative.html">0.6.3</a></dd>
             <dd><a href="../../v0.1.0/index.html">v0.1.0</a></dd>
             <dd><a href="../../v0.4.0/index.html">v0.4.0</a></dd>
         </dl>
@@ -334,41 +338,22 @@ will always include <em class="xref py py-obj">0</em> as the first left-boundary
             <dt>Branches</dt>
             <dd><a href="librosa.segment.agglomerative.html">display-bin-centering</a></dd>
             <dd><a href="../../master/generated/librosa.segment.agglomerative.html">master</a></dd>
+            <dd><a href="../../mpl-test-2.1/generated/librosa.segment.agglomerative.html">mpl-test-2.1</a></dd>
+            <dd><a href="../../runnning/generated/librosa.segment.agglomerative.html">runnning</a></dd>
         </dl>
     </div>
 </div>
 
 
-  
-
-    <script type="text/javascript">
-        var DOCUMENTATION_OPTIONS = {
-            URL_ROOT:'../',
-            VERSION:'0.5.1',
-            COLLAPSE_INDEX:false,
-            FILE_SUFFIX:'.html',
-            HAS_SOURCE:  true,
-            SOURCELINK_SUFFIX: '.txt'
-        };
-    </script>
-      <script type="text/javascript" src="../_static/jquery.js"></script>
-      <script type="text/javascript" src="../_static/underscore.js"></script>
-      <script type="text/javascript" src="../_static/doctools.js"></script>
-
-  
-
-  
-  
-    <script type="text/javascript" src="../_static/js/theme.js"></script>
-  
-
-  
-  
   <script type="text/javascript">
       jQuery(function () {
-          SphinxRtdTheme.StickyNav.enable();
+          SphinxRtdTheme.Navigation.enable(true);
       });
   </script>
+
+  
+  
+    
    
 
 </body>

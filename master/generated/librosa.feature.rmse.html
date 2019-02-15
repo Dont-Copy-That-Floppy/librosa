@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>librosa.feature.rmse &mdash; librosa 0.6.2 documentation</title>
+  <title>librosa.feature.rmse &mdash; librosa 0.6.3 documentation</title>
   
 
   
@@ -17,13 +17,30 @@
   
 
   
+  <script type="text/javascript" src="../_static/js/modernizr.min.js"></script>
+  
+    
+      <script type="text/javascript">
+          var DOCUMENTATION_OPTIONS = {
+              URL_ROOT:'../',
+              VERSION:'0.6.3',
+              LANGUAGE:'None',
+              COLLAPSE_INDEX:false,
+              FILE_SUFFIX:'.html',
+              HAS_SOURCE:  true,
+              SOURCELINK_SUFFIX: '.txt'
+          };
+      </script>
+        <script type="text/javascript" src="../_static/jquery.js"></script>
+        <script type="text/javascript" src="../_static/underscore.js"></script>
+        <script type="text/javascript" src="../_static/doctools.js"></script>
+        <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    
+    <script type="text/javascript" src="../_static/js/theme.js"></script>
 
-  
-  
     
 
   
-
   <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
   <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
   <link rel="stylesheet" href="../_static/gallery.css" type="text/css" />
@@ -31,22 +48,17 @@
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
     <link rel="next" title="librosa.feature.spectral_centroid" href="librosa.feature.spectral_centroid.html" />
-    <link rel="prev" title="librosa.feature.mfcc" href="librosa.feature.mfcc.html" /> 
-
-  
-  <script src="../_static/js/modernizr.min.js"></script>
-
+    <link rel="prev" title="librosa.feature.rms" href="librosa.feature.rms.html" /> 
 </head>
 
 <body class="wy-body-for-nav">
 
    
   <div class="wy-grid-for-nav">
-
     
     <nav data-toggle="wy-nav-shift" class="wy-nav-side">
       <div class="wy-side-scroll">
-        <div class="wy-side-nav-search">
+        <div class="wy-side-nav-search" >
           
 
           
@@ -98,6 +110,7 @@
 <li class="toctree-l3"><a class="reference internal" href="librosa.feature.chroma_cens.html">librosa.feature.chroma_cens</a></li>
 <li class="toctree-l3"><a class="reference internal" href="librosa.feature.melspectrogram.html">librosa.feature.melspectrogram</a></li>
 <li class="toctree-l3"><a class="reference internal" href="librosa.feature.mfcc.html">librosa.feature.mfcc</a></li>
+<li class="toctree-l3"><a class="reference internal" href="librosa.feature.rms.html">librosa.feature.rms</a></li>
 <li class="toctree-l3 current"><a class="current reference internal" href="#">librosa.feature.rmse</a></li>
 <li class="toctree-l3"><a class="reference internal" href="librosa.feature.spectral_centroid.html">librosa.feature.spectral_centroid</a></li>
 <li class="toctree-l3"><a class="reference internal" href="librosa.feature.spectral_bandwidth.html">librosa.feature.spectral_bandwidth</a></li>
@@ -205,16 +218,16 @@
 
 
 
-    <p class="scv-banner scv-sphinx_rtd_theme"><a href="../../0.6.2/generated/librosa.feature.rmse.html"><b>Warning:</b> This document is for the development version of librosa. The latest version is 0.6.2.</a></p>
+    <p class="scv-banner scv-sphinx_rtd_theme"><a href="../../0.6.3/generated/librosa.feature.rmse.html"><b>Warning:</b> This document is for the development version of librosa. The latest version is 0.6.3.</a></p>
 <div class="section" id="librosa-feature-rmse">
 <h1>librosa.feature.rmse<a class="headerlink" href="#librosa-feature-rmse" title="Permalink to this headline">¶</a></h1>
 <dl class="function">
 <dt id="librosa.feature.rmse">
-<code class="descclassname">librosa.feature.</code><code class="descname">rmse</code><span class="sig-paren">(</span><em>y=None</em>, <em>S=None</em>, <em>frame_length=2048</em>, <em>hop_length=512</em>, <em>center=True</em>, <em>pad_mode='reflect'</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/librosa/feature/spectral.html#rmse"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#librosa.feature.rmse" title="Permalink to this definition">¶</a></dt>
-<dd><p>Compute root-mean-square (RMS) energy for each frame, either from the
+<code class="descclassname">librosa.feature.</code><code class="descname">rmse</code><span class="sig-paren">(</span><em>y=None</em>, <em>S=None</em>, <em>frame_length=2048</em>, <em>hop_length=512</em>, <em>center=True</em>, <em>pad_mode='reflect'</em><span class="sig-paren">)</span><a class="headerlink" href="#librosa.feature.rmse" title="Permalink to this definition">¶</a></dt>
+<dd><p>Compute root-mean-square (RMS) value for each frame, either from the
 audio samples <em class="xref py py-obj">y</em> or from a spectrogram <em class="xref py py-obj">S</em>.</p>
-<p>Computing the energy from audio samples is faster as it doesn’t require a
-STFT calculation. However, using a spectrogram will give a more accurate
+<p>Computing the RMS value from audio samples is faster as it doesn’t require
+a STFT calculation. However, using a spectrogram will give a more accurate
 representation of energy over time because its frames can be windowed,
 thus prefer using <em class="xref py py-obj">S</em> if it’s already available.</p>
 <table class="docutils field-list" frame="void" rules="none">
@@ -257,13 +270,13 @@ values.</p>
 </table>
 <p class="rubric">Examples</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">y</span><span class="p">,</span> <span class="n">sr</span> <span class="o">=</span> <span class="n">librosa</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">librosa</span><span class="o">.</span><span class="n">util</span><span class="o">.</span><span class="n">example_audio_file</span><span class="p">())</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">librosa</span><span class="o">.</span><span class="n">feature</span><span class="o">.</span><span class="n">rmse</span><span class="p">(</span><span class="n">y</span><span class="o">=</span><span class="n">y</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">librosa</span><span class="o">.</span><span class="n">feature</span><span class="o">.</span><span class="n">rms</span><span class="p">(</span><span class="n">y</span><span class="o">=</span><span class="n">y</span><span class="p">)</span>
 <span class="go">array([[ 0.   ,  0.056, ...,  0.   ,  0.   ]], dtype=float32)</span>
 </pre></div>
 </div>
 <p>Or from spectrogram input</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">S</span><span class="p">,</span> <span class="n">phase</span> <span class="o">=</span> <span class="n">librosa</span><span class="o">.</span><span class="n">magphase</span><span class="p">(</span><span class="n">librosa</span><span class="o">.</span><span class="n">stft</span><span class="p">(</span><span class="n">y</span><span class="p">))</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">rms</span> <span class="o">=</span> <span class="n">librosa</span><span class="o">.</span><span class="n">feature</span><span class="o">.</span><span class="n">rmse</span><span class="p">(</span><span class="n">S</span><span class="o">=</span><span class="n">S</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">rms</span> <span class="o">=</span> <span class="n">librosa</span><span class="o">.</span><span class="n">feature</span><span class="o">.</span><span class="n">rms</span><span class="p">(</span><span class="n">S</span><span class="o">=</span><span class="n">S</span><span class="p">)</span>
 </pre></div>
 </div>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
@@ -281,9 +294,9 @@ values.</p>
 </pre></div>
 </div>
 <p>Use a STFT window of constant ones and no frame centering to get consistent
-results with the RMS energy computed from the audio samples <em class="xref py py-obj">y</em></p>
+results with the RMS computed from the audio samples <em class="xref py py-obj">y</em></p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">S</span> <span class="o">=</span> <span class="n">librosa</span><span class="o">.</span><span class="n">magphase</span><span class="p">(</span><span class="n">librosa</span><span class="o">.</span><span class="n">stft</span><span class="p">(</span><span class="n">y</span><span class="p">,</span> <span class="n">window</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">ones</span><span class="p">,</span> <span class="n">center</span><span class="o">=</span><span class="kc">False</span><span class="p">))[</span><span class="mi">0</span><span class="p">]</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">librosa</span><span class="o">.</span><span class="n">feature</span><span class="o">.</span><span class="n">rmse</span><span class="p">(</span><span class="n">S</span><span class="o">=</span><span class="n">S</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">librosa</span><span class="o">.</span><span class="n">feature</span><span class="o">.</span><span class="n">rms</span><span class="p">(</span><span class="n">S</span><span class="o">=</span><span class="n">S</span><span class="p">)</span>
 </pre></div>
 </div>
 <p>(<a class="reference external" href="../generated/librosa-feature-rmse-1.py">Source code</a>)</p>
@@ -305,7 +318,7 @@ results with the RMS energy computed from the audio samples <em class="xref py p
         <a href="librosa.feature.spectral_centroid.html" class="btn btn-neutral float-right" title="librosa.feature.spectral_centroid" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
       
       
-        <a href="librosa.feature.mfcc.html" class="btn btn-neutral" title="librosa.feature.mfcc" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+        <a href="librosa.feature.rms.html" class="btn btn-neutral float-left" title="librosa.feature.rms" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
       
     </div>
   
@@ -314,7 +327,7 @@ results with the RMS energy computed from the audio samples <em class="xref py p
 
   <div role="contentinfo">
     <p>
-        &copy; Copyright 2013--2018, librosa development team.
+        &copy; Copyright 2013--2018, librosa development team
 
     </p>
   </div>
@@ -346,44 +359,31 @@ results with the RMS energy computed from the audio samples <em class="xref py p
             <dd><a href="../../0.6.0/generated/librosa.feature.rmse.html">0.6.0</a></dd>
             <dd><a href="../../0.6.1/generated/librosa.feature.rmse.html">0.6.1</a></dd>
             <dd><a href="../../0.6.2/generated/librosa.feature.rmse.html">0.6.2</a></dd>
+            <dd><a href="../../0.6.3/generated/librosa.feature.rmse.html">0.6.3</a></dd>
             <dd><a href="../../v0.1.0/index.html">v0.1.0</a></dd>
             <dd><a href="../../v0.4.0/index.html">v0.4.0</a></dd>
         </dl>
         <dl>
             <dt>Branches</dt>
+            <dd><a href="../../display-bin-centering/generated/librosa.feature.rmse.html">display-bin-centering</a></dd>
             <dd><a href="librosa.feature.rmse.html">master</a></dd>
+            <dd><a href="../../mpl-test-2.1/generated/librosa.feature.rmse.html">mpl-test-2.1</a></dd>
+            <dd><a href="../../runnning/generated/librosa.feature.rmse.html">runnning</a></dd>
         </dl>
     </div>
 </div>
 
 
-  
-
-    <script type="text/javascript">
-        var DOCUMENTATION_OPTIONS = {
-            URL_ROOT:'../',
-            VERSION:'0.6.2',
-            LANGUAGE:'None',
-            COLLAPSE_INDEX:false,
-            FILE_SUFFIX:'.html',
-            HAS_SOURCE:  true,
-            SOURCELINK_SUFFIX: '.txt'
-        };
-    </script>
-      <script type="text/javascript" src="../_static/jquery.js"></script>
-      <script type="text/javascript" src="../_static/underscore.js"></script>
-      <script type="text/javascript" src="../_static/doctools.js"></script>
-      <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
-
-  
-
-  <script type="text/javascript" src="../_static/js/theme.js"></script>
-
   <script type="text/javascript">
       jQuery(function () {
           SphinxRtdTheme.Navigation.enable(true);
       });
-  </script> 
+  </script>
+
+  
+  
+    
+   
 
 </body>
 </html>

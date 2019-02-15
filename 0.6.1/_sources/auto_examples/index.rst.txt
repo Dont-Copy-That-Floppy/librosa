@@ -174,17 +174,18 @@ Advanced examples
 .. only :: html
 
  .. container:: sphx-glr-footer
+    :class: sphx-glr-footer-gallery
 
 
   .. container:: sphx-glr-download
 
-    :download:`Download all examples in Python source code: auto_examples_python.zip <//tmp/tmppn66uttksphinxcontrib_versioning/0dcd53f462db124ed3f54edf2334f28738d2ecc6/docs/auto_examples/auto_examples_python.zip>`
+    :download:`Download all examples in Python source code: auto_examples_python.zip <//tmp/tmpweur61whsphinxcontrib_versioning/0dcd53f462db124ed3f54edf2334f28738d2ecc6/docs/auto_examples/auto_examples_python.zip>`
 
 
 
   .. container:: sphx-glr-download
 
-    :download:`Download all examples in Jupyter notebooks: auto_examples_jupyter.zip <//tmp/tmppn66uttksphinxcontrib_versioning/0dcd53f462db124ed3f54edf2334f28738d2ecc6/docs/auto_examples/auto_examples_jupyter.zip>`
+    :download:`Download all examples in Jupyter notebooks: auto_examples_jupyter.zip <//tmp/tmpweur61whsphinxcontrib_versioning/0dcd53f462db124ed3f54edf2334f28738d2ecc6/docs/auto_examples/auto_examples_jupyter.zip>`
 
 
 .. only:: html

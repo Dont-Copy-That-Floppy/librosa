@@ -151,7 +151,7 @@ Now we can load in a file and do some analysis with the new defaults
 
 
 
-**Total running time of the script:** ( 0 minutes  3.225 seconds)
+**Total running time of the script:** ( 0 minutes  1.798 seconds)
 
 
 .. _sphx_glr_download_auto_examples_plot_presets.py:

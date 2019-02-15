@@ -238,7 +238,7 @@ Literature
 Springer Verlag, 2015.
 
 
-**Total running time of the script:** ( 0 minutes  1.613 seconds)
+**Total running time of the script:** ( 0 minutes  1.604 seconds)
 
 
 .. _sphx_glr_download_auto_examples_plot_music_sync.py:

@@ -201,9 +201,12 @@
   
 
 
+    
+    
 
 
 
+    <p class="scv-banner scv-sphinx_rtd_theme"><a href="../../0.7.0rc1/generated/librosa.display.NoteFormatter.html"><b>Warning:</b> This document is for an old version of librosa. The latest version is 0.7.0rc1.</a></p>
 <div class="section" id="librosa-display-noteformatter">
 <h1>librosa.display.NoteFormatter<a class="headerlink" href="#librosa-display-noteformatter" title="Permalink to this headline">¶</a></h1>
 <dl class="class">
@@ -230,7 +233,12 @@
 </table>
 <div class="admonition seealso">
 <p class="first admonition-title">See also</p>
-<p class="last"><a class="reference internal" href="librosa.display.LogHzFormatter.html#librosa.display.LogHzFormatter" title="librosa.display.LogHzFormatter"><code class="xref py py-obj docutils literal notranslate"><span class="pre">LogHzFormatter</span></code></a>, <a class="reference external" href="https://matplotlib.org/api/ticker_api.html#matplotlib.ticker.Formatter" title="(in Matplotlib v3.0.2)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">matplotlib.ticker.Formatter</span></code></a></p>
+<dl class="last docutils">
+<dt><a class="reference internal" href="librosa.display.LogHzFormatter.html#librosa.display.LogHzFormatter" title="librosa.display.LogHzFormatter"><code class="xref py py-obj docutils literal notranslate"><span class="pre">LogHzFormatter</span></code></a></dt>
+<dd></dd>
+<dt><a class="reference external" href="https://matplotlib.org/api/ticker_api.html#matplotlib.ticker.Formatter" title="(in Matplotlib v3.1.1)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">matplotlib.ticker.Formatter</span></code></a></dt>
+<dd></dd>
+</dl>
 </div>
 <p class="rubric">Examples</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
@@ -251,7 +259,7 @@
 </div>
 <dl class="method">
 <dt id="librosa.display.NoteFormatter.__init__">
-<code class="descname">__init__</code><span class="sig-paren">(</span><em>octave=True</em>, <em>major=True</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/librosa/display.html#NoteFormatter.__init__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#librosa.display.NoteFormatter.__init__" title="Permalink to this definition">¶</a></dt>
+<code class="descname">__init__</code><span class="sig-paren">(</span><em>self</em>, <em>octave=True</em>, <em>major=True</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/librosa/display.html#NoteFormatter.__init__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#librosa.display.NoteFormatter.__init__" title="Permalink to this definition">¶</a></dt>
 <dd><p>Initialize self.  See help(type(self)) for accurate signature.</p>
 </dd></dl>
 
@@ -262,37 +270,40 @@
 <col width="90%" />
 </colgroup>
 <tbody valign="top">
-<tr class="row-odd"><td><a class="reference internal" href="#librosa.display.NoteFormatter.__init__" title="librosa.display.NoteFormatter.__init__"><code class="xref py py-obj docutils literal notranslate"><span class="pre">__init__</span></code></a>([octave,&nbsp;major])</td>
+<tr class="row-odd"><td><a class="reference internal" href="#librosa.display.NoteFormatter.__init__" title="librosa.display.NoteFormatter.__init__"><code class="xref py py-obj docutils literal notranslate"><span class="pre">__init__</span></code></a>(self[,&nbsp;octave,&nbsp;major])</td>
 <td>Initialize self.</td>
 </tr>
-<tr class="row-even"><td><code class="xref py py-obj docutils literal notranslate"><span class="pre">create_dummy_axis</span></code>(**kwargs)</td>
+<tr class="row-even"><td><code class="xref py py-obj docutils literal notranslate"><span class="pre">create_dummy_axis</span></code>(self,&nbsp;\*\*kwargs)</td>
 <td></td>
 </tr>
-<tr class="row-odd"><td><code class="xref py py-obj docutils literal notranslate"><span class="pre">fix_minus</span></code>(s)</td>
+<tr class="row-odd"><td><code class="xref py py-obj docutils literal notranslate"><span class="pre">fix_minus</span></code>(self,&nbsp;s)</td>
 <td>Some classes may want to replace a hyphen for minus with the proper unicode symbol (U+2212) for typographical correctness.</td>
 </tr>
-<tr class="row-even"><td><code class="xref py py-obj docutils literal notranslate"><span class="pre">format_data</span></code>(value)</td>
+<tr class="row-even"><td><code class="xref py py-obj docutils literal notranslate"><span class="pre">format_data</span></code>(self,&nbsp;value)</td>
 <td>Returns the full string representation of the value with the position unspecified.</td>
 </tr>
-<tr class="row-odd"><td><code class="xref py py-obj docutils literal notranslate"><span class="pre">format_data_short</span></code>(value)</td>
+<tr class="row-odd"><td><code class="xref py py-obj docutils literal notranslate"><span class="pre">format_data_short</span></code>(self,&nbsp;value)</td>
 <td>Return a short string version of the tick value.</td>
 </tr>
-<tr class="row-even"><td><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_offset</span></code>()</td>
+<tr class="row-even"><td><code class="xref py py-obj docutils literal notranslate"><span class="pre">format_ticks</span></code>(self,&nbsp;values)</td>
+<td>Return the tick labels for all the ticks at once.</td>
+</tr>
+<tr class="row-odd"><td><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_offset</span></code>(self)</td>
 <td></td>
 </tr>
-<tr class="row-odd"><td><code class="xref py py-obj docutils literal notranslate"><span class="pre">set_axis</span></code>(axis)</td>
+<tr class="row-even"><td><code class="xref py py-obj docutils literal notranslate"><span class="pre">set_axis</span></code>(self,&nbsp;axis)</td>
 <td></td>
 </tr>
-<tr class="row-even"><td><code class="xref py py-obj docutils literal notranslate"><span class="pre">set_bounds</span></code>(vmin,&nbsp;vmax)</td>
+<tr class="row-odd"><td><code class="xref py py-obj docutils literal notranslate"><span class="pre">set_bounds</span></code>(self,&nbsp;vmin,&nbsp;vmax)</td>
 <td></td>
 </tr>
-<tr class="row-odd"><td><code class="xref py py-obj docutils literal notranslate"><span class="pre">set_data_interval</span></code>(vmin,&nbsp;vmax)</td>
+<tr class="row-even"><td><code class="xref py py-obj docutils literal notranslate"><span class="pre">set_data_interval</span></code>(self,&nbsp;vmin,&nbsp;vmax)</td>
 <td></td>
 </tr>
-<tr class="row-even"><td><code class="xref py py-obj docutils literal notranslate"><span class="pre">set_locs</span></code>(locs)</td>
+<tr class="row-odd"><td><code class="xref py py-obj docutils literal notranslate"><span class="pre">set_locs</span></code>(self,&nbsp;locs)</td>
 <td></td>
 </tr>
-<tr class="row-odd"><td><code class="xref py py-obj docutils literal notranslate"><span class="pre">set_view_interval</span></code>(vmin,&nbsp;vmax)</td>
+<tr class="row-even"><td><code class="xref py py-obj docutils literal notranslate"><span class="pre">set_view_interval</span></code>(self,&nbsp;vmin,&nbsp;vmax)</td>
 <td></td>
 </tr>
 </tbody>
@@ -369,15 +380,13 @@
             <dd><a href="../../0.6.1/generated/librosa.display.NoteFormatter.html">0.6.1</a></dd>
             <dd><a href="../../0.6.2/generated/librosa.display.NoteFormatter.html">0.6.2</a></dd>
             <dd><a href="librosa.display.NoteFormatter.html">0.6.3</a></dd>
+            <dd><a href="../../0.7.0rc1/generated/librosa.display.NoteFormatter.html">0.7.0rc1</a></dd>
             <dd><a href="../../v0.1.0/index.html">v0.1.0</a></dd>
             <dd><a href="../../v0.4.0/index.html">v0.4.0</a></dd>
         </dl>
         <dl>
             <dt>Branches</dt>
-            <dd><a href="../../display-bin-centering/generated/librosa.display.NoteFormatter.html">display-bin-centering</a></dd>
             <dd><a href="../../master/generated/librosa.display.NoteFormatter.html">master</a></dd>
-            <dd><a href="../../mpl-test-2.1/generated/librosa.display.NoteFormatter.html">mpl-test-2.1</a></dd>
-            <dd><a href="../../runnning/generated/librosa.display.NoteFormatter.html">runnning</a></dd>
         </dl>
     </div>
 </div>

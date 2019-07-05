@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>librosa.beat.beat_track &mdash; librosa 0.6.3 documentation</title>
+  <title>librosa.beat.beat_track &mdash; librosa 0.7.0rc1 documentation</title>
   
 
   
@@ -23,7 +23,7 @@
       <script type="text/javascript">
           var DOCUMENTATION_OPTIONS = {
               URL_ROOT:'../',
-              VERSION:'0.6.3',
+              VERSION:'0.7.0rc1',
               LANGUAGE:'None',
               COLLAPSE_INDEX:false,
               FILE_SUFFIX:'.html',
@@ -47,7 +47,7 @@
   <link rel="stylesheet" href="../_static/banner.css" type="text/css" />
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
-    <link rel="next" title="librosa.beat.tempo" href="librosa.beat.tempo.html" />
+    <link rel="next" title="librosa.beat.plp" href="librosa.beat.plp.html" />
     <link rel="prev" title="Beat and tempo" href="../beat.html" /> 
 </head>
 
@@ -72,7 +72,7 @@
             
             
               <div class="version">
-                0.6
+                0.7
               </div>
             
           
@@ -107,6 +107,7 @@
 <li class="toctree-l1"><a class="reference internal" href="../onset.html">Onset detection</a></li>
 <li class="toctree-l1 current"><a class="reference internal" href="../beat.html">Beat and tempo</a><ul class="current">
 <li class="toctree-l2 current"><a class="current reference internal" href="#">librosa.beat.beat_track</a></li>
+<li class="toctree-l2"><a class="reference internal" href="librosa.beat.plp.html">librosa.beat.plp</a></li>
 <li class="toctree-l2"><a class="reference internal" href="librosa.beat.tempo.html">librosa.beat.tempo</a></li>
 </ul>
 </li>
@@ -200,7 +201,7 @@
 
 
 
-    <p class="scv-banner scv-sphinx_rtd_theme"><a href="../../0.6.3/generated/librosa.beat.beat_track.html"><b>Warning:</b> This document is for the development version of librosa. The latest version is 0.6.3.</a></p>
+    <p class="scv-banner scv-sphinx_rtd_theme"><a href="../../0.7.0rc1/generated/librosa.beat.beat_track.html"><b>Warning:</b> This document is for the development version of librosa. The latest version is 0.7.0rc1.</a></p>
 <div class="section" id="librosa-beat-beat-track">
 <h1>librosa.beat.beat_track<a class="headerlink" href="#librosa-beat-beat-track" title="Permalink to this headline">¶</a></h1>
 <dl class="function">
@@ -270,15 +271,16 @@ By default, ‘frames’ are used.</p>
 <dd><p class="first last">estimated beat event locations in the specified units
 (default is frame indices)</p>
 </dd>
-<dt><strong>.. note::</strong></dt>
-<dd><p class="first last">If no onset strength could be detected, beat_tracker estimates 0 BPM
-and returns an empty list.</p>
-</dd>
 </dl>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">If no onset strength could be detected, beat_tracker estimates 0 BPM
+and returns an empty list.</p>
+</div>
 </td>
 </tr>
 <tr class="field-odd field"><th class="field-name">Raises:</th><td class="field-body"><dl class="first last docutils">
-<dt><strong>ParameterError</strong></dt>
+<dt>ParameterError</dt>
 <dd><p class="first">if neither <em class="xref py py-obj">y</em> nor <em class="xref py py-obj">onset_envelope</em> are provided</p>
 <p class="last">or if <em class="xref py py-obj">units</em> is not one of ‘frames’, ‘samples’, or ‘time’</p>
 </dd>
@@ -289,7 +291,10 @@ and returns an empty list.</p>
 </table>
 <div class="admonition seealso">
 <p class="first admonition-title">See also</p>
-<p class="last"><a class="reference internal" href="librosa.onset.onset_strength.html#librosa.onset.onset_strength" title="librosa.onset.onset_strength"><code class="xref py py-obj docutils literal notranslate"><span class="pre">librosa.onset.onset_strength</span></code></a></p>
+<dl class="last docutils">
+<dt><a class="reference internal" href="librosa.onset.onset_strength.html#librosa.onset.onset_strength" title="librosa.onset.onset_strength"><code class="xref py py-obj docutils literal notranslate"><span class="pre">librosa.onset.onset_strength</span></code></a></dt>
+<dd></dd>
+</dl>
 </div>
 <p class="rubric">Examples</p>
 <p>Track beats using time series input</p>
@@ -344,6 +349,7 @@ and returns an empty list.</p>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">plt</span><span class="o">.</span><span class="n">xlim</span><span class="p">(</span><span class="mi">15</span><span class="p">,</span> <span class="mi">30</span><span class="p">)</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">plt</span><span class="o">.</span><span class="n">gca</span><span class="p">()</span><span class="o">.</span><span class="n">xaxis</span><span class="o">.</span><span class="n">set_major_formatter</span><span class="p">(</span><span class="n">librosa</span><span class="o">.</span><span class="n">display</span><span class="o">.</span><span class="n">TimeFormatter</span><span class="p">())</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">plt</span><span class="o">.</span><span class="n">tight_layout</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
 </pre></div>
 </div>
 <p>(<a class="reference external" href="../generated/librosa-beat-beat_track-1.py">Source code</a>)</p>
@@ -362,7 +368,7 @@ and returns an empty list.</p>
   
     <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
       
-        <a href="librosa.beat.tempo.html" class="btn btn-neutral float-right" title="librosa.beat.tempo" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+        <a href="librosa.beat.plp.html" class="btn btn-neutral float-right" title="librosa.beat.plp" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
       
       
         <a href="../beat.html" class="btn btn-neutral float-left" title="Beat and tempo" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
@@ -407,15 +413,13 @@ and returns an empty list.</p>
             <dd><a href="../../0.6.1/generated/librosa.beat.beat_track.html">0.6.1</a></dd>
             <dd><a href="../../0.6.2/generated/librosa.beat.beat_track.html">0.6.2</a></dd>
             <dd><a href="../../0.6.3/generated/librosa.beat.beat_track.html">0.6.3</a></dd>
+            <dd><a href="../../0.7.0rc1/generated/librosa.beat.beat_track.html">0.7.0rc1</a></dd>
             <dd><a href="../../v0.1.0/index.html">v0.1.0</a></dd>
             <dd><a href="../../v0.4.0/index.html">v0.4.0</a></dd>
         </dl>
         <dl>
             <dt>Branches</dt>
-            <dd><a href="../../display-bin-centering/generated/librosa.beat.beat_track.html">display-bin-centering</a></dd>
             <dd><a href="librosa.beat.beat_track.html">master</a></dd>
-            <dd><a href="../../mpl-test-2.1/generated/librosa.beat.beat_track.html">mpl-test-2.1</a></dd>
-            <dd><a href="../../runnning/generated/librosa.beat.beat_track.html">runnning</a></dd>
         </dl>
     </div>
 </div>

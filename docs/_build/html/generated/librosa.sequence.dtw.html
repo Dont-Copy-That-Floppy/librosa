@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>librosa.sequence.dtw &mdash; librosa 0.6.3 documentation</title>
+  <title>librosa.sequence.dtw &mdash; librosa 0.7.0rc1 documentation</title>
   
 
   
@@ -23,7 +23,7 @@
       <script type="text/javascript">
           var DOCUMENTATION_OPTIONS = {
               URL_ROOT:'../',
-              VERSION:'0.6.3',
+              VERSION:'0.7.0rc1',
               LANGUAGE:'None',
               COLLAPSE_INDEX:false,
               FILE_SUFFIX:'.html',
@@ -47,7 +47,7 @@
   <link rel="stylesheet" href="../_static/banner.css" type="text/css" />
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
-    <link rel="next" title="librosa.sequence.viterbi" href="librosa.sequence.viterbi.html" />
+    <link rel="next" title="librosa.sequence.rqa" href="librosa.sequence.rqa.html" />
     <link rel="prev" title="Sequential modeling" href="../sequence.html" /> 
 </head>
 
@@ -72,7 +72,7 @@
             
             
               <div class="version">
-                0.6
+                0.7
               </div>
             
           
@@ -111,8 +111,9 @@
 <li class="toctree-l1"><a class="reference internal" href="../output.html">Output</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../segment.html">Temporal segmentation</a></li>
 <li class="toctree-l1 current"><a class="reference internal" href="../sequence.html">Sequential modeling</a><ul class="current">
-<li class="toctree-l2 current"><a class="reference internal" href="../sequence.html#dynamic-time-warping">Dynamic time warping</a><ul class="current">
+<li class="toctree-l2 current"><a class="reference internal" href="../sequence.html#sequence-alignment">Sequence alignment</a><ul class="current">
 <li class="toctree-l3 current"><a class="current reference internal" href="#">librosa.sequence.dtw</a></li>
+<li class="toctree-l3"><a class="reference internal" href="librosa.sequence.rqa.html">librosa.sequence.rqa</a></li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="../sequence.html#viterbi-decoding">Viterbi decoding</a></li>
@@ -277,7 +278,7 @@ Only returned when <code class="docutils literal notranslate"><span class="pre">
 </td>
 </tr>
 <tr class="field-odd field"><th class="field-name">Raises:</th><td class="field-body"><dl class="first last docutils">
-<dt><strong>ParameterError</strong></dt>
+<dt>ParameterError</dt>
 <dd><p class="first last">If you are doing diagonal matching and Y is shorter than X or if an incompatible
 combination of X, Y, and C are supplied.
 If your input dimensions are incompatible.</p>
@@ -306,9 +307,13 @@ If your input dimensions are incompatible.</p>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">plt</span><span class="o">.</span><span class="n">ylim</span><span class="p">([</span><span class="mi">0</span><span class="p">,</span> <span class="mi">2</span><span class="p">])</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s1">&#39;Matching cost function&#39;</span><span class="p">)</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">plt</span><span class="o">.</span><span class="n">tight_layout</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
 </pre></div>
 </div>
 <p>(<a class="reference external" href="../generated/librosa-sequence-dtw-1.py">Source code</a>)</p>
+<div class="figure">
+<img alt="../_images/librosa-sequence-dtw-1.png" src="../_images/librosa-sequence-dtw-1.png" />
+</div>
 </dd></dl>
 
 </div>
@@ -321,7 +326,7 @@ If your input dimensions are incompatible.</p>
   
     <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
       
-        <a href="librosa.sequence.viterbi.html" class="btn btn-neutral float-right" title="librosa.sequence.viterbi" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+        <a href="librosa.sequence.rqa.html" class="btn btn-neutral float-right" title="librosa.sequence.rqa" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
       
       
         <a href="../sequence.html" class="btn btn-neutral float-left" title="Sequential modeling" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
@@ -351,7 +356,7 @@ If your input dimensions are incompatible.</p>
 <div class="rst-versions" data-toggle="rst-versions" role="note" aria-label="versions">
     <span class="rst-current-version" data-toggle="rst-current-version">
         <span class="fa fa-book"> Other Versions</span>
-        v: 0.6.3
+        v: 0.7.0rc1
         <span class="fa fa-caret-down"></span>
     </span>
     <div class="rst-other-versions">
@@ -366,15 +371,13 @@ If your input dimensions are incompatible.</p>
             <dd><a href="../0.6.1/generated/librosa.sequence.dtw.html">0.6.1</a></dd>
             <dd><a href="../0.6.2/generated/librosa.sequence.dtw.html">0.6.2</a></dd>
             <dd><a href="../0.6.3/generated/librosa.sequence.dtw.html">0.6.3</a></dd>
+            <dd><a href="../0.7.0rc1/generated/librosa.sequence.dtw.html">0.7.0rc1</a></dd>
             <dd><a href="../v0.1.0/index.html">v0.1.0</a></dd>
             <dd><a href="../v0.4.0/index.html">v0.4.0</a></dd>
         </dl>
         <dl>
             <dt>Branches</dt>
-            <dd><a href="../display-bin-centering/index.html">display-bin-centering</a></dd>
             <dd><a href="../master/generated/librosa.sequence.dtw.html">master</a></dd>
-            <dd><a href="../mpl-test-2.1/index.html">mpl-test-2.1</a></dd>
-            <dd><a href="../runnning/generated/librosa.sequence.dtw.html">runnning</a></dd>
         </dl>
     </div>
 </div>

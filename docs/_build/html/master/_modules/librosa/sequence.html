@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>librosa.sequence &mdash; librosa 0.6.3 documentation</title>
+  <title>librosa.sequence &mdash; librosa 0.7.0rc1 documentation</title>
   
 
   
@@ -23,7 +23,7 @@
       <script type="text/javascript">
           var DOCUMENTATION_OPTIONS = {
               URL_ROOT:'../../',
-              VERSION:'0.6.3',
+              VERSION:'0.7.0rc1',
               LANGUAGE:'None',
               COLLAPSE_INDEX:false,
               FILE_SUFFIX:'.html',
@@ -70,7 +70,7 @@
             
             
               <div class="version">
-                0.6
+                0.7
               </div>
             
           
@@ -198,12 +198,13 @@
 <span class="sd">Sequential modeling</span>
 <span class="sd">===================</span>
 
-<span class="sd">Dynamic time warping</span>
-<span class="sd">--------------------</span>
+<span class="sd">Sequence alignment</span>
+<span class="sd">------------------</span>
 <span class="sd">.. autosummary::</span>
 <span class="sd">    :toctree: generated/</span>
 
 <span class="sd">    dtw</span>
+<span class="sd">    rqa</span>
 
 <span class="sd">Viterbi decoding</span>
 <span class="sd">----------------</span>
@@ -234,6 +235,7 @@
 <span class="kn">from</span> <span class="nn">.filters</span> <span class="k">import</span> <span class="n">get_window</span>
 
 <span class="n">__all__</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;dtw&#39;</span><span class="p">,</span>
+           <span class="s1">&#39;rqa&#39;</span><span class="p">,</span>
            <span class="s1">&#39;viterbi&#39;</span><span class="p">,</span>
            <span class="s1">&#39;viterbi_discriminative&#39;</span><span class="p">,</span>
            <span class="s1">&#39;viterbi_binary&#39;</span><span class="p">,</span>
@@ -243,7 +245,7 @@
            <span class="s1">&#39;transition_local&#39;</span><span class="p">]</span>
 
 
-<div class="viewcode-block" id="dtw"><a class="viewcode-back" href="../../generated/librosa.sequence.dtw.html#librosa.core.dtw">[docs]</a><span class="k">def</span> <span class="nf">dtw</span><span class="p">(</span><span class="n">X</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">Y</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">C</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">metric</span><span class="o">=</span><span class="s1">&#39;euclidean&#39;</span><span class="p">,</span> <span class="n">step_sizes_sigma</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+<div class="viewcode-block" id="dtw"><a class="viewcode-back" href="../../generated/librosa.sequence.dtw.html#librosa.sequence.dtw">[docs]</a><span class="k">def</span> <span class="nf">dtw</span><span class="p">(</span><span class="n">X</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">Y</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">C</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">metric</span><span class="o">=</span><span class="s1">&#39;euclidean&#39;</span><span class="p">,</span> <span class="n">step_sizes_sigma</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
         <span class="n">weights_add</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">weights_mul</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">subseq</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">backtrack</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
         <span class="n">global_constraints</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">band_rad</span><span class="o">=</span><span class="mf">0.25</span><span class="p">):</span>
     <span class="sd">&#39;&#39;&#39;Dynamic time warping (DTW).</span>
@@ -332,6 +334,7 @@
 <span class="sd">    &gt;&gt;&gt; plt.ylim([0, 2])</span>
 <span class="sd">    &gt;&gt;&gt; plt.title(&#39;Matching cost function&#39;)</span>
 <span class="sd">    &gt;&gt;&gt; plt.tight_layout()</span>
+<span class="sd">    &gt;&gt;&gt; plt.show()</span>
 <span class="sd">    &#39;&#39;&#39;</span>
     <span class="c1"># Default Parameters</span>
     <span class="k">if</span> <span class="n">step_sizes_sigma</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
@@ -351,6 +354,8 @@
     <span class="k">if</span> <span class="n">C</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="ow">and</span> <span class="p">(</span><span class="n">X</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="ow">or</span> <span class="n">Y</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">):</span>
         <span class="k">raise</span> <span class="n">ParameterError</span><span class="p">(</span><span class="s1">&#39;If C is supplied, both X and Y must not be supplied&#39;</span><span class="p">)</span>
 
+    <span class="n">c_is_transposed</span> <span class="o">=</span> <span class="kc">False</span>
+
     <span class="c1"># calculate pair-wise distances, unless already supplied.</span>
     <span class="k">if</span> <span class="n">C</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
         <span class="c1"># take care of dimensions</span>
@@ -369,6 +374,7 @@
         <span class="c1"># if N &gt; M, Y can be a subsequence of X</span>
         <span class="k">if</span> <span class="n">subseq</span> <span class="ow">and</span> <span class="p">(</span><span class="n">X</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">&gt;</span> <span class="n">Y</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">]):</span>
             <span class="n">C</span> <span class="o">=</span> <span class="n">C</span><span class="o">.</span><span class="n">T</span>
+            <span class="n">c_is_transposed</span> <span class="o">=</span> <span class="kc">True</span>
 
     <span class="n">C</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">atleast_2d</span><span class="p">(</span><span class="n">C</span><span class="p">)</span>
 
@@ -420,15 +426,18 @@
         <span class="n">wp</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">wp</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="nb">int</span><span class="p">)</span>
 
         <span class="c1"># since we transposed in the beginning, we have to adjust the index pairs back</span>
-        <span class="k">if</span> <span class="n">subseq</span> <span class="ow">and</span> <span class="p">(</span><span class="n">X</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">&gt;</span> <span class="n">Y</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">]):</span>
+        <span class="k">if</span> <span class="n">subseq</span> <span class="ow">and</span> <span class="p">(</span>
+                <span class="p">(</span><span class="n">X</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="ow">and</span> <span class="n">Y</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="ow">and</span> <span class="n">X</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">&gt;</span> <span class="n">Y</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span> <span class="ow">or</span>
+                <span class="n">c_is_transposed</span> <span class="ow">or</span>
+                <span class="n">C</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">&gt;</span> <span class="n">C</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+        <span class="p">):</span>
             <span class="n">wp</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">fliplr</span><span class="p">(</span><span class="n">wp</span><span class="p">)</span>
-
         <span class="k">return</span> <span class="n">D</span><span class="p">,</span> <span class="n">wp</span>
     <span class="k">else</span><span class="p">:</span>
         <span class="k">return</span> <span class="n">D</span></div>
 
 
-<span class="nd">@jit</span><span class="p">(</span><span class="n">nopython</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="nd">@jit</span><span class="p">(</span><span class="n">nopython</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">cache</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 <span class="k">def</span> <span class="nf">__dtw_calc_accu_cost</span><span class="p">(</span><span class="n">C</span><span class="p">,</span> <span class="n">D</span><span class="p">,</span> <span class="n">D_steps</span><span class="p">,</span> <span class="n">step_sizes_sigma</span><span class="p">,</span>
                          <span class="n">weights_mul</span><span class="p">,</span> <span class="n">weights_add</span><span class="p">,</span> <span class="n">max_0</span><span class="p">,</span> <span class="n">max_1</span><span class="p">):</span>  <span class="c1"># pragma: no cover</span>
     <span class="sd">&#39;&#39;&#39;Calculate the accumulated cost matrix D.</span>
@@ -496,7 +505,7 @@
     <span class="k">return</span> <span class="n">D</span><span class="p">,</span> <span class="n">D_steps</span>
 
 
-<span class="nd">@jit</span><span class="p">(</span><span class="n">nopython</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="nd">@jit</span><span class="p">(</span><span class="n">nopython</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">cache</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 <span class="k">def</span> <span class="nf">__dtw_backtracking</span><span class="p">(</span><span class="n">D_steps</span><span class="p">,</span> <span class="n">step_sizes_sigma</span><span class="p">):</span>  <span class="c1"># pragma: no cover</span>
     <span class="sd">&#39;&#39;&#39;Backtrack optimal warping path.</span>
 
@@ -546,7 +555,351 @@
     <span class="k">return</span> <span class="n">wp</span>
 
 
-<span class="nd">@jit</span><span class="p">(</span><span class="n">nopython</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<div class="viewcode-block" id="rqa"><a class="viewcode-back" href="../../generated/librosa.sequence.rqa.html#librosa.sequence.rqa">[docs]</a><span class="k">def</span> <span class="nf">rqa</span><span class="p">(</span><span class="n">sim</span><span class="p">,</span> <span class="n">gap_onset</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">gap_extend</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">knight_moves</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">backtrack</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
+    <span class="sd">&#39;&#39;&#39;Recurrence quantification analysis (RQA)</span>
+
+<span class="sd">    This function implements different forms of RQA as described by</span>
+<span class="sd">    Serra, Serra, and Andrzejak [1]_.  These methods take as input</span>
+<span class="sd">    a self- or cross-similarity matrix `sim`, and calculate the value</span>
+<span class="sd">    of path alignments by dynamic programming.</span>
+
+<span class="sd">    Note that unlike dynamic time warping (`dtw`), alignment paths here are</span>
+<span class="sd">    maximized, not minimized, so the input should measure similarity rather</span>
+<span class="sd">    than distance.</span>
+
+<span class="sd">    The simplest RQA method, denoted as `L` [1]_ (equation 3) and equivalent</span>
+<span class="sd">    to the method described by Eckman, Kamphorst, and Ruelle [2]_, accumulates</span>
+<span class="sd">    the length of diagonal paths with positive values in the input:</span>
+
+<span class="sd">        - `score[i, j] = score[i-1, j-1] + 1`  if `sim[i, j] &gt; 0`</span>
+<span class="sd">        - `score[i, j] = 0` otherwise.</span>
+
+<span class="sd">    The second method, denoted as `S` [1]_ (equation 4), is similar to the first,</span>
+<span class="sd">    but allows for &quot;knight moves&quot; (as in the chess piece) in addition to strict</span>
+<span class="sd">    diagonal moves:</span>
+
+<span class="sd">        - `score[i, j] = max(score[i-1, j-1], score[i-2, j-1], score[i-1, j-2]) + 1`  if `sim[i, j] &gt; 0`</span>
+<span class="sd">        - `score[i, j] = 0` otherwise.</span>
+
+<span class="sd">    The third method, denoted as `Q` [1]_ (equations 5 and 6) extends this by</span>
+<span class="sd">    allowing gaps in the alignment that incur some cost, rather than a hard</span>
+<span class="sd">    reset to 0 whenever `sim[i, j] == 0`.</span>
+<span class="sd">    Gaps are penalized by two additional parameters, `gap_onset` and `gap_extend`,</span>
+<span class="sd">    which are subtracted from the value of the alignment path every time a gap</span>
+<span class="sd">    is introduced or extended (respectively).</span>
+
+<span class="sd">    Note that setting `gap_onset` and `gap_extend` to `np.inf` recovers the second</span>
+<span class="sd">    method, and disabling knight moves recovers the first.</span>
+
+
+<span class="sd">    .. [1] Serrà, Joan, Xavier Serra, and Ralph G. Andrzejak.</span>
+<span class="sd">        &quot;Cross recurrence quantification for cover song identification.&quot;</span>
+<span class="sd">        New Journal of Physics 11, no. 9 (2009): 093017.</span>
+
+<span class="sd">    .. [2] Eckmann, J. P., S. Oliffson Kamphorst, and D. Ruelle.</span>
+<span class="sd">        &quot;Recurrence plots of dynamical systems.&quot;</span>
+<span class="sd">        World Scientific Series on Nonlinear Science Series A 16 (1995): 441-446.</span>
+
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    sim : np.ndarray [shape=(N, M), non-negative]</span>
+<span class="sd">        The similarity matrix to use as input.</span>
+
+<span class="sd">        This can either be a recurrence matrix (self-similarity)</span>
+<span class="sd">        or a cross-similarity matrix between two sequences.</span>
+
+<span class="sd">    gap_onset : float &gt; 0</span>
+<span class="sd">        Penalty for introducing a gap to an alignment sequence</span>
+
+<span class="sd">    gap_extend : float &gt; 0</span>
+<span class="sd">        Penalty for extending a gap in an alignment sequence</span>
+
+<span class="sd">    knight_moves : bool</span>
+<span class="sd">        If `True` (default), allow for &quot;knight moves&quot; in the alignment,</span>
+<span class="sd">        e.g., `(n, m) =&gt; (n + 1, m + 2)` or `(n + 2, m + 1)`.</span>
+
+<span class="sd">        If `False`, only allow for diagonal moves `(n, m) =&gt; (n + 1, m + 1)`.</span>
+
+<span class="sd">    backtrack : bool</span>
+<span class="sd">        If `True`, return the alignment path.</span>
+
+<span class="sd">        If `False`, only return the score matrix.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    score : np.ndarray [shape=(N, M)]</span>
+<span class="sd">        The alignment score matrix.  `score[n, m]` is the cumulative value of</span>
+<span class="sd">        the best alignment sequence ending in frames `n` and `m`.</span>
+
+<span class="sd">    path : np.ndarray [shape=(k, 2)] (optional)</span>
+<span class="sd">        If `backtrack=True`, `path` contains a list of pairs of aligned frames</span>
+<span class="sd">        in the best alignment sequence.</span>
+
+<span class="sd">        `path[i] = [n, m]` indicates that row `n` aligns to column `m`.</span>
+
+<span class="sd">    See Also</span>
+<span class="sd">    --------</span>
+<span class="sd">    segment.recurrence_matrix</span>
+<span class="sd">    segment.cross_similarity</span>
+<span class="sd">    dtw</span>
+
+<span class="sd">    Examples</span>
+<span class="sd">    --------</span>
+<span class="sd">    Simple diagonal path enhancement (L-mode)</span>
+
+<span class="sd">    &gt;&gt;&gt; import numpy as np</span>
+<span class="sd">    &gt;&gt;&gt; import matplotlib.pyplot as plt</span>
+<span class="sd">    &gt;&gt;&gt; y, sr = librosa.load(librosa.util.example_audio_file(),</span>
+<span class="sd">    ...                      offset=10, duration=30)</span>
+<span class="sd">    &gt;&gt;&gt; chroma = librosa.feature.chroma_cqt(y=y, sr=sr)</span>
+<span class="sd">    &gt;&gt;&gt; # Use time-delay embedding to reduce noise</span>
+<span class="sd">    &gt;&gt;&gt; chroma_stack = librosa.feature.stack_memory(chroma, n_steps=3)</span>
+<span class="sd">    &gt;&gt;&gt; # Build recurrence, suppress self-loops within 1 second</span>
+<span class="sd">    &gt;&gt;&gt; rec = librosa.segment.recurrence_matrix(chroma_stack, width=43,</span>
+<span class="sd">    ...                                         mode=&#39;affinity&#39;,</span>
+<span class="sd">    ...                                         metric=&#39;cosine&#39;)</span>
+<span class="sd">    &gt;&gt;&gt; # using infinite cost for gaps enforces strict path continuation</span>
+<span class="sd">    &gt;&gt;&gt; L_score, L_path = librosa.sequence.rqa(rec, np.inf, np.inf,</span>
+<span class="sd">    ...                                        knight_moves=False)</span>
+<span class="sd">    &gt;&gt;&gt; plt.figure(figsize=(10, 4))</span>
+<span class="sd">    &gt;&gt;&gt; plt.subplot(1,2,1)</span>
+<span class="sd">    &gt;&gt;&gt; librosa.display.specshow(rec, x_axis=&#39;frames&#39;, y_axis=&#39;frames&#39;)</span>
+<span class="sd">    &gt;&gt;&gt; plt.title(&#39;Recurrence matrix&#39;)</span>
+<span class="sd">    &gt;&gt;&gt; plt.colorbar()</span>
+<span class="sd">    &gt;&gt;&gt; plt.subplot(1,2,2)</span>
+<span class="sd">    &gt;&gt;&gt; librosa.display.specshow(L_score, x_axis=&#39;frames&#39;, y_axis=&#39;frames&#39;)</span>
+<span class="sd">    &gt;&gt;&gt; plt.title(&#39;Alignment score matrix&#39;)</span>
+<span class="sd">    &gt;&gt;&gt; plt.colorbar()</span>
+<span class="sd">    &gt;&gt;&gt; plt.plot(L_path[:, 1], L_path[:, 0], label=&#39;Optimal path&#39;, color=&#39;c&#39;)</span>
+<span class="sd">    &gt;&gt;&gt; plt.legend()</span>
+<span class="sd">    &gt;&gt;&gt; plt.show()</span>
+
+<span class="sd">    Full alignment using gaps and knight moves</span>
+
+<span class="sd">    &gt;&gt;&gt; # New gaps cost 5, extending old gaps cost 10 for each step</span>
+<span class="sd">    &gt;&gt;&gt; score, path = librosa.sequence.rqa(rec, 5, 10)</span>
+<span class="sd">    &gt;&gt;&gt; plt.figure(figsize=(10, 4))</span>
+<span class="sd">    &gt;&gt;&gt; plt.subplot(1,2,1)</span>
+<span class="sd">    &gt;&gt;&gt; librosa.display.specshow(rec, x_axis=&#39;frames&#39;, y_axis=&#39;frames&#39;)</span>
+<span class="sd">    &gt;&gt;&gt; plt.title(&#39;Recurrence matrix&#39;)</span>
+<span class="sd">    &gt;&gt;&gt; plt.colorbar()</span>
+<span class="sd">    &gt;&gt;&gt; plt.subplot(1,2,2)</span>
+<span class="sd">    &gt;&gt;&gt; librosa.display.specshow(score, x_axis=&#39;frames&#39;, y_axis=&#39;frames&#39;)</span>
+<span class="sd">    &gt;&gt;&gt; plt.title(&#39;Alignment score matrix&#39;)</span>
+<span class="sd">    &gt;&gt;&gt; plt.plot(path[:, 1], path[:, 0], label=&#39;Optimal path&#39;, color=&#39;c&#39;)</span>
+<span class="sd">    &gt;&gt;&gt; plt.colorbar()</span>
+<span class="sd">    &gt;&gt;&gt; plt.legend()</span>
+<span class="sd">    &gt;&gt;&gt; plt.show()</span>
+<span class="sd">    &#39;&#39;&#39;</span>
+
+    <span class="k">if</span> <span class="n">gap_onset</span> <span class="o">&lt;</span> <span class="mi">0</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="n">ParameterError</span><span class="p">(</span><span class="s1">&#39;gap_onset=</span><span class="si">{}</span><span class="s1"> must be strictly positive&#39;</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">gap_extend</span> <span class="o">&lt;</span> <span class="mi">0</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="n">ParameterError</span><span class="p">(</span><span class="s1">&#39;gap_extend=</span><span class="si">{}</span><span class="s1"> must be strictly positive&#39;</span><span class="p">)</span>
+
+    <span class="n">score</span><span class="p">,</span> <span class="n">pointers</span> <span class="o">=</span> <span class="n">__rqa_dp</span><span class="p">(</span><span class="n">sim</span><span class="p">,</span> <span class="n">gap_onset</span><span class="p">,</span> <span class="n">gap_extend</span><span class="p">,</span> <span class="n">knight_moves</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">backtrack</span><span class="p">:</span>
+        <span class="n">path</span> <span class="o">=</span> <span class="n">__rqa_backtrack</span><span class="p">(</span><span class="n">score</span><span class="p">,</span> <span class="n">pointers</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">score</span><span class="p">,</span> <span class="n">path</span>
+
+    <span class="k">return</span> <span class="n">score</span></div>
+
+
+<span class="nd">@jit</span><span class="p">(</span><span class="n">nopython</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">cache</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="k">def</span> <span class="nf">__rqa_dp</span><span class="p">(</span><span class="n">sim</span><span class="p">,</span> <span class="n">gap_onset</span><span class="p">,</span> <span class="n">gap_extend</span><span class="p">,</span> <span class="n">knight</span><span class="p">):</span>  <span class="c1"># pragma: no cover</span>
+    <span class="sd">&#39;&#39;&#39;RQA dynamic programming implementation&#39;&#39;&#39;</span>
+
+    <span class="c1"># The output array</span>
+    <span class="n">score</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="n">sim</span><span class="o">.</span><span class="n">shape</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">sim</span><span class="o">.</span><span class="n">dtype</span><span class="p">)</span>
+
+    <span class="c1"># The backtracking array</span>
+    <span class="n">backtrack</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="n">sim</span><span class="o">.</span><span class="n">shape</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">int8</span><span class="p">)</span>
+
+    <span class="c1"># These are place-holder arrays to limit the points being considered</span>
+    <span class="c1"># at each step of the DP</span>
+    <span class="c1">#</span>
+    <span class="c1"># If knight moves are enabled, values are indexed according to</span>
+    <span class="c1"># [(-1,-1), (-1, -2), (-2, -1)]</span>
+    <span class="c1">#</span>
+    <span class="c1"># If knight moves are disabled, then only the first entry is used.</span>
+    <span class="c1">#</span>
+    <span class="c1"># Using dummy vectors here makes the code a bit cleaner down below.</span>
+    <span class="n">sim_values</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span>
+    <span class="n">score_values</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span>
+    <span class="n">vec</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span>
+
+    <span class="k">if</span> <span class="n">knight</span><span class="p">:</span>
+        <span class="c1"># Initial limit is for the base case: diagonal + one knight</span>
+        <span class="n">init_limit</span> <span class="o">=</span> <span class="mi">2</span>
+
+        <span class="c1"># Otherwise, we have 3 positions</span>
+        <span class="n">limit</span> <span class="o">=</span> <span class="mi">3</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">init_limit</span> <span class="o">=</span> <span class="mi">1</span>
+        <span class="n">limit</span> <span class="o">=</span> <span class="mi">1</span>
+
+    <span class="c1"># backtracking rubric:</span>
+    <span class="c1">#   0 ==&gt; diagonal move</span>
+    <span class="c1">#   1 ==&gt; knight move up</span>
+    <span class="c1">#   2 ==&gt; knight move left</span>
+    <span class="c1">#  -1 ==&gt; reset without inclusion</span>
+    <span class="c1">#  -2 ==&gt; reset with inclusion (ie positive value at init)</span>
+
+    <span class="c1"># Initialize the first row and column with the data</span>
+    <span class="n">score</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="p">:]</span> <span class="o">=</span> <span class="n">sim</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="p">:]</span>
+    <span class="n">score</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="n">sim</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">]</span>
+
+    <span class="c1"># backtracking initialization: the first row and column are all resets</span>
+    <span class="c1"># if there&#39;s a positive link here, it&#39;s an inclusive reset</span>
+    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">sim</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]):</span>
+        <span class="k">if</span> <span class="n">sim</span><span class="p">[</span><span class="n">i</span><span class="p">,</span> <span class="mi">0</span><span class="p">]:</span>
+            <span class="n">backtrack</span><span class="p">[</span><span class="n">i</span><span class="p">,</span> <span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="o">-</span><span class="mi">2</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">backtrack</span><span class="p">[</span><span class="n">i</span><span class="p">,</span> <span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="o">-</span><span class="mi">1</span>
+
+    <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">sim</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">]):</span>
+        <span class="k">if</span> <span class="n">sim</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="n">j</span><span class="p">]:</span>
+            <span class="n">backtrack</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="n">j</span><span class="p">]</span> <span class="o">=</span> <span class="o">-</span><span class="mi">2</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">backtrack</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="n">j</span><span class="p">]</span> <span class="o">=</span> <span class="o">-</span><span class="mi">1</span>
+
+    <span class="c1"># Initialize the 1-1 case using only the diagonal</span>
+    <span class="k">if</span> <span class="n">sim</span><span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">]</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+        <span class="n">score</span><span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="n">score</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">]</span> <span class="o">+</span> <span class="n">sim</span><span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">]</span>
+        <span class="n">backtrack</span><span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="mi">0</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">link</span> <span class="o">=</span> <span class="n">sim</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">]</span> <span class="o">&gt;</span> <span class="mi">0</span>
+        <span class="n">score</span><span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">score</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">]</span> <span class="o">-</span> <span class="p">(</span><span class="n">link</span><span class="p">)</span> <span class="o">*</span> <span class="n">gap_onset</span> <span class="o">-</span> <span class="p">(</span><span class="o">~</span><span class="n">link</span><span class="p">)</span> <span class="o">*</span> <span class="n">gap_extend</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">score</span><span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">]</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="n">backtrack</span><span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="mi">0</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">backtrack</span><span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="o">-</span><span class="mi">1</span>
+
+    <span class="c1"># Initialize the second row with diagonal and left-knight moves</span>
+    <span class="n">i</span> <span class="o">=</span> <span class="mi">1</span>
+    <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="n">sim</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">]):</span>
+        <span class="n">score_values</span><span class="p">[:</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span><span class="n">score</span><span class="p">[</span><span class="n">i</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="n">j</span><span class="o">-</span><span class="mi">1</span><span class="p">],</span> <span class="n">score</span><span class="p">[</span><span class="n">i</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="n">j</span><span class="o">-</span><span class="mi">2</span><span class="p">])</span>
+        <span class="n">sim_values</span><span class="p">[:</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span><span class="n">sim</span><span class="p">[</span><span class="n">i</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="n">j</span><span class="o">-</span><span class="mi">1</span><span class="p">],</span> <span class="n">sim</span><span class="p">[</span><span class="n">i</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="n">j</span><span class="o">-</span><span class="mi">2</span><span class="p">])</span>
+        <span class="n">t_values</span> <span class="o">=</span> <span class="n">sim_values</span> <span class="o">&gt;</span> <span class="mi">0</span>
+        <span class="k">if</span> <span class="n">sim</span><span class="p">[</span><span class="n">i</span><span class="p">,</span> <span class="n">j</span><span class="p">]</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="n">backtrack</span><span class="p">[</span><span class="n">i</span><span class="p">,</span> <span class="n">j</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">argmax</span><span class="p">(</span><span class="n">score_values</span><span class="p">[:</span><span class="n">init_limit</span><span class="p">])</span>
+            <span class="n">score</span><span class="p">[</span><span class="n">i</span><span class="p">,</span> <span class="n">j</span><span class="p">]</span> <span class="o">=</span> <span class="n">score_values</span><span class="p">[</span><span class="n">backtrack</span><span class="p">[</span><span class="n">i</span><span class="p">,</span> <span class="n">j</span><span class="p">]]</span> <span class="o">+</span> <span class="n">sim</span><span class="p">[</span><span class="n">i</span><span class="p">,</span> <span class="n">j</span><span class="p">]</span>  <span class="c1"># or + 1 for binary</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">vec</span><span class="p">[:</span><span class="n">init_limit</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span><span class="n">score_values</span><span class="p">[:</span><span class="n">init_limit</span><span class="p">]</span>
+                                <span class="o">-</span> <span class="n">t_values</span><span class="p">[:</span><span class="n">init_limit</span><span class="p">]</span> <span class="o">*</span> <span class="n">gap_onset</span>
+                                <span class="o">-</span> <span class="p">(</span><span class="o">~</span><span class="n">t_values</span><span class="p">[:</span><span class="n">init_limit</span><span class="p">])</span> <span class="o">*</span> <span class="n">gap_extend</span><span class="p">)</span>
+
+            <span class="n">backtrack</span><span class="p">[</span><span class="n">i</span><span class="p">,</span> <span class="n">j</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">argmax</span><span class="p">(</span><span class="n">vec</span><span class="p">[:</span><span class="n">init_limit</span><span class="p">])</span>
+            <span class="n">score</span><span class="p">[</span><span class="n">i</span><span class="p">,</span> <span class="n">j</span><span class="p">]</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">vec</span><span class="p">[</span><span class="n">backtrack</span><span class="p">[</span><span class="n">i</span><span class="p">,</span> <span class="n">j</span><span class="p">]])</span>
+            <span class="c1"># Is it a reset?</span>
+            <span class="k">if</span> <span class="n">score</span><span class="p">[</span><span class="n">i</span><span class="p">,</span> <span class="n">j</span><span class="p">]</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+                <span class="n">backtrack</span><span class="p">[</span><span class="n">i</span><span class="p">,</span> <span class="n">j</span><span class="p">]</span> <span class="o">=</span> <span class="o">-</span><span class="mi">1</span>
+
+    <span class="c1"># Initialize the second column with diagonal and up-knight moves</span>
+    <span class="n">j</span> <span class="o">=</span> <span class="mi">1</span>
+    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="n">sim</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]):</span>
+        <span class="n">score_values</span><span class="p">[:</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span><span class="n">score</span><span class="p">[</span><span class="n">i</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="n">j</span><span class="o">-</span><span class="mi">1</span><span class="p">],</span> <span class="n">score</span><span class="p">[</span><span class="n">i</span><span class="o">-</span><span class="mi">2</span><span class="p">,</span> <span class="n">j</span><span class="o">-</span><span class="mi">1</span><span class="p">])</span>
+        <span class="n">sim_values</span><span class="p">[:</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span><span class="n">sim</span><span class="p">[</span><span class="n">i</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="n">j</span><span class="o">-</span><span class="mi">1</span><span class="p">],</span> <span class="n">sim</span><span class="p">[</span><span class="n">i</span><span class="o">-</span><span class="mi">2</span><span class="p">,</span> <span class="n">j</span><span class="o">-</span><span class="mi">1</span><span class="p">])</span>
+        <span class="n">t_values</span> <span class="o">=</span> <span class="n">sim_values</span> <span class="o">&gt;</span> <span class="mi">0</span>
+        <span class="k">if</span> <span class="n">sim</span><span class="p">[</span><span class="n">i</span><span class="p">,</span> <span class="n">j</span><span class="p">]</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="n">backtrack</span><span class="p">[</span><span class="n">i</span><span class="p">,</span> <span class="n">j</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">argmax</span><span class="p">(</span><span class="n">score_values</span><span class="p">[:</span><span class="n">init_limit</span><span class="p">])</span>
+            <span class="n">score</span><span class="p">[</span><span class="n">i</span><span class="p">,</span> <span class="n">j</span><span class="p">]</span> <span class="o">=</span> <span class="n">score_values</span><span class="p">[</span><span class="n">backtrack</span><span class="p">[</span><span class="n">i</span><span class="p">,</span> <span class="n">j</span><span class="p">]]</span> <span class="o">+</span> <span class="n">sim</span><span class="p">[</span><span class="n">i</span><span class="p">,</span> <span class="n">j</span><span class="p">]</span>  <span class="c1"># or + 1 for binary</span>
+
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">vec</span><span class="p">[:</span><span class="n">init_limit</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span><span class="n">score_values</span><span class="p">[:</span><span class="n">init_limit</span><span class="p">]</span>
+                                <span class="o">-</span> <span class="n">t_values</span><span class="p">[:</span><span class="n">init_limit</span><span class="p">]</span> <span class="o">*</span> <span class="n">gap_onset</span>
+                                <span class="o">-</span> <span class="p">(</span><span class="o">~</span><span class="n">t_values</span><span class="p">[:</span><span class="n">init_limit</span><span class="p">])</span> <span class="o">*</span> <span class="n">gap_extend</span><span class="p">)</span>
+
+            <span class="n">backtrack</span><span class="p">[</span><span class="n">i</span><span class="p">,</span> <span class="n">j</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">argmax</span><span class="p">(</span><span class="n">vec</span><span class="p">[:</span><span class="n">init_limit</span><span class="p">])</span>
+            <span class="n">score</span><span class="p">[</span><span class="n">i</span><span class="p">,</span> <span class="n">j</span><span class="p">]</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">vec</span><span class="p">[</span><span class="n">backtrack</span><span class="p">[</span><span class="n">i</span><span class="p">,</span> <span class="n">j</span><span class="p">]])</span>
+            <span class="c1"># Is it a reset?</span>
+            <span class="k">if</span> <span class="n">score</span><span class="p">[</span><span class="n">i</span><span class="p">,</span> <span class="n">j</span><span class="p">]</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+                <span class="n">backtrack</span><span class="p">[</span><span class="n">i</span><span class="p">,</span> <span class="n">j</span><span class="p">]</span> <span class="o">=</span> <span class="o">-</span><span class="mi">1</span>
+
+    <span class="c1"># Now fill in the rest of the table</span>
+    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="n">sim</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]):</span>
+        <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="n">sim</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">]):</span>
+            <span class="n">score_values</span><span class="p">[:]</span> <span class="o">=</span> <span class="p">(</span><span class="n">score</span><span class="p">[</span><span class="n">i</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="n">j</span><span class="o">-</span><span class="mi">1</span><span class="p">],</span> <span class="n">score</span><span class="p">[</span><span class="n">i</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="n">j</span><span class="o">-</span><span class="mi">2</span><span class="p">],</span> <span class="n">score</span><span class="p">[</span><span class="n">i</span><span class="o">-</span><span class="mi">2</span><span class="p">,</span> <span class="n">j</span><span class="o">-</span><span class="mi">1</span><span class="p">])</span>
+            <span class="n">sim_values</span><span class="p">[:]</span> <span class="o">=</span> <span class="p">(</span><span class="n">sim</span><span class="p">[</span><span class="n">i</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="n">j</span><span class="o">-</span><span class="mi">1</span><span class="p">],</span> <span class="n">sim</span><span class="p">[</span><span class="n">i</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="n">j</span><span class="o">-</span><span class="mi">2</span><span class="p">],</span> <span class="n">sim</span><span class="p">[</span><span class="n">i</span><span class="o">-</span><span class="mi">2</span><span class="p">,</span> <span class="n">j</span><span class="o">-</span><span class="mi">1</span><span class="p">])</span>
+            <span class="n">t_values</span> <span class="o">=</span> <span class="n">sim_values</span> <span class="o">&gt;</span> <span class="mi">0</span>
+            <span class="k">if</span> <span class="n">sim</span><span class="p">[</span><span class="n">i</span><span class="p">,</span> <span class="n">j</span><span class="p">]</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+                <span class="c1"># if knight is true, it&#39;s max of (-1,-1), (-1, -2), (-2, -1)</span>
+                <span class="c1"># otherwise, it&#39;s just the diagonal move (-1, -1)</span>
+                <span class="c1"># for backtracking purposes, if the max is 0 then it&#39;s the start of a new sequence</span>
+                <span class="c1"># if the max is non-zero, then we extend the existing sequence</span>
+                <span class="n">backtrack</span><span class="p">[</span><span class="n">i</span><span class="p">,</span> <span class="n">j</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">argmax</span><span class="p">(</span><span class="n">score_values</span><span class="p">[:</span><span class="n">limit</span><span class="p">])</span>
+                <span class="n">score</span><span class="p">[</span><span class="n">i</span><span class="p">,</span> <span class="n">j</span><span class="p">]</span> <span class="o">=</span> <span class="n">score_values</span><span class="p">[</span><span class="n">backtrack</span><span class="p">[</span><span class="n">i</span><span class="p">,</span> <span class="n">j</span><span class="p">]]</span> <span class="o">+</span> <span class="n">sim</span><span class="p">[</span><span class="n">i</span><span class="p">,</span> <span class="n">j</span><span class="p">]</span>  <span class="c1"># or + 1 for binary</span>
+
+            <span class="k">else</span><span class="p">:</span>
+                <span class="c1"># if the max of our options is negative, then it&#39;s a hard reset</span>
+                <span class="c1"># otherwise, it&#39;s a skip move</span>
+                <span class="n">vec</span><span class="p">[:</span><span class="n">limit</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span><span class="n">score_values</span><span class="p">[:</span><span class="n">limit</span><span class="p">]</span>
+                               <span class="o">-</span> <span class="n">t_values</span><span class="p">[:</span><span class="n">limit</span><span class="p">]</span> <span class="o">*</span> <span class="n">gap_onset</span>
+                               <span class="o">-</span> <span class="p">(</span><span class="o">~</span><span class="n">t_values</span><span class="p">[:</span><span class="n">limit</span><span class="p">])</span> <span class="o">*</span> <span class="n">gap_extend</span><span class="p">)</span>
+
+                <span class="n">backtrack</span><span class="p">[</span><span class="n">i</span><span class="p">,</span> <span class="n">j</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">argmax</span><span class="p">(</span><span class="n">vec</span><span class="p">[:</span><span class="n">limit</span><span class="p">])</span>
+                <span class="n">score</span><span class="p">[</span><span class="n">i</span><span class="p">,</span> <span class="n">j</span><span class="p">]</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">vec</span><span class="p">[</span><span class="n">backtrack</span><span class="p">[</span><span class="n">i</span><span class="p">,</span> <span class="n">j</span><span class="p">]])</span>
+                <span class="c1"># Is it a reset?</span>
+                <span class="k">if</span> <span class="n">score</span><span class="p">[</span><span class="n">i</span><span class="p">,</span> <span class="n">j</span><span class="p">]</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+                    <span class="n">backtrack</span><span class="p">[</span><span class="n">i</span><span class="p">,</span> <span class="n">j</span><span class="p">]</span> <span class="o">=</span> <span class="o">-</span><span class="mi">1</span>
+
+    <span class="k">return</span> <span class="n">score</span><span class="p">,</span> <span class="n">backtrack</span>
+
+
+<span class="k">def</span> <span class="nf">__rqa_backtrack</span><span class="p">(</span><span class="n">score</span><span class="p">,</span> <span class="n">pointers</span><span class="p">):</span>
+    <span class="sd">&#39;&#39;&#39;RQA path backtracking</span>
+
+<span class="sd">    Given the score matrix and backtracking index array,</span>
+<span class="sd">    reconstruct the optimal path.</span>
+<span class="sd">    &#39;&#39;&#39;</span>
+
+    <span class="c1"># backtracking rubric:</span>
+    <span class="c1">#   0 ==&gt; diagonal move</span>
+    <span class="c1">#   1 ==&gt; knight move up</span>
+    <span class="c1">#   2 ==&gt; knight move left</span>
+    <span class="c1">#  -1 ==&gt; reset (sim = 0)</span>
+    <span class="c1">#  -2 ==&gt; start of sequence (sim &gt; 0)</span>
+
+    <span class="c1"># This array maps the backtracking values to the</span>
+    <span class="c1"># relative index offsets</span>
+    <span class="n">offsets</span> <span class="o">=</span> <span class="p">[(</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">),</span> <span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="o">-</span><span class="mi">2</span><span class="p">),</span> <span class="p">(</span><span class="o">-</span><span class="mi">2</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">)]</span>
+
+    <span class="c1"># Find the maximum to end the path</span>
+    <span class="n">idx</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">unravel_index</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">argmax</span><span class="p">(</span><span class="n">score</span><span class="p">),</span> <span class="n">score</span><span class="o">.</span><span class="n">shape</span><span class="p">))</span>
+
+    <span class="c1"># Construct the path</span>
+    <span class="n">path</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="k">while</span> <span class="kc">True</span><span class="p">:</span>
+        <span class="n">bt_index</span> <span class="o">=</span> <span class="n">pointers</span><span class="p">[</span><span class="nb">tuple</span><span class="p">(</span><span class="n">idx</span><span class="p">)]</span>
+
+        <span class="c1"># A -1 indicates a non-inclusive reset</span>
+        <span class="c1"># this can only happen when sim[idx] == 0,</span>
+        <span class="c1"># and a reset with zero score should not be included</span>
+        <span class="c1"># in the path.  In this case, we&#39;re done.</span>
+        <span class="k">if</span> <span class="n">bt_index</span> <span class="o">==</span> <span class="o">-</span><span class="mi">1</span><span class="p">:</span>
+            <span class="k">break</span>
+
+        <span class="c1"># Other bt_index values are okay for inclusion</span>
+        <span class="n">path</span><span class="o">.</span><span class="n">insert</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">idx</span><span class="p">)</span>
+
+        <span class="c1"># -2 indicates beginning of sequence,</span>
+        <span class="c1"># so we can&#39;t backtrack any further</span>
+        <span class="k">if</span> <span class="n">bt_index</span> <span class="o">==</span> <span class="o">-</span><span class="mi">2</span><span class="p">:</span>
+            <span class="k">break</span>
+
+        <span class="c1"># Otherwise, prepend this index and continue</span>
+        <span class="n">idx</span> <span class="o">=</span> <span class="p">[</span><span class="n">idx</span><span class="p">[</span><span class="n">_</span><span class="p">]</span> <span class="o">+</span> <span class="n">offsets</span><span class="p">[</span><span class="n">bt_index</span><span class="p">][</span><span class="n">_</span><span class="p">]</span> <span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">idx</span><span class="p">))]</span>
+
+    <span class="c1"># If there&#39;s no alignment path at all, eg an empty cross-similarity</span>
+    <span class="c1"># matrix, return a properly shaped and typed array</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">path</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">empty</span><span class="p">((</span><span class="mi">0</span><span class="p">,</span> <span class="mi">2</span><span class="p">),</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">uint</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">path</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">uint</span><span class="p">)</span>
+
+
+<span class="nd">@jit</span><span class="p">(</span><span class="n">nopython</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">cache</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 <span class="k">def</span> <span class="nf">_viterbi</span><span class="p">(</span><span class="n">log_prob</span><span class="p">,</span> <span class="n">log_trans</span><span class="p">,</span> <span class="n">log_p_init</span><span class="p">,</span> <span class="n">state</span><span class="p">,</span> <span class="n">value</span><span class="p">,</span> <span class="n">ptr</span><span class="p">):</span>  <span class="c1"># pragma: no cover</span>
     <span class="sd">&#39;&#39;&#39;Core Viterbi algorithm.</span>
 
@@ -612,7 +965,7 @@
     <span class="c1"># Done.</span>
 
 
-<div class="viewcode-block" id="viterbi"><a class="viewcode-back" href="../../generated/librosa.sequence.viterbi.html#librosa.core.viterbi">[docs]</a><span class="k">def</span> <span class="nf">viterbi</span><span class="p">(</span><span class="n">prob</span><span class="p">,</span> <span class="n">transition</span><span class="p">,</span> <span class="n">p_init</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">return_logp</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+<div class="viewcode-block" id="viterbi"><a class="viewcode-back" href="../../generated/librosa.sequence.viterbi.html#librosa.sequence.viterbi">[docs]</a><span class="k">def</span> <span class="nf">viterbi</span><span class="p">(</span><span class="n">prob</span><span class="p">,</span> <span class="n">transition</span><span class="p">,</span> <span class="n">p_init</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">return_logp</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
     <span class="sd">&#39;&#39;&#39;Viterbi decoding from observation likelihoods.</span>
 
 <span class="sd">    Given a sequence of observation likelihoods `prob[s, t]`,</span>
@@ -731,7 +1084,7 @@
     <span class="k">return</span> <span class="n">states</span></div>
 
 
-<div class="viewcode-block" id="viterbi_discriminative"><a class="viewcode-back" href="../../generated/librosa.sequence.viterbi_discriminative.html#librosa.core.viterbi_discriminative">[docs]</a><span class="k">def</span> <span class="nf">viterbi_discriminative</span><span class="p">(</span><span class="n">prob</span><span class="p">,</span> <span class="n">transition</span><span class="p">,</span> <span class="n">p_state</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">p_init</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">return_logp</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+<div class="viewcode-block" id="viterbi_discriminative"><a class="viewcode-back" href="../../generated/librosa.sequence.viterbi_discriminative.html#librosa.sequence.viterbi_discriminative">[docs]</a><span class="k">def</span> <span class="nf">viterbi_discriminative</span><span class="p">(</span><span class="n">prob</span><span class="p">,</span> <span class="n">transition</span><span class="p">,</span> <span class="n">p_state</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">p_init</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">return_logp</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
     <span class="sd">&#39;&#39;&#39;Viterbi decoding from discriminative state predictions.</span>
 
 <span class="sd">    Given a sequence of conditional state predictions `prob[s, t]`,</span>
@@ -835,6 +1188,7 @@
 <span class="sd">    &gt;&gt;&gt; plt.ylabel(&#39;Chord&#39;)</span>
 <span class="sd">    &gt;&gt;&gt; plt.colorbar()</span>
 <span class="sd">    &gt;&gt;&gt; plt.tight_layout()</span>
+<span class="sd">    &gt;&gt;&gt; plt.show()</span>
 
 <span class="sd">    &gt;&gt;&gt; # And plot the results</span>
 <span class="sd">    &gt;&gt;&gt; plt.figure(figsize=(10, 4))</span>
@@ -844,8 +1198,9 @@
 <span class="sd">    &gt;&gt;&gt; plt.scatter(times, chords_ind + 0.75, color=&#39;lime&#39;, alpha=0.5, marker=&#39;+&#39;, s=15, label=&#39;Independent&#39;)</span>
 <span class="sd">    &gt;&gt;&gt; plt.scatter(times, chords_vit + 0.25, color=&#39;deeppink&#39;, alpha=0.5, marker=&#39;o&#39;, s=15, label=&#39;Viterbi&#39;)</span>
 <span class="sd">    &gt;&gt;&gt; plt.yticks(0.5 + np.unique(chords_vit), [labels[i] for i in np.unique(chords_vit)], va=&#39;center&#39;)</span>
-<span class="sd">    &gt;&gt;&gt; plt.legend(loc=&#39;best&#39;)</span>
+<span class="sd">    &gt;&gt;&gt; plt.legend()</span>
 <span class="sd">    &gt;&gt;&gt; plt.tight_layout()</span>
+<span class="sd">    &gt;&gt;&gt; plt.show()</span>
 
 <span class="sd">    &#39;&#39;&#39;</span>
 
@@ -911,7 +1266,7 @@
     <span class="k">return</span> <span class="n">states</span></div>
 
 
-<div class="viewcode-block" id="viterbi_binary"><a class="viewcode-back" href="../../generated/librosa.sequence.viterbi_binary.html#librosa.core.viterbi_binary">[docs]</a><span class="k">def</span> <span class="nf">viterbi_binary</span><span class="p">(</span><span class="n">prob</span><span class="p">,</span> <span class="n">transition</span><span class="p">,</span> <span class="n">p_state</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">p_init</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">return_logp</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+<div class="viewcode-block" id="viterbi_binary"><a class="viewcode-back" href="../../generated/librosa.sequence.viterbi_binary.html#librosa.sequence.viterbi_binary">[docs]</a><span class="k">def</span> <span class="nf">viterbi_binary</span><span class="p">(</span><span class="n">prob</span><span class="p">,</span> <span class="n">transition</span><span class="p">,</span> <span class="n">p_state</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">p_init</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">return_logp</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
     <span class="sd">&#39;&#39;&#39;Viterbi decoding from binary (multi-label), discriminative state predictions.</span>
 
 <span class="sd">    Given a sequence of conditional state predictions `prob[s, t]`,</span>
@@ -1058,7 +1413,7 @@
     <span class="k">return</span> <span class="n">states</span></div>
 
 
-<div class="viewcode-block" id="transition_uniform"><a class="viewcode-back" href="../../generated/librosa.sequence.transition_uniform.html#librosa.core.transition_uniform">[docs]</a><span class="k">def</span> <span class="nf">transition_uniform</span><span class="p">(</span><span class="n">n_states</span><span class="p">):</span>
+<div class="viewcode-block" id="transition_uniform"><a class="viewcode-back" href="../../generated/librosa.sequence.transition_uniform.html#librosa.sequence.transition_uniform">[docs]</a><span class="k">def</span> <span class="nf">transition_uniform</span><span class="p">(</span><span class="n">n_states</span><span class="p">):</span>
     <span class="sd">&#39;&#39;&#39;Construct a uniform transition matrix over `n_states`.</span>
 
 <span class="sd">    Parameters</span>
@@ -1088,7 +1443,7 @@
     <span class="k">return</span> <span class="n">transition</span></div>
 
 
-<div class="viewcode-block" id="transition_loop"><a class="viewcode-back" href="../../generated/librosa.sequence.transition_loop.html#librosa.core.transition_loop">[docs]</a><span class="k">def</span> <span class="nf">transition_loop</span><span class="p">(</span><span class="n">n_states</span><span class="p">,</span> <span class="n">prob</span><span class="p">):</span>
+<div class="viewcode-block" id="transition_loop"><a class="viewcode-back" href="../../generated/librosa.sequence.transition_loop.html#librosa.sequence.transition_loop">[docs]</a><span class="k">def</span> <span class="nf">transition_loop</span><span class="p">(</span><span class="n">n_states</span><span class="p">,</span> <span class="n">prob</span><span class="p">):</span>
     <span class="sd">&#39;&#39;&#39;Construct a self-loop transition matrix over `n_states`.</span>
 
 <span class="sd">    The transition matrix will have the following properties:</span>
@@ -1152,7 +1507,7 @@
     <span class="k">return</span> <span class="n">transition</span></div>
 
 
-<div class="viewcode-block" id="transition_cycle"><a class="viewcode-back" href="../../generated/librosa.sequence.transition_cycle.html#librosa.core.transition_cycle">[docs]</a><span class="k">def</span> <span class="nf">transition_cycle</span><span class="p">(</span><span class="n">n_states</span><span class="p">,</span> <span class="n">prob</span><span class="p">):</span>
+<div class="viewcode-block" id="transition_cycle"><a class="viewcode-back" href="../../generated/librosa.sequence.transition_cycle.html#librosa.sequence.transition_cycle">[docs]</a><span class="k">def</span> <span class="nf">transition_cycle</span><span class="p">(</span><span class="n">n_states</span><span class="p">,</span> <span class="n">prob</span><span class="p">):</span>
     <span class="sd">&#39;&#39;&#39;Construct a cyclic transition matrix over `n_states`.</span>
 
 <span class="sd">    The transition matrix will have the following properties:</span>
@@ -1215,7 +1570,7 @@
     <span class="k">return</span> <span class="n">transition</span></div>
 
 
-<div class="viewcode-block" id="transition_local"><a class="viewcode-back" href="../../generated/librosa.sequence.transition_local.html#librosa.core.transition_local">[docs]</a><span class="k">def</span> <span class="nf">transition_local</span><span class="p">(</span><span class="n">n_states</span><span class="p">,</span> <span class="n">width</span><span class="p">,</span> <span class="n">window</span><span class="o">=</span><span class="s1">&#39;triangle&#39;</span><span class="p">,</span> <span class="n">wrap</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+<div class="viewcode-block" id="transition_local"><a class="viewcode-back" href="../../generated/librosa.sequence.transition_local.html#librosa.sequence.transition_local">[docs]</a><span class="k">def</span> <span class="nf">transition_local</span><span class="p">(</span><span class="n">n_states</span><span class="p">,</span> <span class="n">width</span><span class="p">,</span> <span class="n">window</span><span class="o">=</span><span class="s1">&#39;triangle&#39;</span><span class="p">,</span> <span class="n">wrap</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
     <span class="sd">&#39;&#39;&#39;Construct a localized transition matrix.</span>
 
 <span class="sd">    The transition matrix will have the following properties:</span>
@@ -1366,15 +1721,13 @@
             <dd><a href="../../../0.6.1/index.html">0.6.1</a></dd>
             <dd><a href="../../../0.6.2/index.html">0.6.2</a></dd>
             <dd><a href="../../../0.6.3/index.html">0.6.3</a></dd>
+            <dd><a href="../../../0.7.0rc1/index.html">0.7.0rc1</a></dd>
             <dd><a href="../../../v0.1.0/index.html">v0.1.0</a></dd>
             <dd><a href="../../../v0.4.0/index.html">v0.4.0</a></dd>
         </dl>
         <dl>
             <dt>Branches</dt>
-            <dd><a href="../../../display-bin-centering/index.html">display-bin-centering</a></dd>
             <dd><a href="sequence.html">master</a></dd>
-            <dd><a href="../../../mpl-test-2.1/index.html">mpl-test-2.1</a></dd>
-            <dd><a href="../../../runnning/index.html">runnning</a></dd>
         </dl>
     </div>
 </div>

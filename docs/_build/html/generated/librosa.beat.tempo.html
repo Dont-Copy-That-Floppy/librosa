@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>librosa.beat.tempo &mdash; librosa 0.6.3 documentation</title>
+  <title>librosa.beat.tempo &mdash; librosa 0.7.0rc1 documentation</title>
   
 
   
@@ -23,7 +23,7 @@
       <script type="text/javascript">
           var DOCUMENTATION_OPTIONS = {
               URL_ROOT:'../',
-              VERSION:'0.6.3',
+              VERSION:'0.7.0rc1',
               LANGUAGE:'None',
               COLLAPSE_INDEX:false,
               FILE_SUFFIX:'.html',
@@ -48,7 +48,7 @@
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
     <link rel="next" title="Spectrogram decomposition" href="../decompose.html" />
-    <link rel="prev" title="librosa.beat.beat_track" href="librosa.beat.beat_track.html" /> 
+    <link rel="prev" title="librosa.beat.plp" href="librosa.beat.plp.html" /> 
 </head>
 
 <body class="wy-body-for-nav">
@@ -72,7 +72,7 @@
             
             
               <div class="version">
-                0.6
+                0.7
               </div>
             
           
@@ -107,6 +107,7 @@
 <li class="toctree-l1"><a class="reference internal" href="../onset.html">Onset detection</a></li>
 <li class="toctree-l1 current"><a class="reference internal" href="../beat.html">Beat and tempo</a><ul class="current">
 <li class="toctree-l2"><a class="reference internal" href="librosa.beat.beat_track.html">librosa.beat.beat_track</a></li>
+<li class="toctree-l2"><a class="reference internal" href="librosa.beat.plp.html">librosa.beat.plp</a></li>
 <li class="toctree-l2 current"><a class="current reference internal" href="#">librosa.beat.tempo</a></li>
 </ul>
 </li>
@@ -202,7 +203,7 @@
 <h1>librosa.beat.tempo<a class="headerlink" href="#librosa-beat-tempo" title="Permalink to this headline">¶</a></h1>
 <dl class="function">
 <dt id="librosa.beat.tempo">
-<code class="descclassname">librosa.beat.</code><code class="descname">tempo</code><span class="sig-paren">(</span><em>y=None</em>, <em>sr=22050</em>, <em>onset_envelope=None</em>, <em>hop_length=512</em>, <em>start_bpm=120</em>, <em>std_bpm=1.0</em>, <em>ac_size=8.0</em>, <em>max_tempo=320.0</em>, <em>aggregate=&lt;function mean&gt;</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/librosa/beat.html#tempo"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#librosa.beat.tempo" title="Permalink to this definition">¶</a></dt>
+<code class="descclassname">librosa.beat.</code><code class="descname">tempo</code><span class="sig-paren">(</span><em>y=None</em>, <em>sr=22050</em>, <em>onset_envelope=None</em>, <em>hop_length=512</em>, <em>start_bpm=120</em>, <em>std_bpm=1.0</em>, <em>ac_size=8.0</em>, <em>max_tempo=320.0</em>, <em>aggregate=&lt;function mean at 0x7f8da51a9510&gt;</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/librosa/beat.html#tempo"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#librosa.beat.tempo" title="Permalink to this definition">¶</a></dt>
 <dd><p>Estimate the tempo (beats per minute)</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
@@ -251,7 +252,12 @@ If <em class="xref py py-obj">None</em>, then tempo is estimated independently f
 </table>
 <div class="admonition seealso">
 <p class="first admonition-title">See also</p>
-<p class="last"><a class="reference internal" href="librosa.onset.onset_strength.html#librosa.onset.onset_strength" title="librosa.onset.onset_strength"><code class="xref py py-obj docutils literal notranslate"><span class="pre">librosa.onset.onset_strength</span></code></a>, <a class="reference internal" href="librosa.feature.tempogram.html#librosa.feature.tempogram" title="librosa.feature.tempogram"><code class="xref py py-obj docutils literal notranslate"><span class="pre">librosa.feature.tempogram</span></code></a></p>
+<dl class="last docutils">
+<dt><a class="reference internal" href="librosa.onset.onset_strength.html#librosa.onset.onset_strength" title="librosa.onset.onset_strength"><code class="xref py py-obj docutils literal notranslate"><span class="pre">librosa.onset.onset_strength</span></code></a></dt>
+<dd></dd>
+<dt><a class="reference internal" href="librosa.feature.tempogram.html#librosa.feature.tempogram" title="librosa.feature.tempogram"><code class="xref py py-obj docutils literal notranslate"><span class="pre">librosa.feature.tempogram</span></code></a></dt>
+<dd></dd>
+</dl>
 </div>
 <p class="rubric">Notes</p>
 <p>This function caches at level 30.</p>
@@ -292,7 +298,12 @@ If <em class="xref py py-obj">None</em>, then tempo is estimated independently f
 <span class="gp">&gt;&gt;&gt; </span><span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s1">&#39;Static tempo estimation&#39;</span><span class="p">)</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">plt</span><span class="o">.</span><span class="n">legend</span><span class="p">(</span><span class="n">frameon</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">plt</span><span class="o">.</span><span class="n">axis</span><span class="p">(</span><span class="s1">&#39;tight&#39;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
 </pre></div>
+</div>
+<p>(<a class="reference external" href="../generated/librosa-beat-tempo-1.py">Source code</a>)</p>
+<div class="figure">
+<img alt="../_images/librosa-beat-tempo-1_00_00.png" src="../_images/librosa-beat-tempo-1_00_00.png" />
 </div>
 <p>Plot dynamic tempo estimates over a tempogram</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">()</span>
@@ -305,12 +316,8 @@ If <em class="xref py py-obj">None</em>, then tempo is estimated independently f
 <span class="gp">&gt;&gt;&gt; </span><span class="n">plt</span><span class="o">.</span><span class="n">legend</span><span class="p">(</span><span class="n">frameon</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">framealpha</span><span class="o">=</span><span class="mf">0.75</span><span class="p">)</span>
 </pre></div>
 </div>
-<p>(<a class="reference external" href="../generated/librosa-beat-tempo-1.py">Source code</a>)</p>
 <div class="figure">
-<img alt="../_images/librosa-beat-tempo-1_00.png" src="../_images/librosa-beat-tempo-1_00.png" />
-</div>
-<div class="figure">
-<img alt="../_images/librosa-beat-tempo-1_01.png" src="../_images/librosa-beat-tempo-1_01.png" />
+<img alt="../_images/librosa-beat-tempo-1_01_00.png" src="../_images/librosa-beat-tempo-1_01_00.png" />
 </div>
 </dd></dl>
 
@@ -327,7 +334,7 @@ If <em class="xref py py-obj">None</em>, then tempo is estimated independently f
         <a href="../decompose.html" class="btn btn-neutral float-right" title="Spectrogram decomposition" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
       
       
-        <a href="librosa.beat.beat_track.html" class="btn btn-neutral float-left" title="librosa.beat.beat_track" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+        <a href="librosa.beat.plp.html" class="btn btn-neutral float-left" title="librosa.beat.plp" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
       
     </div>
   
@@ -354,7 +361,7 @@ If <em class="xref py py-obj">None</em>, then tempo is estimated independently f
 <div class="rst-versions" data-toggle="rst-versions" role="note" aria-label="versions">
     <span class="rst-current-version" data-toggle="rst-current-version">
         <span class="fa fa-book"> Other Versions</span>
-        v: 0.6.3
+        v: 0.7.0rc1
         <span class="fa fa-caret-down"></span>
     </span>
     <div class="rst-other-versions">
@@ -369,15 +376,13 @@ If <em class="xref py py-obj">None</em>, then tempo is estimated independently f
             <dd><a href="../0.6.1/generated/librosa.beat.tempo.html">0.6.1</a></dd>
             <dd><a href="../0.6.2/generated/librosa.beat.tempo.html">0.6.2</a></dd>
             <dd><a href="../0.6.3/generated/librosa.beat.tempo.html">0.6.3</a></dd>
+            <dd><a href="../0.7.0rc1/generated/librosa.beat.tempo.html">0.7.0rc1</a></dd>
             <dd><a href="../v0.1.0/index.html">v0.1.0</a></dd>
             <dd><a href="../v0.4.0/index.html">v0.4.0</a></dd>
         </dl>
         <dl>
             <dt>Branches</dt>
-            <dd><a href="../display-bin-centering/generated/librosa.beat.tempo.html">display-bin-centering</a></dd>
             <dd><a href="../master/generated/librosa.beat.tempo.html">master</a></dd>
-            <dd><a href="../mpl-test-2.1/generated/librosa.beat.tempo.html">mpl-test-2.1</a></dd>
-            <dd><a href="../runnning/generated/librosa.beat.tempo.html">runnning</a></dd>
         </dl>
     </div>
 </div>

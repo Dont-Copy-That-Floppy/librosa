@@ -207,7 +207,7 @@
 
 
 
-    <p class="scv-banner scv-sphinx_rtd_theme"><a href="../../0.6.3/generated/librosa.core.resample.html"><b>Warning:</b> This document is for an old version of librosa. The latest version is 0.6.3.</a></p>
+    <p class="scv-banner scv-sphinx_rtd_theme"><a href="../../0.7.0rc1/generated/librosa.core.resample.html"><b>Warning:</b> This document is for an old version of librosa. The latest version is 0.7.0rc1.</a></p>
 <div class="section" id="librosa-core-resample">
 <h1>librosa.core.resample<a class="headerlink" href="#librosa-core-resample" title="Permalink to this headline">¶</a></h1>
 <dl class="function">
@@ -235,8 +235,8 @@
 <p>By default, this uses <a class="reference external" href="https://resampy.readthedocs.io/en/latest/api.html#module-resampy" title="(in resampy v0.2)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">resampy</span></code></a>’s high-quality mode (‘kaiser_best’).
 If <em class="xref py py-obj">res_type</em> is not recognized by <code class="xref py py-obj docutils literal notranslate"><span class="pre">resampy.resample</span></code>, it then
 falls back on <em class="xref py py-obj">scikits.samplerate</em> (if it is installed)</p>
-<p>If both of those fail, it will fall back on <a class="reference external" href="https://docs.scipy.org/doc/scipy/reference/generated/scipy.signal.resample.html#scipy.signal.resample" title="(in SciPy v1.2.1)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">scipy.signal.resample</span></code></a>.</p>
-<p class="last">To force use of <a class="reference external" href="https://docs.scipy.org/doc/scipy/reference/generated/scipy.signal.resample.html#scipy.signal.resample" title="(in SciPy v1.2.1)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">scipy.signal.resample</span></code></a>, set <em class="xref py py-obj">res_type=’scipy’</em>.</p>
+<p>If both of those fail, it will fall back on <a class="reference external" href="https://docs.scipy.org/doc/scipy/reference/generated/scipy.signal.resample.html#scipy.signal.resample" title="(in SciPy v1.3.0)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">scipy.signal.resample</span></code></a>.</p>
+<p class="last">To force use of <a class="reference external" href="https://docs.scipy.org/doc/scipy/reference/generated/scipy.signal.resample.html#scipy.signal.resample" title="(in SciPy v1.3.0)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">scipy.signal.resample</span></code></a>, set <em class="xref py py-obj">res_type=’scipy’</em>.</p>
 </div>
 </dd>
 <dt><strong>fix</strong> <span class="classifier-delimiter">:</span> <span class="classifier">bool</span></dt>
@@ -265,7 +265,12 @@ equal total energy.</p>
 </table>
 <div class="admonition seealso">
 <p class="first admonition-title">See also</p>
-<p class="last"><a class="reference internal" href="librosa.util.fix_length.html#librosa.util.fix_length" title="librosa.util.fix_length"><code class="xref py py-obj docutils literal notranslate"><span class="pre">librosa.util.fix_length</span></code></a>, <a class="reference external" href="https://docs.scipy.org/doc/scipy/reference/generated/scipy.signal.resample.html#scipy.signal.resample" title="(in SciPy v1.2.1)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">scipy.signal.resample</span></code></a></p>
+<dl class="last docutils">
+<dt><a class="reference internal" href="librosa.util.fix_length.html#librosa.util.fix_length" title="librosa.util.fix_length"><code class="xref py py-obj docutils literal notranslate"><span class="pre">librosa.util.fix_length</span></code></a></dt>
+<dd></dd>
+<dt><a class="reference external" href="https://docs.scipy.org/doc/scipy/reference/generated/scipy.signal.resample.html#scipy.signal.resample" title="(in SciPy v1.3.0)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">scipy.signal.resample</span></code></a></dt>
+<dd></dd>
+</dl>
 </div>
 <p class="rubric">Examples</p>
 <p>Downsample from 22 KHz to 8 KHz</p>
@@ -332,15 +337,13 @@ equal total energy.</p>
             <dd><a href="../../0.6.1/generated/librosa.core.resample.html">0.6.1</a></dd>
             <dd><a href="../../0.6.2/generated/librosa.core.resample.html">0.6.2</a></dd>
             <dd><a href="../../0.6.3/generated/librosa.core.resample.html">0.6.3</a></dd>
+            <dd><a href="../../0.7.0rc1/generated/librosa.core.resample.html">0.7.0rc1</a></dd>
             <dd><a href="../../v0.1.0/index.html">v0.1.0</a></dd>
             <dd><a href="../../v0.4.0/index.html">v0.4.0</a></dd>
         </dl>
         <dl>
             <dt>Branches</dt>
-            <dd><a href="../../display-bin-centering/generated/librosa.core.resample.html">display-bin-centering</a></dd>
             <dd><a href="../../master/generated/librosa.core.resample.html">master</a></dd>
-            <dd><a href="../../mpl-test-2.1/generated/librosa.core.resample.html">mpl-test-2.1</a></dd>
-            <dd><a href="../../runnning/generated/librosa.core.resample.html">runnning</a></dd>
         </dl>
     </div>
 </div>

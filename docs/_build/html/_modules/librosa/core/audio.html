@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>librosa.core.audio &mdash; librosa 0.6.3 documentation</title>
+  <title>librosa.core.audio &mdash; librosa 0.7.0rc1 documentation</title>
   
 
   
@@ -23,7 +23,7 @@
       <script type="text/javascript">
           var DOCUMENTATION_OPTIONS = {
               URL_ROOT:'../../../',
-              VERSION:'0.6.3',
+              VERSION:'0.7.0rc1',
               LANGUAGE:'None',
               COLLAPSE_INDEX:false,
               FILE_SUFFIX:'.html',
@@ -70,7 +70,7 @@
             
             
               <div class="version">
-                0.6
+                0.7
               </div>
             
           
@@ -196,19 +196,23 @@
 <span class="kn">import</span> <span class="nn">os</span>
 <span class="kn">import</span> <span class="nn">six</span>
 
+<span class="kn">import</span> <span class="nn">soundfile</span> <span class="k">as</span> <span class="nn">sf</span>
 <span class="kn">import</span> <span class="nn">audioread</span>
 <span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
 <span class="kn">import</span> <span class="nn">scipy.signal</span>
-<span class="kn">import</span> <span class="nn">scipy.fftpack</span> <span class="k">as</span> <span class="nn">fft</span>
 <span class="kn">import</span> <span class="nn">resampy</span>
 
+<span class="kn">from</span> <span class="nn">numba</span> <span class="k">import</span> <span class="n">jit</span>
+<span class="kn">from</span> <span class="nn">.fft</span> <span class="k">import</span> <span class="n">get_fftlib</span>
 <span class="kn">from</span> <span class="nn">.time_frequency</span> <span class="k">import</span> <span class="n">frames_to_samples</span><span class="p">,</span> <span class="n">time_to_samples</span>
-<span class="kn">from</span> <span class="nn">..</span> <span class="k">import</span> <span class="n">cache</span>
+<span class="kn">from</span> <span class="nn">.._cache</span> <span class="k">import</span> <span class="n">cache</span>
 <span class="kn">from</span> <span class="nn">..</span> <span class="k">import</span> <span class="n">util</span>
 <span class="kn">from</span> <span class="nn">..util.exceptions</span> <span class="k">import</span> <span class="n">ParameterError</span>
 
-<span class="n">__all__</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;load&#39;</span><span class="p">,</span> <span class="s1">&#39;to_mono&#39;</span><span class="p">,</span> <span class="s1">&#39;resample&#39;</span><span class="p">,</span> <span class="s1">&#39;get_duration&#39;</span><span class="p">,</span>
-           <span class="s1">&#39;autocorrelate&#39;</span><span class="p">,</span> <span class="s1">&#39;zero_crossings&#39;</span><span class="p">,</span> <span class="s1">&#39;clicks&#39;</span><span class="p">,</span> <span class="s1">&#39;tone&#39;</span><span class="p">,</span> <span class="s1">&#39;chirp&#39;</span><span class="p">]</span>
+<span class="n">__all__</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;load&#39;</span><span class="p">,</span> <span class="s1">&#39;stream&#39;</span><span class="p">,</span> <span class="s1">&#39;to_mono&#39;</span><span class="p">,</span> <span class="s1">&#39;resample&#39;</span><span class="p">,</span>
+           <span class="s1">&#39;get_duration&#39;</span><span class="p">,</span> <span class="s1">&#39;get_samplerate&#39;</span><span class="p">,</span>
+           <span class="s1">&#39;autocorrelate&#39;</span><span class="p">,</span> <span class="s1">&#39;lpc&#39;</span><span class="p">,</span> <span class="s1">&#39;zero_crossings&#39;</span><span class="p">,</span>
+           <span class="s1">&#39;clicks&#39;</span><span class="p">,</span> <span class="s1">&#39;tone&#39;</span><span class="p">,</span> <span class="s1">&#39;chirp&#39;</span><span class="p">]</span>
 
 <span class="c1"># Resampling bandwidths as percentage of Nyquist</span>
 <span class="n">BW_BEST</span> <span class="o">=</span> <span class="n">resampy</span><span class="o">.</span><span class="n">filters</span><span class="o">.</span><span class="n">get_filter</span><span class="p">(</span><span class="s1">&#39;kaiser_best&#39;</span><span class="p">)[</span><span class="mi">2</span><span class="p">]</span>
@@ -229,10 +233,17 @@
 
 <span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>
-<span class="sd">    path : string</span>
+<span class="sd">    path : string, int, or file-like object</span>
 <span class="sd">        path to the input file.</span>
 
-<span class="sd">        Any format supported by `audioread` will work.</span>
+<span class="sd">        Any codec supported by `soundfile` or `audioread` will work.</span>
+
+<span class="sd">        If the codec is supported by `soundfile`, then `path` can also be</span>
+<span class="sd">        an open file descriptor (int), or any object implementing Python&#39;s</span>
+<span class="sd">        file interface.</span>
+
+<span class="sd">        If the codec is not supported by `soundfile` (e.g., MP3), then only</span>
+<span class="sd">        string file paths are supported.</span>
 
 <span class="sd">    sr   : number &gt; 0 [scalar]</span>
 <span class="sd">        target sampling rate</span>
@@ -257,13 +268,10 @@
 <span class="sd">        .. note::</span>
 <span class="sd">            By default, this uses `resampy`&#39;s high-quality mode (&#39;kaiser_best&#39;).</span>
 
-<span class="sd">            To use a faster method, set `res_type=&#39;kaiser_fast&#39;`.</span>
+<span class="sd">            For alternative resampling modes, see `resample`</span>
 
-<span class="sd">            To use `scipy.signal.resample`, set `res_type=&#39;scipy&#39;`.</span>
-<span class="sd">            </span>
 <span class="sd">        .. note::</span>
-<span class="sd">           This uses `audioread`, which may truncate the precision of the</span>
-<span class="sd">           audio data to 16 bits.</span>
+<span class="sd">           `audioread` may truncate the precision of the audio data to 16 bits.</span>
 
 <span class="sd">           See https://librosa.github.io/librosa/ioformats.html for alternate</span>
 <span class="sd">           loading methods.</span>
@@ -280,7 +288,7 @@
 
 <span class="sd">    Examples</span>
 <span class="sd">    --------</span>
-<span class="sd">    &gt;&gt;&gt; # Load a wav file</span>
+<span class="sd">    &gt;&gt;&gt; # Load an ogg vorbis file</span>
 <span class="sd">    &gt;&gt;&gt; filename = librosa.util.example_audio_file()</span>
 <span class="sd">    &gt;&gt;&gt; y, sr = librosa.load(filename)</span>
 <span class="sd">    &gt;&gt;&gt; y</span>
@@ -288,7 +296,7 @@
 <span class="sd">    &gt;&gt;&gt; sr</span>
 <span class="sd">    22050</span>
 
-<span class="sd">    &gt;&gt;&gt; # Load a wav file and resample to 11 KHz</span>
+<span class="sd">    &gt;&gt;&gt; # Load a file and resample to 11 KHz</span>
 <span class="sd">    &gt;&gt;&gt; filename = librosa.util.example_audio_file()</span>
 <span class="sd">    &gt;&gt;&gt; y, sr = librosa.load(filename, sr=11025)</span>
 <span class="sd">    &gt;&gt;&gt; y</span>
@@ -296,7 +304,7 @@
 <span class="sd">    &gt;&gt;&gt; sr</span>
 <span class="sd">    11025</span>
 
-<span class="sd">    &gt;&gt;&gt; # Load 5 seconds of a wav file, starting 15 seconds in</span>
+<span class="sd">    &gt;&gt;&gt; # Load 5 seconds of a file, starting 15 seconds in</span>
 <span class="sd">    &gt;&gt;&gt; filename = librosa.util.example_audio_file()</span>
 <span class="sd">    &gt;&gt;&gt; y, sr = librosa.load(filename, offset=15.0, duration=5.0)</span>
 <span class="sd">    &gt;&gt;&gt; y</span>
@@ -306,8 +314,45 @@
 
 <span class="sd">    &quot;&quot;&quot;</span>
 
+    <span class="k">try</span><span class="p">:</span>
+        <span class="k">with</span> <span class="n">sf</span><span class="o">.</span><span class="n">SoundFile</span><span class="p">(</span><span class="n">path</span><span class="p">)</span> <span class="k">as</span> <span class="n">sf_desc</span><span class="p">:</span>
+            <span class="n">sr_native</span> <span class="o">=</span> <span class="n">sf_desc</span><span class="o">.</span><span class="n">samplerate</span>
+            <span class="k">if</span> <span class="n">offset</span><span class="p">:</span>
+                <span class="c1"># Seek to the start of the target read</span>
+                <span class="n">sf_desc</span><span class="o">.</span><span class="n">seek</span><span class="p">(</span><span class="nb">int</span><span class="p">(</span><span class="n">offset</span> <span class="o">*</span> <span class="n">sr_native</span><span class="p">))</span>
+            <span class="k">if</span> <span class="n">duration</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+                <span class="n">frame_duration</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">duration</span> <span class="o">*</span> <span class="n">sr_native</span><span class="p">)</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">frame_duration</span> <span class="o">=</span> <span class="o">-</span><span class="mi">1</span>
+
+            <span class="c1"># Load the target number of frames, and transpose to match librosa form</span>
+            <span class="n">y</span> <span class="o">=</span> <span class="n">sf_desc</span><span class="o">.</span><span class="n">read</span><span class="p">(</span><span class="n">frames</span><span class="o">=</span><span class="n">frame_duration</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">dtype</span><span class="p">,</span> <span class="n">always_2d</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span><span class="o">.</span><span class="n">T</span>
+
+    <span class="k">except</span> <span class="ne">RuntimeError</span> <span class="k">as</span> <span class="n">exc</span><span class="p">:</span>
+        <span class="c1"># If soundfile failed, fall back to the audioread loader</span>
+        <span class="n">y</span><span class="p">,</span> <span class="n">sr_native</span> <span class="o">=</span> <span class="n">__audioread_load</span><span class="p">(</span><span class="n">path</span><span class="p">,</span> <span class="n">offset</span><span class="p">,</span> <span class="n">duration</span><span class="p">,</span> <span class="n">dtype</span><span class="p">)</span>
+
+    <span class="c1"># Final cleanup for dtype and contiguity</span>
+    <span class="k">if</span> <span class="n">mono</span><span class="p">:</span>
+        <span class="n">y</span> <span class="o">=</span> <span class="n">to_mono</span><span class="p">(</span><span class="n">y</span><span class="p">)</span>
+
+    <span class="k">if</span> <span class="n">sr</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">y</span> <span class="o">=</span> <span class="n">resample</span><span class="p">(</span><span class="n">y</span><span class="p">,</span> <span class="n">sr_native</span><span class="p">,</span> <span class="n">sr</span><span class="p">,</span> <span class="n">res_type</span><span class="o">=</span><span class="n">res_type</span><span class="p">)</span>
+
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">sr</span> <span class="o">=</span> <span class="n">sr_native</span>
+
+    <span class="k">return</span> <span class="n">y</span><span class="p">,</span> <span class="n">sr</span></div>
+
+
+<span class="k">def</span> <span class="nf">__audioread_load</span><span class="p">(</span><span class="n">path</span><span class="p">,</span> <span class="n">offset</span><span class="p">,</span> <span class="n">duration</span><span class="p">,</span> <span class="n">dtype</span><span class="p">):</span>
+    <span class="sd">&#39;&#39;&#39;Load an audio buffer using audioread.</span>
+
+<span class="sd">    This loads one block at a time, and then concatenates the results.</span>
+<span class="sd">    &#39;&#39;&#39;</span>
+
     <span class="n">y</span> <span class="o">=</span> <span class="p">[]</span>
-    <span class="k">with</span> <span class="n">audioread</span><span class="o">.</span><span class="n">audio_open</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">realpath</span><span class="p">(</span><span class="n">path</span><span class="p">))</span> <span class="k">as</span> <span class="n">input_file</span><span class="p">:</span>
+    <span class="k">with</span> <span class="n">audioread</span><span class="o">.</span><span class="n">audio_open</span><span class="p">(</span><span class="n">path</span><span class="p">)</span> <span class="k">as</span> <span class="n">input_file</span><span class="p">:</span>
         <span class="n">sr_native</span> <span class="o">=</span> <span class="n">input_file</span><span class="o">.</span><span class="n">samplerate</span>
         <span class="n">n_channels</span> <span class="o">=</span> <span class="n">input_file</span><span class="o">.</span><span class="n">channels</span>
 
@@ -348,22 +393,182 @@
 
     <span class="k">if</span> <span class="n">y</span><span class="p">:</span>
         <span class="n">y</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">concatenate</span><span class="p">(</span><span class="n">y</span><span class="p">)</span>
-
         <span class="k">if</span> <span class="n">n_channels</span> <span class="o">&gt;</span> <span class="mi">1</span><span class="p">:</span>
             <span class="n">y</span> <span class="o">=</span> <span class="n">y</span><span class="o">.</span><span class="n">reshape</span><span class="p">((</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="n">n_channels</span><span class="p">))</span><span class="o">.</span><span class="n">T</span>
-            <span class="k">if</span> <span class="n">mono</span><span class="p">:</span>
-                <span class="n">y</span> <span class="o">=</span> <span class="n">to_mono</span><span class="p">(</span><span class="n">y</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">y</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">empty</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">dtype</span><span class="p">)</span>
 
-        <span class="k">if</span> <span class="n">sr</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
-            <span class="n">y</span> <span class="o">=</span> <span class="n">resample</span><span class="p">(</span><span class="n">y</span><span class="p">,</span> <span class="n">sr_native</span><span class="p">,</span> <span class="n">sr</span><span class="p">,</span> <span class="n">res_type</span><span class="o">=</span><span class="n">res_type</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">y</span><span class="p">,</span> <span class="n">sr_native</span>
 
+
+<div class="viewcode-block" id="stream"><a class="viewcode-back" href="../../../generated/librosa.core.stream.html#librosa.core.stream">[docs]</a><span class="k">def</span> <span class="nf">stream</span><span class="p">(</span><span class="n">path</span><span class="p">,</span> <span class="n">block_length</span><span class="p">,</span> <span class="n">frame_length</span><span class="p">,</span> <span class="n">hop_length</span><span class="p">,</span>
+           <span class="n">mono</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">offset</span><span class="o">=</span><span class="mf">0.0</span><span class="p">,</span> <span class="n">duration</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">fill_value</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+           <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">float32</span><span class="p">):</span>
+    <span class="sd">&#39;&#39;&#39;Stream audio in fixed-length buffers.</span>
+
+<span class="sd">    This is primarily useful for processing large files that won&#39;t</span>
+<span class="sd">    fit entirely in memory at once.</span>
+
+<span class="sd">    Instead of loading the entire audio signal into memory (as</span>
+<span class="sd">    in `load()`, this function produces *blocks* of audio spanning</span>
+<span class="sd">    a fixed number of frames at a specified frame length and hop</span>
+<span class="sd">    length.</span>
+
+<span class="sd">    While this function strives for similar behavior to `load`,</span>
+<span class="sd">    there are a few caveats that users should be aware of:</span>
+
+<span class="sd">        1. This function does not return audio buffers directly.</span>
+<span class="sd">           It returns a generator, which you can iterate over</span>
+<span class="sd">           to produce blocks of audio.  A *block*, in this context,</span>
+<span class="sd">           refers to a buffer of audio which spans a given number of</span>
+<span class="sd">           (potentially overlapping) frames.</span>
+<span class="sd">        2. Automatic sample-rate conversion is not supported.</span>
+<span class="sd">           Audio will be streamed in its native sample rate,</span>
+<span class="sd">           so no default values are provided for `frame_length`</span>
+<span class="sd">           and `hop_length`.  It is recommended that you first</span>
+<span class="sd">           get the sampling rate for the file in question, using</span>
+<span class="sd">           `get_samplerate()`, and set these parameters accordingly.</span>
+<span class="sd">        3. Many analyses require access to the entire signal</span>
+<span class="sd">           to behave correctly, such as `resample`, `cqt`, or</span>
+<span class="sd">           `beat_track`, so these methods will not be appropriate</span>
+<span class="sd">           for streamed data.</span>
+<span class="sd">        4. The `block_length` parameter specifies how many frames</span>
+<span class="sd">           of audio will be produced per block.  Larger values will</span>
+<span class="sd">           consume more memory, but will be more efficient to process</span>
+<span class="sd">           down-stream.  The best value will ultimately depend on your</span>
+<span class="sd">           application and other system constraints.</span>
+<span class="sd">        5. By default, most librosa analyses (e.g., short-time Fourier</span>
+<span class="sd">           transform) assume centered frames, which requires padding the</span>
+<span class="sd">           signal at the beginning and end.  This will not work correctly</span>
+<span class="sd">           when the signal is carved into blocks, because it would introduce</span>
+<span class="sd">           padding in the middle of the signal.  To disable this feature,</span>
+<span class="sd">           use `center=False` in all frame-based analyses.</span>
+<span class="sd">        </span>
+<span class="sd">    See the examples below for proper usage of this function.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    path : string, int, or file-like object</span>
+<span class="sd">        path to the input file to stream.</span>
+
+<span class="sd">        Any codec supported by `soundfile` is permitted here.</span>
+
+<span class="sd">    block_length : int &gt; 0</span>
+<span class="sd">        The number of frames to include in each block.</span>
+
+<span class="sd">        Note that at the end of the file, there may not be enough</span>
+<span class="sd">        data to fill an entire block, resulting in a shorter block</span>
+<span class="sd">        by default.  To pad the signal out so that blocks are always</span>
+<span class="sd">        full length, set `fill_value` (see below).</span>
+
+<span class="sd">    frame_length : int &gt; 0</span>
+<span class="sd">        The number of samples per frame.</span>
+
+<span class="sd">    hop_length : int &gt; 0</span>
+<span class="sd">        The number of samples to advance between frames.</span>
+
+<span class="sd">        Note that by when `hop_length &lt; frame_length`, neighboring frames</span>
+<span class="sd">        will overlap.  Similarly, the last frame of one *block* will overlap</span>
+<span class="sd">        with the first frame of the next *block*.</span>
+
+<span class="sd">    mono : bool</span>
+<span class="sd">        Convert the signal to mono during streaming</span>
+
+<span class="sd">    offset : float</span>
+<span class="sd">        Start reading after this time (in seconds)</span>
+
+<span class="sd">    duration : float</span>
+<span class="sd">        Only load up to this much audio (in seconds)</span>
+
+<span class="sd">    fill_value : float [optional]</span>
+<span class="sd">        If padding the signal to produce constant-length blocks,</span>
+<span class="sd">        this value will be used at the end of the signal.</span>
+
+<span class="sd">        In most cases, `fill_value=0` (silence) is expected, but</span>
+<span class="sd">        you may specify any value here.</span>
+
+<span class="sd">    dtype : numeric type</span>
+<span class="sd">        data type of audio buffers to be produced</span>
+
+<span class="sd">    Yields</span>
+<span class="sd">    ------</span>
+<span class="sd">    y : np.ndarray</span>
+<span class="sd">        An audio buffer of (at most) </span>
+<span class="sd">        `block_length * (hop_length-1) + frame_length` samples.</span>
+
+<span class="sd">    See Also</span>
+<span class="sd">    --------</span>
+<span class="sd">    load</span>
+<span class="sd">    get_samplerate</span>
+<span class="sd">    soundfile.blocks</span>
+
+<span class="sd">    Examples</span>
+<span class="sd">    --------</span>
+<span class="sd">    Apply a short-term Fourier transform to blocks of 256 frames</span>
+<span class="sd">    at a time.  Note that streaming operation requires left-aligned</span>
+<span class="sd">    frames, so we must set `center=False` to avoid padding artifacts.</span>
+
+<span class="sd">    &gt;&gt;&gt; filename = librosa.util.example_audio_file()</span>
+<span class="sd">    &gt;&gt;&gt; sr = librosa.get_samplerate(filename)</span>
+<span class="sd">    &gt;&gt;&gt; stream librosa.stream(filename,</span>
+<span class="sd">    ...                       block_length=256,</span>
+<span class="sd">    ...                       frame_length=4096,</span>
+<span class="sd">    ...                       hop_length=1024)</span>
+<span class="sd">    &gt;&gt;&gt; for y_block in stream:</span>
+<span class="sd">    ...     D_block = librosa.stft(y_block, center=False)</span>
+
+<span class="sd">    Or compute a mel spectrogram over a stream, using a shorter frame</span>
+<span class="sd">    and non-overlapping windows</span>
+
+<span class="sd">    &gt;&gt;&gt; filename = librosa.util.example_audio_file()</span>
+<span class="sd">    &gt;&gt;&gt; sr = librosa.get_samplerate(filename)</span>
+<span class="sd">    &gt;&gt;&gt; stream = librosa.stream(filename,</span>
+<span class="sd">    ...                         block_length=256,</span>
+<span class="sd">    ...                         frame_length=2048,</span>
+<span class="sd">    ...                         hop_length=2048)</span>
+<span class="sd">    &gt;&gt;&gt; for y_block in stream:</span>
+<span class="sd">    ...     m_block = librosa.feature.melspectrogram(y_block, sr=sr,</span>
+<span class="sd">    ...                                              n_fft=2048,</span>
+<span class="sd">    ...                                              hop_length=2048,</span>
+<span class="sd">    ...                                              center=False)</span>
+
+<span class="sd">    &#39;&#39;&#39;</span>
+
+    <span class="k">if</span> <span class="ow">not</span> <span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">issubdtype</span><span class="p">(</span><span class="nb">type</span><span class="p">(</span><span class="n">block_length</span><span class="p">),</span> <span class="n">np</span><span class="o">.</span><span class="n">integer</span><span class="p">)</span> <span class="ow">and</span> <span class="n">block_length</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">):</span>
+        <span class="k">raise</span> <span class="n">ParameterError</span><span class="p">(</span><span class="s1">&#39;block_length=</span><span class="si">{}</span><span class="s1"> must be a positive integer&#39;</span><span class="p">)</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">issubdtype</span><span class="p">(</span><span class="nb">type</span><span class="p">(</span><span class="n">frame_length</span><span class="p">),</span> <span class="n">np</span><span class="o">.</span><span class="n">integer</span><span class="p">)</span> <span class="ow">and</span> <span class="n">frame_length</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">):</span>
+        <span class="k">raise</span> <span class="n">ParameterError</span><span class="p">(</span><span class="s1">&#39;frame_length=</span><span class="si">{}</span><span class="s1"> must be a positive integer&#39;</span><span class="p">)</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">issubdtype</span><span class="p">(</span><span class="nb">type</span><span class="p">(</span><span class="n">hop_length</span><span class="p">),</span> <span class="n">np</span><span class="o">.</span><span class="n">integer</span><span class="p">)</span> <span class="ow">and</span> <span class="n">hop_length</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">):</span>
+        <span class="k">raise</span> <span class="n">ParameterError</span><span class="p">(</span><span class="s1">&#39;hop_length=</span><span class="si">{}</span><span class="s1"> must be a positive integer&#39;</span><span class="p">)</span>
+
+    <span class="c1"># Get the sample rate from the file info</span>
+    <span class="n">sr</span> <span class="o">=</span> <span class="n">sf</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="n">path</span><span class="p">)</span><span class="o">.</span><span class="n">samplerate</span>
+
+    <span class="c1"># Construct the stream</span>
+    <span class="k">if</span> <span class="n">offset</span><span class="p">:</span>
+        <span class="n">start</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">offset</span> <span class="o">*</span> <span class="n">sr</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">start</span> <span class="o">=</span> <span class="mi">0</span>
+
+    <span class="k">if</span> <span class="n">duration</span><span class="p">:</span>
+        <span class="n">frames</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">duration</span> <span class="o">*</span> <span class="n">sr</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">frames</span> <span class="o">=</span> <span class="o">-</span><span class="mi">1</span>
+
+    <span class="n">blocks</span> <span class="o">=</span> <span class="n">sf</span><span class="o">.</span><span class="n">blocks</span><span class="p">(</span><span class="n">path</span><span class="p">,</span>
+                       <span class="n">blocksize</span><span class="o">=</span><span class="n">frame_length</span> <span class="o">+</span> <span class="p">(</span><span class="n">block_length</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span> <span class="o">*</span> <span class="n">hop_length</span><span class="p">,</span>
+                       <span class="n">overlap</span><span class="o">=</span><span class="n">frame_length</span> <span class="o">-</span> <span class="n">hop_length</span><span class="p">,</span>
+                       <span class="n">fill_value</span><span class="o">=</span><span class="n">fill_value</span><span class="p">,</span>
+                       <span class="n">start</span><span class="o">=</span><span class="n">start</span><span class="p">,</span>
+                       <span class="n">frames</span><span class="o">=</span><span class="n">frames</span><span class="p">,</span>
+                       <span class="n">dtype</span><span class="o">=</span><span class="n">dtype</span><span class="p">,</span>
+                       <span class="n">always_2d</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+
+    <span class="k">for</span> <span class="n">block</span> <span class="ow">in</span> <span class="n">blocks</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">mono</span><span class="p">:</span>
+            <span class="k">yield</span> <span class="n">to_mono</span><span class="p">(</span><span class="n">block</span><span class="o">.</span><span class="n">T</span><span class="p">)</span>
         <span class="k">else</span><span class="p">:</span>
-            <span class="n">sr</span> <span class="o">=</span> <span class="n">sr_native</span>
-
-    <span class="c1"># Final cleanup for dtype and contiguity</span>
-    <span class="n">y</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">ascontiguousarray</span><span class="p">(</span><span class="n">y</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">dtype</span><span class="p">)</span>
-
-    <span class="k">return</span> <span class="p">(</span><span class="n">y</span><span class="p">,</span> <span class="n">sr</span><span class="p">)</span></div>
+            <span class="k">yield</span> <span class="n">block</span><span class="o">.</span><span class="n">T</span></div>
 
 
 <div class="viewcode-block" id="to_mono"><a class="viewcode-back" href="../../../generated/librosa.core.to_mono.html#librosa.core.to_mono">[docs]</a><span class="nd">@cache</span><span class="p">(</span><span class="n">level</span><span class="o">=</span><span class="mi">20</span><span class="p">)</span>
@@ -427,7 +632,13 @@
 
 <span class="sd">            To use a faster method, set `res_type=&#39;kaiser_fast&#39;`.</span>
 
-<span class="sd">            To use `scipy.signal.resample`, set `res_type=&#39;scipy&#39;`.</span>
+<span class="sd">            To use `scipy.signal.resample`, set `res_type=&#39;fft&#39;` or `res_type=&#39;scipy&#39;`.</span>
+
+<span class="sd">            To use `scipy.signal.resample_poly`, set `res_type=&#39;polyphase&#39;`.</span>
+
+<span class="sd">        .. note::</span>
+<span class="sd">            When using `res_type=&#39;polyphase&#39;`, only integer sampling rates are</span>
+<span class="sd">            supported.</span>
 
 <span class="sd">    fix : bool</span>
 <span class="sd">        adjust the length of the resampled signal to be of size exactly</span>
@@ -446,6 +657,11 @@
 <span class="sd">    y_hat : np.ndarray [shape=(n * target_sr / orig_sr,)]</span>
 <span class="sd">        `y` resampled from `orig_sr` to `target_sr`</span>
 
+<span class="sd">    Raises</span>
+<span class="sd">    ------</span>
+<span class="sd">    ParameterError</span>
+<span class="sd">        If `res_type=&#39;polyphase&#39;` and `orig_sr` or `target_sr` are not both</span>
+<span class="sd">        integer-valued.</span>
 
 <span class="sd">    See Also</span>
 <span class="sd">    --------</span>
@@ -465,7 +681,6 @@
 <span class="sd">    &gt;&gt;&gt; y_8k = librosa.resample(y, sr, 8000)</span>
 <span class="sd">    &gt;&gt;&gt; y.shape, y_8k.shape</span>
 <span class="sd">    ((1355168,), (491671,))</span>
-
 <span class="sd">    &quot;&quot;&quot;</span>
 
     <span class="c1"># First, validate the audio buffer</span>
@@ -478,8 +693,19 @@
 
     <span class="n">n_samples</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">ceil</span><span class="p">(</span><span class="n">y</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="o">*</span> <span class="n">ratio</span><span class="p">))</span>
 
-    <span class="k">if</span> <span class="n">res_type</span> <span class="o">==</span> <span class="s1">&#39;scipy&#39;</span><span class="p">:</span>
+    <span class="k">if</span> <span class="n">res_type</span> <span class="ow">in</span> <span class="p">(</span><span class="s1">&#39;scipy&#39;</span><span class="p">,</span> <span class="s1">&#39;fft&#39;</span><span class="p">):</span>
         <span class="n">y_hat</span> <span class="o">=</span> <span class="n">scipy</span><span class="o">.</span><span class="n">signal</span><span class="o">.</span><span class="n">resample</span><span class="p">(</span><span class="n">y</span><span class="p">,</span> <span class="n">n_samples</span><span class="p">,</span> <span class="n">axis</span><span class="o">=-</span><span class="mi">1</span><span class="p">)</span>
+    <span class="k">elif</span> <span class="n">res_type</span> <span class="o">==</span> <span class="s1">&#39;polyphase&#39;</span><span class="p">:</span>
+        <span class="k">if</span> <span class="nb">int</span><span class="p">(</span><span class="n">orig_sr</span><span class="p">)</span> <span class="o">!=</span> <span class="n">orig_sr</span> <span class="ow">or</span> <span class="nb">int</span><span class="p">(</span><span class="n">target_sr</span><span class="p">)</span> <span class="o">!=</span> <span class="n">target_sr</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="n">ParameterError</span><span class="p">(</span><span class="s1">&#39;polyphase resampling is only supported for integer-valued sampling rates.&#39;</span><span class="p">)</span>
+
+        <span class="c1"># For polyphase resampling, we need up- and down-sampling ratios</span>
+        <span class="c1"># We can get those from the greatest common divisor of the rates</span>
+        <span class="c1"># as long as the rates are integrable</span>
+        <span class="n">orig_sr</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">orig_sr</span><span class="p">)</span>
+        <span class="n">target_sr</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">target_sr</span><span class="p">)</span>
+        <span class="n">gcd</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">gcd</span><span class="p">(</span><span class="n">orig_sr</span><span class="p">,</span> <span class="n">target_sr</span><span class="p">)</span>
+        <span class="n">y_hat</span> <span class="o">=</span> <span class="n">scipy</span><span class="o">.</span><span class="n">signal</span><span class="o">.</span><span class="n">resample_poly</span><span class="p">(</span><span class="n">y</span><span class="p">,</span> <span class="n">target_sr</span> <span class="o">//</span> <span class="n">gcd</span><span class="p">,</span> <span class="n">orig_sr</span> <span class="o">//</span> <span class="n">gcd</span><span class="p">,</span> <span class="n">axis</span><span class="o">=-</span><span class="mi">1</span><span class="p">)</span>
     <span class="k">else</span><span class="p">:</span>
         <span class="n">y_hat</span> <span class="o">=</span> <span class="n">resampy</span><span class="o">.</span><span class="n">resample</span><span class="p">(</span><span class="n">y</span><span class="p">,</span> <span class="n">orig_sr</span><span class="p">,</span> <span class="n">target_sr</span><span class="p">,</span> <span class="nb">filter</span><span class="o">=</span><span class="n">res_type</span><span class="p">,</span> <span class="n">axis</span><span class="o">=-</span><span class="mi">1</span><span class="p">)</span>
 
@@ -551,6 +777,9 @@
 <span class="sd">        and is therefore useful for querying the duration of</span>
 <span class="sd">        long files.</span>
 
+<span class="sd">        As in `load()`, this can also be an integer or open file-handle</span>
+<span class="sd">        that can be processed by `soundfile`.</span>
+
 <span class="sd">    Returns</span>
 <span class="sd">    -------</span>
 <span class="sd">    d : float &gt;= 0</span>
@@ -571,8 +800,11 @@
 <span class="sd">    &quot;&quot;&quot;</span>
 
     <span class="k">if</span> <span class="n">filename</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
-        <span class="k">with</span> <span class="n">audioread</span><span class="o">.</span><span class="n">audio_open</span><span class="p">(</span><span class="n">filename</span><span class="p">)</span> <span class="k">as</span> <span class="n">fdesc</span><span class="p">:</span>
-            <span class="k">return</span> <span class="n">fdesc</span><span class="o">.</span><span class="n">duration</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">sf</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="n">filename</span><span class="p">)</span><span class="o">.</span><span class="n">duration</span>
+        <span class="k">except</span> <span class="ne">RuntimeError</span><span class="p">:</span>
+            <span class="k">with</span> <span class="n">audioread</span><span class="o">.</span><span class="n">audio_open</span><span class="p">(</span><span class="n">filename</span><span class="p">)</span> <span class="k">as</span> <span class="n">fdesc</span><span class="p">:</span>
+                <span class="k">return</span> <span class="n">fdesc</span><span class="o">.</span><span class="n">duration</span>
 
     <span class="k">if</span> <span class="n">y</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
         <span class="k">if</span> <span class="n">S</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
@@ -594,6 +826,36 @@
             <span class="n">n_samples</span> <span class="o">=</span> <span class="n">y</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
 
     <span class="k">return</span> <span class="nb">float</span><span class="p">(</span><span class="n">n_samples</span><span class="p">)</span> <span class="o">/</span> <span class="n">sr</span></div>
+
+
+<div class="viewcode-block" id="get_samplerate"><a class="viewcode-back" href="../../../generated/librosa.core.get_samplerate.html#librosa.core.get_samplerate">[docs]</a><span class="k">def</span> <span class="nf">get_samplerate</span><span class="p">(</span><span class="n">path</span><span class="p">):</span>
+    <span class="sd">&#39;&#39;&#39;Get the sampling rate for a given file.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    path : string, int, or file-like</span>
+<span class="sd">        The path to the file to be loaded</span>
+<span class="sd">        As in `load()`, this can also be an integer or open file-handle</span>
+<span class="sd">        that can be processed by `soundfile`.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    sr : number &gt; 0</span>
+<span class="sd">        The sampling rate of the given audio file</span>
+
+<span class="sd">    Examples</span>
+<span class="sd">    --------</span>
+<span class="sd">    Get the sampling rate for the included audio file</span>
+
+<span class="sd">    &gt;&gt;&gt; path = librosa.util.example_audio_file()</span>
+<span class="sd">    &gt;&gt;&gt; librosa.get_samplerate(path)</span>
+<span class="sd">    44100</span>
+<span class="sd">    &#39;&#39;&#39;</span>
+    <span class="k">try</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">sf</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="n">path</span><span class="p">)</span><span class="o">.</span><span class="n">samplerate</span>
+    <span class="k">except</span> <span class="ne">RuntimeError</span><span class="p">:</span>
+        <span class="k">with</span> <span class="n">audioread</span><span class="o">.</span><span class="n">audio_open</span><span class="p">(</span><span class="n">path</span><span class="p">)</span> <span class="k">as</span> <span class="n">fdesc</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">fdesc</span><span class="o">.</span><span class="n">samplerate</span></div>
 
 
 <div class="viewcode-block" id="autocorrelate"><a class="viewcode-back" href="../../../generated/librosa.core.autocorrelate.html#librosa.core.autocorrelate">[docs]</a><span class="nd">@cache</span><span class="p">(</span><span class="n">level</span><span class="o">=</span><span class="mi">20</span><span class="p">)</span>
@@ -640,7 +902,7 @@
 <span class="sd">    &gt;&gt;&gt; plt.plot(ac)</span>
 <span class="sd">    &gt;&gt;&gt; plt.title(&#39;Auto-correlation&#39;)</span>
 <span class="sd">    &gt;&gt;&gt; plt.xlabel(&#39;Lag (frames)&#39;)</span>
-
+<span class="sd">    &gt;&gt;&gt; plt.show()</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
     <span class="k">if</span> <span class="n">max_size</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
@@ -650,10 +912,11 @@
 
     <span class="c1"># Compute the power spectrum along the chosen axis</span>
     <span class="c1"># Pad out the signal to support full-length auto-correlation.</span>
-    <span class="n">powspec</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">fft</span><span class="o">.</span><span class="n">fft</span><span class="p">(</span><span class="n">y</span><span class="p">,</span> <span class="n">n</span><span class="o">=</span><span class="mi">2</span> <span class="o">*</span> <span class="n">y</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="n">axis</span><span class="p">]</span> <span class="o">+</span> <span class="mi">1</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="n">axis</span><span class="p">))</span><span class="o">**</span><span class="mi">2</span>
+    <span class="n">fft</span> <span class="o">=</span> <span class="n">get_fftlib</span><span class="p">()</span>
+    <span class="n">powspec</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">fft</span><span class="o">.</span><span class="n">fft</span><span class="p">(</span><span class="n">y</span><span class="p">,</span> <span class="n">n</span><span class="o">=</span><span class="mi">2</span> <span class="o">*</span> <span class="n">y</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="n">axis</span><span class="p">]</span> <span class="o">+</span> <span class="mi">1</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="n">axis</span><span class="p">))</span> <span class="o">**</span> <span class="mi">2</span>
 
     <span class="c1"># Convert back to time domain</span>
-    <span class="n">autocorr</span> <span class="o">=</span> <span class="n">fft</span><span class="o">.</span><span class="n">ifft</span><span class="p">(</span><span class="n">powspec</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="n">axis</span><span class="p">,</span> <span class="n">overwrite_x</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+    <span class="n">autocorr</span> <span class="o">=</span> <span class="n">fft</span><span class="o">.</span><span class="n">ifft</span><span class="p">(</span><span class="n">powspec</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="n">axis</span><span class="p">)</span>
 
     <span class="c1"># Slice down to max_size</span>
     <span class="n">subslice</span> <span class="o">=</span> <span class="p">[</span><span class="nb">slice</span><span class="p">(</span><span class="kc">None</span><span class="p">)]</span> <span class="o">*</span> <span class="n">autocorr</span><span class="o">.</span><span class="n">ndim</span>
@@ -665,6 +928,168 @@
         <span class="n">autocorr</span> <span class="o">=</span> <span class="n">autocorr</span><span class="o">.</span><span class="n">real</span>
 
     <span class="k">return</span> <span class="n">autocorr</span></div>
+
+
+<div class="viewcode-block" id="lpc"><a class="viewcode-back" href="../../../generated/librosa.core.lpc.html#librosa.core.lpc">[docs]</a><span class="k">def</span> <span class="nf">lpc</span><span class="p">(</span><span class="n">y</span><span class="p">,</span> <span class="n">order</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Linear Prediction Coefficients via Burg&#39;s method</span>
+
+<span class="sd">    This function applies Burg&#39;s method to estimate coefficients of a linear</span>
+<span class="sd">    filter on `y` of order `order`.  Burg&#39;s method is an extension to the</span>
+<span class="sd">    Yule-Walker approach, which are both sometimes referred to as LPC parameter</span>
+<span class="sd">    estimation by autocorrelation.</span>
+
+<span class="sd">    It follows the description and implementation approach described in the</span>
+<span class="sd">    introduction in [1]_.  N.B. This paper describes a different method, which</span>
+<span class="sd">    is not implemented here, but has been chosen for its clear explanation of</span>
+<span class="sd">    Burg&#39;s technique in its introduction.</span>
+
+<span class="sd">    .. [1] Larry Marple</span>
+<span class="sd">           A New Autoregressive Spectrum Analysis Algorithm</span>
+<span class="sd">           IEEE Transactions on Accoustics, Speech, and Signal Processing</span>
+<span class="sd">           vol 28, no. 4, 1980</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    y : np.ndarray</span>
+<span class="sd">        Time series to fit</span>
+
+<span class="sd">    order : int &gt; 0</span>
+<span class="sd">        Order of the linear filter</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    a : np.ndarray of length order + 1</span>
+<span class="sd">        LP prediction error coefficients, i.e. filter denominator polynomial</span>
+
+<span class="sd">    Raises</span>
+<span class="sd">    ------</span>
+<span class="sd">    ParameterError</span>
+<span class="sd">        - If y is not valid audio as per `util.valid_audio`</span>
+<span class="sd">        - If order &lt; 1 or not integer</span>
+<span class="sd">    FloatingPointError</span>
+<span class="sd">        - If y is ill-conditioned</span>
+
+<span class="sd">    See also</span>
+<span class="sd">    --------</span>
+<span class="sd">    scipy.signal.lfilter</span>
+
+<span class="sd">    Examples</span>
+<span class="sd">    --------</span>
+<span class="sd">    Compute LP coefficients of y at order 16 on entire series</span>
+
+<span class="sd">    &gt;&gt;&gt; y, sr = librosa.load(librosa.util.example_audio_file(), offset=30,</span>
+<span class="sd">    ...                      duration=10)</span>
+<span class="sd">    &gt;&gt;&gt; librosa.lpc(y, 16)</span>
+
+<span class="sd">    Compute LP coefficients, and plot LP estimate of original series</span>
+
+<span class="sd">    &gt;&gt;&gt; import matplotlib.pyplot as plt</span>
+<span class="sd">    &gt;&gt;&gt; import scipy</span>
+<span class="sd">    &gt;&gt;&gt; y, sr = librosa.load(librosa.util.example_audio_file(), offset=30,</span>
+<span class="sd">    ...                      duration=0.020)</span>
+<span class="sd">    &gt;&gt;&gt; a = librosa.lpc(y, 2)</span>
+<span class="sd">    &gt;&gt;&gt; y_hat = scipy.signal.lfilter([0] + -1*a[1:], [1], y)</span>
+<span class="sd">    &gt;&gt;&gt; plt.figure()</span>
+<span class="sd">    &gt;&gt;&gt; plt.plot(y)</span>
+<span class="sd">    &gt;&gt;&gt; plt.plot(y_hat, linestyle=&#39;--&#39;)</span>
+<span class="sd">    &gt;&gt;&gt; plt.legend([&#39;y&#39;, &#39;y_hat&#39;])</span>
+<span class="sd">    &gt;&gt;&gt; plt.title(&#39;LP Model Forward Prediction&#39;)</span>
+<span class="sd">    &gt;&gt;&gt; plt.show()</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">order</span><span class="p">,</span> <span class="nb">int</span><span class="p">)</span> <span class="ow">or</span> <span class="n">order</span> <span class="o">&lt;</span> <span class="mi">1</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="n">ParameterError</span><span class="p">(</span><span class="s2">&quot;order must be an integer &gt; 0&quot;</span><span class="p">)</span>
+
+    <span class="n">util</span><span class="o">.</span><span class="n">valid_audio</span><span class="p">(</span><span class="n">y</span><span class="p">,</span> <span class="n">mono</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">__lpc</span><span class="p">(</span><span class="n">y</span><span class="p">,</span> <span class="n">order</span><span class="p">)</span></div>
+
+
+<span class="nd">@jit</span><span class="p">(</span><span class="n">nopython</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="k">def</span> <span class="nf">__lpc</span><span class="p">(</span><span class="n">y</span><span class="p">,</span> <span class="n">order</span><span class="p">):</span>
+    <span class="c1"># This implementation follows the description of Burg&#39;s algorithm given in</span>
+    <span class="c1"># section III of Marple&#39;s paper referenced in the docstring.</span>
+    <span class="c1">#</span>
+    <span class="c1"># We use the Levinson-Durbin recursion to compute AR coefficients for each</span>
+    <span class="c1"># increasing model order by using those from the last. We maintain two</span>
+    <span class="c1"># arrays and then flip them each time we increase the model order so that</span>
+    <span class="c1"># we may use all the coefficients from the previous order while we compute</span>
+    <span class="c1"># those for the new one. These two arrays hold ar_coeffs for order M and</span>
+    <span class="c1"># order M-1.  (Corresponding to a_{M,k} and a_{M-1,k} in eqn 5)</span>
+
+    <span class="n">dtype</span> <span class="o">=</span> <span class="n">y</span><span class="o">.</span><span class="n">dtype</span><span class="o">.</span><span class="n">type</span>
+    <span class="n">ar_coeffs</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="n">order</span><span class="o">+</span><span class="mi">1</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">dtype</span><span class="p">)</span>
+    <span class="n">ar_coeffs</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="n">dtype</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+    <span class="n">ar_coeffs_prev</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="n">order</span><span class="o">+</span><span class="mi">1</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">dtype</span><span class="p">)</span>
+    <span class="n">ar_coeffs_prev</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="n">dtype</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+
+    <span class="c1"># These two arrays hold the forward and backward prediction error. They</span>
+    <span class="c1"># correspond to f_{M-1,k} and b_{M-1,k} in eqns 10, 11, 13 and 14 of</span>
+    <span class="c1"># Marple. First they are used to compute the reflection coefficient at</span>
+    <span class="c1"># order M from M-1 then are re-used as f_{M,k} and b_{M,k} for each</span>
+    <span class="c1"># iteration of the below loop</span>
+    <span class="n">fwd_pred_error</span> <span class="o">=</span> <span class="n">y</span><span class="p">[</span><span class="mi">1</span><span class="p">:]</span>
+    <span class="n">bwd_pred_error</span> <span class="o">=</span> <span class="n">y</span><span class="p">[:</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
+
+    <span class="c1"># DEN_{M} from eqn 16 of Marple.</span>
+    <span class="n">den</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">fwd_pred_error</span><span class="p">,</span> <span class="n">fwd_pred_error</span><span class="p">)</span> \
+          <span class="o">+</span> <span class="n">np</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">bwd_pred_error</span><span class="p">,</span> <span class="n">bwd_pred_error</span><span class="p">)</span>
+
+    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">order</span><span class="p">):</span>
+        <span class="k">if</span> <span class="n">den</span> <span class="o">&lt;=</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">FloatingPointError</span><span class="p">(</span><span class="s1">&#39;numerical error, input ill-conditioned?&#39;</span><span class="p">)</span>
+
+        <span class="c1"># Eqn 15 of Marple, with fwd_pred_error and bwd_pred_error</span>
+        <span class="c1"># corresponding to f_{M-1,k+1} and b{M-1,k} and the result as a_{M,M}</span>
+        <span class="c1">#reflect_coeff = dtype(-2) * np.dot(bwd_pred_error, fwd_pred_error) / dtype(den)</span>
+        <span class="n">reflect_coeff</span> <span class="o">=</span> <span class="n">dtype</span><span class="p">(</span><span class="o">-</span><span class="mi">2</span><span class="p">)</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">bwd_pred_error</span><span class="p">,</span> <span class="n">fwd_pred_error</span><span class="p">)</span> <span class="o">/</span> <span class="n">dtype</span><span class="p">(</span><span class="n">den</span><span class="p">)</span>
+
+        <span class="c1"># Now we use the reflection coefficient and the AR coefficients from</span>
+        <span class="c1"># the last model order to compute all of the AR coefficients for the</span>
+        <span class="c1"># current one.  This is the Levinson-Durbin recursion described in</span>
+        <span class="c1"># eqn 5.</span>
+        <span class="c1"># Note 1: We don&#39;t have to care about complex conjugates as our signals</span>
+        <span class="c1"># are all real-valued</span>
+        <span class="c1"># Note 2: j counts 1..order+1, i-j+1 counts order..0</span>
+        <span class="c1"># Note 3: The first element of ar_coeffs* is always 1, which copies in</span>
+        <span class="c1"># the reflection coefficient at the end of the new AR coefficient array</span>
+        <span class="c1"># after the preceding coefficients</span>
+        <span class="n">ar_coeffs_prev</span><span class="p">,</span> <span class="n">ar_coeffs</span> <span class="o">=</span> <span class="n">ar_coeffs</span><span class="p">,</span> <span class="n">ar_coeffs_prev</span>
+        <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">i</span> <span class="o">+</span> <span class="mi">2</span><span class="p">):</span>
+            <span class="n">ar_coeffs</span><span class="p">[</span><span class="n">j</span><span class="p">]</span> <span class="o">=</span> <span class="n">ar_coeffs_prev</span><span class="p">[</span><span class="n">j</span><span class="p">]</span> <span class="o">+</span> <span class="n">reflect_coeff</span> <span class="o">*</span> <span class="n">ar_coeffs_prev</span><span class="p">[</span><span class="n">i</span> <span class="o">-</span> <span class="n">j</span> <span class="o">+</span> <span class="mi">1</span><span class="p">]</span>
+
+        <span class="c1"># Update the forward and backward prediction errors corresponding to</span>
+        <span class="c1"># eqns 13 and 14.  We start with f_{M-1,k+1} and b_{M-1,k} and use them</span>
+        <span class="c1"># to compute f_{M,k} and b_{M,k}</span>
+        <span class="n">fwd_pred_error_tmp</span> <span class="o">=</span> <span class="n">fwd_pred_error</span>
+        <span class="n">fwd_pred_error</span> <span class="o">=</span> <span class="n">fwd_pred_error</span> <span class="o">+</span> <span class="n">reflect_coeff</span> <span class="o">*</span> <span class="n">bwd_pred_error</span>
+        <span class="n">bwd_pred_error</span> <span class="o">=</span> <span class="n">bwd_pred_error</span> <span class="o">+</span> <span class="n">reflect_coeff</span> <span class="o">*</span> <span class="n">fwd_pred_error_tmp</span>
+
+        <span class="c1"># SNIP - we are now done with order M and advance. M-1 &lt;- M</span>
+
+        <span class="c1"># Compute DEN_{M} using the recursion from eqn 17.</span>
+        <span class="c1">#</span>
+        <span class="c1"># reflect_coeff = a_{M-1,M-1}      (we have advanced M)</span>
+        <span class="c1"># den =  DEN_{M-1}                 (rhs)</span>
+        <span class="c1"># bwd_pred_error = b_{M-1,N-M+1}   (we have advanced M)</span>
+        <span class="c1"># fwd_pred_error = f_{M-1,k}       (we have advanced M)</span>
+        <span class="c1"># den &lt;- DEN_{M}                   (lhs)</span>
+        <span class="c1">#</span>
+        
+        <span class="n">q</span> <span class="o">=</span> <span class="n">dtype</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span> <span class="o">-</span> <span class="n">reflect_coeff</span><span class="o">**</span><span class="mi">2</span>
+        <span class="n">den</span> <span class="o">=</span> <span class="n">q</span><span class="o">*</span><span class="n">den</span> <span class="o">-</span> <span class="n">bwd_pred_error</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span><span class="o">**</span><span class="mi">2</span> <span class="o">-</span> <span class="n">fwd_pred_error</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">**</span><span class="mi">2</span>
+
+        <span class="c1"># Shift up forward error.</span>
+        <span class="c1">#</span>
+        <span class="c1"># fwd_pred_error &lt;- f_{M-1,k+1}</span>
+        <span class="c1"># bwd_pred_error &lt;- b_{M-1,k}</span>
+        <span class="c1">#</span>
+        <span class="c1"># N.B. We do this after computing the denominator using eqn 17 but</span>
+        <span class="c1"># before using it in the numerator in eqn 15.</span>
+        <span class="n">fwd_pred_error</span> <span class="o">=</span> <span class="n">fwd_pred_error</span><span class="p">[</span><span class="mi">1</span><span class="p">:]</span>
+        <span class="n">bwd_pred_error</span> <span class="o">=</span> <span class="n">bwd_pred_error</span><span class="p">[:</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
+
+    <span class="k">return</span> <span class="n">ar_coeffs</span>
 
 
 <div class="viewcode-block" id="zero_crossings"><a class="viewcode-back" href="../../../generated/librosa.core.zero_crossings.html#librosa.core.zero_crossings">[docs]</a><span class="nd">@cache</span><span class="p">(</span><span class="n">level</span><span class="o">=</span><span class="mi">20</span><span class="p">)</span>
@@ -867,6 +1292,7 @@
 <span class="sd">    &gt;&gt;&gt; plt.legend()</span>
 <span class="sd">    &gt;&gt;&gt; plt.xlim(15, 30)</span>
 <span class="sd">    &gt;&gt;&gt; plt.tight_layout()</span>
+<span class="sd">    &gt;&gt;&gt; plt.show()</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
     <span class="c1"># Compute sample positions from time or frames</span>
@@ -976,6 +1402,7 @@
 <span class="sd">    &gt;&gt;&gt; S = librosa.feature.melspectrogram(y=tone)</span>
 <span class="sd">    &gt;&gt;&gt; librosa.display.specshow(librosa.power_to_db(S, ref=np.max),</span>
 <span class="sd">    ...                          x_axis=&#39;time&#39;, y_axis=&#39;mel&#39;)</span>
+<span class="sd">    &gt;&gt;&gt; plt.show()</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
     <span class="k">if</span> <span class="n">frequency</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
@@ -1019,6 +1446,7 @@
 <span class="sd">    linear : boolean</span>
 <span class="sd">        - If `True`, use a linear sweep, i.e., frequency changes linearly with time</span>
 <span class="sd">        - If `False`, use a exponential sweep.</span>
+
 <span class="sd">        Default is `False`.</span>
 
 <span class="sd">    phi : float or None</span>
@@ -1068,6 +1496,7 @@
 <span class="sd">    &gt;&gt;&gt; librosa.display.specshow(librosa.power_to_db(S_linear, ref=np.max),</span>
 <span class="sd">    ...                          x_axis=&#39;time&#39;, y_axis=&#39;mel&#39;)</span>
 <span class="sd">    &gt;&gt;&gt; plt.tight_layout()</span>
+<span class="sd">    &gt;&gt;&gt; plt.show()</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
     <span class="k">if</span> <span class="n">fmin</span> <span class="ow">is</span> <span class="kc">None</span> <span class="ow">or</span> <span class="n">fmax</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
@@ -1123,7 +1552,7 @@
 <div class="rst-versions" data-toggle="rst-versions" role="note" aria-label="versions">
     <span class="rst-current-version" data-toggle="rst-current-version">
         <span class="fa fa-book"> Other Versions</span>
-        v: 0.6.3
+        v: 0.7.0rc1
         <span class="fa fa-caret-down"></span>
     </span>
     <div class="rst-other-versions">
@@ -1137,16 +1566,14 @@
             <dd><a href="../../../0.6.0/index.html">0.6.0</a></dd>
             <dd><a href="../../../0.6.1/index.html">0.6.1</a></dd>
             <dd><a href="../../../0.6.2/index.html">0.6.2</a></dd>
-            <dd><a href="../../../0.6.3/_modules/librosa/core/audio.html">0.6.3</a></dd>
+            <dd><a href="../../../0.6.3/index.html">0.6.3</a></dd>
+            <dd><a href="../../../0.7.0rc1/_modules/librosa/core/audio.html">0.7.0rc1</a></dd>
             <dd><a href="../../../v0.1.0/index.html">v0.1.0</a></dd>
             <dd><a href="../../../v0.4.0/index.html">v0.4.0</a></dd>
         </dl>
         <dl>
             <dt>Branches</dt>
-            <dd><a href="../../../display-bin-centering/index.html">display-bin-centering</a></dd>
             <dd><a href="../../../master/index.html">master</a></dd>
-            <dd><a href="../../../mpl-test-2.1/index.html">mpl-test-2.1</a></dd>
-            <dd><a href="../../../runnning/index.html">runnning</a></dd>
         </dl>
     </div>
 </div>

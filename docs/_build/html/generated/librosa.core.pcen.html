@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>librosa.core.pcen &mdash; librosa 0.6.3 documentation</title>
+  <title>librosa.core.pcen &mdash; librosa 0.7.0rc1 documentation</title>
   
 
   
@@ -23,7 +23,7 @@
       <script type="text/javascript">
           var DOCUMENTATION_OPTIONS = {
               URL_ROOT:'../',
-              VERSION:'0.6.3',
+              VERSION:'0.7.0rc1',
               LANGUAGE:'None',
               COLLAPSE_INDEX:false,
               FILE_SUFFIX:'.html',
@@ -72,7 +72,7 @@
             
             
               <div class="version">
-                0.6
+                0.7
               </div>
             
           
@@ -116,7 +116,6 @@
 </li>
 <li class="toctree-l2"><a class="reference internal" href="../core.html#time-and-frequency-conversion">Time and frequency conversion</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../core.html#pitch-and-tuning">Pitch and tuning</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../core.html#deprecated-moved">Deprecated (moved)</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="../display.html">Display</a></li>
@@ -215,20 +214,26 @@
 <h1>librosa.core.pcen<a class="headerlink" href="#librosa-core-pcen" title="Permalink to this headline">¶</a></h1>
 <dl class="function">
 <dt id="librosa.core.pcen">
-<code class="descclassname">librosa.core.</code><code class="descname">pcen</code><span class="sig-paren">(</span><em>S</em>, <em>sr=22050</em>, <em>hop_length=512</em>, <em>gain=0.98</em>, <em>bias=2</em>, <em>power=0.5</em>, <em>time_constant=0.4</em>, <em>eps=1e-06</em>, <em>b=None</em>, <em>max_size=1</em>, <em>ref=None</em>, <em>axis=-1</em>, <em>max_axis=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/librosa/core/spectrum.html#pcen"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#librosa.core.pcen" title="Permalink to this definition">¶</a></dt>
+<code class="descclassname">librosa.core.</code><code class="descname">pcen</code><span class="sig-paren">(</span><em>S</em>, <em>sr=22050</em>, <em>hop_length=512</em>, <em>gain=0.98</em>, <em>bias=2</em>, <em>power=0.5</em>, <em>time_constant=0.4</em>, <em>eps=1e-06</em>, <em>b=None</em>, <em>max_size=1</em>, <em>ref=None</em>, <em>axis=-1</em>, <em>max_axis=None</em>, <em>zi=None</em>, <em>return_zf=False</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/librosa/core/spectrum.html#pcen"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#librosa.core.pcen" title="Permalink to this definition">¶</a></dt>
 <dd><p>Per-channel energy normalization (PCEN) <a class="reference internal" href="#rb388d53f6b92-1" id="id1">[1]</a></p>
 <p>This function normalizes a time-frequency representation <em class="xref py py-obj">S</em> by
 performing automatic gain control, followed by nonlinear compression:</p>
 <blockquote>
 <div>P[f, t] = (S / (eps + M[f, t])**gain + bias)**power - bias**power</div></blockquote>
-<p>where <em class="xref py py-obj">M</em> is the result of applying a low-pass, temporal IIR filter
+<p>IMPORTANT: the default values of eps, gain, bias, and power match the
+original publication <a class="reference internal" href="#rb388d53f6b92-1" id="id2">[1]</a>, in which M is a 40-band mel-frequency
+spectrogram with 25 ms windowing, 10 ms frame shift, and raw audio values
+in the interval [-2**31; 2**31-1[. If you use these default values, we
+recommend to make sure that the raw audio is properly scaled to this
+interval, and not to [-1, 1[ as is most often the case.</p>
+<p>The matrix <em class="xref py py-obj">M</em> is the result of applying a low-pass, temporal IIR filter
 to <em class="xref py py-obj">S</em>:</p>
 <blockquote>
 <div>M[f, t] = (1 - b) * M[f, t - 1] + b * S[f, t]</div></blockquote>
 <p>If <em class="xref py py-obj">b</em> is not provided, it is calculated as:</p>
 <blockquote>
 <div>b = (sqrt(1 + 4* T**2) - 1) / (2 * T**2)</div></blockquote>
-<p>where <em class="xref py py-obj">T = time_constant * sr / hop_length</em>.</p>
+<p>where <em class="xref py py-obj">T = time_constant * sr / hop_length</em>, as in <a class="reference internal" href="#rb388d53f6b92-2" id="id3">[2]</a>.</p>
 <p>This normalization is designed to suppress background noise and
 emphasize foreground signals, and can be used as an alternative to
 decibel scaling (<a class="reference internal" href="librosa.core.amplitude_to_db.html#librosa.core.amplitude_to_db" title="librosa.core.amplitude_to_db"><code class="xref py py-obj docutils literal notranslate"><span class="pre">amplitude_to_db</span></code></a>).</p>
@@ -247,10 +252,18 @@ with high frequency resolution.</p>
 <table class="docutils citation" frame="void" id="rb388d53f6b92-1" rules="none">
 <colgroup><col class="label" /><col /></colgroup>
 <tbody valign="top">
-<tr><td class="label"><a class="fn-backref" href="#id1">[1]</a></td><td>Wang, Y., Getreuer, P., Hughes, T., Lyon, R. F., &amp; Saurous, R. A.
+<tr><td class="label">[1]</td><td><em>(<a class="fn-backref" href="#id1">1</a>, <a class="fn-backref" href="#id2">2</a>)</em> Wang, Y., Getreuer, P., Hughes, T., Lyon, R. F., &amp; Saurous, R. A.
 (2017, March). Trainable frontend for robust and far-field keyword spotting.
 In Acoustics, Speech and Signal Processing (ICASSP), 2017
 IEEE International Conference on (pp. 5670-5674). IEEE.</td></tr>
+</tbody>
+</table>
+<table class="docutils citation" frame="void" id="rb388d53f6b92-2" rules="none">
+<colgroup><col class="label" /><col /></colgroup>
+<tbody valign="top">
+<tr><td class="label"><a class="fn-backref" href="#id3">[2]</a></td><td>Lostanlen, V., Salamon, J., McFee, B., Cartwright, M., Farnsworth, A.,
+Kelling, S., and Bello, J. P. Per-Channel Energy Normalization: Why and How.
+IEEE Signal Processing Letters, 26(1), 39-43.</td></tr>
 </tbody>
 </table>
 <table class="docutils field-list" frame="void" rules="none">
@@ -273,9 +286,10 @@ IEEE International Conference on (pp. 5670-5674). IEEE.</td></tr>
 <dt><strong>bias</strong> <span class="classifier-delimiter">:</span> <span class="classifier">number &gt;= 0 [scalar]</span></dt>
 <dd><p class="first last">The bias point of the nonlinear compression (default: 2)</p>
 </dd>
-<dt><strong>power</strong> <span class="classifier-delimiter">:</span> <span class="classifier">number &gt; 0 [scalar]</span></dt>
-<dd><p class="first last">The compression exponent.  Typical values should be between 0 and 1.
-Smaller values of <em class="xref py py-obj">power</em> result in stronger compression.</p>
+<dt><strong>power</strong> <span class="classifier-delimiter">:</span> <span class="classifier">number &gt;= 0 [scalar]</span></dt>
+<dd><p class="first last">The compression exponent.  Typical values should be between 0 and 0.5.
+Smaller values of <em class="xref py py-obj">power</em> result in stronger compression.
+At the limit <em class="xref py py-obj">power=0</em>, polynomial compression becomes logarithmic.</p>
 </dd>
 <dt><strong>time_constant</strong> <span class="classifier-delimiter">:</span> <span class="classifier">number &gt; 0 [scalar]</span></dt>
 <dd><p class="first last">The time constant for IIR filtering, measured in seconds.</p>
@@ -305,12 +319,26 @@ as the opposite from <em class="xref py py-obj">axis</em>.
 If <em class="xref py py-obj">S</em> is not two-dimensional, and <em class="xref py py-obj">max_size &gt; 1</em>, an error
 will be raised.</p>
 </dd>
+<dt><strong>zi</strong> <span class="classifier-delimiter">:</span> <span class="classifier">np.ndarray</span></dt>
+<dd><p class="first">The initial filter delay values.</p>
+<p class="last">This may be the <em class="xref py py-obj">zf</em> (final delay values) of a previous call to <a class="reference internal" href="#librosa.core.pcen" title="librosa.core.pcen"><code class="xref py py-obj docutils literal notranslate"><span class="pre">pcen</span></code></a>, or
+computed by <a class="reference external" href="https://docs.scipy.org/doc/scipy/reference/generated/scipy.signal.lfilter_zi.html#scipy.signal.lfilter_zi" title="(in SciPy v1.3.0)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">scipy.signal.lfilter_zi</span></code></a>.</p>
+</dd>
+<dt><strong>return_zf</strong> <span class="classifier-delimiter">:</span> <span class="classifier">bool</span></dt>
+<dd><p class="first">If <em class="xref py py-obj">True</em>, return the final filter delay values along with the PCEN output <em class="xref py py-obj">P</em>.
+This is primarily useful in streaming contexts, where the final state of one
+block of processing should be used to initialize the next block.</p>
+<p class="last">If <em class="xref py py-obj">False</em> (default) only the PCEN values <em class="xref py py-obj">P</em> are returned.</p>
+</dd>
 </dl>
 </td>
 </tr>
 <tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><dl class="first last docutils">
 <dt><strong>P</strong> <span class="classifier-delimiter">:</span> <span class="classifier">np.ndarray, non-negative [shape=(n, m)]</span></dt>
 <dd><p class="first last">The per-channel energy normalized version of <em class="xref py py-obj">S</em>.</p>
+</dd>
+<dt><strong>zf</strong> <span class="classifier-delimiter">:</span> <span class="classifier">np.ndarray (optional)</span></dt>
+<dd><p class="first last">The final filter delay values.  Only returned if <em class="xref py py-obj">return_zf=True</em>.</p>
 </dd>
 </dl>
 </td>
@@ -319,7 +347,12 @@ will be raised.</p>
 </table>
 <div class="admonition seealso">
 <p class="first admonition-title">See also</p>
-<p class="last"><a class="reference internal" href="librosa.core.amplitude_to_db.html#librosa.core.amplitude_to_db" title="librosa.core.amplitude_to_db"><code class="xref py py-obj docutils literal notranslate"><span class="pre">amplitude_to_db</span></code></a>, <a class="reference internal" href="librosa.onset.onset_strength.html#librosa.onset.onset_strength" title="librosa.onset.onset_strength"><code class="xref py py-obj docutils literal notranslate"><span class="pre">librosa.onset.onset_strength</span></code></a></p>
+<dl class="last docutils">
+<dt><a class="reference internal" href="librosa.core.amplitude_to_db.html#librosa.core.amplitude_to_db" title="librosa.core.amplitude_to_db"><code class="xref py py-obj docutils literal notranslate"><span class="pre">amplitude_to_db</span></code></a></dt>
+<dd></dd>
+<dt><a class="reference internal" href="librosa.onset.onset_strength.html#librosa.onset.onset_strength" title="librosa.onset.onset_strength"><code class="xref py py-obj docutils literal notranslate"><span class="pre">librosa.onset.onset_strength</span></code></a></dt>
+<dd></dd>
+</dl>
 </div>
 <p class="rubric">Examples</p>
 <p>Compare PCEN to log amplitude (dB) scaling on Mel spectra</p>
@@ -328,11 +361,12 @@ will be raised.</p>
 <span class="gp">... </span>                     <span class="n">offset</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span> <span class="n">duration</span><span class="o">=</span><span class="mi">10</span><span class="p">)</span>
 </pre></div>
 </div>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="c1"># We&#39;ll use power=1 to get a magnitude spectrum</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="c1"># instead of a power spectrum</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="c1"># We recommend scaling y to the range [-2**31, 2**31[ before applying</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="c1"># PCEN&#39;s default parameters. Furthermore, we use power=1 to get a</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="c1"># magnitude spectrum instead of a power spectrum.</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">S</span> <span class="o">=</span> <span class="n">librosa</span><span class="o">.</span><span class="n">feature</span><span class="o">.</span><span class="n">melspectrogram</span><span class="p">(</span><span class="n">y</span><span class="p">,</span> <span class="n">sr</span><span class="o">=</span><span class="n">sr</span><span class="p">,</span> <span class="n">power</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">log_S</span> <span class="o">=</span> <span class="n">librosa</span><span class="o">.</span><span class="n">amplitude_to_db</span><span class="p">(</span><span class="n">S</span><span class="p">,</span> <span class="n">ref</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">max</span><span class="p">)</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">pcen_S</span> <span class="o">=</span> <span class="n">librosa</span><span class="o">.</span><span class="n">pcen</span><span class="p">(</span><span class="n">S</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">pcen_S</span> <span class="o">=</span> <span class="n">librosa</span><span class="o">.</span><span class="n">pcen</span><span class="p">(</span><span class="n">S</span> <span class="o">*</span> <span class="p">(</span><span class="mi">2</span><span class="o">**</span><span class="mi">31</span><span class="p">))</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">()</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">plt</span><span class="o">.</span><span class="n">subplot</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">)</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">librosa</span><span class="o">.</span><span class="n">display</span><span class="o">.</span><span class="n">specshow</span><span class="p">(</span><span class="n">log_S</span><span class="p">,</span> <span class="n">x_axis</span><span class="o">=</span><span class="s1">&#39;time&#39;</span><span class="p">,</span> <span class="n">y_axis</span><span class="o">=</span><span class="s1">&#39;mel&#39;</span><span class="p">)</span>
@@ -343,10 +377,15 @@ will be raised.</p>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s1">&#39;Per-channel energy normalization&#39;</span><span class="p">)</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">plt</span><span class="o">.</span><span class="n">colorbar</span><span class="p">()</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">plt</span><span class="o">.</span><span class="n">tight_layout</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
 </pre></div>
 </div>
+<p>(<a class="reference external" href="../generated/librosa-core-pcen-1.py">Source code</a>)</p>
+<div class="figure">
+<img alt="../_images/librosa-core-pcen-1_00_00.png" src="../_images/librosa-core-pcen-1_00_00.png" />
+</div>
 <p>Compare PCEN with and without max-filtering</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">pcen_max</span> <span class="o">=</span> <span class="n">librosa</span><span class="o">.</span><span class="n">pcen</span><span class="p">(</span><span class="n">S</span><span class="p">,</span> <span class="n">max_size</span><span class="o">=</span><span class="mi">3</span><span class="p">)</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">pcen_max</span> <span class="o">=</span> <span class="n">librosa</span><span class="o">.</span><span class="n">pcen</span><span class="p">(</span><span class="n">S</span> <span class="o">*</span> <span class="p">(</span><span class="mi">2</span><span class="o">**</span><span class="mi">31</span><span class="p">),</span> <span class="n">max_size</span><span class="o">=</span><span class="mi">3</span><span class="p">)</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">()</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">plt</span><span class="o">.</span><span class="n">subplot</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">)</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">librosa</span><span class="o">.</span><span class="n">display</span><span class="o">.</span><span class="n">specshow</span><span class="p">(</span><span class="n">pcen_S</span><span class="p">,</span> <span class="n">x_axis</span><span class="o">=</span><span class="s1">&#39;time&#39;</span><span class="p">,</span> <span class="n">y_axis</span><span class="o">=</span><span class="s1">&#39;mel&#39;</span><span class="p">)</span>
@@ -357,14 +396,11 @@ will be raised.</p>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s1">&#39;Per-channel energy normalization (max_size=3)&#39;</span><span class="p">)</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">plt</span><span class="o">.</span><span class="n">colorbar</span><span class="p">()</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">plt</span><span class="o">.</span><span class="n">tight_layout</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
 </pre></div>
 </div>
-<p>(<a class="reference external" href="../generated/librosa-core-pcen-1.py">Source code</a>)</p>
 <div class="figure">
-<img alt="../_images/librosa-core-pcen-1_00.png" src="../_images/librosa-core-pcen-1_00.png" />
-</div>
-<div class="figure">
-<img alt="../_images/librosa-core-pcen-1_01.png" src="../_images/librosa-core-pcen-1_01.png" />
+<img alt="../_images/librosa-core-pcen-1_01_00.png" src="../_images/librosa-core-pcen-1_01_00.png" />
 </div>
 </dd></dl>
 
@@ -408,7 +444,7 @@ will be raised.</p>
 <div class="rst-versions" data-toggle="rst-versions" role="note" aria-label="versions">
     <span class="rst-current-version" data-toggle="rst-current-version">
         <span class="fa fa-book"> Other Versions</span>
-        v: 0.6.3
+        v: 0.7.0rc1
         <span class="fa fa-caret-down"></span>
     </span>
     <div class="rst-other-versions">
@@ -423,15 +459,13 @@ will be raised.</p>
             <dd><a href="../0.6.1/generated/librosa.core.pcen.html">0.6.1</a></dd>
             <dd><a href="../0.6.2/generated/librosa.core.pcen.html">0.6.2</a></dd>
             <dd><a href="../0.6.3/generated/librosa.core.pcen.html">0.6.3</a></dd>
+            <dd><a href="../0.7.0rc1/generated/librosa.core.pcen.html">0.7.0rc1</a></dd>
             <dd><a href="../v0.1.0/index.html">v0.1.0</a></dd>
             <dd><a href="../v0.4.0/index.html">v0.4.0</a></dd>
         </dl>
         <dl>
             <dt>Branches</dt>
-            <dd><a href="../display-bin-centering/index.html">display-bin-centering</a></dd>
             <dd><a href="../master/generated/librosa.core.pcen.html">master</a></dd>
-            <dd><a href="../mpl-test-2.1/generated/librosa.core.pcen.html">mpl-test-2.1</a></dd>
-            <dd><a href="../runnning/generated/librosa.core.pcen.html">runnning</a></dd>
         </dl>
     </div>
 </div>

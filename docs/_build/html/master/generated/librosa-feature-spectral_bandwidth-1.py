@@ -32,3 +32,4 @@ librosa.display.specshow(librosa.amplitude_to_db(S, ref=np.max),
                          y_axis='log', x_axis='time')
 plt.title('log Power spectrogram')
 plt.tight_layout()
+plt.show()

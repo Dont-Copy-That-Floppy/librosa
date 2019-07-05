@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>librosa.feature.delta &mdash; librosa 0.6.3 documentation</title>
+  <title>librosa.feature.delta &mdash; librosa 0.7.0rc1 documentation</title>
   
 
   
@@ -23,7 +23,7 @@
       <script type="text/javascript">
           var DOCUMENTATION_OPTIONS = {
               URL_ROOT:'../',
-              VERSION:'0.6.3',
+              VERSION:'0.7.0rc1',
               LANGUAGE:'None',
               COLLAPSE_INDEX:false,
               FILE_SUFFIX:'.html',
@@ -48,7 +48,7 @@
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
     <link rel="next" title="librosa.feature.stack_memory" href="librosa.feature.stack_memory.html" />
-    <link rel="prev" title="librosa.feature.tempogram" href="librosa.feature.tempogram.html" /> 
+    <link rel="prev" title="librosa.feature.fourier_tempogram" href="librosa.feature.fourier_tempogram.html" /> 
 </head>
 
 <body class="wy-body-for-nav">
@@ -72,7 +72,7 @@
             
             
               <div class="version">
-                0.6
+                0.7
               </div>
             
           
@@ -111,6 +111,7 @@
 <li class="toctree-l3"><a class="reference internal" href="librosa.feature.stack_memory.html">librosa.feature.stack_memory</a></li>
 </ul>
 </li>
+<li class="toctree-l2"><a class="reference internal" href="../feature.html#feature-inversion">Feature inversion</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="../onset.html">Onset detection</a></li>
@@ -207,7 +208,7 @@
 <h1>librosa.feature.delta<a class="headerlink" href="#librosa-feature-delta" title="Permalink to this headline">¶</a></h1>
 <dl class="function">
 <dt id="librosa.feature.delta">
-<code class="descclassname">librosa.feature.</code><code class="descname">delta</code><span class="sig-paren">(</span><em>data</em>, <em>width=9</em>, <em>order=1</em>, <em>axis=-1</em>, <em>trim=&lt;DEPRECATED parameter&gt;</em>, <em>mode='interp'</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/librosa/feature/utils.html#delta"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#librosa.feature.delta" title="Permalink to this definition">¶</a></dt>
+<code class="descclassname">librosa.feature.</code><code class="descname">delta</code><span class="sig-paren">(</span><em>data</em>, <em>width=9</em>, <em>order=1</em>, <em>axis=-1</em>, <em>mode='interp'</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/librosa/feature/utils.html#delta"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#librosa.feature.delta" title="Permalink to this definition">¶</a></dt>
 <dd><p>Compute delta features: local estimate of the derivative
 of the input data along the selected axis.</p>
 <p>Delta features are computed Savitsky-Golay filtering.</p>
@@ -232,15 +233,11 @@ If <em class="xref py py-obj">mode=’interp’</em>, then <em class="xref py py
 <dd><p class="first last">the axis along which to compute deltas.
 Default is -1 (columns).</p>
 </dd>
-<dt><strong>trim</strong> <span class="classifier-delimiter">:</span> <span class="classifier">bool [DEPRECATED]</span></dt>
-<dd><p class="first last">This parameter is deprecated in 0.6.0 and will be removed
-in 0.7.0.</p>
-</dd>
 <dt><strong>mode</strong> <span class="classifier-delimiter">:</span> <span class="classifier">str, {‘interp’, ‘nearest’, ‘mirror’, ‘constant’, ‘wrap’}</span></dt>
 <dd><p class="first last">Padding mode for estimating differences at the boundaries.</p>
 </dd>
 <dt><strong>kwargs</strong> <span class="classifier-delimiter">:</span> <span class="classifier">additional keyword arguments</span></dt>
-<dd><p class="first last">See <a class="reference external" href="https://docs.scipy.org/doc/scipy/reference/generated/scipy.signal.savgol_filter.html#scipy.signal.savgol_filter" title="(in SciPy v1.2.1)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">scipy.signal.savgol_filter</span></code></a></p>
+<dd><p class="first last">See <a class="reference external" href="https://docs.scipy.org/doc/scipy/reference/generated/scipy.signal.savgol_filter.html#scipy.signal.savgol_filter" title="(in SciPy v1.3.0)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">scipy.signal.savgol_filter</span></code></a></p>
 </dd>
 </dl>
 </td>
@@ -256,7 +253,10 @@ in 0.7.0.</p>
 </table>
 <div class="admonition seealso">
 <p class="first admonition-title">See also</p>
-<p class="last"><a class="reference external" href="https://docs.scipy.org/doc/scipy/reference/generated/scipy.signal.savgol_filter.html#scipy.signal.savgol_filter" title="(in SciPy v1.2.1)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">scipy.signal.savgol_filter</span></code></a></p>
+<dl class="last docutils">
+<dt><a class="reference external" href="https://docs.scipy.org/doc/scipy/reference/generated/scipy.signal.savgol_filter.html#scipy.signal.savgol_filter" title="(in SciPy v1.3.0)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">scipy.signal.savgol_filter</span></code></a></dt>
+<dd></dd>
+</dl>
 </div>
 <p class="rubric">Notes</p>
 <p>This function caches at level 40.</p>
@@ -296,6 +296,7 @@ in 0.7.0.</p>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="sa">r</span><span class="s1">&#39;MFCC-$\Delta^2$&#39;</span><span class="p">)</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">plt</span><span class="o">.</span><span class="n">colorbar</span><span class="p">()</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">plt</span><span class="o">.</span><span class="n">tight_layout</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
 </pre></div>
 </div>
 <p>(<a class="reference external" href="../generated/librosa-feature-delta-1.py">Source code</a>)</p>
@@ -317,7 +318,7 @@ in 0.7.0.</p>
         <a href="librosa.feature.stack_memory.html" class="btn btn-neutral float-right" title="librosa.feature.stack_memory" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
       
       
-        <a href="librosa.feature.tempogram.html" class="btn btn-neutral float-left" title="librosa.feature.tempogram" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+        <a href="librosa.feature.fourier_tempogram.html" class="btn btn-neutral float-left" title="librosa.feature.fourier_tempogram" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
       
     </div>
   
@@ -344,7 +345,7 @@ in 0.7.0.</p>
 <div class="rst-versions" data-toggle="rst-versions" role="note" aria-label="versions">
     <span class="rst-current-version" data-toggle="rst-current-version">
         <span class="fa fa-book"> Other Versions</span>
-        v: 0.6.3
+        v: 0.7.0rc1
         <span class="fa fa-caret-down"></span>
     </span>
     <div class="rst-other-versions">
@@ -359,15 +360,13 @@ in 0.7.0.</p>
             <dd><a href="../0.6.1/generated/librosa.feature.delta.html">0.6.1</a></dd>
             <dd><a href="../0.6.2/generated/librosa.feature.delta.html">0.6.2</a></dd>
             <dd><a href="../0.6.3/generated/librosa.feature.delta.html">0.6.3</a></dd>
+            <dd><a href="../0.7.0rc1/generated/librosa.feature.delta.html">0.7.0rc1</a></dd>
             <dd><a href="../v0.1.0/index.html">v0.1.0</a></dd>
             <dd><a href="../v0.4.0/index.html">v0.4.0</a></dd>
         </dl>
         <dl>
             <dt>Branches</dt>
-            <dd><a href="../display-bin-centering/generated/librosa.feature.delta.html">display-bin-centering</a></dd>
             <dd><a href="../master/generated/librosa.feature.delta.html">master</a></dd>
-            <dd><a href="../mpl-test-2.1/generated/librosa.feature.delta.html">mpl-test-2.1</a></dd>
-            <dd><a href="../runnning/generated/librosa.feature.delta.html">runnning</a></dd>
         </dl>
     </div>
 </div>

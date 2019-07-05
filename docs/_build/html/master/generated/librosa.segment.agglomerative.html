@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>librosa.segment.agglomerative &mdash; librosa 0.6.3 documentation</title>
+  <title>librosa.segment.agglomerative &mdash; librosa 0.7.0rc1 documentation</title>
   
 
   
@@ -23,7 +23,7 @@
       <script type="text/javascript">
           var DOCUMENTATION_OPTIONS = {
               URL_ROOT:'../',
-              VERSION:'0.6.3',
+              VERSION:'0.7.0rc1',
               LANGUAGE:'None',
               COLLAPSE_INDEX:false,
               FILE_SUFFIX:'.html',
@@ -48,7 +48,7 @@
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
     <link rel="next" title="librosa.segment.subsegment" href="librosa.segment.subsegment.html" />
-    <link rel="prev" title="librosa.segment.timelag_filter" href="librosa.segment.timelag_filter.html" /> 
+    <link rel="prev" title="librosa.segment.path_enhance" href="librosa.segment.path_enhance.html" /> 
 </head>
 
 <body class="wy-body-for-nav">
@@ -72,7 +72,7 @@
             
             
               <div class="version">
-                0.6
+                0.7
               </div>
             
           
@@ -204,7 +204,7 @@
 
 
 
-    <p class="scv-banner scv-sphinx_rtd_theme"><a href="../../0.6.3/generated/librosa.segment.agglomerative.html"><b>Warning:</b> This document is for the development version of librosa. The latest version is 0.6.3.</a></p>
+    <p class="scv-banner scv-sphinx_rtd_theme"><a href="../../0.7.0rc1/generated/librosa.segment.agglomerative.html"><b>Warning:</b> This document is for the development version of librosa. The latest version is 0.7.0rc1.</a></p>
 <div class="section" id="librosa-segment-agglomerative">
 <h1>librosa.segment.agglomerative<a class="headerlink" href="#librosa-segment-agglomerative" title="Permalink to this headline">¶</a></h1>
 <dl class="function">
@@ -247,7 +247,10 @@ will always include <em class="xref py py-obj">0</em> as the first left-boundary
 </table>
 <div class="admonition seealso">
 <p class="first admonition-title">See also</p>
-<p class="last"><a class="reference external" href="https://scikit-learn.org/stable/modules/generated/sklearn.cluster.AgglomerativeClustering.html#sklearn.cluster.AgglomerativeClustering" title="(in scikit-learn v0.20.2)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">sklearn.cluster.AgglomerativeClustering</span></code></a></p>
+<dl class="last docutils">
+<dt><a class="reference external" href="https://scikit-learn.org/stable/modules/generated/sklearn.cluster.AgglomerativeClustering.html#sklearn.cluster.AgglomerativeClustering" title="(in scikit-learn v0.21.2)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">sklearn.cluster.AgglomerativeClustering</span></code></a></dt>
+<dd></dd>
+</dl>
 </div>
 <p class="rubric">Examples</p>
 <p>Cluster by chroma similarity, break into 20 segments</p>
@@ -272,6 +275,7 @@ will always include <em class="xref py py-obj">0</em> as the first left-boundary
 <span class="gp">&gt;&gt;&gt; </span><span class="n">plt</span><span class="o">.</span><span class="n">legend</span><span class="p">(</span><span class="n">frameon</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">shadow</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s1">&#39;Power spectrogram&#39;</span><span class="p">)</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">plt</span><span class="o">.</span><span class="n">tight_layout</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
 </pre></div>
 </div>
 <p>(<a class="reference external" href="../generated/librosa-segment-agglomerative-1.py">Source code</a>)</p>
@@ -293,7 +297,7 @@ will always include <em class="xref py py-obj">0</em> as the first left-boundary
         <a href="librosa.segment.subsegment.html" class="btn btn-neutral float-right" title="librosa.segment.subsegment" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
       
       
-        <a href="librosa.segment.timelag_filter.html" class="btn btn-neutral float-left" title="librosa.segment.timelag_filter" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+        <a href="librosa.segment.path_enhance.html" class="btn btn-neutral float-left" title="librosa.segment.path_enhance" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
       
     </div>
   
@@ -335,15 +339,13 @@ will always include <em class="xref py py-obj">0</em> as the first left-boundary
             <dd><a href="../../0.6.1/generated/librosa.segment.agglomerative.html">0.6.1</a></dd>
             <dd><a href="../../0.6.2/generated/librosa.segment.agglomerative.html">0.6.2</a></dd>
             <dd><a href="../../0.6.3/generated/librosa.segment.agglomerative.html">0.6.3</a></dd>
+            <dd><a href="../../0.7.0rc1/generated/librosa.segment.agglomerative.html">0.7.0rc1</a></dd>
             <dd><a href="../../v0.1.0/index.html">v0.1.0</a></dd>
             <dd><a href="../../v0.4.0/index.html">v0.4.0</a></dd>
         </dl>
         <dl>
             <dt>Branches</dt>
-            <dd><a href="../../display-bin-centering/generated/librosa.segment.agglomerative.html">display-bin-centering</a></dd>
             <dd><a href="librosa.segment.agglomerative.html">master</a></dd>
-            <dd><a href="../../mpl-test-2.1/generated/librosa.segment.agglomerative.html">mpl-test-2.1</a></dd>
-            <dd><a href="../../runnning/generated/librosa.segment.agglomerative.html">runnning</a></dd>
         </dl>
     </div>
 </div>

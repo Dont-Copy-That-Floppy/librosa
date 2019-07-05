@@ -25,6 +25,7 @@ librosa.display.specshow(librosa.amplitude_to_db(np.abs(P),
 plt.colorbar(format='%+2.0f dB')
 plt.title('Percussive power spectrogram')
 plt.tight_layout()
+plt.show()
 
 # Or with a narrower horizontal filter
 

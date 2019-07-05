@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>librosa.feature.rms &mdash; librosa 0.6.3 documentation</title>
+  <title>librosa.feature.rms &mdash; librosa 0.7.0rc1 documentation</title>
   
 
   
@@ -23,7 +23,7 @@
       <script type="text/javascript">
           var DOCUMENTATION_OPTIONS = {
               URL_ROOT:'../',
-              VERSION:'0.6.3',
+              VERSION:'0.7.0rc1',
               LANGUAGE:'None',
               COLLAPSE_INDEX:false,
               FILE_SUFFIX:'.html',
@@ -47,7 +47,7 @@
   <link rel="stylesheet" href="../_static/banner.css" type="text/css" />
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
-    <link rel="next" title="librosa.feature.rmse" href="librosa.feature.rmse.html" />
+    <link rel="next" title="librosa.feature.spectral_centroid" href="librosa.feature.spectral_centroid.html" />
     <link rel="prev" title="librosa.feature.mfcc" href="librosa.feature.mfcc.html" /> 
 </head>
 
@@ -72,7 +72,7 @@
             
             
               <div class="version">
-                0.6
+                0.7
               </div>
             
           
@@ -111,7 +111,6 @@
 <li class="toctree-l3"><a class="reference internal" href="librosa.feature.melspectrogram.html">librosa.feature.melspectrogram</a></li>
 <li class="toctree-l3"><a class="reference internal" href="librosa.feature.mfcc.html">librosa.feature.mfcc</a></li>
 <li class="toctree-l3 current"><a class="current reference internal" href="#">librosa.feature.rms</a></li>
-<li class="toctree-l3"><a class="reference internal" href="librosa.feature.rmse.html">librosa.feature.rmse</a></li>
 <li class="toctree-l3"><a class="reference internal" href="librosa.feature.spectral_centroid.html">librosa.feature.spectral_centroid</a></li>
 <li class="toctree-l3"><a class="reference internal" href="librosa.feature.spectral_bandwidth.html">librosa.feature.spectral_bandwidth</a></li>
 <li class="toctree-l3"><a class="reference internal" href="librosa.feature.spectral_contrast.html">librosa.feature.spectral_contrast</a></li>
@@ -124,6 +123,7 @@
 </li>
 <li class="toctree-l2"><a class="reference internal" href="../feature.html#rhythm-features">Rhythm features</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../feature.html#feature-manipulation">Feature manipulation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../feature.html#feature-inversion">Feature inversion</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="../onset.html">Onset detection</a></li>
@@ -218,7 +218,7 @@
 
 
 
-    <p class="scv-banner scv-sphinx_rtd_theme"><a href="../../0.6.3/generated/librosa.feature.rms.html"><b>Warning:</b> This document is for the development version of librosa. The latest version is 0.6.3.</a></p>
+    <p class="scv-banner scv-sphinx_rtd_theme"><a href="../../0.7.0rc1/generated/librosa.feature.rms.html"><b>Warning:</b> This document is for the development version of librosa. The latest version is 0.7.0rc1.</a></p>
 <div class="section" id="librosa-feature-rms">
 <h1>librosa.feature.rms<a class="headerlink" href="#librosa-feature-rms" title="Permalink to this headline">¶</a></h1>
 <dl class="function">
@@ -285,7 +285,7 @@ values.</p>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">plt</span><span class="o">.</span><span class="n">semilogy</span><span class="p">(</span><span class="n">rms</span><span class="o">.</span><span class="n">T</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;RMS Energy&#39;</span><span class="p">)</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">plt</span><span class="o">.</span><span class="n">xticks</span><span class="p">([])</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">plt</span><span class="o">.</span><span class="n">xlim</span><span class="p">([</span><span class="mi">0</span><span class="p">,</span> <span class="n">rms</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]])</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">plt</span><span class="o">.</span><span class="n">legend</span><span class="p">(</span><span class="n">loc</span><span class="o">=</span><span class="s1">&#39;best&#39;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">plt</span><span class="o">.</span><span class="n">legend</span><span class="p">()</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">plt</span><span class="o">.</span><span class="n">subplot</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">librosa</span><span class="o">.</span><span class="n">display</span><span class="o">.</span><span class="n">specshow</span><span class="p">(</span><span class="n">librosa</span><span class="o">.</span><span class="n">amplitude_to_db</span><span class="p">(</span><span class="n">S</span><span class="p">,</span> <span class="n">ref</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">max</span><span class="p">),</span>
 <span class="gp">... </span>                         <span class="n">y_axis</span><span class="o">=</span><span class="s1">&#39;log&#39;</span><span class="p">,</span> <span class="n">x_axis</span><span class="o">=</span><span class="s1">&#39;time&#39;</span><span class="p">)</span>
@@ -297,6 +297,7 @@ values.</p>
 results with the RMS computed from the audio samples <em class="xref py py-obj">y</em></p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">S</span> <span class="o">=</span> <span class="n">librosa</span><span class="o">.</span><span class="n">magphase</span><span class="p">(</span><span class="n">librosa</span><span class="o">.</span><span class="n">stft</span><span class="p">(</span><span class="n">y</span><span class="p">,</span> <span class="n">window</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">ones</span><span class="p">,</span> <span class="n">center</span><span class="o">=</span><span class="kc">False</span><span class="p">))[</span><span class="mi">0</span><span class="p">]</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">librosa</span><span class="o">.</span><span class="n">feature</span><span class="o">.</span><span class="n">rms</span><span class="p">(</span><span class="n">S</span><span class="o">=</span><span class="n">S</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
 </pre></div>
 </div>
 <p>(<a class="reference external" href="../generated/librosa-feature-rms-1.py">Source code</a>)</p>
@@ -315,7 +316,7 @@ results with the RMS computed from the audio samples <em class="xref py py-obj">
   
     <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
       
-        <a href="librosa.feature.rmse.html" class="btn btn-neutral float-right" title="librosa.feature.rmse" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+        <a href="librosa.feature.spectral_centroid.html" class="btn btn-neutral float-right" title="librosa.feature.spectral_centroid" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
       
       
         <a href="librosa.feature.mfcc.html" class="btn btn-neutral float-left" title="librosa.feature.mfcc" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
@@ -360,15 +361,13 @@ results with the RMS computed from the audio samples <em class="xref py py-obj">
             <dd><a href="../../0.6.1/index.html">0.6.1</a></dd>
             <dd><a href="../../0.6.2/index.html">0.6.2</a></dd>
             <dd><a href="../../0.6.3/generated/librosa.feature.rms.html">0.6.3</a></dd>
+            <dd><a href="../../0.7.0rc1/generated/librosa.feature.rms.html">0.7.0rc1</a></dd>
             <dd><a href="../../v0.1.0/index.html">v0.1.0</a></dd>
             <dd><a href="../../v0.4.0/index.html">v0.4.0</a></dd>
         </dl>
         <dl>
             <dt>Branches</dt>
-            <dd><a href="../../display-bin-centering/index.html">display-bin-centering</a></dd>
             <dd><a href="librosa.feature.rms.html">master</a></dd>
-            <dd><a href="../../mpl-test-2.1/index.html">mpl-test-2.1</a></dd>
-            <dd><a href="../../runnning/index.html">runnning</a></dd>
         </dl>
     </div>
 </div>

@@ -18,6 +18,7 @@ librosa.display.LogHzFormatter
       ~LogHzFormatter.fix_minus
       ~LogHzFormatter.format_data
       ~LogHzFormatter.format_data_short
+      ~LogHzFormatter.format_ticks
       ~LogHzFormatter.get_offset
       ~LogHzFormatter.set_axis
       ~LogHzFormatter.set_bounds

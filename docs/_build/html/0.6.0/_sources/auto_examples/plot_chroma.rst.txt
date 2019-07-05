@@ -24,8 +24,7 @@ enhancements:
     4. Local median filtering to suppress remaining discontinuities.
 
 
-
-.. code-block:: python
+.. code-block:: default
 
 
     # Code source: Brian McFee
@@ -50,8 +49,7 @@ enhancements:
 We'll use a track that has harmonic, melodic, and percussive elements
 
 
-
-.. code-block:: python
+.. code-block:: default
 
     y, sr = librosa.load('audio/Karissa_Hobbs_-_09_-_Lets_Go_Fishin.mp3')
 
@@ -65,8 +63,7 @@ We'll use a track that has harmonic, melodic, and percussive elements
 First, let's plot the original chroma
 
 
-
-.. code-block:: python
+.. code-block:: default
 
     chroma_orig = librosa.feature.chroma_cqt(y=y, sr=sr)
 
@@ -96,14 +93,26 @@ First, let's plot the original chroma
     :class: sphx-glr-single-img
 
 
+.. rst-class:: sphx-glr-script-out
+
+ Out:
+
+ .. code-block:: none
+
+    /tmp/tmpqeredvposphinxcontrib_versioning/eedd4a0027ed5d2f1915b4b580b531d35119e421/librosa/util/utils.py:1005: FutureWarning: Using a non-tuple sequence for multidimensional indexing is deprecated; use `arr[tuple(seq)]` instead of `arr[seq]`. In the future this will be interpreted as an array index, `arr[np.array(seq)]`, which will result either in an error or a different result.
+      return (x > x_pad[inds1]) & (x >= x_pad[inds2])
+    /tmp/tmpqeredvposphinxcontrib_versioning/eedd4a0027ed5d2f1915b4b580b531d35119e421/docs/examples/plot_chroma.py:51: FutureWarning: Using a non-tuple sequence for multidimensional indexing is deprecated; use `arr[tuple(seq)]` instead of `arr[seq]`. In the future this will be interpreted as an array index, `arr[np.array(seq)]`, which will result either in an error or a different result.
+      librosa.display.specshow(librosa.amplitude_to_db(C, ref=np.max)[idx],
+    /tmp/tmpqeredvposphinxcontrib_versioning/eedd4a0027ed5d2f1915b4b580b531d35119e421/docs/examples/plot_chroma.py:55: FutureWarning: Using a non-tuple sequence for multidimensional indexing is deprecated; use `arr[tuple(seq)]` instead of `arr[seq]`. In the future this will be interpreted as an array index, `arr[np.array(seq)]`, which will result either in an error or a different result.
+      librosa.display.specshow(chroma_orig[idx], y_axis='chroma')
+
 
 
 We can correct for minor tuning deviations by using 3 CQT
 bins per semi-tone, instead of one
 
 
-
-.. code-block:: python
+.. code-block:: default
 
     chroma_os = librosa.feature.chroma_cqt(y=y, sr=sr, bins_per_octave=12*3)
 
@@ -130,6 +139,17 @@ bins per semi-tone, instead of one
     :class: sphx-glr-single-img
 
 
+.. rst-class:: sphx-glr-script-out
+
+ Out:
+
+ .. code-block:: none
+
+    /tmp/tmpqeredvposphinxcontrib_versioning/eedd4a0027ed5d2f1915b4b580b531d35119e421/docs/examples/plot_chroma.py:70: FutureWarning: Using a non-tuple sequence for multidimensional indexing is deprecated; use `arr[tuple(seq)]` instead of `arr[seq]`. In the future this will be interpreted as an array index, `arr[np.array(seq)]`, which will result either in an error or a different result.
+      librosa.display.specshow(chroma_orig[idx], y_axis='chroma')
+    /tmp/tmpqeredvposphinxcontrib_versioning/eedd4a0027ed5d2f1915b4b580b531d35119e421/docs/examples/plot_chroma.py:76: FutureWarning: Using a non-tuple sequence for multidimensional indexing is deprecated; use `arr[tuple(seq)]` instead of `arr[seq]`. In the future this will be interpreted as an array index, `arr[np.array(seq)]`, which will result either in an error or a different result.
+      librosa.display.specshow(chroma_os[idx], y_axis='chroma', x_axis='time')
+
 
 
 That cleaned up some rough edges, but we can do better
@@ -137,8 +157,7 @@ by isolating the harmonic component.
 We'll use a large margin for separating harmonics from percussives
 
 
-
-.. code-block:: python
+.. code-block:: default
 
     y_harm = librosa.effects.harmonic(y=y, margin=8)
     chroma_os_harm = librosa.feature.chroma_cqt(y=y_harm, sr=sr, bins_per_octave=12*3)
@@ -165,6 +184,19 @@ We'll use a large margin for separating harmonics from percussives
     :class: sphx-glr-single-img
 
 
+.. rst-class:: sphx-glr-script-out
+
+ Out:
+
+ .. code-block:: none
+
+    /tmp/tmpqeredvposphinxcontrib_versioning/eedd4a0027ed5d2f1915b4b580b531d35119e421/librosa/util/utils.py:1005: FutureWarning: Using a non-tuple sequence for multidimensional indexing is deprecated; use `arr[tuple(seq)]` instead of `arr[seq]`. In the future this will be interpreted as an array index, `arr[np.array(seq)]`, which will result either in an error or a different result.
+      return (x > x_pad[inds1]) & (x >= x_pad[inds2])
+    /tmp/tmpqeredvposphinxcontrib_versioning/eedd4a0027ed5d2f1915b4b580b531d35119e421/docs/examples/plot_chroma.py:93: FutureWarning: Using a non-tuple sequence for multidimensional indexing is deprecated; use `arr[tuple(seq)]` instead of `arr[seq]`. In the future this will be interpreted as an array index, `arr[np.array(seq)]`, which will result either in an error or a different result.
+      librosa.display.specshow(chroma_os[idx], y_axis='chroma')
+    /tmp/tmpqeredvposphinxcontrib_versioning/eedd4a0027ed5d2f1915b4b580b531d35119e421/docs/examples/plot_chroma.py:98: FutureWarning: Using a non-tuple sequence for multidimensional indexing is deprecated; use `arr[tuple(seq)]` instead of `arr[seq]`. In the future this will be interpreted as an array index, `arr[np.array(seq)]`, which will result either in an error or a different result.
+      librosa.display.specshow(chroma_os_harm[idx], y_axis='chroma', x_axis='time')
+
 
 
 There's still some noise in there though.
@@ -172,8 +204,7 @@ We can clean it up using non-local filtering.
 This effectively removes any sparse additive noise from the features.
 
 
-
-.. code-block:: python
+.. code-block:: default
 
     chroma_filter = np.minimum(chroma_os_harm,
                                librosa.decompose.nn_filter(chroma_os_harm,
@@ -202,14 +233,24 @@ This effectively removes any sparse additive noise from the features.
     :class: sphx-glr-single-img
 
 
+.. rst-class:: sphx-glr-script-out
+
+ Out:
+
+ .. code-block:: none
+
+    /tmp/tmpqeredvposphinxcontrib_versioning/eedd4a0027ed5d2f1915b4b580b531d35119e421/docs/examples/plot_chroma.py:117: FutureWarning: Using a non-tuple sequence for multidimensional indexing is deprecated; use `arr[tuple(seq)]` instead of `arr[seq]`. In the future this will be interpreted as an array index, `arr[np.array(seq)]`, which will result either in an error or a different result.
+      librosa.display.specshow(chroma_os_harm[idx], y_axis='chroma')
+    /tmp/tmpqeredvposphinxcontrib_versioning/eedd4a0027ed5d2f1915b4b580b531d35119e421/docs/examples/plot_chroma.py:122: FutureWarning: Using a non-tuple sequence for multidimensional indexing is deprecated; use `arr[tuple(seq)]` instead of `arr[seq]`. In the future this will be interpreted as an array index, `arr[np.array(seq)]`, which will result either in an error or a different result.
+      librosa.display.specshow(chroma_filter[idx], y_axis='chroma', x_axis='time')
+
 
 
 Local discontinuities and transients can be suppressed by
 using a horizontal median filter.
 
 
-
-.. code-block:: python
+.. code-block:: default
 
     chroma_smooth = scipy.ndimage.median_filter(chroma_filter, size=(1, 9))
 
@@ -235,14 +276,24 @@ using a horizontal median filter.
     :class: sphx-glr-single-img
 
 
+.. rst-class:: sphx-glr-script-out
+
+ Out:
+
+ .. code-block:: none
+
+    /tmp/tmpqeredvposphinxcontrib_versioning/eedd4a0027ed5d2f1915b4b580b531d35119e421/docs/examples/plot_chroma.py:137: FutureWarning: Using a non-tuple sequence for multidimensional indexing is deprecated; use `arr[tuple(seq)]` instead of `arr[seq]`. In the future this will be interpreted as an array index, `arr[np.array(seq)]`, which will result either in an error or a different result.
+      librosa.display.specshow(chroma_filter[idx], y_axis='chroma')
+    /tmp/tmpqeredvposphinxcontrib_versioning/eedd4a0027ed5d2f1915b4b580b531d35119e421/docs/examples/plot_chroma.py:142: FutureWarning: Using a non-tuple sequence for multidimensional indexing is deprecated; use `arr[tuple(seq)]` instead of `arr[seq]`. In the future this will be interpreted as an array index, `arr[np.array(seq)]`, which will result either in an error or a different result.
+      librosa.display.specshow(chroma_smooth[idx], y_axis='chroma', x_axis='time')
+
 
 
 A final comparison between the CQT, original chromagram
 and the result of our filtering.
 
 
-
-.. code-block:: python
+.. code-block:: default
 
     plt.figure(figsize=(12, 8))
     plt.subplot(3, 1, 1)
@@ -267,9 +318,27 @@ and the result of our filtering.
     :class: sphx-glr-single-img
 
 
+.. rst-class:: sphx-glr-script-out
+
+ Out:
+
+ .. code-block:: none
+
+    /tmp/tmpqeredvposphinxcontrib_versioning/eedd4a0027ed5d2f1915b4b580b531d35119e421/docs/examples/plot_chroma.py:153: FutureWarning: Using a non-tuple sequence for multidimensional indexing is deprecated; use `arr[tuple(seq)]` instead of `arr[seq]`. In the future this will be interpreted as an array index, `arr[np.array(seq)]`, which will result either in an error or a different result.
+      librosa.display.specshow(librosa.amplitude_to_db(C, ref=np.max)[idx],
+    /tmp/tmpqeredvposphinxcontrib_versioning/eedd4a0027ed5d2f1915b4b580b531d35119e421/docs/examples/plot_chroma.py:158: FutureWarning: Using a non-tuple sequence for multidimensional indexing is deprecated; use `arr[tuple(seq)]` instead of `arr[seq]`. In the future this will be interpreted as an array index, `arr[np.array(seq)]`, which will result either in an error or a different result.
+      librosa.display.specshow(chroma_orig[idx], y_axis='chroma')
+    /tmp/tmpqeredvposphinxcontrib_versioning/eedd4a0027ed5d2f1915b4b580b531d35119e421/docs/examples/plot_chroma.py:162: FutureWarning: Using a non-tuple sequence for multidimensional indexing is deprecated; use `arr[tuple(seq)]` instead of `arr[seq]`. In the future this will be interpreted as an array index, `arr[np.array(seq)]`, which will result either in an error or a different result.
+      librosa.display.specshow(chroma_smooth[idx], y_axis='chroma', x_axis='time')
+    /tmp/tmpqeredvposphinxcontrib_versioning/eedd4a0027ed5d2f1915b4b580b531d35119e421/docs/examples/plot_chroma.py:166: UserWarning: Matplotlib is currently using agg, which is a non-GUI backend, so cannot show the figure.
+      plt.show()
 
 
-**Total running time of the script:** ( 0 minutes  24.925 seconds)
+
+
+.. rst-class:: sphx-glr-timing
+
+   **Total running time of the script:** ( 0 minutes  26.798 seconds)
 
 
 .. _sphx_glr_download_auto_examples_plot_chroma.py:
@@ -297,4 +366,4 @@ and the result of our filtering.
 
  .. rst-class:: sphx-glr-signature
 
-    `Gallery generated by Sphinx-Gallery <https://sphinx-gallery.readthedocs.io>`_
+    `Gallery generated by Sphinx-Gallery <https://sphinx-gallery.github.io>`_

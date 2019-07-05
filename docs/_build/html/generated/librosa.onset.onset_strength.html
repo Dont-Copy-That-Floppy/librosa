@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>librosa.onset.onset_strength &mdash; librosa 0.6.3 documentation</title>
+  <title>librosa.onset.onset_strength &mdash; librosa 0.7.0rc1 documentation</title>
   
 
   
@@ -23,7 +23,7 @@
       <script type="text/javascript">
           var DOCUMENTATION_OPTIONS = {
               URL_ROOT:'../',
-              VERSION:'0.6.3',
+              VERSION:'0.7.0rc1',
               LANGUAGE:'None',
               COLLAPSE_INDEX:false,
               FILE_SUFFIX:'.html',
@@ -72,7 +72,7 @@
             
             
               <div class="version">
-                0.6
+                0.7
               </div>
             
           
@@ -204,11 +204,11 @@
 <h1>librosa.onset.onset_strength<a class="headerlink" href="#librosa-onset-onset-strength" title="Permalink to this headline">¶</a></h1>
 <dl class="function">
 <dt id="librosa.onset.onset_strength">
-<code class="descclassname">librosa.onset.</code><code class="descname">onset_strength</code><span class="sig-paren">(</span><em>y=None</em>, <em>sr=22050</em>, <em>S=None</em>, <em>lag=1</em>, <em>max_size=1</em>, <em>detrend=False</em>, <em>center=True</em>, <em>feature=None</em>, <em>aggregate=None</em>, <em>centering=None</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/librosa/onset.html#onset_strength"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#librosa.onset.onset_strength" title="Permalink to this definition">¶</a></dt>
+<code class="descclassname">librosa.onset.</code><code class="descname">onset_strength</code><span class="sig-paren">(</span><em>y=None</em>, <em>sr=22050</em>, <em>S=None</em>, <em>lag=1</em>, <em>max_size=1</em>, <em>ref=None</em>, <em>detrend=False</em>, <em>center=True</em>, <em>feature=None</em>, <em>aggregate=None</em>, <em>centering=None</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/librosa/onset.html#onset_strength"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#librosa.onset.onset_strength" title="Permalink to this definition">¶</a></dt>
 <dd><p>Compute a spectral flux onset strength envelope.</p>
 <p>Onset strength at time <em class="xref py py-obj">t</em> is determined by:</p>
-<p><em class="xref py py-obj">mean_f max(0, S[f, t] - ref_S[f, t - lag])</em></p>
-<p>where <em class="xref py py-obj">ref_S</em> is <em class="xref py py-obj">S</em> after local max filtering along the frequency
+<p><em class="xref py py-obj">mean_f max(0, S[f, t] - ref[f, t - lag])</em></p>
+<p>where <em class="xref py py-obj">ref</em> is <em class="xref py py-obj">S</em> after local max filtering along the frequency
 axis <a class="reference internal" href="#rf1e36440b8a9-1" id="id1">[1]</a>.</p>
 <p>By default, if a time series <em class="xref py py-obj">y</em> is provided, S will be the
 log-power Mel spectrogram.</p>
@@ -242,6 +242,11 @@ Maynooth, Ireland. 2013.</td></tr>
 <dd><p class="first last">size (in frequency bins) of the local max filter.
 set to <em class="xref py py-obj">1</em> to disable filtering.</p>
 </dd>
+<dt><strong>ref</strong> <span class="classifier-delimiter">:</span> <span class="classifier">None or np.ndarray [shape=(d, m)]</span></dt>
+<dd><p class="first last">An optional pre-computed reference spectrum, of the same shape as <em class="xref py py-obj">S</em>.
+If not provided, it will be computed from <em class="xref py py-obj">S</em>.
+If provided, it will override any local max filtering governed by <em class="xref py py-obj">max_size</em>.</p>
+</dd>
 <dt><strong>detrend</strong> <span class="classifier-delimiter">:</span> <span class="classifier">bool [scalar]</span></dt>
 <dd><p class="first last">Filter the onset strength to remove the DC component</p>
 </dd>
@@ -271,7 +276,7 @@ at different frequency bins.</p>
 </td>
 </tr>
 <tr class="field-odd field"><th class="field-name">Raises:</th><td class="field-body"><dl class="first last docutils">
-<dt><strong>ParameterError</strong></dt>
+<dt>ParameterError</dt>
 <dd><p class="first">if neither <em class="xref py py-obj">(y, sr)</em> nor <em class="xref py py-obj">S</em> are provided</p>
 <p class="last">or if <em class="xref py py-obj">lag</em> or <em class="xref py py-obj">max_size</em> are not positive integers</p>
 </dd>
@@ -282,7 +287,12 @@ at different frequency bins.</p>
 </table>
 <div class="admonition seealso">
 <p class="first admonition-title">See also</p>
-<p class="last"><a class="reference internal" href="librosa.onset.onset_detect.html#librosa.onset.onset_detect" title="librosa.onset.onset_detect"><code class="xref py py-obj docutils literal notranslate"><span class="pre">onset_detect</span></code></a>, <a class="reference internal" href="librosa.onset.onset_strength_multi.html#librosa.onset.onset_strength_multi" title="librosa.onset.onset_strength_multi"><code class="xref py py-obj docutils literal notranslate"><span class="pre">onset_strength_multi</span></code></a></p>
+<dl class="last docutils">
+<dt><a class="reference internal" href="librosa.onset.onset_detect.html#librosa.onset.onset_detect" title="librosa.onset.onset_detect"><code class="xref py py-obj docutils literal notranslate"><span class="pre">onset_detect</span></code></a></dt>
+<dd></dd>
+<dt><a class="reference internal" href="librosa.onset.onset_strength_multi.html#librosa.onset.onset_strength_multi" title="librosa.onset.onset_strength_multi"><code class="xref py py-obj docutils literal notranslate"><span class="pre">onset_strength_multi</span></code></a></dt>
+<dd></dd>
+</dl>
 </div>
 <p class="rubric">Examples</p>
 <p>First, load some audio and plot the spectrogram</p>
@@ -323,6 +333,7 @@ at different frequency bins.</p>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">plt</span><span class="o">.</span><span class="n">yticks</span><span class="p">([])</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">plt</span><span class="o">.</span><span class="n">axis</span><span class="p">(</span><span class="s1">&#39;tight&#39;</span><span class="p">)</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">plt</span><span class="o">.</span><span class="n">tight_layout</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
 </pre></div>
 </div>
 <p>(<a class="reference external" href="../generated/librosa-onset-onset_strength-1.py">Source code</a>)</p>
@@ -371,7 +382,7 @@ at different frequency bins.</p>
 <div class="rst-versions" data-toggle="rst-versions" role="note" aria-label="versions">
     <span class="rst-current-version" data-toggle="rst-current-version">
         <span class="fa fa-book"> Other Versions</span>
-        v: 0.6.3
+        v: 0.7.0rc1
         <span class="fa fa-caret-down"></span>
     </span>
     <div class="rst-other-versions">
@@ -386,15 +397,13 @@ at different frequency bins.</p>
             <dd><a href="../0.6.1/generated/librosa.onset.onset_strength.html">0.6.1</a></dd>
             <dd><a href="../0.6.2/generated/librosa.onset.onset_strength.html">0.6.2</a></dd>
             <dd><a href="../0.6.3/generated/librosa.onset.onset_strength.html">0.6.3</a></dd>
+            <dd><a href="../0.7.0rc1/generated/librosa.onset.onset_strength.html">0.7.0rc1</a></dd>
             <dd><a href="../v0.1.0/index.html">v0.1.0</a></dd>
             <dd><a href="../v0.4.0/index.html">v0.4.0</a></dd>
         </dl>
         <dl>
             <dt>Branches</dt>
-            <dd><a href="../display-bin-centering/generated/librosa.onset.onset_strength.html">display-bin-centering</a></dd>
             <dd><a href="../master/generated/librosa.onset.onset_strength.html">master</a></dd>
-            <dd><a href="../mpl-test-2.1/generated/librosa.onset.onset_strength.html">mpl-test-2.1</a></dd>
-            <dd><a href="../runnning/generated/librosa.onset.onset_strength.html">runnning</a></dd>
         </dl>
     </div>
 </div>

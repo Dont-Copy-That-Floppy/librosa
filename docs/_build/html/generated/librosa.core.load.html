@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>librosa.core.load &mdash; librosa 0.6.3 documentation</title>
+  <title>librosa.core.load &mdash; librosa 0.7.0rc1 documentation</title>
   
 
   
@@ -23,7 +23,7 @@
       <script type="text/javascript">
           var DOCUMENTATION_OPTIONS = {
               URL_ROOT:'../',
-              VERSION:'0.6.3',
+              VERSION:'0.7.0rc1',
               LANGUAGE:'None',
               COLLAPSE_INDEX:false,
               FILE_SUFFIX:'.html',
@@ -47,7 +47,7 @@
   <link rel="stylesheet" href="../_static/banner.css" type="text/css" />
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
-    <link rel="next" title="librosa.core.to_mono" href="librosa.core.to_mono.html" />
+    <link rel="next" title="librosa.core.stream" href="librosa.core.stream.html" />
     <link rel="prev" title="Core IO and DSP" href="../core.html" /> 
 </head>
 
@@ -72,7 +72,7 @@
             
             
               <div class="version">
-                0.6
+                0.7
               </div>
             
           
@@ -104,10 +104,13 @@
 <li class="toctree-l1 current"><a class="reference internal" href="../core.html">Core IO and DSP</a><ul class="current">
 <li class="toctree-l2 current"><a class="reference internal" href="../core.html#audio-processing">Audio processing</a><ul class="current">
 <li class="toctree-l3 current"><a class="current reference internal" href="#">librosa.core.load</a></li>
+<li class="toctree-l3"><a class="reference internal" href="librosa.core.stream.html">librosa.core.stream</a></li>
 <li class="toctree-l3"><a class="reference internal" href="librosa.core.to_mono.html">librosa.core.to_mono</a></li>
 <li class="toctree-l3"><a class="reference internal" href="librosa.core.resample.html">librosa.core.resample</a></li>
 <li class="toctree-l3"><a class="reference internal" href="librosa.core.get_duration.html">librosa.core.get_duration</a></li>
+<li class="toctree-l3"><a class="reference internal" href="librosa.core.get_samplerate.html">librosa.core.get_samplerate</a></li>
 <li class="toctree-l3"><a class="reference internal" href="librosa.core.autocorrelate.html">librosa.core.autocorrelate</a></li>
+<li class="toctree-l3"><a class="reference internal" href="librosa.core.lpc.html">librosa.core.lpc</a></li>
 <li class="toctree-l3"><a class="reference internal" href="librosa.core.zero_crossings.html">librosa.core.zero_crossings</a></li>
 <li class="toctree-l3"><a class="reference internal" href="librosa.core.clicks.html">librosa.core.clicks</a></li>
 <li class="toctree-l3"><a class="reference internal" href="librosa.core.tone.html">librosa.core.tone</a></li>
@@ -118,7 +121,6 @@
 <li class="toctree-l2"><a class="reference internal" href="../core.html#magnitude-scaling">Magnitude scaling</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../core.html#time-and-frequency-conversion">Time and frequency conversion</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../core.html#pitch-and-tuning">Pitch and tuning</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../core.html#deprecated-moved">Deprecated (moved)</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="../display.html">Display</a></li>
@@ -227,9 +229,14 @@
 <col class="field-body" />
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><dl class="first docutils">
-<dt><strong>path</strong> <span class="classifier-delimiter">:</span> <span class="classifier">string</span></dt>
+<dt><strong>path</strong> <span class="classifier-delimiter">:</span> <span class="classifier">string, int, or file-like object</span></dt>
 <dd><p class="first">path to the input file.</p>
-<p class="last">Any format supported by <code class="xref py py-obj docutils literal notranslate"><span class="pre">audioread</span></code> will work.</p>
+<p>Any codec supported by <a class="reference external" href="https://pysoundfile.readthedocs.io/en/latest/index.html#module-soundfile" title="(in PySoundFile)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">soundfile</span></code></a> or <code class="xref py py-obj docutils literal notranslate"><span class="pre">audioread</span></code> will work.</p>
+<p>If the codec is supported by <a class="reference external" href="https://pysoundfile.readthedocs.io/en/latest/index.html#module-soundfile" title="(in PySoundFile)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">soundfile</span></code></a>, then <em class="xref py py-obj">path</em> can also be
+an open file descriptor (int), or any object implementing Python’s
+file interface.</p>
+<p class="last">If the codec is not supported by <a class="reference external" href="https://pysoundfile.readthedocs.io/en/latest/index.html#module-soundfile" title="(in PySoundFile)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">soundfile</span></code></a> (e.g., MP3), then only
+string file paths are supported.</p>
 </dd>
 <dt><strong>sr</strong> <span class="classifier-delimiter">:</span> <span class="classifier">number &gt; 0 [scalar]</span></dt>
 <dd><p class="first">target sampling rate</p>
@@ -252,13 +259,11 @@
 <div class="admonition note">
 <p class="first admonition-title">Note</p>
 <p>By default, this uses <a class="reference external" href="https://resampy.readthedocs.io/en/latest/api.html#module-resampy" title="(in resampy v0.2)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">resampy</span></code></a>’s high-quality mode (‘kaiser_best’).</p>
-<p>To use a faster method, set <em class="xref py py-obj">res_type=’kaiser_fast’</em>.</p>
-<p class="last">To use <a class="reference external" href="https://docs.scipy.org/doc/scipy/reference/generated/scipy.signal.resample.html#scipy.signal.resample" title="(in SciPy v1.2.1)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">scipy.signal.resample</span></code></a>, set <em class="xref py py-obj">res_type=’scipy’</em>.</p>
+<p class="last">For alternative resampling modes, see <a class="reference internal" href="librosa.core.resample.html#librosa.core.resample" title="librosa.core.resample"><code class="xref py py-obj docutils literal notranslate"><span class="pre">resample</span></code></a></p>
 </div>
 <div class="last admonition note">
 <p class="first admonition-title">Note</p>
-<p>This uses <code class="xref py py-obj docutils literal notranslate"><span class="pre">audioread</span></code>, which may truncate the precision of the
-audio data to 16 bits.</p>
+<p><code class="xref py py-obj docutils literal notranslate"><span class="pre">audioread</span></code> may truncate the precision of the audio data to 16 bits.</p>
 <p class="last">See <a class="reference external" href="https://librosa.github.io/librosa/ioformats.html">https://librosa.github.io/librosa/ioformats.html</a> for alternate
 loading methods.</p>
 </div>
@@ -279,7 +284,7 @@ loading methods.</p>
 </tbody>
 </table>
 <p class="rubric">Examples</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="c1"># Load a wav file</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="c1"># Load an ogg vorbis file</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">filename</span> <span class="o">=</span> <span class="n">librosa</span><span class="o">.</span><span class="n">util</span><span class="o">.</span><span class="n">example_audio_file</span><span class="p">()</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">y</span><span class="p">,</span> <span class="n">sr</span> <span class="o">=</span> <span class="n">librosa</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">filename</span><span class="p">)</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">y</span>
@@ -288,7 +293,7 @@ loading methods.</p>
 <span class="go">22050</span>
 </pre></div>
 </div>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="c1"># Load a wav file and resample to 11 KHz</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="c1"># Load a file and resample to 11 KHz</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">filename</span> <span class="o">=</span> <span class="n">librosa</span><span class="o">.</span><span class="n">util</span><span class="o">.</span><span class="n">example_audio_file</span><span class="p">()</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">y</span><span class="p">,</span> <span class="n">sr</span> <span class="o">=</span> <span class="n">librosa</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">filename</span><span class="p">,</span> <span class="n">sr</span><span class="o">=</span><span class="mi">11025</span><span class="p">)</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">y</span>
@@ -297,7 +302,7 @@ loading methods.</p>
 <span class="go">11025</span>
 </pre></div>
 </div>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="c1"># Load 5 seconds of a wav file, starting 15 seconds in</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="c1"># Load 5 seconds of a file, starting 15 seconds in</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">filename</span> <span class="o">=</span> <span class="n">librosa</span><span class="o">.</span><span class="n">util</span><span class="o">.</span><span class="n">example_audio_file</span><span class="p">()</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">y</span><span class="p">,</span> <span class="n">sr</span> <span class="o">=</span> <span class="n">librosa</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">filename</span><span class="p">,</span> <span class="n">offset</span><span class="o">=</span><span class="mf">15.0</span><span class="p">,</span> <span class="n">duration</span><span class="o">=</span><span class="mf">5.0</span><span class="p">)</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">y</span>
@@ -318,7 +323,7 @@ loading methods.</p>
   
     <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
       
-        <a href="librosa.core.to_mono.html" class="btn btn-neutral float-right" title="librosa.core.to_mono" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+        <a href="librosa.core.stream.html" class="btn btn-neutral float-right" title="librosa.core.stream" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
       
       
         <a href="../core.html" class="btn btn-neutral float-left" title="Core IO and DSP" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
@@ -348,7 +353,7 @@ loading methods.</p>
 <div class="rst-versions" data-toggle="rst-versions" role="note" aria-label="versions">
     <span class="rst-current-version" data-toggle="rst-current-version">
         <span class="fa fa-book"> Other Versions</span>
-        v: 0.6.3
+        v: 0.7.0rc1
         <span class="fa fa-caret-down"></span>
     </span>
     <div class="rst-other-versions">
@@ -363,15 +368,13 @@ loading methods.</p>
             <dd><a href="../0.6.1/generated/librosa.core.load.html">0.6.1</a></dd>
             <dd><a href="../0.6.2/generated/librosa.core.load.html">0.6.2</a></dd>
             <dd><a href="../0.6.3/generated/librosa.core.load.html">0.6.3</a></dd>
+            <dd><a href="../0.7.0rc1/generated/librosa.core.load.html">0.7.0rc1</a></dd>
             <dd><a href="../v0.1.0/index.html">v0.1.0</a></dd>
             <dd><a href="../v0.4.0/index.html">v0.4.0</a></dd>
         </dl>
         <dl>
             <dt>Branches</dt>
-            <dd><a href="../display-bin-centering/generated/librosa.core.load.html">display-bin-centering</a></dd>
             <dd><a href="../master/generated/librosa.core.load.html">master</a></dd>
-            <dd><a href="../mpl-test-2.1/generated/librosa.core.load.html">mpl-test-2.1</a></dd>
-            <dd><a href="../runnning/generated/librosa.core.load.html">runnning</a></dd>
         </dl>
     </div>
 </div>

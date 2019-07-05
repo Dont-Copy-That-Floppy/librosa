@@ -27,3 +27,4 @@ plt.vlines(subseg_t, lims[0], lims[1], color='linen', linestyle='--',
 plt.legend(frameon=True, shadow=True)
 plt.title('CQT + Beat and sub-beat markers')
 plt.tight_layout()
+plt.show()

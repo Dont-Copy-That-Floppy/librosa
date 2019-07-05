@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>librosa.feature.utils &mdash; librosa 0.6.3 documentation</title>
+  <title>librosa.feature.utils &mdash; librosa 0.7.0rc1 documentation</title>
   
 
   
@@ -23,7 +23,7 @@
       <script type="text/javascript">
           var DOCUMENTATION_OPTIONS = {
               URL_ROOT:'../../../',
-              VERSION:'0.6.3',
+              VERSION:'0.7.0rc1',
               LANGUAGE:'None',
               COLLAPSE_INDEX:false,
               FILE_SUFFIX:'.html',
@@ -70,7 +70,7 @@
             
             
               <div class="version">
-                0.6
+                0.7
               </div>
             
           
@@ -197,14 +197,13 @@
 <span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
 <span class="kn">import</span> <span class="nn">scipy.signal</span>
 
-<span class="kn">from</span> <span class="nn">..</span> <span class="k">import</span> <span class="n">cache</span>
+<span class="kn">from</span> <span class="nn">.._cache</span> <span class="k">import</span> <span class="n">cache</span>
 <span class="kn">from</span> <span class="nn">..util.exceptions</span> <span class="k">import</span> <span class="n">ParameterError</span>
-<span class="kn">from</span> <span class="nn">..util.deprecation</span> <span class="k">import</span> <span class="n">Deprecated</span>
 <span class="n">__all__</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;delta&#39;</span><span class="p">,</span> <span class="s1">&#39;stack_memory&#39;</span><span class="p">]</span>
 
 
 <div class="viewcode-block" id="delta"><a class="viewcode-back" href="../../../generated/librosa.feature.delta.html#librosa.feature.delta">[docs]</a><span class="nd">@cache</span><span class="p">(</span><span class="n">level</span><span class="o">=</span><span class="mi">40</span><span class="p">)</span>
-<span class="k">def</span> <span class="nf">delta</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">width</span><span class="o">=</span><span class="mi">9</span><span class="p">,</span> <span class="n">order</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">axis</span><span class="o">=-</span><span class="mi">1</span><span class="p">,</span> <span class="n">trim</span><span class="o">=</span><span class="n">Deprecated</span><span class="p">(),</span> <span class="n">mode</span><span class="o">=</span><span class="s1">&#39;interp&#39;</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+<span class="k">def</span> <span class="nf">delta</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">width</span><span class="o">=</span><span class="mi">9</span><span class="p">,</span> <span class="n">order</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">axis</span><span class="o">=-</span><span class="mi">1</span><span class="p">,</span> <span class="n">mode</span><span class="o">=</span><span class="s1">&#39;interp&#39;</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
     <span class="sa">r</span><span class="sd">&#39;&#39;&#39;Compute delta features: local estimate of the derivative</span>
 <span class="sd">    of the input data along the selected axis.</span>
 
@@ -227,10 +226,6 @@
 <span class="sd">    axis      : int [scalar]</span>
 <span class="sd">        the axis along which to compute deltas.</span>
 <span class="sd">        Default is -1 (columns).</span>
-
-<span class="sd">    trim      : bool [DEPRECATED]</span>
-<span class="sd">        This parameter is deprecated in 0.6.0 and will be removed</span>
-<span class="sd">        in 0.7.0.</span>
 
 <span class="sd">    mode : str, {&#39;interp&#39;, &#39;nearest&#39;, &#39;mirror&#39;, &#39;constant&#39;, &#39;wrap&#39;}</span>
 <span class="sd">        Padding mode for estimating differences at the boundaries.</span>
@@ -287,12 +282,9 @@
 <span class="sd">    &gt;&gt;&gt; plt.title(r&#39;MFCC-$\Delta^2$&#39;)</span>
 <span class="sd">    &gt;&gt;&gt; plt.colorbar()</span>
 <span class="sd">    &gt;&gt;&gt; plt.tight_layout()</span>
+<span class="sd">    &gt;&gt;&gt; plt.show()</span>
 
 <span class="sd">    &#39;&#39;&#39;</span>
-    <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">trim</span><span class="p">,</span> <span class="n">Deprecated</span><span class="p">):</span>
-        <span class="n">warn</span><span class="p">(</span><span class="s1">&#39;The `trim` parameter to `delta` is deprecated in librosa 0.6.0.&#39;</span>
-             <span class="s1">&#39;It will be removed in 0.7.0.&#39;</span><span class="p">,</span>
-             <span class="ne">DeprecationWarning</span><span class="p">)</span>
 
     <span class="n">data</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">atleast_1d</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
 
@@ -413,6 +405,7 @@
 <span class="sd">    &gt;&gt;&gt; plt.title(&#39;Time-lagged chroma&#39;)</span>
 <span class="sd">    &gt;&gt;&gt; plt.colorbar()</span>
 <span class="sd">    &gt;&gt;&gt; plt.tight_layout()</span>
+<span class="sd">    &gt;&gt;&gt; plt.show()</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
     <span class="k">if</span> <span class="n">n_steps</span> <span class="o">&lt;</span> <span class="mi">1</span><span class="p">:</span>
@@ -480,7 +473,7 @@
 <div class="rst-versions" data-toggle="rst-versions" role="note" aria-label="versions">
     <span class="rst-current-version" data-toggle="rst-current-version">
         <span class="fa fa-book"> Other Versions</span>
-        v: 0.6.3
+        v: 0.7.0rc1
         <span class="fa fa-caret-down"></span>
     </span>
     <div class="rst-other-versions">
@@ -494,16 +487,14 @@
             <dd><a href="../../../0.6.0/index.html">0.6.0</a></dd>
             <dd><a href="../../../0.6.1/index.html">0.6.1</a></dd>
             <dd><a href="../../../0.6.2/index.html">0.6.2</a></dd>
-            <dd><a href="../../../0.6.3/_modules/librosa/feature/utils.html">0.6.3</a></dd>
+            <dd><a href="../../../0.6.3/index.html">0.6.3</a></dd>
+            <dd><a href="../../../0.7.0rc1/_modules/librosa/feature/utils.html">0.7.0rc1</a></dd>
             <dd><a href="../../../v0.1.0/index.html">v0.1.0</a></dd>
             <dd><a href="../../../v0.4.0/index.html">v0.4.0</a></dd>
         </dl>
         <dl>
             <dt>Branches</dt>
-            <dd><a href="../../../display-bin-centering/index.html">display-bin-centering</a></dd>
             <dd><a href="../../../master/index.html">master</a></dd>
-            <dd><a href="../../../mpl-test-2.1/index.html">mpl-test-2.1</a></dd>
-            <dd><a href="../../../runnning/index.html">runnning</a></dd>
         </dl>
     </div>
 </div>

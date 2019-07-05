@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>librosa.core.time_frequency &mdash; librosa 0.6.3 documentation</title>
+  <title>librosa.core.time_frequency &mdash; librosa 0.7.0rc1 documentation</title>
   
 
   
@@ -23,7 +23,7 @@
       <script type="text/javascript">
           var DOCUMENTATION_OPTIONS = {
               URL_ROOT:'../../../',
-              VERSION:'0.6.3',
+              VERSION:'0.7.0rc1',
               LANGUAGE:'None',
               COLLAPSE_INDEX:false,
               FILE_SUFFIX:'.html',
@@ -70,7 +70,7 @@
             
             
               <div class="version">
-                0.6
+                0.7
               </div>
             
           
@@ -203,6 +203,8 @@
 <span class="n">__all__</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;frames_to_samples&#39;</span><span class="p">,</span> <span class="s1">&#39;frames_to_time&#39;</span><span class="p">,</span>
            <span class="s1">&#39;samples_to_frames&#39;</span><span class="p">,</span> <span class="s1">&#39;samples_to_time&#39;</span><span class="p">,</span>
            <span class="s1">&#39;time_to_samples&#39;</span><span class="p">,</span> <span class="s1">&#39;time_to_frames&#39;</span><span class="p">,</span>
+           <span class="s1">&#39;blocks_to_samples&#39;</span><span class="p">,</span> <span class="s1">&#39;blocks_to_frames&#39;</span><span class="p">,</span>
+           <span class="s1">&#39;blocks_to_time&#39;</span><span class="p">,</span>
            <span class="s1">&#39;note_to_hz&#39;</span><span class="p">,</span> <span class="s1">&#39;note_to_midi&#39;</span><span class="p">,</span>
            <span class="s1">&#39;midi_to_hz&#39;</span><span class="p">,</span> <span class="s1">&#39;midi_to_note&#39;</span><span class="p">,</span>
            <span class="s1">&#39;hz_to_note&#39;</span><span class="p">,</span> <span class="s1">&#39;hz_to_midi&#39;</span><span class="p">,</span>
@@ -213,6 +215,7 @@
            <span class="s1">&#39;cqt_frequencies&#39;</span><span class="p">,</span>
            <span class="s1">&#39;mel_frequencies&#39;</span><span class="p">,</span>
            <span class="s1">&#39;tempo_frequencies&#39;</span><span class="p">,</span>
+           <span class="s1">&#39;fourier_tempo_frequencies&#39;</span><span class="p">,</span>
            <span class="s1">&#39;A_weighting&#39;</span><span class="p">,</span>
            <span class="s1">&#39;samples_like&#39;</span><span class="p">,</span>
            <span class="s1">&#39;times_like&#39;</span><span class="p">]</span>
@@ -445,7 +448,7 @@
 
 <span class="sd">    Returns</span>
 <span class="sd">    -------</span>
-<span class="sd">    times : np.ndarray [shape=samples.shape, dtype=int]</span>
+<span class="sd">    times : np.ndarray [shape=samples.shape]</span>
 <span class="sd">        Time values corresponding to `samples` (in seconds)</span>
 
 <span class="sd">    See Also</span>
@@ -468,6 +471,136 @@
 <span class="sd">    &#39;&#39;&#39;</span>
 
     <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">asanyarray</span><span class="p">(</span><span class="n">samples</span><span class="p">)</span> <span class="o">/</span> <span class="nb">float</span><span class="p">(</span><span class="n">sr</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="blocks_to_frames"><a class="viewcode-back" href="../../../generated/librosa.core.blocks_to_frames.html#librosa.core.blocks_to_frames">[docs]</a><span class="k">def</span> <span class="nf">blocks_to_frames</span><span class="p">(</span><span class="n">blocks</span><span class="p">,</span> <span class="n">block_length</span><span class="p">):</span>
+    <span class="sd">&#39;&#39;&#39;Convert block indices to frame indices</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    blocks : np.ndarray</span>
+<span class="sd">        Block index or array of block indices</span>
+
+<span class="sd">    block_length : int &gt; 0</span>
+<span class="sd">        The number of frames per block</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    frames : np.ndarray [shape=samples.shape, dtype=int]</span>
+<span class="sd">        The index or indices of frames corresponding to the beginning</span>
+<span class="sd">        of each provided block.</span>
+
+<span class="sd">    See Also</span>
+<span class="sd">    --------</span>
+<span class="sd">    blocks_to_samples</span>
+<span class="sd">    blocks_to_time</span>
+
+<span class="sd">    Examples</span>
+<span class="sd">    --------</span>
+<span class="sd">    Get frame indices for each block in a stream</span>
+
+<span class="sd">    &gt;&gt;&gt; filename = librosa.util.example_audio_file()</span>
+<span class="sd">    &gt;&gt;&gt; sr = librosa.get_samplerate(filename)</span>
+<span class="sd">    &gt;&gt;&gt; stream = librosa.stream(filename, block_length=16, </span>
+<span class="sd">    ...                         frame_length=2048, hop_length=512)</span>
+<span class="sd">    &gt;&gt;&gt; for n, y in enumerate(stream):</span>
+<span class="sd">    ...     n_frame = librosa.blocks_to_frames(n, block_length=16)</span>
+
+<span class="sd">    &#39;&#39;&#39;</span>
+    <span class="k">return</span> <span class="n">block_length</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">asanyarray</span><span class="p">(</span><span class="n">blocks</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="blocks_to_samples"><a class="viewcode-back" href="../../../generated/librosa.core.blocks_to_samples.html#librosa.core.blocks_to_samples">[docs]</a><span class="k">def</span> <span class="nf">blocks_to_samples</span><span class="p">(</span><span class="n">blocks</span><span class="p">,</span> <span class="n">block_length</span><span class="p">,</span> <span class="n">hop_length</span><span class="p">):</span>
+    <span class="sd">&#39;&#39;&#39;Convert block indices to sample indices</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    blocks : np.ndarray</span>
+<span class="sd">        Block index or array of block indices</span>
+
+<span class="sd">    block_length : int &gt; 0</span>
+<span class="sd">        The number of frames per block</span>
+
+<span class="sd">    hop_length : int &gt; 0</span>
+<span class="sd">        The number of samples to advance between frames</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    samples : np.ndarray [shape=samples.shape, dtype=int]</span>
+<span class="sd">        The index or indices of samples corresponding to the beginning</span>
+<span class="sd">        of each provided block.</span>
+
+<span class="sd">        Note that these correspond to the *first* sample index in</span>
+<span class="sd">        each block, and are not frame-centered.</span>
+
+<span class="sd">    See Also</span>
+<span class="sd">    --------</span>
+<span class="sd">    blocks_to_frames</span>
+<span class="sd">    blocks_to_time</span>
+
+<span class="sd">    Examples</span>
+<span class="sd">    --------</span>
+<span class="sd">    Get sample indices for each block in a stream</span>
+
+<span class="sd">    &gt;&gt;&gt; filename = librosa.util.example_audio_file()</span>
+<span class="sd">    &gt;&gt;&gt; sr = librosa.get_samplerate(filename)</span>
+<span class="sd">    &gt;&gt;&gt; stream = librosa.stream(filename, block_length=16, </span>
+<span class="sd">    ...                         frame_length=2048, hop_length=512)</span>
+<span class="sd">    &gt;&gt;&gt; for n, y in enumerate(stream):</span>
+<span class="sd">    ...     n_sample = librosa.blocks_to_samples(n, block_length=16,</span>
+<span class="sd">    ...                                          hop_length=512)</span>
+
+<span class="sd">    &#39;&#39;&#39;</span>
+    <span class="n">frames</span> <span class="o">=</span> <span class="n">blocks_to_frames</span><span class="p">(</span><span class="n">blocks</span><span class="p">,</span> <span class="n">block_length</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">frames_to_samples</span><span class="p">(</span><span class="n">frames</span><span class="p">,</span> <span class="n">hop_length</span><span class="o">=</span><span class="n">hop_length</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="blocks_to_time"><a class="viewcode-back" href="../../../generated/librosa.core.blocks_to_time.html#librosa.core.blocks_to_time">[docs]</a><span class="k">def</span> <span class="nf">blocks_to_time</span><span class="p">(</span><span class="n">blocks</span><span class="p">,</span> <span class="n">block_length</span><span class="p">,</span> <span class="n">hop_length</span><span class="p">,</span> <span class="n">sr</span><span class="p">):</span>
+    <span class="sd">&#39;&#39;&#39;Convert block indices to time (in seconds)</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    blocks : np.ndarray</span>
+<span class="sd">        Block index or array of block indices</span>
+
+<span class="sd">    block_length : int &gt; 0</span>
+<span class="sd">        The number of frames per block</span>
+
+<span class="sd">    hop_length : int &gt; 0</span>
+<span class="sd">        The number of samples to advance between frames</span>
+
+<span class="sd">    sr : int &gt; 0</span>
+<span class="sd">        The sampling rate (samples per second)</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    times : np.ndarray [shape=samples.shape]</span>
+<span class="sd">        The time index or indices (in seconds) corresponding to the </span>
+<span class="sd">        beginning of each provided block.</span>
+
+<span class="sd">        Note that these correspond to the time of the *first* sample </span>
+<span class="sd">        in each block, and are not frame-centered.</span>
+
+<span class="sd">    See Also</span>
+<span class="sd">    --------</span>
+<span class="sd">    blocks_to_frames</span>
+<span class="sd">    blocks_to_samples</span>
+
+<span class="sd">    Examples</span>
+<span class="sd">    --------</span>
+<span class="sd">    Get time indices for each block in a stream</span>
+
+<span class="sd">    &gt;&gt;&gt; filename = librosa.util.example_audio_file()</span>
+<span class="sd">    &gt;&gt;&gt; sr = librosa.get_samplerate(filename)</span>
+<span class="sd">    &gt;&gt;&gt; stream = librosa.stream(filename, block_length=16, </span>
+<span class="sd">    ...                         frame_length=2048, hop_length=512)</span>
+<span class="sd">    &gt;&gt;&gt; for n, y in enumerate(stream):</span>
+<span class="sd">    ...     n_time = librosa.blocks_to_time(n, block_length=16,</span>
+<span class="sd">    ...                                     hop_length=512, sr=sr)</span>
+
+<span class="sd">    &#39;&#39;&#39;</span>
+    <span class="n">samples</span> <span class="o">=</span> <span class="n">blocks_to_samples</span><span class="p">(</span><span class="n">blocks</span><span class="p">,</span> <span class="n">block_length</span><span class="p">,</span> <span class="n">hop_length</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">samples_to_time</span><span class="p">(</span><span class="n">samples</span><span class="p">,</span> <span class="n">sr</span><span class="o">=</span><span class="n">sr</span><span class="p">)</span></div>
 
 
 <div class="viewcode-block" id="note_to_hz"><a class="viewcode-back" href="../../../generated/librosa.core.note_to_hz.html#librosa.core.note_to_hz">[docs]</a><span class="k">def</span> <span class="nf">note_to_hz</span><span class="p">(</span><span class="n">note</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
@@ -1106,7 +1239,7 @@
 
 
 <div class="viewcode-block" id="tempo_frequencies"><a class="viewcode-back" href="../../../generated/librosa.core.tempo_frequencies.html#librosa.core.tempo_frequencies">[docs]</a><span class="k">def</span> <span class="nf">tempo_frequencies</span><span class="p">(</span><span class="n">n_bins</span><span class="p">,</span> <span class="n">hop_length</span><span class="o">=</span><span class="mi">512</span><span class="p">,</span> <span class="n">sr</span><span class="o">=</span><span class="mi">22050</span><span class="p">):</span>
-    <span class="sd">&#39;&#39;&#39;Compute the frequencies (in beats-per-minute) corresponding</span>
+    <span class="sd">&#39;&#39;&#39;Compute the frequencies (in beats per minute) corresponding</span>
 <span class="sd">    to an onset auto-correlation or tempogram matrix.</span>
 
 <span class="sd">    Parameters</span>
@@ -1144,6 +1277,40 @@
     <span class="k">return</span> <span class="n">bin_frequencies</span></div>
 
 
+<div class="viewcode-block" id="fourier_tempo_frequencies"><a class="viewcode-back" href="../../../generated/librosa.core.fourier_tempo_frequencies.html#librosa.core.fourier_tempo_frequencies">[docs]</a><span class="k">def</span> <span class="nf">fourier_tempo_frequencies</span><span class="p">(</span><span class="n">sr</span><span class="o">=</span><span class="mi">22050</span><span class="p">,</span> <span class="n">win_length</span><span class="o">=</span><span class="mi">384</span><span class="p">,</span> <span class="n">hop_length</span><span class="o">=</span><span class="mi">512</span><span class="p">):</span>
+    <span class="sd">&#39;&#39;&#39;Compute the frequencies (in beats per minute) corresponding</span>
+<span class="sd">    to a Fourier tempogram matrix.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    sr : number &gt; 0</span>
+<span class="sd">        The audio sampling rate</span>
+
+<span class="sd">    win_length : int &gt; 0</span>
+<span class="sd">        The number of frames per analysis window</span>
+
+<span class="sd">    hop_length : int &gt; 0</span>
+<span class="sd">        The number of samples between each bin</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    bin_frequencies : ndarray [shape=(win_length // 2 + 1 ,)]</span>
+<span class="sd">        vector of bin frequencies measured in BPM.</span>
+
+<span class="sd">    Examples</span>
+<span class="sd">    --------</span>
+<span class="sd">    Get the tempo frequencies corresponding to a 384-bin (8-second) tempogram</span>
+
+<span class="sd">    &gt;&gt;&gt; librosa.fourier_tempo_frequencies(384)</span>
+<span class="sd">    array([ 0.   ,  0.117,  0.234, ..., 22.266, 22.383, 22.5  ])</span>
+
+<span class="sd">    &#39;&#39;&#39;</span>
+
+    <span class="c1"># sr / hop_length gets the frame rate</span>
+    <span class="c1"># multiplying by 60 turns frames / sec into frames / minute</span>
+    <span class="k">return</span> <span class="n">fft_frequencies</span><span class="p">(</span><span class="n">sr</span><span class="o">=</span><span class="n">sr</span> <span class="o">*</span> <span class="mi">60</span> <span class="o">/</span> <span class="nb">float</span><span class="p">(</span><span class="n">hop_length</span><span class="p">),</span> <span class="n">n_fft</span><span class="o">=</span><span class="n">win_length</span><span class="p">)</span></div>
+
+
 <span class="c1"># A-weighting should be capitalized: suppress the naming warning</span>
 <div class="viewcode-block" id="A_weighting"><a class="viewcode-back" href="../../../generated/librosa.core.A_weighting.html#librosa.core.A_weighting">[docs]</a><span class="k">def</span> <span class="nf">A_weighting</span><span class="p">(</span><span class="n">frequencies</span><span class="p">,</span> <span class="n">min_db</span><span class="o">=-</span><span class="mf">80.0</span><span class="p">):</span>     <span class="c1"># pylint: disable=invalid-name</span>
     <span class="sd">&#39;&#39;&#39;Compute the A-weighting of a set of frequencies.</span>
@@ -1179,6 +1346,7 @@
 <span class="sd">    &gt;&gt;&gt; plt.xlabel(&#39;Frequency (Hz)&#39;)</span>
 <span class="sd">    &gt;&gt;&gt; plt.ylabel(&#39;Weighting (log10)&#39;)</span>
 <span class="sd">    &gt;&gt;&gt; plt.title(&#39;A-Weighting of CQT frequencies&#39;)</span>
+<span class="sd">    &gt;&gt;&gt; plt.show()</span>
 
 <span class="sd">    &#39;&#39;&#39;</span>
 
@@ -1340,7 +1508,7 @@
 <div class="rst-versions" data-toggle="rst-versions" role="note" aria-label="versions">
     <span class="rst-current-version" data-toggle="rst-current-version">
         <span class="fa fa-book"> Other Versions</span>
-        v: 0.6.3
+        v: 0.7.0rc1
         <span class="fa fa-caret-down"></span>
     </span>
     <div class="rst-other-versions">
@@ -1354,16 +1522,14 @@
             <dd><a href="../../../0.6.0/index.html">0.6.0</a></dd>
             <dd><a href="../../../0.6.1/index.html">0.6.1</a></dd>
             <dd><a href="../../../0.6.2/index.html">0.6.2</a></dd>
-            <dd><a href="../../../0.6.3/_modules/librosa/core/time_frequency.html">0.6.3</a></dd>
+            <dd><a href="../../../0.6.3/index.html">0.6.3</a></dd>
+            <dd><a href="../../../0.7.0rc1/_modules/librosa/core/time_frequency.html">0.7.0rc1</a></dd>
             <dd><a href="../../../v0.1.0/index.html">v0.1.0</a></dd>
             <dd><a href="../../../v0.4.0/index.html">v0.4.0</a></dd>
         </dl>
         <dl>
             <dt>Branches</dt>
-            <dd><a href="../../../display-bin-centering/index.html">display-bin-centering</a></dd>
             <dd><a href="../../../master/index.html">master</a></dd>
-            <dd><a href="../../../mpl-test-2.1/index.html">mpl-test-2.1</a></dd>
-            <dd><a href="../../../runnning/index.html">runnning</a></dd>
         </dl>
     </div>
 </div>

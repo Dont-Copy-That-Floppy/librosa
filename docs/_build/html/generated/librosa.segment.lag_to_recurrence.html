@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>librosa.segment.lag_to_recurrence &mdash; librosa 0.6.3 documentation</title>
+  <title>librosa.segment.lag_to_recurrence &mdash; librosa 0.7.0rc1 documentation</title>
   
 
   
@@ -23,7 +23,7 @@
       <script type="text/javascript">
           var DOCUMENTATION_OPTIONS = {
               URL_ROOT:'../',
-              VERSION:'0.6.3',
+              VERSION:'0.7.0rc1',
               LANGUAGE:'None',
               COLLAPSE_INDEX:false,
               FILE_SUFFIX:'.html',
@@ -72,7 +72,7 @@
             
             
               <div class="version">
-                0.6
+                0.7
               </div>
             
           
@@ -111,10 +111,12 @@
 <li class="toctree-l1"><a class="reference internal" href="../output.html">Output</a></li>
 <li class="toctree-l1 current"><a class="reference internal" href="../segment.html">Temporal segmentation</a><ul class="current">
 <li class="toctree-l2 current"><a class="reference internal" href="../segment.html#recurrence-and-self-similarity">Recurrence and self-similarity</a><ul class="current">
+<li class="toctree-l3"><a class="reference internal" href="librosa.segment.cross_similarity.html">librosa.segment.cross_similarity</a></li>
 <li class="toctree-l3"><a class="reference internal" href="librosa.segment.recurrence_matrix.html">librosa.segment.recurrence_matrix</a></li>
 <li class="toctree-l3"><a class="reference internal" href="librosa.segment.recurrence_to_lag.html">librosa.segment.recurrence_to_lag</a></li>
 <li class="toctree-l3 current"><a class="current reference internal" href="#">librosa.segment.lag_to_recurrence</a></li>
 <li class="toctree-l3"><a class="reference internal" href="librosa.segment.timelag_filter.html">librosa.segment.timelag_filter</a></li>
+<li class="toctree-l3"><a class="reference internal" href="librosa.segment.path_enhance.html">librosa.segment.path_enhance</a></li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="../segment.html#temporal-clustering">Temporal clustering</a></li>
@@ -243,7 +245,10 @@ For sparse matrices, format will match that of <em class="xref py py-obj">lag</e
 </table>
 <div class="admonition seealso">
 <p class="first admonition-title">See also</p>
-<p class="last"><a class="reference internal" href="librosa.segment.recurrence_to_lag.html#librosa.segment.recurrence_to_lag" title="librosa.segment.recurrence_to_lag"><code class="xref py py-obj docutils literal notranslate"><span class="pre">recurrence_to_lag</span></code></a></p>
+<dl class="last docutils">
+<dt><a class="reference internal" href="librosa.segment.recurrence_to_lag.html#librosa.segment.recurrence_to_lag" title="librosa.segment.recurrence_to_lag"><code class="xref py py-obj docutils literal notranslate"><span class="pre">recurrence_to_lag</span></code></a></dt>
+<dd></dd>
+</dl>
 </div>
 <p class="rubric">Examples</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">y</span><span class="p">,</span> <span class="n">sr</span> <span class="o">=</span> <span class="n">librosa</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">librosa</span><span class="o">.</span><span class="n">util</span><span class="o">.</span><span class="n">example_audio_file</span><span class="p">())</span>
@@ -270,6 +275,7 @@ For sparse matrices, format will match that of <em class="xref py py-obj">lag</e
 <span class="gp">&gt;&gt;&gt; </span><span class="n">librosa</span><span class="o">.</span><span class="n">display</span><span class="o">.</span><span class="n">specshow</span><span class="p">(</span><span class="n">rec_nopad</span><span class="p">,</span> <span class="n">x_axis</span><span class="o">=</span><span class="s1">&#39;time&#39;</span><span class="p">,</span> <span class="n">y_axis</span><span class="o">=</span><span class="s1">&#39;time&#39;</span><span class="p">)</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s1">&#39;Recurrence (without padding)&#39;</span><span class="p">)</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">plt</span><span class="o">.</span><span class="n">tight_layout</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
 </pre></div>
 </div>
 <p>(<a class="reference external" href="../generated/librosa-segment-lag_to_recurrence-1.py">Source code</a>)</p>
@@ -318,7 +324,7 @@ For sparse matrices, format will match that of <em class="xref py py-obj">lag</e
 <div class="rst-versions" data-toggle="rst-versions" role="note" aria-label="versions">
     <span class="rst-current-version" data-toggle="rst-current-version">
         <span class="fa fa-book"> Other Versions</span>
-        v: 0.6.3
+        v: 0.7.0rc1
         <span class="fa fa-caret-down"></span>
     </span>
     <div class="rst-other-versions">
@@ -333,15 +339,13 @@ For sparse matrices, format will match that of <em class="xref py py-obj">lag</e
             <dd><a href="../0.6.1/generated/librosa.segment.lag_to_recurrence.html">0.6.1</a></dd>
             <dd><a href="../0.6.2/generated/librosa.segment.lag_to_recurrence.html">0.6.2</a></dd>
             <dd><a href="../0.6.3/generated/librosa.segment.lag_to_recurrence.html">0.6.3</a></dd>
+            <dd><a href="../0.7.0rc1/generated/librosa.segment.lag_to_recurrence.html">0.7.0rc1</a></dd>
             <dd><a href="../v0.1.0/index.html">v0.1.0</a></dd>
             <dd><a href="../v0.4.0/index.html">v0.4.0</a></dd>
         </dl>
         <dl>
             <dt>Branches</dt>
-            <dd><a href="../display-bin-centering/generated/librosa.segment.lag_to_recurrence.html">display-bin-centering</a></dd>
             <dd><a href="../master/generated/librosa.segment.lag_to_recurrence.html">master</a></dd>
-            <dd><a href="../mpl-test-2.1/generated/librosa.segment.lag_to_recurrence.html">mpl-test-2.1</a></dd>
-            <dd><a href="../runnning/generated/librosa.segment.lag_to_recurrence.html">runnning</a></dd>
         </dl>
     </div>
 </div>

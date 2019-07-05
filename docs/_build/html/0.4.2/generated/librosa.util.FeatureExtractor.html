@@ -216,7 +216,7 @@ and scikit-learn pipelines.</p>
 <p class="first admonition-title">Warning</p>
 <p class="last">The <a class="reference internal" href="#librosa.util.FeatureExtractor" title="librosa.util.FeatureExtractor"><code class="xref py py-obj docutils literal notranslate"><span class="pre">FeatureExtractor</span></code></a> object is deprecated as of 0.4.2, and will be
 removed in 0.5.
-Instead, use <a class="reference external" href="https://scikit-learn.org/stable/modules/generated/sklearn.preprocessing.FunctionTransformer.html#sklearn.preprocessing.FunctionTransformer" title="(in scikit-learn v0.20.2)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">sklearn.preprocessing.FunctionTransformer</span></code></a>.</p>
+Instead, use <a class="reference external" href="https://scikit-learn.org/stable/modules/generated/sklearn.preprocessing.FunctionTransformer.html#sklearn.preprocessing.FunctionTransformer" title="(in scikit-learn v0.21.2)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">sklearn.preprocessing.FunctionTransformer</span></code></a>.</p>
 </div>
 <p class="rubric">Examples</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">sklearn.pipeline</span>
@@ -268,7 +268,7 @@ and stacking.</p>
 </table>
 <dl class="method">
 <dt id="librosa.util.FeatureExtractor.__init__">
-<code class="descname">__init__</code><span class="sig-paren">(</span><em>function</em>, <em>target=None</em>, <em>iterate=True</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/librosa/util/feature_extractor.html#FeatureExtractor.__init__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#librosa.util.FeatureExtractor.__init__" title="Permalink to this definition">¶</a></dt>
+<code class="descname">__init__</code><span class="sig-paren">(</span><em>self</em>, <em>function</em>, <em>target=None</em>, <em>iterate=True</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/librosa/util/feature_extractor.html#FeatureExtractor.__init__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#librosa.util.FeatureExtractor.__init__" title="Permalink to this definition">¶</a></dt>
 <dd><p>FeatureExtractor constructor</p>
 </dd></dl>
 
@@ -279,22 +279,22 @@ and stacking.</p>
 <col width="90%" />
 </colgroup>
 <tbody valign="top">
-<tr class="row-odd"><td><a class="reference internal" href="#librosa.util.FeatureExtractor.__init__" title="librosa.util.FeatureExtractor.__init__"><code class="xref py py-obj docutils literal notranslate"><span class="pre">__init__</span></code></a>(function[,&nbsp;target,&nbsp;iterate])</td>
+<tr class="row-odd"><td><a class="reference internal" href="#librosa.util.FeatureExtractor.__init__" title="librosa.util.FeatureExtractor.__init__"><code class="xref py py-obj docutils literal notranslate"><span class="pre">__init__</span></code></a>(self,&nbsp;function[,&nbsp;target,&nbsp;iterate])</td>
 <td>FeatureExtractor constructor</td>
 </tr>
-<tr class="row-even"><td><code class="xref py py-obj docutils literal notranslate"><span class="pre">fit</span></code>(*args,&nbsp;**kwargs)</td>
+<tr class="row-even"><td><code class="xref py py-obj docutils literal notranslate"><span class="pre">fit</span></code>(self,&nbsp;\*args,&nbsp;\*\*kwargs)</td>
 <td>This function does nothing, and is provided for interface compatibility.</td>
 </tr>
-<tr class="row-odd"><td><code class="xref py py-obj docutils literal notranslate"><span class="pre">fit_transform</span></code>(X[,&nbsp;y])</td>
+<tr class="row-odd"><td><code class="xref py py-obj docutils literal notranslate"><span class="pre">fit_transform</span></code>(self,&nbsp;X[,&nbsp;y])</td>
 <td>Fit to data, then transform it.</td>
 </tr>
-<tr class="row-even"><td><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_params</span></code>([deep])</td>
+<tr class="row-even"><td><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_params</span></code>(self[,&nbsp;deep])</td>
 <td>Get parameters for this estimator.</td>
 </tr>
-<tr class="row-odd"><td><code class="xref py py-obj docutils literal notranslate"><span class="pre">set_params</span></code>(**kwargs)</td>
+<tr class="row-odd"><td><code class="xref py py-obj docutils literal notranslate"><span class="pre">set_params</span></code>(self,&nbsp;\*\*kwargs)</td>
 <td>Update the parameters of the feature extractor.</td>
 </tr>
-<tr class="row-even"><td><code class="xref py py-obj docutils literal notranslate"><span class="pre">transform</span></code>(X)</td>
+<tr class="row-even"><td><code class="xref py py-obj docutils literal notranslate"><span class="pre">transform</span></code>(self,&nbsp;X)</td>
 <td>Applies the feature transformation to an array of input data.</td>
 </tr>
 </tbody>
@@ -356,15 +356,13 @@ and stacking.</p>
             <dd><a href="../../0.6.1/index.html">0.6.1</a></dd>
             <dd><a href="../../0.6.2/index.html">0.6.2</a></dd>
             <dd><a href="../../0.6.3/index.html">0.6.3</a></dd>
+            <dd><a href="../../0.7.0rc1/index.html">0.7.0rc1</a></dd>
             <dd><a href="../../v0.1.0/index.html">v0.1.0</a></dd>
             <dd><a href="../../v0.4.0/index.html">v0.4.0</a></dd>
         </dl>
         <dl>
             <dt>Branches</dt>
-            <dd><a href="../../display-bin-centering/index.html">display-bin-centering</a></dd>
             <dd><a href="../../master/index.html">master</a></dd>
-            <dd><a href="../../mpl-test-2.1/index.html">mpl-test-2.1</a></dd>
-            <dd><a href="../../runnning/index.html">runnning</a></dd>
         </dl>
     </div>
 </div>

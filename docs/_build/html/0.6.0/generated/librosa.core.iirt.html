@@ -218,7 +218,7 @@
 
 
 
-    <p class="scv-banner scv-sphinx_rtd_theme"><a href="../../0.6.3/generated/librosa.core.iirt.html"><b>Warning:</b> This document is for an old version of librosa. The latest version is 0.6.3.</a></p>
+    <p class="scv-banner scv-sphinx_rtd_theme"><a href="../../0.7.0rc1/generated/librosa.core.iirt.html"><b>Warning:</b> This document is for an old version of librosa. The latest version is 0.7.0rc1.</a></p>
 <div class="section" id="librosa-core-iirt">
 <h1>librosa.core.iirt<a class="headerlink" href="#librosa-core-iirt" title="Permalink to this headline">¶</a></h1>
 <dl class="function">
@@ -230,7 +230,7 @@ using a multirate filter bank consisting of IIR filters.
 First, <em class="xref py py-obj">y</em> is resampled as needed according to the provided <em class="xref py py-obj">sample_rates</em>.
 Then, a filterbank with with <em class="xref py py-obj">n</em> band-pass filters is designed.
 The resampled input signals are processed by the filterbank as a whole.
-(<a class="reference external" href="https://docs.scipy.org/doc/scipy/reference/generated/scipy.signal.filtfilt.html#scipy.signal.filtfilt" title="(in SciPy v1.2.1)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">scipy.signal.filtfilt</span></code></a> is used to make the phase linear.)
+(<a class="reference external" href="https://docs.scipy.org/doc/scipy/reference/generated/scipy.signal.filtfilt.html#scipy.signal.filtfilt" title="(in SciPy v1.3.0)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">scipy.signal.filtfilt</span></code></a> is used to make the phase linear.)
 The output of the filterbank is cut into frames.
 For each band, the short-time mean-square power (STMSP) is calculated by
 summing <em class="xref py py-obj">win_length</em> subsequent filtered time samples.</p>
@@ -300,7 +300,18 @@ By default, this function uses reflection padding.</p>
 </table>
 <div class="admonition seealso">
 <p class="first admonition-title">See also</p>
-<p class="last"><a class="reference internal" href="librosa.filters.semitone_filterbank.html#librosa.filters.semitone_filterbank" title="librosa.filters.semitone_filterbank"><code class="xref py py-obj docutils literal notranslate"><span class="pre">librosa.filters.semitone_filterbank</span></code></a>, <a class="reference internal" href="librosa.filters._multirate_fb.html#librosa.filters._multirate_fb" title="librosa.filters._multirate_fb"><code class="xref py py-obj docutils literal notranslate"><span class="pre">librosa.filters._multirate_fb</span></code></a>, <a class="reference internal" href="librosa.filters.mr_frequencies.html#librosa.filters.mr_frequencies" title="librosa.filters.mr_frequencies"><code class="xref py py-obj docutils literal notranslate"><span class="pre">librosa.filters.mr_frequencies</span></code></a>, <a class="reference internal" href="librosa.core.cqt.html#librosa.core.cqt" title="librosa.core.cqt"><code class="xref py py-obj docutils literal notranslate"><span class="pre">librosa.core.cqt</span></code></a>, <a class="reference external" href="https://docs.scipy.org/doc/scipy/reference/generated/scipy.signal.filtfilt.html#scipy.signal.filtfilt" title="(in SciPy v1.2.1)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">scipy.signal.filtfilt</span></code></a></p>
+<dl class="last docutils">
+<dt><a class="reference internal" href="librosa.filters.semitone_filterbank.html#librosa.filters.semitone_filterbank" title="librosa.filters.semitone_filterbank"><code class="xref py py-obj docutils literal notranslate"><span class="pre">librosa.filters.semitone_filterbank</span></code></a></dt>
+<dd></dd>
+<dt><a class="reference internal" href="librosa.filters._multirate_fb.html#librosa.filters._multirate_fb" title="librosa.filters._multirate_fb"><code class="xref py py-obj docutils literal notranslate"><span class="pre">librosa.filters._multirate_fb</span></code></a></dt>
+<dd></dd>
+<dt><a class="reference internal" href="librosa.filters.mr_frequencies.html#librosa.filters.mr_frequencies" title="librosa.filters.mr_frequencies"><code class="xref py py-obj docutils literal notranslate"><span class="pre">librosa.filters.mr_frequencies</span></code></a></dt>
+<dd></dd>
+<dt><a class="reference internal" href="librosa.core.cqt.html#librosa.core.cqt" title="librosa.core.cqt"><code class="xref py py-obj docutils literal notranslate"><span class="pre">librosa.core.cqt</span></code></a></dt>
+<dd></dd>
+<dt><a class="reference external" href="https://docs.scipy.org/doc/scipy/reference/generated/scipy.signal.filtfilt.html#scipy.signal.filtfilt" title="(in SciPy v1.3.0)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">scipy.signal.filtfilt</span></code></a></dt>
+<dd></dd>
+</dl>
 </div>
 <p class="rubric">Examples</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
@@ -374,15 +385,13 @@ By default, this function uses reflection padding.</p>
             <dd><a href="../../0.6.1/generated/librosa.core.iirt.html">0.6.1</a></dd>
             <dd><a href="../../0.6.2/generated/librosa.core.iirt.html">0.6.2</a></dd>
             <dd><a href="../../0.6.3/generated/librosa.core.iirt.html">0.6.3</a></dd>
+            <dd><a href="../../0.7.0rc1/generated/librosa.core.iirt.html">0.7.0rc1</a></dd>
             <dd><a href="../../v0.1.0/index.html">v0.1.0</a></dd>
             <dd><a href="../../v0.4.0/index.html">v0.4.0</a></dd>
         </dl>
         <dl>
             <dt>Branches</dt>
-            <dd><a href="../../display-bin-centering/index.html">display-bin-centering</a></dd>
             <dd><a href="../../master/generated/librosa.core.iirt.html">master</a></dd>
-            <dd><a href="../../mpl-test-2.1/generated/librosa.core.iirt.html">mpl-test-2.1</a></dd>
-            <dd><a href="../../runnning/generated/librosa.core.iirt.html">runnning</a></dd>
         </dl>
     </div>
 </div>

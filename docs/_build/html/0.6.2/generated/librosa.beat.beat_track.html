@@ -200,7 +200,7 @@
 
 
 
-    <p class="scv-banner scv-sphinx_rtd_theme"><a href="../../0.6.3/generated/librosa.beat.beat_track.html"><b>Warning:</b> This document is for an old version of librosa. The latest version is 0.6.3.</a></p>
+    <p class="scv-banner scv-sphinx_rtd_theme"><a href="../../0.7.0rc1/generated/librosa.beat.beat_track.html"><b>Warning:</b> This document is for an old version of librosa. The latest version is 0.7.0rc1.</a></p>
 <div class="section" id="librosa-beat-beat-track">
 <h1>librosa.beat.beat_track<a class="headerlink" href="#librosa-beat-beat-track" title="Permalink to this headline">¶</a></h1>
 <dl class="function">
@@ -270,15 +270,16 @@ By default, ‘frames’ are used.</p>
 <dd><p class="first last">estimated beat event locations in the specified units
 (default is frame indices)</p>
 </dd>
-<dt><strong>.. note::</strong></dt>
-<dd><p class="first last">If no onset strength could be detected, beat_tracker estimates 0 BPM
-and returns an empty list.</p>
-</dd>
 </dl>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">If no onset strength could be detected, beat_tracker estimates 0 BPM
+and returns an empty list.</p>
+</div>
 </td>
 </tr>
 <tr class="field-odd field"><th class="field-name">Raises:</th><td class="field-body"><dl class="first last docutils">
-<dt><strong>ParameterError</strong></dt>
+<dt>ParameterError</dt>
 <dd><p class="first">if neither <em class="xref py py-obj">y</em> nor <em class="xref py py-obj">onset_envelope</em> are provided</p>
 <p class="last">or if <em class="xref py py-obj">units</em> is not one of ‘frames’, ‘samples’, or ‘time’</p>
 </dd>
@@ -289,7 +290,10 @@ and returns an empty list.</p>
 </table>
 <div class="admonition seealso">
 <p class="first admonition-title">See also</p>
-<p class="last"><a class="reference internal" href="librosa.onset.onset_strength.html#librosa.onset.onset_strength" title="librosa.onset.onset_strength"><code class="xref py py-obj docutils literal notranslate"><span class="pre">librosa.onset.onset_strength</span></code></a></p>
+<dl class="last docutils">
+<dt><a class="reference internal" href="librosa.onset.onset_strength.html#librosa.onset.onset_strength" title="librosa.onset.onset_strength"><code class="xref py py-obj docutils literal notranslate"><span class="pre">librosa.onset.onset_strength</span></code></a></dt>
+<dd></dd>
+</dl>
 </div>
 <p class="rubric">Examples</p>
 <p>Track beats using time series input</p>
@@ -407,15 +411,13 @@ and returns an empty list.</p>
             <dd><a href="../../0.6.1/generated/librosa.beat.beat_track.html">0.6.1</a></dd>
             <dd><a href="librosa.beat.beat_track.html">0.6.2</a></dd>
             <dd><a href="../../0.6.3/generated/librosa.beat.beat_track.html">0.6.3</a></dd>
+            <dd><a href="../../0.7.0rc1/generated/librosa.beat.beat_track.html">0.7.0rc1</a></dd>
             <dd><a href="../../v0.1.0/index.html">v0.1.0</a></dd>
             <dd><a href="../../v0.4.0/index.html">v0.4.0</a></dd>
         </dl>
         <dl>
             <dt>Branches</dt>
-            <dd><a href="../../display-bin-centering/generated/librosa.beat.beat_track.html">display-bin-centering</a></dd>
             <dd><a href="../../master/generated/librosa.beat.beat_track.html">master</a></dd>
-            <dd><a href="../../mpl-test-2.1/generated/librosa.beat.beat_track.html">mpl-test-2.1</a></dd>
-            <dd><a href="../../runnning/generated/librosa.beat.beat_track.html">runnning</a></dd>
         </dl>
     </div>
 </div>

@@ -17,6 +17,7 @@ librosa.display.TonnetzFormatter
       ~TonnetzFormatter.fix_minus
       ~TonnetzFormatter.format_data
       ~TonnetzFormatter.format_data_short
+      ~TonnetzFormatter.format_ticks
       ~TonnetzFormatter.get_offset
       ~TonnetzFormatter.set_axis
       ~TonnetzFormatter.set_bounds

@@ -195,7 +195,7 @@
 
 
 
-    <p class="scv-banner scv-sphinx_rtd_theme"><a href="../../0.6.3/auto_examples/plot_music_sync.html"><b>Warning:</b> This document is for an old version of librosa. The latest version is 0.6.3.</a></p>
+    <p class="scv-banner scv-sphinx_rtd_theme"><a href="../../0.7.0rc1/auto_examples/plot_music_sync.html"><b>Warning:</b> This document is for an old version of librosa. The latest version is 0.7.0rc1.</a></p>
 <div class="sphx-glr-download-link-note admonition note">
 <p class="first admonition-title">Note</p>
 <p class="last">Click <a class="reference internal" href="#sphx-glr-download-auto-examples-plot-music-sync-py"><span class="std std-ref">here</span></a> to download the full example code</p>
@@ -210,14 +210,14 @@ the algorithm can be found in the literature, e. g. [1].</p>
 brass section lick in Stevie Wonder’s rendition of “Sir Duke”.
 Due to differences in tempo, the first recording lasts for ca. 7 seconds and the second recording for ca. 5 seconds.
 Our objective is now to find an alignment between these two recordings by using DTW.</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># Code source: Stefan Balke</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># Code source: Stefan Balke</span>
 <span class="c1"># License: ISC</span>
 <span class="c1"># sphinx_gallery_thumbnail_number = 4</span>
 
-<span class="kn">from</span> <span class="nn">__future__</span> <span class="kn">import</span> <span class="n">print_function</span>
-<span class="kn">import</span> <span class="nn">numpy</span> <span class="kn">as</span> <span class="nn">np</span>
+<span class="kn">from</span> <span class="nn">__future__</span> <span class="k">import</span> <span class="n">print_function</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
 <span class="kn">import</span> <span class="nn">matplotlib</span>
-<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="kn">as</span> <span class="nn">plt</span>
+<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
 
 <span class="kn">import</span> <span class="nn">librosa</span>
 <span class="kn">import</span> <span class="nn">librosa.display</span>
@@ -226,7 +226,7 @@ Our objective is now to find an alignment between these two recordings by using 
 <div class="section" id="load-audio-recordings">
 <h2>Load Audio Recordings<a class="headerlink" href="#load-audio-recordings" title="Permalink to this headline">¶</a></h2>
 <p>First, let’s load a first version of our audio recordings.</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">x_1</span><span class="p">,</span> <span class="n">fs</span> <span class="o">=</span> <span class="n">librosa</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="s1">&#39;audio/sir_duke_slow.mp3&#39;</span><span class="p">)</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">x_1</span><span class="p">,</span> <span class="n">fs</span> <span class="o">=</span> <span class="n">librosa</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="s1">&#39;audio/sir_duke_slow.mp3&#39;</span><span class="p">)</span>
 <span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">16</span><span class="p">,</span> <span class="mi">4</span><span class="p">))</span>
 <span class="n">librosa</span><span class="o">.</span><span class="n">display</span><span class="o">.</span><span class="n">waveplot</span><span class="p">(</span><span class="n">x_1</span><span class="p">,</span> <span class="n">sr</span><span class="o">=</span><span class="n">fs</span><span class="p">)</span>
 <span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s1">&#39;Slower Version $X_1$&#39;</span><span class="p">)</span>
@@ -235,7 +235,7 @@ Our objective is now to find an alignment between these two recordings by using 
 </div>
 <img alt="../_images/sphx_glr_plot_music_sync_001.png" class="sphx-glr-single-img" src="../_images/sphx_glr_plot_music_sync_001.png" />
 <p>And a second version, slightly faster.</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">x_2</span><span class="p">,</span> <span class="n">fs</span> <span class="o">=</span> <span class="n">librosa</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="s1">&#39;audio/sir_duke_fast.mp3&#39;</span><span class="p">)</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">x_2</span><span class="p">,</span> <span class="n">fs</span> <span class="o">=</span> <span class="n">librosa</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="s1">&#39;audio/sir_duke_fast.mp3&#39;</span><span class="p">)</span>
 <span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">16</span><span class="p">,</span> <span class="mi">4</span><span class="p">))</span>
 <span class="n">librosa</span><span class="o">.</span><span class="n">display</span><span class="o">.</span><span class="n">waveplot</span><span class="p">(</span><span class="n">x_2</span><span class="p">,</span> <span class="n">sr</span><span class="o">=</span><span class="n">fs</span><span class="p">)</span>
 <span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s1">&#39;Faster Version $X_2$&#39;</span><span class="p">)</span>
@@ -246,7 +246,7 @@ Our objective is now to find an alignment between these two recordings by using 
 </div>
 <div class="section" id="extract-chroma-features">
 <h2>Extract Chroma Features<a class="headerlink" href="#extract-chroma-features" title="Permalink to this headline">¶</a></h2>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">n_fft</span> <span class="o">=</span> <span class="mi">4410</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">n_fft</span> <span class="o">=</span> <span class="mi">4410</span>
 <span class="n">hop_size</span> <span class="o">=</span> <span class="mi">2205</span>
 
 <span class="n">x_1_chroma</span> <span class="o">=</span> <span class="n">librosa</span><span class="o">.</span><span class="n">feature</span><span class="o">.</span><span class="n">chroma_stft</span><span class="p">(</span><span class="n">y</span><span class="o">=</span><span class="n">x_1</span><span class="p">,</span> <span class="n">sr</span><span class="o">=</span><span class="n">fs</span><span class="p">,</span> <span class="n">tuning</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">norm</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span>
@@ -272,7 +272,7 @@ Our objective is now to find an alignment between these two recordings by using 
 </div>
 <div class="section" id="align-chroma-sequences">
 <h2>Align Chroma Sequences<a class="headerlink" href="#align-chroma-sequences" title="Permalink to this headline">¶</a></h2>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">D</span><span class="p">,</span> <span class="n">wp</span> <span class="o">=</span> <span class="n">librosa</span><span class="o">.</span><span class="n">core</span><span class="o">.</span><span class="n">dtw</span><span class="p">(</span><span class="n">X</span><span class="o">=</span><span class="n">x_1_chroma</span><span class="p">,</span> <span class="n">Y</span><span class="o">=</span><span class="n">x_2_chroma</span><span class="p">,</span> <span class="n">metric</span><span class="o">=</span><span class="s1">&#39;cosine&#39;</span><span class="p">)</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">D</span><span class="p">,</span> <span class="n">wp</span> <span class="o">=</span> <span class="n">librosa</span><span class="o">.</span><span class="n">core</span><span class="o">.</span><span class="n">dtw</span><span class="p">(</span><span class="n">X</span><span class="o">=</span><span class="n">x_1_chroma</span><span class="p">,</span> <span class="n">Y</span><span class="o">=</span><span class="n">x_2_chroma</span><span class="p">,</span> <span class="n">metric</span><span class="o">=</span><span class="s1">&#39;cosine&#39;</span><span class="p">)</span>
 <span class="n">wp_s</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">wp</span><span class="p">)</span> <span class="o">*</span> <span class="n">hop_size</span> <span class="o">/</span> <span class="n">fs</span>
 
 <span class="n">fig</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="mi">10</span><span class="p">))</span>
@@ -293,7 +293,7 @@ Our objective is now to find an alignment between these two recordings by using 
 <p>We can also visualize the wariping path directly on our time domain signals.
 Red lines connect corresponding time positions in the input signals.
 (Thanks to F. Zalkow for the nice visualization.)</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">fig</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">16</span><span class="p">,</span> <span class="mi">8</span><span class="p">))</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">fig</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">16</span><span class="p">,</span> <span class="mi">8</span><span class="p">))</span>
 
 <span class="c1"># Plot x_1</span>
 <span class="n">plt</span><span class="o">.</span><span class="n">subplot</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
@@ -348,14 +348,14 @@ e.g. speed up the slower signal to the tempo of the faster one.</p>
 <h2>Literature<a class="headerlink" href="#literature" title="Permalink to this headline">¶</a></h2>
 <p>[1] Meinard Müller, Fundamentals of Music Processing — Audio, Analysis, Algorithms, Applications.
 Springer Verlag, 2015.</p>
-<p><strong>Total running time of the script:</strong> ( 0 minutes  1.628 seconds)</p>
+<p class="sphx-glr-timing"><strong>Total running time of the script:</strong> ( 0 minutes  2.594 seconds)</p>
 <div class="sphx-glr-footer class sphx-glr-footer-example docutils container" id="sphx-glr-download-auto-examples-plot-music-sync-py">
 <div class="sphx-glr-download docutils container">
 <a class="reference download internal" href="../_downloads/plot_music_sync.py" download=""><code class="xref download docutils literal notranslate"><span class="pre">Download</span> <span class="pre">Python</span> <span class="pre">source</span> <span class="pre">code:</span> <span class="pre">plot_music_sync.py</span></code></a></div>
 <div class="sphx-glr-download docutils container">
 <a class="reference download internal" href="../_downloads/plot_music_sync.ipynb" download=""><code class="xref download docutils literal notranslate"><span class="pre">Download</span> <span class="pre">Jupyter</span> <span class="pre">notebook:</span> <span class="pre">plot_music_sync.ipynb</span></code></a></div>
 </div>
-<p class="sphx-glr-signature"><a class="reference external" href="https://sphinx-gallery.readthedocs.io">Gallery generated by Sphinx-Gallery</a></p>
+<p class="sphx-glr-signature"><a class="reference external" href="https://sphinx-gallery.github.io">Gallery generated by Sphinx-Gallery</a></p>
 </div>
 </div>
 
@@ -412,15 +412,13 @@ Springer Verlag, 2015.</p>
             <dd><a href="../../0.6.1/auto_examples/plot_music_sync.html">0.6.1</a></dd>
             <dd><a href="../../0.6.2/auto_examples/plot_music_sync.html">0.6.2</a></dd>
             <dd><a href="../../0.6.3/auto_examples/plot_music_sync.html">0.6.3</a></dd>
+            <dd><a href="../../0.7.0rc1/auto_examples/plot_music_sync.html">0.7.0rc1</a></dd>
             <dd><a href="../../v0.1.0/index.html">v0.1.0</a></dd>
             <dd><a href="../../v0.4.0/index.html">v0.4.0</a></dd>
         </dl>
         <dl>
             <dt>Branches</dt>
-            <dd><a href="../../display-bin-centering/index.html">display-bin-centering</a></dd>
             <dd><a href="../../master/auto_examples/plot_music_sync.html">master</a></dd>
-            <dd><a href="../../mpl-test-2.1/auto_examples/plot_music_sync.html">mpl-test-2.1</a></dd>
-            <dd><a href="../../runnning/auto_examples/plot_music_sync.html">runnning</a></dd>
         </dl>
     </div>
 </div>

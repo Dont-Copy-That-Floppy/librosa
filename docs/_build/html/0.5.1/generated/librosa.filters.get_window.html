@@ -201,14 +201,14 @@
 
 
 
-    <p class="scv-banner scv-sphinx_rtd_theme"><a href="../../0.6.3/generated/librosa.filters.get_window.html"><b>Warning:</b> This document is for an old version of librosa. The latest version is 0.6.3.</a></p>
+    <p class="scv-banner scv-sphinx_rtd_theme"><a href="../../0.7.0rc1/generated/librosa.filters.get_window.html"><b>Warning:</b> This document is for an old version of librosa. The latest version is 0.7.0rc1.</a></p>
 <div class="section" id="librosa-filters-get-window">
 <h1>librosa.filters.get_window<a class="headerlink" href="#librosa-filters-get-window" title="Permalink to this headline">¶</a></h1>
 <dl class="function">
 <dt id="librosa.filters.get_window">
 <code class="descclassname">librosa.filters.</code><code class="descname">get_window</code><span class="sig-paren">(</span><em>window</em>, <em>Nx</em>, <em>fftbins=True</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/librosa/filters.html#get_window"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#librosa.filters.get_window" title="Permalink to this definition">¶</a></dt>
 <dd><p>Compute a window function.</p>
-<p>This is a wrapper for <a class="reference external" href="https://docs.scipy.org/doc/scipy/reference/generated/scipy.signal.get_window.html#scipy.signal.get_window" title="(in SciPy v1.2.1)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">scipy.signal.get_window</span></code></a> that additionally
+<p>This is a wrapper for <a class="reference external" href="https://docs.scipy.org/doc/scipy/reference/generated/scipy.signal.get_window.html#scipy.signal.get_window" title="(in SciPy v1.3.0)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">scipy.signal.get_window</span></code></a> that additionally
 supports callable or pre-computed windows.</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
@@ -222,7 +222,7 @@ supports callable or pre-computed windows.</p>
 <li>If tuple, it’s the name of the window function and any parameters
 (e.g., <em class="xref py py-obj">(‘kaiser’, 4.0)</em>)</li>
 <li>If numeric, it is treated as the beta parameter of the <em class="xref py py-obj">‘kaiser’</em>
-window, as in <a class="reference external" href="https://docs.scipy.org/doc/scipy/reference/generated/scipy.signal.get_window.html#scipy.signal.get_window" title="(in SciPy v1.2.1)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">scipy.signal.get_window</span></code></a>.</li>
+window, as in <a class="reference external" href="https://docs.scipy.org/doc/scipy/reference/generated/scipy.signal.get_window.html#scipy.signal.get_window" title="(in SciPy v1.3.0)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">scipy.signal.get_window</span></code></a>.</li>
 <li>If callable, it’s a function that accepts one integer argument
 (the window length)</li>
 <li>If list-like, it’s a pre-computed window of the correct length <em class="xref py py-obj">Nx</em></li>
@@ -246,7 +246,7 @@ If False, create a symmetric window for filter design applications.</p>
 </td>
 </tr>
 <tr class="field-odd field"><th class="field-name">Raises:</th><td class="field-body"><dl class="first last docutils">
-<dt><strong>ParameterError</strong></dt>
+<dt>ParameterError</dt>
 <dd><p class="first last">If <em class="xref py py-obj">window</em> is supplied as a vector of length != <em class="xref py py-obj">n_fft</em>,
 or is otherwise mis-specified.</p>
 </dd>
@@ -257,7 +257,10 @@ or is otherwise mis-specified.</p>
 </table>
 <div class="admonition seealso">
 <p class="first admonition-title">See also</p>
-<p class="last"><a class="reference external" href="https://docs.scipy.org/doc/scipy/reference/generated/scipy.signal.get_window.html#scipy.signal.get_window" title="(in SciPy v1.2.1)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">scipy.signal.get_window</span></code></a></p>
+<dl class="last docutils">
+<dt><a class="reference external" href="https://docs.scipy.org/doc/scipy/reference/generated/scipy.signal.get_window.html#scipy.signal.get_window" title="(in SciPy v1.3.0)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">scipy.signal.get_window</span></code></a></dt>
+<dd></dd>
+</dl>
 </div>
 <p class="rubric">Notes</p>
 <p>This function caches at level 10.</p>
@@ -318,15 +321,13 @@ or is otherwise mis-specified.</p>
             <dd><a href="../../0.6.1/generated/librosa.filters.get_window.html">0.6.1</a></dd>
             <dd><a href="../../0.6.2/generated/librosa.filters.get_window.html">0.6.2</a></dd>
             <dd><a href="../../0.6.3/generated/librosa.filters.get_window.html">0.6.3</a></dd>
+            <dd><a href="../../0.7.0rc1/generated/librosa.filters.get_window.html">0.7.0rc1</a></dd>
             <dd><a href="../../v0.1.0/index.html">v0.1.0</a></dd>
             <dd><a href="../../v0.4.0/index.html">v0.4.0</a></dd>
         </dl>
         <dl>
             <dt>Branches</dt>
-            <dd><a href="../../display-bin-centering/generated/librosa.filters.get_window.html">display-bin-centering</a></dd>
             <dd><a href="../../master/generated/librosa.filters.get_window.html">master</a></dd>
-            <dd><a href="../../mpl-test-2.1/generated/librosa.filters.get_window.html">mpl-test-2.1</a></dd>
-            <dd><a href="../../runnning/generated/librosa.filters.get_window.html">runnning</a></dd>
         </dl>
     </div>
 </div>

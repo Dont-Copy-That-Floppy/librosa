@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>librosa.sequence.viterbi_discriminative &mdash; librosa 0.6.3 documentation</title>
+  <title>librosa.sequence.viterbi_discriminative &mdash; librosa 0.7.0rc1 documentation</title>
   
 
   
@@ -23,7 +23,7 @@
       <script type="text/javascript">
           var DOCUMENTATION_OPTIONS = {
               URL_ROOT:'../',
-              VERSION:'0.6.3',
+              VERSION:'0.7.0rc1',
               LANGUAGE:'None',
               COLLAPSE_INDEX:false,
               FILE_SUFFIX:'.html',
@@ -72,7 +72,7 @@
             
             
               <div class="version">
-                0.6
+                0.7
               </div>
             
           
@@ -111,7 +111,7 @@
 <li class="toctree-l1"><a class="reference internal" href="../output.html">Output</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../segment.html">Temporal segmentation</a></li>
 <li class="toctree-l1 current"><a class="reference internal" href="../sequence.html">Sequential modeling</a><ul class="current">
-<li class="toctree-l2"><a class="reference internal" href="../sequence.html#dynamic-time-warping">Dynamic time warping</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../sequence.html#sequence-alignment">Sequence alignment</a></li>
 <li class="toctree-l2 current"><a class="reference internal" href="../sequence.html#viterbi-decoding">Viterbi decoding</a><ul class="current">
 <li class="toctree-l3"><a class="reference internal" href="librosa.sequence.viterbi.html">librosa.sequence.viterbi</a></li>
 <li class="toctree-l3 current"><a class="current reference internal" href="#">librosa.sequence.viterbi_discriminative</a></li>
@@ -206,7 +206,7 @@
 
 
 
-    <p class="scv-banner scv-sphinx_rtd_theme"><a href="../../0.6.3/generated/librosa.sequence.viterbi_discriminative.html"><b>Warning:</b> This document is for the development version of librosa. The latest version is 0.6.3.</a></p>
+    <p class="scv-banner scv-sphinx_rtd_theme"><a href="../../0.7.0rc1/generated/librosa.sequence.viterbi_discriminative.html"><b>Warning:</b> This document is for the development version of librosa. The latest version is 0.7.0rc1.</a></p>
 <div class="section" id="librosa-sequence-viterbi-discriminative">
 <h1>librosa.sequence.viterbi_discriminative<a class="headerlink" href="#librosa-sequence-viterbi-discriminative" title="Permalink to this headline">¶</a></h1>
 <dl class="function">
@@ -254,7 +254,7 @@ If not provided, it is assumed to be uniform.</p>
 </td>
 </tr>
 <tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><dl class="first last docutils">
-<dt><strong>Either `states` or `(states, logp)`:</strong></dt>
+<dt>Either <em class="xref py py-obj">states</em> or <em class="xref py py-obj">(states, logp)</em>:</dt>
 <dd></dd>
 <dt><strong>states</strong> <span class="classifier-delimiter">:</span> <span class="classifier">np.ndarray [shape=(n_steps,)]</span></dt>
 <dd><p class="first last">The most likely state sequence.</p>
@@ -328,7 +328,12 @@ intended to demonstrate how to use discriminative Viterbi decoding.</p>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s1">&#39;Chord&#39;</span><span class="p">)</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">plt</span><span class="o">.</span><span class="n">colorbar</span><span class="p">()</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">plt</span><span class="o">.</span><span class="n">tight_layout</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
 </pre></div>
+</div>
+<p>(<a class="reference external" href="../generated/librosa-sequence-viterbi_discriminative-1.py">Source code</a>)</p>
+<div class="figure">
+<img alt="../_images/librosa-sequence-viterbi_discriminative-1_00_00.png" src="../_images/librosa-sequence-viterbi_discriminative-1_00_00.png" />
 </div>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="c1"># And plot the results</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="mi">4</span><span class="p">))</span>
@@ -338,11 +343,14 @@ intended to demonstrate how to use discriminative Viterbi decoding.</p>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">plt</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span><span class="n">times</span><span class="p">,</span> <span class="n">chords_ind</span> <span class="o">+</span> <span class="mf">0.75</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;lime&#39;</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.5</span><span class="p">,</span> <span class="n">marker</span><span class="o">=</span><span class="s1">&#39;+&#39;</span><span class="p">,</span> <span class="n">s</span><span class="o">=</span><span class="mi">15</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;Independent&#39;</span><span class="p">)</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">plt</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span><span class="n">times</span><span class="p">,</span> <span class="n">chords_vit</span> <span class="o">+</span> <span class="mf">0.25</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;deeppink&#39;</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.5</span><span class="p">,</span> <span class="n">marker</span><span class="o">=</span><span class="s1">&#39;o&#39;</span><span class="p">,</span> <span class="n">s</span><span class="o">=</span><span class="mi">15</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;Viterbi&#39;</span><span class="p">)</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">plt</span><span class="o">.</span><span class="n">yticks</span><span class="p">(</span><span class="mf">0.5</span> <span class="o">+</span> <span class="n">np</span><span class="o">.</span><span class="n">unique</span><span class="p">(</span><span class="n">chords_vit</span><span class="p">),</span> <span class="p">[</span><span class="n">labels</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">np</span><span class="o">.</span><span class="n">unique</span><span class="p">(</span><span class="n">chords_vit</span><span class="p">)],</span> <span class="n">va</span><span class="o">=</span><span class="s1">&#39;center&#39;</span><span class="p">)</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">plt</span><span class="o">.</span><span class="n">legend</span><span class="p">(</span><span class="n">loc</span><span class="o">=</span><span class="s1">&#39;best&#39;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">plt</span><span class="o">.</span><span class="n">legend</span><span class="p">()</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">plt</span><span class="o">.</span><span class="n">tight_layout</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
 </pre></div>
 </div>
-<p>(<a class="reference external" href="../generated/librosa-sequence-viterbi_discriminative-1.py">Source code</a>)</p>
+<div class="figure">
+<img alt="../_images/librosa-sequence-viterbi_discriminative-1_01_00.png" src="../_images/librosa-sequence-viterbi_discriminative-1_01_00.png" />
+</div>
 </dd></dl>
 
 </div>
@@ -400,15 +408,13 @@ intended to demonstrate how to use discriminative Viterbi decoding.</p>
             <dd><a href="../../0.6.1/generated/librosa.sequence.viterbi_discriminative.html">0.6.1</a></dd>
             <dd><a href="../../0.6.2/generated/librosa.sequence.viterbi_discriminative.html">0.6.2</a></dd>
             <dd><a href="../../0.6.3/generated/librosa.sequence.viterbi_discriminative.html">0.6.3</a></dd>
+            <dd><a href="../../0.7.0rc1/generated/librosa.sequence.viterbi_discriminative.html">0.7.0rc1</a></dd>
             <dd><a href="../../v0.1.0/index.html">v0.1.0</a></dd>
             <dd><a href="../../v0.4.0/index.html">v0.4.0</a></dd>
         </dl>
         <dl>
             <dt>Branches</dt>
-            <dd><a href="../../display-bin-centering/index.html">display-bin-centering</a></dd>
             <dd><a href="librosa.sequence.viterbi_discriminative.html">master</a></dd>
-            <dd><a href="../../mpl-test-2.1/index.html">mpl-test-2.1</a></dd>
-            <dd><a href="../../runnning/generated/librosa.sequence.viterbi_discriminative.html">runnning</a></dd>
         </dl>
     </div>
 </div>

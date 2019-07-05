@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>librosa.core.tempo_frequencies &mdash; librosa 0.6.3 documentation</title>
+  <title>librosa.core.tempo_frequencies &mdash; librosa 0.7.0rc1 documentation</title>
   
 
   
@@ -23,7 +23,7 @@
       <script type="text/javascript">
           var DOCUMENTATION_OPTIONS = {
               URL_ROOT:'../',
-              VERSION:'0.6.3',
+              VERSION:'0.7.0rc1',
               LANGUAGE:'None',
               COLLAPSE_INDEX:false,
               FILE_SUFFIX:'.html',
@@ -47,7 +47,7 @@
   <link rel="stylesheet" href="../_static/banner.css" type="text/css" />
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
-    <link rel="next" title="librosa.core.samples_like" href="librosa.core.samples_like.html" />
+    <link rel="next" title="librosa.core.fourier_tempo_frequencies" href="librosa.core.fourier_tempo_frequencies.html" />
     <link rel="prev" title="librosa.core.mel_frequencies" href="librosa.core.mel_frequencies.html" /> 
 </head>
 
@@ -72,7 +72,7 @@
             
             
               <div class="version">
-                0.6
+                0.7
               </div>
             
           
@@ -112,6 +112,9 @@
 <li class="toctree-l3"><a class="reference internal" href="librosa.core.samples_to_time.html">librosa.core.samples_to_time</a></li>
 <li class="toctree-l3"><a class="reference internal" href="librosa.core.time_to_frames.html">librosa.core.time_to_frames</a></li>
 <li class="toctree-l3"><a class="reference internal" href="librosa.core.time_to_samples.html">librosa.core.time_to_samples</a></li>
+<li class="toctree-l3"><a class="reference internal" href="librosa.core.blocks_to_frames.html">librosa.core.blocks_to_frames</a></li>
+<li class="toctree-l3"><a class="reference internal" href="librosa.core.blocks_to_samples.html">librosa.core.blocks_to_samples</a></li>
+<li class="toctree-l3"><a class="reference internal" href="librosa.core.blocks_to_time.html">librosa.core.blocks_to_time</a></li>
 <li class="toctree-l3"><a class="reference internal" href="librosa.core.hz_to_note.html">librosa.core.hz_to_note</a></li>
 <li class="toctree-l3"><a class="reference internal" href="librosa.core.hz_to_midi.html">librosa.core.hz_to_midi</a></li>
 <li class="toctree-l3"><a class="reference internal" href="librosa.core.midi_to_hz.html">librosa.core.midi_to_hz</a></li>
@@ -126,12 +129,12 @@
 <li class="toctree-l3"><a class="reference internal" href="librosa.core.cqt_frequencies.html">librosa.core.cqt_frequencies</a></li>
 <li class="toctree-l3"><a class="reference internal" href="librosa.core.mel_frequencies.html">librosa.core.mel_frequencies</a></li>
 <li class="toctree-l3 current"><a class="current reference internal" href="#">librosa.core.tempo_frequencies</a></li>
+<li class="toctree-l3"><a class="reference internal" href="librosa.core.fourier_tempo_frequencies.html">librosa.core.fourier_tempo_frequencies</a></li>
 <li class="toctree-l3"><a class="reference internal" href="librosa.core.samples_like.html">librosa.core.samples_like</a></li>
 <li class="toctree-l3"><a class="reference internal" href="librosa.core.times_like.html">librosa.core.times_like</a></li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="../core.html#pitch-and-tuning">Pitch and tuning</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../core.html#deprecated-moved">Deprecated (moved)</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="../display.html">Display</a></li>
@@ -228,13 +231,13 @@
 
 
 
-    <p class="scv-banner scv-sphinx_rtd_theme"><a href="../../0.6.3/generated/librosa.core.tempo_frequencies.html"><b>Warning:</b> This document is for the development version of librosa. The latest version is 0.6.3.</a></p>
+    <p class="scv-banner scv-sphinx_rtd_theme"><a href="../../0.7.0rc1/generated/librosa.core.tempo_frequencies.html"><b>Warning:</b> This document is for the development version of librosa. The latest version is 0.7.0rc1.</a></p>
 <div class="section" id="librosa-core-tempo-frequencies">
 <h1>librosa.core.tempo_frequencies<a class="headerlink" href="#librosa-core-tempo-frequencies" title="Permalink to this headline">¶</a></h1>
 <dl class="function">
 <dt id="librosa.core.tempo_frequencies">
 <code class="descclassname">librosa.core.</code><code class="descname">tempo_frequencies</code><span class="sig-paren">(</span><em>n_bins</em>, <em>hop_length=512</em>, <em>sr=22050</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/librosa/core/time_frequency.html#tempo_frequencies"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#librosa.core.tempo_frequencies" title="Permalink to this definition">¶</a></dt>
-<dd><p>Compute the frequencies (in beats-per-minute) corresponding
+<dd><p>Compute the frequencies (in beats per minute) corresponding
 to an onset auto-correlation or tempogram matrix.</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
@@ -285,7 +288,7 @@ to an onset auto-correlation or tempogram matrix.</p>
   
     <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
       
-        <a href="librosa.core.samples_like.html" class="btn btn-neutral float-right" title="librosa.core.samples_like" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+        <a href="librosa.core.fourier_tempo_frequencies.html" class="btn btn-neutral float-right" title="librosa.core.fourier_tempo_frequencies" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
       
       
         <a href="librosa.core.mel_frequencies.html" class="btn btn-neutral float-left" title="librosa.core.mel_frequencies" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
@@ -330,15 +333,13 @@ to an onset auto-correlation or tempogram matrix.</p>
             <dd><a href="../../0.6.1/generated/librosa.core.tempo_frequencies.html">0.6.1</a></dd>
             <dd><a href="../../0.6.2/generated/librosa.core.tempo_frequencies.html">0.6.2</a></dd>
             <dd><a href="../../0.6.3/generated/librosa.core.tempo_frequencies.html">0.6.3</a></dd>
+            <dd><a href="../../0.7.0rc1/generated/librosa.core.tempo_frequencies.html">0.7.0rc1</a></dd>
             <dd><a href="../../v0.1.0/index.html">v0.1.0</a></dd>
             <dd><a href="../../v0.4.0/index.html">v0.4.0</a></dd>
         </dl>
         <dl>
             <dt>Branches</dt>
-            <dd><a href="../../display-bin-centering/generated/librosa.core.tempo_frequencies.html">display-bin-centering</a></dd>
             <dd><a href="librosa.core.tempo_frequencies.html">master</a></dd>
-            <dd><a href="../../mpl-test-2.1/generated/librosa.core.tempo_frequencies.html">mpl-test-2.1</a></dd>
-            <dd><a href="../../runnning/generated/librosa.core.tempo_frequencies.html">runnning</a></dd>
         </dl>
     </div>
 </div>

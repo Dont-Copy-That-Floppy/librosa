@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>librosa.decompose.hpss &mdash; librosa 0.6.3 documentation</title>
+  <title>librosa.decompose.hpss &mdash; librosa 0.7.0rc1 documentation</title>
   
 
   
@@ -23,7 +23,7 @@
       <script type="text/javascript">
           var DOCUMENTATION_OPTIONS = {
               URL_ROOT:'../',
-              VERSION:'0.6.3',
+              VERSION:'0.7.0rc1',
               LANGUAGE:'None',
               COLLAPSE_INDEX:false,
               FILE_SUFFIX:'.html',
@@ -72,7 +72,7 @@
             
             
               <div class="version">
-                0.6
+                0.7
               </div>
             
           
@@ -283,7 +283,10 @@ of the percussive mask.</li>
 </table>
 <div class="admonition seealso">
 <p class="first admonition-title">See also</p>
-<p class="last"><code class="xref py py-obj docutils literal notranslate"><span class="pre">util.softmask</span></code></p>
+<dl class="last docutils">
+<dt><code class="xref py py-obj docutils literal notranslate"><span class="pre">util.softmask</span></code></dt>
+<dd></dd>
+</dl>
 </div>
 <p class="rubric">Notes</p>
 <p>This function caches at level 30.</p>
@@ -315,7 +318,12 @@ of the percussive mask.</li>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">plt</span><span class="o">.</span><span class="n">colorbar</span><span class="p">(</span><span class="nb">format</span><span class="o">=</span><span class="s1">&#39;</span><span class="si">%+2.0f</span><span class="s1"> dB&#39;</span><span class="p">)</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s1">&#39;Percussive power spectrogram&#39;</span><span class="p">)</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">plt</span><span class="o">.</span><span class="n">tight_layout</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
 </pre></div>
+</div>
+<p>(<a class="reference external" href="../generated/librosa-decompose-hpss-1.py">Source code</a>)</p>
+<div class="figure">
+<img alt="../_images/librosa-decompose-hpss-1_00_00.png" src="../_images/librosa-decompose-hpss-1_00_00.png" />
 </div>
 <p>Or with a narrower horizontal filter</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">H</span><span class="p">,</span> <span class="n">P</span> <span class="o">=</span> <span class="n">librosa</span><span class="o">.</span><span class="n">decompose</span><span class="o">.</span><span class="n">hpss</span><span class="p">(</span><span class="n">D</span><span class="p">,</span> <span class="n">kernel_size</span><span class="o">=</span><span class="p">(</span><span class="mi">13</span><span class="p">,</span> <span class="mi">31</span><span class="p">))</span>
@@ -348,10 +356,6 @@ of the percussive mask.</li>
 <p>Get a more isolated percussive component by widening its margin</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">H</span><span class="p">,</span> <span class="n">P</span> <span class="o">=</span> <span class="n">librosa</span><span class="o">.</span><span class="n">decompose</span><span class="o">.</span><span class="n">hpss</span><span class="p">(</span><span class="n">D</span><span class="p">,</span> <span class="n">margin</span><span class="o">=</span><span class="p">(</span><span class="mf">1.0</span><span class="p">,</span><span class="mf">5.0</span><span class="p">))</span>
 </pre></div>
-</div>
-<p>(<a class="reference external" href="../generated/librosa-decompose-hpss-1.py">Source code</a>)</p>
-<div class="figure">
-<img alt="../_images/librosa-decompose-hpss-1.png" src="../_images/librosa-decompose-hpss-1.png" />
 </div>
 </dd></dl>
 
@@ -395,7 +399,7 @@ of the percussive mask.</li>
 <div class="rst-versions" data-toggle="rst-versions" role="note" aria-label="versions">
     <span class="rst-current-version" data-toggle="rst-current-version">
         <span class="fa fa-book"> Other Versions</span>
-        v: 0.6.3
+        v: 0.7.0rc1
         <span class="fa fa-caret-down"></span>
     </span>
     <div class="rst-other-versions">
@@ -410,15 +414,13 @@ of the percussive mask.</li>
             <dd><a href="../0.6.1/generated/librosa.decompose.hpss.html">0.6.1</a></dd>
             <dd><a href="../0.6.2/generated/librosa.decompose.hpss.html">0.6.2</a></dd>
             <dd><a href="../0.6.3/generated/librosa.decompose.hpss.html">0.6.3</a></dd>
+            <dd><a href="../0.7.0rc1/generated/librosa.decompose.hpss.html">0.7.0rc1</a></dd>
             <dd><a href="../v0.1.0/index.html">v0.1.0</a></dd>
             <dd><a href="../v0.4.0/index.html">v0.4.0</a></dd>
         </dl>
         <dl>
             <dt>Branches</dt>
-            <dd><a href="../display-bin-centering/generated/librosa.decompose.hpss.html">display-bin-centering</a></dd>
             <dd><a href="../master/generated/librosa.decompose.hpss.html">master</a></dd>
-            <dd><a href="../mpl-test-2.1/generated/librosa.decompose.hpss.html">mpl-test-2.1</a></dd>
-            <dd><a href="../runnning/generated/librosa.decompose.hpss.html">runnning</a></dd>
         </dl>
     </div>
 </div>

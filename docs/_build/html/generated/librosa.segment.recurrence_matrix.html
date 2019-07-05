@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>librosa.segment.recurrence_matrix &mdash; librosa 0.6.3 documentation</title>
+  <title>librosa.segment.recurrence_matrix &mdash; librosa 0.7.0rc1 documentation</title>
   
 
   
@@ -23,7 +23,7 @@
       <script type="text/javascript">
           var DOCUMENTATION_OPTIONS = {
               URL_ROOT:'../',
-              VERSION:'0.6.3',
+              VERSION:'0.7.0rc1',
               LANGUAGE:'None',
               COLLAPSE_INDEX:false,
               FILE_SUFFIX:'.html',
@@ -48,7 +48,7 @@
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
     <link rel="next" title="librosa.segment.recurrence_to_lag" href="librosa.segment.recurrence_to_lag.html" />
-    <link rel="prev" title="Temporal segmentation" href="../segment.html" /> 
+    <link rel="prev" title="librosa.segment.cross_similarity" href="librosa.segment.cross_similarity.html" /> 
 </head>
 
 <body class="wy-body-for-nav">
@@ -72,7 +72,7 @@
             
             
               <div class="version">
-                0.6
+                0.7
               </div>
             
           
@@ -111,10 +111,12 @@
 <li class="toctree-l1"><a class="reference internal" href="../output.html">Output</a></li>
 <li class="toctree-l1 current"><a class="reference internal" href="../segment.html">Temporal segmentation</a><ul class="current">
 <li class="toctree-l2 current"><a class="reference internal" href="../segment.html#recurrence-and-self-similarity">Recurrence and self-similarity</a><ul class="current">
+<li class="toctree-l3"><a class="reference internal" href="librosa.segment.cross_similarity.html">librosa.segment.cross_similarity</a></li>
 <li class="toctree-l3 current"><a class="current reference internal" href="#">librosa.segment.recurrence_matrix</a></li>
 <li class="toctree-l3"><a class="reference internal" href="librosa.segment.recurrence_to_lag.html">librosa.segment.recurrence_to_lag</a></li>
 <li class="toctree-l3"><a class="reference internal" href="librosa.segment.lag_to_recurrence.html">librosa.segment.lag_to_recurrence</a></li>
 <li class="toctree-l3"><a class="reference internal" href="librosa.segment.timelag_filter.html">librosa.segment.timelag_filter</a></li>
+<li class="toctree-l3"><a class="reference internal" href="librosa.segment.path_enhance.html">librosa.segment.path_enhance</a></li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="../segment.html#temporal-clustering">Temporal clustering</a></li>
@@ -208,10 +210,22 @@
 <h1>librosa.segment.recurrence_matrix<a class="headerlink" href="#librosa-segment-recurrence-matrix" title="Permalink to this headline">¶</a></h1>
 <dl class="function">
 <dt id="librosa.segment.recurrence_matrix">
-<code class="descclassname">librosa.segment.</code><code class="descname">recurrence_matrix</code><span class="sig-paren">(</span><em>data</em>, <em>k=None</em>, <em>width=1</em>, <em>metric='euclidean'</em>, <em>sym=False</em>, <em>sparse=False</em>, <em>mode='connectivity'</em>, <em>bandwidth=None</em>, <em>axis=-1</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/librosa/segment.html#recurrence_matrix"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#librosa.segment.recurrence_matrix" title="Permalink to this definition">¶</a></dt>
+<code class="descclassname">librosa.segment.</code><code class="descname">recurrence_matrix</code><span class="sig-paren">(</span><em>data</em>, <em>k=None</em>, <em>width=1</em>, <em>metric='euclidean'</em>, <em>sym=False</em>, <em>sparse=False</em>, <em>mode='connectivity'</em>, <em>bandwidth=None</em>, <em>self=False</em>, <em>axis=-1</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/librosa/segment.html#recurrence_matrix"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#librosa.segment.recurrence_matrix" title="Permalink to this definition">¶</a></dt>
 <dd><p>Compute a recurrence matrix from a data matrix.</p>
-<p><em class="xref py py-obj">rec[i, j]</em> is non-zero if (<em class="xref py py-obj">data[:, i]</em>, <em class="xref py py-obj">data[:, j]</em>) are
+<p><em class="xref py py-obj">rec[i, j]</em> is non-zero if <em class="xref py py-obj">data[:, i]</em> is one of <em class="xref py py-obj">data[:, j]</em>’s
 k-nearest-neighbors and <em class="xref py py-obj">|i - j| &gt;= width</em></p>
+<p>The specific value of <em class="xref py py-obj">rec[i, j]</em> can have several forms, governed
+by the <em class="xref py py-obj">mode</em> parameter below:</p>
+<blockquote>
+<div><ul class="simple">
+<li>Connectivity: <em class="xref py py-obj">rec[i, j] = 1 or 0</em> indicates that frames <em class="xref py py-obj">i</em> and <em class="xref py py-obj">j</em> are repetitions</li>
+<li>Affinity: <em class="xref py py-obj">rec[i, j] &gt; 0</em> measures how similar frames <em class="xref py py-obj">i</em> and <em class="xref py py-obj">j</em> are.  This is also
+known as a (sparse) self-similarity matrix.</li>
+<li>Distance: <em class="xref py py-obj">rec[i, j] &gt; 0</em> measures how distant frames <em class="xref py py-obj">i</em> and <em class="xref py py-obj">j</em> are.  This is also
+known as a (sparse) self-distance matrix.</li>
+</ul>
+</div></blockquote>
+<p>The general term <em>recurrence matrix</em> can refer to any of the three forms above.</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
@@ -226,19 +240,20 @@ k-nearest-neighbors and <em class="xref py py-obj">|i - j| &gt;= width</em></p>
 or <em class="xref py py-obj">k = 2</em> if <em class="xref py py-obj">t &lt;= 2 * width + 1</em></p>
 </dd>
 <dt><strong>width</strong> <span class="classifier-delimiter">:</span> <span class="classifier">int &gt;= 1 [scalar]</span></dt>
-<dd><p class="first last">only link neighbors <em class="xref py py-obj">(data[:, i], data[:, j])</em>
+<dd><p class="first">only link neighbors <em class="xref py py-obj">(data[:, i], data[:, j])</em>
 if <em class="xref py py-obj">|i - j| &gt;= width</em></p>
+<p class="last"><em class="xref py py-obj">width</em> cannot exceed the length of the data.</p>
 </dd>
 <dt><strong>metric</strong> <span class="classifier-delimiter">:</span> <span class="classifier">str</span></dt>
 <dd><p class="first">Distance metric to use for nearest-neighbor calculation.</p>
-<p class="last">See <a class="reference external" href="https://scikit-learn.org/stable/modules/generated/sklearn.neighbors.NearestNeighbors.html#sklearn.neighbors.NearestNeighbors" title="(in scikit-learn v0.20.2)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">sklearn.neighbors.NearestNeighbors</span></code></a> for details.</p>
+<p class="last">See <a class="reference external" href="https://scikit-learn.org/stable/modules/generated/sklearn.neighbors.NearestNeighbors.html#sklearn.neighbors.NearestNeighbors" title="(in scikit-learn v0.21.2)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">sklearn.neighbors.NearestNeighbors</span></code></a> for details.</p>
 </dd>
 <dt><strong>sym</strong> <span class="classifier-delimiter">:</span> <span class="classifier">bool [scalar]</span></dt>
 <dd><p class="first last">set <em class="xref py py-obj">sym=True</em> to only link mutual nearest-neighbors</p>
 </dd>
 <dt><strong>sparse</strong> <span class="classifier-delimiter">:</span> <span class="classifier">bool [scalar]</span></dt>
 <dd><p class="first last">if False, returns a dense type (ndarray)
-if True, returns a sparse type (scipy.sparse.csr_matrix)</p>
+if True, returns a sparse type (scipy.sparse.csc_matrix)</p>
 </dd>
 <dt><strong>mode</strong> <span class="classifier-delimiter">:</span> <span class="classifier">str, {‘connectivity’, ‘distance’, ‘affinity’}</span></dt>
 <dd><p class="first">If ‘connectivity’, a binary connectivity matrix is produced.</p>
@@ -254,6 +269,11 @@ bandwidth on the affinity kernel.</p>
 <p class="last">If no value is provided, it is set automatically to the median
 distance between furthest nearest neighbors.</p>
 </dd>
+<dt><strong>self</strong> <span class="classifier-delimiter">:</span> <span class="classifier">bool</span></dt>
+<dd><p class="first">If <em class="xref py py-obj">True</em>, then the main diagonal is populated with self-links:
+0 if <code class="docutils literal notranslate"><span class="pre">mode='distance'</span></code>, and 1 otherwise.</p>
+<p class="last">If <em class="xref py py-obj">False</em>, the main diagonal is left empty.</p>
+</dd>
 <dt><strong>axis</strong> <span class="classifier-delimiter">:</span> <span class="classifier">int</span></dt>
 <dd><p class="first last">The axis along which to compute recurrence.
 By default, the last index (-1) is taken.</p>
@@ -262,7 +282,7 @@ By default, the last index (-1) is taken.</p>
 </td>
 </tr>
 <tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><dl class="first last docutils">
-<dt><strong>rec</strong> <span class="classifier-delimiter">:</span> <span class="classifier">np.ndarray or scipy.sparse.csr_matrix, [shape=(t, t)]</span></dt>
+<dt><strong>rec</strong> <span class="classifier-delimiter">:</span> <span class="classifier">np.ndarray or scipy.sparse.csc_matrix, [shape=(t, t)]</span></dt>
 <dd><p class="first last">Recurrence matrix</p>
 </dd>
 </dl>
@@ -272,7 +292,16 @@ By default, the last index (-1) is taken.</p>
 </table>
 <div class="admonition seealso">
 <p class="first admonition-title">See also</p>
-<p class="last"><a class="reference external" href="https://scikit-learn.org/stable/modules/generated/sklearn.neighbors.NearestNeighbors.html#sklearn.neighbors.NearestNeighbors" title="(in scikit-learn v0.20.2)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">sklearn.neighbors.NearestNeighbors</span></code></a>, <a class="reference external" href="https://docs.scipy.org/doc/scipy/reference/generated/scipy.spatial.distance.cdist.html#scipy.spatial.distance.cdist" title="(in SciPy v1.2.1)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">scipy.spatial.distance.cdist</span></code></a>, <a class="reference internal" href="librosa.feature.stack_memory.html#librosa.feature.stack_memory" title="librosa.feature.stack_memory"><code class="xref py py-obj docutils literal notranslate"><span class="pre">librosa.feature.stack_memory</span></code></a>, <a class="reference internal" href="librosa.segment.recurrence_to_lag.html#librosa.segment.recurrence_to_lag" title="librosa.segment.recurrence_to_lag"><code class="xref py py-obj docutils literal notranslate"><span class="pre">recurrence_to_lag</span></code></a></p>
+<dl class="last docutils">
+<dt><a class="reference external" href="https://scikit-learn.org/stable/modules/generated/sklearn.neighbors.NearestNeighbors.html#sklearn.neighbors.NearestNeighbors" title="(in scikit-learn v0.21.2)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">sklearn.neighbors.NearestNeighbors</span></code></a></dt>
+<dd></dd>
+<dt><a class="reference external" href="https://docs.scipy.org/doc/scipy/reference/generated/scipy.spatial.distance.cdist.html#scipy.spatial.distance.cdist" title="(in SciPy v1.3.0)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">scipy.spatial.distance.cdist</span></code></a></dt>
+<dd></dd>
+<dt><a class="reference internal" href="librosa.feature.stack_memory.html#librosa.feature.stack_memory" title="librosa.feature.stack_memory"><code class="xref py py-obj docutils literal notranslate"><span class="pre">librosa.feature.stack_memory</span></code></a></dt>
+<dd></dd>
+<dt><a class="reference internal" href="librosa.segment.recurrence_to_lag.html#librosa.segment.recurrence_to_lag" title="librosa.segment.recurrence_to_lag"><code class="xref py py-obj docutils literal notranslate"><span class="pre">recurrence_to_lag</span></code></a></dt>
+<dd></dd>
+</dl>
 </div>
 <p class="rubric">Notes</p>
 <p>This function caches at level 30.</p>
@@ -314,9 +343,13 @@ By default, the last index (-1) is taken.</p>
 <span class="gp">... </span>                         <span class="n">cmap</span><span class="o">=</span><span class="s1">&#39;magma_r&#39;</span><span class="p">)</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s1">&#39;Affinity recurrence&#39;</span><span class="p">)</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">plt</span><span class="o">.</span><span class="n">tight_layout</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
 </pre></div>
 </div>
 <p>(<a class="reference external" href="../generated/librosa-segment-recurrence_matrix-1.py">Source code</a>)</p>
+<div class="figure">
+<img alt="../_images/librosa-segment-recurrence_matrix-1.png" src="../_images/librosa-segment-recurrence_matrix-1.png" />
+</div>
 </dd></dl>
 
 </div>
@@ -332,7 +365,7 @@ By default, the last index (-1) is taken.</p>
         <a href="librosa.segment.recurrence_to_lag.html" class="btn btn-neutral float-right" title="librosa.segment.recurrence_to_lag" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
       
       
-        <a href="../segment.html" class="btn btn-neutral float-left" title="Temporal segmentation" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+        <a href="librosa.segment.cross_similarity.html" class="btn btn-neutral float-left" title="librosa.segment.cross_similarity" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
       
     </div>
   
@@ -359,7 +392,7 @@ By default, the last index (-1) is taken.</p>
 <div class="rst-versions" data-toggle="rst-versions" role="note" aria-label="versions">
     <span class="rst-current-version" data-toggle="rst-current-version">
         <span class="fa fa-book"> Other Versions</span>
-        v: 0.6.3
+        v: 0.7.0rc1
         <span class="fa fa-caret-down"></span>
     </span>
     <div class="rst-other-versions">
@@ -374,15 +407,13 @@ By default, the last index (-1) is taken.</p>
             <dd><a href="../0.6.1/generated/librosa.segment.recurrence_matrix.html">0.6.1</a></dd>
             <dd><a href="../0.6.2/generated/librosa.segment.recurrence_matrix.html">0.6.2</a></dd>
             <dd><a href="../0.6.3/generated/librosa.segment.recurrence_matrix.html">0.6.3</a></dd>
+            <dd><a href="../0.7.0rc1/generated/librosa.segment.recurrence_matrix.html">0.7.0rc1</a></dd>
             <dd><a href="../v0.1.0/index.html">v0.1.0</a></dd>
             <dd><a href="../v0.4.0/index.html">v0.4.0</a></dd>
         </dl>
         <dl>
             <dt>Branches</dt>
-            <dd><a href="../display-bin-centering/generated/librosa.segment.recurrence_matrix.html">display-bin-centering</a></dd>
             <dd><a href="../master/generated/librosa.segment.recurrence_matrix.html">master</a></dd>
-            <dd><a href="../mpl-test-2.1/generated/librosa.segment.recurrence_matrix.html">mpl-test-2.1</a></dd>
-            <dd><a href="../runnning/generated/librosa.segment.recurrence_matrix.html">runnning</a></dd>
         </dl>
     </div>
 </div>

@@ -41,3 +41,4 @@ librosa.display.specshow(chroma - chroma_nlm,
 plt.colorbar()
 plt.title('Original - NLM')
 plt.tight_layout()
+plt.show()

@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Feature extraction &mdash; librosa 0.6.3 documentation</title>
+  <title>Feature extraction &mdash; librosa 0.7.0rc1 documentation</title>
   
 
   
@@ -23,7 +23,7 @@
       <script type="text/javascript">
           var DOCUMENTATION_OPTIONS = {
               URL_ROOT:'./',
-              VERSION:'0.6.3',
+              VERSION:'0.7.0rc1',
               LANGUAGE:'None',
               COLLAPSE_INDEX:false,
               FILE_SUFFIX:'.html',
@@ -72,7 +72,7 @@
             
             
               <div class="version">
-                0.6
+                0.7
               </div>
             
           
@@ -111,7 +111,6 @@
 <li class="toctree-l3"><a class="reference internal" href="generated/librosa.feature.melspectrogram.html">librosa.feature.melspectrogram</a></li>
 <li class="toctree-l3"><a class="reference internal" href="generated/librosa.feature.mfcc.html">librosa.feature.mfcc</a></li>
 <li class="toctree-l3"><a class="reference internal" href="generated/librosa.feature.rms.html">librosa.feature.rms</a></li>
-<li class="toctree-l3"><a class="reference internal" href="generated/librosa.feature.rmse.html">librosa.feature.rmse</a></li>
 <li class="toctree-l3"><a class="reference internal" href="generated/librosa.feature.spectral_centroid.html">librosa.feature.spectral_centroid</a></li>
 <li class="toctree-l3"><a class="reference internal" href="generated/librosa.feature.spectral_bandwidth.html">librosa.feature.spectral_bandwidth</a></li>
 <li class="toctree-l3"><a class="reference internal" href="generated/librosa.feature.spectral_contrast.html">librosa.feature.spectral_contrast</a></li>
@@ -124,11 +123,19 @@
 </li>
 <li class="toctree-l2"><a class="reference internal" href="#rhythm-features">Rhythm features</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="generated/librosa.feature.tempogram.html">librosa.feature.tempogram</a></li>
+<li class="toctree-l3"><a class="reference internal" href="generated/librosa.feature.fourier_tempogram.html">librosa.feature.fourier_tempogram</a></li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="#feature-manipulation">Feature manipulation</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="generated/librosa.feature.delta.html">librosa.feature.delta</a></li>
 <li class="toctree-l3"><a class="reference internal" href="generated/librosa.feature.stack_memory.html">librosa.feature.stack_memory</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#feature-inversion">Feature inversion</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="generated/librosa.feature.inverse.mel_to_stft.html">librosa.feature.inverse.mel_to_stft</a></li>
+<li class="toctree-l3"><a class="reference internal" href="generated/librosa.feature.inverse.mel_to_audio.html">librosa.feature.inverse.mel_to_audio</a></li>
+<li class="toctree-l3"><a class="reference internal" href="generated/librosa.feature.inverse.mfcc_to_mel.html">librosa.feature.inverse.mfcc_to_mel</a></li>
+<li class="toctree-l3"><a class="reference internal" href="generated/librosa.feature.inverse.mfcc_to_audio.html">librosa.feature.inverse.mfcc_to_audio</a></li>
 </ul>
 </li>
 </ul>
@@ -223,7 +230,7 @@
 
 
 
-    <p class="scv-banner scv-sphinx_rtd_theme"><a href="../0.6.3/feature.html"><b>Warning:</b> This document is for the development version of librosa. The latest version is 0.6.3.</a></p>
+    <p class="scv-banner scv-sphinx_rtd_theme"><a href="../0.7.0rc1/feature.html"><b>Warning:</b> This document is for the development version of librosa. The latest version is 0.7.0rc1.</a></p>
 <span class="target" id="module-librosa.feature"><span id="feature"></span></span><div class="section" id="feature-extraction">
 <h1>Feature extraction<a class="headerlink" href="#feature-extraction" title="Permalink to this headline">¶</a></h1>
 <div class="section" id="spectral-features">
@@ -252,31 +259,28 @@
 <tr class="row-even"><td><a class="reference internal" href="generated/librosa.feature.rms.html#librosa.feature.rms" title="librosa.feature.rms"><code class="xref py py-obj docutils literal notranslate"><span class="pre">rms</span></code></a>([y,&nbsp;S,&nbsp;frame_length,&nbsp;hop_length,&nbsp;…])</td>
 <td>Compute root-mean-square (RMS) value for each frame, either from the audio samples <em class="xref py py-obj">y</em> or from a spectrogram <em class="xref py py-obj">S</em>.</td>
 </tr>
-<tr class="row-odd"><td><a class="reference internal" href="generated/librosa.feature.rmse.html#librosa.feature.rmse" title="librosa.feature.rmse"><code class="xref py py-obj docutils literal notranslate"><span class="pre">rmse</span></code></a>([y,&nbsp;S,&nbsp;frame_length,&nbsp;hop_length,&nbsp;…])</td>
-<td>Compute root-mean-square (RMS) value for each frame, either from the audio samples <em class="xref py py-obj">y</em> or from a spectrogram <em class="xref py py-obj">S</em>.</td>
-</tr>
-<tr class="row-even"><td><a class="reference internal" href="generated/librosa.feature.spectral_centroid.html#librosa.feature.spectral_centroid" title="librosa.feature.spectral_centroid"><code class="xref py py-obj docutils literal notranslate"><span class="pre">spectral_centroid</span></code></a>([y,&nbsp;sr,&nbsp;S,&nbsp;n_fft,&nbsp;…])</td>
+<tr class="row-odd"><td><a class="reference internal" href="generated/librosa.feature.spectral_centroid.html#librosa.feature.spectral_centroid" title="librosa.feature.spectral_centroid"><code class="xref py py-obj docutils literal notranslate"><span class="pre">spectral_centroid</span></code></a>([y,&nbsp;sr,&nbsp;S,&nbsp;n_fft,&nbsp;…])</td>
 <td>Compute the spectral centroid.</td>
 </tr>
-<tr class="row-odd"><td><a class="reference internal" href="generated/librosa.feature.spectral_bandwidth.html#librosa.feature.spectral_bandwidth" title="librosa.feature.spectral_bandwidth"><code class="xref py py-obj docutils literal notranslate"><span class="pre">spectral_bandwidth</span></code></a>([y,&nbsp;sr,&nbsp;S,&nbsp;n_fft,&nbsp;…])</td>
-<td>Compute p’th-order spectral bandwidth:</td>
+<tr class="row-even"><td><a class="reference internal" href="generated/librosa.feature.spectral_bandwidth.html#librosa.feature.spectral_bandwidth" title="librosa.feature.spectral_bandwidth"><code class="xref py py-obj docutils literal notranslate"><span class="pre">spectral_bandwidth</span></code></a>([y,&nbsp;sr,&nbsp;S,&nbsp;n_fft,&nbsp;…])</td>
+<td>Compute p’th-order spectral bandwidth.</td>
 </tr>
-<tr class="row-even"><td><a class="reference internal" href="generated/librosa.feature.spectral_contrast.html#librosa.feature.spectral_contrast" title="librosa.feature.spectral_contrast"><code class="xref py py-obj docutils literal notranslate"><span class="pre">spectral_contrast</span></code></a>([y,&nbsp;sr,&nbsp;S,&nbsp;n_fft,&nbsp;…])</td>
+<tr class="row-odd"><td><a class="reference internal" href="generated/librosa.feature.spectral_contrast.html#librosa.feature.spectral_contrast" title="librosa.feature.spectral_contrast"><code class="xref py py-obj docutils literal notranslate"><span class="pre">spectral_contrast</span></code></a>([y,&nbsp;sr,&nbsp;S,&nbsp;n_fft,&nbsp;…])</td>
 <td>Compute spectral contrast <a class="reference internal" href="generated/librosa.feature.spectral_contrast.html#r6ffcc01153df-1" id="id2">[R6ffcc01153df-1]</a></td>
 </tr>
-<tr class="row-odd"><td><a class="reference internal" href="generated/librosa.feature.spectral_flatness.html#librosa.feature.spectral_flatness" title="librosa.feature.spectral_flatness"><code class="xref py py-obj docutils literal notranslate"><span class="pre">spectral_flatness</span></code></a>([y,&nbsp;S,&nbsp;n_fft,&nbsp;hop_length,&nbsp;…])</td>
+<tr class="row-even"><td><a class="reference internal" href="generated/librosa.feature.spectral_flatness.html#librosa.feature.spectral_flatness" title="librosa.feature.spectral_flatness"><code class="xref py py-obj docutils literal notranslate"><span class="pre">spectral_flatness</span></code></a>([y,&nbsp;S,&nbsp;n_fft,&nbsp;hop_length,&nbsp;…])</td>
 <td>Compute spectral flatness</td>
 </tr>
-<tr class="row-even"><td><a class="reference internal" href="generated/librosa.feature.spectral_rolloff.html#librosa.feature.spectral_rolloff" title="librosa.feature.spectral_rolloff"><code class="xref py py-obj docutils literal notranslate"><span class="pre">spectral_rolloff</span></code></a>([y,&nbsp;sr,&nbsp;S,&nbsp;n_fft,&nbsp;…])</td>
+<tr class="row-odd"><td><a class="reference internal" href="generated/librosa.feature.spectral_rolloff.html#librosa.feature.spectral_rolloff" title="librosa.feature.spectral_rolloff"><code class="xref py py-obj docutils literal notranslate"><span class="pre">spectral_rolloff</span></code></a>([y,&nbsp;sr,&nbsp;S,&nbsp;n_fft,&nbsp;…])</td>
 <td>Compute roll-off frequency.</td>
 </tr>
-<tr class="row-odd"><td><a class="reference internal" href="generated/librosa.feature.poly_features.html#librosa.feature.poly_features" title="librosa.feature.poly_features"><code class="xref py py-obj docutils literal notranslate"><span class="pre">poly_features</span></code></a>([y,&nbsp;sr,&nbsp;S,&nbsp;n_fft,&nbsp;hop_length,&nbsp;…])</td>
+<tr class="row-even"><td><a class="reference internal" href="generated/librosa.feature.poly_features.html#librosa.feature.poly_features" title="librosa.feature.poly_features"><code class="xref py py-obj docutils literal notranslate"><span class="pre">poly_features</span></code></a>([y,&nbsp;sr,&nbsp;S,&nbsp;n_fft,&nbsp;hop_length,&nbsp;…])</td>
 <td>Get coefficients of fitting an nth-order polynomial to the columns of a spectrogram.</td>
 </tr>
-<tr class="row-even"><td><a class="reference internal" href="generated/librosa.feature.tonnetz.html#librosa.feature.tonnetz" title="librosa.feature.tonnetz"><code class="xref py py-obj docutils literal notranslate"><span class="pre">tonnetz</span></code></a>([y,&nbsp;sr,&nbsp;chroma])</td>
+<tr class="row-odd"><td><a class="reference internal" href="generated/librosa.feature.tonnetz.html#librosa.feature.tonnetz" title="librosa.feature.tonnetz"><code class="xref py py-obj docutils literal notranslate"><span class="pre">tonnetz</span></code></a>([y,&nbsp;sr,&nbsp;chroma])</td>
 <td>Computes the tonal centroid features (tonnetz), following the method of <a class="reference internal" href="generated/librosa.feature.tonnetz.html#recf246e5a035-1" id="id3">[Recf246e5a035-1]</a>.</td>
 </tr>
-<tr class="row-odd"><td><a class="reference internal" href="generated/librosa.feature.zero_crossing_rate.html#librosa.feature.zero_crossing_rate" title="librosa.feature.zero_crossing_rate"><code class="xref py py-obj docutils literal notranslate"><span class="pre">zero_crossing_rate</span></code></a>(y[,&nbsp;frame_length,&nbsp;…])</td>
+<tr class="row-even"><td><a class="reference internal" href="generated/librosa.feature.zero_crossing_rate.html#librosa.feature.zero_crossing_rate" title="librosa.feature.zero_crossing_rate"><code class="xref py py-obj docutils literal notranslate"><span class="pre">zero_crossing_rate</span></code></a>(y[,&nbsp;frame_length,&nbsp;…])</td>
 <td>Compute the zero-crossing rate of an audio time series.</td>
 </tr>
 </tbody>
@@ -293,6 +297,9 @@
 <tr class="row-odd"><td><a class="reference internal" href="generated/librosa.feature.tempogram.html#librosa.feature.tempogram" title="librosa.feature.tempogram"><code class="xref py py-obj docutils literal notranslate"><span class="pre">tempogram</span></code></a>([y,&nbsp;sr,&nbsp;onset_envelope,&nbsp;…])</td>
 <td>Compute the tempogram: local autocorrelation of the onset strength envelope.</td>
 </tr>
+<tr class="row-even"><td><a class="reference internal" href="generated/librosa.feature.fourier_tempogram.html#librosa.feature.fourier_tempogram" title="librosa.feature.fourier_tempogram"><code class="xref py py-obj docutils literal notranslate"><span class="pre">fourier_tempogram</span></code></a>([y,&nbsp;sr,&nbsp;onset_envelope,&nbsp;…])</td>
+<td>Compute the Fourier tempogram: the short-time Fourier transform of the onset strength envelope.</td>
+</tr>
 </tbody>
 </table>
 </div>
@@ -304,11 +311,34 @@
 <col width="90%" />
 </colgroup>
 <tbody valign="top">
-<tr class="row-odd"><td><a class="reference internal" href="generated/librosa.feature.delta.html#librosa.feature.delta" title="librosa.feature.delta"><code class="xref py py-obj docutils literal notranslate"><span class="pre">delta</span></code></a>(data[,&nbsp;width,&nbsp;order,&nbsp;axis,&nbsp;trim,&nbsp;mode])</td>
+<tr class="row-odd"><td><a class="reference internal" href="generated/librosa.feature.delta.html#librosa.feature.delta" title="librosa.feature.delta"><code class="xref py py-obj docutils literal notranslate"><span class="pre">delta</span></code></a>(data[,&nbsp;width,&nbsp;order,&nbsp;axis,&nbsp;mode])</td>
 <td>Compute delta features: local estimate of the derivative of the input data along the selected axis.</td>
 </tr>
 <tr class="row-even"><td><a class="reference internal" href="generated/librosa.feature.stack_memory.html#librosa.feature.stack_memory" title="librosa.feature.stack_memory"><code class="xref py py-obj docutils literal notranslate"><span class="pre">stack_memory</span></code></a>(data[,&nbsp;n_steps,&nbsp;delay])</td>
 <td>Short-term history embedding: vertically concatenate a data vector or matrix with delayed copies of itself.</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="section" id="feature-inversion">
+<h2>Feature inversion<a class="headerlink" href="#feature-inversion" title="Permalink to this headline">¶</a></h2>
+<table border="1" class="longtable docutils">
+<colgroup>
+<col width="10%" />
+<col width="90%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td><a class="reference internal" href="generated/librosa.feature.inverse.mel_to_stft.html#librosa.feature.inverse.mel_to_stft" title="librosa.feature.inverse.mel_to_stft"><code class="xref py py-obj docutils literal notranslate"><span class="pre">inverse.mel_to_stft</span></code></a>(M[,&nbsp;sr,&nbsp;n_fft,&nbsp;power])</td>
+<td>Approximate STFT magnitude from a Mel power spectrogram.</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="generated/librosa.feature.inverse.mel_to_audio.html#librosa.feature.inverse.mel_to_audio" title="librosa.feature.inverse.mel_to_audio"><code class="xref py py-obj docutils literal notranslate"><span class="pre">inverse.mel_to_audio</span></code></a>(M[,&nbsp;sr,&nbsp;n_fft,&nbsp;…])</td>
+<td>Invert a mel power spectrogram to audio using Griffin-Lim.</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="generated/librosa.feature.inverse.mfcc_to_mel.html#librosa.feature.inverse.mfcc_to_mel" title="librosa.feature.inverse.mfcc_to_mel"><code class="xref py py-obj docutils literal notranslate"><span class="pre">inverse.mfcc_to_mel</span></code></a>(mfcc[,&nbsp;n_mels,&nbsp;…])</td>
+<td>Invert Mel-frequency cepstral coefficients to approximate a Mel power spectrogram.</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="generated/librosa.feature.inverse.mfcc_to_audio.html#librosa.feature.inverse.mfcc_to_audio" title="librosa.feature.inverse.mfcc_to_audio"><code class="xref py py-obj docutils literal notranslate"><span class="pre">inverse.mfcc_to_audio</span></code></a>(mfcc[,&nbsp;n_mels,&nbsp;…])</td>
+<td>Convert Mel-frequency cepstral coefficients to a time-domain audio signal</td>
 </tr>
 </tbody>
 </table>
@@ -368,15 +398,13 @@
             <dd><a href="../0.6.1/feature.html">0.6.1</a></dd>
             <dd><a href="../0.6.2/feature.html">0.6.2</a></dd>
             <dd><a href="../0.6.3/feature.html">0.6.3</a></dd>
+            <dd><a href="../0.7.0rc1/feature.html">0.7.0rc1</a></dd>
             <dd><a href="../v0.1.0/index.html">v0.1.0</a></dd>
             <dd><a href="../v0.4.0/feature.html">v0.4.0</a></dd>
         </dl>
         <dl>
             <dt>Branches</dt>
-            <dd><a href="../display-bin-centering/feature.html">display-bin-centering</a></dd>
             <dd><a href="feature.html">master</a></dd>
-            <dd><a href="../mpl-test-2.1/feature.html">mpl-test-2.1</a></dd>
-            <dd><a href="../runnning/feature.html">runnning</a></dd>
         </dl>
     </div>
 </div>

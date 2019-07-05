@@ -17,6 +17,7 @@ librosa.display.ChromaFormatter
       ~ChromaFormatter.fix_minus
       ~ChromaFormatter.format_data
       ~ChromaFormatter.format_data_short
+      ~ChromaFormatter.format_ticks
       ~ChromaFormatter.get_offset
       ~ChromaFormatter.set_axis
       ~ChromaFormatter.set_bounds

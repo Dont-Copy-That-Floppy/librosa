@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>librosa.decompose &mdash; librosa 0.6.3 documentation</title>
+  <title>librosa.decompose &mdash; librosa 0.7.0rc1 documentation</title>
   
 
   
@@ -23,7 +23,7 @@
       <script type="text/javascript">
           var DOCUMENTATION_OPTIONS = {
               URL_ROOT:'../../',
-              VERSION:'0.6.3',
+              VERSION:'0.7.0rc1',
               LANGUAGE:'None',
               COLLAPSE_INDEX:false,
               FILE_SUFFIX:'.html',
@@ -70,7 +70,7 @@
             
             
               <div class="version">
-                0.6
+                0.7
               </div>
             
           
@@ -213,7 +213,7 @@
 <span class="kn">import</span> <span class="nn">sklearn.decomposition</span>
 
 <span class="kn">from</span> <span class="nn">.</span> <span class="k">import</span> <span class="n">core</span>
-<span class="kn">from</span> <span class="nn">.</span> <span class="k">import</span> <span class="n">cache</span>
+<span class="kn">from</span> <span class="nn">._cache</span> <span class="k">import</span> <span class="n">cache</span>
 <span class="kn">from</span> <span class="nn">.</span> <span class="k">import</span> <span class="n">segment</span>
 <span class="kn">from</span> <span class="nn">.</span> <span class="k">import</span> <span class="n">util</span>
 <span class="kn">from</span> <span class="nn">.util.exceptions</span> <span class="k">import</span> <span class="n">ParameterError</span>
@@ -355,6 +355,7 @@
 <span class="sd">    &gt;&gt;&gt; plt.colorbar(format=&#39;%+2.0f dB&#39;)</span>
 <span class="sd">    &gt;&gt;&gt; plt.title(&#39;Reconstructed spectrogram&#39;)</span>
 <span class="sd">    &gt;&gt;&gt; plt.tight_layout()</span>
+<span class="sd">    &gt;&gt;&gt; plt.show()</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
     <span class="k">if</span> <span class="n">transformer</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
@@ -485,6 +486,7 @@
 <span class="sd">    &gt;&gt;&gt; plt.colorbar(format=&#39;%+2.0f dB&#39;)</span>
 <span class="sd">    &gt;&gt;&gt; plt.title(&#39;Percussive power spectrogram&#39;)</span>
 <span class="sd">    &gt;&gt;&gt; plt.tight_layout()</span>
+<span class="sd">    &gt;&gt;&gt; plt.show()</span>
 
 
 <span class="sd">    Or with a narrower horizontal filter</span>
@@ -687,6 +689,7 @@
 <span class="sd">    &gt;&gt;&gt; plt.colorbar()</span>
 <span class="sd">    &gt;&gt;&gt; plt.title(&#39;Original - NLM&#39;)</span>
 <span class="sd">    &gt;&gt;&gt; plt.tight_layout()</span>
+<span class="sd">    &gt;&gt;&gt; plt.show()</span>
 <span class="sd">    &#39;&#39;&#39;</span>
     <span class="k">if</span> <span class="n">aggregate</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
         <span class="n">aggregate</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">mean</span>
@@ -696,7 +699,7 @@
         <span class="n">kwargs</span><span class="p">[</span><span class="s1">&#39;sparse&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="kc">True</span>
         <span class="n">rec</span> <span class="o">=</span> <span class="n">segment</span><span class="o">.</span><span class="n">recurrence_matrix</span><span class="p">(</span><span class="n">S</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="n">axis</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
     <span class="k">elif</span> <span class="ow">not</span> <span class="n">scipy</span><span class="o">.</span><span class="n">sparse</span><span class="o">.</span><span class="n">issparse</span><span class="p">(</span><span class="n">rec</span><span class="p">):</span>
-        <span class="n">rec</span> <span class="o">=</span> <span class="n">scipy</span><span class="o">.</span><span class="n">sparse</span><span class="o">.</span><span class="n">csr_matrix</span><span class="p">(</span><span class="n">rec</span><span class="p">)</span>
+        <span class="n">rec</span> <span class="o">=</span> <span class="n">scipy</span><span class="o">.</span><span class="n">sparse</span><span class="o">.</span><span class="n">csc_matrix</span><span class="p">(</span><span class="n">rec</span><span class="p">)</span>
 
     <span class="k">if</span> <span class="n">rec</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">!=</span> <span class="n">S</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="n">axis</span><span class="p">]</span> <span class="ow">or</span> <span class="n">rec</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">!=</span> <span class="n">rec</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">]:</span>
         <span class="k">raise</span> <span class="n">ParameterError</span><span class="p">(</span><span class="s1">&#39;Invalid self-similarity matrix shape &#39;</span>
@@ -797,15 +800,13 @@
             <dd><a href="../../../0.6.1/index.html">0.6.1</a></dd>
             <dd><a href="../../../0.6.2/index.html">0.6.2</a></dd>
             <dd><a href="../../../0.6.3/index.html">0.6.3</a></dd>
+            <dd><a href="../../../0.7.0rc1/index.html">0.7.0rc1</a></dd>
             <dd><a href="../../../v0.1.0/index.html">v0.1.0</a></dd>
             <dd><a href="../../../v0.4.0/index.html">v0.4.0</a></dd>
         </dl>
         <dl>
             <dt>Branches</dt>
-            <dd><a href="../../../display-bin-centering/index.html">display-bin-centering</a></dd>
             <dd><a href="decompose.html">master</a></dd>
-            <dd><a href="../../../mpl-test-2.1/index.html">mpl-test-2.1</a></dd>
-            <dd><a href="../../../runnning/index.html">runnning</a></dd>
         </dl>
     </div>
 </div>

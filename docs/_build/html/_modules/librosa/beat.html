@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>librosa.beat &mdash; librosa 0.6.3 documentation</title>
+  <title>librosa.beat &mdash; librosa 0.7.0rc1 documentation</title>
   
 
   
@@ -23,7 +23,7 @@
       <script type="text/javascript">
           var DOCUMENTATION_OPTIONS = {
               URL_ROOT:'../../',
-              VERSION:'0.6.3',
+              VERSION:'0.7.0rc1',
               LANGUAGE:'None',
               COLLAPSE_INDEX:false,
               FILE_SUFFIX:'.html',
@@ -70,7 +70,7 @@
             
             
               <div class="version">
-                0.6
+                0.7
               </div>
             
           
@@ -198,20 +198,21 @@
 <span class="sd">   :toctree: generated/</span>
 
 <span class="sd">   beat_track</span>
+<span class="sd">   plp</span>
 <span class="sd">   tempo</span>
 <span class="sd">&quot;&quot;&quot;</span>
 
 <span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
 <span class="kn">import</span> <span class="nn">scipy</span>
 
-<span class="kn">from</span> <span class="nn">.</span> <span class="k">import</span> <span class="n">cache</span>
+<span class="kn">from</span> <span class="nn">._cache</span> <span class="k">import</span> <span class="n">cache</span>
 <span class="kn">from</span> <span class="nn">.</span> <span class="k">import</span> <span class="n">core</span>
 <span class="kn">from</span> <span class="nn">.</span> <span class="k">import</span> <span class="n">onset</span>
 <span class="kn">from</span> <span class="nn">.</span> <span class="k">import</span> <span class="n">util</span>
-<span class="kn">from</span> <span class="nn">.feature</span> <span class="k">import</span> <span class="n">tempogram</span>
+<span class="kn">from</span> <span class="nn">.feature</span> <span class="k">import</span> <span class="n">tempogram</span><span class="p">,</span> <span class="n">fourier_tempogram</span>
 <span class="kn">from</span> <span class="nn">.util.exceptions</span> <span class="k">import</span> <span class="n">ParameterError</span>
 
-<span class="n">__all__</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;beat_track&#39;</span><span class="p">,</span> <span class="s1">&#39;tempo&#39;</span><span class="p">]</span>
+<span class="n">__all__</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;beat_track&#39;</span><span class="p">,</span> <span class="s1">&#39;tempo&#39;</span><span class="p">,</span> <span class="s1">&#39;plp&#39;</span><span class="p">]</span>
 
 
 <div class="viewcode-block" id="beat_track"><a class="viewcode-back" href="../../generated/librosa.beat.beat_track.html#librosa.beat.beat_track">[docs]</a><span class="k">def</span> <span class="nf">beat_track</span><span class="p">(</span><span class="n">y</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">sr</span><span class="o">=</span><span class="mi">22050</span><span class="p">,</span> <span class="n">onset_envelope</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">hop_length</span><span class="o">=</span><span class="mi">512</span><span class="p">,</span>
@@ -348,6 +349,7 @@
 <span class="sd">    &gt;&gt;&gt; plt.xlim(15, 30)</span>
 <span class="sd">    &gt;&gt;&gt; plt.gca().xaxis.set_major_formatter(librosa.display.TimeFormatter())</span>
 <span class="sd">    &gt;&gt;&gt; plt.tight_layout()</span>
+<span class="sd">    &gt;&gt;&gt; plt.show()</span>
 <span class="sd">    &#39;&#39;&#39;</span>
 
     <span class="c1"># First, get the frame-&gt;beat strength profile if we don&#39;t already have one</span>
@@ -477,6 +479,7 @@
 <span class="sd">    &gt;&gt;&gt; plt.title(&#39;Static tempo estimation&#39;)</span>
 <span class="sd">    &gt;&gt;&gt; plt.legend(frameon=True)</span>
 <span class="sd">    &gt;&gt;&gt; plt.axis(&#39;tight&#39;)</span>
+<span class="sd">    &gt;&gt;&gt; plt.show()</span>
 
 <span class="sd">    Plot dynamic tempo estimates over a tempogram</span>
 
@@ -529,6 +532,165 @@
     <span class="c1"># Wherever the best tempo is index 0, return start_bpm</span>
     <span class="n">tempi</span><span class="p">[</span><span class="n">best_period</span> <span class="o">==</span> <span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="n">start_bpm</span>
     <span class="k">return</span> <span class="n">tempi</span></div>
+
+
+<div class="viewcode-block" id="plp"><a class="viewcode-back" href="../../generated/librosa.beat.plp.html#librosa.beat.plp">[docs]</a><span class="k">def</span> <span class="nf">plp</span><span class="p">(</span><span class="n">y</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">sr</span><span class="o">=</span><span class="mi">22050</span><span class="p">,</span> <span class="n">onset_envelope</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">hop_length</span><span class="o">=</span><span class="mi">512</span><span class="p">,</span>
+        <span class="n">win_length</span><span class="o">=</span><span class="mi">384</span><span class="p">,</span> <span class="n">tempo_min</span><span class="o">=</span><span class="mi">30</span><span class="p">,</span> <span class="n">tempo_max</span><span class="o">=</span><span class="mi">300</span><span class="p">):</span>
+    <span class="sd">&#39;&#39;&#39;Predominant local pulse (PLP) estimation. [1]_</span>
+
+<span class="sd">    The PLP method analyzes the onset strength envelope in the frequency domain</span>
+<span class="sd">    to find a locally stable tempo for each frame.  These local periodicities</span>
+<span class="sd">    are used to synthesize local half-waves, which are combined such that peaks</span>
+<span class="sd">    coincide with rhythmically salient frames (e.g. onset events on a musical time grid).</span>
+<span class="sd">    The local maxima of the pulse curve can be taken as estimated beat positions.</span>
+
+<span class="sd">    This method may be preferred over the dynamic programming method of `beat_track`</span>
+<span class="sd">    when either the tempo is expected to vary significantly over time.  Additionally,</span>
+<span class="sd">    since `plp` does not require the entire signal to make predictions, it may be</span>
+<span class="sd">    preferable when beat-tracking long recordings in a streaming setting.</span>
+
+
+<span class="sd">    .. [1] Grosche, P., &amp; Muller, M. (2011).</span>
+<span class="sd">        &quot;Extracting predominant local pulse information from music recordings.&quot;</span>
+<span class="sd">        IEEE Transactions on Audio, Speech, and Language Processing, 19(6), 1688-1701.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    y : np.ndarray [shape=(n,)] or None</span>
+<span class="sd">        audio time series</span>
+
+<span class="sd">    sr : number &gt; 0 [scalar]</span>
+<span class="sd">        sampling rate of `y`</span>
+
+<span class="sd">    onset_envelope : np.ndarray [shape=(n,)] or None</span>
+<span class="sd">        (optional) pre-computed onset strength envelope</span>
+
+<span class="sd">    hop_length : int &gt; 0 [scalar]</span>
+<span class="sd">        number of audio samples between successive `onset_envelope` values</span>
+
+<span class="sd">    win_length : int &gt; 0 [scalar]</span>
+<span class="sd">        number of frames to use for tempogram analysis.</span>
+<span class="sd">        By default, 384 frames (at `sr=22050` and `hop_length=512`) corresponds</span>
+<span class="sd">        to about 8.9 seconds.</span>
+
+<span class="sd">    tempo_min, tempo_max : numbers &gt; 0 [scalar], optional</span>
+<span class="sd">        Minimum and maximum permissible tempo values.  `tempo_max` must be at least</span>
+<span class="sd">        `tempo_min`.</span>
+
+<span class="sd">        Set either (or both) to `None` to disable this constraint.</span>
+
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    pulse : np.ndarray, shape=[(n,)]</span>
+<span class="sd">        The estimated pulse curve.  Maxima correspond to rhythmically salient</span>
+<span class="sd">        points of time.</span>
+
+<span class="sd">    See Also</span>
+<span class="sd">    --------</span>
+<span class="sd">    beat_track</span>
+<span class="sd">    librosa.onset.onset_strength</span>
+<span class="sd">    librosa.feature.fourier_tempogram</span>
+
+<span class="sd">    Examples</span>
+<span class="sd">    --------</span>
+<span class="sd">    Visualize the PLP compared to an onset strength envelope.</span>
+<span class="sd">    Both are normalized here to make comparison easier.</span>
+
+<span class="sd">    &gt;&gt;&gt; y, sr = librosa.load(librosa.util.example_audio_file())</span>
+<span class="sd">    &gt;&gt;&gt; onset_env = librosa.onset.onset_strength(y=y, sr=sr)</span>
+<span class="sd">    &gt;&gt;&gt; pulse = librosa.beat.plp(onset_envelope=onset_env, sr=sr)</span>
+<span class="sd">    &gt;&gt;&gt; melspec = librosa.feature.melspectrogram(y=y, sr=sr)</span>
+<span class="sd">    &gt;&gt;&gt; import matplotlib.pyplot as plt</span>
+<span class="sd">    &gt;&gt;&gt; ax = plt.subplot(2,1,1)</span>
+<span class="sd">    &gt;&gt;&gt; librosa.display.specshow(librosa.power_to_db(melspec,</span>
+<span class="sd">    ...                                              ref=np.max),</span>
+<span class="sd">    ...                          x_axis=&#39;time&#39;, y_axis=&#39;mel&#39;)</span>
+<span class="sd">    &gt;&gt;&gt; plt.title(&#39;Mel spectrogram&#39;)</span>
+<span class="sd">    &gt;&gt;&gt; plt.subplot(2,1,2, sharex=ax)</span>
+<span class="sd">    &gt;&gt;&gt; plt.plot(librosa.times_like(onset_env),</span>
+<span class="sd">    ...          librosa.util.normalize(onset_env),</span>
+<span class="sd">    ...          label=&#39;Onset strength&#39;)</span>
+<span class="sd">    &gt;&gt;&gt; plt.plot(librosa.times_like(pulse),</span>
+<span class="sd">    ...          librosa.util.normalize(pulse),</span>
+<span class="sd">    ...          label=&#39;Predominant local pulse (PLP)&#39;)</span>
+<span class="sd">    &gt;&gt;&gt; plt.legend()</span>
+<span class="sd">    &gt;&gt;&gt; plt.xlim([30, 35])</span>
+<span class="sd">    &gt;&gt;&gt; plt.tight_layout()</span>
+<span class="sd">    &gt;&gt;&gt; plt.show()</span>
+
+
+<span class="sd">    PLP local maxima can be used as estimates of beat positions.</span>
+
+<span class="sd">    &gt;&gt;&gt; tempo, beats = librosa.beat.beat_track(onset_envelope=onset_env)</span>
+<span class="sd">    &gt;&gt;&gt; beats_plp = np.flatnonzero(librosa.util.localmax(pulse))</span>
+<span class="sd">    &gt;&gt;&gt; import matplotlib.pyplot as plt</span>
+<span class="sd">    &gt;&gt;&gt; ax = plt.subplot(2,1,1)</span>
+<span class="sd">    &gt;&gt;&gt; times = librosa.times_like(onset_env, sr=sr)</span>
+<span class="sd">    &gt;&gt;&gt; plt.plot(times, librosa.util.normalize(onset_env),</span>
+<span class="sd">    ...          label=&#39;Onset strength&#39;)</span>
+<span class="sd">    &gt;&gt;&gt; plt.vlines(times[beats], 0, 1, alpha=0.5, color=&#39;r&#39;,</span>
+<span class="sd">    ...            linestyle=&#39;--&#39;, label=&#39;Beats&#39;)</span>
+<span class="sd">    &gt;&gt;&gt; plt.legend(frameon=True, framealpha=0.75)</span>
+<span class="sd">    &gt;&gt;&gt; plt.title(&#39;librosa.beat.beat_track&#39;)</span>
+<span class="sd">    &gt;&gt;&gt; # Limit the plot to a 15-second window</span>
+<span class="sd">    &gt;&gt;&gt; plt.subplot(2,1,2, sharex=ax)</span>
+<span class="sd">    &gt;&gt;&gt; times = librosa.times_like(pulse, sr=sr)</span>
+<span class="sd">    &gt;&gt;&gt; plt.plot(times, librosa.util.normalize(pulse),</span>
+<span class="sd">    ...          label=&#39;PLP&#39;)</span>
+<span class="sd">    &gt;&gt;&gt; plt.vlines(times[beats_plp], 0, 1, alpha=0.5, color=&#39;r&#39;,</span>
+<span class="sd">    ...            linestyle=&#39;--&#39;, label=&#39;PLP Beats&#39;)</span>
+<span class="sd">    &gt;&gt;&gt; plt.legend(frameon=True, framealpha=0.75)</span>
+<span class="sd">    &gt;&gt;&gt; plt.title(&#39;librosa.beat.plp&#39;)</span>
+<span class="sd">    &gt;&gt;&gt; plt.xlim(30, 35)</span>
+<span class="sd">    &gt;&gt;&gt; ax.xaxis.set_major_formatter(librosa.display.TimeFormatter())</span>
+<span class="sd">    &gt;&gt;&gt; plt.tight_layout()</span>
+<span class="sd">    &gt;&gt;&gt; plt.show()</span>
+
+<span class="sd">    &#39;&#39;&#39;</span>
+
+    <span class="c1"># Step 1: get the onset envelope</span>
+    <span class="k">if</span> <span class="n">onset_envelope</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">onset_envelope</span> <span class="o">=</span> <span class="n">onset</span><span class="o">.</span><span class="n">onset_strength</span><span class="p">(</span><span class="n">y</span><span class="o">=</span><span class="n">y</span><span class="p">,</span> <span class="n">sr</span><span class="o">=</span><span class="n">sr</span><span class="p">,</span>
+                                              <span class="n">hop_length</span><span class="o">=</span><span class="n">hop_length</span><span class="p">,</span>
+                                              <span class="n">aggregate</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">median</span><span class="p">)</span>
+
+    <span class="k">if</span> <span class="n">tempo_min</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="ow">and</span> <span class="n">tempo_max</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="ow">and</span> <span class="n">tempo_max</span> <span class="o">&lt;=</span> <span class="n">tempo_min</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="n">ParameterError</span><span class="p">(</span><span class="s1">&#39;tempo_max=</span><span class="si">{}</span><span class="s1"> must be larger than tempo_min=</span><span class="si">{}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">tempo_max</span><span class="p">,</span> <span class="n">tempo_min</span><span class="p">))</span>
+
+    <span class="c1"># Step 2: get the fourier tempogram</span>
+    <span class="n">ftgram</span> <span class="o">=</span> <span class="n">fourier_tempogram</span><span class="p">(</span><span class="n">onset_envelope</span><span class="o">=</span><span class="n">onset_envelope</span><span class="p">,</span>
+                               <span class="n">sr</span><span class="o">=</span><span class="n">sr</span><span class="p">,</span> <span class="n">hop_length</span><span class="o">=</span><span class="n">hop_length</span><span class="p">,</span>
+                               <span class="n">win_length</span><span class="o">=</span><span class="n">win_length</span><span class="p">)</span>
+
+    <span class="c1"># Step 3: pin to the feasible tempo range</span>
+    <span class="n">tempo_frequencies</span> <span class="o">=</span> <span class="n">core</span><span class="o">.</span><span class="n">fourier_tempo_frequencies</span><span class="p">(</span><span class="n">sr</span><span class="o">=</span><span class="n">sr</span><span class="p">,</span>
+                                                       <span class="n">hop_length</span><span class="o">=</span><span class="n">hop_length</span><span class="p">,</span>
+                                                       <span class="n">win_length</span><span class="o">=</span><span class="n">win_length</span><span class="p">)</span>
+
+    <span class="c1"># TODO: in the future, generalize this to support arbitrary priors</span>
+    <span class="k">if</span> <span class="n">tempo_min</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">ftgram</span><span class="p">[</span><span class="n">tempo_frequencies</span> <span class="o">&lt;</span> <span class="n">tempo_min</span><span class="p">]</span> <span class="o">=</span> <span class="mi">0</span>
+    <span class="k">if</span> <span class="n">tempo_max</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">ftgram</span><span class="p">[</span><span class="n">tempo_frequencies</span> <span class="o">&gt;</span> <span class="n">tempo_max</span><span class="p">]</span> <span class="o">=</span> <span class="mi">0</span>
+
+    <span class="c1"># Step 3: Discard everything below the peak</span>
+    <span class="n">ftmag</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">ftgram</span><span class="p">)</span>
+    <span class="n">peak_values</span> <span class="o">=</span> <span class="n">ftmag</span><span class="o">.</span><span class="n">max</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">keepdims</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+    <span class="n">ftgram</span><span class="p">[</span><span class="n">ftmag</span> <span class="o">&lt;</span> <span class="n">peak_values</span><span class="p">]</span> <span class="o">=</span> <span class="mi">0</span>
+
+    <span class="c1"># Normalize to keep only phase information</span>
+    <span class="n">ftgram</span><span class="p">[:]</span> <span class="o">/=</span> <span class="n">peak_values</span>
+
+    <span class="c1"># Step 5: invert the Fourier tempogram to get the pulse</span>
+    <span class="n">pulse</span> <span class="o">=</span> <span class="n">core</span><span class="o">.</span><span class="n">istft</span><span class="p">(</span><span class="n">ftgram</span><span class="p">,</span> <span class="n">hop_length</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span>
+                       <span class="n">length</span><span class="o">=</span><span class="nb">len</span><span class="p">(</span><span class="n">onset_envelope</span><span class="p">))</span>
+
+    <span class="c1"># Step 6: retain only the positive part of the pulse cycle</span>
+    <span class="n">np</span><span class="o">.</span><span class="n">clip</span><span class="p">(</span><span class="n">pulse</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="kc">None</span><span class="p">,</span> <span class="n">pulse</span><span class="p">)</span>
+
+    <span class="c1"># Return the normalized pulse</span>
+    <span class="k">return</span> <span class="n">util</span><span class="o">.</span><span class="n">normalize</span><span class="p">(</span><span class="n">pulse</span><span class="p">)</span></div>
 
 
 <span class="k">def</span> <span class="nf">__beat_tracker</span><span class="p">(</span><span class="n">onset_envelope</span><span class="p">,</span> <span class="n">bpm</span><span class="p">,</span> <span class="n">fft_res</span><span class="p">,</span> <span class="n">tightness</span><span class="p">,</span> <span class="n">trim</span><span class="p">):</span>
@@ -705,7 +867,7 @@
 <div class="rst-versions" data-toggle="rst-versions" role="note" aria-label="versions">
     <span class="rst-current-version" data-toggle="rst-current-version">
         <span class="fa fa-book"> Other Versions</span>
-        v: 0.6.3
+        v: 0.7.0rc1
         <span class="fa fa-caret-down"></span>
     </span>
     <div class="rst-other-versions">
@@ -719,16 +881,14 @@
             <dd><a href="../../0.6.0/index.html">0.6.0</a></dd>
             <dd><a href="../../0.6.1/index.html">0.6.1</a></dd>
             <dd><a href="../../0.6.2/index.html">0.6.2</a></dd>
-            <dd><a href="../../0.6.3/_modules/librosa/beat.html">0.6.3</a></dd>
+            <dd><a href="../../0.6.3/index.html">0.6.3</a></dd>
+            <dd><a href="../../0.7.0rc1/_modules/librosa/beat.html">0.7.0rc1</a></dd>
             <dd><a href="../../v0.1.0/index.html">v0.1.0</a></dd>
             <dd><a href="../../v0.4.0/index.html">v0.4.0</a></dd>
         </dl>
         <dl>
             <dt>Branches</dt>
-            <dd><a href="../../display-bin-centering/index.html">display-bin-centering</a></dd>
             <dd><a href="../../master/index.html">master</a></dd>
-            <dd><a href="../../mpl-test-2.1/index.html">mpl-test-2.1</a></dd>
-            <dd><a href="../../runnning/index.html">runnning</a></dd>
         </dl>
     </div>
 </div>

@@ -196,7 +196,7 @@
 
 
 
-    <p class="scv-banner scv-sphinx_rtd_theme"><a href="../../0.6.3/auto_examples/plot_chroma.html"><b>Warning:</b> This document is for an old version of librosa. The latest version is 0.6.3.</a></p>
+    <p class="scv-banner scv-sphinx_rtd_theme"><a href="../../0.7.0rc1/auto_examples/plot_chroma.html"><b>Warning:</b> This document is for an old version of librosa. The latest version is 0.7.0rc1.</a></p>
 <div class="sphx-glr-download-link-note admonition note">
 <p class="first admonition-title">Note</p>
 <p class="last">Click <a class="reference internal" href="#sphx-glr-download-auto-examples-plot-chroma-py"><span class="std std-ref">here</span></a> to download the full example code</p>
@@ -216,28 +216,28 @@ recurrence-based smoothing technique of
 <li>Local median filtering to suppress remaining discontinuities.</li>
 </ol>
 </div></blockquote>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># Code source: Brian McFee</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># Code source: Brian McFee</span>
 <span class="c1"># License: ISC</span>
 <span class="c1"># sphinx_gallery_thumbnail_number = 6</span>
 
-<span class="kn">from</span> <span class="nn">__future__</span> <span class="kn">import</span> <span class="n">print_function</span>
-<span class="kn">import</span> <span class="nn">numpy</span> <span class="kn">as</span> <span class="nn">np</span>
+<span class="kn">from</span> <span class="nn">__future__</span> <span class="k">import</span> <span class="n">print_function</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
 <span class="kn">import</span> <span class="nn">scipy</span>
-<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="kn">as</span> <span class="nn">plt</span>
+<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
 
 <span class="kn">import</span> <span class="nn">librosa</span>
 <span class="kn">import</span> <span class="nn">librosa.display</span>
 </pre></div>
 </div>
 <p>We’ll use a track that has harmonic, melodic, and percussive elements</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">y</span><span class="p">,</span> <span class="n">sr</span> <span class="o">=</span> <span class="n">librosa</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="s1">&#39;audio/Karissa_Hobbs_-_09_-_Lets_Go_Fishin.mp3&#39;</span><span class="p">)</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">y</span><span class="p">,</span> <span class="n">sr</span> <span class="o">=</span> <span class="n">librosa</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="s1">&#39;audio/Karissa_Hobbs_-_09_-_Lets_Go_Fishin.mp3&#39;</span><span class="p">)</span>
 </pre></div>
 </div>
 <p>First, let’s plot the original chroma</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">chroma_orig</span> <span class="o">=</span> <span class="n">librosa</span><span class="o">.</span><span class="n">feature</span><span class="o">.</span><span class="n">chroma_cqt</span><span class="p">(</span><span class="n">y</span><span class="o">=</span><span class="n">y</span><span class="p">,</span> <span class="n">sr</span><span class="o">=</span><span class="n">sr</span><span class="p">)</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">chroma_orig</span> <span class="o">=</span> <span class="n">librosa</span><span class="o">.</span><span class="n">feature</span><span class="o">.</span><span class="n">chroma_cqt</span><span class="p">(</span><span class="n">y</span><span class="o">=</span><span class="n">y</span><span class="p">,</span> <span class="n">sr</span><span class="o">=</span><span class="n">sr</span><span class="p">)</span>
 
 <span class="c1"># For display purposes, let&#39;s zoom in on a 15-second chunk from the middle of the song</span>
-<span class="n">idx</span> <span class="o">=</span> <span class="p">[</span><span class="nb">slice</span><span class="p">(</span><span class="bp">None</span><span class="p">),</span> <span class="nb">slice</span><span class="p">(</span><span class="o">*</span><span class="nb">list</span><span class="p">(</span><span class="n">librosa</span><span class="o">.</span><span class="n">time_to_frames</span><span class="p">([</span><span class="mi">45</span><span class="p">,</span> <span class="mi">60</span><span class="p">])))]</span>
+<span class="n">idx</span> <span class="o">=</span> <span class="p">[</span><span class="nb">slice</span><span class="p">(</span><span class="kc">None</span><span class="p">),</span> <span class="nb">slice</span><span class="p">(</span><span class="o">*</span><span class="nb">list</span><span class="p">(</span><span class="n">librosa</span><span class="o">.</span><span class="n">time_to_frames</span><span class="p">([</span><span class="mi">45</span><span class="p">,</span> <span class="mi">60</span><span class="p">])))]</span>
 
 <span class="c1"># And for comparison, we&#39;ll show the CQT matrix as well.</span>
 <span class="n">C</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">librosa</span><span class="o">.</span><span class="n">cqt</span><span class="p">(</span><span class="n">y</span><span class="o">=</span><span class="n">y</span><span class="p">,</span> <span class="n">sr</span><span class="o">=</span><span class="n">sr</span><span class="p">,</span> <span class="n">bins_per_octave</span><span class="o">=</span><span class="mi">12</span><span class="o">*</span><span class="mi">3</span><span class="p">,</span> <span class="n">n_bins</span><span class="o">=</span><span class="mi">7</span><span class="o">*</span><span class="mi">12</span><span class="o">*</span><span class="mi">3</span><span class="p">))</span>
@@ -256,9 +256,18 @@ recurrence-based smoothing technique of
 </pre></div>
 </div>
 <img alt="../_images/sphx_glr_plot_chroma_001.png" class="sphx-glr-single-img" src="../_images/sphx_glr_plot_chroma_001.png" />
+<p class="sphx-glr-script-out">Out:</p>
+<div class="sphx-glr-script-out highlight-none notranslate"><div class="highlight"><pre><span></span>/tmp/tmpqeredvposphinxcontrib_versioning/0dcd53f462db124ed3f54edf2334f28738d2ecc6/librosa/util/utils.py:826: FutureWarning: Using a non-tuple sequence for multidimensional indexing is deprecated; use `arr[tuple(seq)]` instead of `arr[seq]`. In the future this will be interpreted as an array index, `arr[np.array(seq)]`, which will result either in an error or a different result.
+  return (x &gt; x_pad[inds1]) &amp; (x &gt;= x_pad[inds2])
+/tmp/tmpqeredvposphinxcontrib_versioning/0dcd53f462db124ed3f54edf2334f28738d2ecc6/docs/examples/plot_chroma.py:51: FutureWarning: Using a non-tuple sequence for multidimensional indexing is deprecated; use `arr[tuple(seq)]` instead of `arr[seq]`. In the future this will be interpreted as an array index, `arr[np.array(seq)]`, which will result either in an error or a different result.
+  librosa.display.specshow(librosa.amplitude_to_db(C, ref=np.max)[idx],
+/tmp/tmpqeredvposphinxcontrib_versioning/0dcd53f462db124ed3f54edf2334f28738d2ecc6/docs/examples/plot_chroma.py:55: FutureWarning: Using a non-tuple sequence for multidimensional indexing is deprecated; use `arr[tuple(seq)]` instead of `arr[seq]`. In the future this will be interpreted as an array index, `arr[np.array(seq)]`, which will result either in an error or a different result.
+  librosa.display.specshow(chroma_orig[idx], y_axis=&#39;chroma&#39;)
+</pre></div>
+</div>
 <p>We can correct for minor tuning deviations by using 3 CQT
 bins per semi-tone, instead of one</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">chroma_os</span> <span class="o">=</span> <span class="n">librosa</span><span class="o">.</span><span class="n">feature</span><span class="o">.</span><span class="n">chroma_cqt</span><span class="p">(</span><span class="n">y</span><span class="o">=</span><span class="n">y</span><span class="p">,</span> <span class="n">sr</span><span class="o">=</span><span class="n">sr</span><span class="p">,</span> <span class="n">bins_per_octave</span><span class="o">=</span><span class="mi">12</span><span class="o">*</span><span class="mi">3</span><span class="p">)</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">chroma_os</span> <span class="o">=</span> <span class="n">librosa</span><span class="o">.</span><span class="n">feature</span><span class="o">.</span><span class="n">chroma_cqt</span><span class="p">(</span><span class="n">y</span><span class="o">=</span><span class="n">y</span><span class="p">,</span> <span class="n">sr</span><span class="o">=</span><span class="n">sr</span><span class="p">,</span> <span class="n">bins_per_octave</span><span class="o">=</span><span class="mi">12</span><span class="o">*</span><span class="mi">3</span><span class="p">)</span>
 
 
 <span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">12</span><span class="p">,</span> <span class="mi">4</span><span class="p">))</span>
@@ -277,10 +286,17 @@ bins per semi-tone, instead of one</p>
 </pre></div>
 </div>
 <img alt="../_images/sphx_glr_plot_chroma_002.png" class="sphx-glr-single-img" src="../_images/sphx_glr_plot_chroma_002.png" />
+<p class="sphx-glr-script-out">Out:</p>
+<div class="sphx-glr-script-out highlight-none notranslate"><div class="highlight"><pre><span></span>/tmp/tmpqeredvposphinxcontrib_versioning/0dcd53f462db124ed3f54edf2334f28738d2ecc6/docs/examples/plot_chroma.py:70: FutureWarning: Using a non-tuple sequence for multidimensional indexing is deprecated; use `arr[tuple(seq)]` instead of `arr[seq]`. In the future this will be interpreted as an array index, `arr[np.array(seq)]`, which will result either in an error or a different result.
+  librosa.display.specshow(chroma_orig[idx], y_axis=&#39;chroma&#39;)
+/tmp/tmpqeredvposphinxcontrib_versioning/0dcd53f462db124ed3f54edf2334f28738d2ecc6/docs/examples/plot_chroma.py:76: FutureWarning: Using a non-tuple sequence for multidimensional indexing is deprecated; use `arr[tuple(seq)]` instead of `arr[seq]`. In the future this will be interpreted as an array index, `arr[np.array(seq)]`, which will result either in an error or a different result.
+  librosa.display.specshow(chroma_os[idx], y_axis=&#39;chroma&#39;, x_axis=&#39;time&#39;)
+</pre></div>
+</div>
 <p>That cleaned up some rough edges, but we can do better
 by isolating the harmonic component.
 We’ll use a large margin for separating harmonics from percussives</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">y_harm</span> <span class="o">=</span> <span class="n">librosa</span><span class="o">.</span><span class="n">effects</span><span class="o">.</span><span class="n">harmonic</span><span class="p">(</span><span class="n">y</span><span class="o">=</span><span class="n">y</span><span class="p">,</span> <span class="n">margin</span><span class="o">=</span><span class="mi">8</span><span class="p">)</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">y_harm</span> <span class="o">=</span> <span class="n">librosa</span><span class="o">.</span><span class="n">effects</span><span class="o">.</span><span class="n">harmonic</span><span class="p">(</span><span class="n">y</span><span class="o">=</span><span class="n">y</span><span class="p">,</span> <span class="n">margin</span><span class="o">=</span><span class="mi">8</span><span class="p">)</span>
 <span class="n">chroma_os_harm</span> <span class="o">=</span> <span class="n">librosa</span><span class="o">.</span><span class="n">feature</span><span class="o">.</span><span class="n">chroma_cqt</span><span class="p">(</span><span class="n">y</span><span class="o">=</span><span class="n">y_harm</span><span class="p">,</span> <span class="n">sr</span><span class="o">=</span><span class="n">sr</span><span class="p">,</span> <span class="n">bins_per_octave</span><span class="o">=</span><span class="mi">12</span><span class="o">*</span><span class="mi">3</span><span class="p">)</span>
 
 
@@ -299,10 +315,19 @@ We’ll use a large margin for separating harmonics from percussives</p>
 </pre></div>
 </div>
 <img alt="../_images/sphx_glr_plot_chroma_003.png" class="sphx-glr-single-img" src="../_images/sphx_glr_plot_chroma_003.png" />
+<p class="sphx-glr-script-out">Out:</p>
+<div class="sphx-glr-script-out highlight-none notranslate"><div class="highlight"><pre><span></span>/tmp/tmpqeredvposphinxcontrib_versioning/0dcd53f462db124ed3f54edf2334f28738d2ecc6/librosa/util/utils.py:826: FutureWarning: Using a non-tuple sequence for multidimensional indexing is deprecated; use `arr[tuple(seq)]` instead of `arr[seq]`. In the future this will be interpreted as an array index, `arr[np.array(seq)]`, which will result either in an error or a different result.
+  return (x &gt; x_pad[inds1]) &amp; (x &gt;= x_pad[inds2])
+/tmp/tmpqeredvposphinxcontrib_versioning/0dcd53f462db124ed3f54edf2334f28738d2ecc6/docs/examples/plot_chroma.py:93: FutureWarning: Using a non-tuple sequence for multidimensional indexing is deprecated; use `arr[tuple(seq)]` instead of `arr[seq]`. In the future this will be interpreted as an array index, `arr[np.array(seq)]`, which will result either in an error or a different result.
+  librosa.display.specshow(chroma_os[idx], y_axis=&#39;chroma&#39;)
+/tmp/tmpqeredvposphinxcontrib_versioning/0dcd53f462db124ed3f54edf2334f28738d2ecc6/docs/examples/plot_chroma.py:98: FutureWarning: Using a non-tuple sequence for multidimensional indexing is deprecated; use `arr[tuple(seq)]` instead of `arr[seq]`. In the future this will be interpreted as an array index, `arr[np.array(seq)]`, which will result either in an error or a different result.
+  librosa.display.specshow(chroma_os_harm[idx], y_axis=&#39;chroma&#39;, x_axis=&#39;time&#39;)
+</pre></div>
+</div>
 <p>There’s still some noise in there though.
 We can clean it up using non-local filtering.
 This effectively removes any sparse additive noise from the features.</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">chroma_filter</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">minimum</span><span class="p">(</span><span class="n">chroma_os_harm</span><span class="p">,</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">chroma_filter</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">minimum</span><span class="p">(</span><span class="n">chroma_os_harm</span><span class="p">,</span>
                            <span class="n">librosa</span><span class="o">.</span><span class="n">decompose</span><span class="o">.</span><span class="n">nn_filter</span><span class="p">(</span><span class="n">chroma_os_harm</span><span class="p">,</span>
                                                        <span class="n">aggregate</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">median</span><span class="p">,</span>
                                                        <span class="n">metric</span><span class="o">=</span><span class="s1">&#39;cosine&#39;</span><span class="p">))</span>
@@ -323,9 +348,16 @@ This effectively removes any sparse additive noise from the features.</p>
 </pre></div>
 </div>
 <img alt="../_images/sphx_glr_plot_chroma_004.png" class="sphx-glr-single-img" src="../_images/sphx_glr_plot_chroma_004.png" />
+<p class="sphx-glr-script-out">Out:</p>
+<div class="sphx-glr-script-out highlight-none notranslate"><div class="highlight"><pre><span></span>/tmp/tmpqeredvposphinxcontrib_versioning/0dcd53f462db124ed3f54edf2334f28738d2ecc6/docs/examples/plot_chroma.py:117: FutureWarning: Using a non-tuple sequence for multidimensional indexing is deprecated; use `arr[tuple(seq)]` instead of `arr[seq]`. In the future this will be interpreted as an array index, `arr[np.array(seq)]`, which will result either in an error or a different result.
+  librosa.display.specshow(chroma_os_harm[idx], y_axis=&#39;chroma&#39;)
+/tmp/tmpqeredvposphinxcontrib_versioning/0dcd53f462db124ed3f54edf2334f28738d2ecc6/docs/examples/plot_chroma.py:122: FutureWarning: Using a non-tuple sequence for multidimensional indexing is deprecated; use `arr[tuple(seq)]` instead of `arr[seq]`. In the future this will be interpreted as an array index, `arr[np.array(seq)]`, which will result either in an error or a different result.
+  librosa.display.specshow(chroma_filter[idx], y_axis=&#39;chroma&#39;, x_axis=&#39;time&#39;)
+</pre></div>
+</div>
 <p>Local discontinuities and transients can be suppressed by
 using a horizontal median filter.</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">chroma_smooth</span> <span class="o">=</span> <span class="n">scipy</span><span class="o">.</span><span class="n">ndimage</span><span class="o">.</span><span class="n">median_filter</span><span class="p">(</span><span class="n">chroma_filter</span><span class="p">,</span> <span class="n">size</span><span class="o">=</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">9</span><span class="p">))</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">chroma_smooth</span> <span class="o">=</span> <span class="n">scipy</span><span class="o">.</span><span class="n">ndimage</span><span class="o">.</span><span class="n">median_filter</span><span class="p">(</span><span class="n">chroma_filter</span><span class="p">,</span> <span class="n">size</span><span class="o">=</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">9</span><span class="p">))</span>
 
 
 <span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">12</span><span class="p">,</span> <span class="mi">4</span><span class="p">))</span>
@@ -343,9 +375,16 @@ using a horizontal median filter.</p>
 </pre></div>
 </div>
 <img alt="../_images/sphx_glr_plot_chroma_005.png" class="sphx-glr-single-img" src="../_images/sphx_glr_plot_chroma_005.png" />
+<p class="sphx-glr-script-out">Out:</p>
+<div class="sphx-glr-script-out highlight-none notranslate"><div class="highlight"><pre><span></span>/tmp/tmpqeredvposphinxcontrib_versioning/0dcd53f462db124ed3f54edf2334f28738d2ecc6/docs/examples/plot_chroma.py:137: FutureWarning: Using a non-tuple sequence for multidimensional indexing is deprecated; use `arr[tuple(seq)]` instead of `arr[seq]`. In the future this will be interpreted as an array index, `arr[np.array(seq)]`, which will result either in an error or a different result.
+  librosa.display.specshow(chroma_filter[idx], y_axis=&#39;chroma&#39;)
+/tmp/tmpqeredvposphinxcontrib_versioning/0dcd53f462db124ed3f54edf2334f28738d2ecc6/docs/examples/plot_chroma.py:142: FutureWarning: Using a non-tuple sequence for multidimensional indexing is deprecated; use `arr[tuple(seq)]` instead of `arr[seq]`. In the future this will be interpreted as an array index, `arr[np.array(seq)]`, which will result either in an error or a different result.
+  librosa.display.specshow(chroma_smooth[idx], y_axis=&#39;chroma&#39;, x_axis=&#39;time&#39;)
+</pre></div>
+</div>
 <p>A final comparison between the CQT, original chromagram
 and the result of our filtering.</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">12</span><span class="p">,</span> <span class="mi">8</span><span class="p">))</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">12</span><span class="p">,</span> <span class="mi">8</span><span class="p">))</span>
 <span class="n">plt</span><span class="o">.</span><span class="n">subplot</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
 <span class="n">librosa</span><span class="o">.</span><span class="n">display</span><span class="o">.</span><span class="n">specshow</span><span class="p">(</span><span class="n">librosa</span><span class="o">.</span><span class="n">amplitude_to_db</span><span class="p">(</span><span class="n">C</span><span class="p">,</span> <span class="n">ref</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">max</span><span class="p">)[</span><span class="n">idx</span><span class="p">],</span>
                          <span class="n">y_axis</span><span class="o">=</span><span class="s1">&#39;cqt_note&#39;</span><span class="p">,</span> <span class="n">bins_per_octave</span><span class="o">=</span><span class="mi">12</span><span class="o">*</span><span class="mi">3</span><span class="p">)</span>
@@ -364,14 +403,25 @@ and the result of our filtering.</p>
 </pre></div>
 </div>
 <img alt="../_images/sphx_glr_plot_chroma_006.png" class="sphx-glr-single-img" src="../_images/sphx_glr_plot_chroma_006.png" />
-<p><strong>Total running time of the script:</strong> ( 0 minutes  24.547 seconds)</p>
+<p class="sphx-glr-script-out">Out:</p>
+<div class="sphx-glr-script-out highlight-none notranslate"><div class="highlight"><pre><span></span>/tmp/tmpqeredvposphinxcontrib_versioning/0dcd53f462db124ed3f54edf2334f28738d2ecc6/docs/examples/plot_chroma.py:153: FutureWarning: Using a non-tuple sequence for multidimensional indexing is deprecated; use `arr[tuple(seq)]` instead of `arr[seq]`. In the future this will be interpreted as an array index, `arr[np.array(seq)]`, which will result either in an error or a different result.
+  librosa.display.specshow(librosa.amplitude_to_db(C, ref=np.max)[idx],
+/tmp/tmpqeredvposphinxcontrib_versioning/0dcd53f462db124ed3f54edf2334f28738d2ecc6/docs/examples/plot_chroma.py:158: FutureWarning: Using a non-tuple sequence for multidimensional indexing is deprecated; use `arr[tuple(seq)]` instead of `arr[seq]`. In the future this will be interpreted as an array index, `arr[np.array(seq)]`, which will result either in an error or a different result.
+  librosa.display.specshow(chroma_orig[idx], y_axis=&#39;chroma&#39;)
+/tmp/tmpqeredvposphinxcontrib_versioning/0dcd53f462db124ed3f54edf2334f28738d2ecc6/docs/examples/plot_chroma.py:162: FutureWarning: Using a non-tuple sequence for multidimensional indexing is deprecated; use `arr[tuple(seq)]` instead of `arr[seq]`. In the future this will be interpreted as an array index, `arr[np.array(seq)]`, which will result either in an error or a different result.
+  librosa.display.specshow(chroma_smooth[idx], y_axis=&#39;chroma&#39;, x_axis=&#39;time&#39;)
+/tmp/tmpqeredvposphinxcontrib_versioning/0dcd53f462db124ed3f54edf2334f28738d2ecc6/docs/examples/plot_chroma.py:166: UserWarning: Matplotlib is currently using agg, which is a non-GUI backend, so cannot show the figure.
+  plt.show()
+</pre></div>
+</div>
+<p class="sphx-glr-timing"><strong>Total running time of the script:</strong> ( 0 minutes  26.847 seconds)</p>
 <div class="sphx-glr-footer class sphx-glr-footer-example docutils container" id="sphx-glr-download-auto-examples-plot-chroma-py">
 <div class="sphx-glr-download docutils container">
 <a class="reference download internal" href="../_downloads/plot_chroma.py" download=""><code class="xref download docutils literal notranslate"><span class="pre">Download</span> <span class="pre">Python</span> <span class="pre">source</span> <span class="pre">code:</span> <span class="pre">plot_chroma.py</span></code></a></div>
 <div class="sphx-glr-download docutils container">
 <a class="reference download internal" href="../_downloads/plot_chroma.ipynb" download=""><code class="xref download docutils literal notranslate"><span class="pre">Download</span> <span class="pre">Jupyter</span> <span class="pre">notebook:</span> <span class="pre">plot_chroma.ipynb</span></code></a></div>
 </div>
-<p class="sphx-glr-signature"><a class="reference external" href="https://sphinx-gallery.readthedocs.io">Gallery generated by Sphinx-Gallery</a></p>
+<p class="sphx-glr-signature"><a class="reference external" href="https://sphinx-gallery.github.io">Gallery generated by Sphinx-Gallery</a></p>
 </div>
 
 
@@ -427,15 +477,13 @@ and the result of our filtering.</p>
             <dd><a href="plot_chroma.html">0.6.1</a></dd>
             <dd><a href="../../0.6.2/auto_examples/plot_chroma.html">0.6.2</a></dd>
             <dd><a href="../../0.6.3/auto_examples/plot_chroma.html">0.6.3</a></dd>
+            <dd><a href="../../0.7.0rc1/auto_examples/plot_chroma.html">0.7.0rc1</a></dd>
             <dd><a href="../../v0.1.0/index.html">v0.1.0</a></dd>
             <dd><a href="../../v0.4.0/index.html">v0.4.0</a></dd>
         </dl>
         <dl>
             <dt>Branches</dt>
-            <dd><a href="../../display-bin-centering/index.html">display-bin-centering</a></dd>
             <dd><a href="../../master/auto_examples/plot_chroma.html">master</a></dd>
-            <dd><a href="../../mpl-test-2.1/auto_examples/plot_chroma.html">mpl-test-2.1</a></dd>
-            <dd><a href="../../runnning/auto_examples/plot_chroma.html">runnning</a></dd>
         </dl>
     </div>
 </div>

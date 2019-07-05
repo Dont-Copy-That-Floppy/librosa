@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>librosa.feature.chroma_stft &mdash; librosa 0.6.3 documentation</title>
+  <title>librosa.feature.chroma_stft &mdash; librosa 0.7.0rc1 documentation</title>
   
 
   
@@ -23,7 +23,7 @@
       <script type="text/javascript">
           var DOCUMENTATION_OPTIONS = {
               URL_ROOT:'../',
-              VERSION:'0.6.3',
+              VERSION:'0.7.0rc1',
               LANGUAGE:'None',
               COLLAPSE_INDEX:false,
               FILE_SUFFIX:'.html',
@@ -72,7 +72,7 @@
             
             
               <div class="version">
-                0.6
+                0.7
               </div>
             
           
@@ -111,7 +111,6 @@
 <li class="toctree-l3"><a class="reference internal" href="librosa.feature.melspectrogram.html">librosa.feature.melspectrogram</a></li>
 <li class="toctree-l3"><a class="reference internal" href="librosa.feature.mfcc.html">librosa.feature.mfcc</a></li>
 <li class="toctree-l3"><a class="reference internal" href="librosa.feature.rms.html">librosa.feature.rms</a></li>
-<li class="toctree-l3"><a class="reference internal" href="librosa.feature.rmse.html">librosa.feature.rmse</a></li>
 <li class="toctree-l3"><a class="reference internal" href="librosa.feature.spectral_centroid.html">librosa.feature.spectral_centroid</a></li>
 <li class="toctree-l3"><a class="reference internal" href="librosa.feature.spectral_bandwidth.html">librosa.feature.spectral_bandwidth</a></li>
 <li class="toctree-l3"><a class="reference internal" href="librosa.feature.spectral_contrast.html">librosa.feature.spectral_contrast</a></li>
@@ -124,6 +123,7 @@
 </li>
 <li class="toctree-l2"><a class="reference internal" href="../feature.html#rhythm-features">Rhythm features</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../feature.html#feature-manipulation">Feature manipulation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../feature.html#feature-inversion">Feature inversion</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="../onset.html">Onset detection</a></li>
@@ -220,7 +220,7 @@
 <h1>librosa.feature.chroma_stft<a class="headerlink" href="#librosa-feature-chroma-stft" title="Permalink to this headline">¶</a></h1>
 <dl class="function">
 <dt id="librosa.feature.chroma_stft">
-<code class="descclassname">librosa.feature.</code><code class="descname">chroma_stft</code><span class="sig-paren">(</span><em>y=None</em>, <em>sr=22050</em>, <em>S=None</em>, <em>norm=inf</em>, <em>n_fft=2048</em>, <em>hop_length=512</em>, <em>tuning=None</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/librosa/feature/spectral.html#chroma_stft"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#librosa.feature.chroma_stft" title="Permalink to this definition">¶</a></dt>
+<code class="descclassname">librosa.feature.</code><code class="descname">chroma_stft</code><span class="sig-paren">(</span><em>y=None</em>, <em>sr=22050</em>, <em>S=None</em>, <em>norm=inf</em>, <em>n_fft=2048</em>, <em>hop_length=512</em>, <em>win_length=None</em>, <em>window='hann'</em>, <em>center=True</em>, <em>pad_mode='reflect'</em>, <em>tuning=None</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/librosa/feature/spectral.html#chroma_stft"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#librosa.feature.chroma_stft" title="Permalink to this definition">¶</a></dt>
 <dd><p>Compute a chromagram from a waveform or power spectrogram.</p>
 <p>This implementation is derived from <em class="xref py py-obj">chromagram_E</em> <a class="reference internal" href="#r83f3961994d7-1" id="id1">[1]</a></p>
 <table class="docutils citation" frame="void" id="r83f3961994d7-1" rules="none">
@@ -255,6 +255,31 @@ See <a class="reference internal" href="librosa.util.normalize.html#librosa.util
 </dd>
 <dt><strong>hop_length</strong> <span class="classifier-delimiter">:</span> <span class="classifier">int &gt; 0 [scalar]</span></dt>
 <dd><p class="first last">hop length if provided <em class="xref py py-obj">y, sr</em> instead of <em class="xref py py-obj">S</em></p>
+</dd>
+<dt><strong>win_length</strong> <span class="classifier-delimiter">:</span> <span class="classifier">int &lt;= n_fft [scalar]</span></dt>
+<dd><p class="first">Each frame of audio is windowed by <em class="xref py py-obj">window()</em>.
+The window will be of length <em class="xref py py-obj">win_length</em> and then padded
+with zeros to match <em class="xref py py-obj">n_fft</em>.</p>
+<p class="last">If unspecified, defaults to <code class="docutils literal notranslate"><span class="pre">win_length</span> <span class="pre">=</span> <span class="pre">n_fft</span></code>.</p>
+</dd>
+<dt><strong>window</strong> <span class="classifier-delimiter">:</span> <span class="classifier">string, tuple, number, function, or np.ndarray [shape=(n_fft,)]</span></dt>
+<dd><ul class="first last simple">
+<li>a window specification (string, tuple, or number);
+see <a class="reference external" href="https://docs.scipy.org/doc/scipy/reference/generated/scipy.signal.get_window.html#scipy.signal.get_window" title="(in SciPy v1.3.0)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">scipy.signal.get_window</span></code></a></li>
+<li>a window function, such as <code class="xref py py-obj docutils literal notranslate"><span class="pre">scipy.signal.hanning</span></code></li>
+<li>a vector or array of length <em class="xref py py-obj">n_fft</em></li>
+</ul>
+</dd>
+<dt><strong>center</strong> <span class="classifier-delimiter">:</span> <span class="classifier">boolean</span></dt>
+<dd><ul class="first last simple">
+<li>If <em class="xref py py-obj">True</em>, the signal <em class="xref py py-obj">y</em> is padded so that frame
+<em class="xref py py-obj">t</em> is centered at <em class="xref py py-obj">y[t * hop_length]</em>.</li>
+<li>If <em class="xref py py-obj">False</em>, then frame <em class="xref py py-obj">t</em> begins at <em class="xref py py-obj">y[t * hop_length]</em></li>
+</ul>
+</dd>
+<dt><strong>pad_mode</strong> <span class="classifier-delimiter">:</span> <span class="classifier">string</span></dt>
+<dd><p class="first last">If <em class="xref py py-obj">center=True</em>, the padding mode to use at the edges of the signal.
+By default, STFT uses reflection padding.</p>
 </dd>
 <dt><strong>tuning</strong> <span class="classifier-delimiter">:</span> <span class="classifier">float in <em class="xref py py-obj">[-0.5, 0.5)</em> [scalar] or None.</span></dt>
 <dd><p class="first last">Deviation from A440 tuning in fractional bins (cents).
@@ -323,6 +348,7 @@ See <a class="reference internal" href="librosa.filters.chroma.html#librosa.filt
 <span class="gp">&gt;&gt;&gt; </span><span class="n">plt</span><span class="o">.</span><span class="n">colorbar</span><span class="p">()</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s1">&#39;Chromagram&#39;</span><span class="p">)</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">plt</span><span class="o">.</span><span class="n">tight_layout</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
 </pre></div>
 </div>
 <p>(<a class="reference external" href="../generated/librosa-feature-chroma_stft-1.py">Source code</a>)</p>
@@ -371,7 +397,7 @@ See <a class="reference internal" href="librosa.filters.chroma.html#librosa.filt
 <div class="rst-versions" data-toggle="rst-versions" role="note" aria-label="versions">
     <span class="rst-current-version" data-toggle="rst-current-version">
         <span class="fa fa-book"> Other Versions</span>
-        v: 0.6.3
+        v: 0.7.0rc1
         <span class="fa fa-caret-down"></span>
     </span>
     <div class="rst-other-versions">
@@ -386,15 +412,13 @@ See <a class="reference internal" href="librosa.filters.chroma.html#librosa.filt
             <dd><a href="../0.6.1/generated/librosa.feature.chroma_stft.html">0.6.1</a></dd>
             <dd><a href="../0.6.2/generated/librosa.feature.chroma_stft.html">0.6.2</a></dd>
             <dd><a href="../0.6.3/generated/librosa.feature.chroma_stft.html">0.6.3</a></dd>
+            <dd><a href="../0.7.0rc1/generated/librosa.feature.chroma_stft.html">0.7.0rc1</a></dd>
             <dd><a href="../v0.1.0/index.html">v0.1.0</a></dd>
             <dd><a href="../v0.4.0/index.html">v0.4.0</a></dd>
         </dl>
         <dl>
             <dt>Branches</dt>
-            <dd><a href="../display-bin-centering/generated/librosa.feature.chroma_stft.html">display-bin-centering</a></dd>
             <dd><a href="../master/generated/librosa.feature.chroma_stft.html">master</a></dd>
-            <dd><a href="../mpl-test-2.1/generated/librosa.feature.chroma_stft.html">mpl-test-2.1</a></dd>
-            <dd><a href="../runnning/generated/librosa.feature.chroma_stft.html">runnning</a></dd>
         </dl>
     </div>
 </div>

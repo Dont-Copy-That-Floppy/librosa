@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>librosa.core.spectrum &mdash; librosa 0.6.3 documentation</title>
+  <title>librosa.core.spectrum &mdash; librosa 0.7.0rc1 documentation</title>
   
 
   
@@ -23,7 +23,7 @@
       <script type="text/javascript">
           var DOCUMENTATION_OPTIONS = {
               URL_ROOT:'../../../',
-              VERSION:'0.6.3',
+              VERSION:'0.7.0rc1',
               LANGUAGE:'None',
               COLLAPSE_INDEX:false,
               FILE_SUFFIX:'.html',
@@ -70,7 +70,7 @@
             
             
               <div class="version">
-                0.6
+                0.7
               </div>
             
           
@@ -195,16 +195,18 @@
 <span class="kn">import</span> <span class="nn">warnings</span>
 
 <span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
-<span class="kn">import</span> <span class="nn">scipy.fftpack</span> <span class="k">as</span> <span class="nn">fft</span>
 <span class="kn">import</span> <span class="nn">scipy</span>
 <span class="kn">import</span> <span class="nn">scipy.ndimage</span>
 <span class="kn">import</span> <span class="nn">scipy.signal</span>
 <span class="kn">import</span> <span class="nn">scipy.interpolate</span>
 <span class="kn">import</span> <span class="nn">six</span>
 
+<span class="kn">from</span> <span class="nn">numba</span> <span class="k">import</span> <span class="n">jit</span>
+
 <span class="kn">from</span> <span class="nn">.</span> <span class="k">import</span> <span class="n">time_frequency</span>
+<span class="kn">from</span> <span class="nn">.fft</span> <span class="k">import</span> <span class="n">get_fftlib</span>
 <span class="kn">from</span> <span class="nn">.audio</span> <span class="k">import</span> <span class="n">resample</span>
-<span class="kn">from</span> <span class="nn">..</span> <span class="k">import</span> <span class="n">cache</span>
+<span class="kn">from</span> <span class="nn">.._cache</span> <span class="k">import</span> <span class="n">cache</span>
 <span class="kn">from</span> <span class="nn">..</span> <span class="k">import</span> <span class="n">util</span>
 <span class="kn">from</span> <span class="nn">..util.exceptions</span> <span class="k">import</span> <span class="n">ParameterError</span>
 <span class="kn">from</span> <span class="nn">..filters</span> <span class="k">import</span> <span class="n">get_window</span><span class="p">,</span> <span class="n">semitone_filterbank</span>
@@ -215,7 +217,7 @@
            <span class="s1">&#39;perceptual_weighting&#39;</span><span class="p">,</span>
            <span class="s1">&#39;power_to_db&#39;</span><span class="p">,</span> <span class="s1">&#39;db_to_power&#39;</span><span class="p">,</span>
            <span class="s1">&#39;amplitude_to_db&#39;</span><span class="p">,</span> <span class="s1">&#39;db_to_amplitude&#39;</span><span class="p">,</span>
-           <span class="s1">&#39;fmt&#39;</span><span class="p">,</span> <span class="s1">&#39;pcen&#39;</span><span class="p">]</span>
+           <span class="s1">&#39;fmt&#39;</span><span class="p">,</span> <span class="s1">&#39;pcen&#39;</span><span class="p">,</span> <span class="s1">&#39;griffinlim&#39;</span><span class="p">]</span>
 
 
 <div class="viewcode-block" id="stft"><a class="viewcode-back" href="../../../generated/librosa.core.stft.html#librosa.core.stft">[docs]</a><span class="nd">@cache</span><span class="p">(</span><span class="n">level</span><span class="o">=</span><span class="mi">20</span><span class="p">)</span>
@@ -242,7 +244,7 @@
 <span class="sd">        number audio of frames between STFT columns.</span>
 <span class="sd">        If unspecified, defaults `win_length / 4`.</span>
 
-<span class="sd">    win_length  : int &lt;= n_fft [scalar]</span>
+<span class="sd">    win_length : int &lt;= n_fft [scalar]</span>
 <span class="sd">        Each frame of audio is windowed by `window()`.</span>
 <span class="sd">        The window will be of length `win_length` and then padded</span>
 <span class="sd">        with zeros to match `n_fft`.</span>
@@ -257,12 +259,12 @@
 
 <span class="sd">        .. see also:: `filters.get_window`</span>
 
-<span class="sd">    center      : boolean</span>
+<span class="sd">    center : boolean</span>
 <span class="sd">        - If `True`, the signal `y` is padded so that frame</span>
 <span class="sd">          `D[:, t]` is centered at `y[t * hop_length]`.</span>
 <span class="sd">        - If `False`, then `D[:, t]` begins at `y[t * hop_length]`</span>
 
-<span class="sd">    dtype       : numeric type</span>
+<span class="sd">    dtype : numeric type</span>
 <span class="sd">        Complex numeric type for `D`.  Default is 64-bit complex.</span>
 
 <span class="sd">    pad_mode : string</span>
@@ -329,6 +331,7 @@
 <span class="sd">    &gt;&gt;&gt; plt.title(&#39;Power spectrogram&#39;)</span>
 <span class="sd">    &gt;&gt;&gt; plt.colorbar(format=&#39;%+2.0f dB&#39;)</span>
 <span class="sd">    &gt;&gt;&gt; plt.tight_layout()</span>
+<span class="sd">    &gt;&gt;&gt; plt.show()</span>
 
 <span class="sd">    &quot;&quot;&quot;</span>
 
@@ -363,6 +366,8 @@
                            <span class="n">dtype</span><span class="o">=</span><span class="n">dtype</span><span class="p">,</span>
                            <span class="n">order</span><span class="o">=</span><span class="s1">&#39;F&#39;</span><span class="p">)</span>
 
+    <span class="n">fft</span> <span class="o">=</span> <span class="n">get_fftlib</span><span class="p">()</span>
+
     <span class="c1"># how many columns can we fit within MAX_MEM_BLOCK?</span>
     <span class="n">n_columns</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">util</span><span class="o">.</span><span class="n">MAX_MEM_BLOCK</span> <span class="o">/</span> <span class="p">(</span><span class="n">stft_matrix</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">*</span>
                                           <span class="n">stft_matrix</span><span class="o">.</span><span class="n">itemsize</span><span class="p">))</span>
@@ -370,10 +375,9 @@
     <span class="k">for</span> <span class="n">bl_s</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">stft_matrix</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">n_columns</span><span class="p">):</span>
         <span class="n">bl_t</span> <span class="o">=</span> <span class="nb">min</span><span class="p">(</span><span class="n">bl_s</span> <span class="o">+</span> <span class="n">n_columns</span><span class="p">,</span> <span class="n">stft_matrix</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
 
-        <span class="n">stft_matrix</span><span class="p">[:,</span> <span class="n">bl_s</span><span class="p">:</span><span class="n">bl_t</span><span class="p">]</span> <span class="o">=</span> <span class="n">fft</span><span class="o">.</span><span class="n">fft</span><span class="p">(</span><span class="n">fft_window</span> <span class="o">*</span>
-                                            <span class="n">y_frames</span><span class="p">[:,</span> <span class="n">bl_s</span><span class="p">:</span><span class="n">bl_t</span><span class="p">],</span>
-                                            <span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)[:</span><span class="n">stft_matrix</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]]</span>
-
+        <span class="n">stft_matrix</span><span class="p">[:,</span> <span class="n">bl_s</span><span class="p">:</span><span class="n">bl_t</span><span class="p">]</span> <span class="o">=</span> <span class="n">fft</span><span class="o">.</span><span class="n">rfft</span><span class="p">(</span><span class="n">fft_window</span> <span class="o">*</span>
+                                             <span class="n">y_frames</span><span class="p">[:,</span> <span class="n">bl_s</span><span class="p">:</span><span class="n">bl_t</span><span class="p">],</span>
+                                             <span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
     <span class="k">return</span> <span class="n">stft_matrix</span></div>
 
 
@@ -400,18 +404,18 @@
 <span class="sd">    stft_matrix : np.ndarray [shape=(1 + n_fft/2, t)]</span>
 <span class="sd">        STFT matrix from `stft`</span>
 
-<span class="sd">    hop_length  : int &gt; 0 [scalar]</span>
+<span class="sd">    hop_length : int &gt; 0 [scalar]</span>
 <span class="sd">        Number of frames between STFT columns.</span>
 <span class="sd">        If unspecified, defaults to `win_length / 4`.</span>
 
-<span class="sd">    win_length  : int &lt;= n_fft = 2 * (stft_matrix.shape[0] - 1)</span>
+<span class="sd">    win_length : int &lt;= n_fft = 2 * (stft_matrix.shape[0] - 1)</span>
 <span class="sd">        When reconstructing the time series, each frame is windowed</span>
 <span class="sd">        and each sample is normalized by the sum of squared window</span>
 <span class="sd">        according to the `window` function (see below).</span>
 
 <span class="sd">        If unspecified, defaults to `n_fft`.</span>
 
-<span class="sd">    window      : string, tuple, number, function, np.ndarray [shape=(n_fft,)]</span>
+<span class="sd">    window : string, tuple, number, function, np.ndarray [shape=(n_fft,)]</span>
 <span class="sd">        - a window specification (string, tuple, or number);</span>
 <span class="sd">          see `scipy.signal.get_window`</span>
 <span class="sd">        - a window function, such as `scipy.signal.hanning`</span>
@@ -419,11 +423,11 @@
 
 <span class="sd">        .. see also:: `filters.get_window`</span>
 
-<span class="sd">    center      : boolean</span>
+<span class="sd">    center : boolean</span>
 <span class="sd">        - If `True`, `D` is assumed to have centered frames.</span>
 <span class="sd">        - If `False`, `D` is assumed to have left-aligned frames.</span>
 
-<span class="sd">    dtype       : numeric type</span>
+<span class="sd">    dtype : numeric type</span>
 <span class="sd">        Real numeric type for `y`.  Default is 32-bit float.</span>
 
 <span class="sd">    length : int &gt; 0, optional</span>
@@ -475,20 +479,39 @@
 
     <span class="n">ifft_window</span> <span class="o">=</span> <span class="n">get_window</span><span class="p">(</span><span class="n">window</span><span class="p">,</span> <span class="n">win_length</span><span class="p">,</span> <span class="n">fftbins</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 
-    <span class="c1"># Pad out to match n_fft</span>
-    <span class="n">ifft_window</span> <span class="o">=</span> <span class="n">util</span><span class="o">.</span><span class="n">pad_center</span><span class="p">(</span><span class="n">ifft_window</span><span class="p">,</span> <span class="n">n_fft</span><span class="p">)</span>
+    <span class="c1"># Pad out to match n_fft, and add a broadcasting axis</span>
+    <span class="n">ifft_window</span> <span class="o">=</span> <span class="n">util</span><span class="o">.</span><span class="n">pad_center</span><span class="p">(</span><span class="n">ifft_window</span><span class="p">,</span> <span class="n">n_fft</span><span class="p">)[:,</span> <span class="n">np</span><span class="o">.</span><span class="n">newaxis</span><span class="p">]</span>
 
-    <span class="n">n_frames</span> <span class="o">=</span> <span class="n">stft_matrix</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+    <span class="c1"># For efficiency, trim STFT frames according to signal length if available</span>
+    <span class="k">if</span> <span class="n">length</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">center</span><span class="p">:</span>
+            <span class="n">padded_length</span> <span class="o">=</span> <span class="n">length</span> <span class="o">+</span> <span class="nb">int</span><span class="p">(</span><span class="n">n_fft</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">padded_length</span> <span class="o">=</span> <span class="n">length</span>
+        <span class="n">n_frames</span> <span class="o">=</span> <span class="nb">min</span><span class="p">(</span>
+            <span class="n">stft_matrix</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="nb">int</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">ceil</span><span class="p">(</span><span class="n">padded_length</span> <span class="o">/</span> <span class="n">hop_length</span><span class="p">)))</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">n_frames</span> <span class="o">=</span> <span class="n">stft_matrix</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+
     <span class="n">expected_signal_len</span> <span class="o">=</span> <span class="n">n_fft</span> <span class="o">+</span> <span class="n">hop_length</span> <span class="o">*</span> <span class="p">(</span><span class="n">n_frames</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span>
     <span class="n">y</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="n">expected_signal_len</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">dtype</span><span class="p">)</span>
 
-    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">n_frames</span><span class="p">):</span>
-        <span class="n">sample</span> <span class="o">=</span> <span class="n">i</span> <span class="o">*</span> <span class="n">hop_length</span>
-        <span class="n">spec</span> <span class="o">=</span> <span class="n">stft_matrix</span><span class="p">[:,</span> <span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">flatten</span><span class="p">()</span>
-        <span class="n">spec</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">concatenate</span><span class="p">((</span><span class="n">spec</span><span class="p">,</span> <span class="n">spec</span><span class="p">[</span><span class="o">-</span><span class="mi">2</span><span class="p">:</span><span class="mi">0</span><span class="p">:</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">conj</span><span class="p">()),</span> <span class="mi">0</span><span class="p">)</span>
-        <span class="n">ytmp</span> <span class="o">=</span> <span class="n">ifft_window</span> <span class="o">*</span> <span class="n">fft</span><span class="o">.</span><span class="n">ifft</span><span class="p">(</span><span class="n">spec</span><span class="p">)</span><span class="o">.</span><span class="n">real</span>
+    <span class="n">n_columns</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">util</span><span class="o">.</span><span class="n">MAX_MEM_BLOCK</span> <span class="o">//</span> <span class="p">(</span><span class="n">stft_matrix</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">*</span>
+                                           <span class="n">stft_matrix</span><span class="o">.</span><span class="n">itemsize</span><span class="p">))</span>
 
-        <span class="n">y</span><span class="p">[</span><span class="n">sample</span><span class="p">:(</span><span class="n">sample</span> <span class="o">+</span> <span class="n">n_fft</span><span class="p">)]</span> <span class="o">=</span> <span class="n">y</span><span class="p">[</span><span class="n">sample</span><span class="p">:(</span><span class="n">sample</span> <span class="o">+</span> <span class="n">n_fft</span><span class="p">)]</span> <span class="o">+</span> <span class="n">ytmp</span>
+    <span class="n">fft</span> <span class="o">=</span> <span class="n">get_fftlib</span><span class="p">()</span>
+
+    <span class="n">frame</span> <span class="o">=</span> <span class="mi">0</span>
+    <span class="k">for</span> <span class="n">bl_s</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">n_frames</span><span class="p">,</span> <span class="n">n_columns</span><span class="p">):</span>
+        <span class="n">bl_t</span> <span class="o">=</span> <span class="nb">min</span><span class="p">(</span><span class="n">bl_s</span> <span class="o">+</span> <span class="n">n_columns</span><span class="p">,</span> <span class="n">n_frames</span><span class="p">)</span>
+
+        <span class="c1"># invert the block and apply the window function</span>
+        <span class="n">ytmp</span> <span class="o">=</span> <span class="n">ifft_window</span> <span class="o">*</span> <span class="n">fft</span><span class="o">.</span><span class="n">irfft</span><span class="p">(</span><span class="n">stft_matrix</span><span class="p">[:,</span> <span class="n">bl_s</span><span class="p">:</span><span class="n">bl_t</span><span class="p">],</span> <span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+
+        <span class="c1"># Overlap-add the istft block starting at the i&#39;th frame</span>
+        <span class="n">__overlap_add</span><span class="p">(</span><span class="n">y</span><span class="p">[</span><span class="n">frame</span> <span class="o">*</span> <span class="n">hop_length</span><span class="p">:],</span> <span class="n">ytmp</span><span class="p">,</span> <span class="n">hop_length</span><span class="p">)</span>
+
+        <span class="n">frame</span> <span class="o">+=</span> <span class="p">(</span><span class="n">bl_t</span> <span class="o">-</span> <span class="n">bl_s</span><span class="p">)</span>
 
     <span class="c1"># Normalize by sum of squared window</span>
     <span class="n">ifft_window_sum</span> <span class="o">=</span> <span class="n">window_sumsquare</span><span class="p">(</span><span class="n">window</span><span class="p">,</span>
@@ -520,6 +543,19 @@
         <span class="n">y</span> <span class="o">=</span> <span class="n">util</span><span class="o">.</span><span class="n">fix_length</span><span class="p">(</span><span class="n">y</span><span class="p">[</span><span class="n">start</span><span class="p">:],</span> <span class="n">length</span><span class="p">)</span>
 
     <span class="k">return</span> <span class="n">y</span></div>
+
+
+<span class="nd">@jit</span><span class="p">(</span><span class="n">nopython</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">cache</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="k">def</span> <span class="nf">__overlap_add</span><span class="p">(</span><span class="n">y</span><span class="p">,</span> <span class="n">ytmp</span><span class="p">,</span> <span class="n">hop_length</span><span class="p">):</span>
+    <span class="c1"># numba-accelerated overlap add for inverse stft</span>
+    <span class="c1"># y is the pre-allocated output buffer</span>
+    <span class="c1"># ytmp is the windowed inverse-stft frames</span>
+    <span class="c1"># hop_length is the hop-length of the STFT analysis</span>
+
+    <span class="n">n_fft</span> <span class="o">=</span> <span class="n">ytmp</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+    <span class="k">for</span> <span class="n">frame</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">ytmp</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">]):</span>
+        <span class="n">sample</span> <span class="o">=</span> <span class="n">frame</span> <span class="o">*</span> <span class="n">hop_length</span>
+        <span class="n">y</span><span class="p">[</span><span class="n">sample</span><span class="p">:(</span><span class="n">sample</span> <span class="o">+</span> <span class="n">n_fft</span><span class="p">)]</span> <span class="o">+=</span> <span class="n">ytmp</span><span class="p">[:,</span> <span class="n">frame</span><span class="p">]</span>
 
 
 <div class="viewcode-block" id="ifgram"><a class="viewcode-back" href="../../../generated/librosa.core.ifgram.html#librosa.core.ifgram">[docs]</a><span class="k">def</span> <span class="nf">ifgram</span><span class="p">(</span><span class="n">y</span><span class="p">,</span> <span class="n">sr</span><span class="o">=</span><span class="mi">22050</span><span class="p">,</span> <span class="n">n_fft</span><span class="o">=</span><span class="mi">2048</span><span class="p">,</span> <span class="n">hop_length</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">win_length</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
@@ -569,7 +605,7 @@
 <span class="sd">    norm : bool</span>
 <span class="sd">        Normalize the STFT.</span>
 
-<span class="sd">    center      : boolean</span>
+<span class="sd">    center : boolean</span>
 <span class="sd">        - If `True`, the signal `y` is padded so that frame</span>
 <span class="sd">            `D[:, t]` (and `if_gram`) is centered at `y[t * hop_length]`.</span>
 <span class="sd">        - If `False`, then `D[:, t]` at `y[t * hop_length]`</span>
@@ -632,9 +668,9 @@
                                  <span class="n">n_fft</span><span class="p">)</span>
 
     <span class="c1"># Window for discrete differentiation</span>
-    <span class="n">freq_angular</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">2</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">pi</span><span class="p">,</span> <span class="n">n_fft</span><span class="p">,</span> <span class="n">endpoint</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
-
-    <span class="n">d_window</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sin</span><span class="p">(</span><span class="o">-</span><span class="n">freq_angular</span><span class="p">)</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">pi</span> <span class="o">/</span> <span class="n">n_fft</span>
+    <span class="c1"># we use a cyclic gradient calculation here to ensure that the edges of</span>
+    <span class="c1"># the window are handled properly</span>
+    <span class="n">d_window</span> <span class="o">=</span> <span class="o">-</span> <span class="n">util</span><span class="o">.</span><span class="n">cyclic_gradient</span><span class="p">(</span><span class="n">fft_window</span><span class="p">)</span>
 
     <span class="n">stft_matrix</span> <span class="o">=</span> <span class="n">stft</span><span class="p">(</span><span class="n">y</span><span class="p">,</span> <span class="n">n_fft</span><span class="o">=</span><span class="n">n_fft</span><span class="p">,</span> <span class="n">hop_length</span><span class="o">=</span><span class="n">hop_length</span><span class="p">,</span>
                        <span class="n">win_length</span><span class="o">=</span><span class="n">win_length</span><span class="p">,</span>
@@ -655,15 +691,16 @@
 
     <span class="c1"># Pylint does not correctly infer the type here, but it&#39;s correct.</span>
     <span class="c1"># pylint: disable=maybe-no-member</span>
+    <span class="n">freq_angular</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">2</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">pi</span><span class="p">,</span> <span class="n">n_fft</span><span class="p">,</span> <span class="n">endpoint</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
     <span class="n">freq_angular</span> <span class="o">=</span> <span class="n">freq_angular</span><span class="o">.</span><span class="n">reshape</span><span class="p">((</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">))</span>
-    <span class="n">bin_offset</span> <span class="o">=</span> <span class="p">(</span><span class="o">-</span><span class="n">phase</span> <span class="o">*</span> <span class="n">diff_stft</span><span class="p">)</span><span class="o">.</span><span class="n">imag</span> <span class="o">/</span> <span class="n">mag</span>
 
+    <span class="n">bin_offset</span> <span class="o">=</span> <span class="p">(</span><span class="o">-</span><span class="n">phase</span> <span class="o">*</span> <span class="n">diff_stft</span><span class="p">)</span><span class="o">.</span><span class="n">imag</span> <span class="o">/</span> <span class="n">mag</span>
     <span class="n">bin_offset</span><span class="p">[</span><span class="n">mag</span> <span class="o">&lt;</span> <span class="n">ref_power</span><span class="o">**</span><span class="mf">0.5</span><span class="p">]</span> <span class="o">=</span> <span class="mi">0</span>
 
     <span class="n">if_gram</span> <span class="o">=</span> <span class="n">freq_angular</span><span class="p">[:</span><span class="n">n_fft</span><span class="o">//</span><span class="mi">2</span> <span class="o">+</span> <span class="mi">1</span><span class="p">]</span> <span class="o">+</span> <span class="n">bin_offset</span>
 
     <span class="k">if</span> <span class="n">norm</span><span class="p">:</span>
-        <span class="n">stft_matrix</span> <span class="o">=</span> <span class="n">stft_matrix</span> <span class="o">*</span> <span class="mf">2.0</span> <span class="o">/</span> <span class="n">fft_window</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span>
+        <span class="n">stft_matrix</span> <span class="o">*=</span> <span class="mf">2.0</span> <span class="o">/</span> <span class="n">fft_window</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span>
 
     <span class="k">if</span> <span class="n">clip</span><span class="p">:</span>
         <span class="n">np</span><span class="o">.</span><span class="n">clip</span><span class="p">(</span><span class="n">if_gram</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">pi</span><span class="p">,</span> <span class="n">out</span><span class="o">=</span><span class="n">if_gram</span><span class="p">)</span>
@@ -680,7 +717,7 @@
 
 <span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>
-<span class="sd">    D       : np.ndarray [shape=(d, t), dtype=complex]</span>
+<span class="sd">    D : np.ndarray [shape=(d, t), dtype=complex]</span>
 <span class="sd">        complex-valued spectrogram</span>
 <span class="sd">    power : float &gt; 0</span>
 <span class="sd">        Exponent for the magnitude spectrogram,</span>
@@ -689,7 +726,7 @@
 
 <span class="sd">    Returns</span>
 <span class="sd">    -------</span>
-<span class="sd">    D_mag   : np.ndarray [shape=(d, t), dtype=real]</span>
+<span class="sd">    D_mag : np.ndarray [shape=(d, t), dtype=real]</span>
 <span class="sd">        magnitude of `D`, raised to `power`</span>
 <span class="sd">    D_phase : np.ndarray [shape=(d, t), dtype=complex]</span>
 <span class="sd">        `exp(1.j * phi)` where `phi` is the phase of `D`</span>
@@ -741,9 +778,17 @@
 
 <span class="sd">    Based on the implementation provided by [1]_.</span>
 
+<span class="sd">    .. note:: This is a simplified implementation, intended primarily for</span>
+<span class="sd">             reference and pedagogical purposes.  It makes no attempt to</span>
+<span class="sd">             handle transients, and is likely to produce many audible</span>
+<span class="sd">             artifacts.  For a higher quality implementation, we recommend</span>
+<span class="sd">             the RubberBand library [2]_ and its Python wrapper `pyrubberband`.</span>
+
 <span class="sd">    .. [1] Ellis, D. P. W. &quot;A phase vocoder in Matlab.&quot;</span>
 <span class="sd">        Columbia University, 2002.</span>
 <span class="sd">        http://www.ee.columbia.edu/~dpwe/resources/matlab/pvoc/</span>
+
+<span class="sd">    .. [2] https://breakfastquay.com/rubberband/</span>
 
 <span class="sd">    Examples</span>
 <span class="sd">    --------</span>
@@ -774,8 +819,12 @@
 
 <span class="sd">    Returns</span>
 <span class="sd">    -------</span>
-<span class="sd">    D_stretched  : np.ndarray [shape=(d, t / rate), dtype=complex]</span>
+<span class="sd">    D_stretched : np.ndarray [shape=(d, t / rate), dtype=complex]</span>
 <span class="sd">        time-stretched STFT</span>
+
+<span class="sd">    See Also</span>
+<span class="sd">    --------</span>
+<span class="sd">    pyrubberband</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
     <span class="n">n_fft</span> <span class="o">=</span> <span class="mi">2</span> <span class="o">*</span> <span class="p">(</span><span class="n">D</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span>
@@ -825,7 +874,7 @@
 
 <div class="viewcode-block" id="iirt"><a class="viewcode-back" href="../../../generated/librosa.core.iirt.html#librosa.core.iirt">[docs]</a><span class="nd">@cache</span><span class="p">(</span><span class="n">level</span><span class="o">=</span><span class="mi">20</span><span class="p">)</span>
 <span class="k">def</span> <span class="nf">iirt</span><span class="p">(</span><span class="n">y</span><span class="p">,</span> <span class="n">sr</span><span class="o">=</span><span class="mi">22050</span><span class="p">,</span> <span class="n">win_length</span><span class="o">=</span><span class="mi">2048</span><span class="p">,</span> <span class="n">hop_length</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">center</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
-         <span class="n">tuning</span><span class="o">=</span><span class="mf">0.0</span><span class="p">,</span> <span class="n">pad_mode</span><span class="o">=</span><span class="s1">&#39;reflect&#39;</span><span class="p">,</span> <span class="n">flayout</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+         <span class="n">tuning</span><span class="o">=</span><span class="mf">0.0</span><span class="p">,</span> <span class="n">pad_mode</span><span class="o">=</span><span class="s1">&#39;reflect&#39;</span><span class="p">,</span> <span class="n">flayout</span><span class="o">=</span><span class="s1">&#39;sos&#39;</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
     <span class="sa">r</span><span class="sd">&#39;&#39;&#39;Time-frequency representation using IIR filters [1]_.</span>
 
 <span class="sd">    This function will return a time-frequency representation</span>
@@ -877,10 +926,10 @@
 <span class="sd">        By default, this function uses reflection padding.</span>
 
 <span class="sd">    flayout : string</span>
+<span class="sd">        - If `sos` (default), a series of second-order filters is used for filtering with `scipy.signal.sosfiltfilt`.</span>
+<span class="sd">          Minimizes numerical precision errors for high-order filters, but is slower.</span>
 <span class="sd">        - If `ba`, the standard difference equation is used for filtering with `scipy.signal.filtfilt`.</span>
 <span class="sd">          Can be unstable for high-order filters.</span>
-<span class="sd">        - If `sos`, a series of second-order filters is used for filtering with `scipy.signal.sosfiltfilt`.</span>
-<span class="sd">          Minimizes numerical precision errors for high-order filters, but is slower.</span>
 
 <span class="sd">    kwargs : additional keyword arguments</span>
 <span class="sd">        Additional arguments for `librosa.filters.semitone_filterbank()`</span>
@@ -915,14 +964,10 @@
 <span class="sd">    &gt;&gt;&gt; plt.title(&#39;Semitone spectrogram&#39;)</span>
 <span class="sd">    &gt;&gt;&gt; plt.colorbar(format=&#39;%+2.0f dB&#39;)</span>
 <span class="sd">    &gt;&gt;&gt; plt.tight_layout()</span>
+<span class="sd">    &gt;&gt;&gt; plt.show()</span>
 <span class="sd">    &#39;&#39;&#39;</span>
 
-    <span class="k">if</span> <span class="n">flayout</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
-        <span class="n">warnings</span><span class="o">.</span><span class="n">warn</span><span class="p">(</span><span class="s1">&#39;Default filter layout for `iirt` is `ba`, but will be `sos` in 0.7.&#39;</span><span class="p">,</span>
-                      <span class="ne">FutureWarning</span><span class="p">)</span>
-        <span class="n">flayout</span> <span class="o">=</span> <span class="s1">&#39;ba&#39;</span>
-
-    <span class="k">elif</span> <span class="n">flayout</span> <span class="ow">not</span> <span class="ow">in</span> <span class="p">(</span><span class="s1">&#39;ba&#39;</span><span class="p">,</span> <span class="s1">&#39;sos&#39;</span><span class="p">):</span>
+    <span class="k">if</span> <span class="n">flayout</span> <span class="ow">not</span> <span class="ow">in</span> <span class="p">(</span><span class="s1">&#39;ba&#39;</span><span class="p">,</span> <span class="s1">&#39;sos&#39;</span><span class="p">):</span>
         <span class="k">raise</span> <span class="n">ParameterError</span><span class="p">(</span><span class="s1">&#39;Unsupported flayout=</span><span class="si">{}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">flayout</span><span class="p">))</span>
 
     <span class="c1"># check audio input</span>
@@ -1005,7 +1050,7 @@
 
 <span class="sd">    Returns</span>
 <span class="sd">    -------</span>
-<span class="sd">    S_db   : np.ndarray</span>
+<span class="sd">    S_db : np.ndarray</span>
 <span class="sd">        ``S_db ~= 10 * log10(S) - 10 * log10(ref)``</span>
 
 <span class="sd">    See Also</span>
@@ -1067,6 +1112,7 @@
 <span class="sd">    &gt;&gt;&gt; plt.colorbar(format=&#39;%+2.0f dB&#39;)</span>
 <span class="sd">    &gt;&gt;&gt; plt.title(&#39;Log-Power spectrogram&#39;)</span>
 <span class="sd">    &gt;&gt;&gt; plt.tight_layout()</span>
+<span class="sd">    &gt;&gt;&gt; plt.show()</span>
 
 <span class="sd">    &quot;&quot;&quot;</span>
 
@@ -1282,6 +1328,7 @@
 <span class="sd">    &gt;&gt;&gt; plt.title(&#39;Perceptually weighted log CQT&#39;)</span>
 <span class="sd">    &gt;&gt;&gt; plt.colorbar(format=&#39;%+2.0f dB&#39;)</span>
 <span class="sd">    &gt;&gt;&gt; plt.tight_layout()</span>
+<span class="sd">    &gt;&gt;&gt; plt.show()</span>
 <span class="sd">    &#39;&#39;&#39;</span>
 
     <span class="n">offset</span> <span class="o">=</span> <span class="n">time_frequency</span><span class="o">.</span><span class="n">A_weighting</span><span class="p">(</span><span class="n">frequencies</span><span class="p">)</span><span class="o">.</span><span class="n">reshape</span><span class="p">((</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">))</span>
@@ -1389,6 +1436,7 @@
 <span class="sd">    &gt;&gt;&gt; plt.legend(frameon=True)</span>
 <span class="sd">    &gt;&gt;&gt; plt.axis(&#39;tight&#39;)</span>
 <span class="sd">    &gt;&gt;&gt; plt.tight_layout()</span>
+<span class="sd">    &gt;&gt;&gt; plt.show()</span>
 
 <span class="sd">    &gt;&gt;&gt; # Plot the scale transform of an onset strength autocorrelation</span>
 <span class="sd">    &gt;&gt;&gt; y, sr = librosa.load(librosa.util.example_audio_file(),</span>
@@ -1420,6 +1468,7 @@
 <span class="sd">    &gt;&gt;&gt; plt.xlabel(&#39;scale coefficients&#39;)</span>
 <span class="sd">    &gt;&gt;&gt; plt.legend(frameon=True)</span>
 <span class="sd">    &gt;&gt;&gt; plt.tight_layout()</span>
+<span class="sd">    &gt;&gt;&gt; plt.show()</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
     <span class="n">n</span> <span class="o">=</span> <span class="n">y</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="n">axis</span><span class="p">]</span>
@@ -1488,21 +1537,16 @@
     <span class="n">shape</span><span class="p">[</span><span class="n">axis</span><span class="p">]</span> <span class="o">=</span> <span class="o">-</span><span class="mi">1</span>
 
     <span class="c1"># Apply the window and fft</span>
-    <span class="n">result</span> <span class="o">=</span> <span class="n">fft</span><span class="o">.</span><span class="n">fft</span><span class="p">(</span><span class="n">y_res</span> <span class="o">*</span> <span class="p">(</span><span class="n">x_exp</span><span class="o">**</span><span class="n">beta</span><span class="p">)</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="n">shape</span><span class="p">),</span>
-                     <span class="n">axis</span><span class="o">=</span><span class="n">axis</span><span class="p">,</span> <span class="n">overwrite_x</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
-
-    <span class="c1"># Slice out the positive-scale component</span>
-    <span class="n">idx</span> <span class="o">=</span> <span class="p">[</span><span class="nb">slice</span><span class="p">(</span><span class="kc">None</span><span class="p">)]</span> <span class="o">*</span> <span class="n">result</span><span class="o">.</span><span class="n">ndim</span>
-    <span class="n">idx</span><span class="p">[</span><span class="n">axis</span><span class="p">]</span> <span class="o">=</span> <span class="nb">slice</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span> <span class="o">+</span> <span class="n">n_fmt</span><span class="o">//</span><span class="mi">2</span><span class="p">)</span>
-
-    <span class="c1"># Truncate and length-normalize</span>
-    <span class="k">return</span> <span class="n">result</span><span class="p">[</span><span class="nb">tuple</span><span class="p">(</span><span class="n">idx</span><span class="p">)]</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">n</span><span class="p">)</span> <span class="o">/</span> <span class="n">n_fmt</span></div>
+    <span class="c1"># Normalization is absorbed into the window here for expedience</span>
+    <span class="n">fft</span> <span class="o">=</span> <span class="n">get_fftlib</span><span class="p">()</span>
+    <span class="k">return</span> <span class="n">fft</span><span class="o">.</span><span class="n">rfft</span><span class="p">(</span><span class="n">y_res</span> <span class="o">*</span> <span class="p">((</span><span class="n">x_exp</span><span class="o">**</span><span class="n">beta</span><span class="p">)</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="n">shape</span><span class="p">)</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">n</span><span class="p">)</span> <span class="o">/</span> <span class="n">n_fmt</span><span class="p">),</span>
+                    <span class="n">axis</span><span class="o">=</span><span class="n">axis</span><span class="p">)</span></div>
 
 
 <div class="viewcode-block" id="pcen"><a class="viewcode-back" href="../../../generated/librosa.core.pcen.html#librosa.core.pcen">[docs]</a><span class="nd">@cache</span><span class="p">(</span><span class="n">level</span><span class="o">=</span><span class="mi">30</span><span class="p">)</span>
 <span class="k">def</span> <span class="nf">pcen</span><span class="p">(</span><span class="n">S</span><span class="p">,</span> <span class="n">sr</span><span class="o">=</span><span class="mi">22050</span><span class="p">,</span> <span class="n">hop_length</span><span class="o">=</span><span class="mi">512</span><span class="p">,</span> <span class="n">gain</span><span class="o">=</span><span class="mf">0.98</span><span class="p">,</span> <span class="n">bias</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">power</span><span class="o">=</span><span class="mf">0.5</span><span class="p">,</span>
          <span class="n">time_constant</span><span class="o">=</span><span class="mf">0.400</span><span class="p">,</span> <span class="n">eps</span><span class="o">=</span><span class="mf">1e-6</span><span class="p">,</span> <span class="n">b</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">max_size</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">ref</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
-         <span class="n">axis</span><span class="o">=-</span><span class="mi">1</span><span class="p">,</span> <span class="n">max_axis</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+         <span class="n">axis</span><span class="o">=-</span><span class="mi">1</span><span class="p">,</span> <span class="n">max_axis</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">zi</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">return_zf</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
     <span class="sd">&#39;&#39;&#39;Per-channel energy normalization (PCEN) [1]_</span>
 
 <span class="sd">    This function normalizes a time-frequency representation `S` by</span>
@@ -1510,7 +1554,14 @@
 
 <span class="sd">        P[f, t] = (S / (eps + M[f, t])**gain + bias)**power - bias**power</span>
 
-<span class="sd">    where `M` is the result of applying a low-pass, temporal IIR filter</span>
+<span class="sd">    IMPORTANT: the default values of eps, gain, bias, and power match the</span>
+<span class="sd">    original publication [1]_, in which M is a 40-band mel-frequency</span>
+<span class="sd">    spectrogram with 25 ms windowing, 10 ms frame shift, and raw audio values</span>
+<span class="sd">    in the interval [-2**31; 2**31-1[. If you use these default values, we</span>
+<span class="sd">    recommend to make sure that the raw audio is properly scaled to this</span>
+<span class="sd">    interval, and not to [-1, 1[ as is most often the case.</span>
+
+<span class="sd">    The matrix `M` is the result of applying a low-pass, temporal IIR filter</span>
 <span class="sd">    to `S`:</span>
 
 <span class="sd">        M[f, t] = (1 - b) * M[f, t - 1] + b * S[f, t]</span>
@@ -1519,7 +1570,7 @@
 
 <span class="sd">        b = (sqrt(1 + 4* T**2) - 1) / (2 * T**2)</span>
 
-<span class="sd">    where `T = time_constant * sr / hop_length`.</span>
+<span class="sd">    where `T = time_constant * sr / hop_length`, as in [2]_.</span>
 
 <span class="sd">    This normalization is designed to suppress background noise and</span>
 <span class="sd">    emphasize foreground signals, and can be used as an alternative to</span>
@@ -1545,6 +1596,11 @@
 <span class="sd">       In Acoustics, Speech and Signal Processing (ICASSP), 2017</span>
 <span class="sd">       IEEE International Conference on (pp. 5670-5674). IEEE.</span>
 
+<span class="sd">    .. [2] Lostanlen, V., Salamon, J., McFee, B., Cartwright, M., Farnsworth, A.,</span>
+<span class="sd">       Kelling, S., and Bello, J. P. Per-Channel Energy Normalization: Why and How.</span>
+<span class="sd">       IEEE Signal Processing Letters, 26(1), 39-43.</span>
+
+
 <span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>
 <span class="sd">    S : np.ndarray (non-negative)</span>
@@ -1562,9 +1618,10 @@
 <span class="sd">    bias : number &gt;= 0 [scalar]</span>
 <span class="sd">        The bias point of the nonlinear compression (default: 2)</span>
 
-<span class="sd">    power : number &gt; 0 [scalar]</span>
-<span class="sd">        The compression exponent.  Typical values should be between 0 and 1.</span>
+<span class="sd">    power : number &gt;= 0 [scalar]</span>
+<span class="sd">        The compression exponent.  Typical values should be between 0 and 0.5.</span>
 <span class="sd">        Smaller values of `power` result in stronger compression.</span>
+<span class="sd">        At the limit `power=0`, polynomial compression becomes logarithmic.</span>
 
 <span class="sd">    time_constant : number &gt; 0 [scalar]</span>
 <span class="sd">        The time constant for IIR filtering, measured in seconds.</span>
@@ -1594,10 +1651,27 @@
 <span class="sd">        If `S` is not two-dimensional, and `max_size &gt; 1`, an error</span>
 <span class="sd">        will be raised.</span>
 
+<span class="sd">    zi : np.ndarray</span>
+<span class="sd">        The initial filter delay values.</span>
+
+<span class="sd">        This may be the `zf` (final delay values) of a previous call to `pcen`, or</span>
+<span class="sd">        computed by `scipy.signal.lfilter_zi`.</span>
+
+<span class="sd">    return_zf : bool</span>
+<span class="sd">        If `True`, return the final filter delay values along with the PCEN output `P`.</span>
+<span class="sd">        This is primarily useful in streaming contexts, where the final state of one</span>
+<span class="sd">        block of processing should be used to initialize the next block.</span>
+
+<span class="sd">        If `False` (default) only the PCEN values `P` are returned.</span>
+
+
 <span class="sd">    Returns</span>
 <span class="sd">    -------</span>
 <span class="sd">    P : np.ndarray, non-negative [shape=(n, m)]</span>
 <span class="sd">        The per-channel energy normalized version of `S`.</span>
+
+<span class="sd">    zf : np.ndarray (optional)</span>
+<span class="sd">        The final filter delay values.  Only returned if `return_zf=True`.</span>
 
 <span class="sd">    See Also</span>
 <span class="sd">    --------</span>
@@ -1613,11 +1687,12 @@
 <span class="sd">    &gt;&gt;&gt; y, sr = librosa.load(librosa.util.example_audio_file(),</span>
 <span class="sd">    ...                      offset=10, duration=10)</span>
 
-<span class="sd">    &gt;&gt;&gt; # We&#39;ll use power=1 to get a magnitude spectrum</span>
-<span class="sd">    &gt;&gt;&gt; # instead of a power spectrum</span>
+<span class="sd">    &gt;&gt;&gt; # We recommend scaling y to the range [-2**31, 2**31[ before applying</span>
+<span class="sd">    &gt;&gt;&gt; # PCEN&#39;s default parameters. Furthermore, we use power=1 to get a</span>
+<span class="sd">    &gt;&gt;&gt; # magnitude spectrum instead of a power spectrum.</span>
 <span class="sd">    &gt;&gt;&gt; S = librosa.feature.melspectrogram(y, sr=sr, power=1)</span>
 <span class="sd">    &gt;&gt;&gt; log_S = librosa.amplitude_to_db(S, ref=np.max)</span>
-<span class="sd">    &gt;&gt;&gt; pcen_S = librosa.pcen(S)</span>
+<span class="sd">    &gt;&gt;&gt; pcen_S = librosa.pcen(S * (2**31))</span>
 <span class="sd">    &gt;&gt;&gt; plt.figure()</span>
 <span class="sd">    &gt;&gt;&gt; plt.subplot(2,1,1)</span>
 <span class="sd">    &gt;&gt;&gt; librosa.display.specshow(log_S, x_axis=&#39;time&#39;, y_axis=&#39;mel&#39;)</span>
@@ -1628,10 +1703,11 @@
 <span class="sd">    &gt;&gt;&gt; plt.title(&#39;Per-channel energy normalization&#39;)</span>
 <span class="sd">    &gt;&gt;&gt; plt.colorbar()</span>
 <span class="sd">    &gt;&gt;&gt; plt.tight_layout()</span>
+<span class="sd">    &gt;&gt;&gt; plt.show()</span>
 
 <span class="sd">    Compare PCEN with and without max-filtering</span>
 
-<span class="sd">    &gt;&gt;&gt; pcen_max = librosa.pcen(S, max_size=3)</span>
+<span class="sd">    &gt;&gt;&gt; pcen_max = librosa.pcen(S * (2**31), max_size=3)</span>
 <span class="sd">    &gt;&gt;&gt; plt.figure()</span>
 <span class="sd">    &gt;&gt;&gt; plt.subplot(2,1,1)</span>
 <span class="sd">    &gt;&gt;&gt; librosa.display.specshow(pcen_S, x_axis=&#39;time&#39;, y_axis=&#39;mel&#39;)</span>
@@ -1642,11 +1718,12 @@
 <span class="sd">    &gt;&gt;&gt; plt.title(&#39;Per-channel energy normalization (max_size=3)&#39;)</span>
 <span class="sd">    &gt;&gt;&gt; plt.colorbar()</span>
 <span class="sd">    &gt;&gt;&gt; plt.tight_layout()</span>
+<span class="sd">    &gt;&gt;&gt; plt.show()</span>
 
 <span class="sd">    &#39;&#39;&#39;</span>
 
-    <span class="k">if</span> <span class="n">power</span> <span class="o">&lt;=</span> <span class="mi">0</span><span class="p">:</span>
-        <span class="k">raise</span> <span class="n">ParameterError</span><span class="p">(</span><span class="s1">&#39;power=</span><span class="si">{}</span><span class="s1"> must be strictly positive&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">power</span><span class="p">))</span>
+    <span class="k">if</span> <span class="n">power</span> <span class="o">&lt;</span> <span class="mi">0</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="n">ParameterError</span><span class="p">(</span><span class="s1">&#39;power=</span><span class="si">{}</span><span class="s1"> must be nonnegative&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">power</span><span class="p">))</span>
 
     <span class="k">if</span> <span class="n">gain</span> <span class="o">&lt;</span> <span class="mi">0</span><span class="p">:</span>
         <span class="k">raise</span> <span class="n">ParameterError</span><span class="p">(</span><span class="s1">&#39;gain=</span><span class="si">{}</span><span class="s1"> must be non-negative&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">gain</span><span class="p">))</span>
@@ -1697,14 +1774,191 @@
 
             <span class="n">ref</span> <span class="o">=</span> <span class="n">scipy</span><span class="o">.</span><span class="n">ndimage</span><span class="o">.</span><span class="n">maximum_filter1d</span><span class="p">(</span><span class="n">S</span><span class="p">,</span> <span class="n">max_size</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="n">max_axis</span><span class="p">)</span>
 
-    <span class="n">S_smooth</span> <span class="o">=</span> <span class="n">scipy</span><span class="o">.</span><span class="n">signal</span><span class="o">.</span><span class="n">lfilter</span><span class="p">([</span><span class="n">b</span><span class="p">],</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="n">b</span> <span class="o">-</span> <span class="mi">1</span><span class="p">],</span> <span class="n">ref</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="n">axis</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">zi</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="c1"># Make sure zi matches dimension to input</span>
+        <span class="n">shape</span> <span class="o">=</span> <span class="nb">tuple</span><span class="p">([</span><span class="mi">1</span><span class="p">]</span> <span class="o">*</span> <span class="n">ref</span><span class="o">.</span><span class="n">ndim</span><span class="p">)</span>
+        <span class="n">zi</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">empty</span><span class="p">(</span><span class="n">shape</span><span class="p">)</span>
+        <span class="n">zi</span><span class="p">[:]</span> <span class="o">=</span> <span class="n">scipy</span><span class="o">.</span><span class="n">signal</span><span class="o">.</span><span class="n">lfilter_zi</span><span class="p">([</span><span class="n">b</span><span class="p">],</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="n">b</span> <span class="o">-</span> <span class="mi">1</span><span class="p">])[:]</span>
 
+    <span class="c1"># Temporal integration</span>
+    <span class="n">S_smooth</span><span class="p">,</span> <span class="n">zf</span> <span class="o">=</span> <span class="n">scipy</span><span class="o">.</span><span class="n">signal</span><span class="o">.</span><span class="n">lfilter</span><span class="p">([</span><span class="n">b</span><span class="p">],</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="n">b</span> <span class="o">-</span> <span class="mi">1</span><span class="p">],</span> <span class="n">ref</span><span class="p">,</span> <span class="n">zi</span><span class="o">=</span><span class="n">zi</span><span class="p">,</span>
+                                        <span class="n">axis</span><span class="o">=</span><span class="n">axis</span><span class="p">)</span>
+
+    <span class="c1"># Adaptive gain control</span>
     <span class="c1"># Working in log-space gives us some stability, and a slight speedup</span>
     <span class="n">smooth</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">exp</span><span class="p">(</span><span class="o">-</span><span class="n">gain</span> <span class="o">*</span> <span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="n">eps</span><span class="p">)</span> <span class="o">+</span> <span class="n">np</span><span class="o">.</span><span class="n">log1p</span><span class="p">(</span><span class="n">S_smooth</span> <span class="o">/</span> <span class="n">eps</span><span class="p">)))</span>
-    <span class="k">return</span> <span class="p">(</span><span class="n">S</span> <span class="o">*</span> <span class="n">smooth</span> <span class="o">+</span> <span class="n">bias</span><span class="p">)</span><span class="o">**</span><span class="n">power</span> <span class="o">-</span> <span class="n">bias</span><span class="o">**</span><span class="n">power</span></div>
+
+    <span class="c1"># Dynamic range compression</span>
+    <span class="k">if</span> <span class="n">power</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+        <span class="n">S_out</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">log1p</span><span class="p">(</span><span class="n">S</span><span class="o">*</span><span class="n">smooth</span><span class="p">)</span>
+    <span class="k">elif</span> <span class="n">bias</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+        <span class="n">S_out</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">exp</span><span class="p">(</span><span class="n">power</span> <span class="o">*</span> <span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="n">S</span><span class="p">)</span> <span class="o">+</span> <span class="n">np</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="n">smooth</span><span class="p">)))</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">S_out</span> <span class="o">=</span> <span class="p">(</span><span class="n">bias</span><span class="o">**</span><span class="n">power</span><span class="p">)</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">expm1</span><span class="p">(</span><span class="n">power</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">log1p</span><span class="p">(</span><span class="n">S</span><span class="o">*</span><span class="n">smooth</span><span class="o">/</span><span class="n">bias</span><span class="p">))</span>
+
+    <span class="k">if</span> <span class="n">return_zf</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">S_out</span><span class="p">,</span> <span class="n">zf</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">S_out</span></div>
 
 
-<span class="k">def</span> <span class="nf">_spectrogram</span><span class="p">(</span><span class="n">y</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">S</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">n_fft</span><span class="o">=</span><span class="mi">2048</span><span class="p">,</span> <span class="n">hop_length</span><span class="o">=</span><span class="mi">512</span><span class="p">,</span> <span class="n">power</span><span class="o">=</span><span class="mi">1</span><span class="p">):</span>
+<div class="viewcode-block" id="griffinlim"><a class="viewcode-back" href="../../../generated/librosa.core.griffinlim.html#librosa.core.griffinlim">[docs]</a><span class="k">def</span> <span class="nf">griffinlim</span><span class="p">(</span><span class="n">S</span><span class="p">,</span> <span class="n">n_iter</span><span class="o">=</span><span class="mi">32</span><span class="p">,</span> <span class="n">hop_length</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">win_length</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">window</span><span class="o">=</span><span class="s1">&#39;hann&#39;</span><span class="p">,</span>
+               <span class="n">center</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">float32</span><span class="p">,</span> <span class="n">length</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">pad_mode</span><span class="o">=</span><span class="s1">&#39;reflect&#39;</span><span class="p">,</span>
+               <span class="n">momentum</span><span class="o">=</span><span class="mf">0.99</span><span class="p">,</span> <span class="n">random_state</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+
+    <span class="sd">&#39;&#39;&#39;Approximate magnitude spectrogram inversion using the &quot;fast&quot; Griffin-Lim algorithm [1]_ [2]_.</span>
+
+<span class="sd">    Given a short-time Fourier transform magnitude matrix (`S`), the algorithm randomly</span>
+<span class="sd">    initializes phase estimates, and then alternates forward- and inverse-STFT</span>
+<span class="sd">    operations.</span>
+<span class="sd">    Note that this assumes reconstruction of a real-valued time-domain signal, and</span>
+<span class="sd">    that `S` contains only the non-negative frequencies (as computed by</span>
+<span class="sd">    `core.stft`).</span>
+
+<span class="sd">    .. [1] Perraudin, N., Balazs, P., &amp; Søndergaard, P. L.</span>
+<span class="sd">        &quot;A fast Griffin-Lim algorithm,&quot;</span>
+<span class="sd">        IEEE Workshop on Applications of Signal Processing to Audio and Acoustics (pp. 1-4),</span>
+<span class="sd">        Oct. 2013.</span>
+
+<span class="sd">    .. [2] D. W. Griffin and J. S. Lim,</span>
+<span class="sd">        &quot;Signal estimation from modified short-time Fourier transform,&quot;</span>
+<span class="sd">        IEEE Trans. ASSP, vol.32, no.2, pp.236–243, Apr. 1984.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    S : np.ndarray [shape=(n_fft / 2 + 1, t), non-negative]</span>
+<span class="sd">        An array of short-time Fourier transform magnitudes as produced by</span>
+<span class="sd">        `core.stft`.</span>
+
+<span class="sd">    n_iter : int &gt; 0</span>
+<span class="sd">        The number of iterations to run</span>
+
+<span class="sd">    hop_length : None or int &gt; 0</span>
+<span class="sd">        The hop length of the STFT.  If not provided, it will default to `n_fft // 4`</span>
+
+<span class="sd">    win_length : None or int &gt; 0</span>
+<span class="sd">        The window length of the STFT.  By default, it will equal `n_fft`</span>
+
+<span class="sd">    window : string, tuple, number, function, or np.ndarray [shape=(n_fft,)]</span>
+<span class="sd">        A window specification as supported by `stft` or `istft`</span>
+
+<span class="sd">    center : boolean</span>
+<span class="sd">        If `True`, the STFT is assumed to use centered frames.</span>
+<span class="sd">        If `False`, the STFT is assumed to use left-aligned frames.</span>
+
+<span class="sd">    dtype : np.dtype</span>
+<span class="sd">        Real numeric type for the time-domain signal.  Default is 32-bit float.</span>
+
+<span class="sd">    length : None or int &gt; 0</span>
+<span class="sd">        If provided, the output `y` is zero-padded or clipped to exactly `length`</span>
+<span class="sd">        samples.</span>
+
+<span class="sd">    pad_mode : string</span>
+<span class="sd">        If `center=True`, the padding mode to use at the edges of the signal.</span>
+<span class="sd">        By default, STFT uses reflection padding.</span>
+
+<span class="sd">    momentum : number &gt;= 0</span>
+<span class="sd">        The momentum parameter for fast Griffin-Lim.</span>
+<span class="sd">        Setting this to 0 recovers the original Griffin-Lim method [1]_.</span>
+<span class="sd">        Values near 1 can lead to faster convergence, but above 1 may not converge.</span>
+
+<span class="sd">    random_state : None, int, or np.random.RandomState</span>
+<span class="sd">        If int, random_state is the seed used by the random number generator</span>
+<span class="sd">        for phase initialization.</span>
+
+<span class="sd">        If `np.random.RandomState` instance, the random number generator itself;</span>
+
+<span class="sd">        If `None`, defaults to the current `np.random` object.</span>
+
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    y : np.ndarray [shape=(n,)]</span>
+<span class="sd">        time-domain signal reconstructed from `S`</span>
+
+<span class="sd">    See Also</span>
+<span class="sd">    --------</span>
+<span class="sd">    stft</span>
+<span class="sd">    istft</span>
+<span class="sd">    magphase</span>
+<span class="sd">    filters.get_window</span>
+
+<span class="sd">    Examples</span>
+<span class="sd">    --------</span>
+<span class="sd">    A basic STFT inverse example</span>
+
+<span class="sd">    &gt;&gt;&gt; y, sr = librosa.load(librosa.util.example_audio_file(), duration=5, offset=30)</span>
+<span class="sd">    &gt;&gt;&gt; # Get the magnitude spectrogram</span>
+<span class="sd">    &gt;&gt;&gt; S = np.abs(librosa.stft(y))</span>
+<span class="sd">    &gt;&gt;&gt; # Invert using Griffin-Lim</span>
+<span class="sd">    &gt;&gt;&gt; y_inv = librosa.griffinlim(S)</span>
+<span class="sd">    &gt;&gt;&gt; # Invert without estimating phase</span>
+<span class="sd">    &gt;&gt;&gt; y_istft = librosa.istft(S)</span>
+
+<span class="sd">    Wave-plot the results</span>
+
+<span class="sd">    &gt;&gt;&gt; import matplotlib.pyplot as plt</span>
+<span class="sd">    &gt;&gt;&gt; plt.figure()</span>
+<span class="sd">    &gt;&gt;&gt; ax = plt.subplot(3,1,1)</span>
+<span class="sd">    &gt;&gt;&gt; librosa.display.waveplot(y, sr=sr, color=&#39;b&#39;)</span>
+<span class="sd">    &gt;&gt;&gt; plt.title(&#39;Original&#39;)</span>
+<span class="sd">    &gt;&gt;&gt; plt.xlabel(&#39;&#39;)</span>
+<span class="sd">    &gt;&gt;&gt; plt.subplot(3,1,2, sharex=ax, sharey=ax)</span>
+<span class="sd">    &gt;&gt;&gt; librosa.display.waveplot(y_inv, sr=sr, color=&#39;g&#39;)</span>
+<span class="sd">    &gt;&gt;&gt; plt.title(&#39;Griffin-Lim reconstruction&#39;)</span>
+<span class="sd">    &gt;&gt;&gt; plt.xlabel(&#39;&#39;)</span>
+<span class="sd">    &gt;&gt;&gt; plt.subplot(3,1,3, sharex=ax, sharey=ax)</span>
+<span class="sd">    &gt;&gt;&gt; librosa.display.waveplot(y_istft, sr=sr, color=&#39;r&#39;)</span>
+<span class="sd">    &gt;&gt;&gt; plt.title(&#39;Magnitude-only istft reconstruction&#39;)</span>
+<span class="sd">    &gt;&gt;&gt; plt.tight_layout()</span>
+<span class="sd">    &gt;&gt;&gt; plt.show()</span>
+<span class="sd">    &#39;&#39;&#39;</span>
+
+    <span class="k">if</span> <span class="n">random_state</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">rng</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span>
+    <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">random_state</span><span class="p">,</span> <span class="nb">int</span><span class="p">):</span>
+        <span class="n">rng</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">RandomState</span><span class="p">(</span><span class="n">seed</span><span class="o">=</span><span class="n">random_state</span><span class="p">)</span>
+    <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">random_state</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">RandomState</span><span class="p">):</span>
+        <span class="n">rng</span> <span class="o">=</span> <span class="n">random_state</span>
+
+    <span class="k">if</span> <span class="n">momentum</span> <span class="o">&gt;</span> <span class="mi">1</span><span class="p">:</span>
+        <span class="n">warnings</span><span class="o">.</span><span class="n">warn</span><span class="p">(</span><span class="s1">&#39;Griffin-Lim with momentum=</span><span class="si">{}</span><span class="s1"> &gt; 1 can be unstable. Proceed with caution!&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">momentum</span><span class="p">))</span>
+    <span class="k">elif</span> <span class="n">momentum</span> <span class="o">&lt;</span> <span class="mi">0</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="n">ParameterError</span><span class="p">(</span><span class="s1">&#39;griffinlim() called with momentum=</span><span class="si">{}</span><span class="s1"> &lt; 0&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">momentum</span><span class="p">))</span>
+
+    <span class="c1"># Infer n_fft from the spectrogram shape</span>
+    <span class="n">n_fft</span> <span class="o">=</span> <span class="mi">2</span> <span class="o">*</span> <span class="p">(</span><span class="n">S</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span>
+
+    <span class="c1"># randomly initialize the phase</span>
+    <span class="n">angles</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">exp</span><span class="p">(</span><span class="mi">2</span><span class="n">j</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">pi</span> <span class="o">*</span> <span class="n">rng</span><span class="o">.</span><span class="n">rand</span><span class="p">(</span><span class="o">*</span><span class="n">S</span><span class="o">.</span><span class="n">shape</span><span class="p">))</span>
+
+    <span class="c1"># And initialize the previous iterate to 0</span>
+    <span class="n">rebuilt</span> <span class="o">=</span> <span class="mf">0.</span>
+
+    <span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">n_iter</span><span class="p">):</span>
+        <span class="c1"># Store the previous iterate</span>
+        <span class="n">tprev</span> <span class="o">=</span> <span class="n">rebuilt</span>
+
+        <span class="c1"># Invert with our current estimate of the phases</span>
+        <span class="n">inverse</span> <span class="o">=</span> <span class="n">istft</span><span class="p">(</span><span class="n">S</span> <span class="o">*</span> <span class="n">angles</span><span class="p">,</span> <span class="n">hop_length</span><span class="o">=</span><span class="n">hop_length</span><span class="p">,</span> <span class="n">win_length</span><span class="o">=</span><span class="n">win_length</span><span class="p">,</span>
+                        <span class="n">window</span><span class="o">=</span><span class="n">window</span><span class="p">,</span> <span class="n">center</span><span class="o">=</span><span class="n">center</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">dtype</span><span class="p">,</span> <span class="n">length</span><span class="o">=</span><span class="n">length</span><span class="p">)</span>
+
+        <span class="c1"># Rebuild the spectrogram</span>
+        <span class="n">rebuilt</span> <span class="o">=</span> <span class="n">stft</span><span class="p">(</span><span class="n">inverse</span><span class="p">,</span> <span class="n">n_fft</span><span class="o">=</span><span class="n">n_fft</span><span class="p">,</span> <span class="n">hop_length</span><span class="o">=</span><span class="n">hop_length</span><span class="p">,</span>
+                       <span class="n">win_length</span><span class="o">=</span><span class="n">win_length</span><span class="p">,</span> <span class="n">window</span><span class="o">=</span><span class="n">window</span><span class="p">,</span> <span class="n">center</span><span class="o">=</span><span class="n">center</span><span class="p">,</span>
+                       <span class="n">pad_mode</span><span class="o">=</span><span class="n">pad_mode</span><span class="p">)</span>
+
+        <span class="c1"># Update our phase estimates</span>
+        <span class="n">angles</span><span class="p">[:]</span> <span class="o">=</span> <span class="n">rebuilt</span> <span class="o">-</span> <span class="p">(</span><span class="n">momentum</span> <span class="o">/</span> <span class="p">(</span><span class="mi">1</span> <span class="o">+</span> <span class="n">momentum</span><span class="p">))</span> <span class="o">*</span> <span class="n">tprev</span>
+        <span class="n">angles</span><span class="p">[:]</span> <span class="o">/=</span> <span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">angles</span><span class="p">)</span> <span class="o">+</span> <span class="mf">1e-16</span>
+
+    <span class="c1"># Return the final phase estimates</span>
+    <span class="k">return</span> <span class="n">istft</span><span class="p">(</span><span class="n">S</span> <span class="o">*</span> <span class="n">angles</span><span class="p">,</span> <span class="n">hop_length</span><span class="o">=</span><span class="n">hop_length</span><span class="p">,</span> <span class="n">win_length</span><span class="o">=</span><span class="n">win_length</span><span class="p">,</span>
+                 <span class="n">window</span><span class="o">=</span><span class="n">window</span><span class="p">,</span> <span class="n">center</span><span class="o">=</span><span class="n">center</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">dtype</span><span class="p">,</span> <span class="n">length</span><span class="o">=</span><span class="n">length</span><span class="p">)</span></div>
+
+
+<span class="k">def</span> <span class="nf">_spectrogram</span><span class="p">(</span><span class="n">y</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">S</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">n_fft</span><span class="o">=</span><span class="mi">2048</span><span class="p">,</span> <span class="n">hop_length</span><span class="o">=</span><span class="mi">512</span><span class="p">,</span> <span class="n">power</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span>
+                 <span class="n">win_length</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">window</span><span class="o">=</span><span class="s1">&#39;hann&#39;</span><span class="p">,</span> <span class="n">center</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">pad_mode</span><span class="o">=</span><span class="s1">&#39;reflect&#39;</span><span class="p">):</span>
     <span class="sd">&#39;&#39;&#39;Helper function to retrieve a magnitude spectrogram.</span>
 
 <span class="sd">    This is primarily used in feature extraction functions that can operate on</span>
@@ -1729,11 +1983,36 @@
 <span class="sd">        Exponent for the magnitude spectrogram,</span>
 <span class="sd">        e.g., 1 for energy, 2 for power, etc.</span>
 
+<span class="sd">    win_length : int &lt;= n_fft [scalar]</span>
+<span class="sd">        Each frame of audio is windowed by `window()`.</span>
+<span class="sd">        The window will be of length `win_length` and then padded</span>
+<span class="sd">        with zeros to match `n_fft`.</span>
+
+<span class="sd">        If unspecified, defaults to ``win_length = n_fft``.</span>
+
+<span class="sd">    window : string, tuple, number, function, or np.ndarray [shape=(n_fft,)]</span>
+<span class="sd">        - a window specification (string, tuple, or number);</span>
+<span class="sd">          see `scipy.signal.get_window`</span>
+<span class="sd">        - a window function, such as `scipy.signal.hanning`</span>
+<span class="sd">        - a vector or array of length `n_fft`</span>
+
+<span class="sd">        .. see also:: `filters.get_window`</span>
+
+<span class="sd">    center : boolean</span>
+<span class="sd">        - If `True`, the signal `y` is padded so that frame</span>
+<span class="sd">          `t` is centered at `y[t * hop_length]`.</span>
+<span class="sd">        - If `False`, then frame `t` begins at `y[t * hop_length]`</span>
+
+<span class="sd">    pad_mode : string</span>
+<span class="sd">        If `center=True`, the padding mode to use at the edges of the signal.</span>
+<span class="sd">        By default, STFT uses reflection padding.</span>
+
+
 <span class="sd">    Returns</span>
 <span class="sd">    -------</span>
 <span class="sd">    S_out : np.ndarray [dtype=np.float32]</span>
 <span class="sd">        - If `S` is provided as input, then `S_out == S`</span>
-<span class="sd">        - Else, `S_out = |stft(y, n_fft=n_fft, hop_length=hop_length)|**power`</span>
+<span class="sd">        - Else, `S_out = |stft(y, ...)|**power`</span>
 
 <span class="sd">    n_fft : int &gt; 0</span>
 <span class="sd">        - If `S` is provided, then `n_fft` is inferred from `S`</span>
@@ -1745,7 +2024,9 @@
         <span class="n">n_fft</span> <span class="o">=</span> <span class="mi">2</span> <span class="o">*</span> <span class="p">(</span><span class="n">S</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span>
     <span class="k">else</span><span class="p">:</span>
         <span class="c1"># Otherwise, compute a magnitude spectrogram from input</span>
-        <span class="n">S</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">stft</span><span class="p">(</span><span class="n">y</span><span class="p">,</span> <span class="n">n_fft</span><span class="o">=</span><span class="n">n_fft</span><span class="p">,</span> <span class="n">hop_length</span><span class="o">=</span><span class="n">hop_length</span><span class="p">))</span><span class="o">**</span><span class="n">power</span>
+        <span class="n">S</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">stft</span><span class="p">(</span><span class="n">y</span><span class="p">,</span> <span class="n">n_fft</span><span class="o">=</span><span class="n">n_fft</span><span class="p">,</span> <span class="n">hop_length</span><span class="o">=</span><span class="n">hop_length</span><span class="p">,</span>
+                        <span class="n">win_length</span><span class="o">=</span><span class="n">win_length</span><span class="p">,</span> <span class="n">center</span><span class="o">=</span><span class="n">center</span><span class="p">,</span>
+                        <span class="n">window</span><span class="o">=</span><span class="n">window</span><span class="p">,</span> <span class="n">pad_mode</span><span class="o">=</span><span class="n">pad_mode</span><span class="p">))</span><span class="o">**</span><span class="n">power</span>
 
     <span class="k">return</span> <span class="n">S</span><span class="p">,</span> <span class="n">n_fft</span>
 </pre></div>
@@ -1778,7 +2059,7 @@
 <div class="rst-versions" data-toggle="rst-versions" role="note" aria-label="versions">
     <span class="rst-current-version" data-toggle="rst-current-version">
         <span class="fa fa-book"> Other Versions</span>
-        v: 0.6.3
+        v: 0.7.0rc1
         <span class="fa fa-caret-down"></span>
     </span>
     <div class="rst-other-versions">
@@ -1792,16 +2073,14 @@
             <dd><a href="../../../0.6.0/index.html">0.6.0</a></dd>
             <dd><a href="../../../0.6.1/index.html">0.6.1</a></dd>
             <dd><a href="../../../0.6.2/index.html">0.6.2</a></dd>
-            <dd><a href="../../../0.6.3/_modules/librosa/core/spectrum.html">0.6.3</a></dd>
+            <dd><a href="../../../0.6.3/index.html">0.6.3</a></dd>
+            <dd><a href="../../../0.7.0rc1/_modules/librosa/core/spectrum.html">0.7.0rc1</a></dd>
             <dd><a href="../../../v0.1.0/index.html">v0.1.0</a></dd>
             <dd><a href="../../../v0.4.0/index.html">v0.4.0</a></dd>
         </dl>
         <dl>
             <dt>Branches</dt>
-            <dd><a href="../../../display-bin-centering/index.html">display-bin-centering</a></dd>
             <dd><a href="../../../master/index.html">master</a></dd>
-            <dd><a href="../../../mpl-test-2.1/index.html">mpl-test-2.1</a></dd>
-            <dd><a href="../../../runnning/index.html">runnning</a></dd>
         </dl>
     </div>
 </div>

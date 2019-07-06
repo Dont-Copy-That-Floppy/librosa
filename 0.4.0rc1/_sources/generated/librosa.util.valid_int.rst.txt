@@ -1,6 +1,0 @@
-librosa.util.valid_int
-======================
-
-.. currentmodule:: librosa.util
-
-.. autofunction:: valid_int

@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>librosa.util.normalize &mdash; librosa 0.6.3 documentation</title>
+  <title>librosa.util.normalize &mdash; librosa 0.7.0rc1 documentation</title>
   
 
   
@@ -23,7 +23,7 @@
       <script type="text/javascript">
           var DOCUMENTATION_OPTIONS = {
               URL_ROOT:'../',
-              VERSION:'0.6.3',
+              VERSION:'0.7.0rc1',
               LANGUAGE:'None',
               COLLAPSE_INDEX:false,
               FILE_SUFFIX:'.html',
@@ -72,7 +72,7 @@
             
             
               <div class="version">
-                0.6
+                0.7
               </div>
             
           
@@ -120,7 +120,6 @@
 <li class="toctree-l3"><a class="reference internal" href="librosa.util.index_to_slice.html">librosa.util.index_to_slice</a></li>
 <li class="toctree-l3"><a class="reference internal" href="librosa.util.softmask.html">librosa.util.softmask</a></li>
 <li class="toctree-l3"><a class="reference internal" href="librosa.util.sync.html">librosa.util.sync</a></li>
-<li class="toctree-l3"><a class="reference internal" href="librosa.util.softmask.html">librosa.util.softmask</a></li>
 <li class="toctree-l3"><a class="reference internal" href="librosa.util.axis_sort.html">librosa.util.axis_sort</a></li>
 <li class="toctree-l3 current"><a class="current reference internal" href="#">librosa.util.normalize</a></li>
 <li class="toctree-l3"><a class="reference internal" href="librosa.util.roll_sparse.html">librosa.util.roll_sparse</a></li>
@@ -219,7 +218,7 @@
 
 
 
-    <p class="scv-banner scv-sphinx_rtd_theme"><a href="../../0.6.3/generated/librosa.util.normalize.html"><b>Warning:</b> This document is for the development version of librosa. The latest version is 0.6.3.</a></p>
+    <p class="scv-banner scv-sphinx_rtd_theme"><a href="../../0.7.0rc1/generated/librosa.util.normalize.html"><b>Warning:</b> This document is for the development version of librosa. The latest version is 0.7.0rc1.</a></p>
 <div class="section" id="librosa-util-normalize">
 <h1>librosa.util.normalize<a class="headerlink" href="#librosa-util-normalize" title="Permalink to this headline">¶</a></h1>
 <dl class="function">
@@ -238,7 +237,7 @@ any slice (i.e., row or column) with norm below a specified
 <em class="xref py py-obj">threshold</em> can be left un-normalized, set to all-zeros, or
 filled with uniform non-zero values that normalize to 1.</p>
 <p>Note: the semantics of this function differ from
-<a class="reference external" href="https://docs.scipy.org/doc/scipy/reference/generated/scipy.linalg.norm.html#scipy.linalg.norm" title="(in SciPy v1.2.1)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">scipy.linalg.norm</span></code></a> in two ways: multi-dimensional arrays
+<a class="reference external" href="https://docs.scipy.org/doc/scipy/reference/generated/scipy.linalg.norm.html#scipy.linalg.norm" title="(in SciPy v1.3.0)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">scipy.linalg.norm</span></code></a> in two ways: multi-dimensional arrays
 are supported, but matrix-norms are not.</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
@@ -255,7 +254,7 @@ are supported, but matrix-norms are not.</p>
 <li><em class="xref py py-obj">0</em>    : number of non-zeros (the support)</li>
 <li><dl class="first docutils">
 <dt>float <span class="classifier-delimiter">:</span> <span class="classifier">corresponding l_p norm</span></dt>
-<dd>See <a class="reference external" href="https://docs.scipy.org/doc/scipy/reference/generated/scipy.linalg.norm.html#scipy.linalg.norm" title="(in SciPy v1.2.1)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">scipy.linalg.norm</span></code></a> for details.</dd>
+<dd>See <a class="reference external" href="https://docs.scipy.org/doc/scipy/reference/generated/scipy.linalg.norm.html#scipy.linalg.norm" title="(in SciPy v1.3.0)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">scipy.linalg.norm</span></code></a> for details.</dd>
 </dl>
 </li>
 <li>None : no normalization is performed</li>
@@ -294,7 +293,7 @@ no uniform vector exists with l0 “norm” equal to 1.</p>
 </td>
 </tr>
 <tr class="field-odd field"><th class="field-name">Raises:</th><td class="field-body"><dl class="first last docutils">
-<dt><strong>ParameterError</strong></dt>
+<dt>ParameterError</dt>
 <dd><p class="first">If <em class="xref py py-obj">norm</em> is not among the valid types defined above</p>
 <p>If <em class="xref py py-obj">S</em> is not finite</p>
 <p class="last">If <em class="xref py py-obj">fill=True</em> and <em class="xref py py-obj">norm=0</em></p>
@@ -306,7 +305,10 @@ no uniform vector exists with l0 “norm” equal to 1.</p>
 </table>
 <div class="admonition seealso">
 <p class="first admonition-title">See also</p>
-<p class="last"><a class="reference external" href="https://docs.scipy.org/doc/scipy/reference/generated/scipy.linalg.norm.html#scipy.linalg.norm" title="(in SciPy v1.2.1)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">scipy.linalg.norm</span></code></a></p>
+<dl class="last docutils">
+<dt><a class="reference external" href="https://docs.scipy.org/doc/scipy/reference/generated/scipy.linalg.norm.html#scipy.linalg.norm" title="(in SciPy v1.3.0)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">scipy.linalg.norm</span></code></a></dt>
+<dd></dd>
+</dl>
 </div>
 <p class="rubric">Notes</p>
 <p>This function caches at level 40.</p>
@@ -444,15 +446,13 @@ no uniform vector exists with l0 “norm” equal to 1.</p>
             <dd><a href="../../0.6.1/generated/librosa.util.normalize.html">0.6.1</a></dd>
             <dd><a href="../../0.6.2/generated/librosa.util.normalize.html">0.6.2</a></dd>
             <dd><a href="../../0.6.3/generated/librosa.util.normalize.html">0.6.3</a></dd>
+            <dd><a href="../../0.7.0rc1/generated/librosa.util.normalize.html">0.7.0rc1</a></dd>
             <dd><a href="../../v0.1.0/index.html">v0.1.0</a></dd>
             <dd><a href="../../v0.4.0/index.html">v0.4.0</a></dd>
         </dl>
         <dl>
             <dt>Branches</dt>
-            <dd><a href="../../display-bin-centering/generated/librosa.util.normalize.html">display-bin-centering</a></dd>
             <dd><a href="librosa.util.normalize.html">master</a></dd>
-            <dd><a href="../../mpl-test-2.1/generated/librosa.util.normalize.html">mpl-test-2.1</a></dd>
-            <dd><a href="../../runnning/generated/librosa.util.normalize.html">runnning</a></dd>
         </dl>
     </div>
 </div>

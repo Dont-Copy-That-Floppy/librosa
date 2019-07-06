@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>librosa.core.icqt &mdash; librosa 0.6.3 documentation</title>
+  <title>librosa.core.icqt &mdash; librosa 0.7.0rc1 documentation</title>
   
 
   
@@ -23,7 +23,7 @@
       <script type="text/javascript">
           var DOCUMENTATION_OPTIONS = {
               URL_ROOT:'../',
-              VERSION:'0.6.3',
+              VERSION:'0.7.0rc1',
               LANGUAGE:'None',
               COLLAPSE_INDEX:false,
               FILE_SUFFIX:'.html',
@@ -72,7 +72,7 @@
             
             
               <div class="version">
-                0.6
+                0.7
               </div>
             
           
@@ -113,16 +113,18 @@
 <li class="toctree-l3"><a class="reference internal" href="librosa.core.pseudo_cqt.html">librosa.core.pseudo_cqt</a></li>
 <li class="toctree-l3"><a class="reference internal" href="librosa.core.iirt.html">librosa.core.iirt</a></li>
 <li class="toctree-l3"><a class="reference internal" href="librosa.core.fmt.html">librosa.core.fmt</a></li>
+<li class="toctree-l3"><a class="reference internal" href="librosa.core.griffinlim.html">librosa.core.griffinlim</a></li>
 <li class="toctree-l3"><a class="reference internal" href="librosa.core.interp_harmonics.html">librosa.core.interp_harmonics</a></li>
 <li class="toctree-l3"><a class="reference internal" href="librosa.core.salience.html">librosa.core.salience</a></li>
 <li class="toctree-l3"><a class="reference internal" href="librosa.core.phase_vocoder.html">librosa.core.phase_vocoder</a></li>
 <li class="toctree-l3"><a class="reference internal" href="librosa.core.magphase.html">librosa.core.magphase</a></li>
+<li class="toctree-l3"><a class="reference internal" href="librosa.core.get_fftlib.html">librosa.core.get_fftlib</a></li>
+<li class="toctree-l3"><a class="reference internal" href="librosa.core.set_fftlib.html">librosa.core.set_fftlib</a></li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="../core.html#magnitude-scaling">Magnitude scaling</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../core.html#time-and-frequency-conversion">Time and frequency conversion</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../core.html#pitch-and-tuning">Pitch and tuning</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../core.html#deprecated-moved">Deprecated (moved)</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="../display.html">Display</a></li>
@@ -219,21 +221,15 @@
 
 
 
-    <p class="scv-banner scv-sphinx_rtd_theme"><a href="../../0.6.3/generated/librosa.core.icqt.html"><b>Warning:</b> This document is for the development version of librosa. The latest version is 0.6.3.</a></p>
+    <p class="scv-banner scv-sphinx_rtd_theme"><a href="../../0.7.0rc1/generated/librosa.core.icqt.html"><b>Warning:</b> This document is for the development version of librosa. The latest version is 0.7.0rc1.</a></p>
 <div class="section" id="librosa-core-icqt">
 <h1>librosa.core.icqt<a class="headerlink" href="#librosa-core-icqt" title="Permalink to this headline">¶</a></h1>
 <dl class="function">
 <dt id="librosa.core.icqt">
-<code class="descclassname">librosa.core.</code><code class="descname">icqt</code><span class="sig-paren">(</span><em>C</em>, <em>sr=22050</em>, <em>hop_length=512</em>, <em>fmin=None</em>, <em>bins_per_octave=12</em>, <em>tuning=0.0</em>, <em>filter_scale=1</em>, <em>norm=1</em>, <em>sparsity=0.01</em>, <em>window='hann'</em>, <em>scale=True</em>, <em>amin=1e-06</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/librosa/core/constantq.html#icqt"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#librosa.core.icqt" title="Permalink to this definition">¶</a></dt>
+<code class="descclassname">librosa.core.</code><code class="descname">icqt</code><span class="sig-paren">(</span><em>C</em>, <em>sr=22050</em>, <em>hop_length=512</em>, <em>fmin=None</em>, <em>bins_per_octave=12</em>, <em>tuning=0.0</em>, <em>filter_scale=1</em>, <em>norm=1</em>, <em>sparsity=0.01</em>, <em>window='hann'</em>, <em>scale=True</em>, <em>length=None</em>, <em>amin=&lt;DEPRECATED parameter&gt;</em>, <em>res_type='fft'</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/librosa/core/constantq.html#icqt"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#librosa.core.icqt" title="Permalink to this definition">¶</a></dt>
 <dd><p>Compute the inverse constant-Q transform.</p>
 <p>Given a constant-Q transform representation <em class="xref py py-obj">C</em> of an audio signal <em class="xref py py-obj">y</em>,
 this function produces an approximation <em class="xref py py-obj">y_hat</em>.</p>
-<div class="admonition warning">
-<p class="first admonition-title">Warning</p>
-<p class="last">This implementation is unstable, and subject to change in
-future versions of librosa.  We recommend that its use be
-limited to sonification and diagnostic applications.</p>
-</div>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
@@ -274,11 +270,20 @@ of each channel’s filter. This is analogous to <em class="xref py py-obj">norm
 <p class="last">If <em class="xref py py-obj">False</em>, do not scale the CQT. This is analogous to <em class="xref py py-obj">norm=None</em>
 in FFT.</p>
 </dd>
-<dt><strong>amin</strong> <span class="classifier-delimiter">:</span> <span class="classifier">float or None</span></dt>
-<dd><p class="first">When applying squared window normalization, sample positions with
-coefficients below <em class="xref py py-obj">amin</em> will left as is.</p>
-<p class="last">If <em class="xref py py-obj">None</em>, then <em class="xref py py-obj">amin</em> is inferred as the smallest valid floating
-point value.</p>
+<dt><strong>length</strong> <span class="classifier-delimiter">:</span> <span class="classifier">int &gt; 0, optional</span></dt>
+<dd><p class="first last">If provided, the output <em class="xref py py-obj">y</em> is zero-padded or clipped to exactly
+<em class="xref py py-obj">length</em> samples.</p>
+</dd>
+<dt><strong>amin</strong> <span class="classifier-delimiter">:</span> <span class="classifier">float or None [DEPRECATED]</span></dt>
+<dd><div class="first last admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">This parameter is deprecated in 0.7.0 and will be removed in 0.8.0.</p>
+</div>
+</dd>
+<dt><strong>res_type</strong> <span class="classifier-delimiter">:</span> <span class="classifier">string</span></dt>
+<dd><p class="first last">Resampling mode.  By default, this uses <code class="xref py py-obj docutils literal notranslate"><span class="pre">fft</span></code> mode for high-quality
+reconstruction, but this may be slow depending on your signal duration.
+See <code class="xref py py-obj docutils literal notranslate"><span class="pre">librosa.resample</span></code> for supported modes.</p>
 </dd>
 </dl>
 </td>
@@ -294,7 +299,12 @@ point value.</p>
 </table>
 <div class="admonition seealso">
 <p class="first admonition-title">See also</p>
-<p class="last"><a class="reference internal" href="librosa.core.cqt.html#librosa.core.cqt" title="librosa.core.cqt"><code class="xref py py-obj docutils literal notranslate"><span class="pre">cqt</span></code></a></p>
+<dl class="last docutils">
+<dt><a class="reference internal" href="librosa.core.cqt.html#librosa.core.cqt" title="librosa.core.cqt"><code class="xref py py-obj docutils literal notranslate"><span class="pre">cqt</span></code></a></dt>
+<dd></dd>
+<dt><code class="xref py py-obj docutils literal notranslate"><span class="pre">core.resample</span></code></dt>
+<dd></dd>
+</dl>
 </div>
 <p class="rubric">Notes</p>
 <p>This function caches at level 40.</p>
@@ -371,15 +381,13 @@ point value.</p>
             <dd><a href="../../0.6.1/generated/librosa.core.icqt.html">0.6.1</a></dd>
             <dd><a href="../../0.6.2/generated/librosa.core.icqt.html">0.6.2</a></dd>
             <dd><a href="../../0.6.3/generated/librosa.core.icqt.html">0.6.3</a></dd>
+            <dd><a href="../../0.7.0rc1/generated/librosa.core.icqt.html">0.7.0rc1</a></dd>
             <dd><a href="../../v0.1.0/index.html">v0.1.0</a></dd>
             <dd><a href="../../v0.4.0/index.html">v0.4.0</a></dd>
         </dl>
         <dl>
             <dt>Branches</dt>
-            <dd><a href="../../display-bin-centering/index.html">display-bin-centering</a></dd>
             <dd><a href="librosa.core.icqt.html">master</a></dd>
-            <dd><a href="../../mpl-test-2.1/generated/librosa.core.icqt.html">mpl-test-2.1</a></dd>
-            <dd><a href="../../runnning/generated/librosa.core.icqt.html">runnning</a></dd>
         </dl>
     </div>
 </div>

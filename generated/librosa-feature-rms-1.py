@@ -25,3 +25,4 @@ plt.tight_layout()
 
 S = librosa.magphase(librosa.stft(y, window=np.ones, center=False))[0]
 librosa.feature.rms(S=S)
+plt.show()

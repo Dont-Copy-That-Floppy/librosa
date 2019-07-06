@@ -1,6 +1,0 @@
-librosa.core.hybrid_cqt
-=======================
-
-.. currentmodule:: librosa.core
-
-.. autofunction:: hybrid_cqt

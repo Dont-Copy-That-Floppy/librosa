@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>librosa.filters.chroma &mdash; librosa 0.6.3 documentation</title>
+  <title>librosa.filters.chroma &mdash; librosa 0.7.0rc1 documentation</title>
   
 
   
@@ -23,7 +23,7 @@
       <script type="text/javascript">
           var DOCUMENTATION_OPTIONS = {
               URL_ROOT:'../',
-              VERSION:'0.6.3',
+              VERSION:'0.7.0rc1',
               LANGUAGE:'None',
               COLLAPSE_INDEX:false,
               FILE_SUFFIX:'.html',
@@ -72,7 +72,7 @@
             
             
               <div class="version">
-                0.6
+                0.7
               </div>
             
           
@@ -125,7 +125,6 @@
 </li>
 <li class="toctree-l2"><a class="reference internal" href="../filters.html#window-functions">Window functions</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../filters.html#miscellaneous">Miscellaneous</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../filters.html#deprecated">Deprecated</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="../cache.html">Caching</a></li>
@@ -209,12 +208,12 @@
 
 
 
-    <p class="scv-banner scv-sphinx_rtd_theme"><a href="../../0.6.3/generated/librosa.filters.chroma.html"><b>Warning:</b> This document is for the development version of librosa. The latest version is 0.6.3.</a></p>
+    <p class="scv-banner scv-sphinx_rtd_theme"><a href="../../0.7.0rc1/generated/librosa.filters.chroma.html"><b>Warning:</b> This document is for the development version of librosa. The latest version is 0.7.0rc1.</a></p>
 <div class="section" id="librosa-filters-chroma">
 <h1>librosa.filters.chroma<a class="headerlink" href="#librosa-filters-chroma" title="Permalink to this headline">¶</a></h1>
 <dl class="function">
 <dt id="librosa.filters.chroma">
-<code class="descclassname">librosa.filters.</code><code class="descname">chroma</code><span class="sig-paren">(</span><em>sr</em>, <em>n_fft</em>, <em>n_chroma=12</em>, <em>A440=440.0</em>, <em>ctroct=5.0</em>, <em>octwidth=2</em>, <em>norm=2</em>, <em>base_c=True</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/librosa/filters.html#chroma"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#librosa.filters.chroma" title="Permalink to this definition">¶</a></dt>
+<code class="descclassname">librosa.filters.</code><code class="descname">chroma</code><span class="sig-paren">(</span><em>sr</em>, <em>n_fft</em>, <em>n_chroma=12</em>, <em>A440=440.0</em>, <em>ctroct=5.0</em>, <em>octwidth=2</em>, <em>norm=2</em>, <em>base_c=True</em>, <em>dtype=&lt;class 'numpy.float32'&gt;</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/librosa/filters.html#chroma"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#librosa.filters.chroma" title="Permalink to this definition">¶</a></dt>
 <dd><p>Create a Filterbank matrix to convert STFT to chroma</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
@@ -248,6 +247,10 @@ Set <em class="xref py py-obj">octwidth</em> to <em class="xref py py-obj">None<
 <dd><p class="first last">If True, the filter bank will start at ‘C’.
 If False, the filter bank will start at ‘A’.</p>
 </dd>
+<dt><strong>dtype</strong> <span class="classifier-delimiter">:</span> <span class="classifier">np.dtype</span></dt>
+<dd><p class="first last">The data type of the output basis.
+By default, uses 32-bit (single-precision) floating point.</p>
+</dd>
 </dl>
 </td>
 </tr>
@@ -262,7 +265,12 @@ If False, the filter bank will start at ‘A’.</p>
 </table>
 <div class="admonition seealso">
 <p class="first admonition-title">See also</p>
-<p class="last"><code class="xref py py-obj docutils literal notranslate"><span class="pre">util.normalize</span></code>, <code class="xref py py-obj docutils literal notranslate"><span class="pre">feature.chroma_stft</span></code></p>
+<dl class="last docutils">
+<dt><code class="xref py py-obj docutils literal notranslate"><span class="pre">util.normalize</span></code></dt>
+<dd></dd>
+<dt><code class="xref py py-obj docutils literal notranslate"><span class="pre">feature.chroma_stft</span></code></dt>
+<dd></dd>
+</dl>
 </div>
 <p class="rubric">Notes</p>
 <p>This function caches at level 10.</p>
@@ -301,6 +309,7 @@ If False, the filter bank will start at ‘A’.</p>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s1">&#39;Chroma filter bank&#39;</span><span class="p">)</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">plt</span><span class="o">.</span><span class="n">colorbar</span><span class="p">()</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">plt</span><span class="o">.</span><span class="n">tight_layout</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
 </pre></div>
 </div>
 <p>(<a class="reference external" href="../generated/librosa-filters-chroma-1.py">Source code</a>)</p>
@@ -364,15 +373,13 @@ If False, the filter bank will start at ‘A’.</p>
             <dd><a href="../../0.6.1/generated/librosa.filters.chroma.html">0.6.1</a></dd>
             <dd><a href="../../0.6.2/generated/librosa.filters.chroma.html">0.6.2</a></dd>
             <dd><a href="../../0.6.3/generated/librosa.filters.chroma.html">0.6.3</a></dd>
+            <dd><a href="../../0.7.0rc1/generated/librosa.filters.chroma.html">0.7.0rc1</a></dd>
             <dd><a href="../../v0.1.0/index.html">v0.1.0</a></dd>
             <dd><a href="../../v0.4.0/index.html">v0.4.0</a></dd>
         </dl>
         <dl>
             <dt>Branches</dt>
-            <dd><a href="../../display-bin-centering/generated/librosa.filters.chroma.html">display-bin-centering</a></dd>
             <dd><a href="librosa.filters.chroma.html">master</a></dd>
-            <dd><a href="../../mpl-test-2.1/generated/librosa.filters.chroma.html">mpl-test-2.1</a></dd>
-            <dd><a href="../../runnning/generated/librosa.filters.chroma.html">runnning</a></dd>
         </dl>
     </div>
 </div>

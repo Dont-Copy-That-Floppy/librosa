@@ -1,6 +1,0 @@
-librosa.filters.window_sumsquare
-================================
-
-.. currentmodule:: librosa
-
-.. autoattribute:: filters.window_sumsquare

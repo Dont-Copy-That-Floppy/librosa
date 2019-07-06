@@ -20,3 +20,4 @@ S_linear = librosa.feature.melspectrogram(y=linear_chirp)
 librosa.display.specshow(librosa.power_to_db(S_linear, ref=np.max),
                          x_axis='time', y_axis='mel')
 plt.tight_layout()
+plt.show()

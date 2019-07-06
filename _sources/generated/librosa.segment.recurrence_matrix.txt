@@ -1,6 +1,0 @@
-librosa.segment.recurrence_matrix
-=================================
-
-.. currentmodule:: librosa.segment
-
-.. autofunction:: recurrence_matrix

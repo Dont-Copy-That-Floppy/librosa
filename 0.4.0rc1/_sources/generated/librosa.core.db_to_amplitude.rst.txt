@@ -1,6 +1,0 @@
-librosa.core.db_to_amplitude
-============================
-
-.. currentmodule:: librosa.core
-
-.. autofunction:: db_to_amplitude

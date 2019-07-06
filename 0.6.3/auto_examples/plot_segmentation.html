@@ -191,9 +191,12 @@
   
 
 
+    
+    
 
 
 
+    <p class="scv-banner scv-sphinx_rtd_theme"><a href="../../0.7.0rc1/auto_examples/plot_segmentation.html"><b>Warning:</b> This document is for an old version of librosa. The latest version is 0.7.0rc1.</a></p>
 <div class="sphx-glr-download-link-note admonition note">
 <p class="first admonition-title">Note</p>
 <p class="last">Click <a class="reference internal" href="#sphx-glr-download-auto-examples-plot-segmentation-py"><span class="std std-ref">here</span></a> to download the full example code</p>
@@ -205,7 +208,7 @@
 with a couple of minor stability improvements.</p>
 <p>Throughout the example, we will refer to equations in the paper by number, so it will be
 helpful to read along.</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># Code source: Brian McFee</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># Code source: Brian McFee</span>
 <span class="c1"># License: ISC</span>
 </pre></div>
 </div>
@@ -219,11 +222,11 @@ helpful to read along.</p>
 </ul>
 </dd>
 </dl>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">__future__</span> <span class="kn">import</span> <span class="n">print_function</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">__future__</span> <span class="k">import</span> <span class="n">print_function</span>
 
-<span class="kn">import</span> <span class="nn">numpy</span> <span class="kn">as</span> <span class="nn">np</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
 <span class="kn">import</span> <span class="nn">scipy</span>
-<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="kn">as</span> <span class="nn">plt</span>
+<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
 
 <span class="kn">import</span> <span class="nn">sklearn.cluster</span>
 
@@ -232,11 +235,11 @@ helpful to read along.</p>
 </pre></div>
 </div>
 <p>First, we’ll load in a song</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">y</span><span class="p">,</span> <span class="n">sr</span> <span class="o">=</span> <span class="n">librosa</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="s1">&#39;audio/Karissa_Hobbs_-_09_-_Lets_Go_Fishin.mp3&#39;</span><span class="p">)</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">y</span><span class="p">,</span> <span class="n">sr</span> <span class="o">=</span> <span class="n">librosa</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="s1">&#39;audio/Karissa_Hobbs_-_09_-_Lets_Go_Fishin.mp3&#39;</span><span class="p">)</span>
 </pre></div>
 </div>
 <p>Next, we’ll compute and plot a log-power CQT</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">BINS_PER_OCTAVE</span> <span class="o">=</span> <span class="mi">12</span> <span class="o">*</span> <span class="mi">3</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">BINS_PER_OCTAVE</span> <span class="o">=</span> <span class="mi">12</span> <span class="o">*</span> <span class="mi">3</span>
 <span class="n">N_OCTAVES</span> <span class="o">=</span> <span class="mi">7</span>
 <span class="n">C</span> <span class="o">=</span> <span class="n">librosa</span><span class="o">.</span><span class="n">amplitude_to_db</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">librosa</span><span class="o">.</span><span class="n">cqt</span><span class="p">(</span><span class="n">y</span><span class="o">=</span><span class="n">y</span><span class="p">,</span> <span class="n">sr</span><span class="o">=</span><span class="n">sr</span><span class="p">,</span>
                                         <span class="n">bins_per_octave</span><span class="o">=</span><span class="n">BINS_PER_OCTAVE</span><span class="p">,</span>
@@ -252,7 +255,7 @@ helpful to read along.</p>
 </div>
 <img alt="../_images/sphx_glr_plot_segmentation_001.png" class="sphx-glr-single-img" src="../_images/sphx_glr_plot_segmentation_001.png" />
 <p>To reduce dimensionality, we’ll beat-synchronous the CQT</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">tempo</span><span class="p">,</span> <span class="n">beats</span> <span class="o">=</span> <span class="n">librosa</span><span class="o">.</span><span class="n">beat</span><span class="o">.</span><span class="n">beat_track</span><span class="p">(</span><span class="n">y</span><span class="o">=</span><span class="n">y</span><span class="p">,</span> <span class="n">sr</span><span class="o">=</span><span class="n">sr</span><span class="p">,</span> <span class="n">trim</span><span class="o">=</span><span class="bp">False</span><span class="p">)</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">tempo</span><span class="p">,</span> <span class="n">beats</span> <span class="o">=</span> <span class="n">librosa</span><span class="o">.</span><span class="n">beat</span><span class="o">.</span><span class="n">beat_track</span><span class="p">(</span><span class="n">y</span><span class="o">=</span><span class="n">y</span><span class="p">,</span> <span class="n">sr</span><span class="o">=</span><span class="n">sr</span><span class="p">,</span> <span class="n">trim</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
 <span class="n">Csync</span> <span class="o">=</span> <span class="n">librosa</span><span class="o">.</span><span class="n">util</span><span class="o">.</span><span class="n">sync</span><span class="p">(</span><span class="n">C</span><span class="p">,</span> <span class="n">beats</span><span class="p">,</span> <span class="n">aggregate</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">median</span><span class="p">)</span>
 
 <span class="c1"># For plotting purposes, we&#39;ll need the timing of the beats</span>
@@ -274,8 +277,8 @@ helpful to read along.</p>
 (Equation 1)
 width=3 prevents links within the same bar
 mode=’affinity’ here implements S_rep (after Eq. 8)</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">R</span> <span class="o">=</span> <span class="n">librosa</span><span class="o">.</span><span class="n">segment</span><span class="o">.</span><span class="n">recurrence_matrix</span><span class="p">(</span><span class="n">Csync</span><span class="p">,</span> <span class="n">width</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span> <span class="n">mode</span><span class="o">=</span><span class="s1">&#39;affinity&#39;</span><span class="p">,</span>
-                                      <span class="n">sym</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">R</span> <span class="o">=</span> <span class="n">librosa</span><span class="o">.</span><span class="n">segment</span><span class="o">.</span><span class="n">recurrence_matrix</span><span class="p">(</span><span class="n">Csync</span><span class="p">,</span> <span class="n">width</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span> <span class="n">mode</span><span class="o">=</span><span class="s1">&#39;affinity&#39;</span><span class="p">,</span>
+                                      <span class="n">sym</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 
 <span class="c1"># Enhance diagonals with a median filter (Equation 2)</span>
 <span class="n">df</span> <span class="o">=</span> <span class="n">librosa</span><span class="o">.</span><span class="n">segment</span><span class="o">.</span><span class="n">timelag_filter</span><span class="p">(</span><span class="n">scipy</span><span class="o">.</span><span class="n">ndimage</span><span class="o">.</span><span class="n">median_filter</span><span class="p">)</span>
@@ -286,7 +289,7 @@ mode=’affinity’ here implements S_rep (after Eq. 8)</p>
 <blockquote>
 <div><span class="math notranslate nohighlight">\(R_\text{path}[i, i\pm 1] = \exp(-\|C_i - C_{i\pm 1}\|^2 / \sigma^2)\)</span></div></blockquote>
 <p>Here, we take <span class="math notranslate nohighlight">\(\sigma\)</span> to be the median distance between successive beats.</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">mfcc</span> <span class="o">=</span> <span class="n">librosa</span><span class="o">.</span><span class="n">feature</span><span class="o">.</span><span class="n">mfcc</span><span class="p">(</span><span class="n">y</span><span class="o">=</span><span class="n">y</span><span class="p">,</span> <span class="n">sr</span><span class="o">=</span><span class="n">sr</span><span class="p">)</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">mfcc</span> <span class="o">=</span> <span class="n">librosa</span><span class="o">.</span><span class="n">feature</span><span class="o">.</span><span class="n">mfcc</span><span class="p">(</span><span class="n">y</span><span class="o">=</span><span class="n">y</span><span class="p">,</span> <span class="n">sr</span><span class="o">=</span><span class="n">sr</span><span class="p">)</span>
 <span class="n">Msync</span> <span class="o">=</span> <span class="n">librosa</span><span class="o">.</span><span class="n">util</span><span class="o">.</span><span class="n">sync</span><span class="p">(</span><span class="n">mfcc</span><span class="p">,</span> <span class="n">beats</span><span class="p">)</span>
 
 <span class="n">path_distance</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">diff</span><span class="p">(</span><span class="n">Msync</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span><span class="o">**</span><span class="mi">2</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
@@ -297,7 +300,7 @@ mode=’affinity’ here implements S_rep (after Eq. 8)</p>
 </pre></div>
 </div>
 <p>And compute the balanced combination (Equations 6, 7, 9)</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">deg_path</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">R_path</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">deg_path</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">R_path</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
 <span class="n">deg_rec</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">Rf</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
 
 <span class="n">mu</span> <span class="o">=</span> <span class="n">deg_path</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">deg_path</span> <span class="o">+</span> <span class="n">deg_rec</span><span class="p">)</span> <span class="o">/</span> <span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">((</span><span class="n">deg_path</span> <span class="o">+</span> <span class="n">deg_rec</span><span class="p">)</span><span class="o">**</span><span class="mi">2</span><span class="p">)</span>
@@ -306,7 +309,7 @@ mode=’affinity’ here implements S_rep (after Eq. 8)</p>
 </pre></div>
 </div>
 <p>Plot the resulting graphs (Figure 1, left and center)</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">8</span><span class="p">,</span> <span class="mi">4</span><span class="p">))</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">8</span><span class="p">,</span> <span class="mi">4</span><span class="p">))</span>
 <span class="n">plt</span><span class="o">.</span><span class="n">subplot</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
 <span class="n">librosa</span><span class="o">.</span><span class="n">display</span><span class="o">.</span><span class="n">specshow</span><span class="p">(</span><span class="n">Rf</span><span class="p">,</span> <span class="n">cmap</span><span class="o">=</span><span class="s1">&#39;inferno_r&#39;</span><span class="p">,</span> <span class="n">y_axis</span><span class="o">=</span><span class="s1">&#39;time&#39;</span><span class="p">,</span>
                          <span class="n">y_coords</span><span class="o">=</span><span class="n">beat_times</span><span class="p">)</span>
@@ -322,7 +325,7 @@ mode=’affinity’ here implements S_rep (after Eq. 8)</p>
 </div>
 <img alt="../_images/sphx_glr_plot_segmentation_003.png" class="sphx-glr-single-img" src="../_images/sphx_glr_plot_segmentation_003.png" />
 <p>Now let’s compute the normalized Laplacian (Eq. 10)</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">L</span> <span class="o">=</span> <span class="n">scipy</span><span class="o">.</span><span class="n">sparse</span><span class="o">.</span><span class="n">csgraph</span><span class="o">.</span><span class="n">laplacian</span><span class="p">(</span><span class="n">A</span><span class="p">,</span> <span class="n">normed</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">L</span> <span class="o">=</span> <span class="n">scipy</span><span class="o">.</span><span class="n">sparse</span><span class="o">.</span><span class="n">csgraph</span><span class="o">.</span><span class="n">laplacian</span><span class="p">(</span><span class="n">A</span><span class="p">,</span> <span class="n">normed</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 
 
 <span class="c1"># and its spectral decomposition</span>
@@ -363,7 +366,7 @@ mode=’affinity’ here implements S_rep (after Eq. 8)</p>
 <img alt="../_images/sphx_glr_plot_segmentation_004.png" class="sphx-glr-single-img" src="../_images/sphx_glr_plot_segmentation_004.png" />
 <p>Let’s use these k components to cluster beats into segments
 (Algorithm 1)</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">KM</span> <span class="o">=</span> <span class="n">sklearn</span><span class="o">.</span><span class="n">cluster</span><span class="o">.</span><span class="n">KMeans</span><span class="p">(</span><span class="n">n_clusters</span><span class="o">=</span><span class="n">k</span><span class="p">)</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">KM</span> <span class="o">=</span> <span class="n">sklearn</span><span class="o">.</span><span class="n">cluster</span><span class="o">.</span><span class="n">KMeans</span><span class="p">(</span><span class="n">n_clusters</span><span class="o">=</span><span class="n">k</span><span class="p">)</span>
 
 <span class="n">seg_ids</span> <span class="o">=</span> <span class="n">KM</span><span class="o">.</span><span class="n">fit_predict</span><span class="p">(</span><span class="n">X</span><span class="p">)</span>
 
@@ -389,7 +392,7 @@ mode=’affinity’ here implements S_rep (after Eq. 8)</p>
 </div>
 <img alt="../_images/sphx_glr_plot_segmentation_005.png" class="sphx-glr-single-img" src="../_images/sphx_glr_plot_segmentation_005.png" />
 <p>Locate segment boundaries from the label sequence</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">bound_beats</span> <span class="o">=</span> <span class="mi">1</span> <span class="o">+</span> <span class="n">np</span><span class="o">.</span><span class="n">flatnonzero</span><span class="p">(</span><span class="n">seg_ids</span><span class="p">[:</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="o">!=</span> <span class="n">seg_ids</span><span class="p">[</span><span class="mi">1</span><span class="p">:])</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">bound_beats</span> <span class="o">=</span> <span class="mi">1</span> <span class="o">+</span> <span class="n">np</span><span class="o">.</span><span class="n">flatnonzero</span><span class="p">(</span><span class="n">seg_ids</span><span class="p">[:</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="o">!=</span> <span class="n">seg_ids</span><span class="p">[</span><span class="mi">1</span><span class="p">:])</span>
 
 <span class="c1"># Count beat 0 as a boundary</span>
 <span class="n">bound_beats</span> <span class="o">=</span> <span class="n">librosa</span><span class="o">.</span><span class="n">util</span><span class="o">.</span><span class="n">fix_frames</span><span class="p">(</span><span class="n">bound_beats</span><span class="p">,</span> <span class="n">x_min</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
@@ -402,14 +405,14 @@ mode=’affinity’ here implements S_rep (after Eq. 8)</p>
 
 <span class="c1"># Make sure we cover to the end of the track</span>
 <span class="n">bound_frames</span> <span class="o">=</span> <span class="n">librosa</span><span class="o">.</span><span class="n">util</span><span class="o">.</span><span class="n">fix_frames</span><span class="p">(</span><span class="n">bound_frames</span><span class="p">,</span>
-                                       <span class="n">x_min</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span>
+                                       <span class="n">x_min</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
                                        <span class="n">x_max</span><span class="o">=</span><span class="n">C</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span>
 </pre></div>
 </div>
 <p>And plot the final segmentation over original CQT</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># sphinx_gallery_thumbnail_number = 5</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># sphinx_gallery_thumbnail_number = 5</span>
 
-<span class="kn">import</span> <span class="nn">matplotlib.patches</span> <span class="kn">as</span> <span class="nn">patches</span>
+<span class="kn">import</span> <span class="nn">matplotlib.patches</span> <span class="k">as</span> <span class="nn">patches</span>
 <span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">12</span><span class="p">,</span> <span class="mi">4</span><span class="p">))</span>
 
 <span class="n">bound_times</span> <span class="o">=</span> <span class="n">librosa</span><span class="o">.</span><span class="n">frames_to_time</span><span class="p">(</span><span class="n">bound_frames</span><span class="p">)</span>
@@ -434,14 +437,19 @@ mode=’affinity’ here implements S_rep (after Eq. 8)</p>
 </pre></div>
 </div>
 <img alt="../_images/sphx_glr_plot_segmentation_006.png" class="sphx-glr-single-img" src="../_images/sphx_glr_plot_segmentation_006.png" />
-<p><strong>Total running time of the script:</strong> ( 0 minutes  8.789 seconds)</p>
+<p class="sphx-glr-script-out">Out:</p>
+<div class="sphx-glr-script-out highlight-none notranslate"><div class="highlight"><pre><span></span>/tmp/tmpgtqol7a5sphinxcontrib_versioning/22ac95e957d282432b833bf59e48bdf99e52e8d9/docs/examples/plot_segmentation.py:246: UserWarning: Matplotlib is currently using agg, which is a non-GUI backend, so cannot show the figure.
+  plt.show()
+</pre></div>
+</div>
+<p class="sphx-glr-timing"><strong>Total running time of the script:</strong> ( 0 minutes  11.602 seconds)</p>
 <div class="sphx-glr-footer class sphx-glr-footer-example docutils container" id="sphx-glr-download-auto-examples-plot-segmentation-py">
 <div class="sphx-glr-download docutils container">
 <a class="reference download internal" href="../_downloads/plot_segmentation.py" download=""><code class="xref download docutils literal notranslate"><span class="pre">Download</span> <span class="pre">Python</span> <span class="pre">source</span> <span class="pre">code:</span> <span class="pre">plot_segmentation.py</span></code></a></div>
 <div class="sphx-glr-download docutils container">
 <a class="reference download internal" href="../_downloads/plot_segmentation.ipynb" download=""><code class="xref download docutils literal notranslate"><span class="pre">Download</span> <span class="pre">Jupyter</span> <span class="pre">notebook:</span> <span class="pre">plot_segmentation.ipynb</span></code></a></div>
 </div>
-<p class="sphx-glr-signature"><a class="reference external" href="https://sphinx-gallery.readthedocs.io">Gallery generated by Sphinx-Gallery</a></p>
+<p class="sphx-glr-signature"><a class="reference external" href="https://sphinx-gallery.github.io">Gallery generated by Sphinx-Gallery</a></p>
 </div>
 
 
@@ -497,15 +505,13 @@ mode=’affinity’ here implements S_rep (after Eq. 8)</p>
             <dd><a href="../../0.6.1/auto_examples/plot_segmentation.html">0.6.1</a></dd>
             <dd><a href="../../0.6.2/auto_examples/plot_segmentation.html">0.6.2</a></dd>
             <dd><a href="plot_segmentation.html">0.6.3</a></dd>
+            <dd><a href="../../0.7.0rc1/auto_examples/plot_segmentation.html">0.7.0rc1</a></dd>
             <dd><a href="../../v0.1.0/index.html">v0.1.0</a></dd>
             <dd><a href="../../v0.4.0/index.html">v0.4.0</a></dd>
         </dl>
         <dl>
             <dt>Branches</dt>
-            <dd><a href="../../display-bin-centering/index.html">display-bin-centering</a></dd>
             <dd><a href="../../master/auto_examples/plot_segmentation.html">master</a></dd>
-            <dd><a href="../../mpl-test-2.1/auto_examples/plot_segmentation.html">mpl-test-2.1</a></dd>
-            <dd><a href="../../runnning/auto_examples/plot_segmentation.html">runnning</a></dd>
         </dl>
     </div>
 </div>

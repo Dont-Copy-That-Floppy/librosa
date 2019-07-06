@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>librosa.segment &mdash; librosa 0.6.3 documentation</title>
+  <title>librosa.segment &mdash; librosa 0.7.0rc1 documentation</title>
   
 
   
@@ -23,7 +23,7 @@
       <script type="text/javascript">
           var DOCUMENTATION_OPTIONS = {
               URL_ROOT:'../../',
-              VERSION:'0.6.3',
+              VERSION:'0.7.0rc1',
               LANGUAGE:'None',
               COLLAPSE_INDEX:false,
               FILE_SUFFIX:'.html',
@@ -70,7 +70,7 @@
             
             
               <div class="version">
-                0.6
+                0.7
               </div>
             
           
@@ -203,10 +203,12 @@
 <span class="sd">.. autosummary::</span>
 <span class="sd">    :toctree: generated/</span>
 
+<span class="sd">    cross_similarity</span>
 <span class="sd">    recurrence_matrix</span>
 <span class="sd">    recurrence_to_lag</span>
 <span class="sd">    lag_to_recurrence</span>
 <span class="sd">    timelag_filter</span>
+<span class="sd">    path_enhance</span>
 
 <span class="sd">Temporal clustering</span>
 <span class="sd">-------------------</span>
@@ -222,33 +224,238 @@
 <span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
 <span class="kn">import</span> <span class="nn">scipy</span>
 <span class="kn">import</span> <span class="nn">scipy.signal</span>
+<span class="kn">import</span> <span class="nn">scipy.ndimage</span>
 
 <span class="kn">import</span> <span class="nn">sklearn</span>
 <span class="kn">import</span> <span class="nn">sklearn.cluster</span>
 <span class="kn">import</span> <span class="nn">sklearn.feature_extraction</span>
 <span class="kn">import</span> <span class="nn">sklearn.neighbors</span>
 
-<span class="kn">from</span> <span class="nn">.</span> <span class="k">import</span> <span class="n">cache</span>
+<span class="kn">from</span> <span class="nn">._cache</span> <span class="k">import</span> <span class="n">cache</span>
 <span class="kn">from</span> <span class="nn">.</span> <span class="k">import</span> <span class="n">util</span>
+<span class="kn">from</span> <span class="nn">.filters</span> <span class="k">import</span> <span class="n">diagonal_filter</span>
 <span class="kn">from</span> <span class="nn">.util.exceptions</span> <span class="k">import</span> <span class="n">ParameterError</span>
 
-<span class="n">__all__</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;recurrence_matrix&#39;</span><span class="p">,</span>
+<span class="n">__all__</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;cross_similarity&#39;</span><span class="p">,</span>
+           <span class="s1">&#39;recurrence_matrix&#39;</span><span class="p">,</span>
            <span class="s1">&#39;recurrence_to_lag&#39;</span><span class="p">,</span>
            <span class="s1">&#39;lag_to_recurrence&#39;</span><span class="p">,</span>
            <span class="s1">&#39;timelag_filter&#39;</span><span class="p">,</span>
            <span class="s1">&#39;agglomerative&#39;</span><span class="p">,</span>
-           <span class="s1">&#39;subsegment&#39;</span><span class="p">]</span>
+           <span class="s1">&#39;subsegment&#39;</span><span class="p">,</span>
+           <span class="s1">&#39;path_enhance&#39;</span><span class="p">]</span>
+
+
+<div class="viewcode-block" id="cross_similarity"><a class="viewcode-back" href="../../generated/librosa.segment.cross_similarity.html#librosa.segment.cross_similarity">[docs]</a><span class="nd">@cache</span><span class="p">(</span><span class="n">level</span><span class="o">=</span><span class="mi">30</span><span class="p">)</span>
+<span class="k">def</span> <span class="nf">cross_similarity</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">data_ref</span><span class="p">,</span> <span class="n">k</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">metric</span><span class="o">=</span><span class="s1">&#39;euclidean&#39;</span><span class="p">,</span>
+                     <span class="n">sparse</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">mode</span><span class="o">=</span><span class="s1">&#39;connectivity&#39;</span><span class="p">,</span> <span class="n">bandwidth</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+    <span class="sd">&#39;&#39;&#39;Compute cross-similarity from one data sequence to a reference sequence.</span>
+
+<span class="sd">    The output is a matrix `xsim`:</span>
+
+<span class="sd">        `xsim[i, j]` is non-zero if `data_ref[:, i]` is a k-nearest neighbor</span>
+<span class="sd">        of `data[:, j]`.</span>
+
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    data : np.ndarray [shape=(d, n)]</span>
+<span class="sd">        A feature matrix for the comparison sequence</span>
+
+<span class="sd">    data_ref : np.ndarray [shape=(d, n_ref)]</span>
+<span class="sd">        A feature matrix for the reference sequence</span>
+
+<span class="sd">    k : int &gt; 0 [scalar] or None</span>
+<span class="sd">        the number of nearest-neighbors for each sample</span>
+
+<span class="sd">        Default: `k = 2 * ceil(sqrt(n_ref))`,</span>
+<span class="sd">        or `k = 2` if `n_ref &lt;= 3`</span>
+
+<span class="sd">    metric : str</span>
+<span class="sd">        Distance metric to use for nearest-neighbor calculation.</span>
+
+<span class="sd">        See `sklearn.neighbors.NearestNeighbors` for details.</span>
+
+<span class="sd">    sparse : bool [scalar]</span>
+<span class="sd">        if False, returns a dense type (ndarray)</span>
+<span class="sd">        if True, returns a sparse type (scipy.sparse.csc_matrix)</span>
+
+<span class="sd">    mode : str, {&#39;connectivity&#39;, &#39;distance&#39;, &#39;affinity&#39;}</span>
+<span class="sd">        If &#39;connectivity&#39;, a binary connectivity matrix is produced.</span>
+
+<span class="sd">        If &#39;distance&#39;, then a non-zero entry contains the distance between</span>
+<span class="sd">        points.</span>
+
+<span class="sd">        If &#39;affinity&#39;, then non-zero entries are mapped to</span>
+<span class="sd">        `exp( - distance(i, j) / bandwidth)` where `bandwidth` is</span>
+<span class="sd">        as specified below.</span>
+
+<span class="sd">    bandwidth : None or float &gt; 0</span>
+<span class="sd">        If using ``mode=&#39;affinity&#39;``, this can be used to set the</span>
+<span class="sd">        bandwidth on the affinity kernel.</span>
+
+<span class="sd">        If no value is provided, it is set automatically to the median</span>
+<span class="sd">        distance to the k&#39;th nearest neighbor of each `data[:, i]`.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    xsim : np.ndarray or scipy.sparse.csc_matrix, [shape=(n_ref, n)]</span>
+<span class="sd">        Cross-similarity matrix</span>
+
+<span class="sd">    See Also</span>
+<span class="sd">    --------</span>
+<span class="sd">    recurrence_matrix</span>
+<span class="sd">    recurrence_to_lag</span>
+<span class="sd">    feature.stack_memory</span>
+<span class="sd">    sklearn.neighbors.NearestNeighbors</span>
+<span class="sd">    scipy.spatial.distance.cdist</span>
+
+<span class="sd">    Notes</span>
+<span class="sd">    -----</span>
+<span class="sd">    This function caches at level 30.</span>
+
+<span class="sd">    Examples</span>
+<span class="sd">    --------</span>
+<span class="sd">    Find nearest neighbors in MFCC space between two sequences</span>
+
+<span class="sd">    &gt;&gt;&gt; hop_length = 1024</span>
+<span class="sd">    &gt;&gt;&gt; y_ref, sr = librosa.load(librosa.util.example_audio_file())</span>
+<span class="sd">    &gt;&gt;&gt; y_comp, sr = librosa.load(librosa.util.example_audio_file(), offset=10)</span>
+<span class="sd">    &gt;&gt;&gt; mfcc_ref = librosa.feature.mfcc(y=y_ref, sr=sr, hop_length=hop_length)</span>
+<span class="sd">    &gt;&gt;&gt; mfcc_comp = librosa.feature.mfcc(y=y_comp, sr=sr, hop_length=hop_length)</span>
+<span class="sd">    &gt;&gt;&gt; xsim = librosa.segment.cross_similarity(mfcc_comp, mfcc_ref)</span>
+
+<span class="sd">    Or fix the number of nearest neighbors to 5</span>
+
+<span class="sd">    &gt;&gt;&gt; xsim = librosa.segment.cross_similarity(mfcc_comp, mfcc_ref, k=5)</span>
+
+<span class="sd">    Use cosine similarity instead of Euclidean distance</span>
+
+<span class="sd">    &gt;&gt;&gt; xsim = librosa.segment.cross_similarity(mfcc_comp, mfcc_ref, metric=&#39;cosine&#39;)</span>
+
+<span class="sd">    Use an affinity matrix instead of binary connectivity</span>
+
+<span class="sd">    &gt;&gt;&gt; xsim_aff = librosa.segment.cross_similarity(mfcc_comp, mfcc_ref, mode=&#39;affinity&#39;)</span>
+
+<span class="sd">    Plot the feature and recurrence matrices</span>
+
+<span class="sd">    &gt;&gt;&gt; import matplotlib.pyplot as plt</span>
+<span class="sd">    &gt;&gt;&gt; plt.figure(figsize=(8, 4))</span>
+<span class="sd">    &gt;&gt;&gt; plt.subplot(1, 2, 1)</span>
+<span class="sd">    &gt;&gt;&gt; librosa.display.specshow(xsim, x_axis=&#39;time&#39;, y_axis=&#39;time&#39;, hop_length=hop_length)</span>
+<span class="sd">    &gt;&gt;&gt; plt.title(&#39;Binary recurrence (symmetric)&#39;)</span>
+<span class="sd">    &gt;&gt;&gt; plt.subplot(1, 2, 2)</span>
+<span class="sd">    &gt;&gt;&gt; librosa.display.specshow(xsim_aff, x_axis=&#39;time&#39;, y_axis=&#39;time&#39;,</span>
+<span class="sd">    ...                          cmap=&#39;magma_r&#39;, hop_length=hop_length)</span>
+<span class="sd">    &gt;&gt;&gt; plt.title(&#39;Affinity recurrence&#39;)</span>
+<span class="sd">    &gt;&gt;&gt; plt.tight_layout()</span>
+
+<span class="sd">    &#39;&#39;&#39;</span>
+    <span class="n">data_ref</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">atleast_2d</span><span class="p">(</span><span class="n">data_ref</span><span class="p">)</span>
+    <span class="n">data</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">atleast_2d</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
+
+    <span class="k">if</span> <span class="n">data_ref</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">!=</span> <span class="n">data</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]:</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;data_ref and data must have the same first dimension&quot;</span><span class="p">)</span>
+
+    <span class="c1"># swap data axes so the feature axis is last</span>
+    <span class="n">data_ref</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">swapaxes</span><span class="p">(</span><span class="n">data_ref</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
+    <span class="n">n_ref</span> <span class="o">=</span> <span class="n">data_ref</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+    <span class="n">data_ref</span> <span class="o">=</span> <span class="n">data_ref</span><span class="o">.</span><span class="n">reshape</span><span class="p">((</span><span class="n">n_ref</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">))</span>
+
+    <span class="n">data</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">swapaxes</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
+    <span class="n">n</span> <span class="o">=</span> <span class="n">data</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+    <span class="n">data</span> <span class="o">=</span> <span class="n">data</span><span class="o">.</span><span class="n">reshape</span><span class="p">((</span><span class="n">n</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">))</span>
+
+    <span class="k">if</span> <span class="n">mode</span> <span class="ow">not</span> <span class="ow">in</span> <span class="p">[</span><span class="s1">&#39;connectivity&#39;</span><span class="p">,</span> <span class="s1">&#39;distance&#39;</span><span class="p">,</span> <span class="s1">&#39;affinity&#39;</span><span class="p">]:</span>
+        <span class="k">raise</span> <span class="n">ParameterError</span><span class="p">((</span><span class="s2">&quot;Invalid mode=&#39;</span><span class="si">{}</span><span class="s2">&#39;. Must be one of &quot;</span>
+                              <span class="s2">&quot;[&#39;connectivity&#39;, &#39;distance&#39;, &quot;</span>
+                              <span class="s2">&quot;&#39;affinity&#39;]&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">mode</span><span class="p">))</span>
+    <span class="k">if</span> <span class="n">k</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">k</span> <span class="o">=</span> <span class="nb">min</span><span class="p">(</span><span class="n">n_ref</span><span class="p">,</span> <span class="mi">2</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">ceil</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">n_ref</span><span class="p">)))</span>
+
+    <span class="n">k</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">k</span><span class="p">)</span>
+
+    <span class="k">if</span> <span class="n">bandwidth</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">bandwidth</span> <span class="o">&lt;=</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="n">ParameterError</span><span class="p">(</span><span class="s1">&#39;Invalid bandwidth=</span><span class="si">{}</span><span class="s1">. &#39;</span>
+                                 <span class="s1">&#39;Must be strictly positive.&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">bandwidth</span><span class="p">))</span>
+
+    <span class="c1"># Build the neighbor search object</span>
+    <span class="c1"># `auto` mode does not work with some choices of metric.  Rather than special-case</span>
+    <span class="c1"># those here, we instead use a fall-back to brute force if auto fails.</span>
+    <span class="k">try</span><span class="p">:</span>
+        <span class="n">knn</span> <span class="o">=</span> <span class="n">sklearn</span><span class="o">.</span><span class="n">neighbors</span><span class="o">.</span><span class="n">NearestNeighbors</span><span class="p">(</span><span class="n">n_neighbors</span><span class="o">=</span><span class="nb">min</span><span class="p">(</span><span class="n">n_ref</span><span class="p">,</span> <span class="n">k</span><span class="p">),</span>
+                                                 <span class="n">metric</span><span class="o">=</span><span class="n">metric</span><span class="p">,</span>
+                                                 <span class="n">algorithm</span><span class="o">=</span><span class="s1">&#39;auto&#39;</span><span class="p">)</span>
+    <span class="k">except</span> <span class="ne">ValueError</span><span class="p">:</span>
+        <span class="n">knn</span> <span class="o">=</span> <span class="n">sklearn</span><span class="o">.</span><span class="n">neighbors</span><span class="o">.</span><span class="n">NearestNeighbors</span><span class="p">(</span><span class="n">n_neighbors</span><span class="o">=</span><span class="nb">min</span><span class="p">(</span><span class="n">n_ref</span><span class="p">,</span> <span class="n">k</span><span class="p">),</span>
+                                                 <span class="n">metric</span><span class="o">=</span><span class="n">metric</span><span class="p">,</span>
+                                                 <span class="n">algorithm</span><span class="o">=</span><span class="s1">&#39;brute&#39;</span><span class="p">)</span>
+
+    <span class="n">knn</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">data_ref</span><span class="p">)</span>
+
+    <span class="c1"># Get the knn graph</span>
+    <span class="k">if</span> <span class="n">mode</span> <span class="o">==</span> <span class="s1">&#39;affinity&#39;</span><span class="p">:</span>
+        <span class="c1"># sklearn&#39;s nearest neighbor doesn&#39;t support affinity,</span>
+        <span class="c1"># so we use distance here and then do the conversion post-hoc</span>
+        <span class="n">kng_mode</span> <span class="o">=</span> <span class="s1">&#39;distance&#39;</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">kng_mode</span> <span class="o">=</span> <span class="n">mode</span>
+
+    <span class="n">xsim</span> <span class="o">=</span> <span class="n">knn</span><span class="o">.</span><span class="n">kneighbors_graph</span><span class="p">(</span><span class="n">X</span><span class="o">=</span><span class="n">data</span><span class="p">,</span> <span class="n">mode</span><span class="o">=</span><span class="n">kng_mode</span><span class="p">)</span><span class="o">.</span><span class="n">tolil</span><span class="p">()</span>
+
+    <span class="c1"># Retain only the top-k links per point</span>
+    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">n</span><span class="p">):</span>
+        <span class="c1"># Get the links from point i</span>
+        <span class="n">links</span> <span class="o">=</span> <span class="n">xsim</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">nonzero</span><span class="p">()[</span><span class="mi">1</span><span class="p">]</span>
+
+        <span class="c1"># Order them ascending</span>
+        <span class="n">idx</span> <span class="o">=</span> <span class="n">links</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">argsort</span><span class="p">(</span><span class="n">xsim</span><span class="p">[</span><span class="n">i</span><span class="p">,</span> <span class="n">links</span><span class="p">]</span><span class="o">.</span><span class="n">toarray</span><span class="p">())][</span><span class="mi">0</span><span class="p">]</span>
+
+        <span class="c1"># Everything past the kth closest gets squashed</span>
+        <span class="n">xsim</span><span class="p">[</span><span class="n">i</span><span class="p">,</span> <span class="n">idx</span><span class="p">[</span><span class="n">k</span><span class="p">:]]</span> <span class="o">=</span> <span class="mi">0</span>
+
+    <span class="c1"># Convert a compressed sparse row (CSR) format</span>
+    <span class="n">xsim</span> <span class="o">=</span> <span class="n">xsim</span><span class="o">.</span><span class="n">tocsr</span><span class="p">()</span>
+    <span class="n">xsim</span><span class="o">.</span><span class="n">eliminate_zeros</span><span class="p">()</span>
+
+    <span class="k">if</span> <span class="n">mode</span> <span class="o">==</span> <span class="s1">&#39;connectivity&#39;</span><span class="p">:</span>
+        <span class="n">xsim</span> <span class="o">=</span> <span class="n">xsim</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">bool</span><span class="p">)</span>
+    <span class="k">elif</span> <span class="n">mode</span> <span class="o">==</span> <span class="s1">&#39;affinity&#39;</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">bandwidth</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">bandwidth</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">nanmedian</span><span class="p">(</span><span class="n">xsim</span><span class="o">.</span><span class="n">max</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span><span class="o">.</span><span class="n">data</span><span class="p">)</span>
+        <span class="n">xsim</span><span class="o">.</span><span class="n">data</span><span class="p">[:]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">exp</span><span class="p">(</span><span class="n">xsim</span><span class="o">.</span><span class="n">data</span> <span class="o">/</span> <span class="p">(</span><span class="o">-</span><span class="mi">1</span> <span class="o">*</span> <span class="n">bandwidth</span><span class="p">))</span>
+
+    <span class="c1"># Transpose to n_ref by n</span>
+    <span class="n">xsim</span> <span class="o">=</span> <span class="n">xsim</span><span class="o">.</span><span class="n">T</span>
+
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">sparse</span><span class="p">:</span>
+        <span class="n">xsim</span> <span class="o">=</span> <span class="n">xsim</span><span class="o">.</span><span class="n">toarray</span><span class="p">()</span>
+
+    <span class="k">return</span> <span class="n">xsim</span></div>
 
 
 <div class="viewcode-block" id="recurrence_matrix"><a class="viewcode-back" href="../../generated/librosa.segment.recurrence_matrix.html#librosa.segment.recurrence_matrix">[docs]</a><span class="nd">@cache</span><span class="p">(</span><span class="n">level</span><span class="o">=</span><span class="mi">30</span><span class="p">)</span>
 <span class="k">def</span> <span class="nf">recurrence_matrix</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">k</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">width</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">metric</span><span class="o">=</span><span class="s1">&#39;euclidean&#39;</span><span class="p">,</span>
                       <span class="n">sym</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">sparse</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">mode</span><span class="o">=</span><span class="s1">&#39;connectivity&#39;</span><span class="p">,</span>
-                      <span class="n">bandwidth</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">axis</span><span class="o">=-</span><span class="mi">1</span><span class="p">):</span>
+                      <span class="n">bandwidth</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="bp">self</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">axis</span><span class="o">=-</span><span class="mi">1</span><span class="p">):</span>
     <span class="sd">&#39;&#39;&#39;Compute a recurrence matrix from a data matrix.</span>
 
-
-<span class="sd">    `rec[i, j]` is non-zero if (`data[:, i]`, `data[:, j]`) are</span>
+<span class="sd">    `rec[i, j]` is non-zero if `data[:, i]` is one of `data[:, j]`&#39;s</span>
 <span class="sd">    k-nearest-neighbors and `|i - j| &gt;= width`</span>
+
+<span class="sd">    The specific value of `rec[i, j]` can have several forms, governed</span>
+<span class="sd">    by the `mode` parameter below:</span>
+
+<span class="sd">        - Connectivity: `rec[i, j] = 1 or 0` indicates that frames `i` and `j` are repetitions</span>
+
+<span class="sd">        - Affinity: `rec[i, j] &gt; 0` measures how similar frames `i` and `j` are.  This is also</span>
+<span class="sd">          known as a (sparse) self-similarity matrix.</span>
+
+<span class="sd">        - Distance: `rec[i, j] &gt; 0` measures how distant frames `i` and `j` are.  This is also</span>
+<span class="sd">          known as a (sparse) self-distance matrix.</span>
+
+<span class="sd">    The general term *recurrence matrix* can refer to any of the three forms above.</span>
 
 
 <span class="sd">    Parameters</span>
@@ -266,6 +473,8 @@
 <span class="sd">        only link neighbors `(data[:, i], data[:, j])`</span>
 <span class="sd">        if `|i - j| &gt;= width`</span>
 
+<span class="sd">        `width` cannot exceed the length of the data.</span>
+
 <span class="sd">    metric : str</span>
 <span class="sd">        Distance metric to use for nearest-neighbor calculation.</span>
 
@@ -276,7 +485,7 @@
 
 <span class="sd">    sparse : bool [scalar]</span>
 <span class="sd">        if False, returns a dense type (ndarray)</span>
-<span class="sd">        if True, returns a sparse type (scipy.sparse.csr_matrix)</span>
+<span class="sd">        if True, returns a sparse type (scipy.sparse.csc_matrix)</span>
 
 <span class="sd">    mode : str, {&#39;connectivity&#39;, &#39;distance&#39;, &#39;affinity&#39;}</span>
 <span class="sd">        If &#39;connectivity&#39;, a binary connectivity matrix is produced.</span>
@@ -295,13 +504,19 @@
 <span class="sd">        If no value is provided, it is set automatically to the median</span>
 <span class="sd">        distance between furthest nearest neighbors.</span>
 
+<span class="sd">    self : bool</span>
+<span class="sd">        If `True`, then the main diagonal is populated with self-links:</span>
+<span class="sd">        0 if ``mode=&#39;distance&#39;``, and 1 otherwise.</span>
+
+<span class="sd">        If `False`, the main diagonal is left empty.</span>
+
 <span class="sd">    axis : int</span>
 <span class="sd">        The axis along which to compute recurrence.</span>
 <span class="sd">        By default, the last index (-1) is taken.</span>
 
 <span class="sd">    Returns</span>
 <span class="sd">    -------</span>
-<span class="sd">    rec : np.ndarray or scipy.sparse.csr_matrix, [shape=(t, t)]</span>
+<span class="sd">    rec : np.ndarray or scipy.sparse.csc_matrix, [shape=(t, t)]</span>
 <span class="sd">        Recurrence matrix</span>
 
 <span class="sd">    See Also</span>
@@ -320,14 +535,15 @@
 <span class="sd">    Find nearest neighbors in MFCC space</span>
 
 <span class="sd">    &gt;&gt;&gt; y, sr = librosa.load(librosa.util.example_audio_file())</span>
-<span class="sd">    &gt;&gt;&gt; mfcc = librosa.feature.mfcc(y=y, sr=sr)</span>
+<span class="sd">    &gt;&gt;&gt; hop_length = 1024</span>
+<span class="sd">    &gt;&gt;&gt; mfcc = librosa.feature.mfcc(y=y, sr=sr, hop_length=hop_length)</span>
 <span class="sd">    &gt;&gt;&gt; R = librosa.segment.recurrence_matrix(mfcc)</span>
 
 <span class="sd">    Or fix the number of nearest neighbors to 5</span>
 
 <span class="sd">    &gt;&gt;&gt; R = librosa.segment.recurrence_matrix(mfcc, k=5)</span>
 
-<span class="sd">    Suppress neighbors within +- 7 samples</span>
+<span class="sd">    Suppress neighbors within +- 7 frames</span>
 
 <span class="sd">    &gt;&gt;&gt; R = librosa.segment.recurrence_matrix(mfcc, width=7)</span>
 
@@ -348,13 +564,14 @@
 <span class="sd">    &gt;&gt;&gt; import matplotlib.pyplot as plt</span>
 <span class="sd">    &gt;&gt;&gt; plt.figure(figsize=(8, 4))</span>
 <span class="sd">    &gt;&gt;&gt; plt.subplot(1, 2, 1)</span>
-<span class="sd">    &gt;&gt;&gt; librosa.display.specshow(R, x_axis=&#39;time&#39;, y_axis=&#39;time&#39;)</span>
+<span class="sd">    &gt;&gt;&gt; librosa.display.specshow(R, x_axis=&#39;time&#39;, y_axis=&#39;time&#39;, hop_length=hop_length)</span>
 <span class="sd">    &gt;&gt;&gt; plt.title(&#39;Binary recurrence (symmetric)&#39;)</span>
 <span class="sd">    &gt;&gt;&gt; plt.subplot(1, 2, 2)</span>
 <span class="sd">    &gt;&gt;&gt; librosa.display.specshow(R_aff, x_axis=&#39;time&#39;, y_axis=&#39;time&#39;,</span>
-<span class="sd">    ...                          cmap=&#39;magma_r&#39;)</span>
+<span class="sd">    ...                          hop_length=hop_length, cmap=&#39;magma_r&#39;)</span>
 <span class="sd">    &gt;&gt;&gt; plt.title(&#39;Affinity recurrence&#39;)</span>
 <span class="sd">    &gt;&gt;&gt; plt.tight_layout()</span>
+<span class="sd">    &gt;&gt;&gt; plt.show()</span>
 
 <span class="sd">    &#39;&#39;&#39;</span>
 
@@ -365,8 +582,8 @@
     <span class="n">t</span> <span class="o">=</span> <span class="n">data</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
     <span class="n">data</span> <span class="o">=</span> <span class="n">data</span><span class="o">.</span><span class="n">reshape</span><span class="p">((</span><span class="n">t</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">))</span>
 
-    <span class="k">if</span> <span class="n">width</span> <span class="o">&lt;</span> <span class="mi">1</span><span class="p">:</span>
-        <span class="k">raise</span> <span class="n">ParameterError</span><span class="p">(</span><span class="s1">&#39;width must be at least 1&#39;</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">width</span> <span class="o">&lt;</span> <span class="mi">1</span> <span class="ow">or</span> <span class="n">width</span> <span class="o">&gt;</span> <span class="n">t</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="n">ParameterError</span><span class="p">(</span><span class="s1">&#39;width=</span><span class="si">{}</span><span class="s1"> must be at least 1 and at most data.shape[</span><span class="si">{}</span><span class="s1">]=</span><span class="si">{}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">width</span><span class="p">,</span> <span class="n">axis</span><span class="p">,</span> <span class="n">t</span><span class="p">))</span>
 
     <span class="k">if</span> <span class="n">mode</span> <span class="ow">not</span> <span class="ow">in</span> <span class="p">[</span><span class="s1">&#39;connectivity&#39;</span><span class="p">,</span> <span class="s1">&#39;distance&#39;</span><span class="p">,</span> <span class="s1">&#39;affinity&#39;</span><span class="p">]:</span>
         <span class="k">raise</span> <span class="n">ParameterError</span><span class="p">((</span><span class="s2">&quot;Invalid mode=&#39;</span><span class="si">{}</span><span class="s2">&#39;. Must be one of &quot;</span>
@@ -420,8 +637,21 @@
         <span class="c1"># Everything past the kth closest gets squashed</span>
         <span class="n">rec</span><span class="p">[</span><span class="n">i</span><span class="p">,</span> <span class="n">idx</span><span class="p">[</span><span class="n">k</span><span class="p">:]]</span> <span class="o">=</span> <span class="mi">0</span>
 
+    <span class="k">if</span> <span class="bp">self</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">mode</span> <span class="o">==</span> <span class="s1">&#39;connectivity&#39;</span><span class="p">:</span>
+            <span class="n">rec</span><span class="o">.</span><span class="n">setdiag</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+        <span class="k">elif</span> <span class="n">mode</span> <span class="o">==</span> <span class="s1">&#39;affinity&#39;</span><span class="p">:</span>
+            <span class="c1"># we need to keep the self-loop in here, but not mess up the</span>
+            <span class="c1"># bandwidth estimation</span>
+            <span class="c1">#</span>
+            <span class="c1"># using negative distances here preserves the structure without changing</span>
+            <span class="c1"># the statistics of the data</span>
+            <span class="n">rec</span><span class="o">.</span><span class="n">setdiag</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span>
+
     <span class="c1"># symmetrize</span>
     <span class="k">if</span> <span class="n">sym</span><span class="p">:</span>
+        <span class="c1"># Note: this operation produces a CSR (compressed sparse row) matrix!</span>
+        <span class="c1"># This is why we have to do it after filling the diagonal in self-mode</span>
         <span class="n">rec</span> <span class="o">=</span> <span class="n">rec</span><span class="o">.</span><span class="n">minimum</span><span class="p">(</span><span class="n">rec</span><span class="o">.</span><span class="n">T</span><span class="p">)</span>
 
     <span class="n">rec</span> <span class="o">=</span> <span class="n">rec</span><span class="o">.</span><span class="n">tocsr</span><span class="p">()</span>
@@ -431,8 +661,15 @@
         <span class="n">rec</span> <span class="o">=</span> <span class="n">rec</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">bool</span><span class="p">)</span>
     <span class="k">elif</span> <span class="n">mode</span> <span class="o">==</span> <span class="s1">&#39;affinity&#39;</span><span class="p">:</span>
         <span class="k">if</span> <span class="n">bandwidth</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
-            <span class="n">bandwidth</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">median</span><span class="p">(</span><span class="n">rec</span><span class="o">.</span><span class="n">max</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span><span class="o">.</span><span class="n">data</span><span class="p">)</span>
+            <span class="n">bandwidth</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">nanmedian</span><span class="p">(</span><span class="n">rec</span><span class="o">.</span><span class="n">max</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span><span class="o">.</span><span class="n">data</span><span class="p">)</span>
+        <span class="c1"># Set all the negatives back to 0</span>
+        <span class="c1"># Negatives are temporarily inserted above to preserve the sparsity structure</span>
+        <span class="c1"># of the matrix without corrupting the bandwidth calculations</span>
+        <span class="n">rec</span><span class="o">.</span><span class="n">data</span><span class="p">[</span><span class="n">rec</span><span class="o">.</span><span class="n">data</span> <span class="o">&lt;</span> <span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="mf">0.0</span>
         <span class="n">rec</span><span class="o">.</span><span class="n">data</span><span class="p">[:]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">exp</span><span class="p">(</span><span class="n">rec</span><span class="o">.</span><span class="n">data</span> <span class="o">/</span> <span class="p">(</span><span class="o">-</span><span class="mi">1</span> <span class="o">*</span> <span class="n">bandwidth</span><span class="p">))</span>
+
+    <span class="c1"># Transpose to be column-major</span>
+    <span class="n">rec</span> <span class="o">=</span> <span class="n">rec</span><span class="o">.</span><span class="n">T</span>
 
     <span class="k">if</span> <span class="ow">not</span> <span class="n">sparse</span><span class="p">:</span>
         <span class="n">rec</span> <span class="o">=</span> <span class="n">rec</span><span class="o">.</span><span class="n">toarray</span><span class="p">()</span>
@@ -479,7 +716,8 @@
 <span class="sd">    Examples</span>
 <span class="sd">    --------</span>
 <span class="sd">    &gt;&gt;&gt; y, sr = librosa.load(librosa.util.example_audio_file())</span>
-<span class="sd">    &gt;&gt;&gt; mfccs = librosa.feature.mfcc(y=y, sr=sr)</span>
+<span class="sd">    &gt;&gt;&gt; hop_length = 1024</span>
+<span class="sd">    &gt;&gt;&gt; mfccs = librosa.feature.mfcc(y=y, sr=sr, hop_length=hop_length)</span>
 <span class="sd">    &gt;&gt;&gt; recurrence = librosa.segment.recurrence_matrix(mfccs)</span>
 <span class="sd">    &gt;&gt;&gt; lag_pad = librosa.segment.recurrence_to_lag(recurrence, pad=True)</span>
 <span class="sd">    &gt;&gt;&gt; lag_nopad = librosa.segment.recurrence_to_lag(recurrence, pad=False)</span>
@@ -487,12 +725,14 @@
 <span class="sd">    &gt;&gt;&gt; import matplotlib.pyplot as plt</span>
 <span class="sd">    &gt;&gt;&gt; plt.figure(figsize=(8, 4))</span>
 <span class="sd">    &gt;&gt;&gt; plt.subplot(1, 2, 1)</span>
-<span class="sd">    &gt;&gt;&gt; librosa.display.specshow(lag_pad, x_axis=&#39;time&#39;, y_axis=&#39;lag&#39;)</span>
+<span class="sd">    &gt;&gt;&gt; librosa.display.specshow(lag_pad, x_axis=&#39;time&#39;, y_axis=&#39;lag&#39;,</span>
+<span class="sd">    ...                          hop_length=hop_length)</span>
 <span class="sd">    &gt;&gt;&gt; plt.title(&#39;Lag (zero-padded)&#39;)</span>
 <span class="sd">    &gt;&gt;&gt; plt.subplot(1, 2, 2)</span>
-<span class="sd">    &gt;&gt;&gt; librosa.display.specshow(lag_nopad, x_axis=&#39;time&#39;)</span>
+<span class="sd">    &gt;&gt;&gt; librosa.display.specshow(lag_nopad, x_axis=&#39;time&#39;, hop_length=hop_length)</span>
 <span class="sd">    &gt;&gt;&gt; plt.title(&#39;Lag (no padding)&#39;)</span>
 <span class="sd">    &gt;&gt;&gt; plt.tight_layout()</span>
+<span class="sd">    &gt;&gt;&gt; plt.show()</span>
 <span class="sd">    &#39;&#39;&#39;</span>
 
     <span class="n">axis</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">axis</span><span class="p">)</span>
@@ -568,7 +808,8 @@
 <span class="sd">    Examples</span>
 <span class="sd">    --------</span>
 <span class="sd">    &gt;&gt;&gt; y, sr = librosa.load(librosa.util.example_audio_file())</span>
-<span class="sd">    &gt;&gt;&gt; mfccs = librosa.feature.mfcc(y=y, sr=sr)</span>
+<span class="sd">    &gt;&gt;&gt; hop_length = 1024</span>
+<span class="sd">    &gt;&gt;&gt; mfccs = librosa.feature.mfcc(y=y, sr=sr, hop_length=hop_length)</span>
 <span class="sd">    &gt;&gt;&gt; recurrence = librosa.segment.recurrence_matrix(mfccs)</span>
 <span class="sd">    &gt;&gt;&gt; lag_pad = librosa.segment.recurrence_to_lag(recurrence, pad=True)</span>
 <span class="sd">    &gt;&gt;&gt; lag_nopad = librosa.segment.recurrence_to_lag(recurrence, pad=False)</span>
@@ -578,18 +819,23 @@
 <span class="sd">    &gt;&gt;&gt; import matplotlib.pyplot as plt</span>
 <span class="sd">    &gt;&gt;&gt; plt.figure(figsize=(8, 4))</span>
 <span class="sd">    &gt;&gt;&gt; plt.subplot(2, 2, 1)</span>
-<span class="sd">    &gt;&gt;&gt; librosa.display.specshow(lag_pad, x_axis=&#39;time&#39;, y_axis=&#39;lag&#39;)</span>
+<span class="sd">    &gt;&gt;&gt; librosa.display.specshow(lag_pad, x_axis=&#39;time&#39;, y_axis=&#39;lag&#39;,</span>
+<span class="sd">    ...                          hop_length=hop_length)</span>
 <span class="sd">    &gt;&gt;&gt; plt.title(&#39;Lag (zero-padded)&#39;)</span>
 <span class="sd">    &gt;&gt;&gt; plt.subplot(2, 2, 2)</span>
-<span class="sd">    &gt;&gt;&gt; librosa.display.specshow(lag_nopad, x_axis=&#39;time&#39;, y_axis=&#39;time&#39;)</span>
+<span class="sd">    &gt;&gt;&gt; librosa.display.specshow(lag_nopad, x_axis=&#39;time&#39;, y_axis=&#39;time&#39;,</span>
+<span class="sd">    ...                          hop_length=hop_length)</span>
 <span class="sd">    &gt;&gt;&gt; plt.title(&#39;Lag (no padding)&#39;)</span>
 <span class="sd">    &gt;&gt;&gt; plt.subplot(2, 2, 3)</span>
-<span class="sd">    &gt;&gt;&gt; librosa.display.specshow(rec_pad, x_axis=&#39;time&#39;, y_axis=&#39;time&#39;)</span>
+<span class="sd">    &gt;&gt;&gt; librosa.display.specshow(rec_pad, x_axis=&#39;time&#39;, y_axis=&#39;time&#39;,</span>
+<span class="sd">    ...                          hop_length=hop_length)</span>
 <span class="sd">    &gt;&gt;&gt; plt.title(&#39;Recurrence (with padding)&#39;)</span>
 <span class="sd">    &gt;&gt;&gt; plt.subplot(2, 2, 4)</span>
-<span class="sd">    &gt;&gt;&gt; librosa.display.specshow(rec_nopad, x_axis=&#39;time&#39;, y_axis=&#39;time&#39;)</span>
+<span class="sd">    &gt;&gt;&gt; librosa.display.specshow(rec_nopad, x_axis=&#39;time&#39;, y_axis=&#39;time&#39;,</span>
+<span class="sd">    ...                          hop_length=hop_length)</span>
 <span class="sd">    &gt;&gt;&gt; plt.title(&#39;Recurrence (without padding)&#39;)</span>
 <span class="sd">    &gt;&gt;&gt; plt.tight_layout()</span>
+<span class="sd">    &gt;&gt;&gt; plt.show()</span>
 
 <span class="sd">    &#39;&#39;&#39;</span>
 
@@ -694,6 +940,7 @@
 <span class="sd">    ...                          cmap=&#39;magma_r&#39;)</span>
 <span class="sd">    &gt;&gt;&gt; plt.title(&#39;Filtered affinity matrix&#39;)</span>
 <span class="sd">    &gt;&gt;&gt; plt.tight_layout()</span>
+<span class="sd">    &gt;&gt;&gt; plt.show()</span>
 <span class="sd">    &#39;&#39;&#39;</span>
 
     <span class="k">def</span> <span class="nf">__my_filter</span><span class="p">(</span><span class="n">wrapped_f</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
@@ -788,6 +1035,7 @@
 <span class="sd">    &gt;&gt;&gt; plt.legend(frameon=True, shadow=True)</span>
 <span class="sd">    &gt;&gt;&gt; plt.title(&#39;CQT + Beat and sub-beat markers&#39;)</span>
 <span class="sd">    &gt;&gt;&gt; plt.tight_layout()</span>
+<span class="sd">    &gt;&gt;&gt; plt.show()</span>
 
 <span class="sd">    &#39;&#39;&#39;</span>
 
@@ -865,6 +1113,7 @@
 <span class="sd">    &gt;&gt;&gt; plt.legend(frameon=True, shadow=True)</span>
 <span class="sd">    &gt;&gt;&gt; plt.title(&#39;Power spectrogram&#39;)</span>
 <span class="sd">    &gt;&gt;&gt; plt.tight_layout()</span>
+<span class="sd">    &gt;&gt;&gt; plt.show()</span>
 
 <span class="sd">    &quot;&quot;&quot;</span>
 
@@ -886,7 +1135,7 @@
         <span class="c1"># Instantiate the clustering object</span>
         <span class="n">clusterer</span> <span class="o">=</span> <span class="n">sklearn</span><span class="o">.</span><span class="n">cluster</span><span class="o">.</span><span class="n">AgglomerativeClustering</span><span class="p">(</span><span class="n">n_clusters</span><span class="o">=</span><span class="n">k</span><span class="p">,</span>
                                                             <span class="n">connectivity</span><span class="o">=</span><span class="n">grid</span><span class="p">,</span>
-                                                            <span class="n">memory</span><span class="o">=</span><span class="n">cache</span><span class="p">)</span>
+                                                            <span class="n">memory</span><span class="o">=</span><span class="n">cache</span><span class="o">.</span><span class="n">memory</span><span class="p">)</span>
 
     <span class="c1"># Fit the model</span>
     <span class="n">clusterer</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
@@ -896,6 +1145,142 @@
     <span class="n">boundaries</span><span class="o">.</span><span class="n">extend</span><span class="p">(</span>
         <span class="nb">list</span><span class="p">(</span><span class="mi">1</span> <span class="o">+</span> <span class="n">np</span><span class="o">.</span><span class="n">nonzero</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">diff</span><span class="p">(</span><span class="n">clusterer</span><span class="o">.</span><span class="n">labels_</span><span class="p">))[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="nb">int</span><span class="p">)))</span>
     <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">boundaries</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="path_enhance"><a class="viewcode-back" href="../../generated/librosa.segment.path_enhance.html#librosa.segment.path_enhance">[docs]</a><span class="k">def</span> <span class="nf">path_enhance</span><span class="p">(</span><span class="n">R</span><span class="p">,</span> <span class="n">n</span><span class="p">,</span> <span class="n">window</span><span class="o">=</span><span class="s1">&#39;hann&#39;</span><span class="p">,</span> <span class="n">max_ratio</span><span class="o">=</span><span class="mf">2.0</span><span class="p">,</span> <span class="n">min_ratio</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">n_filters</span><span class="o">=</span><span class="mi">7</span><span class="p">,</span>
+                 <span class="n">zero_mean</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">clip</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+    <span class="sd">&#39;&#39;&#39;Multi-angle path enhancement for self- and cross-similarity matrices.</span>
+
+<span class="sd">    This function convolves multiple diagonal smoothing filters with a self-similarity (or</span>
+<span class="sd">    recurrence) matrix R, and aggregates the result by an element-wise maximum.</span>
+
+<span class="sd">    Technically, the output is a matrix R_smooth such that</span>
+
+<span class="sd">        `R_smooth[i, j] = max_theta (R * filter_theta)[i, j]`</span>
+
+<span class="sd">    where `*` denotes 2-dimensional convolution, and `filter_theta` is a smoothing filter at</span>
+<span class="sd">    orientation theta.</span>
+
+<span class="sd">    This is intended to provide coherent temporal smoothing of self-similarity matrices</span>
+<span class="sd">    when there are changes in tempo.</span>
+
+<span class="sd">    Smoothing filters are generated at evenly spaced orientations between min_ratio and</span>
+<span class="sd">    max_ratio.</span>
+
+<span class="sd">    This function is inspired by the multi-angle path enhancement of [1]_, but differs by</span>
+<span class="sd">    modeling tempo differences in the space of similarity matrices rather than re-sampling</span>
+<span class="sd">    the underlying features prior to generating the self-similarity matrix.</span>
+
+<span class="sd">    .. [1] Müller, Meinard and Frank Kurth.</span>
+<span class="sd">            &quot;Enhancing similarity matrices for music audio analysis.&quot;</span>
+<span class="sd">            2006 IEEE International Conference on Acoustics Speech and Signal Processing Proceedings.</span>
+<span class="sd">            Vol. 5. IEEE, 2006.</span>
+
+<span class="sd">    .. note:: if using recurrence_matrix to construct the input similarity matrix, be sure to include the main</span>
+<span class="sd">              diagonal by setting `self=True`.  Otherwise, the diagonal will be suppressed, and this is likely to</span>
+<span class="sd">              produce discontinuities which will pollute the smoothing filter response.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    R : np.ndarray</span>
+<span class="sd">        The self- or cross-similarity matrix to be smoothed.</span>
+<span class="sd">        Note: sparse inputs are not supported.</span>
+
+<span class="sd">    n : int &gt; 0</span>
+<span class="sd">        The length of the smoothing filter</span>
+
+<span class="sd">    window : window specification</span>
+<span class="sd">        The type of smoothing filter to use.  See `filters.get_window` for more information</span>
+<span class="sd">        on window specification formats.</span>
+
+<span class="sd">    max_ratio : float &gt; 0</span>
+<span class="sd">        The maximum tempo ratio to support</span>
+
+<span class="sd">    min_ratio : float &gt; 0</span>
+<span class="sd">        The minimum tempo ratio to support.</span>
+<span class="sd">        If not provided, it will default to `1/max_ratio`</span>
+
+<span class="sd">    n_filters : int &gt;= 1</span>
+<span class="sd">        The number of different smoothing filters to use, evenly spaced</span>
+<span class="sd">        between `min_ratio` and `max_ratio`.</span>
+
+<span class="sd">        If `min_ratio = 1/max_ratio` (the default), using an odd number</span>
+<span class="sd">        of filters will ensure that the main diagonal (ratio=1) is included.</span>
+
+<span class="sd">    zero_mean : bool</span>
+<span class="sd">        By default, the smoothing filters are non-negative and sum to one (i.e. are averaging</span>
+<span class="sd">        filters).</span>
+
+<span class="sd">        If `zero_mean=True`, then the smoothing filters are made to sum to zero by subtracting</span>
+<span class="sd">        a constant value from the non-diagonal coordinates of the filter.  This is primarily</span>
+<span class="sd">        useful for suppressing blocks while enhancing diagonals.</span>
+
+<span class="sd">    clip : bool</span>
+<span class="sd">        If True, the smoothed similarity matrix will be thresholded at 0, and will not contain</span>
+<span class="sd">        negative entries.</span>
+
+<span class="sd">    kwargs : additional keyword arguments</span>
+<span class="sd">        Additional arguments to pass to `scipy.ndimage.convolve`</span>
+
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    R_smooth : np.ndarray, shape=R.shape</span>
+<span class="sd">        The smoothed self- or cross-similarity matrix</span>
+
+<span class="sd">    See Also</span>
+<span class="sd">    --------</span>
+<span class="sd">    filters.diagonal_filter</span>
+<span class="sd">    recurrence_matrix</span>
+
+
+<span class="sd">    Examples</span>
+<span class="sd">    --------</span>
+<span class="sd">    Use a 51-frame diagonal smoothing filter to enhance paths in a recurrence matrix</span>
+
+<span class="sd">    &gt;&gt;&gt; y, sr = librosa.load(librosa.util.example_audio_file(), duration=30)</span>
+<span class="sd">    &gt;&gt;&gt; hop_length = 1024</span>
+<span class="sd">    &gt;&gt;&gt; chroma = librosa.feature.chroma_cqt(y=y, sr=sr, hop_length=hop_length)</span>
+<span class="sd">    &gt;&gt;&gt; rec = librosa.segment.recurrence_matrix(chroma, mode=&#39;affinity&#39;, self=True)</span>
+<span class="sd">    &gt;&gt;&gt; rec_smooth = librosa.segment.path_enhance(rec, 51, window=&#39;hann&#39;, n_filters=7)</span>
+
+<span class="sd">    Plot the recurrence matrix before and after smoothing</span>
+
+<span class="sd">    &gt;&gt;&gt; import matplotlib.pyplot as plt</span>
+<span class="sd">    &gt;&gt;&gt; plt.figure(figsize=(8, 4))</span>
+<span class="sd">    &gt;&gt;&gt; plt.subplot(1,2,1)</span>
+<span class="sd">    &gt;&gt;&gt; librosa.display.specshow(rec, x_axis=&#39;time&#39;, y_axis=&#39;time&#39;,</span>
+<span class="sd">    ...                          hop_length=hop_length)</span>
+<span class="sd">    &gt;&gt;&gt; plt.title(&#39;Unfiltered recurrence&#39;)</span>
+<span class="sd">    &gt;&gt;&gt; plt.subplot(1,2,2)</span>
+<span class="sd">    &gt;&gt;&gt; librosa.display.specshow(rec_smooth, x_axis=&#39;time&#39;, y_axis=&#39;time&#39;,</span>
+<span class="sd">    ...                          hop_length=hop_length)</span>
+<span class="sd">    &gt;&gt;&gt; plt.title(&#39;Multi-angle enhanced recurrence&#39;)</span>
+<span class="sd">    &gt;&gt;&gt; plt.tight_layout()</span>
+<span class="sd">    &gt;&gt;&gt; plt.show()</span>
+<span class="sd">    &#39;&#39;&#39;</span>
+
+    <span class="k">if</span> <span class="n">min_ratio</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">min_ratio</span> <span class="o">=</span> <span class="mf">1.</span><span class="o">/</span><span class="n">max_ratio</span>
+    <span class="k">elif</span> <span class="n">min_ratio</span> <span class="o">&gt;</span> <span class="n">max_ratio</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="n">ParameterError</span><span class="p">(</span><span class="s1">&#39;min_ratio=</span><span class="si">{}</span><span class="s1"> cannot exceed max_ratio=</span><span class="si">{}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">min_ratio</span><span class="p">,</span> <span class="n">max_ratio</span><span class="p">))</span>
+
+    <span class="n">R_smooth</span> <span class="o">=</span> <span class="kc">None</span>
+    <span class="k">for</span> <span class="n">ratio</span> <span class="ow">in</span> <span class="n">np</span><span class="o">.</span><span class="n">logspace</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">log2</span><span class="p">(</span><span class="n">min_ratio</span><span class="p">),</span> <span class="n">np</span><span class="o">.</span><span class="n">log2</span><span class="p">(</span><span class="n">max_ratio</span><span class="p">),</span> <span class="n">num</span><span class="o">=</span><span class="n">n_filters</span><span class="p">,</span> <span class="n">base</span><span class="o">=</span><span class="mi">2</span><span class="p">):</span>
+        <span class="n">kernel</span> <span class="o">=</span> <span class="n">diagonal_filter</span><span class="p">(</span><span class="n">window</span><span class="p">,</span> <span class="n">n</span><span class="p">,</span> <span class="n">slope</span><span class="o">=</span><span class="n">ratio</span><span class="p">,</span> <span class="n">zero_mean</span><span class="o">=</span><span class="n">zero_mean</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="n">R_smooth</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">R_smooth</span> <span class="o">=</span> <span class="n">scipy</span><span class="o">.</span><span class="n">ndimage</span><span class="o">.</span><span class="n">convolve</span><span class="p">(</span><span class="n">R</span><span class="p">,</span> <span class="n">kernel</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="c1"># Compute the point-wise maximum in-place</span>
+            <span class="n">np</span><span class="o">.</span><span class="n">maximum</span><span class="p">(</span><span class="n">R_smooth</span><span class="p">,</span> <span class="n">scipy</span><span class="o">.</span><span class="n">ndimage</span><span class="o">.</span><span class="n">convolve</span><span class="p">(</span><span class="n">R</span><span class="p">,</span> <span class="n">kernel</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">),</span>
+                       <span class="n">out</span><span class="o">=</span><span class="n">R_smooth</span><span class="p">)</span>
+
+    <span class="k">if</span> <span class="n">clip</span><span class="p">:</span>
+        <span class="c1"># Clip the output in-place</span>
+        <span class="n">np</span><span class="o">.</span><span class="n">clip</span><span class="p">(</span><span class="n">R_smooth</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="kc">None</span><span class="p">,</span> <span class="n">out</span><span class="o">=</span><span class="n">R_smooth</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">R_smooth</span></div>
 </pre></div>
 
            </div>
@@ -941,15 +1326,13 @@
             <dd><a href="../../../0.6.1/index.html">0.6.1</a></dd>
             <dd><a href="../../../0.6.2/index.html">0.6.2</a></dd>
             <dd><a href="../../../0.6.3/index.html">0.6.3</a></dd>
+            <dd><a href="../../../0.7.0rc1/index.html">0.7.0rc1</a></dd>
             <dd><a href="../../../v0.1.0/index.html">v0.1.0</a></dd>
             <dd><a href="../../../v0.4.0/index.html">v0.4.0</a></dd>
         </dl>
         <dl>
             <dt>Branches</dt>
-            <dd><a href="../../../display-bin-centering/index.html">display-bin-centering</a></dd>
             <dd><a href="segment.html">master</a></dd>
-            <dd><a href="../../../mpl-test-2.1/index.html">mpl-test-2.1</a></dd>
-            <dd><a href="../../../runnning/index.html">runnning</a></dd>
         </dl>
     </div>
 </div>

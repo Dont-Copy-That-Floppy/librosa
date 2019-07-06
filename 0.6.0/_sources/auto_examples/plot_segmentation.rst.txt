@@ -19,8 +19,7 @@ Throughout the example, we will refer to equations in the paper by number, so it
 helpful to read along.
 
 
-
-.. code-block:: python
+.. code-block:: default
 
 
     # Code source: Brian McFee
@@ -41,8 +40,7 @@ Imports
 
 
 
-
-.. code-block:: python
+.. code-block:: default
 
     from __future__ import print_function
 
@@ -64,8 +62,7 @@ Imports
 First, we'll load in a song
 
 
-
-.. code-block:: python
+.. code-block:: default
 
     y, sr = librosa.load('audio/Karissa_Hobbs_-_09_-_Lets_Go_Fishin.mp3')
 
@@ -79,8 +76,7 @@ First, we'll load in a song
 Next, we'll compute and plot a log-power CQT
 
 
-
-.. code-block:: python
+.. code-block:: default
 
     BINS_PER_OCTAVE = 12 * 3
     N_OCTAVES = 7
@@ -103,13 +99,21 @@ Next, we'll compute and plot a log-power CQT
     :class: sphx-glr-single-img
 
 
+.. rst-class:: sphx-glr-script-out
+
+ Out:
+
+ .. code-block:: none
+
+    /tmp/tmpgtqol7a5sphinxcontrib_versioning/eedd4a0027ed5d2f1915b4b580b531d35119e421/librosa/core/spectrum.py:958: UserWarning: amplitude_to_db was called on complex input so phase information will be discarded. To suppress this warning, call amplitude_to_db(magphase(D)[0]) instead.
+      warnings.warn('amplitude_to_db was called on complex input so phase '
+
 
 
 To reduce dimensionality, we'll beat-synchronous the CQT
 
 
-
-.. code-block:: python
+.. code-block:: default
 
     tempo, beats = librosa.beat.beat_track(y=y, sr=sr, trim=False)
     Csync = librosa.util.sync(C, beats, aggregate=np.median)
@@ -135,6 +139,19 @@ To reduce dimensionality, we'll beat-synchronous the CQT
     :class: sphx-glr-single-img
 
 
+.. rst-class:: sphx-glr-script-out
+
+ Out:
+
+ .. code-block:: none
+
+    /tmp/tmpgtqol7a5sphinxcontrib_versioning/eedd4a0027ed5d2f1915b4b580b531d35119e421/librosa/util/utils.py:1556: FutureWarning: Using a non-tuple sequence for multidimensional indexing is deprecated; use `arr[tuple(seq)]` instead of `arr[seq]`. In the future this will be interpreted as an array index, `arr[np.array(seq)]`, which will result either in an error or a different result.
+      data_agg[idx_agg] = aggregate(data[idx_in], axis=axis)
+    /tmp/tmpgtqol7a5sphinxcontrib_versioning/eedd4a0027ed5d2f1915b4b580b531d35119e421/librosa/core/audio.py:447: FutureWarning: Using a non-tuple sequence for multidimensional indexing is deprecated; use `arr[tuple(seq)]` instead of `arr[seq]`. In the future this will be interpreted as an array index, `arr[np.array(seq)]`, which will result either in an error or a different result.
+      autocorr = autocorr[subslice]
+    /tmp/tmpgtqol7a5sphinxcontrib_versioning/eedd4a0027ed5d2f1915b4b580b531d35119e421/librosa/util/utils.py:1005: FutureWarning: Using a non-tuple sequence for multidimensional indexing is deprecated; use `arr[tuple(seq)]` instead of `arr[seq]`. In the future this will be interpreted as an array index, `arr[np.array(seq)]`, which will result either in an error or a different result.
+      return (x > x_pad[inds1]) & (x >= x_pad[inds2])
+
 
 
 Let's build a weighted recurrence matrix using beat-synchronous CQT
@@ -143,8 +160,7 @@ width=3 prevents links within the same bar
 mode='affinity' here implements S_rep (after Eq. 8)
 
 
-
-.. code-block:: python
+.. code-block:: default
 
     R = librosa.segment.recurrence_matrix(Csync, width=3, mode='affinity',
                                           sym=True)
@@ -168,8 +184,7 @@ Here, we take :math:`\sigma` to be the median distance between successive beats.
 
 
 
-
-.. code-block:: python
+.. code-block:: default
 
     mfcc = librosa.feature.mfcc(y=y, sr=sr)
     Msync = librosa.util.sync(mfcc, beats)
@@ -185,13 +200,21 @@ Here, we take :math:`\sigma` to be the median distance between successive beats.
 
 
 
+.. rst-class:: sphx-glr-script-out
+
+ Out:
+
+ .. code-block:: none
+
+    /tmp/tmpgtqol7a5sphinxcontrib_versioning/eedd4a0027ed5d2f1915b4b580b531d35119e421/librosa/util/utils.py:1556: FutureWarning: Using a non-tuple sequence for multidimensional indexing is deprecated; use `arr[tuple(seq)]` instead of `arr[seq]`. In the future this will be interpreted as an array index, `arr[np.array(seq)]`, which will result either in an error or a different result.
+      data_agg[idx_agg] = aggregate(data[idx_in], axis=axis)
+
 
 
 And compute the balanced combination (Equations 6, 7, 9)
 
 
-
-.. code-block:: python
+.. code-block:: default
 
 
     deg_path = np.sum(R_path, axis=1)
@@ -211,8 +234,7 @@ And compute the balanced combination (Equations 6, 7, 9)
 Plot the resulting graphs (Figure 1, left and center)
 
 
-
-.. code-block:: python
+.. code-block:: default
 
     plt.figure(figsize=(8, 4))
     plt.subplot(1, 3, 1)
@@ -240,8 +262,7 @@ Plot the resulting graphs (Figure 1, left and center)
 Now let's compute the normalized Laplacian (Eq. 10)
 
 
-
-.. code-block:: python
+.. code-block:: default
 
     L = scipy.sparse.csgraph.laplacian(A, normed=True)
 
@@ -294,8 +315,7 @@ Let's use these k components to cluster beats into segments
 (Algorithm 1)
 
 
-
-.. code-block:: python
+.. code-block:: default
 
     KM = sklearn.cluster.KMeans(n_clusters=k)
 
@@ -333,8 +353,7 @@ Let's use these k components to cluster beats into segments
 Locate segment boundaries from the label sequence
 
 
-
-.. code-block:: python
+.. code-block:: default
 
     bound_beats = 1 + np.flatnonzero(seg_ids[:-1] != seg_ids[1:])
 
@@ -361,8 +380,7 @@ Locate segment boundaries from the label sequence
 And plot the final segmentation over original CQT
 
 
-
-.. code-block:: python
+.. code-block:: default
 
 
 
@@ -397,9 +415,21 @@ And plot the final segmentation over original CQT
     :class: sphx-glr-single-img
 
 
+.. rst-class:: sphx-glr-script-out
+
+ Out:
+
+ .. code-block:: none
+
+    /tmp/tmpgtqol7a5sphinxcontrib_versioning/eedd4a0027ed5d2f1915b4b580b531d35119e421/docs/examples/plot_segmentation.py:246: UserWarning: Matplotlib is currently using agg, which is a non-GUI backend, so cannot show the figure.
+      plt.show()
 
 
-**Total running time of the script:** ( 0 minutes  8.573 seconds)
+
+
+.. rst-class:: sphx-glr-timing
+
+   **Total running time of the script:** ( 0 minutes  11.237 seconds)
 
 
 .. _sphx_glr_download_auto_examples_plot_segmentation.py:
@@ -427,4 +457,4 @@ And plot the final segmentation over original CQT
 
  .. rst-class:: sphx-glr-signature
 
-    `Gallery generated by Sphinx-Gallery <https://sphinx-gallery.readthedocs.io>`_
+    `Gallery generated by Sphinx-Gallery <https://sphinx-gallery.github.io>`_

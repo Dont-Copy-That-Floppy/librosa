@@ -37,3 +37,4 @@ plt.subplot(4,1,4, sharex=ax)
 librosa.display.specshow(librosa.amplitude_to_db(S, ref=np.max),
                          y_axis='log')
 plt.tight_layout()
+plt.show()

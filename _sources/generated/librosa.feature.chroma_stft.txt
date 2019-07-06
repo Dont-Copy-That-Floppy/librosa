@@ -1,6 +1,0 @@
-librosa.feature.chroma_stft
-===========================
-
-.. currentmodule:: librosa.feature
-
-.. autofunction:: chroma_stft

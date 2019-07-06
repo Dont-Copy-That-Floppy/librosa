@@ -1,6 +1,0 @@
-librosa.onset.onset_strength_multi
-==================================
-
-.. currentmodule:: librosa.onset
-
-.. autofunction:: onset_strength_multi

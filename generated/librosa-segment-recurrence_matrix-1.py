@@ -36,3 +36,4 @@ librosa.display.specshow(R_aff, x_axis='time', y_axis='time',
                          cmap='magma_r')
 plt.title('Affinity recurrence')
 plt.tight_layout()
+plt.show()

@@ -18,6 +18,7 @@ librosa.display.TimeFormatter
       ~TimeFormatter.fix_minus
       ~TimeFormatter.format_data
       ~TimeFormatter.format_data_short
+      ~TimeFormatter.format_ticks
       ~TimeFormatter.get_offset
       ~TimeFormatter.set_axis
       ~TimeFormatter.set_bounds

@@ -11,3 +11,4 @@ plt.figure()
 S = librosa.feature.melspectrogram(y=tone)
 librosa.display.specshow(librosa.power_to_db(S, ref=np.max),
                          x_axis='time', y_axis='mel')
+plt.show()

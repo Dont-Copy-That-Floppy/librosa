@@ -21,6 +21,7 @@ plt.yticks(0.5 + np.arange(len(h_range)),
 plt.ylabel('Harmonic')
 plt.xlabel('Tempo (BPM)')
 plt.tight_layout()
+plt.show()
 
 # We can also compute frequency harmonics for spectrograms.
 # To calculate sub-harmonic energy, use values < 1.

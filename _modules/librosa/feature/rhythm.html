@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>librosa.feature.rhythm &mdash; librosa 0.6.3 documentation</title>
+  <title>librosa.feature.rhythm &mdash; librosa 0.7.0rc1 documentation</title>
   
 
   
@@ -23,7 +23,7 @@
       <script type="text/javascript">
           var DOCUMENTATION_OPTIONS = {
               URL_ROOT:'../../../',
-              VERSION:'0.6.3',
+              VERSION:'0.7.0rc1',
               LANGUAGE:'None',
               COLLAPSE_INDEX:false,
               FILE_SUFFIX:'.html',
@@ -70,7 +70,7 @@
             
             
               <div class="version">
-                0.6
+                0.7
               </div>
             
           
@@ -198,11 +198,12 @@
 <span class="kn">from</span> <span class="nn">..</span> <span class="k">import</span> <span class="n">util</span>
 
 <span class="kn">from</span> <span class="nn">..core.audio</span> <span class="k">import</span> <span class="n">autocorrelate</span>
+<span class="kn">from</span> <span class="nn">..core.spectrum</span> <span class="k">import</span> <span class="n">stft</span>
 <span class="kn">from</span> <span class="nn">..util.exceptions</span> <span class="k">import</span> <span class="n">ParameterError</span>
 <span class="kn">from</span> <span class="nn">..filters</span> <span class="k">import</span> <span class="n">get_window</span>
 
 
-<span class="n">__all__</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;tempogram&#39;</span><span class="p">]</span>
+<span class="n">__all__</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;tempogram&#39;</span><span class="p">,</span> <span class="s1">&#39;fourier_tempogram&#39;</span><span class="p">]</span>
 
 
 <span class="c1"># -- Rhythmic features -- #</span>
@@ -263,6 +264,7 @@
 
 <span class="sd">    See Also</span>
 <span class="sd">    --------</span>
+<span class="sd">    fourier_tempogram</span>
 <span class="sd">    librosa.onset.onset_strength</span>
 <span class="sd">    librosa.util.normalize</span>
 <span class="sd">    librosa.core.stft</span>
@@ -319,6 +321,7 @@
 <span class="sd">    &gt;&gt;&gt; plt.axis(&#39;tight&#39;)</span>
 <span class="sd">    &gt;&gt;&gt; plt.grid()</span>
 <span class="sd">    &gt;&gt;&gt; plt.tight_layout()</span>
+<span class="sd">    &gt;&gt;&gt; plt.show()</span>
 <span class="sd">    &#39;&#39;&#39;</span>
 
     <span class="kn">from</span> <span class="nn">..onset</span> <span class="k">import</span> <span class="n">onset_strength</span>
@@ -367,6 +370,112 @@
     <span class="k">return</span> <span class="n">util</span><span class="o">.</span><span class="n">normalize</span><span class="p">(</span><span class="n">autocorrelate</span><span class="p">(</span><span class="n">odf_frame</span> <span class="o">*</span> <span class="n">ac_window</span><span class="p">[:,</span> <span class="n">np</span><span class="o">.</span><span class="n">newaxis</span><span class="p">],</span>
                                         <span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">),</span>
                           <span class="n">norm</span><span class="o">=</span><span class="n">norm</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="fourier_tempogram"><a class="viewcode-back" href="../../../generated/librosa.feature.fourier_tempogram.html#librosa.feature.fourier_tempogram">[docs]</a><span class="k">def</span> <span class="nf">fourier_tempogram</span><span class="p">(</span><span class="n">y</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">sr</span><span class="o">=</span><span class="mi">22050</span><span class="p">,</span> <span class="n">onset_envelope</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">hop_length</span><span class="o">=</span><span class="mi">512</span><span class="p">,</span>
+                      <span class="n">win_length</span><span class="o">=</span><span class="mi">384</span><span class="p">,</span> <span class="n">center</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">window</span><span class="o">=</span><span class="s1">&#39;hann&#39;</span><span class="p">):</span>
+    <span class="sd">&#39;&#39;&#39;Compute the Fourier tempogram: the short-time Fourier transform of the</span>
+<span class="sd">    onset strength envelope. [1]_</span>
+
+<span class="sd">    .. [1] Grosche, Peter, Meinard Müller, and Frank Kurth.</span>
+<span class="sd">        &quot;Cyclic tempogram - A mid-level tempo representation for music signals.&quot;</span>
+<span class="sd">        ICASSP, 2010.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    y : np.ndarray [shape=(n,)] or None</span>
+<span class="sd">        Audio time series.</span>
+
+<span class="sd">    sr : number &gt; 0 [scalar]</span>
+<span class="sd">        sampling rate of `y`</span>
+
+<span class="sd">    onset_envelope : np.ndarray [shape=(n,)] or None</span>
+<span class="sd">        Optional pre-computed onset strength envelope as provided by</span>
+<span class="sd">        `onset.onset_strength`.</span>
+
+<span class="sd">    hop_length : int &gt; 0</span>
+<span class="sd">        number of audio samples between successive onset measurements</span>
+
+<span class="sd">    win_length : int &gt; 0</span>
+<span class="sd">        length of the onset window (in frames/onset measurements)</span>
+<span class="sd">        The default settings (384) corresponds to `384 * hop_length / sr ~= 8.9s`.</span>
+
+<span class="sd">    center : bool</span>
+<span class="sd">        If `True`, onset windows are centered.</span>
+<span class="sd">        If `False`, windows are left-aligned.</span>
+
+<span class="sd">    window : string, function, number, tuple, or np.ndarray [shape=(win_length,)]</span>
+<span class="sd">        A window specification as in `core.stft`.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    tempogram : np.ndarray [shape=(win_length // 2 + 1, n)]</span>
+<span class="sd">        Complex short-time Fourier transform of the onset envelope.</span>
+
+<span class="sd">    Raises</span>
+<span class="sd">    ------</span>
+<span class="sd">    ParameterError</span>
+<span class="sd">        if neither `y` nor `onset_envelope` are provided</span>
+
+<span class="sd">        if `win_length &lt; 1`</span>
+
+<span class="sd">    See Also</span>
+<span class="sd">    --------</span>
+<span class="sd">    tempogram</span>
+<span class="sd">    librosa.onset.onset_strength</span>
+<span class="sd">    librosa.util.normalize</span>
+<span class="sd">    librosa.core.stft</span>
+
+
+<span class="sd">    Examples</span>
+<span class="sd">    --------</span>
+<span class="sd">    &gt;&gt;&gt; # Compute local onset autocorrelation</span>
+<span class="sd">    &gt;&gt;&gt; y, sr = librosa.load(librosa.util.example_audio_file())</span>
+<span class="sd">    &gt;&gt;&gt; hop_length = 512</span>
+<span class="sd">    &gt;&gt;&gt; oenv = librosa.onset.onset_strength(y=y, sr=sr, hop_length=hop_length)</span>
+<span class="sd">    &gt;&gt;&gt; tempogram = librosa.feature.fourier_tempogram(onset_envelope=oenv, sr=sr,</span>
+<span class="sd">    ...                                               hop_length=hop_length)</span>
+<span class="sd">    &gt;&gt;&gt; # Compute the auto-correlation tempogram, unnormalized to make comparison easier</span>
+<span class="sd">    &gt;&gt;&gt; ac_tempogram = librosa.feature.tempogram(onset_envelope=oenv, sr=sr,</span>
+<span class="sd">    ...                                          hop_length=hop_length, norm=None)</span>
+
+<span class="sd">    &gt;&gt;&gt; import matplotlib.pyplot as plt</span>
+<span class="sd">    &gt;&gt;&gt; plt.figure(figsize=(8, 8))</span>
+<span class="sd">    &gt;&gt;&gt; plt.subplot(3, 1, 1)</span>
+<span class="sd">    &gt;&gt;&gt; plt.plot(oenv, label=&#39;Onset strength&#39;)</span>
+<span class="sd">    &gt;&gt;&gt; plt.xticks([])</span>
+<span class="sd">    &gt;&gt;&gt; plt.legend(frameon=True)</span>
+<span class="sd">    &gt;&gt;&gt; plt.axis(&#39;tight&#39;)</span>
+<span class="sd">    &gt;&gt;&gt; plt.subplot(3, 1, 2)</span>
+<span class="sd">    &gt;&gt;&gt; librosa.display.specshow(np.abs(tempogram), sr=sr, hop_length=hop_length,</span>
+<span class="sd">    &gt;&gt;&gt;                          x_axis=&#39;time&#39;, y_axis=&#39;fourier_tempo&#39;, cmap=&#39;magma&#39;)</span>
+<span class="sd">    &gt;&gt;&gt; plt.title(&#39;Fourier tempogram&#39;)</span>
+<span class="sd">    &gt;&gt;&gt; plt.subplot(3, 1, 3)</span>
+<span class="sd">    &gt;&gt;&gt; librosa.display.specshow(ac_tempogram, sr=sr, hop_length=hop_length,</span>
+<span class="sd">    &gt;&gt;&gt;                          x_axis=&#39;time&#39;, y_axis=&#39;tempo&#39;, cmap=&#39;magma&#39;)</span>
+<span class="sd">    &gt;&gt;&gt; plt.title(&#39;Autocorrelation tempogram&#39;)</span>
+<span class="sd">    &gt;&gt;&gt; plt.tight_layout()</span>
+<span class="sd">    &gt;&gt;&gt; plt.show()</span>
+<span class="sd">    &#39;&#39;&#39;</span>
+
+    <span class="kn">from</span> <span class="nn">..onset</span> <span class="k">import</span> <span class="n">onset_strength</span>
+
+    <span class="k">if</span> <span class="n">win_length</span> <span class="o">&lt;</span> <span class="mi">1</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="n">ParameterError</span><span class="p">(</span><span class="s1">&#39;win_length must be a positive integer&#39;</span><span class="p">)</span>
+
+    <span class="k">if</span> <span class="n">onset_envelope</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">y</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="n">ParameterError</span><span class="p">(</span><span class="s1">&#39;Either y or onset_envelope must be provided&#39;</span><span class="p">)</span>
+
+        <span class="n">onset_envelope</span> <span class="o">=</span> <span class="n">onset_strength</span><span class="p">(</span><span class="n">y</span><span class="o">=</span><span class="n">y</span><span class="p">,</span> <span class="n">sr</span><span class="o">=</span><span class="n">sr</span><span class="p">,</span> <span class="n">hop_length</span><span class="o">=</span><span class="n">hop_length</span><span class="p">)</span>
+
+    <span class="k">else</span><span class="p">:</span>
+        <span class="c1"># Force row-contiguity to avoid framing errors below</span>
+        <span class="n">onset_envelope</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">ascontiguousarray</span><span class="p">(</span><span class="n">onset_envelope</span><span class="p">)</span>
+
+    <span class="c1"># Generate the short-time Fourier transform</span>
+    <span class="k">return</span> <span class="n">stft</span><span class="p">(</span><span class="n">onset_envelope</span><span class="p">,</span> <span class="n">n_fft</span><span class="o">=</span><span class="n">win_length</span><span class="p">,</span> <span class="n">hop_length</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span>
+                <span class="n">center</span><span class="o">=</span><span class="n">center</span><span class="p">,</span> <span class="n">window</span><span class="o">=</span><span class="n">window</span><span class="p">)</span></div>
 </pre></div>
 
            </div>
@@ -397,7 +506,7 @@
 <div class="rst-versions" data-toggle="rst-versions" role="note" aria-label="versions">
     <span class="rst-current-version" data-toggle="rst-current-version">
         <span class="fa fa-book"> Other Versions</span>
-        v: 0.6.3
+        v: 0.7.0rc1
         <span class="fa fa-caret-down"></span>
     </span>
     <div class="rst-other-versions">
@@ -411,16 +520,14 @@
             <dd><a href="../../../0.6.0/index.html">0.6.0</a></dd>
             <dd><a href="../../../0.6.1/index.html">0.6.1</a></dd>
             <dd><a href="../../../0.6.2/index.html">0.6.2</a></dd>
-            <dd><a href="../../../0.6.3/_modules/librosa/feature/rhythm.html">0.6.3</a></dd>
+            <dd><a href="../../../0.6.3/index.html">0.6.3</a></dd>
+            <dd><a href="../../../0.7.0rc1/_modules/librosa/feature/rhythm.html">0.7.0rc1</a></dd>
             <dd><a href="../../../v0.1.0/index.html">v0.1.0</a></dd>
             <dd><a href="../../../v0.4.0/index.html">v0.4.0</a></dd>
         </dl>
         <dl>
             <dt>Branches</dt>
-            <dd><a href="../../../display-bin-centering/index.html">display-bin-centering</a></dd>
             <dd><a href="../../../master/index.html">master</a></dd>
-            <dd><a href="../../../mpl-test-2.1/index.html">mpl-test-2.1</a></dd>
-            <dd><a href="../../../runnning/index.html">runnning</a></dd>
         </dl>
     </div>
 </div>

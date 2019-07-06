@@ -42,5 +42,6 @@ librosa.display.specshow(librosa.amplitude_to_db(C_med_sub,
                                                  ref=np.max),
                          x_coords=subbeat_t, x_axis='time')
 plt.title('Sub-beat synchronous CQT power, '
-          'shape={}'.format(cqt_med_sub.shape))
+          'shape={}'.format(C_med_sub.shape))
 plt.tight_layout()
+plt.show()

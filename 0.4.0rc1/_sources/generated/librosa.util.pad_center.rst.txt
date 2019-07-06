@@ -1,6 +1,0 @@
-librosa.util.pad_center
-=======================
-
-.. currentmodule:: librosa.util
-
-.. autofunction:: pad_center

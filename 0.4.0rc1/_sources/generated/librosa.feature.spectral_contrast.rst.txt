@@ -1,6 +1,0 @@
-librosa.feature.spectral_contrast
-=================================
-
-.. currentmodule:: librosa.feature
-
-.. autofunction:: spectral_contrast

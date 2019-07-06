@@ -23,3 +23,4 @@ librosa.display.specshow(librosa.feature.chroma_cqt(y, sr=sr),
 plt.colorbar()
 plt.title('Chroma')
 plt.tight_layout()
+plt.show()

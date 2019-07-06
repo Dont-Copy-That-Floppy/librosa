@@ -1,6 +1,0 @@
-librosa.feature.spectral_rolloff
-================================
-
-.. currentmodule:: librosa.feature
-
-.. autofunction:: spectral_rolloff

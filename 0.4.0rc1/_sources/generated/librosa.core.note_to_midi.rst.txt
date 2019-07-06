@@ -1,6 +1,0 @@
-librosa.core.note_to_midi
-=========================
-
-.. currentmodule:: librosa.core
-
-.. autofunction:: note_to_midi

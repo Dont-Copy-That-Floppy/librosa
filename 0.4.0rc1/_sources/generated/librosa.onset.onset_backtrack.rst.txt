@@ -1,6 +1,0 @@
-librosa.onset.onset_backtrack
-=============================
-
-.. currentmodule:: librosa.onset
-
-.. autofunction:: onset_backtrack

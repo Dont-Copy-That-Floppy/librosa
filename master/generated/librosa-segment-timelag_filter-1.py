@@ -29,3 +29,4 @@ librosa.display.specshow(rec_aff_fil, x_axis='time',
                          cmap='magma_r')
 plt.title('Filtered affinity matrix')
 plt.tight_layout()
+plt.show()

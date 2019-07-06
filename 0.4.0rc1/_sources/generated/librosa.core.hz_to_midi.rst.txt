@@ -1,6 +1,0 @@
-librosa.core.hz_to_midi
-=======================
-
-.. currentmodule:: librosa.core
-
-.. autofunction:: hz_to_midi

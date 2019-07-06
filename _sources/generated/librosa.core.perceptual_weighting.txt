@@ -1,6 +1,0 @@
-librosa.core.perceptual_weighting
-=================================
-
-.. currentmodule:: librosa.core
-
-.. autofunction:: perceptual_weighting

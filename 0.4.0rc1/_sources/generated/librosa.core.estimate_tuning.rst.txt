@@ -1,6 +1,0 @@
-librosa.core.estimate_tuning
-============================
-
-.. currentmodule:: librosa.core
-
-.. autofunction:: estimate_tuning

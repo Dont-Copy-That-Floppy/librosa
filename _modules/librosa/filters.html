@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>librosa.filters &mdash; librosa 0.6.3 documentation</title>
+  <title>librosa.filters &mdash; librosa 0.7.0rc1 documentation</title>
   
 
   
@@ -23,7 +23,7 @@
       <script type="text/javascript">
           var DOCUMENTATION_OPTIONS = {
               URL_ROOT:'../../',
-              VERSION:'0.6.3',
+              VERSION:'0.7.0rc1',
               LANGUAGE:'None',
               COLLAPSE_INDEX:false,
               FILE_SUFFIX:'.html',
@@ -70,7 +70,7 @@
             
             
               <div class="version">
-                0.6
+                0.7
               </div>
             
           
@@ -214,7 +214,6 @@
 <span class="sd">    window_bandwidth</span>
 <span class="sd">    get_window</span>
 
-
 <span class="sd">Miscellaneous</span>
 <span class="sd">-------------</span>
 <span class="sd">.. autosummary::</span>
@@ -224,33 +223,26 @@
 <span class="sd">    cq_to_chroma</span>
 <span class="sd">    mr_frequencies</span>
 <span class="sd">    window_sumsquare</span>
-
-<span class="sd">Deprecated</span>
-<span class="sd">----------</span>
-<span class="sd">.. autosummary::</span>
-<span class="sd">    :toctree: generated/</span>
-
-<span class="sd">    dct</span>
+<span class="sd">    diagonal_filter</span>
 <span class="sd">&quot;&quot;&quot;</span>
 <span class="kn">import</span> <span class="nn">warnings</span>
 
 <span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
 <span class="kn">import</span> <span class="nn">scipy</span>
 <span class="kn">import</span> <span class="nn">scipy.signal</span>
+<span class="kn">import</span> <span class="nn">scipy.ndimage</span>
 <span class="kn">import</span> <span class="nn">six</span>
 
 <span class="kn">from</span> <span class="nn">numba</span> <span class="k">import</span> <span class="n">jit</span>
 
-<span class="kn">from</span> <span class="nn">.</span> <span class="k">import</span> <span class="n">cache</span>
+<span class="kn">from</span> <span class="nn">._cache</span> <span class="k">import</span> <span class="n">cache</span>
 <span class="kn">from</span> <span class="nn">.</span> <span class="k">import</span> <span class="n">util</span>
 <span class="kn">from</span> <span class="nn">.util.exceptions</span> <span class="k">import</span> <span class="n">ParameterError</span>
-<span class="kn">from</span> <span class="nn">.util.decorators</span> <span class="k">import</span> <span class="n">deprecated</span>
 
 <span class="kn">from</span> <span class="nn">.core.time_frequency</span> <span class="k">import</span> <span class="n">note_to_hz</span><span class="p">,</span> <span class="n">hz_to_midi</span><span class="p">,</span> <span class="n">midi_to_hz</span><span class="p">,</span> <span class="n">hz_to_octs</span>
 <span class="kn">from</span> <span class="nn">.core.time_frequency</span> <span class="k">import</span> <span class="n">fft_frequencies</span><span class="p">,</span> <span class="n">mel_frequencies</span>
 
-<span class="n">__all__</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;dct&#39;</span><span class="p">,</span>
-           <span class="s1">&#39;mel&#39;</span><span class="p">,</span>
+<span class="n">__all__</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;mel&#39;</span><span class="p">,</span>
            <span class="s1">&#39;chroma&#39;</span><span class="p">,</span>
            <span class="s1">&#39;constant_q&#39;</span><span class="p">,</span>
            <span class="s1">&#39;constant_q_lengths&#39;</span><span class="p">,</span>
@@ -259,7 +251,8 @@
            <span class="s1">&#39;get_window&#39;</span><span class="p">,</span>
            <span class="s1">&#39;mr_frequencies&#39;</span><span class="p">,</span>
            <span class="s1">&#39;semitone_filterbank&#39;</span><span class="p">,</span>
-           <span class="s1">&#39;window_sumsquare&#39;</span><span class="p">]</span>
+           <span class="s1">&#39;window_sumsquare&#39;</span><span class="p">,</span>
+           <span class="s1">&#39;diagonal_filter&#39;</span><span class="p">]</span>
 
 
 <span class="c1"># Dictionary of window function bandwidths</span>
@@ -306,70 +299,9 @@
                      <span class="s1">&#39;triangle&#39;</span><span class="p">:</span> <span class="mf">1.3331706523555851</span><span class="p">}</span>
 
 
-<div class="viewcode-block" id="dct"><a class="viewcode-back" href="../../generated/librosa.filters.dct.html#librosa.filters.dct">[docs]</a><span class="nd">@deprecated</span><span class="p">(</span><span class="s1">&#39;0.6.1&#39;</span><span class="p">,</span> <span class="s1">&#39;0.7.0&#39;</span><span class="p">)</span>
-<span class="k">def</span> <span class="nf">dct</span><span class="p">(</span><span class="n">n_filters</span><span class="p">,</span> <span class="n">n_input</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;Discrete cosine transform (DCT type-II, normalized) basis.</span>
-
-<span class="sd">    .. [1] http://en.wikipedia.org/wiki/Discrete_cosine_transform</span>
-
-<span class="sd">    .. warning:: This function is deprecated in librosa 0.6.1. It will</span>
-<span class="sd">        be removed in 0.7.0.</span>
-
-<span class="sd">    Parameters</span>
-<span class="sd">    ----------</span>
-<span class="sd">    n_filters : int &gt; 0 [scalar]</span>
-<span class="sd">        number of output components (DCT filters)</span>
-
-<span class="sd">    n_input : int &gt; 0 [scalar]</span>
-<span class="sd">        number of input components (frequency bins)</span>
-
-<span class="sd">    Returns</span>
-<span class="sd">    -------</span>
-<span class="sd">    dct_basis: np.ndarray [shape=(n_filters, n_input)]</span>
-<span class="sd">        DCT (type-II) basis vectors [1]_</span>
-
-<span class="sd">    Notes</span>
-<span class="sd">    -----</span>
-<span class="sd">    This function caches at level 10.</span>
-
-<span class="sd">    See Also</span>
-<span class="sd">    --------</span>
-<span class="sd">    scipy.fftpack.dct</span>
-
-<span class="sd">    Examples</span>
-<span class="sd">    --------</span>
-<span class="sd">    &gt;&gt;&gt; n_fft = 2048</span>
-<span class="sd">    &gt;&gt;&gt; dct_filters = librosa.filters.dct(13, 1 + n_fft // 2)</span>
-<span class="sd">    &gt;&gt;&gt; dct_filters</span>
-<span class="sd">    array([[ 0.031,  0.031, ...,  0.031,  0.031],</span>
-<span class="sd">           [ 0.044,  0.044, ..., -0.044, -0.044],</span>
-<span class="sd">           ...,</span>
-<span class="sd">           [ 0.044,  0.044, ..., -0.044, -0.044],</span>
-<span class="sd">           [ 0.044,  0.044, ...,  0.044,  0.044]])</span>
-
-<span class="sd">    &gt;&gt;&gt; import matplotlib.pyplot as plt</span>
-<span class="sd">    &gt;&gt;&gt; plt.figure()</span>
-<span class="sd">    &gt;&gt;&gt; librosa.display.specshow(dct_filters, x_axis=&#39;linear&#39;)</span>
-<span class="sd">    &gt;&gt;&gt; plt.ylabel(&#39;DCT function&#39;)</span>
-<span class="sd">    &gt;&gt;&gt; plt.title(&#39;DCT filter bank&#39;)</span>
-<span class="sd">    &gt;&gt;&gt; plt.colorbar()</span>
-<span class="sd">    &gt;&gt;&gt; plt.tight_layout()</span>
-<span class="sd">    &quot;&quot;&quot;</span>
-
-    <span class="n">basis</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">empty</span><span class="p">((</span><span class="n">n_filters</span><span class="p">,</span> <span class="n">n_input</span><span class="p">))</span>
-    <span class="n">basis</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="p">:]</span> <span class="o">=</span> <span class="mf">1.0</span> <span class="o">/</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">n_input</span><span class="p">)</span>
-
-    <span class="n">samples</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="o">*</span><span class="n">n_input</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">pi</span> <span class="o">/</span> <span class="p">(</span><span class="mf">2.0</span> <span class="o">*</span> <span class="n">n_input</span><span class="p">)</span>
-
-    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">n_filters</span><span class="p">):</span>
-        <span class="n">basis</span><span class="p">[</span><span class="n">i</span><span class="p">,</span> <span class="p">:]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">cos</span><span class="p">(</span><span class="n">i</span><span class="o">*</span><span class="n">samples</span><span class="p">)</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="mf">2.0</span><span class="o">/</span><span class="n">n_input</span><span class="p">)</span>
-
-    <span class="k">return</span> <span class="n">basis</span></div>
-
-
 <div class="viewcode-block" id="mel"><a class="viewcode-back" href="../../generated/librosa.filters.mel.html#librosa.filters.mel">[docs]</a><span class="nd">@cache</span><span class="p">(</span><span class="n">level</span><span class="o">=</span><span class="mi">10</span><span class="p">)</span>
 <span class="k">def</span> <span class="nf">mel</span><span class="p">(</span><span class="n">sr</span><span class="p">,</span> <span class="n">n_fft</span><span class="p">,</span> <span class="n">n_mels</span><span class="o">=</span><span class="mi">128</span><span class="p">,</span> <span class="n">fmin</span><span class="o">=</span><span class="mf">0.0</span><span class="p">,</span> <span class="n">fmax</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">htk</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
-        <span class="n">norm</span><span class="o">=</span><span class="mi">1</span><span class="p">):</span>
+        <span class="n">norm</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">float32</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;Create a Filterbank matrix to combine FFT bins into Mel-frequency bins</span>
 
 <span class="sd">    Parameters</span>
@@ -397,6 +329,10 @@
 <span class="sd">        if 1, divide the triangular mel weights by the width of the mel band</span>
 <span class="sd">        (area normalization).  Otherwise, leave all the triangles aiming for</span>
 <span class="sd">        a peak value of 1.0</span>
+
+<span class="sd">    dtype : np.dtype</span>
+<span class="sd">        The data type of the output basis.</span>
+<span class="sd">        By default, uses 32-bit (single-precision) floating point.</span>
 
 <span class="sd">    Returns</span>
 <span class="sd">    -------</span>
@@ -435,6 +371,7 @@
 <span class="sd">    &gt;&gt;&gt; plt.title(&#39;Mel filter bank&#39;)</span>
 <span class="sd">    &gt;&gt;&gt; plt.colorbar()</span>
 <span class="sd">    &gt;&gt;&gt; plt.tight_layout()</span>
+<span class="sd">    &gt;&gt;&gt; plt.show()</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
     <span class="k">if</span> <span class="n">fmax</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
@@ -445,7 +382,7 @@
 
     <span class="c1"># Initialize the weights</span>
     <span class="n">n_mels</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">n_mels</span><span class="p">)</span>
-    <span class="n">weights</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="n">n_mels</span><span class="p">,</span> <span class="nb">int</span><span class="p">(</span><span class="mi">1</span> <span class="o">+</span> <span class="n">n_fft</span> <span class="o">//</span> <span class="mi">2</span><span class="p">)))</span>
+    <span class="n">weights</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="n">n_mels</span><span class="p">,</span> <span class="nb">int</span><span class="p">(</span><span class="mi">1</span> <span class="o">+</span> <span class="n">n_fft</span> <span class="o">//</span> <span class="mi">2</span><span class="p">)),</span> <span class="n">dtype</span><span class="o">=</span><span class="n">dtype</span><span class="p">)</span>
 
     <span class="c1"># Center freqs of each FFT bin</span>
     <span class="n">fftfreqs</span> <span class="o">=</span> <span class="n">fft_frequencies</span><span class="p">(</span><span class="n">sr</span><span class="o">=</span><span class="n">sr</span><span class="p">,</span> <span class="n">n_fft</span><span class="o">=</span><span class="n">n_fft</span><span class="p">)</span>
@@ -482,7 +419,7 @@
 
 <div class="viewcode-block" id="chroma"><a class="viewcode-back" href="../../generated/librosa.filters.chroma.html#librosa.filters.chroma">[docs]</a><span class="nd">@cache</span><span class="p">(</span><span class="n">level</span><span class="o">=</span><span class="mi">10</span><span class="p">)</span>
 <span class="k">def</span> <span class="nf">chroma</span><span class="p">(</span><span class="n">sr</span><span class="p">,</span> <span class="n">n_fft</span><span class="p">,</span> <span class="n">n_chroma</span><span class="o">=</span><span class="mi">12</span><span class="p">,</span> <span class="n">A440</span><span class="o">=</span><span class="mf">440.0</span><span class="p">,</span> <span class="n">ctroct</span><span class="o">=</span><span class="mf">5.0</span><span class="p">,</span>
-           <span class="n">octwidth</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">norm</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">base_c</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
+           <span class="n">octwidth</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">norm</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">base_c</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">float32</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;Create a Filterbank matrix to convert STFT to chroma</span>
 
 
@@ -514,6 +451,10 @@
 <span class="sd">    base_c : bool</span>
 <span class="sd">        If True, the filter bank will start at &#39;C&#39;.</span>
 <span class="sd">        If False, the filter bank will start at &#39;A&#39;.</span>
+
+<span class="sd">    dtype : np.dtype</span>
+<span class="sd">        The data type of the output basis.</span>
+<span class="sd">        By default, uses 32-bit (single-precision) floating point.</span>
 
 <span class="sd">    Returns</span>
 <span class="sd">    -------</span>
@@ -566,6 +507,7 @@
 <span class="sd">    &gt;&gt;&gt; plt.title(&#39;Chroma filter bank&#39;)</span>
 <span class="sd">    &gt;&gt;&gt; plt.colorbar()</span>
 <span class="sd">    &gt;&gt;&gt; plt.tight_layout()</span>
+<span class="sd">    &gt;&gt;&gt; plt.show()</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
     <span class="n">wts</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="n">n_chroma</span><span class="p">,</span> <span class="n">n_fft</span><span class="p">))</span>
@@ -607,7 +549,7 @@
         <span class="n">wts</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">roll</span><span class="p">(</span><span class="n">wts</span><span class="p">,</span> <span class="o">-</span><span class="mi">3</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
 
     <span class="c1"># remove aliasing columns, copy to ensure row-contiguity</span>
-    <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">ascontiguousarray</span><span class="p">(</span><span class="n">wts</span><span class="p">[:,</span> <span class="p">:</span><span class="nb">int</span><span class="p">(</span><span class="mi">1</span> <span class="o">+</span> <span class="n">n_fft</span><span class="o">/</span><span class="mi">2</span><span class="p">)])</span></div>
+    <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">ascontiguousarray</span><span class="p">(</span><span class="n">wts</span><span class="p">[:,</span> <span class="p">:</span><span class="nb">int</span><span class="p">(</span><span class="mi">1</span> <span class="o">+</span> <span class="n">n_fft</span><span class="o">/</span><span class="mi">2</span><span class="p">)],</span> <span class="n">dtype</span><span class="o">=</span><span class="n">dtype</span><span class="p">)</span></div>
 
 
 <span class="k">def</span> <span class="nf">__float_window</span><span class="p">(</span><span class="n">window_spec</span><span class="p">):</span>
@@ -641,7 +583,7 @@
 <div class="viewcode-block" id="constant_q"><a class="viewcode-back" href="../../generated/librosa.filters.constant_q.html#librosa.filters.constant_q">[docs]</a><span class="nd">@cache</span><span class="p">(</span><span class="n">level</span><span class="o">=</span><span class="mi">10</span><span class="p">)</span>
 <span class="k">def</span> <span class="nf">constant_q</span><span class="p">(</span><span class="n">sr</span><span class="p">,</span> <span class="n">fmin</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">n_bins</span><span class="o">=</span><span class="mi">84</span><span class="p">,</span> <span class="n">bins_per_octave</span><span class="o">=</span><span class="mi">12</span><span class="p">,</span> <span class="n">tuning</span><span class="o">=</span><span class="mf">0.0</span><span class="p">,</span>
                <span class="n">window</span><span class="o">=</span><span class="s1">&#39;hann&#39;</span><span class="p">,</span> <span class="n">filter_scale</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">pad_fft</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">norm</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span>
-               <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+               <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">complex64</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
     <span class="sa">r</span><span class="sd">&#39;&#39;&#39;Construct a constant-Q basis.</span>
 
 <span class="sd">    This uses the filter bank described by [1]_.</span>
@@ -684,6 +626,10 @@
 <span class="sd">    norm : {inf, -inf, 0, float &gt; 0}</span>
 <span class="sd">        Type of norm to use for basis function normalization.</span>
 <span class="sd">        See librosa.util.normalize</span>
+
+<span class="sd">    dtype : np.dtype</span>
+<span class="sd">        The data type of the output basis.</span>
+<span class="sd">        By default, uses 64-bit (single precision) complex floating point.</span>
 
 <span class="sd">    kwargs : additional keyword arguments</span>
 <span class="sd">        Arguments to `np.pad()` when `pad==True`.</span>
@@ -739,6 +685,7 @@
 <span class="sd">    &gt;&gt;&gt; plt.ylabel(&#39;CQ filters&#39;)</span>
 <span class="sd">    &gt;&gt;&gt; plt.title(&#39;CQ filter magnitudes (frequency domain)&#39;)</span>
 <span class="sd">    &gt;&gt;&gt; plt.tight_layout()</span>
+<span class="sd">    &gt;&gt;&gt; plt.show()</span>
 <span class="sd">    &#39;&#39;&#39;</span>
 
     <span class="k">if</span> <span class="n">fmin</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
@@ -785,7 +732,7 @@
         <span class="n">max_len</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">ceil</span><span class="p">(</span><span class="n">max_len</span><span class="p">))</span>
 
     <span class="n">filters</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">([</span><span class="n">util</span><span class="o">.</span><span class="n">pad_center</span><span class="p">(</span><span class="n">filt</span><span class="p">,</span> <span class="n">max_len</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
-                          <span class="k">for</span> <span class="n">filt</span> <span class="ow">in</span> <span class="n">filters</span><span class="p">])</span>
+                          <span class="k">for</span> <span class="n">filt</span> <span class="ow">in</span> <span class="n">filters</span><span class="p">],</span> <span class="n">dtype</span><span class="o">=</span><span class="n">dtype</span><span class="p">)</span>
 
     <span class="k">return</span> <span class="n">filters</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">lengths</span><span class="p">)</span></div>
 
@@ -867,7 +814,7 @@
 
 <div class="viewcode-block" id="cq_to_chroma"><a class="viewcode-back" href="../../generated/librosa.filters.cq_to_chroma.html#librosa.filters.cq_to_chroma">[docs]</a><span class="nd">@cache</span><span class="p">(</span><span class="n">level</span><span class="o">=</span><span class="mi">10</span><span class="p">)</span>
 <span class="k">def</span> <span class="nf">cq_to_chroma</span><span class="p">(</span><span class="n">n_input</span><span class="p">,</span> <span class="n">bins_per_octave</span><span class="o">=</span><span class="mi">12</span><span class="p">,</span> <span class="n">n_chroma</span><span class="o">=</span><span class="mi">12</span><span class="p">,</span>
-                 <span class="n">fmin</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">window</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">base_c</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
+                 <span class="n">fmin</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">window</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">base_c</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">float32</span><span class="p">):</span>
     <span class="sd">&#39;&#39;&#39;Convert a Constant-Q basis to Chroma.</span>
 
 
@@ -893,6 +840,11 @@
 <span class="sd">    base_c : bool</span>
 <span class="sd">        If True, the first chroma bin will start at &#39;C&#39;</span>
 <span class="sd">        If False, the first chroma bin will start at &#39;A&#39;</span>
+
+<span class="sd">    dtype : np.dtype</span>
+<span class="sd">        The data type of the output basis.</span>
+<span class="sd">        By default, uses 32-bit (single-precision) floating point.</span>
+
 
 <span class="sd">    Returns</span>
 <span class="sd">    -------</span>
@@ -936,6 +888,7 @@
 <span class="sd">    &gt;&gt;&gt; plt.title(&#39;librosa.feature.chroma_stft&#39;)</span>
 <span class="sd">    &gt;&gt;&gt; plt.colorbar()</span>
 <span class="sd">    &gt;&gt;&gt; plt.tight_layout()</span>
+<span class="sd">    &gt;&gt;&gt; plt.show()</span>
 
 <span class="sd">    &#39;&#39;&#39;</span>
 
@@ -978,7 +931,7 @@
     <span class="n">roll</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">round</span><span class="p">(</span><span class="n">roll</span> <span class="o">*</span> <span class="p">(</span><span class="n">n_chroma</span> <span class="o">/</span> <span class="mf">12.</span><span class="p">)))</span>
 
     <span class="c1"># Apply the roll</span>
-    <span class="n">cq_to_ch</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">roll</span><span class="p">(</span><span class="n">cq_to_ch</span><span class="p">,</span> <span class="n">roll</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="nb">float</span><span class="p">)</span>
+    <span class="n">cq_to_ch</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">roll</span><span class="p">(</span><span class="n">cq_to_ch</span><span class="p">,</span> <span class="n">roll</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="n">dtype</span><span class="p">)</span>
 
     <span class="k">if</span> <span class="n">window</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
         <span class="n">cq_to_ch</span> <span class="o">=</span> <span class="n">scipy</span><span class="o">.</span><span class="n">signal</span><span class="o">.</span><span class="n">convolve</span><span class="p">(</span><span class="n">cq_to_ch</span><span class="p">,</span>
@@ -1100,7 +1053,7 @@
 
 <div class="viewcode-block" id="_multirate_fb"><a class="viewcode-back" href="../../generated/librosa.filters._multirate_fb.html#librosa.filters._multirate_fb">[docs]</a><span class="nd">@cache</span><span class="p">(</span><span class="n">level</span><span class="o">=</span><span class="mi">10</span><span class="p">)</span>
 <span class="k">def</span> <span class="nf">_multirate_fb</span><span class="p">(</span><span class="n">center_freqs</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">sample_rates</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">Q</span><span class="o">=</span><span class="mf">25.0</span><span class="p">,</span>
-                  <span class="n">passband_ripple</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">stopband_attenuation</span><span class="o">=</span><span class="mi">50</span><span class="p">,</span> <span class="n">ftype</span><span class="o">=</span><span class="s1">&#39;ellip&#39;</span><span class="p">,</span> <span class="n">flayout</span><span class="o">=</span><span class="s1">&#39;ba&#39;</span><span class="p">):</span>
+                  <span class="n">passband_ripple</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">stopband_attenuation</span><span class="o">=</span><span class="mi">50</span><span class="p">,</span> <span class="n">ftype</span><span class="o">=</span><span class="s1">&#39;ellip&#39;</span><span class="p">,</span> <span class="n">flayout</span><span class="o">=</span><span class="s1">&#39;sos&#39;</span><span class="p">):</span>
     <span class="sa">r</span><span class="sd">&#39;&#39;&#39;Helper function to construct a multirate filterbank.</span>
 
 <span class="sd">     A filter bank consists of multiple band-pass filters which divide the input signal</span>
@@ -1137,13 +1090,17 @@
 
 <span class="sd">    flayout : string</span>
 <span class="sd">        Valid `output` argument for `scipy.signal.iirdesign`.</span>
+
 <span class="sd">        - If `ba`, returns numerators/denominators of the transfer functions,</span>
 <span class="sd">          used for filtering with `scipy.signal.filtfilt`.</span>
 <span class="sd">          Can be unstable for high-order filters.</span>
+
 <span class="sd">        - If `sos`, returns a series of second-order filters,</span>
 <span class="sd">          used for filtering with `scipy.signal.sosfiltfilt`.</span>
 <span class="sd">          Minimizes numerical precision errors for high-order filters, but is slower.</span>
+
 <span class="sd">        - If `zpk`, returns zeros, poles, and system gains of the transfer functions.</span>
+
 
 <span class="sd">    Returns</span>
 <span class="sd">    -------</span>
@@ -1321,6 +1278,7 @@
 <span class="sd">    &gt;&gt;&gt; plt.xlabel(&#39;Log-Frequency (Hz)&#39;)</span>
 <span class="sd">    &gt;&gt;&gt; plt.ylabel(&#39;Magnitude (dB)&#39;)</span>
 <span class="sd">    &gt;&gt;&gt; plt.tight_layout()</span>
+<span class="sd">    &gt;&gt;&gt; plt.show()</span>
 <span class="sd">    &#39;&#39;&#39;</span>
 
     <span class="k">if</span> <span class="p">(</span><span class="n">center_freqs</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">)</span> <span class="ow">and</span> <span class="p">(</span><span class="n">sample_rates</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">):</span>
@@ -1332,7 +1290,7 @@
     <span class="k">return</span> <span class="n">filterbank</span><span class="p">,</span> <span class="n">fb_sample_rates</span></div>
 
 
-<span class="nd">@jit</span><span class="p">(</span><span class="n">nopython</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="nd">@jit</span><span class="p">(</span><span class="n">nopython</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">cache</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 <span class="k">def</span> <span class="nf">__window_ss_fill</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">win_sq</span><span class="p">,</span> <span class="n">n_frames</span><span class="p">,</span> <span class="n">hop_length</span><span class="p">):</span>  <span class="c1"># pragma: no cover</span>
     <span class="sd">&#39;&#39;&#39;Helper function for window sum-square calculation.&#39;&#39;&#39;</span>
 
@@ -1398,6 +1356,7 @@
 <span class="sd">    &gt;&gt;&gt; plt.plot(wss_1024)</span>
 <span class="sd">    &gt;&gt;&gt; plt.title(&#39;hop_length=1024&#39;)</span>
 <span class="sd">    &gt;&gt;&gt; plt.tight_layout()</span>
+<span class="sd">    &gt;&gt;&gt; plt.show()</span>
 
 <span class="sd">    &#39;&#39;&#39;</span>
     <span class="k">if</span> <span class="n">win_length</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
@@ -1415,6 +1374,69 @@
     <span class="n">__window_ss_fill</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">win_sq</span><span class="p">,</span> <span class="n">n_frames</span><span class="p">,</span> <span class="n">hop_length</span><span class="p">)</span>
 
     <span class="k">return</span> <span class="n">x</span></div>
+
+
+<div class="viewcode-block" id="diagonal_filter"><a class="viewcode-back" href="../../generated/librosa.filters.diagonal_filter.html#librosa.filters.diagonal_filter">[docs]</a><span class="nd">@cache</span><span class="p">(</span><span class="n">level</span><span class="o">=</span><span class="mi">10</span><span class="p">)</span>
+<span class="k">def</span> <span class="nf">diagonal_filter</span><span class="p">(</span><span class="n">window</span><span class="p">,</span> <span class="n">n</span><span class="p">,</span> <span class="n">slope</span><span class="o">=</span><span class="mf">1.0</span><span class="p">,</span> <span class="n">angle</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">zero_mean</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+    <span class="sd">&#39;&#39;&#39;Build a two-dimensional diagonal filter.</span>
+
+<span class="sd">    This is primarily used for smoothing recurrence or self-similarity matrices.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    window : string, tuple, number, callable, or list-like</span>
+<span class="sd">        The window function to use for the filter.</span>
+
+<span class="sd">        See `get_window` for details.</span>
+
+<span class="sd">        Note that the window used here should be non-negative.</span>
+
+<span class="sd">    n : int &gt; 0</span>
+<span class="sd">        the length of the filter</span>
+
+<span class="sd">    slope : float</span>
+<span class="sd">        The slope of the diagonal filter to produce</span>
+
+<span class="sd">    angle : float or None</span>
+<span class="sd">        If given, the slope parameter is ignored,</span>
+<span class="sd">        and angle directly sets the orientation of the filter (in radians).</span>
+<span class="sd">        Otherwise, angle is inferred as `arctan(slope)`.</span>
+
+<span class="sd">    zero_mean : bool</span>
+<span class="sd">        If True, a zero-mean filter is used.</span>
+<span class="sd">        Otherwise, a non-negative averaging filter is used.</span>
+
+<span class="sd">        This should be enabled if you want to enhance paths and suppress</span>
+<span class="sd">        blocks.</span>
+
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    kernel : np.ndarray, shape=[(m, m)]</span>
+<span class="sd">        The 2-dimensional filter kernel</span>
+
+
+<span class="sd">    Notes</span>
+<span class="sd">    -----</span>
+<span class="sd">    This function caches at level 10.</span>
+<span class="sd">    &#39;&#39;&#39;</span>
+
+    <span class="k">if</span> <span class="n">angle</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">angle</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">arctan</span><span class="p">(</span><span class="n">slope</span><span class="p">)</span>
+
+    <span class="n">win</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">diag</span><span class="p">(</span><span class="n">get_window</span><span class="p">(</span><span class="n">window</span><span class="p">,</span> <span class="n">n</span><span class="p">,</span> <span class="n">fftbins</span><span class="o">=</span><span class="kc">False</span><span class="p">))</span>
+
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">np</span><span class="o">.</span><span class="n">isclose</span><span class="p">(</span><span class="n">angle</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">pi</span><span class="o">/</span><span class="mi">4</span><span class="p">):</span>
+        <span class="n">win</span> <span class="o">=</span> <span class="n">scipy</span><span class="o">.</span><span class="n">ndimage</span><span class="o">.</span><span class="n">rotate</span><span class="p">(</span><span class="n">win</span><span class="p">,</span> <span class="mi">45</span> <span class="o">-</span> <span class="n">angle</span> <span class="o">*</span> <span class="mi">180</span> <span class="o">/</span> <span class="n">np</span><span class="o">.</span><span class="n">pi</span><span class="p">,</span>
+                                   <span class="n">order</span><span class="o">=</span><span class="mi">5</span><span class="p">,</span> <span class="n">prefilter</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+
+    <span class="n">np</span><span class="o">.</span><span class="n">clip</span><span class="p">(</span><span class="n">win</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="kc">None</span><span class="p">,</span> <span class="n">out</span><span class="o">=</span><span class="n">win</span><span class="p">)</span>
+    <span class="n">win</span> <span class="o">/=</span> <span class="n">win</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span>
+
+    <span class="k">if</span> <span class="n">zero_mean</span><span class="p">:</span>
+        <span class="n">win</span> <span class="o">-=</span> <span class="n">win</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span>
+
+    <span class="k">return</span> <span class="n">win</span></div>
 </pre></div>
 
            </div>
@@ -1445,7 +1467,7 @@
 <div class="rst-versions" data-toggle="rst-versions" role="note" aria-label="versions">
     <span class="rst-current-version" data-toggle="rst-current-version">
         <span class="fa fa-book"> Other Versions</span>
-        v: 0.6.3
+        v: 0.7.0rc1
         <span class="fa fa-caret-down"></span>
     </span>
     <div class="rst-other-versions">
@@ -1459,16 +1481,14 @@
             <dd><a href="../../0.6.0/index.html">0.6.0</a></dd>
             <dd><a href="../../0.6.1/index.html">0.6.1</a></dd>
             <dd><a href="../../0.6.2/index.html">0.6.2</a></dd>
-            <dd><a href="../../0.6.3/_modules/librosa/filters.html">0.6.3</a></dd>
+            <dd><a href="../../0.6.3/index.html">0.6.3</a></dd>
+            <dd><a href="../../0.7.0rc1/_modules/librosa/filters.html">0.7.0rc1</a></dd>
             <dd><a href="../../v0.1.0/index.html">v0.1.0</a></dd>
             <dd><a href="../../v0.4.0/index.html">v0.4.0</a></dd>
         </dl>
         <dl>
             <dt>Branches</dt>
-            <dd><a href="../../display-bin-centering/index.html">display-bin-centering</a></dd>
             <dd><a href="../../master/index.html">master</a></dd>
-            <dd><a href="../../mpl-test-2.1/index.html">mpl-test-2.1</a></dd>
-            <dd><a href="../../runnning/index.html">runnning</a></dd>
         </dl>
     </div>
 </div>

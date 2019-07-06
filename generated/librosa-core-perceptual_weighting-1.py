@@ -30,3 +30,4 @@ librosa.display.specshow(perceptual_CQT, y_axis='cqt_hz',
 plt.title('Perceptually weighted log CQT')
 plt.colorbar(format='%+2.0f dB')
 plt.tight_layout()
+plt.show()

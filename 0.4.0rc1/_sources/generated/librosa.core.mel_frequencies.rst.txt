@@ -1,6 +1,0 @@
-librosa.core.mel_frequencies
-============================
-
-.. currentmodule:: librosa.core
-
-.. autofunction:: mel_frequencies

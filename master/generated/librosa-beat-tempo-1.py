@@ -33,6 +33,7 @@ plt.grid()
 plt.title('Static tempo estimation')
 plt.legend(frameon=True)
 plt.axis('tight')
+plt.show()
 
 # Plot dynamic tempo estimates over a tempogram
 

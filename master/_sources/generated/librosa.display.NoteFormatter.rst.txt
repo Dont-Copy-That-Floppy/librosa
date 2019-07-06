@@ -18,6 +18,7 @@ librosa.display.NoteFormatter
       ~NoteFormatter.fix_minus
       ~NoteFormatter.format_data
       ~NoteFormatter.format_data_short
+      ~NoteFormatter.format_ticks
       ~NoteFormatter.get_offset
       ~NoteFormatter.set_axis
       ~NoteFormatter.set_bounds

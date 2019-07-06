@@ -1,6 +1,0 @@
-librosa.core.fill_off_diagonal
-==============================
-
-.. currentmodule:: librosa.core
-
-.. autofunction:: fill_off_diagonal

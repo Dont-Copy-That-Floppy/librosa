@@ -8,6 +8,7 @@ librosa.display.specshow(librosa.amplitude_to_db(C, ref=np.max),
 plt.colorbar(format='%+2.0f dB')
 plt.title('Constant-Q power spectrum')
 plt.tight_layout()
+plt.show()
 
 # Limit the frequency range
 

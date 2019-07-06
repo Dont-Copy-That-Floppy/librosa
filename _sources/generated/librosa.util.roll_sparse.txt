@@ -1,6 +1,0 @@
-librosa.util.roll_sparse
-========================
-
-.. currentmodule:: librosa.util
-
-.. autofunction:: roll_sparse

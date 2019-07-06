@@ -8,6 +8,7 @@ ax = plt.gca()
 ax.plot(times, values)
 ax.xaxis.set_major_formatter(librosa.display.TimeFormatter())
 ax.set_xlabel('Time')
+plt.show()
 
 # Manually set the physical time unit of the x-axis to milliseconds
 

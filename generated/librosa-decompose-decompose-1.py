@@ -54,3 +54,4 @@ librosa.display.specshow(librosa.amplitude_to_db(S_approx,
 plt.colorbar(format='%+2.0f dB')
 plt.title('Reconstructed spectrogram')
 plt.tight_layout()
+plt.show()

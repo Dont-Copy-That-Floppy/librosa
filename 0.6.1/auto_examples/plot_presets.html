@@ -196,7 +196,7 @@
 
 
 
-    <p class="scv-banner scv-sphinx_rtd_theme"><a href="../../0.6.3/auto_examples/plot_presets.html"><b>Warning:</b> This document is for an old version of librosa. The latest version is 0.6.3.</a></p>
+    <p class="scv-banner scv-sphinx_rtd_theme"><a href="../../0.7.0rc1/auto_examples/plot_presets.html"><b>Warning:</b> This document is for an old version of librosa. The latest version is 0.7.0rc1.</a></p>
 <div class="sphx-glr-download-link-note admonition note">
 <p class="first admonition-title">Note</p>
 <p class="last">Click <a class="reference internal" href="#sphx-glr-download-auto-examples-plot-presets-py"><span class="std std-ref">here</span></a> to download the full example code</p>
@@ -205,23 +205,23 @@
 <span id="sphx-glr-auto-examples-plot-presets-py"></span><h1>Presets<a class="headerlink" href="#presets" title="Permalink to this headline">¶</a></h1>
 <p>This notebook demonstrates how to use the <code class="xref py py-obj docutils literal notranslate"><span class="pre">presets</span></code> package to change the
 default parameters for librosa.</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># Code source: Brian McFee</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># Code source: Brian McFee</span>
 <span class="c1"># License: ISC</span>
 </pre></div>
 </div>
 <p>We’ll need numpy and matplotlib for this example</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">__future__</span> <span class="kn">import</span> <span class="n">print_function</span>
-<span class="kn">import</span> <span class="nn">numpy</span> <span class="kn">as</span> <span class="nn">np</span>
-<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="kn">as</span> <span class="nn">plt</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">__future__</span> <span class="k">import</span> <span class="n">print_function</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
 
 <span class="c1"># Import the Preset class</span>
-<span class="kn">from</span> <span class="nn">presets</span> <span class="kn">import</span> <span class="n">Preset</span>
+<span class="kn">from</span> <span class="nn">presets</span> <span class="k">import</span> <span class="n">Preset</span>
 
 
 <span class="c1"># To use presets, we&#39;ll make a dummy import of librosa</span>
 <span class="c1"># and the display submodule here.</span>
-<span class="kn">import</span> <span class="nn">librosa</span> <span class="kn">as</span> <span class="nn">_librosa</span>
-<span class="kn">import</span> <span class="nn">librosa.display</span> <span class="kn">as</span> <span class="nn">_display</span>
+<span class="kn">import</span> <span class="nn">librosa</span> <span class="k">as</span> <span class="nn">_librosa</span>
+<span class="kn">import</span> <span class="nn">librosa.display</span> <span class="k">as</span> <span class="nn">_display</span>
 <span class="c1"># The assignment here is to circumvent python&#39;s inability</span>
 <span class="c1"># to rename submodule imports within the package</span>
 <span class="n">_librosa</span><span class="o">.</span><span class="n">display</span> <span class="o">=</span> <span class="n">_display</span>
@@ -240,7 +240,7 @@ default parameters for librosa.</p>
 doing so consistently in every function call can be somewhat cumbersome.</p>
 <p>Presets makes it easy to do this all at once by wrapping the module
 and all function calls, and overriding default arguments.</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># First, we need to set up the preset-wrapped librosa import</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># First, we need to set up the preset-wrapped librosa import</span>
 
 <span class="n">librosa</span> <span class="o">=</span> <span class="n">Preset</span><span class="p">(</span><span class="n">_librosa</span><span class="p">)</span>
 
@@ -257,7 +257,7 @@ and all function calls, and overriding default arguments.</p>
 </pre></div>
 </div>
 <p>Now we can load in a file and do some analysis with the new defaults</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">filename</span> <span class="o">=</span> <span class="s1">&#39;audio/Karissa_Hobbs_-_09_-_Lets_Go_Fishin.mp3&#39;</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">filename</span> <span class="o">=</span> <span class="s1">&#39;audio/Karissa_Hobbs_-_09_-_Lets_Go_Fishin.mp3&#39;</span>
 
 <span class="n">y</span><span class="p">,</span> <span class="n">sr</span> <span class="o">=</span> <span class="n">librosa</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">filename</span><span class="p">,</span> <span class="n">duration</span><span class="o">=</span><span class="mi">5</span><span class="p">,</span> <span class="n">offset</span><span class="o">=</span><span class="mi">35</span><span class="p">)</span>
 
@@ -303,14 +303,19 @@ and all function calls, and overriding default arguments.</p>
 </pre></div>
 </div>
 <img alt="../_images/sphx_glr_plot_presets_001.png" class="sphx-glr-single-img" src="../_images/sphx_glr_plot_presets_001.png" />
-<p><strong>Total running time of the script:</strong> ( 0 minutes  1.959 seconds)</p>
+<p class="sphx-glr-script-out">Out:</p>
+<div class="sphx-glr-script-out highlight-none notranslate"><div class="highlight"><pre><span></span>/tmp/tmpgtqol7a5sphinxcontrib_versioning/0dcd53f462db124ed3f54edf2334f28738d2ecc6/docs/examples/plot_presets.py:103: UserWarning: Matplotlib is currently using agg, which is a non-GUI backend, so cannot show the figure.
+  plt.show()
+</pre></div>
+</div>
+<p class="sphx-glr-timing"><strong>Total running time of the script:</strong> ( 0 minutes  2.871 seconds)</p>
 <div class="sphx-glr-footer class sphx-glr-footer-example docutils container" id="sphx-glr-download-auto-examples-plot-presets-py">
 <div class="sphx-glr-download docutils container">
 <a class="reference download internal" href="../_downloads/plot_presets.py" download=""><code class="xref download docutils literal notranslate"><span class="pre">Download</span> <span class="pre">Python</span> <span class="pre">source</span> <span class="pre">code:</span> <span class="pre">plot_presets.py</span></code></a></div>
 <div class="sphx-glr-download docutils container">
 <a class="reference download internal" href="../_downloads/plot_presets.ipynb" download=""><code class="xref download docutils literal notranslate"><span class="pre">Download</span> <span class="pre">Jupyter</span> <span class="pre">notebook:</span> <span class="pre">plot_presets.ipynb</span></code></a></div>
 </div>
-<p class="sphx-glr-signature"><a class="reference external" href="https://sphinx-gallery.readthedocs.io">Gallery generated by Sphinx-Gallery</a></p>
+<p class="sphx-glr-signature"><a class="reference external" href="https://sphinx-gallery.github.io">Gallery generated by Sphinx-Gallery</a></p>
 </div>
 
 
@@ -366,15 +371,13 @@ and all function calls, and overriding default arguments.</p>
             <dd><a href="plot_presets.html">0.6.1</a></dd>
             <dd><a href="../../0.6.2/auto_examples/plot_presets.html">0.6.2</a></dd>
             <dd><a href="../../0.6.3/auto_examples/plot_presets.html">0.6.3</a></dd>
+            <dd><a href="../../0.7.0rc1/auto_examples/plot_presets.html">0.7.0rc1</a></dd>
             <dd><a href="../../v0.1.0/index.html">v0.1.0</a></dd>
             <dd><a href="../../v0.4.0/index.html">v0.4.0</a></dd>
         </dl>
         <dl>
             <dt>Branches</dt>
-            <dd><a href="../../display-bin-centering/index.html">display-bin-centering</a></dd>
             <dd><a href="../../master/auto_examples/plot_presets.html">master</a></dd>
-            <dd><a href="../../mpl-test-2.1/auto_examples/plot_presets.html">mpl-test-2.1</a></dd>
-            <dd><a href="../../runnning/auto_examples/plot_presets.html">runnning</a></dd>
         </dl>
     </div>
 </div>

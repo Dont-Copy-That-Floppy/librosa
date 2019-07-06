@@ -13,7 +13,7 @@ plt.subplot(2, 1, 1)
 plt.semilogy(rms.T, label='RMS Energy')
 plt.xticks([])
 plt.xlim([0, rms.shape[-1]])
-plt.legend(loc='best')
+plt.legend()
 plt.subplot(2, 1, 2)
 librosa.display.specshow(librosa.amplitude_to_db(S, ref=np.max),
                          y_axis='log', x_axis='time')
@@ -25,3 +25,4 @@ plt.tight_layout()
 
 S = librosa.magphase(librosa.stft(y, window=np.ones, center=False))[0]
 librosa.feature.rms(S=S)
+plt.show()

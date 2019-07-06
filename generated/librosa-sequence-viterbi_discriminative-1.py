@@ -45,6 +45,7 @@ plt.yticks(np.arange(25) + 0.5, labels)
 plt.ylabel('Chord')
 plt.colorbar()
 plt.tight_layout()
+plt.show()
 
 # And plot the results
 plt.figure(figsize=(10, 4))
@@ -56,3 +57,4 @@ plt.scatter(times, chords_vit + 0.25, color='deeppink', alpha=0.5, marker='o', s
 plt.yticks(0.5 + np.unique(chords_vit), [labels[i] for i in np.unique(chords_vit)], va='center')
 plt.legend(loc='best')
 plt.tight_layout()
+plt.show()

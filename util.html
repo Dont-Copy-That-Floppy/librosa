@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Utilities &mdash; librosa 0.6.3 documentation</title>
+  <title>Utilities &mdash; librosa 0.7.0rc1 documentation</title>
   
 
   
@@ -23,7 +23,7 @@
       <script type="text/javascript">
           var DOCUMENTATION_OPTIONS = {
               URL_ROOT:'./',
-              VERSION:'0.6.3',
+              VERSION:'0.7.0rc1',
               LANGUAGE:'None',
               COLLAPSE_INDEX:false,
               FILE_SUFFIX:'.html',
@@ -72,7 +72,7 @@
             
             
               <div class="version">
-                0.6
+                0.7
               </div>
             
           
@@ -120,7 +120,6 @@
 <li class="toctree-l3"><a class="reference internal" href="generated/librosa.util.index_to_slice.html">librosa.util.index_to_slice</a></li>
 <li class="toctree-l3"><a class="reference internal" href="generated/librosa.util.softmask.html">librosa.util.softmask</a></li>
 <li class="toctree-l3"><a class="reference internal" href="generated/librosa.util.sync.html">librosa.util.sync</a></li>
-<li class="toctree-l3"><a class="reference internal" href="generated/librosa.util.softmask.html">librosa.util.softmask</a></li>
 <li class="toctree-l3"><a class="reference internal" href="generated/librosa.util.axis_sort.html">librosa.util.axis_sort</a></li>
 <li class="toctree-l3"><a class="reference internal" href="generated/librosa.util.normalize.html">librosa.util.normalize</a></li>
 <li class="toctree-l3"><a class="reference internal" href="generated/librosa.util.roll_sparse.html">librosa.util.roll_sparse</a></li>
@@ -137,6 +136,8 @@
 <li class="toctree-l2"><a class="reference internal" href="#miscellaneous">Miscellaneous</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="generated/librosa.util.localmax.html">librosa.util.localmax</a></li>
 <li class="toctree-l3"><a class="reference internal" href="generated/librosa.util.peak_pick.html">librosa.util.peak_pick</a></li>
+<li class="toctree-l3"><a class="reference internal" href="generated/librosa.util.nnls.html">librosa.util.nnls</a></li>
+<li class="toctree-l3"><a class="reference internal" href="generated/librosa.util.cyclic_gradient.html">librosa.util.cyclic_gradient</a></li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="#input-validation">Input validation</a><ul>
@@ -263,25 +264,22 @@
 <tr class="row-odd"><td><a class="reference internal" href="generated/librosa.util.sync.html#librosa.util.sync" title="librosa.util.sync"><code class="xref py py-obj docutils literal notranslate"><span class="pre">sync</span></code></a>(data,&nbsp;idx[,&nbsp;aggregate,&nbsp;pad,&nbsp;axis])</td>
 <td>Synchronous aggregation of a multi-dimensional array between boundaries</td>
 </tr>
-<tr class="row-even"><td><a class="reference internal" href="generated/librosa.util.softmask.html#librosa.util.softmask" title="librosa.util.softmask"><code class="xref py py-obj docutils literal notranslate"><span class="pre">softmask</span></code></a>(X,&nbsp;X_ref[,&nbsp;power,&nbsp;split_zeros])</td>
-<td>Robustly compute a softmask operation.</td>
-</tr>
-<tr class="row-odd"><td><a class="reference internal" href="generated/librosa.util.axis_sort.html#librosa.util.axis_sort" title="librosa.util.axis_sort"><code class="xref py py-obj docutils literal notranslate"><span class="pre">axis_sort</span></code></a>(S[,&nbsp;axis,&nbsp;index,&nbsp;value])</td>
+<tr class="row-even"><td><a class="reference internal" href="generated/librosa.util.axis_sort.html#librosa.util.axis_sort" title="librosa.util.axis_sort"><code class="xref py py-obj docutils literal notranslate"><span class="pre">axis_sort</span></code></a>(S[,&nbsp;axis,&nbsp;index,&nbsp;value])</td>
 <td>Sort an array along its rows or columns.</td>
 </tr>
-<tr class="row-even"><td><a class="reference internal" href="generated/librosa.util.normalize.html#librosa.util.normalize" title="librosa.util.normalize"><code class="xref py py-obj docutils literal notranslate"><span class="pre">normalize</span></code></a>(S[,&nbsp;norm,&nbsp;axis,&nbsp;threshold,&nbsp;fill])</td>
+<tr class="row-odd"><td><a class="reference internal" href="generated/librosa.util.normalize.html#librosa.util.normalize" title="librosa.util.normalize"><code class="xref py py-obj docutils literal notranslate"><span class="pre">normalize</span></code></a>(S[,&nbsp;norm,&nbsp;axis,&nbsp;threshold,&nbsp;fill])</td>
 <td>Normalize an array along a chosen axis.</td>
 </tr>
-<tr class="row-odd"><td><a class="reference internal" href="generated/librosa.util.roll_sparse.html#librosa.util.roll_sparse" title="librosa.util.roll_sparse"><code class="xref py py-obj docutils literal notranslate"><span class="pre">roll_sparse</span></code></a>(x,&nbsp;shift[,&nbsp;axis])</td>
+<tr class="row-even"><td><a class="reference internal" href="generated/librosa.util.roll_sparse.html#librosa.util.roll_sparse" title="librosa.util.roll_sparse"><code class="xref py py-obj docutils literal notranslate"><span class="pre">roll_sparse</span></code></a>(x,&nbsp;shift[,&nbsp;axis])</td>
 <td>Sparse matrix roll</td>
 </tr>
-<tr class="row-even"><td><a class="reference internal" href="generated/librosa.util.sparsify_rows.html#librosa.util.sparsify_rows" title="librosa.util.sparsify_rows"><code class="xref py py-obj docutils literal notranslate"><span class="pre">sparsify_rows</span></code></a>(x[,&nbsp;quantile])</td>
+<tr class="row-odd"><td><a class="reference internal" href="generated/librosa.util.sparsify_rows.html#librosa.util.sparsify_rows" title="librosa.util.sparsify_rows"><code class="xref py py-obj docutils literal notranslate"><span class="pre">sparsify_rows</span></code></a>(x[,&nbsp;quantile])</td>
 <td>Return a row-sparse matrix approximating the input <em class="xref py py-obj">x</em>.</td>
 </tr>
-<tr class="row-odd"><td><a class="reference internal" href="generated/librosa.util.buf_to_float.html#librosa.util.buf_to_float" title="librosa.util.buf_to_float"><code class="xref py py-obj docutils literal notranslate"><span class="pre">buf_to_float</span></code></a>(x[,&nbsp;n_bytes,&nbsp;dtype])</td>
+<tr class="row-even"><td><a class="reference internal" href="generated/librosa.util.buf_to_float.html#librosa.util.buf_to_float" title="librosa.util.buf_to_float"><code class="xref py py-obj docutils literal notranslate"><span class="pre">buf_to_float</span></code></a>(x[,&nbsp;n_bytes,&nbsp;dtype])</td>
 <td>Convert an integer buffer to floating point values.</td>
 </tr>
-<tr class="row-even"><td><a class="reference internal" href="generated/librosa.util.tiny.html#librosa.util.tiny" title="librosa.util.tiny"><code class="xref py py-obj docutils literal notranslate"><span class="pre">tiny</span></code></a>(x)</td>
+<tr class="row-odd"><td><a class="reference internal" href="generated/librosa.util.tiny.html#librosa.util.tiny" title="librosa.util.tiny"><code class="xref py py-obj docutils literal notranslate"><span class="pre">tiny</span></code></a>(x)</td>
 <td>Compute the tiny-value corresponding to an input’s data type.</td>
 </tr>
 </tbody>
@@ -317,6 +315,12 @@
 </tr>
 <tr class="row-even"><td><a class="reference internal" href="generated/librosa.util.peak_pick.html#librosa.util.peak_pick" title="librosa.util.peak_pick"><code class="xref py py-obj docutils literal notranslate"><span class="pre">peak_pick</span></code></a>(x,&nbsp;pre_max,&nbsp;post_max,&nbsp;pre_avg,&nbsp;…)</td>
 <td>Uses a flexible heuristic to pick peaks in a signal.</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="generated/librosa.util.nnls.html#librosa.util.nnls" title="librosa.util.nnls"><code class="xref py py-obj docutils literal notranslate"><span class="pre">nnls</span></code></a>(A,&nbsp;B,&nbsp;\*\*kwargs)</td>
+<td>Non-negative least squares.</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="generated/librosa.util.cyclic_gradient.html#librosa.util.cyclic_gradient" title="librosa.util.cyclic_gradient"><code class="xref py py-obj docutils literal notranslate"><span class="pre">cyclic_gradient</span></code></a>(data[,&nbsp;edge_order,&nbsp;axis])</td>
+<td>Estimate the gradient of a function over a uniformly sampled, periodic domain.</td>
 </tr>
 </tbody>
 </table>
@@ -398,7 +402,7 @@
 <div class="rst-versions" data-toggle="rst-versions" role="note" aria-label="versions">
     <span class="rst-current-version" data-toggle="rst-current-version">
         <span class="fa fa-book"> Other Versions</span>
-        v: 0.6.3
+        v: 0.7.0rc1
         <span class="fa fa-caret-down"></span>
     </span>
     <div class="rst-other-versions">
@@ -413,15 +417,13 @@
             <dd><a href="0.6.1/util.html">0.6.1</a></dd>
             <dd><a href="0.6.2/util.html">0.6.2</a></dd>
             <dd><a href="0.6.3/util.html">0.6.3</a></dd>
+            <dd><a href="0.7.0rc1/util.html">0.7.0rc1</a></dd>
             <dd><a href="v0.1.0/index.html">v0.1.0</a></dd>
             <dd><a href="v0.4.0/util.html">v0.4.0</a></dd>
         </dl>
         <dl>
             <dt>Branches</dt>
-            <dd><a href="display-bin-centering/util.html">display-bin-centering</a></dd>
             <dd><a href="master/util.html">master</a></dd>
-            <dd><a href="mpl-test-2.1/util.html">mpl-test-2.1</a></dd>
-            <dd><a href="runnning/util.html">runnning</a></dd>
         </dl>
     </div>
 </div>

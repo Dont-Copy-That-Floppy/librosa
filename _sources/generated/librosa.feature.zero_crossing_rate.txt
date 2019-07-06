@@ -1,6 +1,0 @@
-librosa.feature.zero_crossing_rate
-==================================
-
-.. currentmodule:: librosa.feature
-
-.. autofunction:: zero_crossing_rate

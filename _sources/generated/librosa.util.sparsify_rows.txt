@@ -1,6 +1,0 @@
-librosa.util.sparsify_rows
-==========================
-
-.. currentmodule:: librosa.util
-
-.. autofunction:: sparsify_rows

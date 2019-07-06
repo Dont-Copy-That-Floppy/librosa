@@ -1,6 +1,0 @@
-librosa.util.fix_frames
-=======================
-
-.. currentmodule:: librosa.util
-
-.. autofunction:: fix_frames

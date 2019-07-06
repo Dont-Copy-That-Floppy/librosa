@@ -60,6 +60,7 @@ librosa.display.specshow(Tgram, x_axis='time', y_axis='tempo')
 plt.colorbar()
 plt.title('Tempogram')
 plt.tight_layout()
+plt.show()
 
 # Draw beat-synchronous chroma in natural time
 
@@ -76,3 +77,4 @@ librosa.display.specshow(Csync, y_axis='chroma', x_axis='time',
                          x_coords=beat_t)
 plt.title('Chroma (beat time)')
 plt.tight_layout()
+plt.show()

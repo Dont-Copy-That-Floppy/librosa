@@ -24,3 +24,4 @@ librosa.display.specshow(librosa.power_to_db(S,
 plt.colorbar(format='%+2.0f dB')
 plt.title('Mel spectrogram')
 plt.tight_layout()
+plt.show()

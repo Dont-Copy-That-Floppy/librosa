@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>librosa.onset &mdash; librosa 0.6.3 documentation</title>
+  <title>librosa.onset &mdash; librosa 0.7.0rc1 documentation</title>
   
 
   
@@ -23,7 +23,7 @@
       <script type="text/javascript">
           var DOCUMENTATION_OPTIONS = {
               URL_ROOT:'../../',
-              VERSION:'0.6.3',
+              VERSION:'0.7.0rc1',
               LANGUAGE:'None',
               COLLAPSE_INDEX:false,
               FILE_SUFFIX:'.html',
@@ -70,7 +70,7 @@
             
             
               <div class="version">
-                0.6
+                0.7
               </div>
             
           
@@ -206,7 +206,7 @@
 <span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
 <span class="kn">import</span> <span class="nn">scipy</span>
 
-<span class="kn">from</span> <span class="nn">.</span> <span class="k">import</span> <span class="n">cache</span>
+<span class="kn">from</span> <span class="nn">._cache</span> <span class="k">import</span> <span class="n">cache</span>
 <span class="kn">from</span> <span class="nn">.</span> <span class="k">import</span> <span class="n">core</span>
 <span class="kn">from</span> <span class="nn">.</span> <span class="k">import</span> <span class="n">util</span>
 <span class="kn">from</span> <span class="nn">.util.exceptions</span> <span class="k">import</span> <span class="n">ParameterError</span>
@@ -322,6 +322,7 @@
 <span class="sd">    ...            linestyle=&#39;--&#39;, label=&#39;Onsets&#39;)</span>
 <span class="sd">    &gt;&gt;&gt; plt.axis(&#39;tight&#39;)</span>
 <span class="sd">    &gt;&gt;&gt; plt.legend(frameon=True, framealpha=0.75)</span>
+<span class="sd">    &gt;&gt;&gt; plt.show()</span>
 
 <span class="sd">    &quot;&quot;&quot;</span>
 
@@ -374,6 +375,7 @@
 
 
 <div class="viewcode-block" id="onset_strength"><a class="viewcode-back" href="../../generated/librosa.onset.onset_strength.html#librosa.onset.onset_strength">[docs]</a><span class="k">def</span> <span class="nf">onset_strength</span><span class="p">(</span><span class="n">y</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">sr</span><span class="o">=</span><span class="mi">22050</span><span class="p">,</span> <span class="n">S</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">lag</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">max_size</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span>
+                   <span class="n">ref</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
                    <span class="n">detrend</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">center</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
                    <span class="n">feature</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">aggregate</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
                    <span class="n">centering</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
@@ -382,9 +384,9 @@
 
 <span class="sd">    Onset strength at time `t` is determined by:</span>
 
-<span class="sd">    `mean_f max(0, S[f, t] - ref_S[f, t - lag])`</span>
+<span class="sd">    `mean_f max(0, S[f, t] - ref[f, t - lag])`</span>
 
-<span class="sd">    where `ref_S` is `S` after local max filtering along the frequency</span>
+<span class="sd">    where `ref` is `S` after local max filtering along the frequency</span>
 <span class="sd">    axis [1]_.</span>
 
 <span class="sd">    By default, if a time series `y` is provided, S will be the</span>
@@ -412,6 +414,11 @@
 <span class="sd">    max_size : int &gt; 0</span>
 <span class="sd">        size (in frequency bins) of the local max filter.</span>
 <span class="sd">        set to `1` to disable filtering.</span>
+
+<span class="sd">    ref : None or np.ndarray [shape=(d, m)]</span>
+<span class="sd">        An optional pre-computed reference spectrum, of the same shape as `S`.</span>
+<span class="sd">        If not provided, it will be computed from `S`.</span>
+<span class="sd">        If provided, it will override any local max filtering governed by `max_size`.</span>
 
 <span class="sd">    detrend : bool [scalar]</span>
 <span class="sd">        Filter the onset strength to remove the DC component</span>
@@ -496,14 +503,19 @@
 <span class="sd">    &gt;&gt;&gt; plt.yticks([])</span>
 <span class="sd">    &gt;&gt;&gt; plt.axis(&#39;tight&#39;)</span>
 <span class="sd">    &gt;&gt;&gt; plt.tight_layout()</span>
+<span class="sd">    &gt;&gt;&gt; plt.show()</span>
 
 <span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">if</span> <span class="n">aggregate</span> <span class="ow">is</span> <span class="kc">False</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="n">ParameterError</span><span class="p">(</span><span class="s1">&#39;aggregate=</span><span class="si">{}</span><span class="s1"> cannot be False when computing full-spectrum onset strength.&#39;</span><span class="p">)</span>
 
     <span class="n">odf_all</span> <span class="o">=</span> <span class="n">onset_strength_multi</span><span class="p">(</span><span class="n">y</span><span class="o">=</span><span class="n">y</span><span class="p">,</span>
                                    <span class="n">sr</span><span class="o">=</span><span class="n">sr</span><span class="p">,</span>
                                    <span class="n">S</span><span class="o">=</span><span class="n">S</span><span class="p">,</span>
                                    <span class="n">lag</span><span class="o">=</span><span class="n">lag</span><span class="p">,</span>
                                    <span class="n">max_size</span><span class="o">=</span><span class="n">max_size</span><span class="p">,</span>
+                                   <span class="n">ref</span><span class="o">=</span><span class="n">ref</span><span class="p">,</span>
                                    <span class="n">detrend</span><span class="o">=</span><span class="n">detrend</span><span class="p">,</span>
                                    <span class="n">center</span><span class="o">=</span><span class="n">center</span><span class="p">,</span>
                                    <span class="n">feature</span><span class="o">=</span><span class="n">feature</span><span class="p">,</span>
@@ -568,6 +580,7 @@
 <span class="sd">    &gt;&gt;&gt; plt.plot(rms[0], label=&#39;RMS&#39;)</span>
 <span class="sd">    &gt;&gt;&gt; plt.vlines(onset_bt_rms, 0, rms.max(), label=&#39;Backtracked (RMS)&#39;, color=&#39;r&#39;)</span>
 <span class="sd">    &gt;&gt;&gt; plt.legend(frameon=True, framealpha=0.75)</span>
+<span class="sd">    &gt;&gt;&gt; plt.show()</span>
 <span class="sd">    &#39;&#39;&#39;</span>
 
     <span class="c1"># Find points where energy is non-increasing</span>
@@ -586,7 +599,7 @@
 
 <div class="viewcode-block" id="onset_strength_multi"><a class="viewcode-back" href="../../generated/librosa.onset.onset_strength_multi.html#librosa.onset.onset_strength_multi">[docs]</a><span class="nd">@cache</span><span class="p">(</span><span class="n">level</span><span class="o">=</span><span class="mi">30</span><span class="p">)</span>
 <span class="k">def</span> <span class="nf">onset_strength_multi</span><span class="p">(</span><span class="n">y</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">sr</span><span class="o">=</span><span class="mi">22050</span><span class="p">,</span> <span class="n">S</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">lag</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">max_size</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span>
-                         <span class="n">detrend</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">center</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">feature</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+                         <span class="n">ref</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">detrend</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">center</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">feature</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
                          <span class="n">aggregate</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">channels</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;Compute a spectral flux onset strength envelope across multiple channels.</span>
 
@@ -613,6 +626,11 @@
 <span class="sd">        size (in frequency bins) of the local max filter.</span>
 <span class="sd">        set to `1` to disable filtering.</span>
 
+<span class="sd">    ref : None or np.ndarray [shape=(d, m)]</span>
+<span class="sd">        An optional pre-computed reference spectrum, of the same shape as `S`.</span>
+<span class="sd">        If not provided, it will be computed from `S`.</span>
+<span class="sd">        If provided, it will override any local max filtering governed by `max_size`.</span>
+
 <span class="sd">    detrend : bool [scalar]</span>
 <span class="sd">        Filter the onset strength to remove the DC component</span>
 
@@ -623,9 +641,11 @@
 <span class="sd">        Function for computing time-series features, eg, scaled spectrograms.</span>
 <span class="sd">        By default, uses `librosa.feature.melspectrogram` with `fmax=11025.0`</span>
 
-<span class="sd">    aggregate : function</span>
+<span class="sd">    aggregate : function or False</span>
 <span class="sd">        Aggregation function to use when combining onsets</span>
 <span class="sd">        at different frequency bins.</span>
+
+<span class="sd">        If `False`, then no aggregation is performed.</span>
 
 <span class="sd">        Default: `np.mean`</span>
 
@@ -679,6 +699,7 @@
 <span class="sd">    &gt;&gt;&gt; librosa.display.specshow(onset_subbands, x_axis=&#39;time&#39;)</span>
 <span class="sd">    &gt;&gt;&gt; plt.ylabel(&#39;Sub-bands&#39;)</span>
 <span class="sd">    &gt;&gt;&gt; plt.title(&#39;Sub-band onset strength&#39;)</span>
+<span class="sd">    &gt;&gt;&gt; plt.show()</span>
 
 <span class="sd">    &quot;&quot;&quot;</span>
 
@@ -713,13 +734,16 @@
     <span class="c1"># Compute the reference spectrogram.</span>
     <span class="c1"># Efficiency hack: skip filtering step and pass by reference</span>
     <span class="c1"># if max_size will produce a no-op.</span>
-    <span class="k">if</span> <span class="n">max_size</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
-        <span class="n">ref_spec</span> <span class="o">=</span> <span class="n">S</span>
-    <span class="k">else</span><span class="p">:</span>
-        <span class="n">ref_spec</span> <span class="o">=</span> <span class="n">scipy</span><span class="o">.</span><span class="n">ndimage</span><span class="o">.</span><span class="n">maximum_filter1d</span><span class="p">(</span><span class="n">S</span><span class="p">,</span> <span class="n">max_size</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">ref</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">max_size</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
+            <span class="n">ref</span> <span class="o">=</span> <span class="n">S</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">ref</span> <span class="o">=</span> <span class="n">scipy</span><span class="o">.</span><span class="n">ndimage</span><span class="o">.</span><span class="n">maximum_filter1d</span><span class="p">(</span><span class="n">S</span><span class="p">,</span> <span class="n">max_size</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+    <span class="k">elif</span> <span class="n">ref</span><span class="o">.</span><span class="n">shape</span> <span class="o">!=</span> <span class="n">S</span><span class="o">.</span><span class="n">shape</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="n">ParameterError</span><span class="p">(</span><span class="s1">&#39;Reference spectrum shape </span><span class="si">{}</span><span class="s1"> must match input spectrum </span><span class="si">{}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">ref</span><span class="o">.</span><span class="n">shape</span><span class="p">,</span> <span class="n">S</span><span class="o">.</span><span class="n">shape</span><span class="p">))</span>
 
     <span class="c1"># Compute difference to the reference, spaced by lag</span>
-    <span class="n">onset_env</span> <span class="o">=</span> <span class="n">S</span><span class="p">[:,</span> <span class="n">lag</span><span class="p">:]</span> <span class="o">-</span> <span class="n">ref_spec</span><span class="p">[:,</span> <span class="p">:</span><span class="o">-</span><span class="n">lag</span><span class="p">]</span>
+    <span class="n">onset_env</span> <span class="o">=</span> <span class="n">S</span><span class="p">[:,</span> <span class="n">lag</span><span class="p">:]</span> <span class="o">-</span> <span class="n">ref</span><span class="p">[:,</span> <span class="p">:</span><span class="o">-</span><span class="n">lag</span><span class="p">]</span>
 
     <span class="c1"># Discard negatives (decreasing amplitude)</span>
     <span class="n">onset_env</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">maximum</span><span class="p">(</span><span class="mf">0.0</span><span class="p">,</span> <span class="n">onset_env</span><span class="p">)</span>
@@ -731,10 +755,10 @@
     <span class="k">else</span><span class="p">:</span>
         <span class="n">pad</span> <span class="o">=</span> <span class="kc">False</span>
 
-    <span class="n">onset_env</span> <span class="o">=</span> <span class="n">util</span><span class="o">.</span><span class="n">sync</span><span class="p">(</span><span class="n">onset_env</span><span class="p">,</span> <span class="n">channels</span><span class="p">,</span>
-                          <span class="n">aggregate</span><span class="o">=</span><span class="n">aggregate</span><span class="p">,</span>
-                          <span class="n">pad</span><span class="o">=</span><span class="n">pad</span><span class="p">,</span>
-                          <span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">aggregate</span><span class="p">:</span>
+        <span class="n">onset_env</span> <span class="o">=</span> <span class="n">util</span><span class="o">.</span><span class="n">sync</span><span class="p">(</span><span class="n">onset_env</span><span class="p">,</span> <span class="n">channels</span><span class="p">,</span>
+                              <span class="n">aggregate</span><span class="o">=</span><span class="n">aggregate</span><span class="p">,</span>
+                              <span class="n">pad</span><span class="o">=</span><span class="n">pad</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
 
     <span class="c1"># compensate for lag</span>
     <span class="n">pad_width</span> <span class="o">=</span> <span class="n">lag</span>
@@ -785,7 +809,7 @@
 <div class="rst-versions" data-toggle="rst-versions" role="note" aria-label="versions">
     <span class="rst-current-version" data-toggle="rst-current-version">
         <span class="fa fa-book"> Other Versions</span>
-        v: 0.6.3
+        v: 0.7.0rc1
         <span class="fa fa-caret-down"></span>
     </span>
     <div class="rst-other-versions">
@@ -799,16 +823,14 @@
             <dd><a href="../../0.6.0/index.html">0.6.0</a></dd>
             <dd><a href="../../0.6.1/index.html">0.6.1</a></dd>
             <dd><a href="../../0.6.2/index.html">0.6.2</a></dd>
-            <dd><a href="../../0.6.3/_modules/librosa/onset.html">0.6.3</a></dd>
+            <dd><a href="../../0.6.3/index.html">0.6.3</a></dd>
+            <dd><a href="../../0.7.0rc1/_modules/librosa/onset.html">0.7.0rc1</a></dd>
             <dd><a href="../../v0.1.0/index.html">v0.1.0</a></dd>
             <dd><a href="../../v0.4.0/index.html">v0.4.0</a></dd>
         </dl>
         <dl>
             <dt>Branches</dt>
-            <dd><a href="../../display-bin-centering/index.html">display-bin-centering</a></dd>
             <dd><a href="../../master/index.html">master</a></dd>
-            <dd><a href="../../mpl-test-2.1/index.html">mpl-test-2.1</a></dd>
-            <dd><a href="../../runnning/index.html">runnning</a></dd>
         </dl>
     </div>
 </div>

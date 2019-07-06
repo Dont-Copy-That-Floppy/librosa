@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>librosa.effects &mdash; librosa 0.6.3 documentation</title>
+  <title>librosa.effects &mdash; librosa 0.7.0rc1 documentation</title>
   
 
   
@@ -23,7 +23,7 @@
       <script type="text/javascript">
           var DOCUMENTATION_OPTIONS = {
               URL_ROOT:'../../',
-              VERSION:'0.6.3',
+              VERSION:'0.7.0rc1',
               LANGUAGE:'None',
               COLLAPSE_INDEX:false,
               FILE_SUFFIX:'.html',
@@ -70,7 +70,7 @@
             
             
               <div class="version">
-                0.6
+                0.7
               </div>
             
           
@@ -377,7 +377,7 @@
     <span class="k">return</span> <span class="n">y_perc</span></div>
 
 
-<div class="viewcode-block" id="time_stretch"><a class="viewcode-back" href="../../generated/librosa.effects.time_stretch.html#librosa.effects.time_stretch">[docs]</a><span class="k">def</span> <span class="nf">time_stretch</span><span class="p">(</span><span class="n">y</span><span class="p">,</span> <span class="n">rate</span><span class="p">):</span>
+<div class="viewcode-block" id="time_stretch"><a class="viewcode-back" href="../../generated/librosa.effects.time_stretch.html#librosa.effects.time_stretch">[docs]</a><span class="k">def</span> <span class="nf">time_stretch</span><span class="p">(</span><span class="n">y</span><span class="p">,</span> <span class="n">rate</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
     <span class="sd">&#39;&#39;&#39;Time-stretch an audio series by a fixed rate.</span>
 
 
@@ -388,19 +388,21 @@
 
 <span class="sd">    rate : float &gt; 0 [scalar]</span>
 <span class="sd">        Stretch factor.  If `rate &gt; 1`, then the signal is sped up.</span>
-
 <span class="sd">        If `rate &lt; 1`, then the signal is slowed down.</span>
+
+<span class="sd">    kwargs : additional keyword arguments.</span>
+<span class="sd">        See `librosa.decompose.stft` for details.</span>
 
 <span class="sd">    Returns</span>
 <span class="sd">    -------</span>
-<span class="sd">    y_stretch : np.ndarray [shape=(rate * n,)]</span>
+<span class="sd">    y_stretch : np.ndarray [shape=(round(n/rate),)]</span>
 <span class="sd">        audio time series stretched by the specified rate</span>
 
 <span class="sd">    See Also</span>
 <span class="sd">    --------</span>
 <span class="sd">    pitch_shift : pitch shifting</span>
 <span class="sd">    librosa.core.phase_vocoder : spectrogram phase vocoder</span>
-
+<span class="sd">    pyrubberband.pyrb.time_stretch : high-quality time stretching using RubberBand</span>
 
 <span class="sd">    Examples</span>
 <span class="sd">    --------</span>
@@ -418,26 +420,30 @@
     <span class="k">if</span> <span class="n">rate</span> <span class="o">&lt;=</span> <span class="mi">0</span><span class="p">:</span>
         <span class="k">raise</span> <span class="n">ParameterError</span><span class="p">(</span><span class="s1">&#39;rate must be a positive number&#39;</span><span class="p">)</span>
 
-    <span class="c1"># Construct the stft</span>
-    <span class="n">stft</span> <span class="o">=</span> <span class="n">core</span><span class="o">.</span><span class="n">stft</span><span class="p">(</span><span class="n">y</span><span class="p">)</span>
+    <span class="c1"># Construct the short-term Fourier transform (STFT)</span>
+    <span class="n">stft</span> <span class="o">=</span> <span class="n">core</span><span class="o">.</span><span class="n">stft</span><span class="p">(</span><span class="n">y</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
 
     <span class="c1"># Stretch by phase vocoding</span>
     <span class="n">stft_stretch</span> <span class="o">=</span> <span class="n">core</span><span class="o">.</span><span class="n">phase_vocoder</span><span class="p">(</span><span class="n">stft</span><span class="p">,</span> <span class="n">rate</span><span class="p">)</span>
 
-    <span class="c1"># Invert the stft</span>
-    <span class="n">y_stretch</span> <span class="o">=</span> <span class="n">core</span><span class="o">.</span><span class="n">istft</span><span class="p">(</span><span class="n">stft_stretch</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">y</span><span class="o">.</span><span class="n">dtype</span><span class="p">)</span>
+    <span class="c1"># Predict the length of y_stretch</span>
+    <span class="n">len_stretch</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="nb">round</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">y</span><span class="p">)</span><span class="o">/</span><span class="n">rate</span><span class="p">))</span>
+
+    <span class="c1"># Invert the STFT</span>
+    <span class="n">y_stretch</span> <span class="o">=</span> <span class="n">core</span><span class="o">.</span><span class="n">istft</span><span class="p">(</span>
+        <span class="n">stft_stretch</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">y</span><span class="o">.</span><span class="n">dtype</span><span class="p">,</span> <span class="n">length</span><span class="o">=</span><span class="n">len_stretch</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
 
     <span class="k">return</span> <span class="n">y_stretch</span></div>
 
 
-<div class="viewcode-block" id="pitch_shift"><a class="viewcode-back" href="../../generated/librosa.effects.pitch_shift.html#librosa.effects.pitch_shift">[docs]</a><span class="k">def</span> <span class="nf">pitch_shift</span><span class="p">(</span><span class="n">y</span><span class="p">,</span> <span class="n">sr</span><span class="p">,</span> <span class="n">n_steps</span><span class="p">,</span> <span class="n">bins_per_octave</span><span class="o">=</span><span class="mi">12</span><span class="p">):</span>
-    <span class="sd">&#39;&#39;&#39;Pitch-shift the waveform by `n_steps` half-steps.</span>
-
+<div class="viewcode-block" id="pitch_shift"><a class="viewcode-back" href="../../generated/librosa.effects.pitch_shift.html#librosa.effects.pitch_shift">[docs]</a><span class="k">def</span> <span class="nf">pitch_shift</span><span class="p">(</span><span class="n">y</span><span class="p">,</span> <span class="n">sr</span><span class="p">,</span> <span class="n">n_steps</span><span class="p">,</span> <span class="n">bins_per_octave</span><span class="o">=</span><span class="mi">12</span><span class="p">,</span> <span class="n">res_type</span><span class="o">=</span><span class="s1">&#39;kaiser_best&#39;</span><span class="p">,</span>
+                <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+    <span class="sd">&#39;&#39;&#39;Shift the pitch of a waveform by `n_steps` semitones.</span>
 
 <span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>
 <span class="sd">    y : np.ndarray [shape=(n,)]</span>
-<span class="sd">        audio time-series</span>
+<span class="sd">        audio time series</span>
 
 <span class="sd">    sr : number &gt; 0 [scalar]</span>
 <span class="sd">        audio sampling rate of `y`</span>
@@ -448,6 +454,16 @@
 <span class="sd">    bins_per_octave : float &gt; 0 [scalar]</span>
 <span class="sd">        how many steps per octave</span>
 
+<span class="sd">    res_type : string</span>
+<span class="sd">        Resample type.</span>
+<span class="sd">        Possible options: &#39;kaiser_best&#39;, &#39;kaiser_fast&#39;, and &#39;scipy&#39;, &#39;polyphase&#39;,</span>
+<span class="sd">        &#39;fft&#39;.</span>
+<span class="sd">        By default, &#39;kaiser_best&#39; is used.</span>
+
+<span class="sd">        See `core.resample` for more information.</span>
+
+<span class="sd">    kwargs: additional keyword arguments.</span>
+<span class="sd">        See `librosa.decompose.stft` for details.</span>
 
 <span class="sd">    Returns</span>
 <span class="sd">    -------</span>
@@ -459,7 +475,7 @@
 <span class="sd">    --------</span>
 <span class="sd">    time_stretch : time stretching</span>
 <span class="sd">    librosa.core.phase_vocoder : spectrogram phase vocoder</span>
-
+<span class="sd">    pyrubberband.pyrb.pitch_shift : high-quality pitch shifting using RubberBand</span>
 
 <span class="sd">    Examples</span>
 <span class="sd">    --------</span>
@@ -484,7 +500,8 @@
     <span class="n">rate</span> <span class="o">=</span> <span class="mf">2.0</span> <span class="o">**</span> <span class="p">(</span><span class="o">-</span><span class="nb">float</span><span class="p">(</span><span class="n">n_steps</span><span class="p">)</span> <span class="o">/</span> <span class="n">bins_per_octave</span><span class="p">)</span>
 
     <span class="c1"># Stretch in time, then resample</span>
-    <span class="n">y_shift</span> <span class="o">=</span> <span class="n">core</span><span class="o">.</span><span class="n">resample</span><span class="p">(</span><span class="n">time_stretch</span><span class="p">(</span><span class="n">y</span><span class="p">,</span> <span class="n">rate</span><span class="p">),</span> <span class="nb">float</span><span class="p">(</span><span class="n">sr</span><span class="p">)</span> <span class="o">/</span> <span class="n">rate</span><span class="p">,</span> <span class="n">sr</span><span class="p">)</span>
+    <span class="n">y_shift</span> <span class="o">=</span> <span class="n">core</span><span class="o">.</span><span class="n">resample</span><span class="p">(</span><span class="n">time_stretch</span><span class="p">(</span><span class="n">y</span><span class="p">,</span> <span class="n">rate</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">),</span> <span class="nb">float</span><span class="p">(</span><span class="n">sr</span><span class="p">)</span><span class="o">/</span><span class="n">rate</span><span class="p">,</span> <span class="n">sr</span><span class="p">,</span>
+                            <span class="n">res_type</span><span class="o">=</span><span class="n">res_type</span><span class="p">)</span>
 
     <span class="c1"># Crop to the same dimension as the input</span>
     <span class="k">return</span> <span class="n">util</span><span class="o">.</span><span class="n">fix_length</span><span class="p">(</span><span class="n">y_shift</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">y</span><span class="p">))</span></div>
@@ -772,7 +789,7 @@
 <div class="rst-versions" data-toggle="rst-versions" role="note" aria-label="versions">
     <span class="rst-current-version" data-toggle="rst-current-version">
         <span class="fa fa-book"> Other Versions</span>
-        v: 0.6.3
+        v: 0.7.0rc1
         <span class="fa fa-caret-down"></span>
     </span>
     <div class="rst-other-versions">
@@ -786,16 +803,14 @@
             <dd><a href="../../0.6.0/index.html">0.6.0</a></dd>
             <dd><a href="../../0.6.1/index.html">0.6.1</a></dd>
             <dd><a href="../../0.6.2/index.html">0.6.2</a></dd>
-            <dd><a href="../../0.6.3/_modules/librosa/effects.html">0.6.3</a></dd>
+            <dd><a href="../../0.6.3/index.html">0.6.3</a></dd>
+            <dd><a href="../../0.7.0rc1/_modules/librosa/effects.html">0.7.0rc1</a></dd>
             <dd><a href="../../v0.1.0/index.html">v0.1.0</a></dd>
             <dd><a href="../../v0.4.0/index.html">v0.4.0</a></dd>
         </dl>
         <dl>
             <dt>Branches</dt>
-            <dd><a href="../../display-bin-centering/index.html">display-bin-centering</a></dd>
             <dd><a href="../../master/index.html">master</a></dd>
-            <dd><a href="../../mpl-test-2.1/index.html">mpl-test-2.1</a></dd>
-            <dd><a href="../../runnning/index.html">runnning</a></dd>
         </dl>
     </div>
 </div>

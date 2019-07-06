@@ -41,3 +41,4 @@ librosa.display.specshow(librosa.power_to_db(S**2, ref=np.max),
 plt.colorbar(format='%+2.0f dB')
 plt.title('Log-Power spectrogram')
 plt.tight_layout()
+plt.show()

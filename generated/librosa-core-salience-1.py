@@ -15,3 +15,4 @@ librosa.display.specshow(librosa.amplitude_to_db(S_sal,
 plt.colorbar()
 plt.title('Salience spectrogram')
 plt.tight_layout()
+plt.show()

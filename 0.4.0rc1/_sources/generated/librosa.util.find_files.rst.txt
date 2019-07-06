@@ -1,6 +1,0 @@
-librosa.util.find_files
-=======================
-
-.. currentmodule:: librosa.util
-
-.. autofunction:: find_files

@@ -1,6 +1,0 @@
-librosa.core.to_mono
-====================
-
-.. currentmodule:: librosa.core
-
-.. autofunction:: to_mono

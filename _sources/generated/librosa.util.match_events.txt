@@ -1,6 +1,0 @@
-librosa.util.match_events
-=========================
-
-.. currentmodule:: librosa.util
-
-.. autofunction:: match_events

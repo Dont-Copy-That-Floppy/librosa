@@ -1,6 +1,0 @@
-librosa.util.fix_length
-=======================
-
-.. currentmodule:: librosa.util
-
-.. autofunction:: fix_length

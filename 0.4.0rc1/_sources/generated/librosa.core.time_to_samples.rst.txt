@@ -1,6 +1,0 @@
-librosa.core.time_to_samples
-============================
-
-.. currentmodule:: librosa.core
-
-.. autofunction:: time_to_samples

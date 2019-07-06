@@ -26,3 +26,4 @@ plt.vlines(times[onset_frames], 0, o_env.max(), color='r', alpha=0.9,
            linestyle='--', label='Onsets')
 plt.axis('tight')
 plt.legend(frameon=True, framealpha=0.75)
+plt.show()

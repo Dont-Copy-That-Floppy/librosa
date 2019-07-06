@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>librosa.feature.mfcc &mdash; librosa 0.6.3 documentation</title>
+  <title>librosa.feature.mfcc &mdash; librosa 0.7.0rc1 documentation</title>
   
 
   
@@ -23,7 +23,7 @@
       <script type="text/javascript">
           var DOCUMENTATION_OPTIONS = {
               URL_ROOT:'../',
-              VERSION:'0.6.3',
+              VERSION:'0.7.0rc1',
               LANGUAGE:'None',
               COLLAPSE_INDEX:false,
               FILE_SUFFIX:'.html',
@@ -72,7 +72,7 @@
             
             
               <div class="version">
-                0.6
+                0.7
               </div>
             
           
@@ -111,7 +111,6 @@
 <li class="toctree-l3"><a class="reference internal" href="librosa.feature.melspectrogram.html">librosa.feature.melspectrogram</a></li>
 <li class="toctree-l3 current"><a class="current reference internal" href="#">librosa.feature.mfcc</a></li>
 <li class="toctree-l3"><a class="reference internal" href="librosa.feature.rms.html">librosa.feature.rms</a></li>
-<li class="toctree-l3"><a class="reference internal" href="librosa.feature.rmse.html">librosa.feature.rmse</a></li>
 <li class="toctree-l3"><a class="reference internal" href="librosa.feature.spectral_centroid.html">librosa.feature.spectral_centroid</a></li>
 <li class="toctree-l3"><a class="reference internal" href="librosa.feature.spectral_bandwidth.html">librosa.feature.spectral_bandwidth</a></li>
 <li class="toctree-l3"><a class="reference internal" href="librosa.feature.spectral_contrast.html">librosa.feature.spectral_contrast</a></li>
@@ -124,6 +123,7 @@
 </li>
 <li class="toctree-l2"><a class="reference internal" href="../feature.html#rhythm-features">Rhythm features</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../feature.html#feature-manipulation">Feature manipulation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../feature.html#feature-inversion">Feature inversion</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="../onset.html">Onset detection</a></li>
@@ -218,7 +218,7 @@
 
 
 
-    <p class="scv-banner scv-sphinx_rtd_theme"><a href="../../0.6.3/generated/librosa.feature.mfcc.html"><b>Warning:</b> This document is for the development version of librosa. The latest version is 0.6.3.</a></p>
+    <p class="scv-banner scv-sphinx_rtd_theme"><a href="../../0.7.0rc1/generated/librosa.feature.mfcc.html"><b>Warning:</b> This document is for the development version of librosa. The latest version is 0.7.0rc1.</a></p>
 <div class="section" id="librosa-feature-mfcc">
 <h1>librosa.feature.mfcc<a class="headerlink" href="#librosa-feature-mfcc" title="Permalink to this headline">¶</a></h1>
 <dl class="function">
@@ -269,7 +269,12 @@ on time series input</p>
 </table>
 <div class="admonition seealso">
 <p class="first admonition-title">See also</p>
-<p class="last"><a class="reference internal" href="librosa.feature.melspectrogram.html#librosa.feature.melspectrogram" title="librosa.feature.melspectrogram"><code class="xref py py-obj docutils literal notranslate"><span class="pre">melspectrogram</span></code></a>, <a class="reference external" href="https://docs.scipy.org/doc/scipy/reference/generated/scipy.fftpack.dct.html#scipy.fftpack.dct" title="(in SciPy v1.2.1)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">scipy.fftpack.dct</span></code></a></p>
+<dl class="last docutils">
+<dt><a class="reference internal" href="librosa.feature.melspectrogram.html#librosa.feature.melspectrogram" title="librosa.feature.melspectrogram"><code class="xref py py-obj docutils literal notranslate"><span class="pre">melspectrogram</span></code></a></dt>
+<dd></dd>
+<dt><a class="reference external" href="https://docs.scipy.org/doc/scipy/reference/generated/scipy.fftpack.dct.html#scipy.fftpack.dct" title="(in SciPy v1.3.0)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">scipy.fftpack.dct</span></code></a></dt>
+<dd></dd>
+</dl>
 </div>
 <p class="rubric">Examples</p>
 <p>Generate mfccs from a time series</p>
@@ -280,6 +285,23 @@ on time series input</p>
 <span class="go">       ...,</span>
 <span class="go">       [  1.066e-14,  -7.500e+00, ...,   1.421e-14,   1.421e-14],</span>
 <span class="go">       [  3.109e-14,  -5.058e+00, ...,   2.931e-14,   2.931e-14]])</span>
+</pre></div>
+</div>
+<p>Using a different hop length and HTK-style Mel frequencies</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">librosa</span><span class="o">.</span><span class="n">feature</span><span class="o">.</span><span class="n">mfcc</span><span class="p">(</span><span class="n">y</span><span class="o">=</span><span class="n">y</span><span class="p">,</span> <span class="n">sr</span><span class="o">=</span><span class="n">sr</span><span class="p">,</span> <span class="n">hop_length</span><span class="o">=</span><span class="mi">1024</span><span class="p">,</span> <span class="n">htk</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="go">array([[-1.628e+02, -8.903e+01, -1.409e+02, ..., -1.078e+02,</span>
+<span class="go">    -2.504e+02, -2.393e+02],</span>
+<span class="go">   [ 1.275e+02,  9.532e+01,  1.019e+02, ...,  1.152e+02,</span>
+<span class="go">     2.224e+02,  1.750e+02],</span>
+<span class="go">   [ 1.139e+01,  6.155e+00,  1.266e+01, ...,  4.557e+01,</span>
+<span class="go">     4.585e+01,  3.985e+01],</span>
+<span class="go">   ...,</span>
+<span class="go">   [ 3.462e+00,  4.032e+00, -5.694e-01, ..., -6.677e+00,</span>
+<span class="go">    -1.183e-01,  1.485e+00],</span>
+<span class="go">   [ 9.569e-01,  1.069e+00, -6.865e+00, ..., -9.598e+00,</span>
+<span class="go">    -1.611e+00, -6.716e+00],</span>
+<span class="go">   [ 8.457e+00,  3.582e+00, -1.156e-01, ..., -3.018e+00,</span>
+<span class="go">    -1.456e+01, -6.991e+00]], dtype=float32)</span>
 </pre></div>
 </div>
 <p>Use a pre-computed log-power Mel spectrogram</p>
@@ -304,7 +326,12 @@ on time series input</p>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">plt</span><span class="o">.</span><span class="n">colorbar</span><span class="p">()</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s1">&#39;MFCC&#39;</span><span class="p">)</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">plt</span><span class="o">.</span><span class="n">tight_layout</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
 </pre></div>
+</div>
+<p>(<a class="reference external" href="../generated/librosa-feature-mfcc-1.py">Source code</a>)</p>
+<div class="figure">
+<img alt="../_images/librosa-feature-mfcc-1_00_00.png" src="../_images/librosa-feature-mfcc-1_00_00.png" />
 </div>
 <p>Compare different DCT bases</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">m_slaney</span> <span class="o">=</span> <span class="n">librosa</span><span class="o">.</span><span class="n">feature</span><span class="o">.</span><span class="n">mfcc</span><span class="p">(</span><span class="n">y</span><span class="o">=</span><span class="n">y</span><span class="p">,</span> <span class="n">sr</span><span class="o">=</span><span class="n">sr</span><span class="p">,</span> <span class="n">dct_type</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
@@ -319,14 +346,11 @@ on time series input</p>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s1">&#39;HTK-style (dct_type=3)&#39;</span><span class="p">)</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">plt</span><span class="o">.</span><span class="n">colorbar</span><span class="p">()</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">plt</span><span class="o">.</span><span class="n">tight_layout</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
 </pre></div>
 </div>
-<p>(<a class="reference external" href="../generated/librosa-feature-mfcc-1.py">Source code</a>)</p>
 <div class="figure">
-<img alt="../_images/librosa-feature-mfcc-1_00.png" src="../_images/librosa-feature-mfcc-1_00.png" />
-</div>
-<div class="figure">
-<img alt="../_images/librosa-feature-mfcc-1_01.png" src="../_images/librosa-feature-mfcc-1_01.png" />
+<img alt="../_images/librosa-feature-mfcc-1_01_00.png" src="../_images/librosa-feature-mfcc-1_01_00.png" />
 </div>
 </dd></dl>
 
@@ -385,15 +409,13 @@ on time series input</p>
             <dd><a href="../../0.6.1/generated/librosa.feature.mfcc.html">0.6.1</a></dd>
             <dd><a href="../../0.6.2/generated/librosa.feature.mfcc.html">0.6.2</a></dd>
             <dd><a href="../../0.6.3/generated/librosa.feature.mfcc.html">0.6.3</a></dd>
+            <dd><a href="../../0.7.0rc1/generated/librosa.feature.mfcc.html">0.7.0rc1</a></dd>
             <dd><a href="../../v0.1.0/index.html">v0.1.0</a></dd>
             <dd><a href="../../v0.4.0/index.html">v0.4.0</a></dd>
         </dl>
         <dl>
             <dt>Branches</dt>
-            <dd><a href="../../display-bin-centering/generated/librosa.feature.mfcc.html">display-bin-centering</a></dd>
             <dd><a href="librosa.feature.mfcc.html">master</a></dd>
-            <dd><a href="../../mpl-test-2.1/generated/librosa.feature.mfcc.html">mpl-test-2.1</a></dd>
-            <dd><a href="../../runnning/generated/librosa.feature.mfcc.html">runnning</a></dd>
         </dl>
     </div>
 </div>

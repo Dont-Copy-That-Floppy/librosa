@@ -28,6 +28,7 @@ plt.title('Scale transform magnitude')
 plt.legend(frameon=True)
 plt.axis('tight')
 plt.tight_layout()
+plt.show()
 
 # Plot the scale transform of an onset strength autocorrelation
 y, sr = librosa.load(librosa.util.example_audio_file(),
@@ -59,3 +60,4 @@ plt.axis('tight')
 plt.xlabel('scale coefficients')
 plt.legend(frameon=True)
 plt.tight_layout()
+plt.show()

@@ -1,6 +1,0 @@
-librosa.util.peak_pick
-======================
-
-.. currentmodule:: librosa.util
-
-.. autofunction:: peak_pick

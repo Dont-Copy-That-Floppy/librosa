@@ -1,6 +1,0 @@
-librosa.segment.timelag_filter
-==============================
-
-.. currentmodule:: librosa.segment
-
-.. autofunction:: timelag_filter

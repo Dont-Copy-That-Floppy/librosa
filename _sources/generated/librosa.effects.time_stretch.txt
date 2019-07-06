@@ -1,6 +1,0 @@
-librosa.effects.time_stretch
-============================
-
-.. currentmodule:: librosa.effects
-
-.. autofunction:: time_stretch

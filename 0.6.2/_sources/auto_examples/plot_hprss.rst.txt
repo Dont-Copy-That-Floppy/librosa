@@ -219,7 +219,7 @@ components, and vocals have been suppressed in the percussive components.
 
  .. code-block:: none
 
-    /tmp/tmpgtqol7a5sphinxcontrib_versioning/a4c98ca35a9eb34a2c4bda2ca6bfb2b0f75b8be4/docs/examples/plot_hprss.py:141: UserWarning: Matplotlib is currently using agg, which is a non-GUI backend, so cannot show the figure.
+    /tmp/tmp_b54sl3ysphinxcontrib_versioning/a4c98ca35a9eb34a2c4bda2ca6bfb2b0f75b8be4/docs/examples/plot_hprss.py:141: UserWarning: Matplotlib is currently using agg, which is a non-GUI backend, so cannot show the figure.
       plt.show()
 
 
@@ -227,7 +227,7 @@ components, and vocals have been suppressed in the percussive components.
 
 .. rst-class:: sphx-glr-timing
 
-   **Total running time of the script:** ( 0 minutes  7.470 seconds)
+   **Total running time of the script:** ( 0 minutes  7.988 seconds)
 
 
 .. _sphx_glr_download_auto_examples_plot_hprss.py:

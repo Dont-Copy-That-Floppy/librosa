@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>librosa.segment &mdash; librosa 0.7.0rc1 documentation</title>
+  <title>librosa.segment &mdash; librosa 0.7.0 documentation</title>
   
 
   
@@ -23,7 +23,7 @@
       <script type="text/javascript">
           var DOCUMENTATION_OPTIONS = {
               URL_ROOT:'../../',
-              VERSION:'0.7.0rc1',
+              VERSION:'0.7.0',
               LANGUAGE:'None',
               COLLAPSE_INDEX:false,
               FILE_SUFFIX:'.html',
@@ -315,10 +315,11 @@
 <span class="sd">    --------</span>
 <span class="sd">    Find nearest neighbors in MFCC space between two sequences</span>
 
+<span class="sd">    &gt;&gt;&gt; hop_length = 1024</span>
 <span class="sd">    &gt;&gt;&gt; y_ref, sr = librosa.load(librosa.util.example_audio_file())</span>
 <span class="sd">    &gt;&gt;&gt; y_comp, sr = librosa.load(librosa.util.example_audio_file(), offset=10)</span>
-<span class="sd">    &gt;&gt;&gt; mfcc_ref = librosa.feature.mfcc(y=y_ref, sr=sr)</span>
-<span class="sd">    &gt;&gt;&gt; mfcc_comp = librosa.feature.mfcc(y=y_comp, sr=sr)</span>
+<span class="sd">    &gt;&gt;&gt; mfcc_ref = librosa.feature.mfcc(y=y_ref, sr=sr, hop_length=hop_length)</span>
+<span class="sd">    &gt;&gt;&gt; mfcc_comp = librosa.feature.mfcc(y=y_comp, sr=sr, hop_length=hop_length)</span>
 <span class="sd">    &gt;&gt;&gt; xsim = librosa.segment.cross_similarity(mfcc_comp, mfcc_ref)</span>
 
 <span class="sd">    Or fix the number of nearest neighbors to 5</span>
@@ -338,11 +339,11 @@
 <span class="sd">    &gt;&gt;&gt; import matplotlib.pyplot as plt</span>
 <span class="sd">    &gt;&gt;&gt; plt.figure(figsize=(8, 4))</span>
 <span class="sd">    &gt;&gt;&gt; plt.subplot(1, 2, 1)</span>
-<span class="sd">    &gt;&gt;&gt; librosa.display.specshow(xsim, x_axis=&#39;time&#39;, y_axis=&#39;time&#39;)</span>
+<span class="sd">    &gt;&gt;&gt; librosa.display.specshow(xsim, x_axis=&#39;time&#39;, y_axis=&#39;time&#39;, hop_length=hop_length)</span>
 <span class="sd">    &gt;&gt;&gt; plt.title(&#39;Binary recurrence (symmetric)&#39;)</span>
 <span class="sd">    &gt;&gt;&gt; plt.subplot(1, 2, 2)</span>
 <span class="sd">    &gt;&gt;&gt; librosa.display.specshow(xsim_aff, x_axis=&#39;time&#39;, y_axis=&#39;time&#39;,</span>
-<span class="sd">    ...                          cmap=&#39;magma_r&#39;)</span>
+<span class="sd">    ...                          cmap=&#39;magma_r&#39;, hop_length=hop_length)</span>
 <span class="sd">    &gt;&gt;&gt; plt.title(&#39;Affinity recurrence&#39;)</span>
 <span class="sd">    &gt;&gt;&gt; plt.tight_layout()</span>
 
@@ -531,14 +532,15 @@
 <span class="sd">    Find nearest neighbors in MFCC space</span>
 
 <span class="sd">    &gt;&gt;&gt; y, sr = librosa.load(librosa.util.example_audio_file())</span>
-<span class="sd">    &gt;&gt;&gt; mfcc = librosa.feature.mfcc(y=y, sr=sr)</span>
+<span class="sd">    &gt;&gt;&gt; hop_length = 1024</span>
+<span class="sd">    &gt;&gt;&gt; mfcc = librosa.feature.mfcc(y=y, sr=sr, hop_length=hop_length)</span>
 <span class="sd">    &gt;&gt;&gt; R = librosa.segment.recurrence_matrix(mfcc)</span>
 
 <span class="sd">    Or fix the number of nearest neighbors to 5</span>
 
 <span class="sd">    &gt;&gt;&gt; R = librosa.segment.recurrence_matrix(mfcc, k=5)</span>
 
-<span class="sd">    Suppress neighbors within +- 7 samples</span>
+<span class="sd">    Suppress neighbors within +- 7 frames</span>
 
 <span class="sd">    &gt;&gt;&gt; R = librosa.segment.recurrence_matrix(mfcc, width=7)</span>
 
@@ -559,11 +561,11 @@
 <span class="sd">    &gt;&gt;&gt; import matplotlib.pyplot as plt</span>
 <span class="sd">    &gt;&gt;&gt; plt.figure(figsize=(8, 4))</span>
 <span class="sd">    &gt;&gt;&gt; plt.subplot(1, 2, 1)</span>
-<span class="sd">    &gt;&gt;&gt; librosa.display.specshow(R, x_axis=&#39;time&#39;, y_axis=&#39;time&#39;)</span>
+<span class="sd">    &gt;&gt;&gt; librosa.display.specshow(R, x_axis=&#39;time&#39;, y_axis=&#39;time&#39;, hop_length=hop_length)</span>
 <span class="sd">    &gt;&gt;&gt; plt.title(&#39;Binary recurrence (symmetric)&#39;)</span>
 <span class="sd">    &gt;&gt;&gt; plt.subplot(1, 2, 2)</span>
 <span class="sd">    &gt;&gt;&gt; librosa.display.specshow(R_aff, x_axis=&#39;time&#39;, y_axis=&#39;time&#39;,</span>
-<span class="sd">    ...                          cmap=&#39;magma_r&#39;)</span>
+<span class="sd">    ...                          hop_length=hop_length, cmap=&#39;magma_r&#39;)</span>
 <span class="sd">    &gt;&gt;&gt; plt.title(&#39;Affinity recurrence&#39;)</span>
 <span class="sd">    &gt;&gt;&gt; plt.tight_layout()</span>
 <span class="sd">    &gt;&gt;&gt; plt.show()</span>
@@ -711,7 +713,8 @@
 <span class="sd">    Examples</span>
 <span class="sd">    --------</span>
 <span class="sd">    &gt;&gt;&gt; y, sr = librosa.load(librosa.util.example_audio_file())</span>
-<span class="sd">    &gt;&gt;&gt; mfccs = librosa.feature.mfcc(y=y, sr=sr)</span>
+<span class="sd">    &gt;&gt;&gt; hop_length = 1024</span>
+<span class="sd">    &gt;&gt;&gt; mfccs = librosa.feature.mfcc(y=y, sr=sr, hop_length=hop_length)</span>
 <span class="sd">    &gt;&gt;&gt; recurrence = librosa.segment.recurrence_matrix(mfccs)</span>
 <span class="sd">    &gt;&gt;&gt; lag_pad = librosa.segment.recurrence_to_lag(recurrence, pad=True)</span>
 <span class="sd">    &gt;&gt;&gt; lag_nopad = librosa.segment.recurrence_to_lag(recurrence, pad=False)</span>
@@ -719,10 +722,11 @@
 <span class="sd">    &gt;&gt;&gt; import matplotlib.pyplot as plt</span>
 <span class="sd">    &gt;&gt;&gt; plt.figure(figsize=(8, 4))</span>
 <span class="sd">    &gt;&gt;&gt; plt.subplot(1, 2, 1)</span>
-<span class="sd">    &gt;&gt;&gt; librosa.display.specshow(lag_pad, x_axis=&#39;time&#39;, y_axis=&#39;lag&#39;)</span>
+<span class="sd">    &gt;&gt;&gt; librosa.display.specshow(lag_pad, x_axis=&#39;time&#39;, y_axis=&#39;lag&#39;,</span>
+<span class="sd">    ...                          hop_length=hop_length)</span>
 <span class="sd">    &gt;&gt;&gt; plt.title(&#39;Lag (zero-padded)&#39;)</span>
 <span class="sd">    &gt;&gt;&gt; plt.subplot(1, 2, 2)</span>
-<span class="sd">    &gt;&gt;&gt; librosa.display.specshow(lag_nopad, x_axis=&#39;time&#39;)</span>
+<span class="sd">    &gt;&gt;&gt; librosa.display.specshow(lag_nopad, x_axis=&#39;time&#39;, hop_length=hop_length)</span>
 <span class="sd">    &gt;&gt;&gt; plt.title(&#39;Lag (no padding)&#39;)</span>
 <span class="sd">    &gt;&gt;&gt; plt.tight_layout()</span>
 <span class="sd">    &gt;&gt;&gt; plt.show()</span>
@@ -801,7 +805,8 @@
 <span class="sd">    Examples</span>
 <span class="sd">    --------</span>
 <span class="sd">    &gt;&gt;&gt; y, sr = librosa.load(librosa.util.example_audio_file())</span>
-<span class="sd">    &gt;&gt;&gt; mfccs = librosa.feature.mfcc(y=y, sr=sr)</span>
+<span class="sd">    &gt;&gt;&gt; hop_length = 1024</span>
+<span class="sd">    &gt;&gt;&gt; mfccs = librosa.feature.mfcc(y=y, sr=sr, hop_length=hop_length)</span>
 <span class="sd">    &gt;&gt;&gt; recurrence = librosa.segment.recurrence_matrix(mfccs)</span>
 <span class="sd">    &gt;&gt;&gt; lag_pad = librosa.segment.recurrence_to_lag(recurrence, pad=True)</span>
 <span class="sd">    &gt;&gt;&gt; lag_nopad = librosa.segment.recurrence_to_lag(recurrence, pad=False)</span>
@@ -811,16 +816,20 @@
 <span class="sd">    &gt;&gt;&gt; import matplotlib.pyplot as plt</span>
 <span class="sd">    &gt;&gt;&gt; plt.figure(figsize=(8, 4))</span>
 <span class="sd">    &gt;&gt;&gt; plt.subplot(2, 2, 1)</span>
-<span class="sd">    &gt;&gt;&gt; librosa.display.specshow(lag_pad, x_axis=&#39;time&#39;, y_axis=&#39;lag&#39;)</span>
+<span class="sd">    &gt;&gt;&gt; librosa.display.specshow(lag_pad, x_axis=&#39;time&#39;, y_axis=&#39;lag&#39;,</span>
+<span class="sd">    ...                          hop_length=hop_length)</span>
 <span class="sd">    &gt;&gt;&gt; plt.title(&#39;Lag (zero-padded)&#39;)</span>
 <span class="sd">    &gt;&gt;&gt; plt.subplot(2, 2, 2)</span>
-<span class="sd">    &gt;&gt;&gt; librosa.display.specshow(lag_nopad, x_axis=&#39;time&#39;, y_axis=&#39;time&#39;)</span>
+<span class="sd">    &gt;&gt;&gt; librosa.display.specshow(lag_nopad, x_axis=&#39;time&#39;, y_axis=&#39;time&#39;,</span>
+<span class="sd">    ...                          hop_length=hop_length)</span>
 <span class="sd">    &gt;&gt;&gt; plt.title(&#39;Lag (no padding)&#39;)</span>
 <span class="sd">    &gt;&gt;&gt; plt.subplot(2, 2, 3)</span>
-<span class="sd">    &gt;&gt;&gt; librosa.display.specshow(rec_pad, x_axis=&#39;time&#39;, y_axis=&#39;time&#39;)</span>
+<span class="sd">    &gt;&gt;&gt; librosa.display.specshow(rec_pad, x_axis=&#39;time&#39;, y_axis=&#39;time&#39;,</span>
+<span class="sd">    ...                          hop_length=hop_length)</span>
 <span class="sd">    &gt;&gt;&gt; plt.title(&#39;Recurrence (with padding)&#39;)</span>
 <span class="sd">    &gt;&gt;&gt; plt.subplot(2, 2, 4)</span>
-<span class="sd">    &gt;&gt;&gt; librosa.display.specshow(rec_nopad, x_axis=&#39;time&#39;, y_axis=&#39;time&#39;)</span>
+<span class="sd">    &gt;&gt;&gt; librosa.display.specshow(rec_nopad, x_axis=&#39;time&#39;, y_axis=&#39;time&#39;,</span>
+<span class="sd">    ...                          hop_length=hop_length)</span>
 <span class="sd">    &gt;&gt;&gt; plt.title(&#39;Recurrence (without padding)&#39;)</span>
 <span class="sd">    &gt;&gt;&gt; plt.tight_layout()</span>
 <span class="sd">    &gt;&gt;&gt; plt.show()</span>
@@ -1227,7 +1236,8 @@
 <span class="sd">    Use a 51-frame diagonal smoothing filter to enhance paths in a recurrence matrix</span>
 
 <span class="sd">    &gt;&gt;&gt; y, sr = librosa.load(librosa.util.example_audio_file(), duration=30)</span>
-<span class="sd">    &gt;&gt;&gt; chroma = librosa.feature.chroma_cqt(y=y, sr=sr)</span>
+<span class="sd">    &gt;&gt;&gt; hop_length = 1024</span>
+<span class="sd">    &gt;&gt;&gt; chroma = librosa.feature.chroma_cqt(y=y, sr=sr, hop_length=hop_length)</span>
 <span class="sd">    &gt;&gt;&gt; rec = librosa.segment.recurrence_matrix(chroma, mode=&#39;affinity&#39;, self=True)</span>
 <span class="sd">    &gt;&gt;&gt; rec_smooth = librosa.segment.path_enhance(rec, 51, window=&#39;hann&#39;, n_filters=7)</span>
 
@@ -1236,10 +1246,12 @@
 <span class="sd">    &gt;&gt;&gt; import matplotlib.pyplot as plt</span>
 <span class="sd">    &gt;&gt;&gt; plt.figure(figsize=(8, 4))</span>
 <span class="sd">    &gt;&gt;&gt; plt.subplot(1,2,1)</span>
-<span class="sd">    &gt;&gt;&gt; librosa.display.specshow(rec, x_axis=&#39;time&#39;, y_axis=&#39;time&#39;)</span>
+<span class="sd">    &gt;&gt;&gt; librosa.display.specshow(rec, x_axis=&#39;time&#39;, y_axis=&#39;time&#39;,</span>
+<span class="sd">    ...                          hop_length=hop_length)</span>
 <span class="sd">    &gt;&gt;&gt; plt.title(&#39;Unfiltered recurrence&#39;)</span>
 <span class="sd">    &gt;&gt;&gt; plt.subplot(1,2,2)</span>
-<span class="sd">    &gt;&gt;&gt; librosa.display.specshow(rec_smooth, x_axis=&#39;time&#39;, y_axis=&#39;time&#39;)</span>
+<span class="sd">    &gt;&gt;&gt; librosa.display.specshow(rec_smooth, x_axis=&#39;time&#39;, y_axis=&#39;time&#39;,</span>
+<span class="sd">    ...                          hop_length=hop_length)</span>
 <span class="sd">    &gt;&gt;&gt; plt.title(&#39;Multi-angle enhanced recurrence&#39;)</span>
 <span class="sd">    &gt;&gt;&gt; plt.tight_layout()</span>
 <span class="sd">    &gt;&gt;&gt; plt.show()</span>
@@ -1278,7 +1290,7 @@
 
   <div role="contentinfo">
     <p>
-        &copy; Copyright 2013--2018, librosa development team
+        &copy; Copyright 2013--2019, librosa development team
 
     </p>
   </div>
@@ -1296,7 +1308,7 @@
 <div class="rst-versions" data-toggle="rst-versions" role="note" aria-label="versions">
     <span class="rst-current-version" data-toggle="rst-current-version">
         <span class="fa fa-book"> Other Versions</span>
-        v: 0.7.0rc1
+        v: 0.7.0
         <span class="fa fa-caret-down"></span>
     </span>
     <div class="rst-other-versions">
@@ -1311,7 +1323,7 @@
             <dd><a href="../../0.6.1/index.html">0.6.1</a></dd>
             <dd><a href="../../0.6.2/index.html">0.6.2</a></dd>
             <dd><a href="../../0.6.3/index.html">0.6.3</a></dd>
-            <dd><a href="../../0.7.0rc1/_modules/librosa/segment.html">0.7.0rc1</a></dd>
+            <dd><a href="../../0.7.0/_modules/librosa/segment.html">0.7.0</a></dd>
             <dd><a href="../../v0.1.0/index.html">v0.1.0</a></dd>
             <dd><a href="../../v0.4.0/index.html">v0.4.0</a></dd>
         </dl>

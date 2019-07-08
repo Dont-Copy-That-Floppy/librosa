@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Changelog &mdash; librosa 0.7.0rc1 documentation</title>
+  <title>Changelog &mdash; librosa 0.7.0 documentation</title>
   
 
   
@@ -23,7 +23,7 @@
       <script type="text/javascript">
           var DOCUMENTATION_OPTIONS = {
               URL_ROOT:'./',
-              VERSION:'0.7.0rc1',
+              VERSION:'0.7.0',
               LANGUAGE:'None',
               COLLAPSE_INDEX:false,
               FILE_SUFFIX:'.html',
@@ -212,7 +212,7 @@
 
 
 
-    <p class="scv-banner scv-sphinx_rtd_theme"><a href="../0.7.0rc1/changelog.html"><b>Warning:</b> This document is for the development version of librosa. The latest version is 0.7.0rc1.</a></p>
+    <p class="scv-banner scv-sphinx_rtd_theme"><a href="../0.7.0/changelog.html"><b>Warning:</b> This document is for the development version of librosa. The latest version is 0.7.0.</a></p>
 <div class="section" id="changelog">
 <h1>Changelog<a class="headerlink" href="#changelog" title="Permalink to this headline">¶</a></h1>
 <div class="section" id="v0-7-0">
@@ -222,35 +222,36 @@
 <dl class="docutils">
 <dt>New features</dt>
 <dd><ul class="first last simple">
-<li><a class="reference external" href="https://github.com/librosa/librosa/issues/772">#772</a> Stream generator to process long audio files into smaller pieces. <em>Brian McFee</em></li>
-<li><a class="reference external" href="https://github.com/librosa/librosa/issues/845">#845</a> Replaced the default audio decoder with <em class="xref py py-obj">pysoundfile</em>, and only use <code class="xref py py-obj docutils literal notranslate"><span class="pre">audioread</span></code> as backup. <em>Brian McFee</em></li>
-<li><a class="reference external" href="https://github.com/librosa/librosa/issues/907">#907</a> Recurrence Quantification Analysis (RQA) for sequence alignment. <em>Brian McFee</em></li>
-<li><a class="reference external" href="https://github.com/librosa/librosa/issues/739">#739</a> Predominant local pulse (PLP) <em class="xref py py-obj">beat.plp</em> for variable-tempo beat tracking. <em>Brian McFee</em></li>
-<li><a class="reference external" href="https://github.com/librosa/librosa/issues/894">#894</a> Fourier Tempogram <em class="xref py py-obj">feature.fourier_tempogram</em> for representing rhythm in the frequency domain. <em>Brian McFee</em></li>
-<li><a class="reference external" href="https://github.com/librosa/librosa/issues/891">#891</a> Per-channel energy normalization (PCEN) now allows logarithmic range compression at the limit power-&gt;0. <em>Vincent Lostanlen</em></li>
-<li><a class="reference external" href="https://github.com/librosa/librosa/issues/863">#863</a> <em class="xref py py-obj">effects.pitch_shift</em> supports custom resampling modes. <em>Taewoon Kim</em></li>
-<li><a class="reference external" href="https://github.com/librosa/librosa/issues/857">#857</a> Forward and inverse constant-Q transform now support custom resampling modes. <em>Brian McFee</em></li>
-<li><a class="reference external" href="https://github.com/librosa/librosa/issues/843">#843</a> Addition of a new module for feature inversion, based on the Griffin-Lim phase retrieval algorithm. Includes <em class="xref py py-obj">mel_to_audio</em> and <em class="xref py py-obj">mfcc_to_audio</em>. <em>Brian McFee</em></li>
-<li><a class="reference external" href="https://github.com/librosa/librosa/issues/842">#842</a> Path enhancement <em class="xref py py-obj">segment.path_enhance</em> for recurrence, self- or cross-similarity matrices. <em>Brian McFee</em></li>
-<li><a class="reference external" href="https://github.com/librosa/librosa/issues/840">#840</a> <em class="xref py py-obj">recurrence_matrix</em> now supports a keyword argument, <em class="xref py py-obj">self=False</em>. If set to <em class="xref py py-obj">True</em>, the recurrence matrix includes self-loops. <em>Brian McFee</em></li>
-<li><a class="reference external" href="https://github.com/librosa/librosa/issues/776">#776</a> The <em class="xref py py-obj">piptrack</em> now supports a keyword argument, <em class="xref py py-obj">ref=None</em>, allowing users to override the reference thresholding behavior for determining which bins correspond to pitches. <em>Brian McFee</em></li>
-<li><a class="reference external" href="https://github.com/librosa/librosa/issues/770">#770</a> Cross-similarity function for comparing two feature sequences. <em>Rachel Bittner, Brian McFee</em></li>
-<li><a class="reference external" href="https://github.com/librosa/librosa/issues/725">#725</a> Linear prediction coefficients (LPC). <em>Adam Weiss</em></li>
-<li><a class="reference external" href="https://github.com/librosa/librosa/issues/709">#709</a> <em class="xref py py-obj">onset_strength_multi</em> now supports a user-specified reference spectrum via the <em class="xref py py-obj">ref</em> keyword argument. <em>Brian McFee</em></li>
-<li><a class="reference external" href="https://github.com/librosa/librosa/issues/576">#576</a> <em class="xref py py-obj">resample</em> now supports <em class="xref py py-obj">mode=’polyphase’</em>. <em>Brian McFee</em></li>
-<li><a class="reference external" href="https://github.com/librosa/librosa/issues/519">#519</a> Setting <em class="xref py py-obj">aggregate=False</em> in <em class="xref py py-obj">onset_strength_multi</em> disables the aggregation of onset strengths across frequency bins. <em>Brian McFee</em></li>
+<li><a class="reference external" href="https://github.com/librosa/librosa/issues/772">#772</a> <a class="reference internal" href="generated/librosa.core.stream.html#librosa.core.stream" title="librosa.core.stream"><code class="xref py py-obj docutils literal notranslate"><span class="pre">librosa.core.stream</span></code></a>: Stream generator to process long audio files into smaller pieces. <em>Brian McFee</em></li>
+<li><a class="reference external" href="https://github.com/librosa/librosa/issues/845">#845</a> <a class="reference internal" href="generated/librosa.core.load.html#librosa.core.load" title="librosa.core.load"><code class="xref py py-obj docutils literal notranslate"><span class="pre">librosa.core.load</span></code></a>: Replaced the default audio decoder with <em class="xref py py-obj">pysoundfile</em>, and only use <code class="xref py py-obj docutils literal notranslate"><span class="pre">audioread</span></code> as backup. <em>Brian McFee</em></li>
+<li><a class="reference external" href="https://github.com/librosa/librosa/issues/843">#843</a> <a class="reference internal" href="generated/librosa.core.griffinlim.html#librosa.core.griffinlim" title="librosa.core.griffinlim"><code class="xref py py-obj docutils literal notranslate"><span class="pre">librosa.core.griffinlim</span></code></a>: Phase retrieval from magnitude spectrograms using the (accelerated) Griffin-Lim method. <em>Brian McFee</em></li>
+<li><a class="reference external" href="https://github.com/librosa/librosa/issues/843">#843</a> <code class="xref py py-obj docutils literal notranslate"><span class="pre">librosa.feature.inverse</span></code>: New module for feature inversion, based on the Griffin-Lim phase retrieval algorithm. Includes <em class="xref py py-obj">mel_to_audio</em> and <em class="xref py py-obj">mfcc_to_audio</em>. <em>Brian McFee</em></li>
+<li><a class="reference external" href="https://github.com/librosa/librosa/issues/725">#725</a> <a class="reference internal" href="generated/librosa.core.lpc.html#librosa.core.lpc" title="librosa.core.lpc"><code class="xref py py-obj docutils literal notranslate"><span class="pre">librosa.core.lpc</span></code></a>: Linear prediction coefficients (LPC). <em>Adam Weiss</em></li>
+<li><a class="reference external" href="https://github.com/librosa/librosa/issues/907">#907</a> <a class="reference internal" href="generated/librosa.sequence.rqa.html#librosa.sequence.rqa" title="librosa.sequence.rqa"><code class="xref py py-obj docutils literal notranslate"><span class="pre">librosa.sequence.rqa</span></code></a>: Recurrence Quantification Analysis (RQA) for sequence alignment. <em>Brian McFee</em></li>
+<li><a class="reference external" href="https://github.com/librosa/librosa/issues/739">#739</a> <a class="reference internal" href="generated/librosa.beat.plp.html#librosa.beat.plp" title="librosa.beat.plp"><code class="xref py py-obj docutils literal notranslate"><span class="pre">librosa.beat.plp</span></code></a>: Predominant local pulse (PLP) for variable-tempo beat tracking. <em>Brian McFee</em></li>
+<li><a class="reference external" href="https://github.com/librosa/librosa/issues/894">#894</a> <a class="reference internal" href="generated/librosa.feature.fourier_tempogram.html#librosa.feature.fourier_tempogram" title="librosa.feature.fourier_tempogram"><code class="xref py py-obj docutils literal notranslate"><span class="pre">librosa.feature.fourier_tempogram</span></code></a>: Fourier Tempogram for representing rhythm in the frequency domain. <em>Brian McFee</em></li>
+<li><a class="reference external" href="https://github.com/librosa/librosa/issues/891">#891</a> <a class="reference internal" href="generated/librosa.core.pcen.html#librosa.core.pcen" title="librosa.core.pcen"><code class="xref py py-obj docutils literal notranslate"><span class="pre">librosa.core.pcen</span></code></a> Per-channel energy normalization (PCEN) now allows logarithmic range compression at the limit power-&gt;0. <em>Vincent Lostanlen</em></li>
+<li><a class="reference external" href="https://github.com/librosa/librosa/issues/863">#863</a> <a class="reference internal" href="generated/librosa.effects.pitch_shift.html#librosa.effects.pitch_shift" title="librosa.effects.pitch_shift"><code class="xref py py-obj docutils literal notranslate"><span class="pre">librosa.effects.pitch_shift</span></code></a> supports custom resampling modes. <em>Taewoon Kim</em></li>
+<li><a class="reference external" href="https://github.com/librosa/librosa/issues/857">#857</a> <a class="reference internal" href="generated/librosa.core.cqt.html#librosa.core.cqt" title="librosa.core.cqt"><code class="xref py py-obj docutils literal notranslate"><span class="pre">librosa.core.cqt</span></code></a> and <a class="reference internal" href="generated/librosa.core.icqt.html#librosa.core.icqt" title="librosa.core.icqt"><code class="xref py py-obj docutils literal notranslate"><span class="pre">librosa.core.icqt</span></code></a> Forward and inverse constant-Q transform now support custom resampling modes. <em>Brian McFee</em></li>
+<li><a class="reference external" href="https://github.com/librosa/librosa/issues/842">#842</a> <a class="reference internal" href="generated/librosa.segment.path_enhance.html#librosa.segment.path_enhance" title="librosa.segment.path_enhance"><code class="xref py py-obj docutils literal notranslate"><span class="pre">librosa.segment.path_enhance</span></code></a>: Near-diagonal path enhancement for recurrence, self- or cross-similarity matrices. <em>Brian McFee</em></li>
+<li><a class="reference external" href="https://github.com/librosa/librosa/issues/840">#840</a> <a class="reference internal" href="generated/librosa.segment.recurrence_matrix.html#librosa.segment.recurrence_matrix" title="librosa.segment.recurrence_matrix"><code class="xref py py-obj docutils literal notranslate"><span class="pre">librosa.segment.recurrence_matrix</span></code></a> now supports a keyword argument, <em class="xref py py-obj">self=False</em>. If set to <em class="xref py py-obj">True</em>, the recurrence matrix includes self-loops. <em>Brian McFee</em></li>
+<li><a class="reference external" href="https://github.com/librosa/librosa/issues/776">#776</a> <a class="reference internal" href="generated/librosa.core.piptrack.html#librosa.core.piptrack" title="librosa.core.piptrack"><code class="xref py py-obj docutils literal notranslate"><span class="pre">librosa.core.piptrack</span></code></a> now supports a keyword argument, <em class="xref py py-obj">ref=None</em>, allowing users to override the reference thresholding behavior for determining which bins correspond to pitches. <em>Brian McFee</em></li>
+<li><a class="reference external" href="https://github.com/librosa/librosa/issues/770">#770</a> <a class="reference internal" href="generated/librosa.segment.cross_similarity.html#librosa.segment.cross_similarity" title="librosa.segment.cross_similarity"><code class="xref py py-obj docutils literal notranslate"><span class="pre">librosa.segment.cross_similarity</span></code></a>: Cross-similarity function for comparing two feature sequences. <em>Rachel Bittner, Brian McFee</em></li>
+<li><a class="reference external" href="https://github.com/librosa/librosa/issues/709">#709</a> <a class="reference internal" href="generated/librosa.onset.onset_strength_multi.html#librosa.onset.onset_strength_multi" title="librosa.onset.onset_strength_multi"><code class="xref py py-obj docutils literal notranslate"><span class="pre">librosa.onset.onset_strength_multi</span></code></a> now supports a user-specified reference spectrum via the <em class="xref py py-obj">ref</em> keyword argument. <em>Brian McFee</em></li>
+<li><a class="reference external" href="https://github.com/librosa/librosa/issues/576">#576</a> <a class="reference internal" href="generated/librosa.core.resample.html#librosa.core.resample" title="librosa.core.resample"><code class="xref py py-obj docutils literal notranslate"><span class="pre">librosa.core.resample</span></code></a> now supports <em class="xref py py-obj">mode=’polyphase’</em>. <em>Brian McFee</em></li>
+<li><a class="reference external" href="https://github.com/librosa/librosa/issues/519">#519</a> <a class="reference internal" href="generated/librosa.onset.onset_strength_multi.html#librosa.onset.onset_strength_multi" title="librosa.onset.onset_strength_multi"><code class="xref py py-obj docutils literal notranslate"><span class="pre">librosa.onset.onset_strength_multi</span></code></a>: Setting <em class="xref py py-obj">aggregate=False</em> disables the aggregation of onset strengths across frequency bins. <em>Brian McFee</em></li>
 </ul>
 </dd>
 <dt>Bug fixes</dt>
 <dd><ul class="first last simple">
-<li><a class="reference external" href="https://github.com/librosa/librosa/issues/900">#900</a> <em class="xref py py-obj">effects.pitch_shift</em> preserves length. <em>Vincent Lostanlen</em></li>
-<li><a class="reference external" href="https://github.com/librosa/librosa/issues/891">#891</a> Dynamic range compression in PCEN is more numerically stable for small values of the exponent. <em>Vincent Lostanlen</em></li>
-<li><a class="reference external" href="https://github.com/librosa/librosa/issues/888">#888</a> Fixed a bug in instantaneous frequency spectrogram (ifgram) for choices of window other than <em class="xref py py-obj">hann</em>. <em>Brian McFee</em></li>
-<li><a class="reference external" href="https://github.com/librosa/librosa/issues/869">#869</a> Fixed a bug in dynamic time warping when <em class="xref py py-obj">subseq=True</em>. <em>Viktor Andreevitch Morozov</em></li>
-<li><a class="reference external" href="https://github.com/librosa/librosa/issues/851">#851</a> PCEN now initializes its autoregressive filtering in the steady state, not with silence. <em>Jan Schlüter, Brian McFee</em></li>
-<li><a class="reference external" href="https://github.com/librosa/librosa/issues/833">#833</a> <em class="xref py py-obj">width</em> parameter of <em class="xref py py-obj">recurrence_matrix</em> cannot exceed data length. <em>Brian McFee</em></li>
+<li><a class="reference external" href="https://github.com/librosa/librosa/issues/900">#900</a> <a class="reference internal" href="generated/librosa.effects.pitch_shift.html#librosa.effects.pitch_shift" title="librosa.effects.pitch_shift"><code class="xref py py-obj docutils literal notranslate"><span class="pre">librosa.effects.pitch_shift</span></code></a> now preserves length. <em>Vincent Lostanlen</em></li>
+<li><a class="reference external" href="https://github.com/librosa/librosa/issues/891">#891</a> <a class="reference internal" href="generated/librosa.core.pcen.html#librosa.core.pcen" title="librosa.core.pcen"><code class="xref py py-obj docutils literal notranslate"><span class="pre">librosa.core.pcen</span></code></a> Dynamic range compression in PCEN is more numerically stable for small values of the exponent. <em>Vincent Lostanlen</em></li>
+<li><a class="reference external" href="https://github.com/librosa/librosa/issues/888">#888</a> <a class="reference internal" href="generated/librosa.core.ifgram.html#librosa.core.ifgram" title="librosa.core.ifgram"><code class="xref py py-obj docutils literal notranslate"><span class="pre">librosa.core.ifgram</span></code></a> Instantaneous frequency spectrogram now correctly estimates center frequencies when using windows other than <em class="xref py py-obj">hann</em>. <em>Brian McFee</em></li>
+<li><a class="reference external" href="https://github.com/librosa/librosa/issues/869">#869</a> <a class="reference internal" href="generated/librosa.sequence.dtw.html#librosa.sequence.dtw" title="librosa.sequence.dtw"><code class="xref py py-obj docutils literal notranslate"><span class="pre">librosa.sequence.dtw</span></code></a> Fixed a bug in dynamic time warping when <em class="xref py py-obj">subseq=True</em>. <em>Viktor Andreevitch Morozov</em></li>
+<li><a class="reference external" href="https://github.com/librosa/librosa/issues/851">#851</a> <a class="reference internal" href="generated/librosa.core.pcen.html#librosa.core.pcen" title="librosa.core.pcen"><code class="xref py py-obj docutils literal notranslate"><span class="pre">librosa.core.pcen</span></code></a> now initializes its autoregressive filtering in the steady state, not with silence. <em>Jan Schlüter, Brian McFee</em></li>
+<li><a class="reference external" href="https://github.com/librosa/librosa/issues/833">#833</a> <a class="reference internal" href="generated/librosa.segment.recurrence_matrix.html#librosa.segment.recurrence_matrix" title="librosa.segment.recurrence_matrix"><code class="xref py py-obj docutils literal notranslate"><span class="pre">librosa.segment.recurrence_matrix</span></code></a>: <em class="xref py py-obj">width</em> parameter now cannot exceed data length. <em>Brian McFee</em></li>
 <li><a class="reference external" href="https://github.com/librosa/librosa/issues/825">#825</a> Filter bank constructors <em class="xref py py-obj">mel</em>, <em class="xref py py-obj">chroma</em>, <em class="xref py py-obj">constant_q</em>, and <em class="xref py py-obj">cq_to_chroma</em> are now type-stable. <em>Vincent Lostanlen, Brian McFee</em></li>
-<li><a class="reference external" href="https://github.com/librosa/librosa/issues/802">#802</a> Inverse constant-Q transform has been completely rewritten and is more numerically stable. <em>Brian McFee</em></li>
+<li><a class="reference external" href="https://github.com/librosa/librosa/issues/802">#802</a> <a class="reference internal" href="generated/librosa.core.icqt.html#librosa.core.icqt" title="librosa.core.icqt"><code class="xref py py-obj docutils literal notranslate"><span class="pre">librosa.core.icqt</span></code></a> Inverse constant-Q transform has been completely rewritten and is more numerically stable. <em>Brian McFee</em></li>
 </ul>
 </dd>
 <dt>Removed features (deprecated in v0.6)</dt>
@@ -275,11 +276,12 @@
 </dd>
 <dt>Other changes</dt>
 <dd><ul class="first last simple">
+<li><a class="reference external" href="https://github.com/librosa/librosa/issues/917">#917</a> The <em class="xref py py-obj">output</em> module is now deprecated, and will be removed in version 0.8.</li>
 <li><a class="reference external" href="https://github.com/librosa/librosa/issues/878">#878</a> More informative exception handling. <em>Jack Mason</em></li>
-<li><a class="reference external" href="https://github.com/librosa/librosa/issues/857">#857</a> <em class="xref py py-obj">resample()</em> now supports <em class="xref py py-obj">mode=’fft’</em>, equivalent to the previous <a class="reference external" href="https://docs.scipy.org/doc/scipy/reference/index.html#module-scipy" title="(in SciPy v1.3.0)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">scipy</span></code></a> mode. <em>Brian McFee</em></li>
+<li><a class="reference external" href="https://github.com/librosa/librosa/issues/857">#857</a> <em class="xref py py-obj">librosa.core.resample()</em> now supports <em class="xref py py-obj">mode=’fft’</em>, equivalent to the previous <a class="reference external" href="https://docs.scipy.org/doc/scipy/reference/index.html#module-scipy" title="(in SciPy v1.3.0)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">scipy</span></code></a> mode. <em>Brian McFee</em></li>
 <li><a class="reference external" href="https://github.com/librosa/librosa/issues/854">#854</a> More efficient length-aware ISTFT and ICQT. <em>Vincent Lostanlen</em></li>
 <li><a class="reference external" href="https://github.com/librosa/librosa/issues/846">#846</a> Nine librosa functions now store jit-compiled, numba-accelerated caches across sessions. <em>Brian McFee</em></li>
-<li><a class="reference external" href="https://github.com/librosa/librosa/issues/841">#841</a> <em class="xref py py-obj">core.load</em> no longer relies on <em class="xref py py-obj">realpath()</em>. <em>Brian McFee</em></li>
+<li><a class="reference external" href="https://github.com/librosa/librosa/issues/841">#841</a> <a class="reference internal" href="generated/librosa.core.load.html#librosa.core.load" title="librosa.core.load"><code class="xref py py-obj docutils literal notranslate"><span class="pre">librosa.core.load</span></code></a> no longer relies on <em class="xref py py-obj">realpath()</em>. <em>Brian McFee</em></li>
 <li><a class="reference external" href="https://github.com/librosa/librosa/issues/834">#834</a> All spectral feature extractors now expose all STFT parameters. <em>Brian McFee</em></li>
 <li><a class="reference external" href="https://github.com/librosa/librosa/issues/829">#829</a> Refactored <code class="xref py py-obj docutils literal notranslate"><span class="pre">librosa.cache</span></code>. <em>Brian McFee</em></li>
 <li><a class="reference external" href="https://github.com/librosa/librosa/issues/818">#818</a> Thanks to <em class="xref py py-obj">np.fft.rfft</em>, functions <em class="xref py py-obj">stft</em>, <em class="xref py py-obj">istft</em>, <em class="xref py py-obj">ifgram</em>, and <em class="xref py py-obj">fmt</em> are faster and have a reduced memory footprint. <em>Brian McFee</em></li>
@@ -1056,7 +1058,7 @@ adapt to scale (mHz, Hz, KHz, MHz, GHz) and use automatic precision formatting (
 
   <div role="contentinfo">
     <p>
-        &copy; Copyright 2013--2018, librosa development team
+        &copy; Copyright 2013--2019, librosa development team
 
     </p>
   </div>
@@ -1089,7 +1091,7 @@ adapt to scale (mHz, Hz, KHz, MHz, GHz) and use automatic precision formatting (
             <dd><a href="../0.6.1/changelog.html">0.6.1</a></dd>
             <dd><a href="../0.6.2/changelog.html">0.6.2</a></dd>
             <dd><a href="../0.6.3/changelog.html">0.6.3</a></dd>
-            <dd><a href="../0.7.0rc1/changelog.html">0.7.0rc1</a></dd>
+            <dd><a href="../0.7.0/changelog.html">0.7.0</a></dd>
             <dd><a href="../v0.1.0/index.html">v0.1.0</a></dd>
             <dd><a href="../v0.4.0/changelog.html">v0.4.0</a></dd>
         </dl>

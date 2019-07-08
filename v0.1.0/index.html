@@ -43,7 +43,7 @@
 
 
 
-    <p class="scv-banner"><a href="../0.7.0rc1/index.html"><b>Warning:</b> This document is for an old version of librosa. The latest version is 0.7.0rc1.</a></p>
+    <p class="scv-banner"><a href="../0.7.0/index.html"><b>Warning:</b> This document is for an old version of librosa. The latest version is 0.7.0.</a></p>
 <div class="toctree-wrapper compound">
 </div>
 <div class="section" id="module-librosa.core">
@@ -5342,6 +5342,8 @@ differs from the default specified by
 <span id="output-methods"></span><h1>Output methods<a class="headerlink" href="#module-librosa.output" title="Permalink to this headline">¶</a></h1>
 <div class="section" id="output">
 <h2>Output<a class="headerlink" href="#output" title="Permalink to this headline">¶</a></h2>
+<p>Note: the <cite>librosa.output</cite> module is deprecated as of version 0.7.0, and
+it will be removed entirely in version 0.8.</p>
 <div class="section" id="text-output">
 <h3>Text output<a class="headerlink" href="#text-output" title="Permalink to this headline">¶</a></h3>
 </div>
@@ -5358,6 +5360,11 @@ differs from the default specified by
 </pre></div>
 </div>
 <p>This can be used for segment or chord annotations.</p>
+<div class="admonition warning">
+<p class="first admonition-title">Warning</p>
+<p class="last">This function is deprecated in librosa 0.7.0.
+It will be removed in 0.8.</p>
+</div>
 <dl class="docutils">
 <dt>path <span class="classifier-delimiter">:</span> <span class="classifier">str</span></dt>
 <dd>path to save the output CSV file</dd>
@@ -5429,6 +5436,11 @@ delimiter-separated values:</p>
 <span class="o">...</span>
 </pre></div>
 </div>
+<div class="admonition warning">
+<p class="first admonition-title">Warning</p>
+<p class="last">This function is deprecated in librosa 0.7.0.
+It will be removed in 0.8.</p>
+</div>
 <dl class="docutils">
 <dt>path <span class="classifier-delimiter">:</span> <span class="classifier">string</span></dt>
 <dd>path to save the output CSV file</dd>
@@ -5458,11 +5470,13 @@ match <cite>times</cite></dd>
 <dt id="librosa.output.write_wav">
 <code class="descclassname">librosa.output.</code><code class="descname">write_wav</code><span class="sig-paren">(</span><em>path</em>, <em>y</em>, <em>sr</em>, <em>norm=False</em><span class="sig-paren">)</span><a class="headerlink" href="#librosa.output.write_wav" title="Permalink to this definition">¶</a></dt>
 <dd><p>Output a time series as a .wav file</p>
-<dl class="docutils">
-<dt>Note: only mono or stereo, floating-point data is supported.</dt>
-<dd>For more advanced and flexible output options, refer to
-<cite>soundfile</cite>.</dd>
-</dl>
+<p>Note: only mono or stereo, floating-point data is supported.</p>
+<div class="admonition warning">
+<p class="first admonition-title">Warning</p>
+<p class="last">This function is deprecated in librosa 0.7.0.
+It will be removed in 0.8.  Usage of <cite>write_wav</cite> should
+be replaced by <cite>soundfile.write</cite>.</p>
+</div>
 <dl class="docutils">
 <dt>path <span class="classifier-delimiter">:</span> <span class="classifier">str</span></dt>
 <dd>path to save the output wav file</dd>
@@ -5507,7 +5521,7 @@ For floating point <cite>y</cite>, scale the data to the range [-1, +1].</dd>
     <li><a href="../0.6.1/index.html">0.6.1</a></li>
     <li><a href="../0.6.2/index.html">0.6.2</a></li>
     <li><a href="../0.6.3/index.html">0.6.3</a></li>
-    <li><a href="../0.7.0rc1/index.html">0.7.0rc1</a></li>
+    <li><a href="../0.7.0/index.html">0.7.0</a></li>
     <li><a href="index.html">v0.1.0</a></li>
     <li><a href="../v0.4.0/index.html">v0.4.0</a></li>
 </ul>

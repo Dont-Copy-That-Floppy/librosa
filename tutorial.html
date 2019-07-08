@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Tutorial &mdash; librosa 0.7.0rc1 documentation</title>
+  <title>Tutorial &mdash; librosa 0.7.0 documentation</title>
   
 
   
@@ -23,7 +23,7 @@
       <script type="text/javascript">
           var DOCUMENTATION_OPTIONS = {
               URL_ROOT:'./',
-              VERSION:'0.7.0rc1',
+              VERSION:'0.7.0',
               LANGUAGE:'None',
               COLLAPSE_INDEX:false,
               FILE_SUFFIX:'.html',
@@ -263,7 +263,7 @@ internal functions used by other parts of <em>librosa</em>.</dd>
 </li>
 <li><dl class="first docutils">
 <dt><a class="reference internal" href="output.html#output"><span class="std std-ref">librosa.output</span></a></dt>
-<dd>Text- and wav-file output.</dd>
+<dd>Text- and wav-file output. <em>(Deprecated)</em></dd>
 </dl>
 </li>
 <li><dl class="first docutils">
@@ -309,10 +309,7 @@ and helper functions for constructing transition matrices.</dd>
 15
 16
 17
-18
-19
-20
-21</pre></div></td><td class="code"><div class="highlight"><pre><span></span><span class="c1"># Beat tracking example</span>
+18</pre></div></td><td class="code"><div class="highlight"><pre><span></span><span class="c1"># Beat tracking example</span>
 <span class="kn">from</span> <span class="nn">__future__</span> <span class="kn">import</span> <span class="n">print_function</span>
 <span class="kn">import</span> <span class="nn">librosa</span>
 
@@ -330,9 +327,6 @@ and helper functions for constructing transition matrices.</dd>
 
 <span class="c1"># 4. Convert the frame indices of beat events into timestamps</span>
 <span class="n">beat_times</span> <span class="o">=</span> <span class="n">librosa</span><span class="o">.</span><span class="n">frames_to_time</span><span class="p">(</span><span class="n">beat_frames</span><span class="p">,</span> <span class="n">sr</span><span class="o">=</span><span class="n">sr</span><span class="p">)</span>
-
-<span class="k">print</span><span class="p">(</span><span class="s1">&#39;Saving output to beat_times.csv&#39;</span><span class="p">)</span>
-<span class="n">librosa</span><span class="o">.</span><span class="n">output</span><span class="o">.</span><span class="n">times_csv</span><span class="p">(</span><span class="s1">&#39;beat_times.csv&#39;</span><span class="p">,</span> <span class="n">beat_times</span><span class="p">)</span>
 </pre></div>
 </td></tr></table></div>
 <p>The first step of the program:</p>
@@ -367,12 +361,7 @@ that the <em>k</em>th frame is centered around sample <code class="docutils lite
 </div>
 <p>Now, <code class="docutils literal notranslate"><span class="pre">beat_times</span></code> will be an array of timestamps (in seconds) corresponding to
 detected beat events.</p>
-<p>Finally, we can store the detected beat timestamps as a comma-separated values (CSV)
-file:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">librosa</span><span class="o">.</span><span class="n">output</span><span class="o">.</span><span class="n">times_csv</span><span class="p">(</span><span class="s1">&#39;beat_times.csv&#39;</span><span class="p">,</span> <span class="n">beat_times</span><span class="p">)</span>
-</pre></div>
-</div>
-<p>The contents of <code class="docutils literal notranslate"><span class="pre">beat_times.csv</span></code> should look something like this:</p>
+<p>The contents of <code class="docutils literal notranslate"><span class="pre">beat_times</span></code> should look something like this:</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="mf">7.43</span>
 <span class="mf">8.29</span>
 <span class="mf">9.218</span>
@@ -380,9 +369,6 @@ file:</p>
 <span class="o">...</span>
 </pre></div>
 </div>
-<p>This is primarily useful for visualization purposes (e.g., using
-<a class="reference external" href="http://www.sonicvisualiser.org">Sonic Visualiser</a>) or evaluation (e.g., using
-<a class="reference external" href="https://github.com/craffel/mir_eval">mir_eval</a>).</p>
 </div>
 <div class="section" id="advanced-usage">
 <h2>Advanced usage<a class="headerlink" href="#advanced-usage" title="Permalink to this headline">¶</a></h2>
@@ -563,7 +549,7 @@ be supplied here, including <em class="xref py py-obj">np.max()</em>, <em class=
 
   <div role="contentinfo">
     <p>
-        &copy; Copyright 2013--2018, librosa development team
+        &copy; Copyright 2013--2019, librosa development team
 
     </p>
   </div>
@@ -581,7 +567,7 @@ be supplied here, including <em class="xref py py-obj">np.max()</em>, <em class=
 <div class="rst-versions" data-toggle="rst-versions" role="note" aria-label="versions">
     <span class="rst-current-version" data-toggle="rst-current-version">
         <span class="fa fa-book"> Other Versions</span>
-        v: 0.7.0rc1
+        v: 0.7.0
         <span class="fa fa-caret-down"></span>
     </span>
     <div class="rst-other-versions">
@@ -596,7 +582,7 @@ be supplied here, including <em class="xref py py-obj">np.max()</em>, <em class=
             <dd><a href="0.6.1/tutorial.html">0.6.1</a></dd>
             <dd><a href="0.6.2/tutorial.html">0.6.2</a></dd>
             <dd><a href="0.6.3/tutorial.html">0.6.3</a></dd>
-            <dd><a href="0.7.0rc1/tutorial.html">0.7.0rc1</a></dd>
+            <dd><a href="0.7.0/tutorial.html">0.7.0</a></dd>
             <dd><a href="v0.1.0/index.html">v0.1.0</a></dd>
             <dd><a href="v0.4.0/tutorial.html">v0.4.0</a></dd>
         </dl>

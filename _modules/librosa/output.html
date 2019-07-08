@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>librosa.output &mdash; librosa 0.7.0rc1 documentation</title>
+  <title>librosa.output &mdash; librosa 0.7.0 documentation</title>
   
 
   
@@ -23,7 +23,7 @@
       <script type="text/javascript">
           var DOCUMENTATION_OPTIONS = {
               URL_ROOT:'../../',
-              VERSION:'0.7.0rc1',
+              VERSION:'0.7.0',
               LANGUAGE:'None',
               COLLAPSE_INDEX:false,
               FILE_SUFFIX:'.html',
@@ -194,6 +194,9 @@
 <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">Output</span>
 <span class="sd">======</span>
+<span class="sd">Note: the `librosa.output` module is deprecated as of version 0.7.0, and</span>
+<span class="sd">it will be removed entirely in version 0.8.</span>
+
 
 <span class="sd">Text output</span>
 <span class="sd">-----------</span>
@@ -219,12 +222,13 @@
 
 <span class="kn">from</span> <span class="nn">.</span> <span class="k">import</span> <span class="n">util</span>
 <span class="kn">from</span> <span class="nn">.util.exceptions</span> <span class="k">import</span> <span class="n">ParameterError</span>
-
+<span class="kn">from</span> <span class="nn">.util.decorators</span> <span class="k">import</span> <span class="n">deprecated</span>
 
 <span class="n">__all__</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;annotation&#39;</span><span class="p">,</span> <span class="s1">&#39;times_csv&#39;</span><span class="p">,</span> <span class="s1">&#39;write_wav&#39;</span><span class="p">]</span>
 
 
-<div class="viewcode-block" id="annotation"><a class="viewcode-back" href="../../generated/librosa.output.annotation.html#librosa.output.annotation">[docs]</a><span class="k">def</span> <span class="nf">annotation</span><span class="p">(</span><span class="n">path</span><span class="p">,</span> <span class="n">intervals</span><span class="p">,</span> <span class="n">annotations</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">delimiter</span><span class="o">=</span><span class="s1">&#39;,&#39;</span><span class="p">,</span> <span class="n">fmt</span><span class="o">=</span><span class="s1">&#39;</span><span class="si">%0.3f</span><span class="s1">&#39;</span><span class="p">):</span>
+<div class="viewcode-block" id="annotation"><a class="viewcode-back" href="../../generated/librosa.output.annotation.html#librosa.output.annotation">[docs]</a><span class="nd">@deprecated</span><span class="p">(</span><span class="s1">&#39;0.7.0&#39;</span><span class="p">,</span> <span class="s1">&#39;0.8&#39;</span><span class="p">)</span>
+<span class="k">def</span> <span class="nf">annotation</span><span class="p">(</span><span class="n">path</span><span class="p">,</span> <span class="n">intervals</span><span class="p">,</span> <span class="n">annotations</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">delimiter</span><span class="o">=</span><span class="s1">&#39;,&#39;</span><span class="p">,</span> <span class="n">fmt</span><span class="o">=</span><span class="s1">&#39;</span><span class="si">%0.3f</span><span class="s1">&#39;</span><span class="p">):</span>
     <span class="sa">r</span><span class="sd">&#39;&#39;&#39;Save annotations in a 3-column format::</span>
 
 <span class="sd">        intervals[0, 0],intervals[0, 1],annotations[0]\n</span>
@@ -233,6 +237,9 @@
 <span class="sd">        ...</span>
 
 <span class="sd">    This can be used for segment or chord annotations.</span>
+
+<span class="sd">    .. warning:: This function is deprecated in librosa 0.7.0.</span>
+<span class="sd">        It will be removed in 0.8.</span>
 
 <span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>
@@ -308,7 +315,8 @@
                 <span class="n">writer</span><span class="o">.</span><span class="n">writerow</span><span class="p">([</span><span class="n">fmt</span> <span class="o">%</span> <span class="n">t_int</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">fmt</span> <span class="o">%</span> <span class="n">t_int</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">lab</span><span class="p">])</span></div>
 
 
-<div class="viewcode-block" id="times_csv"><a class="viewcode-back" href="../../generated/librosa.output.times_csv.html#librosa.output.times_csv">[docs]</a><span class="k">def</span> <span class="nf">times_csv</span><span class="p">(</span><span class="n">path</span><span class="p">,</span> <span class="n">times</span><span class="p">,</span> <span class="n">annotations</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">delimiter</span><span class="o">=</span><span class="s1">&#39;,&#39;</span><span class="p">,</span> <span class="n">fmt</span><span class="o">=</span><span class="s1">&#39;</span><span class="si">%0.3f</span><span class="s1">&#39;</span><span class="p">):</span>
+<div class="viewcode-block" id="times_csv"><a class="viewcode-back" href="../../generated/librosa.output.times_csv.html#librosa.output.times_csv">[docs]</a><span class="nd">@deprecated</span><span class="p">(</span><span class="s1">&#39;0.7.0&#39;</span><span class="p">,</span> <span class="s1">&#39;0.8&#39;</span><span class="p">)</span>
+<span class="k">def</span> <span class="nf">times_csv</span><span class="p">(</span><span class="n">path</span><span class="p">,</span> <span class="n">times</span><span class="p">,</span> <span class="n">annotations</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">delimiter</span><span class="o">=</span><span class="s1">&#39;,&#39;</span><span class="p">,</span> <span class="n">fmt</span><span class="o">=</span><span class="s1">&#39;</span><span class="si">%0.3f</span><span class="s1">&#39;</span><span class="p">):</span>
     <span class="sa">r</span><span class="sd">&quot;&quot;&quot;Save time steps as in CSV format.  This can be used to store the output</span>
 <span class="sd">    of a beat-tracker or segmentation algorithm.</span>
 
@@ -328,6 +336,8 @@
 <span class="sd">        times[2],annotations[2]\n</span>
 <span class="sd">        ...</span>
 
+<span class="sd">    .. warning:: This function is deprecated in librosa 0.7.0.</span>
+<span class="sd">        It will be removed in 0.8.</span>
 
 <span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>
@@ -375,12 +385,16 @@
                 <span class="n">writer</span><span class="o">.</span><span class="n">writerow</span><span class="p">([(</span><span class="n">fmt</span> <span class="o">%</span> <span class="n">t</span><span class="p">),</span> <span class="n">lab</span><span class="p">])</span></div>
 
 
-<div class="viewcode-block" id="write_wav"><a class="viewcode-back" href="../../generated/librosa.output.write_wav.html#librosa.output.write_wav">[docs]</a><span class="k">def</span> <span class="nf">write_wav</span><span class="p">(</span><span class="n">path</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">sr</span><span class="p">,</span> <span class="n">norm</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+<div class="viewcode-block" id="write_wav"><a class="viewcode-back" href="../../generated/librosa.output.write_wav.html#librosa.output.write_wav">[docs]</a><span class="nd">@deprecated</span><span class="p">(</span><span class="s1">&#39;0.7.0&#39;</span><span class="p">,</span> <span class="s1">&#39;0.8&#39;</span><span class="p">)</span>
+<span class="k">def</span> <span class="nf">write_wav</span><span class="p">(</span><span class="n">path</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">sr</span><span class="p">,</span> <span class="n">norm</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;Output a time series as a .wav file</span>
 
 <span class="sd">    Note: only mono or stereo, floating-point data is supported.</span>
-<span class="sd">        For more advanced and flexible output options, refer to</span>
-<span class="sd">        `soundfile`.</span>
+
+<span class="sd">    .. warning:: This function is deprecated in librosa 0.7.0.</span>
+<span class="sd">        It will be removed in 0.8.  Usage of `write_wav` should</span>
+<span class="sd">        be replaced by `soundfile.write`.</span>
+
 
 <span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>
@@ -439,7 +453,7 @@
 
   <div role="contentinfo">
     <p>
-        &copy; Copyright 2013--2018, librosa development team
+        &copy; Copyright 2013--2019, librosa development team
 
     </p>
   </div>
@@ -457,7 +471,7 @@
 <div class="rst-versions" data-toggle="rst-versions" role="note" aria-label="versions">
     <span class="rst-current-version" data-toggle="rst-current-version">
         <span class="fa fa-book"> Other Versions</span>
-        v: 0.7.0rc1
+        v: 0.7.0
         <span class="fa fa-caret-down"></span>
     </span>
     <div class="rst-other-versions">
@@ -472,7 +486,7 @@
             <dd><a href="../../0.6.1/index.html">0.6.1</a></dd>
             <dd><a href="../../0.6.2/index.html">0.6.2</a></dd>
             <dd><a href="../../0.6.3/index.html">0.6.3</a></dd>
-            <dd><a href="../../0.7.0rc1/_modules/librosa/output.html">0.7.0rc1</a></dd>
+            <dd><a href="../../0.7.0/_modules/librosa/output.html">0.7.0</a></dd>
             <dd><a href="../../v0.1.0/index.html">v0.1.0</a></dd>
             <dd><a href="../../v0.4.0/index.html">v0.4.0</a></dd>
         </dl>

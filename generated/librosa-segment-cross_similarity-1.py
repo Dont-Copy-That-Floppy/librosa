@@ -1,9 +1,10 @@
 # Find nearest neighbors in MFCC space between two sequences
 
+hop_length = 1024
 y_ref, sr = librosa.load(librosa.util.example_audio_file())
 y_comp, sr = librosa.load(librosa.util.example_audio_file(), offset=10)
-mfcc_ref = librosa.feature.mfcc(y=y_ref, sr=sr)
-mfcc_comp = librosa.feature.mfcc(y=y_comp, sr=sr)
+mfcc_ref = librosa.feature.mfcc(y=y_ref, sr=sr, hop_length=hop_length)
+mfcc_comp = librosa.feature.mfcc(y=y_comp, sr=sr, hop_length=hop_length)
 xsim = librosa.segment.cross_similarity(mfcc_comp, mfcc_ref)
 
 # Or fix the number of nearest neighbors to 5
@@ -23,10 +24,10 @@ xsim_aff = librosa.segment.cross_similarity(mfcc_comp, mfcc_ref, mode='affinity'
 import matplotlib.pyplot as plt
 plt.figure(figsize=(8, 4))
 plt.subplot(1, 2, 1)
-librosa.display.specshow(xsim, x_axis='time', y_axis='time')
+librosa.display.specshow(xsim, x_axis='time', y_axis='time', hop_length=hop_length)
 plt.title('Binary recurrence (symmetric)')
 plt.subplot(1, 2, 2)
 librosa.display.specshow(xsim_aff, x_axis='time', y_axis='time',
-                         cmap='magma_r')
+                         cmap='magma_r', hop_length=hop_length)
 plt.title('Affinity recurrence')
 plt.tight_layout()

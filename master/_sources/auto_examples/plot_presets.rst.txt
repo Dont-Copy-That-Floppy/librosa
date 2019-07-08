@@ -151,7 +151,7 @@ Now we can load in a file and do some analysis with the new defaults
 
  .. code-block:: none
 
-    /tmp/tmpgtqol7a5sphinxcontrib_versioning/363461c613547dccc3f04b78fc40eaa225d9cb34/docs/examples/plot_presets.py:103: UserWarning: Matplotlib is currently using agg, which is a non-GUI backend, so cannot show the figure.
+    /tmp/tmp_b54sl3ysphinxcontrib_versioning/17a5852ca1d052cb6f54ca9849c8fd97edf6c939/docs/examples/plot_presets.py:103: UserWarning: Matplotlib is currently using agg, which is a non-GUI backend, so cannot show the figure.
       plt.show()
 
 
@@ -159,7 +159,7 @@ Now we can load in a file and do some analysis with the new defaults
 
 .. rst-class:: sphx-glr-timing
 
-   **Total running time of the script:** ( 0 minutes  2.842 seconds)
+   **Total running time of the script:** ( 0 minutes  2.911 seconds)
 
 
 .. _sphx_glr_download_auto_examples_plot_presets.py:

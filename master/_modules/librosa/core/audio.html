@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>librosa.core.audio &mdash; librosa 0.7.0 documentation</title>
+  <title>librosa.core.audio &mdash; librosa 0.7.1 documentation</title>
   
 
   
@@ -23,7 +23,7 @@
       <script type="text/javascript">
           var DOCUMENTATION_OPTIONS = {
               URL_ROOT:'../../../',
-              VERSION:'0.7.0',
+              VERSION:'0.7.1',
               LANGUAGE:'None',
               COLLAPSE_INDEX:false,
               FILE_SUFFIX:'.html',
@@ -198,6 +198,8 @@
 
 <span class="kn">import</span> <span class="nn">os</span>
 <span class="kn">import</span> <span class="nn">six</span>
+<span class="kn">import</span> <span class="nn">sys</span>
+<span class="kn">import</span> <span class="nn">warnings</span>
 
 <span class="kn">import</span> <span class="nn">soundfile</span> <span class="k">as</span> <span class="nn">sf</span>
 <span class="kn">import</span> <span class="nn">audioread</span>
@@ -332,8 +334,13 @@
             <span class="n">y</span> <span class="o">=</span> <span class="n">sf_desc</span><span class="o">.</span><span class="n">read</span><span class="p">(</span><span class="n">frames</span><span class="o">=</span><span class="n">frame_duration</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">dtype</span><span class="p">,</span> <span class="n">always_2d</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span><span class="o">.</span><span class="n">T</span>
 
     <span class="k">except</span> <span class="ne">RuntimeError</span> <span class="k">as</span> <span class="n">exc</span><span class="p">:</span>
-        <span class="c1"># If soundfile failed, fall back to the audioread loader</span>
-        <span class="n">y</span><span class="p">,</span> <span class="n">sr_native</span> <span class="o">=</span> <span class="n">__audioread_load</span><span class="p">(</span><span class="n">path</span><span class="p">,</span> <span class="n">offset</span><span class="p">,</span> <span class="n">duration</span><span class="p">,</span> <span class="n">dtype</span><span class="p">)</span>
+
+        <span class="c1"># If soundfile failed, try audioread instead</span>
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">path</span><span class="p">,</span> <span class="n">six</span><span class="o">.</span><span class="n">string_types</span><span class="p">):</span>
+            <span class="n">warnings</span><span class="o">.</span><span class="n">warn</span><span class="p">(</span><span class="s1">&#39;PySoundFile failed. Trying audioread instead.&#39;</span><span class="p">)</span>
+            <span class="n">y</span><span class="p">,</span> <span class="n">sr_native</span> <span class="o">=</span> <span class="n">__audioread_load</span><span class="p">(</span><span class="n">path</span><span class="p">,</span> <span class="n">offset</span><span class="p">,</span> <span class="n">duration</span><span class="p">,</span> <span class="n">dtype</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">six</span><span class="o">.</span><span class="n">reraise</span><span class="p">(</span><span class="o">*</span><span class="n">sys</span><span class="o">.</span><span class="n">exc_info</span><span class="p">())</span>
 
     <span class="c1"># Final cleanup for dtype and contiguity</span>
     <span class="k">if</span> <span class="n">mono</span><span class="p">:</span>
@@ -446,7 +453,7 @@
 <span class="sd">           when the signal is carved into blocks, because it would introduce</span>
 <span class="sd">           padding in the middle of the signal.  To disable this feature,</span>
 <span class="sd">           use `center=False` in all frame-based analyses.</span>
-<span class="sd">        </span>
+
 <span class="sd">    See the examples below for proper usage of this function.</span>
 
 <span class="sd">    Parameters</span>
@@ -496,7 +503,7 @@
 <span class="sd">    Yields</span>
 <span class="sd">    ------</span>
 <span class="sd">    y : np.ndarray</span>
-<span class="sd">        An audio buffer of (at most) </span>
+<span class="sd">        An audio buffer of (at most)</span>
 <span class="sd">        `block_length * (hop_length-1) + frame_length` samples.</span>
 
 <span class="sd">    See Also</span>
@@ -513,7 +520,7 @@
 
 <span class="sd">    &gt;&gt;&gt; filename = librosa.util.example_audio_file()</span>
 <span class="sd">    &gt;&gt;&gt; sr = librosa.get_samplerate(filename)</span>
-<span class="sd">    &gt;&gt;&gt; stream librosa.stream(filename,</span>
+<span class="sd">    &gt;&gt;&gt; stream = librosa.stream(filename,</span>
 <span class="sd">    ...                       block_length=256,</span>
 <span class="sd">    ...                       frame_length=4096,</span>
 <span class="sd">    ...                       hop_length=1024)</span>
@@ -547,6 +554,10 @@
     <span class="c1"># Get the sample rate from the file info</span>
     <span class="n">sr</span> <span class="o">=</span> <span class="n">sf</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="n">path</span><span class="p">)</span><span class="o">.</span><span class="n">samplerate</span>
 
+    <span class="c1"># If the input is a file handle, rewind its read position after `sf.info`</span>
+    <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">path</span><span class="p">,</span> <span class="s1">&#39;seek&#39;</span><span class="p">):</span>
+        <span class="n">path</span><span class="o">.</span><span class="n">seek</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+
     <span class="c1"># Construct the stream</span>
     <span class="k">if</span> <span class="n">offset</span><span class="p">:</span>
         <span class="n">start</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">offset</span> <span class="o">*</span> <span class="n">sr</span><span class="p">)</span>
@@ -576,7 +587,7 @@
 
 <div class="viewcode-block" id="to_mono"><a class="viewcode-back" href="../../../generated/librosa.core.to_mono.html#librosa.core.to_mono">[docs]</a><span class="nd">@cache</span><span class="p">(</span><span class="n">level</span><span class="o">=</span><span class="mi">20</span><span class="p">)</span>
 <span class="k">def</span> <span class="nf">to_mono</span><span class="p">(</span><span class="n">y</span><span class="p">):</span>
-    <span class="sd">&#39;&#39;&#39;Force an audio signal down to mono.</span>
+    <span class="sd">&#39;&#39;&#39;Force an audio signal down to mono by averaging samples across channels.</span>
 
 <span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>
@@ -602,6 +613,8 @@
 <span class="sd">    (1355168,)</span>
 
 <span class="sd">    &#39;&#39;&#39;</span>
+    <span class="c1"># Ensure Fortran contiguity.</span>
+    <span class="n">y</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">asfortranarray</span><span class="p">(</span><span class="n">y</span><span class="p">)</span>
 
     <span class="c1"># Validate the buffer.  Stereo is ok here.</span>
     <span class="n">util</span><span class="o">.</span><span class="n">valid_audio</span><span class="p">(</span><span class="n">y</span><span class="p">,</span> <span class="n">mono</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
@@ -718,7 +731,7 @@
     <span class="k">if</span> <span class="n">scale</span><span class="p">:</span>
         <span class="n">y_hat</span> <span class="o">/=</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">ratio</span><span class="p">)</span>
 
-    <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">ascontiguousarray</span><span class="p">(</span><span class="n">y_hat</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">y</span><span class="o">.</span><span class="n">dtype</span><span class="p">)</span></div>
+    <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">asfortranarray</span><span class="p">(</span><span class="n">y_hat</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">y</span><span class="o">.</span><span class="n">dtype</span><span class="p">)</span></div>
 
 
 <div class="viewcode-block" id="get_duration"><a class="viewcode-back" href="../../../generated/librosa.core.get_duration.html#librosa.core.get_duration">[docs]</a><span class="k">def</span> <span class="nf">get_duration</span><span class="p">(</span><span class="n">y</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">sr</span><span class="o">=</span><span class="mi">22050</span><span class="p">,</span> <span class="n">S</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">n_fft</span><span class="o">=</span><span class="mi">2048</span><span class="p">,</span> <span class="n">hop_length</span><span class="o">=</span><span class="mi">512</span><span class="p">,</span>
@@ -821,6 +834,9 @@
             <span class="n">n_samples</span> <span class="o">=</span> <span class="n">n_samples</span> <span class="o">-</span> <span class="mi">2</span> <span class="o">*</span> <span class="nb">int</span><span class="p">(</span><span class="n">n_fft</span> <span class="o">/</span> <span class="mi">2</span><span class="p">)</span>
 
     <span class="k">else</span><span class="p">:</span>
+        <span class="c1"># Ensure Fortran contiguity.</span>
+        <span class="n">y</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">asfortranarray</span><span class="p">(</span><span class="n">y</span><span class="p">)</span>
+
         <span class="c1"># Validate the audio buffer.  Stereo is okay here.</span>
         <span class="n">util</span><span class="o">.</span><span class="n">valid_audio</span><span class="p">(</span><span class="n">y</span><span class="p">,</span> <span class="n">mono</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
         <span class="k">if</span> <span class="n">y</span><span class="o">.</span><span class="n">ndim</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
@@ -1078,7 +1094,7 @@
         <span class="c1"># fwd_pred_error = f_{M-1,k}       (we have advanced M)</span>
         <span class="c1"># den &lt;- DEN_{M}                   (lhs)</span>
         <span class="c1">#</span>
-        
+
         <span class="n">q</span> <span class="o">=</span> <span class="n">dtype</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span> <span class="o">-</span> <span class="n">reflect_coeff</span><span class="o">**</span><span class="mi">2</span>
         <span class="n">den</span> <span class="o">=</span> <span class="n">q</span><span class="o">*</span><span class="n">den</span> <span class="o">-</span> <span class="n">bwd_pred_error</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span><span class="o">**</span><span class="mi">2</span> <span class="o">-</span> <span class="n">fwd_pred_error</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">**</span><span class="mi">2</span>
 
@@ -1157,7 +1173,7 @@
 <span class="sd">            True, False,  True, False,  True, False, False,  True,</span>
 <span class="sd">           False,  True, False,  True], dtype=bool)</span>
 <span class="sd">    &gt;&gt;&gt; # Stack y against the zero-crossing indicator</span>
-<span class="sd">    &gt;&gt;&gt; np.vstack([y, z]).T</span>
+<span class="sd">    &gt;&gt;&gt; librosa.util.stack([y, z], axis=-1)</span>
 <span class="sd">    array([[  0.000e+00,   1.000e+00],</span>
 <span class="sd">           [  9.694e-01,   0.000e+00],</span>
 <span class="sd">           [  4.759e-01,   0.000e+00],</span>
@@ -1571,6 +1587,7 @@
             <dd><a href="../../../../0.6.2/index.html">0.6.2</a></dd>
             <dd><a href="../../../../0.6.3/index.html">0.6.3</a></dd>
             <dd><a href="../../../../0.7.0/index.html">0.7.0</a></dd>
+            <dd><a href="../../../../0.7.1/index.html">0.7.1</a></dd>
             <dd><a href="../../../../v0.1.0/index.html">v0.1.0</a></dd>
             <dd><a href="../../../../v0.4.0/index.html">v0.4.0</a></dd>
         </dl>

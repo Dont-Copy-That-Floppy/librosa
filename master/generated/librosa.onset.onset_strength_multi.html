@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>librosa.onset.onset_strength_multi &mdash; librosa 0.7.0 documentation</title>
+  <title>librosa.onset.onset_strength_multi &mdash; librosa 0.7.1 documentation</title>
   
 
   
@@ -23,7 +23,7 @@
       <script type="text/javascript">
           var DOCUMENTATION_OPTIONS = {
               URL_ROOT:'../',
-              VERSION:'0.7.0',
+              VERSION:'0.7.1',
               LANGUAGE:'None',
               COLLAPSE_INDEX:false,
               FILE_SUFFIX:'.html',
@@ -202,12 +202,12 @@
 
 
 
-    <p class="scv-banner scv-sphinx_rtd_theme"><a href="../../0.7.0/generated/librosa.onset.onset_strength_multi.html"><b>Warning:</b> This document is for the development version of librosa. The latest version is 0.7.0.</a></p>
+    <p class="scv-banner scv-sphinx_rtd_theme"><a href="../../0.7.1/generated/librosa.onset.onset_strength_multi.html"><b>Warning:</b> This document is for the development version of librosa. The latest version is 0.7.1.</a></p>
 <div class="section" id="librosa-onset-onset-strength-multi">
 <h1>librosa.onset.onset_strength_multi<a class="headerlink" href="#librosa-onset-onset-strength-multi" title="Permalink to this headline">¶</a></h1>
 <dl class="function">
 <dt id="librosa.onset.onset_strength_multi">
-<code class="descclassname">librosa.onset.</code><code class="descname">onset_strength_multi</code><span class="sig-paren">(</span><em>y=None</em>, <em>sr=22050</em>, <em>S=None</em>, <em>lag=1</em>, <em>max_size=1</em>, <em>ref=None</em>, <em>detrend=False</em>, <em>center=True</em>, <em>feature=None</em>, <em>aggregate=None</em>, <em>channels=None</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/librosa/onset.html#onset_strength_multi"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#librosa.onset.onset_strength_multi" title="Permalink to this definition">¶</a></dt>
+<code class="descclassname">librosa.onset.</code><code class="descname">onset_strength_multi</code><span class="sig-paren">(</span><em>y=None</em>, <em>sr=22050</em>, <em>S=None</em>, <em>n_fft=2048</em>, <em>hop_length=512</em>, <em>lag=1</em>, <em>max_size=1</em>, <em>ref=None</em>, <em>detrend=False</em>, <em>center=True</em>, <em>feature=None</em>, <em>aggregate=None</em>, <em>channels=None</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/librosa/onset.html#onset_strength_multi"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#librosa.onset.onset_strength_multi" title="Permalink to this definition">¶</a></dt>
 <dd><p>Compute a spectral flux onset strength envelope across multiple channels.</p>
 <p>Onset strength for channel <em class="xref py py-obj">i</em> at time <em class="xref py py-obj">t</em> is determined by:</p>
 <p><em class="xref py py-obj">mean_{f in channels[i]} max(0, S[f, t+1] - S[f, t])</em></p>
@@ -224,6 +224,12 @@
 </dd>
 <dt><strong>S</strong> <span class="classifier-delimiter">:</span> <span class="classifier">np.ndarray [shape=(d, m)]</span></dt>
 <dd><p class="first last">pre-computed (log-power) spectrogram</p>
+</dd>
+<dt><strong>n_fft</strong> <span class="classifier-delimiter">:</span> <span class="classifier">int &gt; 0 [scalar]</span></dt>
+<dd><p class="first last">FFT window size for use in <em class="xref py py-obj">feature()</em> if <em class="xref py py-obj">S</em> is not provided.</p>
+</dd>
+<dt><strong>hop_length</strong> <span class="classifier-delimiter">:</span> <span class="classifier">int &gt; 0 [scalar]</span></dt>
+<dd><p class="first last">hop length for use in <em class="xref py py-obj">feature()</em> if <em class="xref py py-obj">S</em> is not provided.</p>
 </dd>
 <dt><strong>lag</strong> <span class="classifier-delimiter">:</span> <span class="classifier">int &gt; 0</span></dt>
 <dd><p class="first last">time lag for computing differences</p>
@@ -244,8 +250,9 @@ If provided, it will override any local max filtering governed by <em class="xre
 <dd><p class="first last">Shift the onset function by <em class="xref py py-obj">n_fft / (2 * hop_length)</em> frames</p>
 </dd>
 <dt><strong>feature</strong> <span class="classifier-delimiter">:</span> <span class="classifier">function</span></dt>
-<dd><p class="first last">Function for computing time-series features, eg, scaled spectrograms.
+<dd><p class="first">Function for computing time-series features, eg, scaled spectrograms.
 By default, uses <a class="reference internal" href="librosa.feature.melspectrogram.html#librosa.feature.melspectrogram" title="librosa.feature.melspectrogram"><code class="xref py py-obj docutils literal notranslate"><span class="pre">librosa.feature.melspectrogram</span></code></a> with <em class="xref py py-obj">fmax=11025.0</em></p>
+<p class="last">Must support arguments: <em class="xref py py-obj">y, sr, n_fft, hop_length</em></p>
 </dd>
 <dt><strong>aggregate</strong> <span class="classifier-delimiter">:</span> <span class="classifier">function or False</span></dt>
 <dd><p class="first">Aggregation function to use when combining onsets
@@ -373,6 +380,7 @@ If <em class="xref py py-obj">None</em>, then a single channel is generated to s
             <dd><a href="../../0.6.2/generated/librosa.onset.onset_strength_multi.html">0.6.2</a></dd>
             <dd><a href="../../0.6.3/generated/librosa.onset.onset_strength_multi.html">0.6.3</a></dd>
             <dd><a href="../../0.7.0/generated/librosa.onset.onset_strength_multi.html">0.7.0</a></dd>
+            <dd><a href="../../0.7.1/generated/librosa.onset.onset_strength_multi.html">0.7.1</a></dd>
             <dd><a href="../../v0.1.0/index.html">v0.1.0</a></dd>
             <dd><a href="../../v0.4.0/index.html">v0.4.0</a></dd>
         </dl>

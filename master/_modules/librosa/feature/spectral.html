@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>librosa.feature.spectral &mdash; librosa 0.7.0 documentation</title>
+  <title>librosa.feature.spectral &mdash; librosa 0.7.1 documentation</title>
   
 
   
@@ -23,7 +23,7 @@
       <script type="text/javascript">
           var DOCUMENTATION_OPTIONS = {
               URL_ROOT:'../../../',
-              VERSION:'0.7.0',
+              VERSION:'0.7.1',
               LANGUAGE:'None',
               COLLAPSE_INDEX:false,
               FILE_SUFFIX:'.html',
@@ -1042,13 +1042,20 @@
         <span class="n">x</span> <span class="o">=</span> <span class="n">util</span><span class="o">.</span><span class="n">frame</span><span class="p">(</span><span class="n">y</span><span class="p">,</span>
                        <span class="n">frame_length</span><span class="o">=</span><span class="n">frame_length</span><span class="p">,</span>
                        <span class="n">hop_length</span><span class="o">=</span><span class="n">hop_length</span><span class="p">)</span>
+
+        <span class="c1"># No normalization is necessary for time-domain input</span>
+        <span class="n">norm</span> <span class="o">=</span> <span class="mi">1</span>
     <span class="k">elif</span> <span class="n">S</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
         <span class="n">x</span><span class="p">,</span> <span class="n">_</span> <span class="o">=</span> <span class="n">_spectrogram</span><span class="p">(</span><span class="n">y</span><span class="o">=</span><span class="n">y</span><span class="p">,</span> <span class="n">S</span><span class="o">=</span><span class="n">S</span><span class="p">,</span>
                             <span class="n">n_fft</span><span class="o">=</span><span class="n">frame_length</span><span class="p">,</span>
                             <span class="n">hop_length</span><span class="o">=</span><span class="n">hop_length</span><span class="p">)</span>
+
+        <span class="c1"># FFT introduces a scaling of n_fft to energy calculations</span>
+        <span class="n">norm</span> <span class="o">=</span> <span class="mi">2</span> <span class="o">*</span> <span class="p">(</span><span class="n">x</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span>
     <span class="k">else</span><span class="p">:</span>
         <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s1">&#39;Either `y` or `S` must be input.&#39;</span><span class="p">)</span>
-    <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">x</span><span class="p">)</span><span class="o">**</span><span class="mi">2</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">keepdims</span><span class="o">=</span><span class="kc">True</span><span class="p">))</span></div>
+
+    <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">x</span><span class="p">)</span><span class="o">**</span><span class="mi">2</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">keepdims</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span> <span class="o">/</span> <span class="n">norm</span><span class="p">)</span></div>
 
 
 <div class="viewcode-block" id="poly_features"><a class="viewcode-back" href="../../../generated/librosa.feature.poly_features.html#librosa.feature.poly_features">[docs]</a><span class="k">def</span> <span class="nf">poly_features</span><span class="p">(</span><span class="n">y</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">sr</span><span class="o">=</span><span class="mi">22050</span><span class="p">,</span> <span class="n">S</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">n_fft</span><span class="o">=</span><span class="mi">2048</span><span class="p">,</span> <span class="n">hop_length</span><span class="o">=</span><span class="mi">512</span><span class="p">,</span>
@@ -1246,7 +1253,8 @@
 <span class="c1"># -- Chroma --#</span>
 <div class="viewcode-block" id="chroma_stft"><a class="viewcode-back" href="../../../generated/librosa.feature.chroma_stft.html#librosa.feature.chroma_stft">[docs]</a><span class="k">def</span> <span class="nf">chroma_stft</span><span class="p">(</span><span class="n">y</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">sr</span><span class="o">=</span><span class="mi">22050</span><span class="p">,</span> <span class="n">S</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">norm</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">inf</span><span class="p">,</span> <span class="n">n_fft</span><span class="o">=</span><span class="mi">2048</span><span class="p">,</span>
                 <span class="n">hop_length</span><span class="o">=</span><span class="mi">512</span><span class="p">,</span> <span class="n">win_length</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">window</span><span class="o">=</span><span class="s1">&#39;hann&#39;</span><span class="p">,</span> <span class="n">center</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
-                <span class="n">pad_mode</span><span class="o">=</span><span class="s1">&#39;reflect&#39;</span><span class="p">,</span> <span class="n">tuning</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+                <span class="n">pad_mode</span><span class="o">=</span><span class="s1">&#39;reflect&#39;</span><span class="p">,</span> <span class="n">tuning</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">n_chroma</span><span class="o">=</span><span class="mi">12</span><span class="p">,</span>
+                <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;Compute a chromagram from a waveform or power spectrogram.</span>
 
 <span class="sd">    This implementation is derived from `chromagram_E` [1]_</span>
@@ -1302,10 +1310,12 @@
 <span class="sd">        If `center=True`, the padding mode to use at the edges of the signal.</span>
 <span class="sd">        By default, STFT uses reflection padding.</span>
 
-
-<span class="sd">    tuning : float in `[-0.5, 0.5)` [scalar] or None.</span>
-<span class="sd">        Deviation from A440 tuning in fractional bins (cents).</span>
+<span class="sd">    tuning : float [scalar] or None.</span>
+<span class="sd">        Deviation from A440 tuning in fractional chroma bins.</span>
 <span class="sd">        If `None`, it is automatically estimated.</span>
+
+<span class="sd">    n_chroma : int &gt; 0 [scalar]</span>
+<span class="sd">        Number of chroma bins to produce (12 by default).</span>
 
 <span class="sd">    kwargs : additional keyword arguments</span>
 <span class="sd">        Arguments to parameterize chroma filters.</span>
@@ -1369,16 +1379,11 @@
                             <span class="n">win_length</span><span class="o">=</span><span class="n">win_length</span><span class="p">,</span> <span class="n">window</span><span class="o">=</span><span class="n">window</span><span class="p">,</span> <span class="n">center</span><span class="o">=</span><span class="n">center</span><span class="p">,</span>
                             <span class="n">pad_mode</span><span class="o">=</span><span class="n">pad_mode</span><span class="p">)</span>
 
-    <span class="n">n_chroma</span> <span class="o">=</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;n_chroma&#39;</span><span class="p">,</span> <span class="mi">12</span><span class="p">)</span>
-
     <span class="k">if</span> <span class="n">tuning</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
         <span class="n">tuning</span> <span class="o">=</span> <span class="n">estimate_tuning</span><span class="p">(</span><span class="n">S</span><span class="o">=</span><span class="n">S</span><span class="p">,</span> <span class="n">sr</span><span class="o">=</span><span class="n">sr</span><span class="p">,</span> <span class="n">bins_per_octave</span><span class="o">=</span><span class="n">n_chroma</span><span class="p">)</span>
 
     <span class="c1"># Get the filter bank</span>
-    <span class="k">if</span> <span class="s1">&#39;A440&#39;</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">kwargs</span><span class="p">:</span>
-        <span class="n">kwargs</span><span class="p">[</span><span class="s1">&#39;A440&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="mf">440.0</span> <span class="o">*</span> <span class="mf">2.0</span><span class="o">**</span><span class="p">(</span><span class="nb">float</span><span class="p">(</span><span class="n">tuning</span><span class="p">)</span> <span class="o">/</span> <span class="n">n_chroma</span><span class="p">)</span>
-
-    <span class="n">chromafb</span> <span class="o">=</span> <span class="n">filters</span><span class="o">.</span><span class="n">chroma</span><span class="p">(</span><span class="n">sr</span><span class="p">,</span> <span class="n">n_fft</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+    <span class="n">chromafb</span> <span class="o">=</span> <span class="n">filters</span><span class="o">.</span><span class="n">chroma</span><span class="p">(</span><span class="n">sr</span><span class="p">,</span> <span class="n">n_fft</span><span class="p">,</span> <span class="n">tuning</span><span class="o">=</span><span class="n">tuning</span><span class="p">,</span> <span class="n">n_chroma</span><span class="o">=</span><span class="n">n_chroma</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
 
     <span class="c1"># Compute raw chroma</span>
     <span class="n">raw_chroma</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">chromafb</span><span class="p">,</span> <span class="n">S</span><span class="p">)</span>
@@ -1418,7 +1423,7 @@
 <span class="sd">        threshold are discarded, resulting in a sparse chromagram.</span>
 
 <span class="sd">    tuning : float</span>
-<span class="sd">        Deviation (in cents) from A440 tuning</span>
+<span class="sd">        Deviation (in fractions of a CQT bin) from A440 tuning</span>
 
 <span class="sd">    n_chroma : int &gt; 0</span>
 <span class="sd">        Number of chroma bins to produce</span>
@@ -1547,7 +1552,7 @@
 <span class="sd">        Column-wise normalization of the chromagram.</span>
 
 <span class="sd">    tuning : float</span>
-<span class="sd">        Deviation (in cents) from A440 tuning</span>
+<span class="sd">        Deviation (in fractions of a CQT bin) from A440 tuning</span>
 
 <span class="sd">    n_chroma : int &gt; 0</span>
 <span class="sd">        Number of chroma bins to produce</span>
@@ -1757,7 +1762,7 @@
 
 
 <span class="c1"># -- Mel spectrogram and MFCCs -- #</span>
-<div class="viewcode-block" id="mfcc"><a class="viewcode-back" href="../../../generated/librosa.feature.mfcc.html#librosa.feature.mfcc">[docs]</a><span class="k">def</span> <span class="nf">mfcc</span><span class="p">(</span><span class="n">y</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">sr</span><span class="o">=</span><span class="mi">22050</span><span class="p">,</span> <span class="n">S</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">n_mfcc</span><span class="o">=</span><span class="mi">20</span><span class="p">,</span> <span class="n">dct_type</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">norm</span><span class="o">=</span><span class="s1">&#39;ortho&#39;</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+<div class="viewcode-block" id="mfcc"><a class="viewcode-back" href="../../../generated/librosa.feature.mfcc.html#librosa.feature.mfcc">[docs]</a><span class="k">def</span> <span class="nf">mfcc</span><span class="p">(</span><span class="n">y</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">sr</span><span class="o">=</span><span class="mi">22050</span><span class="p">,</span> <span class="n">S</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">n_mfcc</span><span class="o">=</span><span class="mi">20</span><span class="p">,</span> <span class="n">dct_type</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">norm</span><span class="o">=</span><span class="s1">&#39;ortho&#39;</span><span class="p">,</span> <span class="n">lifter</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;Mel-frequency cepstral coefficients (MFCCs)</span>
 
 <span class="sd">    Parameters</span>
@@ -1783,6 +1788,14 @@
 <span class="sd">        DCT basis.</span>
 
 <span class="sd">        Normalization is not supported for `dct_type=1`.</span>
+
+<span class="sd">    lifter : number &gt;= 0</span>
+<span class="sd">        If `lifter&gt;0`, apply *liftering* (cepstral filtering) to the MFCCs:</span>
+
+<span class="sd">        `M[n, :] &lt;- M[n, :] * (1 + sin(pi * (n + 1) / lifter)) * lifter / 2`</span>
+
+<span class="sd">        Setting `lifter &gt;= 2 * n_mfcc` emphasizes the higher-order coefficients.</span>
+<span class="sd">        As `lifter` increases, the coefficient weighting becomes approximately linear.</span>
 
 <span class="sd">    kwargs : additional keyword arguments</span>
 <span class="sd">        Arguments to `melspectrogram`, if operating</span>
@@ -1872,7 +1885,15 @@
     <span class="k">if</span> <span class="n">S</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
         <span class="n">S</span> <span class="o">=</span> <span class="n">power_to_db</span><span class="p">(</span><span class="n">melspectrogram</span><span class="p">(</span><span class="n">y</span><span class="o">=</span><span class="n">y</span><span class="p">,</span> <span class="n">sr</span><span class="o">=</span><span class="n">sr</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">))</span>
 
-    <span class="k">return</span> <span class="n">scipy</span><span class="o">.</span><span class="n">fftpack</span><span class="o">.</span><span class="n">dct</span><span class="p">(</span><span class="n">S</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="nb">type</span><span class="o">=</span><span class="n">dct_type</span><span class="p">,</span> <span class="n">norm</span><span class="o">=</span><span class="n">norm</span><span class="p">)[:</span><span class="n">n_mfcc</span><span class="p">]</span></div>
+    <span class="n">M</span> <span class="o">=</span> <span class="n">scipy</span><span class="o">.</span><span class="n">fftpack</span><span class="o">.</span><span class="n">dct</span><span class="p">(</span><span class="n">S</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="nb">type</span><span class="o">=</span><span class="n">dct_type</span><span class="p">,</span> <span class="n">norm</span><span class="o">=</span><span class="n">norm</span><span class="p">)[:</span><span class="n">n_mfcc</span><span class="p">]</span>
+
+    <span class="k">if</span> <span class="n">lifter</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+        <span class="n">M</span> <span class="o">*=</span> <span class="mi">1</span> <span class="o">+</span> <span class="p">(</span><span class="n">lifter</span> <span class="o">/</span> <span class="mi">2</span><span class="p">)</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">sin</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">pi</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span> <span class="o">+</span> <span class="n">n_mfcc</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">M</span><span class="o">.</span><span class="n">dtype</span><span class="p">)</span> <span class="o">/</span> <span class="n">lifter</span><span class="p">)[:,</span> <span class="n">np</span><span class="o">.</span><span class="n">newaxis</span><span class="p">]</span>
+        <span class="k">return</span> <span class="n">M</span>
+    <span class="k">elif</span> <span class="n">lifter</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">M</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="n">ParameterError</span><span class="p">(</span><span class="s1">&#39;MFCC lifter=</span><span class="si">{}</span><span class="s1"> must be a non-negative number&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">lifter</span><span class="p">))</span></div>
 
 
 <div class="viewcode-block" id="melspectrogram"><a class="viewcode-back" href="../../../generated/librosa.feature.melspectrogram.html#librosa.feature.melspectrogram">[docs]</a><span class="k">def</span> <span class="nf">melspectrogram</span><span class="p">(</span><span class="n">y</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">sr</span><span class="o">=</span><span class="mi">22050</span><span class="p">,</span> <span class="n">S</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">n_fft</span><span class="o">=</span><span class="mi">2048</span><span class="p">,</span> <span class="n">hop_length</span><span class="o">=</span><span class="mi">512</span><span class="p">,</span>
@@ -1961,10 +1982,13 @@
 <span class="sd">           [  3.668e-09,   2.029e-08, ...,   3.208e-09,   2.864e-09],</span>
 <span class="sd">           [  2.561e-10,   2.096e-09, ...,   7.543e-10,   6.101e-10]])</span>
 
-<span class="sd">    Using a pre-computed power spectrogram</span>
+<span class="sd">    Using a pre-computed power spectrogram would give the same result:</span>
 
 <span class="sd">    &gt;&gt;&gt; D = np.abs(librosa.stft(y))**2</span>
-<span class="sd">    &gt;&gt;&gt; S = librosa.feature.melspectrogram(S=D)</span>
+<span class="sd">    &gt;&gt;&gt; S = librosa.feature.melspectrogram(S=D, sr=sr)</span>
+<span class="sd">    </span>
+<span class="sd">    Display of mel-frequency spectrogram coefficients, with custom</span>
+<span class="sd">    arguments for mel filterbank construction (default is fmax=sr/2):</span>
 
 <span class="sd">    &gt;&gt;&gt; # Passing through arguments to the Mel filters</span>
 <span class="sd">    &gt;&gt;&gt; S = librosa.feature.melspectrogram(y=y, sr=sr, n_mels=128,</span>
@@ -1972,12 +1996,12 @@
 
 <span class="sd">    &gt;&gt;&gt; import matplotlib.pyplot as plt</span>
 <span class="sd">    &gt;&gt;&gt; plt.figure(figsize=(10, 4))</span>
-<span class="sd">    &gt;&gt;&gt; librosa.display.specshow(librosa.power_to_db(S,</span>
-<span class="sd">    ...                                              ref=np.max),</span>
-<span class="sd">    ...                          y_axis=&#39;mel&#39;, fmax=8000,</span>
-<span class="sd">    ...                          x_axis=&#39;time&#39;)</span>
+<span class="sd">    &gt;&gt;&gt; S_dB = librosa.power_to_db(S, ref=np.max)</span>
+<span class="sd">    &gt;&gt;&gt; librosa.display.specshow(S_dB, x_axis=&#39;time&#39;,</span>
+<span class="sd">    ...                          y_axis=&#39;mel&#39;, sr=sr,</span>
+<span class="sd">    ...                          fmax=8000)</span>
 <span class="sd">    &gt;&gt;&gt; plt.colorbar(format=&#39;%+2.0f dB&#39;)</span>
-<span class="sd">    &gt;&gt;&gt; plt.title(&#39;Mel spectrogram&#39;)</span>
+<span class="sd">    &gt;&gt;&gt; plt.title(&#39;Mel-frequency spectrogram&#39;)</span>
 <span class="sd">    &gt;&gt;&gt; plt.tight_layout()</span>
 <span class="sd">    &gt;&gt;&gt; plt.show()</span>
 <span class="sd">    &quot;&quot;&quot;</span>
@@ -2036,6 +2060,7 @@
             <dd><a href="../../../../0.6.2/index.html">0.6.2</a></dd>
             <dd><a href="../../../../0.6.3/index.html">0.6.3</a></dd>
             <dd><a href="../../../../0.7.0/index.html">0.7.0</a></dd>
+            <dd><a href="../../../../0.7.1/index.html">0.7.1</a></dd>
             <dd><a href="../../../../v0.1.0/index.html">v0.1.0</a></dd>
             <dd><a href="../../../../v0.4.0/index.html">v0.4.0</a></dd>
         </dl>

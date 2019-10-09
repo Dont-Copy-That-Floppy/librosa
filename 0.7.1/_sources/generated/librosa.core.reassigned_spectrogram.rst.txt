@@ -1,0 +1,6 @@
+librosa.core.reassigned\_spectrogram
+====================================
+
+.. currentmodule:: librosa.core
+
+.. autofunction:: reassigned_spectrogram

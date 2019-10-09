@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Music Synchronization with Dynamic Time Warping &mdash; librosa 0.7.0 documentation</title>
+  <title>Music Synchronization with Dynamic Time Warping &mdash; librosa 0.7.1 documentation</title>
   
 
   
@@ -23,7 +23,7 @@
       <script type="text/javascript">
           var DOCUMENTATION_OPTIONS = {
               URL_ROOT:'../',
-              VERSION:'0.7.0',
+              VERSION:'0.7.1',
               LANGUAGE:'None',
               COLLAPSE_INDEX:false,
               FILE_SUFFIX:'.html',
@@ -196,7 +196,7 @@
 
 
 
-    <p class="scv-banner scv-sphinx_rtd_theme"><a href="../../0.7.0/auto_examples/plot_music_sync.html"><b>Warning:</b> This document is for the development version of librosa. The latest version is 0.7.0.</a></p>
+    <p class="scv-banner scv-sphinx_rtd_theme"><a href="../../0.7.1/auto_examples/plot_music_sync.html"><b>Warning:</b> This document is for the development version of librosa. The latest version is 0.7.1.</a></p>
 <div class="sphx-glr-download-link-note admonition note">
 <p class="first admonition-title">Note</p>
 <p class="last">Click <a class="reference internal" href="#sphx-glr-download-auto-examples-plot-music-sync-py"><span class="std std-ref">here</span></a> to download the full example code</p>
@@ -235,6 +235,11 @@ Our objective is now to find an alignment between these two recordings by using 
 </pre></div>
 </div>
 <img alt="../_images/sphx_glr_plot_music_sync_001.png" class="sphx-glr-single-img" src="../_images/sphx_glr_plot_music_sync_001.png" />
+<p class="sphx-glr-script-out">Out:</p>
+<div class="sphx-glr-script-out highlight-none notranslate"><div class="highlight"><pre><span></span>/tmp/tmpdkqngjo8sphinxcontrib_versioning/ef93c2c2f31582135108594034cc89b6d7cda718/librosa/core/audio.py:146: UserWarning: PySoundFile failed. Trying audioread instead.
+  warnings.warn(&#39;PySoundFile failed. Trying audioread instead.&#39;)
+</pre></div>
+</div>
 <p>And a second version, slightly faster.</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">x_2</span><span class="p">,</span> <span class="n">fs</span> <span class="o">=</span> <span class="n">librosa</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="s1">&#39;audio/sir_duke_fast.mp3&#39;</span><span class="p">)</span>
 <span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">16</span><span class="p">,</span> <span class="mi">4</span><span class="p">))</span>
@@ -244,6 +249,11 @@ Our objective is now to find an alignment between these two recordings by using 
 </pre></div>
 </div>
 <img alt="../_images/sphx_glr_plot_music_sync_002.png" class="sphx-glr-single-img" src="../_images/sphx_glr_plot_music_sync_002.png" />
+<p class="sphx-glr-script-out">Out:</p>
+<div class="sphx-glr-script-out highlight-none notranslate"><div class="highlight"><pre><span></span>/tmp/tmpdkqngjo8sphinxcontrib_versioning/ef93c2c2f31582135108594034cc89b6d7cda718/librosa/core/audio.py:146: UserWarning: PySoundFile failed. Trying audioread instead.
+  warnings.warn(&#39;PySoundFile failed. Trying audioread instead.&#39;)
+</pre></div>
+</div>
 </div>
 <div class="section" id="extract-chroma-features">
 <h2>Extract Chroma Features<a class="headerlink" href="#extract-chroma-features" title="Permalink to this headline">¶</a></h2>
@@ -345,7 +355,7 @@ e.g. speed up the slower signal to the tempo of the faster one.</p>
 <h2>Literature<a class="headerlink" href="#literature" title="Permalink to this headline">¶</a></h2>
 <p>[1] Meinard Müller, Fundamentals of Music Processing — Audio, Analysis, Algorithms, Applications.
 Springer Verlag, 2015.</p>
-<p class="sphx-glr-timing"><strong>Total running time of the script:</strong> ( 0 minutes  2.548 seconds)</p>
+<p class="sphx-glr-timing"><strong>Total running time of the script:</strong> ( 0 minutes  2.656 seconds)</p>
 <div class="sphx-glr-footer class sphx-glr-footer-example docutils container" id="sphx-glr-download-auto-examples-plot-music-sync-py">
 <div class="sphx-glr-download docutils container">
 <a class="reference download internal" href="../_downloads/plot_music_sync.py" download=""><code class="xref download docutils literal notranslate"><span class="pre">Download</span> <span class="pre">Python</span> <span class="pre">source</span> <span class="pre">code:</span> <span class="pre">plot_music_sync.py</span></code></a></div>
@@ -410,6 +420,7 @@ Springer Verlag, 2015.</p>
             <dd><a href="../../0.6.2/auto_examples/plot_music_sync.html">0.6.2</a></dd>
             <dd><a href="../../0.6.3/auto_examples/plot_music_sync.html">0.6.3</a></dd>
             <dd><a href="../../0.7.0/auto_examples/plot_music_sync.html">0.7.0</a></dd>
+            <dd><a href="../../0.7.1/auto_examples/plot_music_sync.html">0.7.1</a></dd>
             <dd><a href="../../v0.1.0/index.html">v0.1.0</a></dd>
             <dd><a href="../../v0.4.0/index.html">v0.4.0</a></dd>
         </dl>

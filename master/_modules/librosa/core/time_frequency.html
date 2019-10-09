@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>librosa.core.time_frequency &mdash; librosa 0.7.0 documentation</title>
+  <title>librosa.core.time_frequency &mdash; librosa 0.7.1 documentation</title>
   
 
   
@@ -23,7 +23,7 @@
       <script type="text/javascript">
           var DOCUMENTATION_OPTIONS = {
               URL_ROOT:'../../../',
-              VERSION:'0.7.0',
+              VERSION:'0.7.1',
               LANGUAGE:'None',
               COLLAPSE_INDEX:false,
               FILE_SUFFIX:'.html',
@@ -197,11 +197,13 @@
 <span class="sd">&#39;&#39;&#39;Time and frequency utilities&#39;&#39;&#39;</span>
 
 <span class="kn">import</span> <span class="nn">re</span>
+<span class="kn">import</span> <span class="nn">warnings</span>
 
 <span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
 <span class="kn">import</span> <span class="nn">six</span>
 
 <span class="kn">from</span> <span class="nn">..util.exceptions</span> <span class="k">import</span> <span class="n">ParameterError</span>
+<span class="kn">from</span> <span class="nn">..util.deprecation</span> <span class="k">import</span> <span class="n">Deprecated</span>
 
 <span class="n">__all__</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;frames_to_samples&#39;</span><span class="p">,</span> <span class="s1">&#39;frames_to_time&#39;</span><span class="p">,</span>
            <span class="s1">&#39;samples_to_frames&#39;</span><span class="p">,</span> <span class="s1">&#39;samples_to_time&#39;</span><span class="p">,</span>
@@ -1024,7 +1026,7 @@
     <span class="k">return</span> <span class="n">freqs</span></div>
 
 
-<div class="viewcode-block" id="hz_to_octs"><a class="viewcode-back" href="../../../generated/librosa.core.hz_to_octs.html#librosa.core.hz_to_octs">[docs]</a><span class="k">def</span> <span class="nf">hz_to_octs</span><span class="p">(</span><span class="n">frequencies</span><span class="p">,</span> <span class="n">A440</span><span class="o">=</span><span class="mf">440.0</span><span class="p">):</span>
+<div class="viewcode-block" id="hz_to_octs"><a class="viewcode-back" href="../../../generated/librosa.core.hz_to_octs.html#librosa.core.hz_to_octs">[docs]</a><span class="k">def</span> <span class="nf">hz_to_octs</span><span class="p">(</span><span class="n">frequencies</span><span class="p">,</span> <span class="n">tuning</span><span class="o">=</span><span class="mf">0.0</span><span class="p">,</span> <span class="n">bins_per_octave</span><span class="o">=</span><span class="mi">12</span><span class="p">,</span> <span class="n">A440</span><span class="o">=</span><span class="n">Deprecated</span><span class="p">()):</span>
     <span class="sd">&quot;&quot;&quot;Convert frequencies (Hz) to (fractional) octave numbers.</span>
 
 <span class="sd">    Examples</span>
@@ -1038,8 +1040,18 @@
 <span class="sd">    ----------</span>
 <span class="sd">    frequencies   : number &gt;0 or np.ndarray [shape=(n,)] or float</span>
 <span class="sd">        scalar or vector of frequencies</span>
-<span class="sd">    A440          : float</span>
+
+<span class="sd">    tuning        : float</span>
+<span class="sd">        Tuning deviation from A440 in (fractional) bins per octave.</span>
+
+<span class="sd">    bins_per_octave : int &gt; 0</span>
+<span class="sd">        Number of bins per octave.</span>
+
+<span class="sd">    A440          : float &lt;DEPRECATED&gt;</span>
 <span class="sd">        frequency of A440 (in Hz)</span>
+
+<span class="sd">        .. note:: This parameter is deprecated in 0.7.1 and will be removed</span>
+<span class="sd">                  in version 0.8.0.  Use `tuning=` instead.</span>
 
 <span class="sd">    Returns</span>
 <span class="sd">    -------</span>
@@ -1050,10 +1062,18 @@
 <span class="sd">    --------</span>
 <span class="sd">    octs_to_hz</span>
 <span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">A440</span><span class="p">,</span> <span class="n">Deprecated</span><span class="p">):</span>
+        <span class="n">A440</span> <span class="o">=</span> <span class="mf">440.0</span> <span class="o">*</span> <span class="mf">2.0</span><span class="o">**</span><span class="p">(</span><span class="n">tuning</span> <span class="o">/</span> <span class="n">bins_per_octave</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">warnings</span><span class="o">.</span><span class="n">warn</span><span class="p">(</span><span class="s1">&#39;Parameter A440=</span><span class="si">{}</span><span class="s1"> in hz_to_octs is deprecated in 0.7.1. &#39;</span>
+                      <span class="s1">&#39;It will be removed in 0.8.0. &#39;</span>
+                      <span class="s1">&#39;Use tuning= instead.&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">A440</span><span class="p">),</span> <span class="ne">DeprecationWarning</span><span class="p">)</span>
+
     <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">log2</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">asanyarray</span><span class="p">(</span><span class="n">frequencies</span><span class="p">)</span> <span class="o">/</span> <span class="p">(</span><span class="nb">float</span><span class="p">(</span><span class="n">A440</span><span class="p">)</span> <span class="o">/</span> <span class="mi">16</span><span class="p">))</span></div>
 
 
-<div class="viewcode-block" id="octs_to_hz"><a class="viewcode-back" href="../../../generated/librosa.core.octs_to_hz.html#librosa.core.octs_to_hz">[docs]</a><span class="k">def</span> <span class="nf">octs_to_hz</span><span class="p">(</span><span class="n">octs</span><span class="p">,</span> <span class="n">A440</span><span class="o">=</span><span class="mf">440.0</span><span class="p">):</span>
+<div class="viewcode-block" id="octs_to_hz"><a class="viewcode-back" href="../../../generated/librosa.core.octs_to_hz.html#librosa.core.octs_to_hz">[docs]</a><span class="k">def</span> <span class="nf">octs_to_hz</span><span class="p">(</span><span class="n">octs</span><span class="p">,</span> <span class="n">tuning</span><span class="o">=</span><span class="mf">0.0</span><span class="p">,</span> <span class="n">bins_per_octave</span><span class="o">=</span><span class="mi">12</span><span class="p">,</span> <span class="n">A440</span><span class="o">=</span><span class="n">Deprecated</span><span class="p">()):</span>
     <span class="sd">&quot;&quot;&quot;Convert octaves numbers to frequencies.</span>
 
 <span class="sd">    Octaves are counted relative to A.</span>
@@ -1069,7 +1089,14 @@
 <span class="sd">    ----------</span>
 <span class="sd">    octaves       : np.ndarray [shape=(n,)] or float</span>
 <span class="sd">        octave number for each frequency</span>
-<span class="sd">    A440          : float</span>
+
+<span class="sd">    tuning : float</span>
+<span class="sd">        Tuning deviation from A440 in (fractional) bins per octave.</span>
+
+<span class="sd">    bins_per_octave : int &gt; 0</span>
+<span class="sd">        Number of bins per octave.</span>
+
+<span class="sd">    A440          : float &lt;DEPRECATED&gt;</span>
 <span class="sd">        frequency of A440</span>
 
 <span class="sd">    Returns</span>
@@ -1081,6 +1108,13 @@
 <span class="sd">    --------</span>
 <span class="sd">    hz_to_octs</span>
 <span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">A440</span><span class="p">,</span> <span class="n">Deprecated</span><span class="p">):</span>
+        <span class="n">A440</span> <span class="o">=</span> <span class="mf">440.0</span> <span class="o">*</span> <span class="mf">2.0</span><span class="o">**</span><span class="p">(</span><span class="n">tuning</span> <span class="o">/</span> <span class="n">bins_per_octave</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">warnings</span><span class="o">.</span><span class="n">warn</span><span class="p">(</span><span class="s1">&#39;Parameter A440=</span><span class="si">{}</span><span class="s1"> in octs_to_hz is deprecated in 0.7.1. &#39;</span>
+                      <span class="s1">&#39;It will be removed in 0.8.0. &#39;</span>
+                      <span class="s1">&#39;Use tuning= instead.&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">A440</span><span class="p">),</span> <span class="ne">DeprecationWarning</span><span class="p">)</span>
+
     <span class="k">return</span> <span class="p">(</span><span class="nb">float</span><span class="p">(</span><span class="n">A440</span><span class="p">)</span> <span class="o">/</span> <span class="mi">16</span><span class="p">)</span><span class="o">*</span><span class="p">(</span><span class="mf">2.0</span><span class="o">**</span><span class="n">np</span><span class="o">.</span><span class="n">asanyarray</span><span class="p">(</span><span class="n">octs</span><span class="p">))</span></div>
 
 
@@ -1139,8 +1173,8 @@
 <span class="sd">    bins_per_octave : int &gt; 0 [scalar]</span>
 <span class="sd">        Number of bins per octave</span>
 
-<span class="sd">    tuning : float in `[-0.5, +0.5)`</span>
-<span class="sd">        Deviation from A440 tuning in fractional bins (cents)</span>
+<span class="sd">    tuning : float</span>
+<span class="sd">        Deviation from A440 tuning in fractional bins</span>
 
 <span class="sd">    Returns</span>
 <span class="sd">    -------</span>
@@ -1527,6 +1561,7 @@
             <dd><a href="../../../../0.6.2/index.html">0.6.2</a></dd>
             <dd><a href="../../../../0.6.3/index.html">0.6.3</a></dd>
             <dd><a href="../../../../0.7.0/index.html">0.7.0</a></dd>
+            <dd><a href="../../../../0.7.1/index.html">0.7.1</a></dd>
             <dd><a href="../../../../v0.1.0/index.html">v0.1.0</a></dd>
             <dd><a href="../../../../v0.4.0/index.html">v0.4.0</a></dd>
         </dl>

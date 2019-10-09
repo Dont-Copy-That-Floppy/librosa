@@ -211,7 +211,7 @@ does not detect onset events at those points.
 
  .. code-block:: none
 
-    /tmp/tmp_b54sl3ysphinxcontrib_versioning/22ac95e957d282432b833bf59e48bdf99e52e8d9/docs/examples/plot_superflux.py:124: UserWarning: Matplotlib is currently using agg, which is a non-GUI backend, so cannot show the figure.
+    /tmp/tmpdkqngjo8sphinxcontrib_versioning/22ac95e957d282432b833bf59e48bdf99e52e8d9/docs/examples/plot_superflux.py:124: UserWarning: Matplotlib is currently using agg, which is a non-GUI backend, so cannot show the figure.
       plt.show()
 
 
@@ -219,7 +219,7 @@ does not detect onset events at those points.
 
 .. rst-class:: sphx-glr-timing
 
-   **Total running time of the script:** ( 0 minutes  1.212 seconds)
+   **Total running time of the script:** ( 0 minutes  0.970 seconds)
 
 
 .. _sphx_glr_download_auto_examples_plot_superflux.py:

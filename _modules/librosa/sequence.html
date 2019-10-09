@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>librosa.sequence &mdash; librosa 0.7.0 documentation</title>
+  <title>librosa.sequence &mdash; librosa 0.7.1 documentation</title>
   
 
   
@@ -23,7 +23,7 @@
       <script type="text/javascript">
           var DOCUMENTATION_OPTIONS = {
               URL_ROOT:'../../',
-              VERSION:'0.7.0',
+              VERSION:'0.7.1',
               LANGUAGE:'None',
               COLLAPSE_INDEX:false,
               FILE_SUFFIX:'.html',
@@ -415,10 +415,10 @@
         <span class="k">if</span> <span class="n">subseq</span><span class="p">:</span>
             <span class="c1"># search for global minimum in last row of D-matrix</span>
             <span class="n">wp_end_idx</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">argmin</span><span class="p">(</span><span class="n">D</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="p">:])</span> <span class="o">+</span> <span class="mi">1</span>
-            <span class="n">wp</span> <span class="o">=</span> <span class="n">__dtw_backtracking</span><span class="p">(</span><span class="n">D_steps</span><span class="p">[:,</span> <span class="p">:</span><span class="n">wp_end_idx</span><span class="p">],</span> <span class="n">step_sizes_sigma</span><span class="p">)</span>
+            <span class="n">wp</span> <span class="o">=</span> <span class="n">__dtw_backtracking</span><span class="p">(</span><span class="n">D_steps</span><span class="p">[:,</span> <span class="p">:</span><span class="n">wp_end_idx</span><span class="p">],</span> <span class="n">step_sizes_sigma</span><span class="p">,</span> <span class="n">subseq</span><span class="p">)</span>
         <span class="k">else</span><span class="p">:</span>
             <span class="c1"># perform warping path backtracking</span>
-            <span class="n">wp</span> <span class="o">=</span> <span class="n">__dtw_backtracking</span><span class="p">(</span><span class="n">D_steps</span><span class="p">,</span> <span class="n">step_sizes_sigma</span><span class="p">)</span>
+            <span class="n">wp</span> <span class="o">=</span> <span class="n">__dtw_backtracking</span><span class="p">(</span><span class="n">D_steps</span><span class="p">,</span> <span class="n">step_sizes_sigma</span><span class="p">,</span> <span class="n">subseq</span><span class="p">)</span>
 
         <span class="n">wp</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">wp</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="nb">int</span><span class="p">)</span>
 
@@ -503,7 +503,7 @@
 
 
 <span class="nd">@jit</span><span class="p">(</span><span class="n">nopython</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">cache</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
-<span class="k">def</span> <span class="nf">__dtw_backtracking</span><span class="p">(</span><span class="n">D_steps</span><span class="p">,</span> <span class="n">step_sizes_sigma</span><span class="p">):</span>  <span class="c1"># pragma: no cover</span>
+<span class="k">def</span> <span class="nf">__dtw_backtracking</span><span class="p">(</span><span class="n">D_steps</span><span class="p">,</span> <span class="n">step_sizes_sigma</span><span class="p">,</span> <span class="n">subseq</span><span class="p">):</span>  <span class="c1"># pragma: no cover</span>
     <span class="sd">&#39;&#39;&#39;Backtrack optimal warping path.</span>
 
 <span class="sd">    Uses the saved step sizes from the cost accumulation</span>
@@ -518,6 +518,9 @@
 
 <span class="sd">    step_sizes_sigma : np.ndarray [shape=[n, 2]]</span>
 <span class="sd">        Specifies allowed step sizes as used by the dtw.</span>
+
+<span class="sd">    subseq : binary</span>
+<span class="sd">        Enable subsequence DTW, e.g., for retrieval tasks.</span>
 
 <span class="sd">    Returns</span>
 <span class="sd">    -------</span>
@@ -539,7 +542,7 @@
     <span class="c1"># Stop criteria:</span>
     <span class="c1"># Setting it to (0, 0) does not work for the subsequence dtw,</span>
     <span class="c1"># so we only ask to reach the first row of the matrix.</span>
-    <span class="k">while</span> <span class="n">cur_idx</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+    <span class="k">while</span> <span class="p">(</span><span class="n">subseq</span> <span class="ow">and</span> <span class="n">cur_idx</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">)</span> <span class="ow">or</span> <span class="p">(</span><span class="ow">not</span> <span class="n">subseq</span> <span class="ow">and</span> <span class="n">cur_idx</span> <span class="o">!=</span> <span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">)):</span>
         <span class="n">cur_step_idx</span> <span class="o">=</span> <span class="n">D_steps</span><span class="p">[(</span><span class="n">cur_idx</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">cur_idx</span><span class="p">[</span><span class="mi">1</span><span class="p">])]</span>
 
         <span class="c1"># save tuple with minimal acc. cost in path</span>
@@ -1164,9 +1167,11 @@
 
 <span class="sd">    &gt;&gt;&gt; # Load in audio and make features</span>
 <span class="sd">    &gt;&gt;&gt; y, sr = librosa.load(librosa.util.example_audio_file())</span>
+<span class="sd">    &gt;&gt;&gt; # Suppress percussive elements</span>
+<span class="sd">    &gt;&gt;&gt; y = librosa.effects.harmonic(y, margin=4)</span>
 <span class="sd">    &gt;&gt;&gt; chroma = librosa.feature.chroma_cens(y=y, sr=sr, bins_per_octave=36)</span>
 <span class="sd">    &gt;&gt;&gt; # Map chroma (observations) to class (state) likelihoods</span>
-<span class="sd">    &gt;&gt;&gt; probs = np.exp(weights.dot(chroma))  # P[class | chroma] proportional to exp(template&#39; chroma)</span>
+<span class="sd">    &gt;&gt;&gt; probs = np.exp(weights.dot(chroma))  # P[class | chroma] ~= exp(template&#39; chroma)</span>
 <span class="sd">    &gt;&gt;&gt; probs /= probs.sum(axis=0, keepdims=True)  # probabilities must sum to 1 in each column</span>
 <span class="sd">    &gt;&gt;&gt; # Compute independent frame-wise estimates</span>
 <span class="sd">    &gt;&gt;&gt; chords_ind = np.argmax(probs, axis=0)</span>
@@ -1191,10 +1196,13 @@
 <span class="sd">    &gt;&gt;&gt; plt.figure(figsize=(10, 4))</span>
 <span class="sd">    &gt;&gt;&gt; librosa.display.specshow(probs, x_axis=&#39;time&#39;, cmap=&#39;gray&#39;)</span>
 <span class="sd">    &gt;&gt;&gt; plt.colorbar()</span>
-<span class="sd">    &gt;&gt;&gt; times = librosa.frames_to_time(np.arange(len(chords_vit)))</span>
-<span class="sd">    &gt;&gt;&gt; plt.scatter(times, chords_ind + 0.75, color=&#39;lime&#39;, alpha=0.5, marker=&#39;+&#39;, s=15, label=&#39;Independent&#39;)</span>
-<span class="sd">    &gt;&gt;&gt; plt.scatter(times, chords_vit + 0.25, color=&#39;deeppink&#39;, alpha=0.5, marker=&#39;o&#39;, s=15, label=&#39;Viterbi&#39;)</span>
-<span class="sd">    &gt;&gt;&gt; plt.yticks(0.5 + np.unique(chords_vit), [labels[i] for i in np.unique(chords_vit)], va=&#39;center&#39;)</span>
+<span class="sd">    &gt;&gt;&gt; times = librosa.times_like(chords_vit)</span>
+<span class="sd">    &gt;&gt;&gt; plt.scatter(times, chords_ind + 0.75, color=&#39;lime&#39;, alpha=0.5, marker=&#39;+&#39;,</span>
+<span class="sd">    ...             s=15, label=&#39;Independent&#39;)</span>
+<span class="sd">    &gt;&gt;&gt; plt.scatter(times, chords_vit + 0.25, color=&#39;deeppink&#39;, alpha=0.5, marker=&#39;o&#39;,</span>
+<span class="sd">    ...             s=15, label=&#39;Viterbi&#39;)</span>
+<span class="sd">    &gt;&gt;&gt; plt.yticks(0.5 + np.unique(chords_vit),</span>
+<span class="sd">    ...            [labels[i] for i in np.unique(chords_vit)], va=&#39;center&#39;)</span>
 <span class="sd">    &gt;&gt;&gt; plt.legend()</span>
 <span class="sd">    &gt;&gt;&gt; plt.tight_layout()</span>
 <span class="sd">    &gt;&gt;&gt; plt.show()</span>
@@ -1703,7 +1711,7 @@
 <div class="rst-versions" data-toggle="rst-versions" role="note" aria-label="versions">
     <span class="rst-current-version" data-toggle="rst-current-version">
         <span class="fa fa-book"> Other Versions</span>
-        v: 0.7.0
+        v: 0.7.1
         <span class="fa fa-caret-down"></span>
     </span>
     <div class="rst-other-versions">
@@ -1718,7 +1726,8 @@
             <dd><a href="../../0.6.1/index.html">0.6.1</a></dd>
             <dd><a href="../../0.6.2/index.html">0.6.2</a></dd>
             <dd><a href="../../0.6.3/index.html">0.6.3</a></dd>
-            <dd><a href="../../0.7.0/_modules/librosa/sequence.html">0.7.0</a></dd>
+            <dd><a href="../../0.7.0/index.html">0.7.0</a></dd>
+            <dd><a href="../../0.7.1/_modules/librosa/sequence.html">0.7.1</a></dd>
             <dd><a href="../../v0.1.0/index.html">v0.1.0</a></dd>
             <dd><a href="../../v0.4.0/index.html">v0.4.0</a></dd>
         </dl>

@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>librosa.beat &mdash; librosa 0.7.0 documentation</title>
+  <title>librosa.beat &mdash; librosa 0.7.1 documentation</title>
   
 
   
@@ -23,7 +23,7 @@
       <script type="text/javascript">
           var DOCUMENTATION_OPTIONS = {
               URL_ROOT:'../../',
-              VERSION:'0.7.0',
+              VERSION:'0.7.1',
               LANGUAGE:'None',
               COLLAPSE_INDEX:false,
               FILE_SUFFIX:'.html',
@@ -204,6 +204,7 @@
 
 <span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
 <span class="kn">import</span> <span class="nn">scipy</span>
+<span class="kn">import</span> <span class="nn">scipy.stats</span>
 
 <span class="kn">from</span> <span class="nn">._cache</span> <span class="k">import</span> <span class="n">cache</span>
 <span class="kn">from</span> <span class="nn">.</span> <span class="k">import</span> <span class="n">core</span>
@@ -216,7 +217,7 @@
 
 
 <div class="viewcode-block" id="beat_track"><a class="viewcode-back" href="../../generated/librosa.beat.beat_track.html#librosa.beat.beat_track">[docs]</a><span class="k">def</span> <span class="nf">beat_track</span><span class="p">(</span><span class="n">y</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">sr</span><span class="o">=</span><span class="mi">22050</span><span class="p">,</span> <span class="n">onset_envelope</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">hop_length</span><span class="o">=</span><span class="mi">512</span><span class="p">,</span>
-               <span class="n">start_bpm</span><span class="o">=</span><span class="mf">120.0</span><span class="p">,</span> <span class="n">tightness</span><span class="o">=</span><span class="mi">100</span><span class="p">,</span> <span class="n">trim</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">bpm</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+               <span class="n">start_bpm</span><span class="o">=</span><span class="mf">120.0</span><span class="p">,</span> <span class="n">tightness</span><span class="o">=</span><span class="mi">100</span><span class="p">,</span> <span class="n">trim</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">bpm</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">prior</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
                <span class="n">units</span><span class="o">=</span><span class="s1">&#39;frames&#39;</span><span class="p">):</span>
     <span class="sa">r</span><span class="sd">&#39;&#39;&#39;Dynamic programming beat tracker.</span>
 
@@ -259,6 +260,10 @@
 <span class="sd">        (optional) If provided, use `bpm` as the tempo instead of</span>
 <span class="sd">        estimating it from `onsets`.</span>
 
+<span class="sd">    prior      : scipy.stats.rv_continuous [optional]</span>
+<span class="sd">        An optional prior distribution over tempo.</span>
+<span class="sd">        If provided, `start_bpm` will be ignored.</span>
+
 <span class="sd">    units : {&#39;frames&#39;, &#39;samples&#39;, &#39;time&#39;}</span>
 <span class="sd">        The units to encode detected beat events in.</span>
 <span class="sd">        By default, &#39;frames&#39; are used.</span>
@@ -282,8 +287,7 @@
 <span class="sd">    Raises</span>
 <span class="sd">    ------</span>
 <span class="sd">    ParameterError</span>
-<span class="sd">        if neither `y` nor `onset_envelope` are provided</span>
-
+<span class="sd">        if neither `y` nor `onset_envelope` are provided,</span>
 <span class="sd">        or if `units` is not one of &#39;frames&#39;, &#39;samples&#39;, or &#39;time&#39;</span>
 
 <span class="sd">    See Also</span>
@@ -338,8 +342,7 @@
 <span class="sd">    &gt;&gt;&gt; import matplotlib.pyplot as plt</span>
 <span class="sd">    &gt;&gt;&gt; hop_length = 512</span>
 <span class="sd">    &gt;&gt;&gt; plt.figure(figsize=(8, 4))</span>
-<span class="sd">    &gt;&gt;&gt; times = librosa.frames_to_time(np.arange(len(onset_env)),</span>
-<span class="sd">    ...                                sr=sr, hop_length=hop_length)</span>
+<span class="sd">    &gt;&gt;&gt; times = librosa.times_like(onset_env, sr=sr, hop_length=hop_length)</span>
 <span class="sd">    &gt;&gt;&gt; plt.plot(times, librosa.util.normalize(onset_env),</span>
 <span class="sd">    ...          label=&#39;Onset strength&#39;)</span>
 <span class="sd">    &gt;&gt;&gt; plt.vlines(times[beats], 0, 1, alpha=0.5, color=&#39;r&#39;,</span>
@@ -371,7 +374,8 @@
         <span class="n">bpm</span> <span class="o">=</span> <span class="n">tempo</span><span class="p">(</span><span class="n">onset_envelope</span><span class="o">=</span><span class="n">onset_envelope</span><span class="p">,</span>
                     <span class="n">sr</span><span class="o">=</span><span class="n">sr</span><span class="p">,</span>
                     <span class="n">hop_length</span><span class="o">=</span><span class="n">hop_length</span><span class="p">,</span>
-                    <span class="n">start_bpm</span><span class="o">=</span><span class="n">start_bpm</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
+                    <span class="n">start_bpm</span><span class="o">=</span><span class="n">start_bpm</span><span class="p">,</span>
+                    <span class="n">prior</span><span class="o">=</span><span class="n">prior</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
 
     <span class="c1"># Then, run the tracker</span>
     <span class="n">beats</span> <span class="o">=</span> <span class="n">__beat_tracker</span><span class="p">(</span><span class="n">onset_envelope</span><span class="p">,</span>
@@ -394,7 +398,7 @@
 
 <div class="viewcode-block" id="tempo"><a class="viewcode-back" href="../../generated/librosa.beat.tempo.html#librosa.beat.tempo">[docs]</a><span class="nd">@cache</span><span class="p">(</span><span class="n">level</span><span class="o">=</span><span class="mi">30</span><span class="p">)</span>
 <span class="k">def</span> <span class="nf">tempo</span><span class="p">(</span><span class="n">y</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">sr</span><span class="o">=</span><span class="mi">22050</span><span class="p">,</span> <span class="n">onset_envelope</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">hop_length</span><span class="o">=</span><span class="mi">512</span><span class="p">,</span> <span class="n">start_bpm</span><span class="o">=</span><span class="mi">120</span><span class="p">,</span>
-          <span class="n">std_bpm</span><span class="o">=</span><span class="mf">1.0</span><span class="p">,</span> <span class="n">ac_size</span><span class="o">=</span><span class="mf">8.0</span><span class="p">,</span> <span class="n">max_tempo</span><span class="o">=</span><span class="mf">320.0</span><span class="p">,</span> <span class="n">aggregate</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">):</span>
+          <span class="n">std_bpm</span><span class="o">=</span><span class="mf">1.0</span><span class="p">,</span> <span class="n">ac_size</span><span class="o">=</span><span class="mf">8.0</span><span class="p">,</span> <span class="n">max_tempo</span><span class="o">=</span><span class="mf">320.0</span><span class="p">,</span> <span class="n">aggregate</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">,</span> <span class="n">prior</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;Estimate the tempo (beats per minute)</span>
 
 <span class="sd">    Parameters</span>
@@ -427,6 +431,11 @@
 <span class="sd">        Aggregation function for estimating global tempo.</span>
 <span class="sd">        If `None`, then tempo is estimated independently for each frame.</span>
 
+<span class="sd">    prior : scipy.stats.rv_continuous [optional]</span>
+<span class="sd">        A prior distribution over tempo (in beats per minute).</span>
+<span class="sd">        By default, a pseudo-log-normal prior is used.</span>
+<span class="sd">        If given, `start_bpm` and `std_bpm` will be ignored.</span>
+
 <span class="sd">    Returns</span>
 <span class="sd">    -------</span>
 <span class="sd">    tempo : np.ndarray [scalar]</span>
@@ -450,6 +459,13 @@
 <span class="sd">    &gt;&gt;&gt; tempo</span>
 <span class="sd">    array([129.199])</span>
 
+<span class="sd">    &gt;&gt;&gt; # Or a static tempo with a uniform prior instead</span>
+<span class="sd">    &gt;&gt;&gt; import scipy.stats</span>
+<span class="sd">    &gt;&gt;&gt; prior = scipy.stats.uniform(30, 300)  # uniform over 30-300 BPM</span>
+<span class="sd">    &gt;&gt;&gt; utempo = librosa.beat.tempo(onset_envelope=onset_env, sr=sr, prior=prior)</span>
+<span class="sd">    &gt;&gt;&gt; utempo</span>
+<span class="sd">    array([64.6])</span>
+
 <span class="sd">    &gt;&gt;&gt; # Or a dynamic tempo</span>
 <span class="sd">    &gt;&gt;&gt; dtempo = librosa.beat.tempo(onset_envelope=onset_env, sr=sr,</span>
 <span class="sd">    ...                             aggregate=None)</span>
@@ -457,12 +473,21 @@
 <span class="sd">    array([ 143.555,  143.555,  143.555, ...,  161.499,  161.499,</span>
 <span class="sd">            172.266])</span>
 
+<span class="sd">    &gt;&gt;&gt; # Dynamic tempo with a proper log-normal prior</span>
+<span class="sd">    &gt;&gt;&gt; prior_lognorm = scipy.stats.lognorm(loc=np.log(120), scale=120, s=1)</span>
+<span class="sd">    &gt;&gt;&gt; dtempo_lognorm = librosa.beat.tempo(onset_envelope=onset_env, sr=sr,</span>
+<span class="sd">    ...                                     aggregate=None,</span>
+<span class="sd">    ...                                     prior=prior_lognorm)</span>
+<span class="sd">    &gt;&gt;&gt; dtempo_lognorm</span>
+<span class="sd">    array([ 86.133,  86.133, ..., 129.199, 129.199])</span>
+
 
 <span class="sd">    Plot the estimated tempo against the onset autocorrelation</span>
 
 <span class="sd">    &gt;&gt;&gt; import matplotlib.pyplot as plt</span>
 <span class="sd">    &gt;&gt;&gt; # Convert to scalar</span>
-<span class="sd">    &gt;&gt;&gt; tempo = np.asscalar(tempo)</span>
+<span class="sd">    &gt;&gt;&gt; tempo = tempo.item()</span>
+<span class="sd">    &gt;&gt;&gt; utempo = utempo.item()</span>
 <span class="sd">    &gt;&gt;&gt; # Compute 2-second windowed autocorrelation</span>
 <span class="sd">    &gt;&gt;&gt; hop_length = 512</span>
 <span class="sd">    &gt;&gt;&gt; ac = librosa.autocorrelate(onset_env, 2 * sr // hop_length)</span>
@@ -473,7 +498,9 @@
 <span class="sd">    &gt;&gt;&gt; plt.semilogx(freqs[1:], librosa.util.normalize(ac)[1:],</span>
 <span class="sd">    ...              label=&#39;Onset autocorrelation&#39;, basex=2)</span>
 <span class="sd">    &gt;&gt;&gt; plt.axvline(tempo, 0, 1, color=&#39;r&#39;, alpha=0.75, linestyle=&#39;--&#39;,</span>
-<span class="sd">    ...            label=&#39;Tempo: {:.2f} BPM&#39;.format(tempo))</span>
+<span class="sd">    ...             label=&#39;Tempo (default prior): {:.2f} BPM&#39;.format(tempo))</span>
+<span class="sd">    &gt;&gt;&gt; plt.axvline(utempo, 0, 1, color=&#39;y&#39;, alpha=0.75, linestyle=&#39;:&#39;,</span>
+<span class="sd">    ...             label=&#39;Tempo (uniform prior): {:.2f} BPM&#39;.format(utempo))</span>
 <span class="sd">    &gt;&gt;&gt; plt.xlabel(&#39;Tempo (BPM)&#39;)</span>
 <span class="sd">    &gt;&gt;&gt; plt.grid()</span>
 <span class="sd">    &gt;&gt;&gt; plt.title(&#39;Static tempo estimation&#39;)</span>
@@ -487,8 +514,11 @@
 <span class="sd">    &gt;&gt;&gt; tg = librosa.feature.tempogram(onset_envelope=onset_env, sr=sr,</span>
 <span class="sd">    ...                                hop_length=hop_length)</span>
 <span class="sd">    &gt;&gt;&gt; librosa.display.specshow(tg, x_axis=&#39;time&#39;, y_axis=&#39;tempo&#39;)</span>
-<span class="sd">    &gt;&gt;&gt; plt.plot(librosa.frames_to_time(np.arange(len(dtempo))), dtempo,</span>
-<span class="sd">    ...          color=&#39;w&#39;, linewidth=1.5, label=&#39;Tempo estimate&#39;)</span>
+<span class="sd">    &gt;&gt;&gt; plt.plot(librosa.times_like(dtempo), dtempo,</span>
+<span class="sd">    ...          color=&#39;w&#39;, linewidth=1.5, label=&#39;Tempo estimate (default prior)&#39;)</span>
+<span class="sd">    &gt;&gt;&gt; plt.plot(librosa.times_like(dtempo_lognorm), dtempo_lognorm,</span>
+<span class="sd">    ...          color=&#39;c&#39;, linewidth=1.5, linestyle=&#39;--&#39;,</span>
+<span class="sd">    ...          label=&#39;Tempo estimate (lognorm prior)&#39;)</span>
 <span class="sd">    &gt;&gt;&gt; plt.title(&#39;Dynamic tempo estimation&#39;)</span>
 <span class="sd">    &gt;&gt;&gt; plt.legend(frameon=True, framealpha=0.75)</span>
 <span class="sd">    &quot;&quot;&quot;</span>
@@ -496,8 +526,8 @@
     <span class="k">if</span> <span class="n">start_bpm</span> <span class="o">&lt;=</span> <span class="mi">0</span><span class="p">:</span>
         <span class="k">raise</span> <span class="n">ParameterError</span><span class="p">(</span><span class="s1">&#39;start_bpm must be strictly positive&#39;</span><span class="p">)</span>
 
-    <span class="n">win_length</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">asscalar</span><span class="p">(</span><span class="n">core</span><span class="o">.</span><span class="n">time_to_frames</span><span class="p">(</span><span class="n">ac_size</span><span class="p">,</span> <span class="n">sr</span><span class="o">=</span><span class="n">sr</span><span class="p">,</span>
-                                                 <span class="n">hop_length</span><span class="o">=</span><span class="n">hop_length</span><span class="p">))</span>
+    <span class="n">win_length</span> <span class="o">=</span> <span class="n">core</span><span class="o">.</span><span class="n">time_to_frames</span><span class="p">(</span>
+        <span class="n">ac_size</span><span class="p">,</span> <span class="n">sr</span><span class="o">=</span><span class="n">sr</span><span class="p">,</span> <span class="n">hop_length</span><span class="o">=</span><span class="n">hop_length</span><span class="p">)</span><span class="o">.</span><span class="n">item</span><span class="p">()</span>
 
     <span class="n">tg</span> <span class="o">=</span> <span class="n">tempogram</span><span class="p">(</span><span class="n">y</span><span class="o">=</span><span class="n">y</span><span class="p">,</span> <span class="n">sr</span><span class="o">=</span><span class="n">sr</span><span class="p">,</span>
                    <span class="n">onset_envelope</span><span class="o">=</span><span class="n">onset_envelope</span><span class="p">,</span>
@@ -512,30 +542,25 @@
     <span class="n">bpms</span> <span class="o">=</span> <span class="n">core</span><span class="o">.</span><span class="n">tempo_frequencies</span><span class="p">(</span><span class="n">tg</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">hop_length</span><span class="o">=</span><span class="n">hop_length</span><span class="p">,</span> <span class="n">sr</span><span class="o">=</span><span class="n">sr</span><span class="p">)</span>
 
     <span class="c1"># Weight the autocorrelation by a log-normal distribution</span>
-    <span class="n">prior</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">exp</span><span class="p">(</span><span class="o">-</span><span class="mf">0.5</span> <span class="o">*</span> <span class="p">((</span><span class="n">np</span><span class="o">.</span><span class="n">log2</span><span class="p">(</span><span class="n">bpms</span><span class="p">)</span> <span class="o">-</span> <span class="n">np</span><span class="o">.</span><span class="n">log2</span><span class="p">(</span><span class="n">start_bpm</span><span class="p">))</span> <span class="o">/</span> <span class="n">std_bpm</span><span class="p">)</span><span class="o">**</span><span class="mi">2</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">prior</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">logprior</span> <span class="o">=</span> <span class="o">-</span><span class="mf">0.5</span> <span class="o">*</span> <span class="p">((</span><span class="n">np</span><span class="o">.</span><span class="n">log2</span><span class="p">(</span><span class="n">bpms</span><span class="p">)</span> <span class="o">-</span> <span class="n">np</span><span class="o">.</span><span class="n">log2</span><span class="p">(</span><span class="n">start_bpm</span><span class="p">))</span> <span class="o">/</span> <span class="n">std_bpm</span><span class="p">)</span><span class="o">**</span><span class="mi">2</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">logprior</span> <span class="o">=</span> <span class="n">prior</span><span class="o">.</span><span class="n">logpdf</span><span class="p">(</span><span class="n">bpms</span><span class="p">)</span>
 
     <span class="c1"># Kill everything above the max tempo</span>
     <span class="k">if</span> <span class="n">max_tempo</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
         <span class="n">max_idx</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">argmax</span><span class="p">(</span><span class="n">bpms</span> <span class="o">&lt;</span> <span class="n">max_tempo</span><span class="p">)</span>
-        <span class="n">prior</span><span class="p">[:</span><span class="n">max_idx</span><span class="p">]</span> <span class="o">=</span> <span class="mi">0</span>
-
-    <span class="c1"># Really, instead of multiplying by the prior, we should set up a</span>
-    <span class="c1"># probabilistic model for tempo and add log-probabilities.</span>
-    <span class="c1"># This would give us a chance to recover from null signals and</span>
-    <span class="c1"># rely on the prior.</span>
-    <span class="c1"># it would also make time aggregation much more natural</span>
+        <span class="n">logprior</span><span class="p">[:</span><span class="n">max_idx</span><span class="p">]</span> <span class="o">=</span> <span class="o">-</span><span class="n">np</span><span class="o">.</span><span class="n">inf</span>
 
     <span class="c1"># Get the maximum, weighted by the prior</span>
-    <span class="n">best_period</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">argmax</span><span class="p">(</span><span class="n">tg</span> <span class="o">*</span> <span class="n">prior</span><span class="p">[:,</span> <span class="n">np</span><span class="o">.</span><span class="n">newaxis</span><span class="p">],</span> <span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+    <span class="c1"># Using log1p here for numerical stability</span>
+    <span class="n">best_period</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">argmax</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">log1p</span><span class="p">(</span><span class="mf">1e6</span> <span class="o">*</span> <span class="n">tg</span><span class="p">)</span> <span class="o">+</span> <span class="n">logprior</span><span class="p">[:,</span> <span class="n">np</span><span class="o">.</span><span class="n">newaxis</span><span class="p">],</span> <span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
 
-    <span class="n">tempi</span> <span class="o">=</span> <span class="n">bpms</span><span class="p">[</span><span class="n">best_period</span><span class="p">]</span>
-    <span class="c1"># Wherever the best tempo is index 0, return start_bpm</span>
-    <span class="n">tempi</span><span class="p">[</span><span class="n">best_period</span> <span class="o">==</span> <span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="n">start_bpm</span>
-    <span class="k">return</span> <span class="n">tempi</span></div>
+    <span class="k">return</span> <span class="n">bpms</span><span class="p">[</span><span class="n">best_period</span><span class="p">]</span></div>
 
 
 <div class="viewcode-block" id="plp"><a class="viewcode-back" href="../../generated/librosa.beat.plp.html#librosa.beat.plp">[docs]</a><span class="k">def</span> <span class="nf">plp</span><span class="p">(</span><span class="n">y</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">sr</span><span class="o">=</span><span class="mi">22050</span><span class="p">,</span> <span class="n">onset_envelope</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">hop_length</span><span class="o">=</span><span class="mi">512</span><span class="p">,</span>
-        <span class="n">win_length</span><span class="o">=</span><span class="mi">384</span><span class="p">,</span> <span class="n">tempo_min</span><span class="o">=</span><span class="mi">30</span><span class="p">,</span> <span class="n">tempo_max</span><span class="o">=</span><span class="mi">300</span><span class="p">):</span>
+        <span class="n">win_length</span><span class="o">=</span><span class="mi">384</span><span class="p">,</span> <span class="n">tempo_min</span><span class="o">=</span><span class="mi">30</span><span class="p">,</span> <span class="n">tempo_max</span><span class="o">=</span><span class="mi">300</span><span class="p">,</span> <span class="n">prior</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
     <span class="sd">&#39;&#39;&#39;Predominant local pulse (PLP) estimation. [1]_</span>
 
 <span class="sd">    The PLP method analyzes the onset strength envelope in the frequency domain</span>
@@ -579,6 +604,9 @@
 
 <span class="sd">        Set either (or both) to `None` to disable this constraint.</span>
 
+<span class="sd">    prior : scipy.stats.rv_continuous [optional]</span>
+<span class="sd">        A prior distribution over tempo (in beats per minute).</span>
+<span class="sd">        By default, a uniform prior over `[tempo_min, tempo_max]` is used.</span>
 
 <span class="sd">    Returns</span>
 <span class="sd">    -------</span>
@@ -600,20 +628,34 @@
 <span class="sd">    &gt;&gt;&gt; y, sr = librosa.load(librosa.util.example_audio_file())</span>
 <span class="sd">    &gt;&gt;&gt; onset_env = librosa.onset.onset_strength(y=y, sr=sr)</span>
 <span class="sd">    &gt;&gt;&gt; pulse = librosa.beat.plp(onset_envelope=onset_env, sr=sr)</span>
+<span class="sd">    &gt;&gt;&gt; # Or compute pulse with an alternate prior, like log-normal</span>
+<span class="sd">    &gt;&gt;&gt; import scipy.stats</span>
+<span class="sd">    &gt;&gt;&gt; prior = scipy.stats.lognorm(loc=np.log(120), scale=120, s=1)</span>
+<span class="sd">    &gt;&gt;&gt; pulse_lognorm = librosa.beat.plp(onset_envelope=onset_env, sr=sr,</span>
+<span class="sd">    ...                                  prior=prior)</span>
 <span class="sd">    &gt;&gt;&gt; melspec = librosa.feature.melspectrogram(y=y, sr=sr)</span>
 <span class="sd">    &gt;&gt;&gt; import matplotlib.pyplot as plt</span>
-<span class="sd">    &gt;&gt;&gt; ax = plt.subplot(2,1,1)</span>
+<span class="sd">    &gt;&gt;&gt; ax = plt.subplot(3,1,1)</span>
 <span class="sd">    &gt;&gt;&gt; librosa.display.specshow(librosa.power_to_db(melspec,</span>
 <span class="sd">    ...                                              ref=np.max),</span>
 <span class="sd">    ...                          x_axis=&#39;time&#39;, y_axis=&#39;mel&#39;)</span>
 <span class="sd">    &gt;&gt;&gt; plt.title(&#39;Mel spectrogram&#39;)</span>
-<span class="sd">    &gt;&gt;&gt; plt.subplot(2,1,2, sharex=ax)</span>
+<span class="sd">    &gt;&gt;&gt; plt.subplot(3,1,2, sharex=ax)</span>
 <span class="sd">    &gt;&gt;&gt; plt.plot(librosa.times_like(onset_env),</span>
 <span class="sd">    ...          librosa.util.normalize(onset_env),</span>
 <span class="sd">    ...          label=&#39;Onset strength&#39;)</span>
 <span class="sd">    &gt;&gt;&gt; plt.plot(librosa.times_like(pulse),</span>
 <span class="sd">    ...          librosa.util.normalize(pulse),</span>
 <span class="sd">    ...          label=&#39;Predominant local pulse (PLP)&#39;)</span>
+<span class="sd">    &gt;&gt;&gt; plt.title(&#39;Uniform tempo prior [30, 300]&#39;)</span>
+<span class="sd">    &gt;&gt;&gt; plt.subplot(3,1,3, sharex=ax)</span>
+<span class="sd">    &gt;&gt;&gt; plt.plot(librosa.times_like(onset_env),</span>
+<span class="sd">    ...          librosa.util.normalize(onset_env),</span>
+<span class="sd">    ...          label=&#39;Onset strength&#39;)</span>
+<span class="sd">    &gt;&gt;&gt; plt.plot(librosa.times_like(pulse_lognorm),</span>
+<span class="sd">    ...          librosa.util.normalize(pulse_lognorm),</span>
+<span class="sd">    ...          label=&#39;Predominant local pulse (PLP)&#39;)</span>
+<span class="sd">    &gt;&gt;&gt; plt.title(&#39;Log-normal tempo prior, mean=120&#39;)</span>
 <span class="sd">    &gt;&gt;&gt; plt.legend()</span>
 <span class="sd">    &gt;&gt;&gt; plt.xlim([30, 35])</span>
 <span class="sd">    &gt;&gt;&gt; plt.tight_layout()</span>
@@ -668,19 +710,21 @@
                                                        <span class="n">hop_length</span><span class="o">=</span><span class="n">hop_length</span><span class="p">,</span>
                                                        <span class="n">win_length</span><span class="o">=</span><span class="n">win_length</span><span class="p">)</span>
 
-    <span class="c1"># TODO: in the future, generalize this to support arbitrary priors</span>
     <span class="k">if</span> <span class="n">tempo_min</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
         <span class="n">ftgram</span><span class="p">[</span><span class="n">tempo_frequencies</span> <span class="o">&lt;</span> <span class="n">tempo_min</span><span class="p">]</span> <span class="o">=</span> <span class="mi">0</span>
     <span class="k">if</span> <span class="n">tempo_max</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
         <span class="n">ftgram</span><span class="p">[</span><span class="n">tempo_frequencies</span> <span class="o">&gt;</span> <span class="n">tempo_max</span><span class="p">]</span> <span class="o">=</span> <span class="mi">0</span>
 
     <span class="c1"># Step 3: Discard everything below the peak</span>
-    <span class="n">ftmag</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">ftgram</span><span class="p">)</span>
+    <span class="n">ftmag</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">log1p</span><span class="p">(</span><span class="mf">1e6</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">ftgram</span><span class="p">))</span>
+    <span class="k">if</span> <span class="n">prior</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">ftmag</span> <span class="o">+=</span> <span class="n">prior</span><span class="o">.</span><span class="n">logpdf</span><span class="p">(</span><span class="n">tempo_frequencies</span><span class="p">)[:,</span> <span class="n">np</span><span class="o">.</span><span class="n">newaxis</span><span class="p">]</span>
+
     <span class="n">peak_values</span> <span class="o">=</span> <span class="n">ftmag</span><span class="o">.</span><span class="n">max</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">keepdims</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
     <span class="n">ftgram</span><span class="p">[</span><span class="n">ftmag</span> <span class="o">&lt;</span> <span class="n">peak_values</span><span class="p">]</span> <span class="o">=</span> <span class="mi">0</span>
 
     <span class="c1"># Normalize to keep only phase information</span>
-    <span class="n">ftgram</span><span class="p">[:]</span> <span class="o">/=</span> <span class="n">peak_values</span>
+    <span class="n">ftgram</span> <span class="o">/=</span> <span class="p">(</span><span class="n">util</span><span class="o">.</span><span class="n">tiny</span><span class="p">(</span><span class="n">ftgram</span><span class="p">)</span><span class="o">**</span><span class="mf">0.5</span> <span class="o">+</span> <span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">ftgram</span><span class="o">.</span><span class="n">max</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">keepdims</span><span class="o">=</span><span class="kc">True</span><span class="p">)))</span>
 
     <span class="c1"># Step 5: invert the Fourier tempogram to get the pulse</span>
     <span class="n">pulse</span> <span class="o">=</span> <span class="n">core</span><span class="o">.</span><span class="n">istft</span><span class="p">(</span><span class="n">ftgram</span><span class="p">,</span> <span class="n">hop_length</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span>
@@ -867,7 +911,7 @@
 <div class="rst-versions" data-toggle="rst-versions" role="note" aria-label="versions">
     <span class="rst-current-version" data-toggle="rst-current-version">
         <span class="fa fa-book"> Other Versions</span>
-        v: 0.7.0
+        v: 0.7.1
         <span class="fa fa-caret-down"></span>
     </span>
     <div class="rst-other-versions">
@@ -882,7 +926,8 @@
             <dd><a href="../../0.6.1/index.html">0.6.1</a></dd>
             <dd><a href="../../0.6.2/index.html">0.6.2</a></dd>
             <dd><a href="../../0.6.3/index.html">0.6.3</a></dd>
-            <dd><a href="../../0.7.0/_modules/librosa/beat.html">0.7.0</a></dd>
+            <dd><a href="../../0.7.0/index.html">0.7.0</a></dd>
+            <dd><a href="../../0.7.1/_modules/librosa/beat.html">0.7.1</a></dd>
             <dd><a href="../../v0.1.0/index.html">v0.1.0</a></dd>
             <dd><a href="../../v0.4.0/index.html">v0.4.0</a></dd>
         </dl>

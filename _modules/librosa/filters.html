@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>librosa.filters &mdash; librosa 0.7.0 documentation</title>
+  <title>librosa.filters &mdash; librosa 0.7.1 documentation</title>
   
 
   
@@ -23,7 +23,7 @@
       <script type="text/javascript">
           var DOCUMENTATION_OPTIONS = {
               URL_ROOT:'../../',
-              VERSION:'0.7.0',
+              VERSION:'0.7.1',
               LANGUAGE:'None',
               COLLAPSE_INDEX:false,
               FILE_SUFFIX:'.html',
@@ -241,6 +241,7 @@
 
 <span class="kn">from</span> <span class="nn">.core.time_frequency</span> <span class="k">import</span> <span class="n">note_to_hz</span><span class="p">,</span> <span class="n">hz_to_midi</span><span class="p">,</span> <span class="n">midi_to_hz</span><span class="p">,</span> <span class="n">hz_to_octs</span>
 <span class="kn">from</span> <span class="nn">.core.time_frequency</span> <span class="k">import</span> <span class="n">fft_frequencies</span><span class="p">,</span> <span class="n">mel_frequencies</span>
+<span class="kn">from</span> <span class="nn">.util.deprecation</span> <span class="k">import</span> <span class="n">Deprecated</span>
 
 <span class="n">__all__</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;mel&#39;</span><span class="p">,</span>
            <span class="s1">&#39;chroma&#39;</span><span class="p">,</span>
@@ -418,7 +419,7 @@
 
 
 <div class="viewcode-block" id="chroma"><a class="viewcode-back" href="../../generated/librosa.filters.chroma.html#librosa.filters.chroma">[docs]</a><span class="nd">@cache</span><span class="p">(</span><span class="n">level</span><span class="o">=</span><span class="mi">10</span><span class="p">)</span>
-<span class="k">def</span> <span class="nf">chroma</span><span class="p">(</span><span class="n">sr</span><span class="p">,</span> <span class="n">n_fft</span><span class="p">,</span> <span class="n">n_chroma</span><span class="o">=</span><span class="mi">12</span><span class="p">,</span> <span class="n">A440</span><span class="o">=</span><span class="mf">440.0</span><span class="p">,</span> <span class="n">ctroct</span><span class="o">=</span><span class="mf">5.0</span><span class="p">,</span>
+<span class="k">def</span> <span class="nf">chroma</span><span class="p">(</span><span class="n">sr</span><span class="p">,</span> <span class="n">n_fft</span><span class="p">,</span> <span class="n">n_chroma</span><span class="o">=</span><span class="mi">12</span><span class="p">,</span> <span class="n">tuning</span><span class="o">=</span><span class="mf">0.0</span><span class="p">,</span> <span class="n">A440</span><span class="o">=</span><span class="n">Deprecated</span><span class="p">(),</span> <span class="n">ctroct</span><span class="o">=</span><span class="mf">5.0</span><span class="p">,</span>
            <span class="n">octwidth</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">norm</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">base_c</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">float32</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;Create a Filterbank matrix to convert STFT to chroma</span>
 
@@ -434,8 +435,14 @@
 <span class="sd">    n_chroma  : int &gt; 0 [scalar]</span>
 <span class="sd">        number of chroma bins</span>
 
-<span class="sd">    A440      : float &gt; 0 [scalar]</span>
+<span class="sd">    tuning : float</span>
+<span class="sd">        Tuning deviation from A440 in fractions of a chroma bin.</span>
+
+<span class="sd">    A440      : float &gt; 0 [scalar] &lt;Deprecated&gt;</span>
 <span class="sd">        Reference frequency for A440</span>
+
+<span class="sd">        .. note:: This parameter is deprecated in version 0.7.1.</span>
+<span class="sd">                  It will be removed in 0.8.0.  Use `tuning=` instead.</span>
 
 <span class="sd">    ctroct    : float &gt; 0 [scalar]</span>
 
@@ -515,7 +522,9 @@
     <span class="c1"># Get the FFT bins, not counting the DC component</span>
     <span class="n">frequencies</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">sr</span><span class="p">,</span> <span class="n">n_fft</span><span class="p">,</span> <span class="n">endpoint</span><span class="o">=</span><span class="kc">False</span><span class="p">)[</span><span class="mi">1</span><span class="p">:]</span>
 
-    <span class="n">frqbins</span> <span class="o">=</span> <span class="n">n_chroma</span> <span class="o">*</span> <span class="n">hz_to_octs</span><span class="p">(</span><span class="n">frequencies</span><span class="p">,</span> <span class="n">A440</span><span class="p">)</span>
+    <span class="n">frqbins</span> <span class="o">=</span> <span class="n">n_chroma</span> <span class="o">*</span> <span class="n">hz_to_octs</span><span class="p">(</span><span class="n">frequencies</span><span class="p">,</span>
+                                    <span class="n">tuning</span><span class="o">=</span><span class="n">tuning</span><span class="p">,</span>
+                                    <span class="n">bins_per_octave</span><span class="o">=</span><span class="n">n_chroma</span><span class="p">)</span>
 
     <span class="c1"># make up a value for the 0 Hz bin = 1.5 octaves below bin 1</span>
     <span class="c1"># (so chroma is 50% rotated from bin 1, and bin width is broad)</span>
@@ -581,7 +590,7 @@
 
 
 <div class="viewcode-block" id="constant_q"><a class="viewcode-back" href="../../generated/librosa.filters.constant_q.html#librosa.filters.constant_q">[docs]</a><span class="nd">@cache</span><span class="p">(</span><span class="n">level</span><span class="o">=</span><span class="mi">10</span><span class="p">)</span>
-<span class="k">def</span> <span class="nf">constant_q</span><span class="p">(</span><span class="n">sr</span><span class="p">,</span> <span class="n">fmin</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">n_bins</span><span class="o">=</span><span class="mi">84</span><span class="p">,</span> <span class="n">bins_per_octave</span><span class="o">=</span><span class="mi">12</span><span class="p">,</span> <span class="n">tuning</span><span class="o">=</span><span class="mf">0.0</span><span class="p">,</span>
+<span class="k">def</span> <span class="nf">constant_q</span><span class="p">(</span><span class="n">sr</span><span class="p">,</span> <span class="n">fmin</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">n_bins</span><span class="o">=</span><span class="mi">84</span><span class="p">,</span> <span class="n">bins_per_octave</span><span class="o">=</span><span class="mi">12</span><span class="p">,</span> <span class="n">tuning</span><span class="o">=</span><span class="n">Deprecated</span><span class="p">(),</span>
                <span class="n">window</span><span class="o">=</span><span class="s1">&#39;hann&#39;</span><span class="p">,</span> <span class="n">filter_scale</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">pad_fft</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">norm</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span>
                <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">complex64</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
     <span class="sa">r</span><span class="sd">&#39;&#39;&#39;Construct a constant-Q basis.</span>
@@ -607,8 +616,11 @@
 <span class="sd">    bins_per_octave : int &gt; 0 [scalar]</span>
 <span class="sd">        Number of bins per octave</span>
 
-<span class="sd">    tuning : float in `[-0.5, +0.5)` [scalar]</span>
+<span class="sd">    tuning : float [scalar] &lt;DEPRECATED&gt;</span>
 <span class="sd">        Tuning deviation from A440 in fractions of a bin</span>
+
+<span class="sd">        .. note:: This parameter is deprecated in 0.7.1.  It will be removed in</span>
+<span class="sd">                  version 0.8.</span>
 
 <span class="sd">    window : string, tuple, number, or function</span>
 <span class="sd">        Windowing function to apply to filters.</span>
@@ -691,17 +703,23 @@
     <span class="k">if</span> <span class="n">fmin</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
         <span class="n">fmin</span> <span class="o">=</span> <span class="n">note_to_hz</span><span class="p">(</span><span class="s1">&#39;C1&#39;</span><span class="p">)</span>
 
-    <span class="c1"># Pass-through parameters to get the filter lengths</span>
-    <span class="n">lengths</span> <span class="o">=</span> <span class="n">constant_q_lengths</span><span class="p">(</span><span class="n">sr</span><span class="p">,</span> <span class="n">fmin</span><span class="p">,</span>
-                                 <span class="n">n_bins</span><span class="o">=</span><span class="n">n_bins</span><span class="p">,</span>
-                                 <span class="n">bins_per_octave</span><span class="o">=</span><span class="n">bins_per_octave</span><span class="p">,</span>
-                                 <span class="n">tuning</span><span class="o">=</span><span class="n">tuning</span><span class="p">,</span>
-                                 <span class="n">window</span><span class="o">=</span><span class="n">window</span><span class="p">,</span>
-                                 <span class="n">filter_scale</span><span class="o">=</span><span class="n">filter_scale</span><span class="p">)</span>
+    <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">tuning</span><span class="p">,</span> <span class="n">Deprecated</span><span class="p">):</span>
+        <span class="n">tuning</span> <span class="o">=</span> <span class="mf">0.0</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">warnings</span><span class="o">.</span><span class="n">warn</span><span class="p">(</span><span class="s1">&#39;The `tuning` parameter to `filters.constant_q` &#39;</span>
+                      <span class="s1">&#39;is deprecated in librosa 0.7.1. &#39;</span>
+                      <span class="s1">&#39;It will be removed in 0.8.0.&#39;</span><span class="p">,</span> <span class="ne">DeprecationWarning</span><span class="p">)</span>
 
     <span class="c1"># Apply tuning correction</span>
     <span class="n">correction</span> <span class="o">=</span> <span class="mf">2.0</span><span class="o">**</span><span class="p">(</span><span class="nb">float</span><span class="p">(</span><span class="n">tuning</span><span class="p">)</span> <span class="o">/</span> <span class="n">bins_per_octave</span><span class="p">)</span>
     <span class="n">fmin</span> <span class="o">=</span> <span class="n">correction</span> <span class="o">*</span> <span class="n">fmin</span>
+
+    <span class="c1"># Pass-through parameters to get the filter lengths</span>
+    <span class="n">lengths</span> <span class="o">=</span> <span class="n">constant_q_lengths</span><span class="p">(</span><span class="n">sr</span><span class="p">,</span> <span class="n">fmin</span><span class="p">,</span>
+                                 <span class="n">n_bins</span><span class="o">=</span><span class="n">n_bins</span><span class="p">,</span>
+                                 <span class="n">bins_per_octave</span><span class="o">=</span><span class="n">bins_per_octave</span><span class="p">,</span>
+                                 <span class="n">window</span><span class="o">=</span><span class="n">window</span><span class="p">,</span>
+                                 <span class="n">filter_scale</span><span class="o">=</span><span class="n">filter_scale</span><span class="p">)</span>
 
     <span class="c1"># Q should be capitalized here, so we suppress the name warning</span>
     <span class="c1"># pylint: disable=invalid-name</span>
@@ -739,7 +757,7 @@
 
 <div class="viewcode-block" id="constant_q_lengths"><a class="viewcode-back" href="../../generated/librosa.filters.constant_q_lengths.html#librosa.filters.constant_q_lengths">[docs]</a><span class="nd">@cache</span><span class="p">(</span><span class="n">level</span><span class="o">=</span><span class="mi">10</span><span class="p">)</span>
 <span class="k">def</span> <span class="nf">constant_q_lengths</span><span class="p">(</span><span class="n">sr</span><span class="p">,</span> <span class="n">fmin</span><span class="p">,</span> <span class="n">n_bins</span><span class="o">=</span><span class="mi">84</span><span class="p">,</span> <span class="n">bins_per_octave</span><span class="o">=</span><span class="mi">12</span><span class="p">,</span>
-                       <span class="n">tuning</span><span class="o">=</span><span class="mf">0.0</span><span class="p">,</span> <span class="n">window</span><span class="o">=</span><span class="s1">&#39;hann&#39;</span><span class="p">,</span> <span class="n">filter_scale</span><span class="o">=</span><span class="mi">1</span><span class="p">):</span>
+                       <span class="n">tuning</span><span class="o">=</span><span class="n">Deprecated</span><span class="p">(),</span> <span class="n">window</span><span class="o">=</span><span class="s1">&#39;hann&#39;</span><span class="p">,</span> <span class="n">filter_scale</span><span class="o">=</span><span class="mi">1</span><span class="p">):</span>
     <span class="sa">r</span><span class="sd">&#39;&#39;&#39;Return length of each filter in a constant-Q basis.</span>
 
 <span class="sd">    Parameters</span>
@@ -756,8 +774,11 @@
 <span class="sd">    bins_per_octave : int &gt; 0 [scalar]</span>
 <span class="sd">        Number of bins per octave</span>
 
-<span class="sd">    tuning : float in `[-0.5, +0.5)` [scalar]</span>
+<span class="sd">    tuning : float [scalar] &lt;DEPRECATED&gt;</span>
 <span class="sd">        Tuning deviation from A440 in fractions of a bin</span>
+
+<span class="sd">        .. note:: This parameter is deprecated in 0.7.1.  It will be removed in</span>
+<span class="sd">                  version 0.8.</span>
 
 <span class="sd">    window : str or callable</span>
 <span class="sd">        Window function to use on filters</span>
@@ -792,8 +813,13 @@
     <span class="k">if</span> <span class="n">n_bins</span> <span class="o">&lt;=</span> <span class="mi">0</span> <span class="ow">or</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">n_bins</span><span class="p">,</span> <span class="nb">int</span><span class="p">):</span>
         <span class="k">raise</span> <span class="n">ParameterError</span><span class="p">(</span><span class="s1">&#39;n_bins must be a positive integer&#39;</span><span class="p">)</span>
 
-    <span class="n">correction</span> <span class="o">=</span> <span class="mf">2.0</span><span class="o">**</span><span class="p">(</span><span class="nb">float</span><span class="p">(</span><span class="n">tuning</span><span class="p">)</span> <span class="o">/</span> <span class="n">bins_per_octave</span><span class="p">)</span>
+    <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">tuning</span><span class="p">,</span> <span class="n">Deprecated</span><span class="p">):</span>
+        <span class="n">tuning</span> <span class="o">=</span> <span class="mf">0.0</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">warnings</span><span class="o">.</span><span class="n">warn</span><span class="p">(</span><span class="s1">&#39;The `tuning` parameter to `filters.constant_q_lengths` is deprecated in librosa 0.7.1.&#39;</span>
+                      <span class="s1">&#39;It will be removed in 0.8.0.&#39;</span><span class="p">,</span> <span class="ne">DeprecationWarning</span><span class="p">)</span>
 
+    <span class="n">correction</span> <span class="o">=</span> <span class="mf">2.0</span><span class="o">**</span><span class="p">(</span><span class="nb">float</span><span class="p">(</span><span class="n">tuning</span><span class="p">)</span> <span class="o">/</span> <span class="n">bins_per_octave</span><span class="p">)</span>
     <span class="n">fmin</span> <span class="o">=</span> <span class="n">correction</span> <span class="o">*</span> <span class="n">fmin</span>
 
     <span class="c1"># Q should be capitalized here, so we suppress the name warning</span>
@@ -1168,7 +1194,7 @@
 
 <span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>
-<span class="sd">    tuning : float in `[-0.5, +0.5)` [scalar]</span>
+<span class="sd">    tuning : float [scalar]</span>
 <span class="sd">        Tuning deviation from A440, measure as a fraction of the equally</span>
 <span class="sd">        tempered semitone (1/12 of an octave).</span>
 
@@ -1229,7 +1255,7 @@
 <span class="sd">        Center frequencies of the filter kernels.</span>
 <span class="sd">        Also defines the number of filters in the filterbank.</span>
 
-<span class="sd">    tuning : float in `[-0.5, +0.5)` [scalar]</span>
+<span class="sd">    tuning : float [scalar]</span>
 <span class="sd">        Tuning deviation from A440 as a fraction of a semitone (1/12 of an octave</span>
 <span class="sd">        in equal temperament).</span>
 
@@ -1467,7 +1493,7 @@
 <div class="rst-versions" data-toggle="rst-versions" role="note" aria-label="versions">
     <span class="rst-current-version" data-toggle="rst-current-version">
         <span class="fa fa-book"> Other Versions</span>
-        v: 0.7.0
+        v: 0.7.1
         <span class="fa fa-caret-down"></span>
     </span>
     <div class="rst-other-versions">
@@ -1482,7 +1508,8 @@
             <dd><a href="../../0.6.1/index.html">0.6.1</a></dd>
             <dd><a href="../../0.6.2/index.html">0.6.2</a></dd>
             <dd><a href="../../0.6.3/index.html">0.6.3</a></dd>
-            <dd><a href="../../0.7.0/_modules/librosa/filters.html">0.7.0</a></dd>
+            <dd><a href="../../0.7.0/index.html">0.7.0</a></dd>
+            <dd><a href="../../0.7.1/_modules/librosa/filters.html">0.7.1</a></dd>
             <dd><a href="../../v0.1.0/index.html">v0.1.0</a></dd>
             <dd><a href="../../v0.4.0/index.html">v0.4.0</a></dd>
         </dl>

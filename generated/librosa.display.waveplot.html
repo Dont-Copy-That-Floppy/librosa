@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>librosa.display.waveplot &mdash; librosa 0.7.0 documentation</title>
+  <title>librosa.display.waveplot &mdash; librosa 0.7.1 documentation</title>
   
 
   
@@ -23,7 +23,7 @@
       <script type="text/javascript">
           var DOCUMENTATION_OPTIONS = {
               URL_ROOT:'../',
-              VERSION:'0.7.0',
+              VERSION:'0.7.1',
               LANGUAGE:'None',
               COLLAPSE_INDEX:false,
               FILE_SUFFIX:'.html',
@@ -232,8 +232,21 @@ most <em class="xref py py-obj">max_sr</em> before plotting.</p>
 the duration of <em class="xref py py-obj">y</em>, then <em class="xref py py-obj">y</em> is downsampled.</p>
 <p class="last">If <em class="xref py py-obj">None</em>, no downsampling is performed.</p>
 </dd>
-<dt><strong>x_axis</strong> <span class="classifier-delimiter">:</span> <span class="classifier">str {‘time’, ‘off’, ‘none’} or None</span></dt>
-<dd><p class="first last">If ‘time’, the x-axis is given time tick-marks.</p>
+<dt><strong>x_axis</strong> <span class="classifier-delimiter">:</span> <span class="classifier">str or None</span></dt>
+<dd><p class="first">Display of the x-axis ticks and tick markers. Accepted values are:</p>
+<ul class="last simple">
+<li><dl class="first docutils">
+<dt>‘time’ <span class="classifier-delimiter">:</span> <span class="classifier">markers are shown as milliseconds, seconds, minutes, or hours.</span></dt>
+<dd>Values are plotted in units of seconds.</dd>
+</dl>
+</li>
+<li>‘s’ : markers are shown as seconds.</li>
+<li>‘ms’ : markers are shown as milliseconds.</li>
+<li>‘lag’ : like time, but past the halfway point counts as negative values.</li>
+<li>‘lag_s’ : same as lag, but in seconds.</li>
+<li>‘lag_ms’ : same as lag, but in milliseconds.</li>
+<li><em class="xref py py-obj">None</em>, ‘none’, or ‘off’: ticks and tick markers are hidden.</li>
+</ul>
 </dd>
 <dt><strong>ax</strong> <span class="classifier-delimiter">:</span> <span class="classifier">matplotlib.axes.Axes or None</span></dt>
 <dd><p class="first last">Axes to plot on instead of the default <em class="xref py py-obj">plt.gca()</em>.</p>
@@ -343,7 +356,7 @@ the duration of <em class="xref py py-obj">y</em>, then <em class="xref py py-ob
 <div class="rst-versions" data-toggle="rst-versions" role="note" aria-label="versions">
     <span class="rst-current-version" data-toggle="rst-current-version">
         <span class="fa fa-book"> Other Versions</span>
-        v: 0.7.0
+        v: 0.7.1
         <span class="fa fa-caret-down"></span>
     </span>
     <div class="rst-other-versions">
@@ -359,6 +372,7 @@ the duration of <em class="xref py py-obj">y</em>, then <em class="xref py py-ob
             <dd><a href="../0.6.2/generated/librosa.display.waveplot.html">0.6.2</a></dd>
             <dd><a href="../0.6.3/generated/librosa.display.waveplot.html">0.6.3</a></dd>
             <dd><a href="../0.7.0/generated/librosa.display.waveplot.html">0.7.0</a></dd>
+            <dd><a href="../0.7.1/generated/librosa.display.waveplot.html">0.7.1</a></dd>
             <dd><a href="../v0.1.0/index.html">v0.1.0</a></dd>
             <dd><a href="../v0.4.0/index.html">v0.4.0</a></dd>
         </dl>

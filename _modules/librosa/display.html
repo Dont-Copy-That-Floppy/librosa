@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>librosa.display &mdash; librosa 0.7.0 documentation</title>
+  <title>librosa.display &mdash; librosa 0.7.1 documentation</title>
   
 
   
@@ -23,7 +23,7 @@
       <script type="text/javascript">
           var DOCUMENTATION_OPTIONS = {
               URL_ROOT:'../../',
-              VERSION:'0.7.0',
+              VERSION:'0.7.1',
               LANGUAGE:'None',
               COLLAPSE_INDEX:false,
               FILE_SUFFIX:'.html',
@@ -546,8 +546,12 @@
 
 
 <span class="k">def</span> <span class="nf">__envelope</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">hop</span><span class="p">):</span>
-    <span class="sd">&#39;&#39;&#39;Compute the max-envelope of x at a stride/frame length of h&#39;&#39;&#39;</span>
-    <span class="k">return</span> <span class="n">util</span><span class="o">.</span><span class="n">frame</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">hop_length</span><span class="o">=</span><span class="n">hop</span><span class="p">,</span> <span class="n">frame_length</span><span class="o">=</span><span class="n">hop</span><span class="p">)</span><span class="o">.</span><span class="n">max</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+    <span class="sd">&#39;&#39;&#39;Compute the max-envelope of non-overlapping frames of x at length hop</span>
+
+<span class="sd">    x is assumed to be multi-channel, of shape (n_channels, n_samples).</span>
+<span class="sd">    &#39;&#39;&#39;</span>
+    <span class="n">x_frame</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">util</span><span class="o">.</span><span class="n">frame</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">frame_length</span><span class="o">=</span><span class="n">hop</span><span class="p">,</span> <span class="n">hop_length</span><span class="o">=</span><span class="n">hop</span><span class="p">))</span>
+    <span class="k">return</span> <span class="n">x_frame</span><span class="o">.</span><span class="n">max</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
 
 
 <div class="viewcode-block" id="waveplot"><a class="viewcode-back" href="../../generated/librosa.display.waveplot.html#librosa.display.waveplot">[docs]</a><span class="k">def</span> <span class="nf">waveplot</span><span class="p">(</span><span class="n">y</span><span class="p">,</span> <span class="n">sr</span><span class="o">=</span><span class="mi">22050</span><span class="p">,</span> <span class="n">max_points</span><span class="o">=</span><span class="mf">5e4</span><span class="p">,</span> <span class="n">x_axis</span><span class="o">=</span><span class="s1">&#39;time&#39;</span><span class="p">,</span> <span class="n">offset</span><span class="o">=</span><span class="mf">0.0</span><span class="p">,</span>
@@ -577,8 +581,24 @@
 
 <span class="sd">        If `None`, no downsampling is performed.</span>
 
-<span class="sd">    x_axis : str {&#39;time&#39;, &#39;off&#39;, &#39;none&#39;} or None</span>
-<span class="sd">        If &#39;time&#39;, the x-axis is given time tick-marks.</span>
+<span class="sd">    x_axis : str or None</span>
+<span class="sd">        Display of the x-axis ticks and tick markers. Accepted values are:</span>
+
+<span class="sd">        - &#39;time&#39; : markers are shown as milliseconds, seconds, minutes, or hours.</span>
+<span class="sd">            Values are plotted in units of seconds.</span>
+
+<span class="sd">        - &#39;s&#39; : markers are shown as seconds.</span>
+
+<span class="sd">        - &#39;ms&#39; : markers are shown as milliseconds.</span>
+
+<span class="sd">        - &#39;lag&#39; : like time, but past the halfway point counts as negative values.</span>
+
+<span class="sd">        - &#39;lag_s&#39; : same as lag, but in seconds.</span>
+
+<span class="sd">        - &#39;lag_ms&#39; : same as lag, but in milliseconds.</span>
+
+<span class="sd">        - `None`, &#39;none&#39;, or &#39;off&#39;: ticks and tick markers are hidden.</span>
+
 
 <span class="sd">    ax : matplotlib.axes.Axes or None</span>
 <span class="sd">        Axes to plot on instead of the default `plt.gca()`.</span>
@@ -642,6 +662,10 @@
     <span class="n">target_sr</span> <span class="o">=</span> <span class="n">sr</span>
     <span class="n">hop_length</span> <span class="o">=</span> <span class="mi">1</span>
 
+    <span class="c1"># Pad an extra channel dimension, if necessary</span>
+    <span class="k">if</span> <span class="n">y</span><span class="o">.</span><span class="n">ndim</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
+        <span class="n">y</span> <span class="o">=</span> <span class="n">y</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">newaxis</span><span class="p">,</span> <span class="p">:]</span>
+
     <span class="k">if</span> <span class="n">max_points</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
         <span class="k">if</span> <span class="n">max_points</span> <span class="o">&lt;=</span> <span class="mi">0</span><span class="p">:</span>
             <span class="k">raise</span> <span class="n">ParameterError</span><span class="p">(</span><span class="s1">&#39;max_points must be strictly positive&#39;</span><span class="p">)</span>
@@ -651,36 +675,24 @@
 
         <span class="n">hop_length</span> <span class="o">=</span> <span class="n">sr</span> <span class="o">//</span> <span class="n">target_sr</span>
 
-        <span class="k">if</span> <span class="n">y</span><span class="o">.</span><span class="n">ndim</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
-            <span class="n">y</span> <span class="o">=</span> <span class="n">__envelope</span><span class="p">(</span><span class="n">y</span><span class="p">,</span> <span class="n">hop_length</span><span class="p">)</span>
-        <span class="k">else</span><span class="p">:</span>
-            <span class="n">y</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">vstack</span><span class="p">([</span><span class="n">__envelope</span><span class="p">(</span><span class="n">_</span><span class="p">,</span> <span class="n">hop_length</span><span class="p">)</span> <span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="n">y</span><span class="p">])</span>
+    <span class="c1"># Reduce by envelope calculation</span>
+    <span class="n">y</span> <span class="o">=</span> <span class="n">__envelope</span><span class="p">(</span><span class="n">y</span><span class="p">,</span> <span class="n">hop_length</span><span class="p">)</span>
 
-    <span class="k">if</span> <span class="n">y</span><span class="o">.</span><span class="n">ndim</span> <span class="o">&gt;</span> <span class="mi">1</span><span class="p">:</span>
-        <span class="n">y_top</span> <span class="o">=</span> <span class="n">y</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
-        <span class="n">y_bottom</span> <span class="o">=</span> <span class="o">-</span><span class="n">y</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
-    <span class="k">else</span><span class="p">:</span>
-        <span class="n">y_top</span> <span class="o">=</span> <span class="n">y</span>
-        <span class="n">y_bottom</span> <span class="o">=</span> <span class="o">-</span><span class="n">y</span>
+    <span class="n">y_top</span> <span class="o">=</span> <span class="n">y</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+    <span class="n">y_bottom</span> <span class="o">=</span> <span class="o">-</span><span class="n">y</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
 
     <span class="n">axes</span> <span class="o">=</span> <span class="n">__check_axes</span><span class="p">(</span><span class="n">ax</span><span class="p">)</span>
 
     <span class="n">kwargs</span><span class="o">.</span><span class="n">setdefault</span><span class="p">(</span><span class="s1">&#39;color&#39;</span><span class="p">,</span> <span class="nb">next</span><span class="p">(</span><span class="n">axes</span><span class="o">.</span><span class="n">_get_lines</span><span class="o">.</span><span class="n">prop_cycler</span><span class="p">)[</span><span class="s1">&#39;color&#39;</span><span class="p">])</span>
 
-    <span class="n">locs</span> <span class="o">=</span> <span class="n">offset</span> <span class="o">+</span> <span class="n">core</span><span class="o">.</span><span class="n">frames_to_time</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">y_top</span><span class="p">)),</span>
-                                        <span class="n">sr</span><span class="o">=</span><span class="n">sr</span><span class="p">,</span>
-                                        <span class="n">hop_length</span><span class="o">=</span><span class="n">hop_length</span><span class="p">)</span>
+    <span class="n">locs</span> <span class="o">=</span> <span class="n">offset</span> <span class="o">+</span> <span class="n">core</span><span class="o">.</span><span class="n">times_like</span><span class="p">(</span><span class="n">y_top</span><span class="p">,</span> <span class="n">sr</span><span class="o">=</span><span class="n">sr</span><span class="p">,</span> <span class="n">hop_length</span><span class="o">=</span><span class="n">hop_length</span><span class="p">)</span>
 
     <span class="n">out</span> <span class="o">=</span> <span class="n">axes</span><span class="o">.</span><span class="n">fill_between</span><span class="p">(</span><span class="n">locs</span><span class="p">,</span> <span class="n">y_bottom</span><span class="p">,</span> <span class="n">y_top</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
 
     <span class="n">axes</span><span class="o">.</span><span class="n">set_xlim</span><span class="p">([</span><span class="n">locs</span><span class="o">.</span><span class="n">min</span><span class="p">(),</span> <span class="n">locs</span><span class="o">.</span><span class="n">max</span><span class="p">()])</span>
-    <span class="k">if</span> <span class="n">x_axis</span> <span class="o">==</span> <span class="s1">&#39;time&#39;</span><span class="p">:</span>
-        <span class="n">axes</span><span class="o">.</span><span class="n">xaxis</span><span class="o">.</span><span class="n">set_major_formatter</span><span class="p">(</span><span class="n">TimeFormatter</span><span class="p">(</span><span class="n">lag</span><span class="o">=</span><span class="kc">False</span><span class="p">))</span>
-        <span class="n">axes</span><span class="o">.</span><span class="n">xaxis</span><span class="o">.</span><span class="n">set_label_text</span><span class="p">(</span><span class="s1">&#39;Time&#39;</span><span class="p">)</span>
-    <span class="k">elif</span> <span class="n">x_axis</span> <span class="ow">is</span> <span class="kc">None</span> <span class="ow">or</span> <span class="n">x_axis</span> <span class="ow">in</span> <span class="p">[</span><span class="s1">&#39;off&#39;</span><span class="p">,</span> <span class="s1">&#39;none&#39;</span><span class="p">]:</span>
-        <span class="n">axes</span><span class="o">.</span><span class="n">set_xticks</span><span class="p">([])</span>
-    <span class="k">else</span><span class="p">:</span>
-        <span class="k">raise</span> <span class="n">ParameterError</span><span class="p">(</span><span class="s1">&#39;Unknown x_axis value: </span><span class="si">{}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">x_axis</span><span class="p">))</span>
+
+    <span class="c1"># Construct tickers and locators</span>
+    <span class="n">__decorate_axis</span><span class="p">(</span><span class="n">axes</span><span class="o">.</span><span class="n">xaxis</span><span class="p">,</span> <span class="n">x_axis</span><span class="p">)</span>
 
     <span class="k">return</span> <span class="n">out</span></div>
 
@@ -689,6 +701,7 @@
              <span class="n">x_axis</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">y_axis</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
              <span class="n">sr</span><span class="o">=</span><span class="mi">22050</span><span class="p">,</span> <span class="n">hop_length</span><span class="o">=</span><span class="mi">512</span><span class="p">,</span>
              <span class="n">fmin</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">fmax</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+             <span class="n">tuning</span><span class="o">=</span><span class="mf">0.0</span><span class="p">,</span>
              <span class="n">bins_per_octave</span><span class="o">=</span><span class="mi">12</span><span class="p">,</span>
              <span class="n">ax</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
              <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
@@ -736,14 +749,11 @@
 
 <span class="sd">        Time types:</span>
 
-<span class="sd">        - &#39;time&#39; : markers are shown as milliseconds, seconds,</span>
-<span class="sd">          minutes, or hours.</span>
-<span class="sd">          Values are plotted in units of seconds.</span>
+<span class="sd">        - &#39;time&#39; : markers are shown as milliseconds, seconds, minutes, or hours.  </span>
+<span class="sd">                Values are plotted in units of seconds.</span>
 <span class="sd">        - &#39;s&#39; : markers are shown as seconds.</span>
 <span class="sd">        - &#39;ms&#39; : markers are shown as milliseconds.</span>
-
-<span class="sd">        - &#39;lag&#39; : like time, but past the halfway point counts</span>
-<span class="sd">          as negative values.</span>
+<span class="sd">        - &#39;lag&#39; : like time, but past the halfway point counts as negative values.</span>
 <span class="sd">        - &#39;lag_s&#39; : same as lag, but in seconds.</span>
 <span class="sd">        - &#39;lag_ms&#39; : same as lag, but in milliseconds.</span>
 
@@ -776,6 +786,12 @@
 
 <span class="sd">    fmax : float &gt; 0 [scalar] or None</span>
 <span class="sd">        Used for setting the Mel frequency scales</span>
+
+<span class="sd">    tuning : float</span>
+<span class="sd">        Tuning deviation from A440, in fractions of a bin.</span>
+
+<span class="sd">        This is used for CQT frequency scales, so that `fmin` is adjusted</span>
+<span class="sd">        to `fmin * 2**(tuning / bins_per_octave)`.</span>
 
 <span class="sd">    bins_per_octave : int &gt; 0 [scalar]</span>
 <span class="sd">        Number of bins per octave.  Used for CQT frequency scale.</span>
@@ -910,6 +926,7 @@
                       <span class="n">sr</span><span class="o">=</span><span class="n">sr</span><span class="p">,</span>
                       <span class="n">fmin</span><span class="o">=</span><span class="n">fmin</span><span class="p">,</span>
                       <span class="n">fmax</span><span class="o">=</span><span class="n">fmax</span><span class="p">,</span>
+                      <span class="n">tuning</span><span class="o">=</span><span class="n">tuning</span><span class="p">,</span>
                       <span class="n">bins_per_octave</span><span class="o">=</span><span class="n">bins_per_octave</span><span class="p">,</span>
                       <span class="n">hop_length</span><span class="o">=</span><span class="n">hop_length</span><span class="p">)</span>
 
@@ -1156,6 +1173,9 @@
     <span class="k">if</span> <span class="n">fmin</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
         <span class="n">fmin</span> <span class="o">=</span> <span class="n">core</span><span class="o">.</span><span class="n">note_to_hz</span><span class="p">(</span><span class="s1">&#39;C1&#39;</span><span class="p">)</span>
 
+    <span class="c1"># Apply tuning correction</span>
+    <span class="n">fmin</span> <span class="o">=</span> <span class="n">fmin</span> <span class="o">*</span> <span class="mf">2.0</span><span class="o">**</span><span class="p">(</span><span class="n">_kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;tuning&#39;</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">)</span> <span class="o">/</span> <span class="n">bins_per_octave</span><span class="p">)</span>
+
     <span class="c1"># we drop by half a bin so that CQT bins are centered vertically</span>
     <span class="k">return</span> <span class="n">core</span><span class="o">.</span><span class="n">cqt_frequencies</span><span class="p">(</span><span class="n">n</span><span class="o">+</span><span class="mi">1</span><span class="p">,</span>
                                 <span class="n">fmin</span><span class="o">=</span><span class="n">fmin</span> <span class="o">/</span> <span class="mf">2.0</span><span class="o">**</span><span class="p">(</span><span class="mf">0.5</span><span class="o">/</span><span class="n">bins_per_octave</span><span class="p">),</span>
@@ -1227,7 +1247,7 @@
 <div class="rst-versions" data-toggle="rst-versions" role="note" aria-label="versions">
     <span class="rst-current-version" data-toggle="rst-current-version">
         <span class="fa fa-book"> Other Versions</span>
-        v: 0.7.0
+        v: 0.7.1
         <span class="fa fa-caret-down"></span>
     </span>
     <div class="rst-other-versions">
@@ -1242,7 +1262,8 @@
             <dd><a href="../../0.6.1/index.html">0.6.1</a></dd>
             <dd><a href="../../0.6.2/index.html">0.6.2</a></dd>
             <dd><a href="../../0.6.3/index.html">0.6.3</a></dd>
-            <dd><a href="../../0.7.0/_modules/librosa/display.html">0.7.0</a></dd>
+            <dd><a href="../../0.7.0/index.html">0.7.0</a></dd>
+            <dd><a href="../../0.7.1/_modules/librosa/display.html">0.7.1</a></dd>
             <dd><a href="../../v0.1.0/index.html">v0.1.0</a></dd>
             <dd><a href="../../v0.4.0/index.html">v0.4.0</a></dd>
         </dl>

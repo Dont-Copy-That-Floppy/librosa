@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Changelog &mdash; librosa 0.7.0 documentation</title>
+  <title>Changelog &mdash; librosa 0.7.1 documentation</title>
   
 
   
@@ -23,7 +23,7 @@
       <script type="text/javascript">
           var DOCUMENTATION_OPTIONS = {
               URL_ROOT:'./',
-              VERSION:'0.7.0',
+              VERSION:'0.7.1',
               LANGUAGE:'None',
               COLLAPSE_INDEX:false,
               FILE_SUFFIX:'.html',
@@ -121,6 +121,7 @@
 </ul>
 <ul class="current">
 <li class="toctree-l1 current"><a class="current reference internal" href="#">Changelog</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#v0-7-1">v0.7.1</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#v0-7-0">v0.7.0</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#v0-6-3">v0.6.3</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#v0-6-2">v0.6.2</a></li>
@@ -212,9 +213,58 @@
 
 <div class="section" id="changelog">
 <h1>Changelog<a class="headerlink" href="#changelog" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="v0-7-1">
+<h2>v0.7.1<a class="headerlink" href="#v0-7-1" title="Permalink to this headline">¶</a></h2>
+<p>2019-10-09</p>
+<dl class="docutils">
+<dt>New Features</dt>
+<dd><ul class="first last simple">
+<li><a class="reference external" href="https://github.com/librosa/librosa/issues/966">#966</a> <em class="xref py py-obj">util.frame</em> now supports multidimensional data. Includes a new helper function <em class="xref py py-obj">util.stack</em> for contiguous concatenation. <em>Brian McFee</em></li>
+<li><a class="reference external" href="https://github.com/librosa/librosa/issues/934">#934</a> <em class="xref py py-obj">core.griffinlim_cqt</em>: Phase retrieval from constant-Q magnitude spectra. <em>Brian McFee</em></li>
+<li><a class="reference external" href="https://github.com/librosa/librosa/issues/940">#940</a> Enhanced compatibility with HTK’s MFCC implementation: <em class="xref py py-obj">effects.preemphasis</em> and <em class="xref py py-obj">lifter=</em> parameter in MFCC.  <em>Brian McFee</em></li>
+<li><a class="reference external" href="https://github.com/librosa/librosa/issues/949">#949</a> <em class="xref py py-obj">util.shear</em> utility for shear-transforming 2D arrays. <em>Brian McFee</em></li>
+<li><a class="reference external" href="https://github.com/librosa/librosa/issues/926">#926</a> <em class="xref py py-obj">core.reassigned_spectrogram</em>: time-frequency reassigned spectrogram.  <em>Scott Seyfarth</em></li>
+</ul>
+</dd>
+<dt>Bug fixes</dt>
+<dd><ul class="first last simple">
+<li><a class="reference external" href="https://github.com/librosa/librosa/issues/983">#983</a> Added a missing parameter to <em class="xref py py-obj">griffinlim_cqt</em>. <em>Voodoohop</em></li>
+<li><a class="reference external" href="https://github.com/librosa/librosa/issues/978">#978</a> Correct FFT normalization discrepancy in rms calculation. <em>Brian McFee</em></li>
+<li><a class="reference external" href="https://github.com/librosa/librosa/issues/930">#930</a> Corrected an error in automatic tuning correction for CQT. <em>Brian McFee</em></li>
+<li><a class="reference external" href="https://github.com/librosa/librosa/issues/942">#942</a> Fixed seeking behavior in <code class="xref py py-obj docutils literal notranslate"><span class="pre">librosa.stream</span></code> when operating on file-handle inputs. <em>Carl Thome</em></li>
+<li><a class="reference external" href="https://github.com/librosa/librosa/issues/920">#920</a> Fixed a boundary condition check in full-sequence DTW. <em>Frank Zalkow</em></li>
+</ul>
+</dd>
+<dt>Documentation</dt>
+<dd><ul class="first last simple">
+<li><a class="reference external" href="https://github.com/librosa/librosa/issues/976">#976</a> Fixed a typo in <em class="xref py py-obj">stream</em> documentation. <em>Alastair Porter</em></li>
+<li><a class="reference external" href="https://github.com/librosa/librosa/issues/958">#958</a> Visualization of reassigned spectrograms. <em>Vincent Lostanlen</em></li>
+<li><a class="reference external" href="https://github.com/librosa/librosa/issues/943">#943</a> Improved documentation for <em class="xref py py-obj">core.stft</em>. <em>Vincent Lostanlen</em></li>
+<li><a class="reference external" href="https://github.com/librosa/librosa/issues/939">#939</a> Expanded documentation of <em class="xref py py-obj">feature.melspectrogram</em>. <em>Vincent Lostanlen</em></li>
+</ul>
+</dd>
+<dt>Other changes</dt>
+<dd><ul class="first last simple">
+<li><a class="reference external" href="https://github.com/librosa/librosa/issues/1004">#1004</a> Expose frame parameters in <em class="xref py py-obj">onset</em> and <em class="xref py py-obj">chroma_stft</em> functions. <em>Brian McFee</em></li>
+<li><a class="reference external" href="https://github.com/librosa/librosa/issues/1003">#1003</a> Removed warning filter reset, and changed the Python2 deprecation
+warning to class <em class="xref py py-obj">FutureWarning</em>. <em>Brian McFee, Fabian Keller</em></li>
+<li><a class="reference external" href="https://github.com/librosa/librosa/issues/1000">#1000</a> Fixed an upstream deprecation warning from <em class="xref py py-obj">np.asscalar()</em>. <em>Vincent Lostanlen</em></li>
+<li><a class="reference external" href="https://github.com/librosa/librosa/issues/971">#971</a> Beat and tempo estimation now support prior distributions. <em>Brian McFee</em></li>
+<li><a class="reference external" href="https://github.com/librosa/librosa/issues/968">#968</a> <em class="xref py py-obj">util.valid_audio</em> now enforces memory contiguity. <em>Vincent Lostanlen</em></li>
+<li><a class="reference external" href="https://github.com/librosa/librosa/issues/963">#963</a> Improved x-axis decoration types in <em class="xref py py-obj">display.waveplot</em>. <em>Vincent Lostanlen</em></li>
+<li><a class="reference external" href="https://github.com/librosa/librosa/issues/960">#960</a> Ensure memory contiguity of audio buffers after resampling. <em>Brian McFee</em></li>
+<li><a class="reference external" href="https://github.com/librosa/librosa/issues/957">#957</a> Code-base audit for proper usage of <em class="xref py py-obj">times_like</em>. <em>Brian McFee</em></li>
+<li><a class="reference external" href="https://github.com/librosa/librosa/issues/953">#953</a> Deprecated <em class="xref py py-obj">core.ifgram</em> in favor of <em class="xref py py-obj">reassigned_spectrogram</em>. <em>Brian McFee</em></li>
+<li><a class="reference external" href="https://github.com/librosa/librosa/issues/950">#950</a> Allow initial phase estimates for <em class="xref py py-obj">griffinlim</em> methods. <em>Brian McFee</em></li>
+<li><a class="reference external" href="https://github.com/librosa/librosa/issues/949">#949</a> Accelerated <em class="xref py py-obj">segment.lag_to_recurrence</em> and <em class="xref py py-obj">segment.recurrence_to_lag</em>. Deprecated <em class="xref py py-obj">util.roll_sparse</em>. <em>Brian McFee</em></li>
+<li><a class="reference external" href="https://github.com/librosa/librosa/issues/930">#930</a> <em class="xref py py-obj">A440=</em> parameter has been deprecated across the library in favor of a standardized <em class="xref py py-obj">tuning=</em> parameter.  <em>Brian McFee</em></li>
+</ul>
+</dd>
+</dl>
+</div>
 <div class="section" id="v0-7-0">
 <h2>v0.7.0<a class="headerlink" href="#v0-7-0" title="Permalink to this headline">¶</a></h2>
-<p>2019-07-1</p>
+<p>2019-07-07</p>
 <p>Note: the 0.7 series will be the last to officially support Python 2.7.</p>
 <dl class="docutils">
 <dt>New features</dt>
@@ -253,7 +303,7 @@
 </dd>
 <dt>Removed features (deprecated in v0.6)</dt>
 <dd><ul class="first last simple">
-<li>Discrete cosine transform. We recommend using <a class="reference external" href="https://docs.scipy.org/doc/scipy/reference/generated/scipy.fftpack.dct.html#scipy.fftpack.dct" title="(in SciPy v1.3.0)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">scipy.fftpack.dct</span></code></a></li>
+<li>Discrete cosine transform. We recommend using <a class="reference external" href="https://docs.scipy.org/doc/scipy/reference/generated/scipy.fftpack.dct.html#scipy.fftpack.dct" title="(in SciPy v1.3.1)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">scipy.fftpack.dct</span></code></a></li>
 <li>The <em class="xref py py-obj">delta</em> function no longer support the <em class="xref py py-obj">trim</em> keyword argument.</li>
 <li>Root mean square error (<em class="xref py py-obj">rmse</em>) has been renamed to <em class="xref py py-obj">rms</em>.</li>
 <li><em class="xref py py-obj">iirt</em> now uses <em class="xref py py-obj">sos</em> mode by default.</li>
@@ -275,7 +325,7 @@
 <dd><ul class="first last simple">
 <li><a class="reference external" href="https://github.com/librosa/librosa/issues/917">#917</a> The <em class="xref py py-obj">output</em> module is now deprecated, and will be removed in version 0.8.</li>
 <li><a class="reference external" href="https://github.com/librosa/librosa/issues/878">#878</a> More informative exception handling. <em>Jack Mason</em></li>
-<li><a class="reference external" href="https://github.com/librosa/librosa/issues/857">#857</a> <em class="xref py py-obj">librosa.core.resample()</em> now supports <em class="xref py py-obj">mode=’fft’</em>, equivalent to the previous <a class="reference external" href="https://docs.scipy.org/doc/scipy/reference/index.html#module-scipy" title="(in SciPy v1.3.0)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">scipy</span></code></a> mode. <em>Brian McFee</em></li>
+<li><a class="reference external" href="https://github.com/librosa/librosa/issues/857">#857</a> <em class="xref py py-obj">librosa.core.resample()</em> now supports <em class="xref py py-obj">mode=’fft’</em>, equivalent to the previous <a class="reference external" href="https://docs.scipy.org/doc/scipy/reference/index.html#module-scipy" title="(in SciPy v1.3.1)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">scipy</span></code></a> mode. <em>Brian McFee</em></li>
 <li><a class="reference external" href="https://github.com/librosa/librosa/issues/854">#854</a> More efficient length-aware ISTFT and ICQT. <em>Vincent Lostanlen</em></li>
 <li><a class="reference external" href="https://github.com/librosa/librosa/issues/846">#846</a> Nine librosa functions now store jit-compiled, numba-accelerated caches across sessions. <em>Brian McFee</em></li>
 <li><a class="reference external" href="https://github.com/librosa/librosa/issues/841">#841</a> <a class="reference internal" href="generated/librosa.core.load.html#librosa.core.load" title="librosa.core.load"><code class="xref py py-obj docutils literal notranslate"><span class="pre">librosa.core.load</span></code></a> no longer relies on <em class="xref py py-obj">realpath()</em>. <em>Brian McFee</em></li>
@@ -1073,7 +1123,7 @@ adapt to scale (mHz, Hz, KHz, MHz, GHz) and use automatic precision formatting (
 <div class="rst-versions" data-toggle="rst-versions" role="note" aria-label="versions">
     <span class="rst-current-version" data-toggle="rst-current-version">
         <span class="fa fa-book"> Other Versions</span>
-        v: 0.7.0
+        v: 0.7.1
         <span class="fa fa-caret-down"></span>
     </span>
     <div class="rst-other-versions">
@@ -1089,6 +1139,7 @@ adapt to scale (mHz, Hz, KHz, MHz, GHz) and use automatic precision formatting (
             <dd><a href="0.6.2/changelog.html">0.6.2</a></dd>
             <dd><a href="0.6.3/changelog.html">0.6.3</a></dd>
             <dd><a href="0.7.0/changelog.html">0.7.0</a></dd>
+            <dd><a href="0.7.1/changelog.html">0.7.1</a></dd>
             <dd><a href="v0.1.0/index.html">v0.1.0</a></dd>
             <dd><a href="v0.4.0/changelog.html">v0.4.0</a></dd>
         </dl>

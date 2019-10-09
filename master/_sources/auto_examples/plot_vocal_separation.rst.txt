@@ -61,6 +61,15 @@ Load an example with vocals.
 
 
 
+.. rst-class:: sphx-glr-script-out
+
+ Out:
+
+ .. code-block:: none
+
+    /tmp/tmpdkqngjo8sphinxcontrib_versioning/ef93c2c2f31582135108594034cc89b6d7cda718/librosa/core/audio.py:146: UserWarning: PySoundFile failed. Trying audioread instead.
+      warnings.warn('PySoundFile failed. Trying audioread instead.')
+
 
 
 Plot a 5-second slice of the spectrum
@@ -192,7 +201,7 @@ Plot the same slice, but separated into its foreground and background
 
  .. code-block:: none
 
-    /tmp/tmp_b54sl3ysphinxcontrib_versioning/17a5852ca1d052cb6f54ca9849c8fd97edf6c939/docs/examples/plot_vocal_separation.py:123: UserWarning: Matplotlib is currently using agg, which is a non-GUI backend, so cannot show the figure.
+    /tmp/tmpdkqngjo8sphinxcontrib_versioning/ef93c2c2f31582135108594034cc89b6d7cda718/docs/examples/plot_vocal_separation.py:123: UserWarning: Matplotlib is currently using agg, which is a non-GUI backend, so cannot show the figure.
       plt.show()
 
 
@@ -200,7 +209,7 @@ Plot the same slice, but separated into its foreground and background
 
 .. rst-class:: sphx-glr-timing
 
-   **Total running time of the script:** ( 0 minutes  24.801 seconds)
+   **Total running time of the script:** ( 0 minutes  25.113 seconds)
 
 
 .. _sphx_glr_download_auto_examples_plot_vocal_separation.py:

@@ -5,13 +5,13 @@
 
 Computation times
 =================
-**01:22.555** total execution time for **auto_examples** files:
+**01:21.908** total execution time for **auto_examples** files:
 
-- **00:28.140**: :ref:`sphx_glr_auto_examples_plot_chroma.py` (``plot_chroma.py``)
-- **00:25.631**: :ref:`sphx_glr_auto_examples_plot_vocal_separation.py` (``plot_vocal_separation.py``)
-- **00:11.227**: :ref:`sphx_glr_auto_examples_plot_segmentation.py` (``plot_segmentation.py``)
-- **00:08.508**: :ref:`sphx_glr_auto_examples_plot_hprss.py` (``plot_hprss.py``)
-- **00:02.835**: :ref:`sphx_glr_auto_examples_plot_presets.py` (``plot_presets.py``)
-- **00:02.713**: :ref:`sphx_glr_auto_examples_plot_viterbi.py` (``plot_viterbi.py``)
-- **00:02.460**: :ref:`sphx_glr_auto_examples_plot_music_sync.py` (``plot_music_sync.py``)
-- **00:01.039**: :ref:`sphx_glr_auto_examples_plot_superflux.py` (``plot_superflux.py``)
+- **00:26.985**: :ref:`sphx_glr_auto_examples_plot_chroma.py` (``plot_chroma.py``)
+- **00:25.248**: :ref:`sphx_glr_auto_examples_plot_vocal_separation.py` (``plot_vocal_separation.py``)
+- **00:11.685**: :ref:`sphx_glr_auto_examples_plot_segmentation.py` (``plot_segmentation.py``)
+- **00:09.241**: :ref:`sphx_glr_auto_examples_plot_hprss.py` (``plot_hprss.py``)
+- **00:02.691**: :ref:`sphx_glr_auto_examples_plot_presets.py` (``plot_presets.py``)
+- **00:02.561**: :ref:`sphx_glr_auto_examples_plot_viterbi.py` (``plot_viterbi.py``)
+- **00:02.507**: :ref:`sphx_glr_auto_examples_plot_music_sync.py` (``plot_music_sync.py``)
+- **00:00.990**: :ref:`sphx_glr_auto_examples_plot_superflux.py` (``plot_superflux.py``)

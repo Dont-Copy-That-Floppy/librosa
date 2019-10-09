@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>librosa.util.sparsify_rows &mdash; librosa 0.7.0 documentation</title>
+  <title>librosa.util.sparsify_rows &mdash; librosa 0.7.1 documentation</title>
   
 
   
@@ -23,7 +23,7 @@
       <script type="text/javascript">
           var DOCUMENTATION_OPTIONS = {
               URL_ROOT:'../',
-              VERSION:'0.7.0',
+              VERSION:'0.7.1',
               LANGUAGE:'None',
               COLLAPSE_INDEX:false,
               FILE_SUFFIX:'.html',
@@ -48,7 +48,7 @@
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
     <link rel="next" title="librosa.util.buf_to_float" href="librosa.util.buf_to_float.html" />
-    <link rel="prev" title="librosa.util.roll_sparse" href="librosa.util.roll_sparse.html" /> 
+    <link rel="prev" title="librosa.util.shear" href="librosa.util.shear.html" /> 
 </head>
 
 <body class="wy-body-for-nav">
@@ -119,10 +119,11 @@
 <li class="toctree-l3"><a class="reference internal" href="librosa.util.fix_frames.html">librosa.util.fix_frames</a></li>
 <li class="toctree-l3"><a class="reference internal" href="librosa.util.index_to_slice.html">librosa.util.index_to_slice</a></li>
 <li class="toctree-l3"><a class="reference internal" href="librosa.util.softmask.html">librosa.util.softmask</a></li>
+<li class="toctree-l3"><a class="reference internal" href="librosa.util.stack.html">librosa.util.stack</a></li>
 <li class="toctree-l3"><a class="reference internal" href="librosa.util.sync.html">librosa.util.sync</a></li>
 <li class="toctree-l3"><a class="reference internal" href="librosa.util.axis_sort.html">librosa.util.axis_sort</a></li>
 <li class="toctree-l3"><a class="reference internal" href="librosa.util.normalize.html">librosa.util.normalize</a></li>
-<li class="toctree-l3"><a class="reference internal" href="librosa.util.roll_sparse.html">librosa.util.roll_sparse</a></li>
+<li class="toctree-l3"><a class="reference internal" href="librosa.util.shear.html">librosa.util.shear</a></li>
 <li class="toctree-l3 current"><a class="current reference internal" href="#">librosa.util.sparsify_rows</a></li>
 <li class="toctree-l3"><a class="reference internal" href="librosa.util.buf_to_float.html">librosa.util.buf_to_float</a></li>
 <li class="toctree-l3"><a class="reference internal" href="librosa.util.tiny.html">librosa.util.tiny</a></li>
@@ -132,6 +133,7 @@
 <li class="toctree-l2"><a class="reference internal" href="../util.html#miscellaneous">Miscellaneous</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../util.html#input-validation">Input validation</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../util.html#file-operations">File operations</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../util.html#deprecated">Deprecated</a></li>
 </ul>
 </li>
 </ul>
@@ -237,7 +239,7 @@
 </td>
 </tr>
 <tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><dl class="first docutils">
-<dt><strong>x_sparse</strong> <span class="classifier-delimiter">:</span> <span class="classifier"><a class="reference external" href="https://docs.scipy.org/doc/scipy/reference/generated/scipy.sparse.csr_matrix.html#scipy.sparse.csr_matrix" title="(in SciPy v1.3.0)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">scipy.sparse.csr_matrix</span></code></a> [shape=x.shape]</span></dt>
+<dt><strong>x_sparse</strong> <span class="classifier-delimiter">:</span> <span class="classifier"><a class="reference external" href="https://docs.scipy.org/doc/scipy/reference/generated/scipy.sparse.csr_matrix.html#scipy.sparse.csr_matrix" title="(in SciPy v1.3.1)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">scipy.sparse.csr_matrix</span></code></a> [shape=x.shape]</span></dt>
 <dd><p class="first">Row-sparsified approximation of <em class="xref py py-obj">x</em></p>
 <p class="last">If <em class="xref py py-obj">x.ndim == 1</em>, then <em class="xref py py-obj">x</em> is interpreted as a row vector,
 and <em class="xref py py-obj">x_sparse.shape == (1, len(x))</em>.</p>
@@ -305,7 +307,7 @@ and <em class="xref py py-obj">x_sparse.shape == (1, len(x))</em>.</p>
         <a href="librosa.util.buf_to_float.html" class="btn btn-neutral float-right" title="librosa.util.buf_to_float" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
       
       
-        <a href="librosa.util.roll_sparse.html" class="btn btn-neutral float-left" title="librosa.util.roll_sparse" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+        <a href="librosa.util.shear.html" class="btn btn-neutral float-left" title="librosa.util.shear" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
       
     </div>
   
@@ -332,7 +334,7 @@ and <em class="xref py py-obj">x_sparse.shape == (1, len(x))</em>.</p>
 <div class="rst-versions" data-toggle="rst-versions" role="note" aria-label="versions">
     <span class="rst-current-version" data-toggle="rst-current-version">
         <span class="fa fa-book"> Other Versions</span>
-        v: 0.7.0
+        v: 0.7.1
         <span class="fa fa-caret-down"></span>
     </span>
     <div class="rst-other-versions">
@@ -348,6 +350,7 @@ and <em class="xref py py-obj">x_sparse.shape == (1, len(x))</em>.</p>
             <dd><a href="../0.6.2/generated/librosa.util.sparsify_rows.html">0.6.2</a></dd>
             <dd><a href="../0.6.3/generated/librosa.util.sparsify_rows.html">0.6.3</a></dd>
             <dd><a href="../0.7.0/generated/librosa.util.sparsify_rows.html">0.7.0</a></dd>
+            <dd><a href="../0.7.1/generated/librosa.util.sparsify_rows.html">0.7.1</a></dd>
             <dd><a href="../v0.1.0/index.html">v0.1.0</a></dd>
             <dd><a href="../v0.4.0/index.html">v0.4.0</a></dd>
         </dl>

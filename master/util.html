@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Utilities &mdash; librosa 0.7.0 documentation</title>
+  <title>Utilities &mdash; librosa 0.7.1 documentation</title>
   
 
   
@@ -23,7 +23,7 @@
       <script type="text/javascript">
           var DOCUMENTATION_OPTIONS = {
               URL_ROOT:'./',
-              VERSION:'0.7.0',
+              VERSION:'0.7.1',
               LANGUAGE:'None',
               COLLAPSE_INDEX:false,
               FILE_SUFFIX:'.html',
@@ -119,10 +119,11 @@
 <li class="toctree-l3"><a class="reference internal" href="generated/librosa.util.fix_frames.html">librosa.util.fix_frames</a></li>
 <li class="toctree-l3"><a class="reference internal" href="generated/librosa.util.index_to_slice.html">librosa.util.index_to_slice</a></li>
 <li class="toctree-l3"><a class="reference internal" href="generated/librosa.util.softmask.html">librosa.util.softmask</a></li>
+<li class="toctree-l3"><a class="reference internal" href="generated/librosa.util.stack.html">librosa.util.stack</a></li>
 <li class="toctree-l3"><a class="reference internal" href="generated/librosa.util.sync.html">librosa.util.sync</a></li>
 <li class="toctree-l3"><a class="reference internal" href="generated/librosa.util.axis_sort.html">librosa.util.axis_sort</a></li>
 <li class="toctree-l3"><a class="reference internal" href="generated/librosa.util.normalize.html">librosa.util.normalize</a></li>
-<li class="toctree-l3"><a class="reference internal" href="generated/librosa.util.roll_sparse.html">librosa.util.roll_sparse</a></li>
+<li class="toctree-l3"><a class="reference internal" href="generated/librosa.util.shear.html">librosa.util.shear</a></li>
 <li class="toctree-l3"><a class="reference internal" href="generated/librosa.util.sparsify_rows.html">librosa.util.sparsify_rows</a></li>
 <li class="toctree-l3"><a class="reference internal" href="generated/librosa.util.buf_to_float.html">librosa.util.buf_to_float</a></li>
 <li class="toctree-l3"><a class="reference internal" href="generated/librosa.util.tiny.html">librosa.util.tiny</a></li>
@@ -149,6 +150,10 @@
 <li class="toctree-l2"><a class="reference internal" href="#file-operations">File operations</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="generated/librosa.util.example_audio_file.html">librosa.util.example_audio_file</a></li>
 <li class="toctree-l3"><a class="reference internal" href="generated/librosa.util.find_files.html">librosa.util.find_files</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#deprecated">Deprecated</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="generated/librosa.util.roll_sparse.html">librosa.util.roll_sparse</a></li>
 </ul>
 </li>
 </ul>
@@ -235,7 +240,7 @@
 
 
 
-    <p class="scv-banner scv-sphinx_rtd_theme"><a href="../0.7.0/util.html"><b>Warning:</b> This document is for the development version of librosa. The latest version is 0.7.0.</a></p>
+    <p class="scv-banner scv-sphinx_rtd_theme"><a href="../0.7.1/util.html"><b>Warning:</b> This document is for the development version of librosa. The latest version is 0.7.1.</a></p>
 <span class="target" id="module-librosa.util"><span id="util"></span></span><div class="section" id="utilities">
 <h1>Utilities<a class="headerlink" href="#utilities" title="Permalink to this headline">¶</a></h1>
 <div class="section" id="array-operations">
@@ -246,8 +251,8 @@
 <col width="90%" />
 </colgroup>
 <tbody valign="top">
-<tr class="row-odd"><td><a class="reference internal" href="generated/librosa.util.frame.html#librosa.util.frame" title="librosa.util.frame"><code class="xref py py-obj docutils literal notranslate"><span class="pre">frame</span></code></a>(y[,&nbsp;frame_length,&nbsp;hop_length])</td>
-<td>Slice a time series into overlapping frames.</td>
+<tr class="row-odd"><td><a class="reference internal" href="generated/librosa.util.frame.html#librosa.util.frame" title="librosa.util.frame"><code class="xref py py-obj docutils literal notranslate"><span class="pre">frame</span></code></a>(x[,&nbsp;frame_length,&nbsp;hop_length,&nbsp;axis])</td>
+<td>Slice a data array into (overlapping) frames.</td>
 </tr>
 <tr class="row-even"><td><a class="reference internal" href="generated/librosa.util.pad_center.html#librosa.util.pad_center" title="librosa.util.pad_center"><code class="xref py py-obj docutils literal notranslate"><span class="pre">pad_center</span></code></a>(data,&nbsp;size[,&nbsp;axis])</td>
 <td>Wrapper for np.pad to automatically center an array prior to padding.</td>
@@ -264,25 +269,28 @@
 <tr class="row-even"><td><a class="reference internal" href="generated/librosa.util.softmask.html#librosa.util.softmask" title="librosa.util.softmask"><code class="xref py py-obj docutils literal notranslate"><span class="pre">softmask</span></code></a>(X,&nbsp;X_ref[,&nbsp;power,&nbsp;split_zeros])</td>
 <td>Robustly compute a softmask operation.</td>
 </tr>
-<tr class="row-odd"><td><a class="reference internal" href="generated/librosa.util.sync.html#librosa.util.sync" title="librosa.util.sync"><code class="xref py py-obj docutils literal notranslate"><span class="pre">sync</span></code></a>(data,&nbsp;idx[,&nbsp;aggregate,&nbsp;pad,&nbsp;axis])</td>
+<tr class="row-odd"><td><a class="reference internal" href="generated/librosa.util.stack.html#librosa.util.stack" title="librosa.util.stack"><code class="xref py py-obj docutils literal notranslate"><span class="pre">stack</span></code></a>(arrays[,&nbsp;axis])</td>
+<td>Stack one or more arrays along a target axis.</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="generated/librosa.util.sync.html#librosa.util.sync" title="librosa.util.sync"><code class="xref py py-obj docutils literal notranslate"><span class="pre">sync</span></code></a>(data,&nbsp;idx[,&nbsp;aggregate,&nbsp;pad,&nbsp;axis])</td>
 <td>Synchronous aggregation of a multi-dimensional array between boundaries</td>
 </tr>
-<tr class="row-even"><td><a class="reference internal" href="generated/librosa.util.axis_sort.html#librosa.util.axis_sort" title="librosa.util.axis_sort"><code class="xref py py-obj docutils literal notranslate"><span class="pre">axis_sort</span></code></a>(S[,&nbsp;axis,&nbsp;index,&nbsp;value])</td>
+<tr class="row-odd"><td><a class="reference internal" href="generated/librosa.util.axis_sort.html#librosa.util.axis_sort" title="librosa.util.axis_sort"><code class="xref py py-obj docutils literal notranslate"><span class="pre">axis_sort</span></code></a>(S[,&nbsp;axis,&nbsp;index,&nbsp;value])</td>
 <td>Sort an array along its rows or columns.</td>
 </tr>
-<tr class="row-odd"><td><a class="reference internal" href="generated/librosa.util.normalize.html#librosa.util.normalize" title="librosa.util.normalize"><code class="xref py py-obj docutils literal notranslate"><span class="pre">normalize</span></code></a>(S[,&nbsp;norm,&nbsp;axis,&nbsp;threshold,&nbsp;fill])</td>
+<tr class="row-even"><td><a class="reference internal" href="generated/librosa.util.normalize.html#librosa.util.normalize" title="librosa.util.normalize"><code class="xref py py-obj docutils literal notranslate"><span class="pre">normalize</span></code></a>(S[,&nbsp;norm,&nbsp;axis,&nbsp;threshold,&nbsp;fill])</td>
 <td>Normalize an array along a chosen axis.</td>
 </tr>
-<tr class="row-even"><td><a class="reference internal" href="generated/librosa.util.roll_sparse.html#librosa.util.roll_sparse" title="librosa.util.roll_sparse"><code class="xref py py-obj docutils literal notranslate"><span class="pre">roll_sparse</span></code></a>(x,&nbsp;shift[,&nbsp;axis])</td>
-<td>Sparse matrix roll</td>
+<tr class="row-odd"><td><a class="reference internal" href="generated/librosa.util.shear.html#librosa.util.shear" title="librosa.util.shear"><code class="xref py py-obj docutils literal notranslate"><span class="pre">shear</span></code></a>(X[,&nbsp;factor,&nbsp;axis])</td>
+<td>Shear a matrix by a given factor.</td>
 </tr>
-<tr class="row-odd"><td><a class="reference internal" href="generated/librosa.util.sparsify_rows.html#librosa.util.sparsify_rows" title="librosa.util.sparsify_rows"><code class="xref py py-obj docutils literal notranslate"><span class="pre">sparsify_rows</span></code></a>(x[,&nbsp;quantile])</td>
+<tr class="row-even"><td><a class="reference internal" href="generated/librosa.util.sparsify_rows.html#librosa.util.sparsify_rows" title="librosa.util.sparsify_rows"><code class="xref py py-obj docutils literal notranslate"><span class="pre">sparsify_rows</span></code></a>(x[,&nbsp;quantile])</td>
 <td>Return a row-sparse matrix approximating the input <em class="xref py py-obj">x</em>.</td>
 </tr>
-<tr class="row-even"><td><a class="reference internal" href="generated/librosa.util.buf_to_float.html#librosa.util.buf_to_float" title="librosa.util.buf_to_float"><code class="xref py py-obj docutils literal notranslate"><span class="pre">buf_to_float</span></code></a>(x[,&nbsp;n_bytes,&nbsp;dtype])</td>
+<tr class="row-odd"><td><a class="reference internal" href="generated/librosa.util.buf_to_float.html#librosa.util.buf_to_float" title="librosa.util.buf_to_float"><code class="xref py py-obj docutils literal notranslate"><span class="pre">buf_to_float</span></code></a>(x[,&nbsp;n_bytes,&nbsp;dtype])</td>
 <td>Convert an integer buffer to floating point values.</td>
 </tr>
-<tr class="row-odd"><td><a class="reference internal" href="generated/librosa.util.tiny.html#librosa.util.tiny" title="librosa.util.tiny"><code class="xref py py-obj docutils literal notranslate"><span class="pre">tiny</span></code></a>(x)</td>
+<tr class="row-even"><td><a class="reference internal" href="generated/librosa.util.tiny.html#librosa.util.tiny" title="librosa.util.tiny"><code class="xref py py-obj docutils literal notranslate"><span class="pre">tiny</span></code></a>(x)</td>
 <td>Compute the tiny-value corresponding to an input’s data type.</td>
 </tr>
 </tbody>
@@ -365,6 +373,20 @@
 </tbody>
 </table>
 </div>
+<div class="section" id="deprecated">
+<h2>Deprecated<a class="headerlink" href="#deprecated" title="Permalink to this headline">¶</a></h2>
+<table border="1" class="longtable docutils">
+<colgroup>
+<col width="10%" />
+<col width="90%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td><a class="reference internal" href="generated/librosa.util.roll_sparse.html#librosa.util.roll_sparse" title="librosa.util.roll_sparse"><code class="xref py py-obj docutils literal notranslate"><span class="pre">roll_sparse</span></code></a>(x,&nbsp;shift[,&nbsp;axis])</td>
+<td>Sparse matrix roll</td>
+</tr>
+</tbody>
+</table>
+</div>
 </div>
 
 
@@ -421,6 +443,7 @@
             <dd><a href="../0.6.2/util.html">0.6.2</a></dd>
             <dd><a href="../0.6.3/util.html">0.6.3</a></dd>
             <dd><a href="../0.7.0/util.html">0.7.0</a></dd>
+            <dd><a href="../0.7.1/util.html">0.7.1</a></dd>
             <dd><a href="../v0.1.0/index.html">v0.1.0</a></dd>
             <dd><a href="../v0.4.0/util.html">v0.4.0</a></dd>
         </dl>

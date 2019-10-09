@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>librosa.filters.chroma &mdash; librosa 0.7.0 documentation</title>
+  <title>librosa.filters.chroma &mdash; librosa 0.7.1 documentation</title>
   
 
   
@@ -23,7 +23,7 @@
       <script type="text/javascript">
           var DOCUMENTATION_OPTIONS = {
               URL_ROOT:'../',
-              VERSION:'0.7.0',
+              VERSION:'0.7.1',
               LANGUAGE:'None',
               COLLAPSE_INDEX:false,
               FILE_SUFFIX:'.html',
@@ -210,7 +210,7 @@
 <h1>librosa.filters.chroma<a class="headerlink" href="#librosa-filters-chroma" title="Permalink to this headline">¶</a></h1>
 <dl class="function">
 <dt id="librosa.filters.chroma">
-<code class="descclassname">librosa.filters.</code><code class="descname">chroma</code><span class="sig-paren">(</span><em>sr</em>, <em>n_fft</em>, <em>n_chroma=12</em>, <em>A440=440.0</em>, <em>ctroct=5.0</em>, <em>octwidth=2</em>, <em>norm=2</em>, <em>base_c=True</em>, <em>dtype=&lt;class 'numpy.float32'&gt;</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/librosa/filters.html#chroma"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#librosa.filters.chroma" title="Permalink to this definition">¶</a></dt>
+<code class="descclassname">librosa.filters.</code><code class="descname">chroma</code><span class="sig-paren">(</span><em>sr</em>, <em>n_fft</em>, <em>n_chroma=12</em>, <em>tuning=0.0</em>, <em>A440=&lt;DEPRECATED parameter&gt;</em>, <em>ctroct=5.0</em>, <em>octwidth=2</em>, <em>norm=2</em>, <em>base_c=True</em>, <em>dtype=&lt;class 'numpy.float32'&gt;</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/librosa/filters.html#chroma"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#librosa.filters.chroma" title="Permalink to this definition">¶</a></dt>
 <dd><p>Create a Filterbank matrix to convert STFT to chroma</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
@@ -226,8 +226,16 @@
 <dt><strong>n_chroma</strong> <span class="classifier-delimiter">:</span> <span class="classifier">int &gt; 0 [scalar]</span></dt>
 <dd><p class="first last">number of chroma bins</p>
 </dd>
-<dt><strong>A440</strong> <span class="classifier-delimiter">:</span> <span class="classifier">float &gt; 0 [scalar]</span></dt>
-<dd><p class="first last">Reference frequency for A440</p>
+<dt><strong>tuning</strong> <span class="classifier-delimiter">:</span> <span class="classifier">float</span></dt>
+<dd><p class="first last">Tuning deviation from A440 in fractions of a chroma bin.</p>
+</dd>
+<dt><strong>A440</strong> <span class="classifier-delimiter">:</span> <span class="classifier">float &gt; 0 [scalar] &lt;Deprecated&gt;</span></dt>
+<dd><p class="first">Reference frequency for A440</p>
+<div class="last admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">This parameter is deprecated in version 0.7.1.
+It will be removed in 0.8.0.  Use <em class="xref py py-obj">tuning=</em> instead.</p>
+</div>
 </dd>
 <dt><strong>ctroct</strong> <span class="classifier-delimiter">:</span> <span class="classifier">float &gt; 0 [scalar]</span></dt>
 <dd></dd>
@@ -355,7 +363,7 @@ By default, uses 32-bit (single-precision) floating point.</p>
 <div class="rst-versions" data-toggle="rst-versions" role="note" aria-label="versions">
     <span class="rst-current-version" data-toggle="rst-current-version">
         <span class="fa fa-book"> Other Versions</span>
-        v: 0.7.0
+        v: 0.7.1
         <span class="fa fa-caret-down"></span>
     </span>
     <div class="rst-other-versions">
@@ -371,6 +379,7 @@ By default, uses 32-bit (single-precision) floating point.</p>
             <dd><a href="../0.6.2/generated/librosa.filters.chroma.html">0.6.2</a></dd>
             <dd><a href="../0.6.3/generated/librosa.filters.chroma.html">0.6.3</a></dd>
             <dd><a href="../0.7.0/generated/librosa.filters.chroma.html">0.7.0</a></dd>
+            <dd><a href="../0.7.1/generated/librosa.filters.chroma.html">0.7.1</a></dd>
             <dd><a href="../v0.1.0/index.html">v0.1.0</a></dd>
             <dd><a href="../v0.4.0/index.html">v0.4.0</a></dd>
         </dl>

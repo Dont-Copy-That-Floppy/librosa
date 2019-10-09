@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>librosa.filters.constant_q_lengths &mdash; librosa 0.7.0 documentation</title>
+  <title>librosa.filters.constant_q_lengths &mdash; librosa 0.7.1 documentation</title>
   
 
   
@@ -23,7 +23,7 @@
       <script type="text/javascript">
           var DOCUMENTATION_OPTIONS = {
               URL_ROOT:'../',
-              VERSION:'0.7.0',
+              VERSION:'0.7.1',
               LANGUAGE:'None',
               COLLAPSE_INDEX:false,
               FILE_SUFFIX:'.html',
@@ -208,12 +208,12 @@
 
 
 
-    <p class="scv-banner scv-sphinx_rtd_theme"><a href="../../0.7.0/generated/librosa.filters.constant_q_lengths.html"><b>Warning:</b> This document is for the development version of librosa. The latest version is 0.7.0.</a></p>
+    <p class="scv-banner scv-sphinx_rtd_theme"><a href="../../0.7.1/generated/librosa.filters.constant_q_lengths.html"><b>Warning:</b> This document is for the development version of librosa. The latest version is 0.7.1.</a></p>
 <div class="section" id="librosa-filters-constant-q-lengths">
 <h1>librosa.filters.constant_q_lengths<a class="headerlink" href="#librosa-filters-constant-q-lengths" title="Permalink to this headline">¶</a></h1>
 <dl class="function">
 <dt id="librosa.filters.constant_q_lengths">
-<code class="descclassname">librosa.filters.</code><code class="descname">constant_q_lengths</code><span class="sig-paren">(</span><em>sr</em>, <em>fmin</em>, <em>n_bins=84</em>, <em>bins_per_octave=12</em>, <em>tuning=0.0</em>, <em>window='hann'</em>, <em>filter_scale=1</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/librosa/filters.html#constant_q_lengths"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#librosa.filters.constant_q_lengths" title="Permalink to this definition">¶</a></dt>
+<code class="descclassname">librosa.filters.</code><code class="descname">constant_q_lengths</code><span class="sig-paren">(</span><em>sr</em>, <em>fmin</em>, <em>n_bins=84</em>, <em>bins_per_octave=12</em>, <em>tuning=&lt;DEPRECATED parameter&gt;</em>, <em>window='hann'</em>, <em>filter_scale=1</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/librosa/filters.html#constant_q_lengths"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#librosa.filters.constant_q_lengths" title="Permalink to this definition">¶</a></dt>
 <dd><p>Return length of each filter in a constant-Q basis.</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
@@ -232,8 +232,13 @@
 <dt><strong>bins_per_octave</strong> <span class="classifier-delimiter">:</span> <span class="classifier">int &gt; 0 [scalar]</span></dt>
 <dd><p class="first last">Number of bins per octave</p>
 </dd>
-<dt><strong>tuning</strong> <span class="classifier-delimiter">:</span> <span class="classifier">float in <em class="xref py py-obj">[-0.5, +0.5)</em> [scalar]</span></dt>
-<dd><p class="first last">Tuning deviation from A440 in fractions of a bin</p>
+<dt><strong>tuning</strong> <span class="classifier-delimiter">:</span> <span class="classifier">float [scalar] &lt;DEPRECATED&gt;</span></dt>
+<dd><p class="first">Tuning deviation from A440 in fractions of a bin</p>
+<div class="last admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">This parameter is deprecated in 0.7.1.  It will be removed in
+version 0.8.</p>
+</div>
 </dd>
 <dt><strong>window</strong> <span class="classifier-delimiter">:</span> <span class="classifier">str or callable</span></dt>
 <dd><p class="first last">Window function to use on filters</p>
@@ -322,6 +327,7 @@
             <dd><a href="../../0.6.2/generated/librosa.filters.constant_q_lengths.html">0.6.2</a></dd>
             <dd><a href="../../0.6.3/generated/librosa.filters.constant_q_lengths.html">0.6.3</a></dd>
             <dd><a href="../../0.7.0/generated/librosa.filters.constant_q_lengths.html">0.7.0</a></dd>
+            <dd><a href="../../0.7.1/generated/librosa.filters.constant_q_lengths.html">0.7.1</a></dd>
             <dd><a href="../../v0.1.0/index.html">v0.1.0</a></dd>
             <dd><a href="../../v0.4.0/index.html">v0.4.0</a></dd>
         </dl>

@@ -43,7 +43,7 @@
 
 
 
-    <p class="scv-banner"><a href="../0.7.0/index.html"><b>Warning:</b> This document is for an old version of librosa. The latest version is 0.7.0.</a></p>
+    <p class="scv-banner"><a href="../0.7.1/index.html"><b>Warning:</b> This document is for an old version of librosa. The latest version is 0.7.1.</a></p>
 <div class="toctree-wrapper compound">
 </div>
 <div class="section" id="module-librosa.core">
@@ -64,6 +64,9 @@
 </div>
 <div class="section" id="pitch-and-tuning">
 <h3>Pitch and tuning<a class="headerlink" href="#pitch-and-tuning" title="Permalink to this headline">¶</a></h3>
+</div>
+<div class="section" id="deprecated">
+<h3>Deprecated<a class="headerlink" href="#deprecated" title="Permalink to this headline">¶</a></h3>
 <dl class="function">
 <dt id="librosa.core.A_weighting">
 <code class="descclassname">librosa.core.</code><code class="descname">A_weighting</code><span class="sig-paren">(</span><em>frequencies</em>, <em>min_db=-80.0</em><span class="sig-paren">)</span><a class="headerlink" href="#librosa.core.A_weighting" title="Permalink to this definition">¶</a></dt>
@@ -404,7 +407,7 @@ If unspecified, defaults to <cite>-np.pi * 0.5</cite>.</dd>
 <code class="descclassname">librosa.core.</code><code class="descname">cqt</code><span class="sig-paren">(</span><em>y</em>, <em>sr=22050</em>, <em>hop_length=512</em>, <em>fmin=None</em>, <em>n_bins=84</em>, <em>bins_per_octave=12</em>, <em>tuning=0.0</em>, <em>filter_scale=1</em>, <em>norm=1</em>, <em>sparsity=0.01</em>, <em>window='hann'</em>, <em>scale=True</em>, <em>pad_mode='reflect'</em>, <em>res_type=None</em><span class="sig-paren">)</span><a class="headerlink" href="#librosa.core.cqt" title="Permalink to this definition">¶</a></dt>
 <dd><p>Compute the constant-Q transform of an audio signal.</p>
 <p>This implementation is based on the recursive sub-sampling method
-described by <a href="#id61"><span class="problematic" id="id1">[1]_</span></a>.</p>
+described by <a href="#id76"><span class="problematic" id="id1">[1]_</span></a>.</p>
 <table class="docutils footnote" frame="void" id="id2" rules="none">
 <colgroup><col class="label" /><col /></colgroup>
 <tbody valign="top">
@@ -426,9 +429,11 @@ described by <a href="#id61"><span class="problematic" id="id1">[1]_</span></a>.
 <dd>Number of frequency bins, starting at <cite>fmin</cite></dd>
 <dt>bins_per_octave <span class="classifier-delimiter">:</span> <span class="classifier">int &gt; 0 [scalar]</span></dt>
 <dd>Number of bins per octave</dd>
-<dt>tuning <span class="classifier-delimiter">:</span> <span class="classifier">None or float in <cite>[-0.5, 0.5)</cite></span></dt>
-<dd><p class="first">Tuning offset in fractions of a bin (cents).</p>
-<p class="last">If <cite>None</cite>, tuning will be automatically estimated from the signal.</p>
+<dt>tuning <span class="classifier-delimiter">:</span> <span class="classifier">None or float</span></dt>
+<dd><p class="first">Tuning offset in fractions of a bin.</p>
+<p>If <cite>None</cite>, tuning will be automatically estimated from the signal.</p>
+<p class="last">The minimum frequency of the resulting CQT will be modified to
+<cite>fmin * 2**(tuning / bins_per_octave)</cite>.</p>
 </dd>
 <dt>filter_scale <span class="classifier-delimiter">:</span> <span class="classifier">float &gt; 0</span></dt>
 <dd>Filter scale factor. Small values (&lt;1) use shorter windows
@@ -533,8 +538,8 @@ librosa.util.normalize</p>
 <dd>Minimum frequency</dd>
 <dt>bins_per_octave <span class="classifier-delimiter">:</span> <span class="classifier">int &gt; 0 [scalar]</span></dt>
 <dd>Number of bins per octave</dd>
-<dt>tuning <span class="classifier-delimiter">:</span> <span class="classifier">float in <cite>[-0.5, +0.5)</cite></span></dt>
-<dd>Deviation from A440 tuning in fractional bins (cents)</dd>
+<dt>tuning <span class="classifier-delimiter">:</span> <span class="classifier">float</span></dt>
+<dd>Deviation from A440 tuning in fractional bins</dd>
 </dl>
 <dl class="docutils">
 <dt>frequencies <span class="classifier-delimiter">:</span> <span class="classifier">np.ndarray [shape=(n_bins,)]</span></dt>
@@ -663,8 +668,8 @@ librosa.util.normalize</p>
 <dl class="function">
 <dt id="librosa.core.fmt">
 <code class="descclassname">librosa.core.</code><code class="descname">fmt</code><span class="sig-paren">(</span><em>y</em>, <em>t_min=0.5</em>, <em>n_fmt=None</em>, <em>kind='cubic'</em>, <em>beta=0.5</em>, <em>over_sample=1</em>, <em>axis=-1</em><span class="sig-paren">)</span><a class="headerlink" href="#librosa.core.fmt" title="Permalink to this definition">¶</a></dt>
-<dd><p>The fast Mellin transform (FMT) <a href="#id62"><span class="problematic" id="id3">[1]_</span></a> of a uniformly sampled signal y.</p>
-<p>When the Mellin parameter (beta) is 1/2, it is also known as the scale transform <a href="#id63"><span class="problematic" id="id4">[2]_</span></a>.
+<dd><p>The fast Mellin transform (FMT) <a href="#id77"><span class="problematic" id="id3">[1]_</span></a> of a uniformly sampled signal y.</p>
+<p>When the Mellin parameter (beta) is 1/2, it is also known as the scale transform <a href="#id78"><span class="problematic" id="id4">[2]_</span></a>.
 The scale transform can be useful for audio analysis because its magnitude is invariant
 to scaling of the domain (e.g., time stretching or compression).  This is analogous
 to the magnitude of the Fourier transform being invariant to shifts in the input domain.</p>
@@ -981,8 +986,8 @@ that can be processed by <cite>soundfile</cite>.</dd>
 
 <dl class="function">
 <dt id="librosa.core.griffinlim">
-<code class="descclassname">librosa.core.</code><code class="descname">griffinlim</code><span class="sig-paren">(</span><em>S</em>, <em>n_iter=32</em>, <em>hop_length=None</em>, <em>win_length=None</em>, <em>window='hann'</em>, <em>center=True</em>, <em>dtype=&lt;class 'numpy.float32'&gt;</em>, <em>length=None</em>, <em>pad_mode='reflect'</em>, <em>momentum=0.99</em>, <em>random_state=None</em><span class="sig-paren">)</span><a class="headerlink" href="#librosa.core.griffinlim" title="Permalink to this definition">¶</a></dt>
-<dd><p>Approximate magnitude spectrogram inversion using the “fast” Griffin-Lim algorithm <a href="#id64"><span class="problematic" id="id7">[1]_</span></a> <a href="#id65"><span class="problematic" id="id8">[2]_</span></a>.</p>
+<code class="descclassname">librosa.core.</code><code class="descname">griffinlim</code><span class="sig-paren">(</span><em>S</em>, <em>n_iter=32</em>, <em>hop_length=None</em>, <em>win_length=None</em>, <em>window='hann'</em>, <em>center=True</em>, <em>dtype=&lt;class 'numpy.float32'&gt;</em>, <em>length=None</em>, <em>pad_mode='reflect'</em>, <em>momentum=0.99</em>, <em>init='random'</em>, <em>random_state=None</em><span class="sig-paren">)</span><a class="headerlink" href="#librosa.core.griffinlim" title="Permalink to this definition">¶</a></dt>
+<dd><p>Approximate magnitude spectrogram inversion using the “fast” Griffin-Lim algorithm <a href="#id79"><span class="problematic" id="id7">[1]_</span></a> <a href="#id80"><span class="problematic" id="id8">[2]_</span></a>.</p>
 <p>Given a short-time Fourier transform magnitude matrix (<cite>S</cite>), the algorithm randomly
 initializes phase estimates, and then alternates forward- and inverse-STFT
 operations.
@@ -1031,12 +1036,21 @@ samples.</dd>
 By default, STFT uses reflection padding.</dd>
 <dt>momentum <span class="classifier-delimiter">:</span> <span class="classifier">number &gt;= 0</span></dt>
 <dd>The momentum parameter for fast Griffin-Lim.
-Setting this to 0 recovers the original Griffin-Lim method <a href="#id66"><span class="problematic" id="id11">[1]_</span></a>.
+Setting this to 0 recovers the original Griffin-Lim method <a href="#id81"><span class="problematic" id="id11">[1]_</span></a>.
 Values near 1 can lead to faster convergence, but above 1 may not converge.</dd>
+<dt>init <span class="classifier-delimiter">:</span> <span class="classifier">None or ‘random’ [default]</span></dt>
+<dd><p class="first">If ‘random’ (the default), then phase values are initialized randomly
+according to <cite>random_state</cite>.  This is recommended when the input <cite>S</cite> is
+a magnitude spectrogram with no initial phase estimates.</p>
+<p class="last">If <cite>None</cite>, then the phase is initialized from <cite>S</cite>.  This is useful when
+an initial guess for phase can be provided, or when you want to resume
+Griffin-Lim from a previous output.</p>
+</dd>
 <dt>random_state <span class="classifier-delimiter">:</span> <span class="classifier">None, int, or np.random.RandomState</span></dt>
 <dd><p class="first">If int, random_state is the seed used by the random number generator
 for phase initialization.</p>
-<p>If <cite>np.random.RandomState</cite> instance, the random number generator itself;</p>
+<p>If <cite>np.random.RandomState</cite> instance, the random number
+generator itself.</p>
 <p class="last">If <cite>None</cite>, defaults to the current <cite>np.random</cite> object.</p>
 </dd>
 </dl>
@@ -1079,6 +1093,145 @@ filters.get_window</p>
 </dd></dl>
 
 <dl class="function">
+<dt id="librosa.core.griffinlim_cqt">
+<code class="descclassname">librosa.core.</code><code class="descname">griffinlim_cqt</code><span class="sig-paren">(</span><em>C</em>, <em>n_iter=32</em>, <em>sr=22050</em>, <em>hop_length=512</em>, <em>fmin=None</em>, <em>bins_per_octave=12</em>, <em>tuning=0.0</em>, <em>filter_scale=1</em>, <em>norm=1</em>, <em>sparsity=0.01</em>, <em>window='hann'</em>, <em>scale=True</em>, <em>pad_mode='reflect'</em>, <em>res_type='kaiser_fast'</em>, <em>dtype=&lt;class 'numpy.float32'&gt;</em>, <em>length=None</em>, <em>momentum=0.99</em>, <em>init='random'</em>, <em>random_state=None</em><span class="sig-paren">)</span><a class="headerlink" href="#librosa.core.griffinlim_cqt" title="Permalink to this definition">¶</a></dt>
+<dd><p>Approximate constant-Q magnitude spectrogram inversion using the “fast” Griffin-Lim
+algorithm <a href="#id82"><span class="problematic" id="id12">[1]_</span></a> <a href="#id83"><span class="problematic" id="id13">[2]_</span></a>.</p>
+<p>Given the magnitude of a constant-Q spectrogram (<cite>C</cite>), the algorithm randomly initializes
+phase estimates, and then alternates forward- and inverse-CQT operations.</p>
+<p>This implementation is based on the Griffin-Lim method for Short-time Fourier Transforms,
+but adapted for use with constant-Q spectrograms.</p>
+<table class="docutils footnote" frame="void" id="id14" rules="none">
+<colgroup><col class="label" /><col /></colgroup>
+<tbody valign="top">
+<tr><td class="label">[1]</td><td>Perraudin, N., Balazs, P., &amp; Søndergaard, P. L.
+“A fast Griffin-Lim algorithm,”
+IEEE Workshop on Applications of Signal Processing to Audio and Acoustics (pp. 1-4),
+Oct. 2013.</td></tr>
+</tbody>
+</table>
+<table class="docutils footnote" frame="void" id="id15" rules="none">
+<colgroup><col class="label" /><col /></colgroup>
+<tbody valign="top">
+<tr><td class="label">[2]</td><td>D. W. Griffin and J. S. Lim,
+“Signal estimation from modified short-time Fourier transform,”
+IEEE Trans. ASSP, vol.32, no.2, pp.236–243, Apr. 1984.</td></tr>
+</tbody>
+</table>
+<dl class="docutils">
+<dt>C <span class="classifier-delimiter">:</span> <span class="classifier">np.ndarray [shape=(n_bins, n_frames)]</span></dt>
+<dd>The constant-Q magnitude spectrogram</dd>
+<dt>n_iter <span class="classifier-delimiter">:</span> <span class="classifier">int &gt; 0</span></dt>
+<dd>The number of iterations to run</dd>
+<dt>sr <span class="classifier-delimiter">:</span> <span class="classifier">number &gt; 0</span></dt>
+<dd>Audio sampling rate</dd>
+<dt>hop_length <span class="classifier-delimiter">:</span> <span class="classifier">int &gt; 0</span></dt>
+<dd>The hop length of the CQT</dd>
+<dt>fmin <span class="classifier-delimiter">:</span> <span class="classifier">number &gt; 0 </span></dt>
+<dd><p class="first">Minimum frequency for the CQT.</p>
+<p class="last">If not provided, it defaults to C1.</p>
+</dd>
+<dt>bins_per_octave <span class="classifier-delimiter">:</span> <span class="classifier">int &gt; 0</span></dt>
+<dd>Number of bins per octave</dd>
+<dt>tuning <span class="classifier-delimiter">:</span> <span class="classifier">float</span></dt>
+<dd>Tuning deviation from A440, in fractions of a bin</dd>
+<dt>filter_scale <span class="classifier-delimiter">:</span> <span class="classifier">float &gt; 0</span></dt>
+<dd>Filter scale factor. Small values (&lt;1) use shorter windows
+for improved time resolution.</dd>
+<dt>norm <span class="classifier-delimiter">:</span> <span class="classifier">{inf, -inf, 0, float &gt; 0}</span></dt>
+<dd>Type of norm to use for basis function normalization.
+See <cite>librosa.util.normalize</cite>.</dd>
+<dt>sparsity <span class="classifier-delimiter">:</span> <span class="classifier">float in [0, 1)</span></dt>
+<dd><p class="first">Sparsify the CQT basis by discarding up to <cite>sparsity</cite>
+fraction of the energy in each basis.</p>
+<p class="last">Set <cite>sparsity=0</cite> to disable sparsification.</p>
+</dd>
+<dt>window <span class="classifier-delimiter">:</span> <span class="classifier">str, tuple, or function</span></dt>
+<dd>Window specification for the basis filters.
+See <cite>filters.get_window</cite> for details.</dd>
+<dt>scale <span class="classifier-delimiter">:</span> <span class="classifier">bool</span></dt>
+<dd><p class="first">If <cite>True</cite>, scale the CQT response by square-root the length
+of each channel’s filter.  This is analogous to <cite>norm=’ortho’</cite>
+in FFT.</p>
+<p class="last">If <cite>False</cite>, do not scale the CQT. This is analogous to <cite>norm=None</cite>
+in FFT.</p>
+</dd>
+<dt>pad_mode <span class="classifier-delimiter">:</span> <span class="classifier">string</span></dt>
+<dd><p class="first">Padding mode for centered frame analysis.</p>
+<p class="last">See also: <cite>librosa.core.stft</cite> and <cite>np.pad</cite></p>
+</dd>
+<dt>res_type <span class="classifier-delimiter">:</span> <span class="classifier">string</span></dt>
+<dd><p class="first">The resampling mode for recursive downsampling.</p>
+<p>By default, CQT uses an adaptive mode selection to
+trade accuracy at high frequencies for efficiency at low
+frequencies.</p>
+<p>Griffin-Lim uses the efficient (fast) resampling mode by default.</p>
+<p class="last">See <cite>librosa.core.resample</cite> for a list of available options.</p>
+</dd>
+<dt>dtype <span class="classifier-delimiter">:</span> <span class="classifier">numeric type</span></dt>
+<dd>Real numeric type for <cite>y</cite>.  Default is 32-bit float.</dd>
+<dt>length <span class="classifier-delimiter">:</span> <span class="classifier">int &gt; 0, optional</span></dt>
+<dd>If provided, the output <cite>y</cite> is zero-padded or clipped to exactly
+<cite>length</cite> samples.</dd>
+<dt>momentum <span class="classifier-delimiter">:</span> <span class="classifier">float &gt; 0</span></dt>
+<dd>The momentum parameter for fast Griffin-Lim.
+Setting this to 0 recovers the original Griffin-Lim method <a href="#id84"><span class="problematic" id="id16">[1]_</span></a>.
+Values near 1 can lead to faster convergence, but above 1 may not converge.</dd>
+<dt>init <span class="classifier-delimiter">:</span> <span class="classifier">None or ‘random’ [default]</span></dt>
+<dd><p class="first">If ‘random’ (the default), then phase values are initialized randomly
+according to <cite>random_state</cite>.  This is recommended when the input <cite>C</cite> is
+a magnitude spectrogram with no initial phase estimates.</p>
+<p class="last">If <cite>None</cite>, then the phase is initialized from <cite>C</cite>.  This is useful when
+an initial guess for phase can be provided, or when you want to resume
+Griffin-Lim from a previous output.</p>
+</dd>
+<dt>random_state <span class="classifier-delimiter">:</span> <span class="classifier">None, int, or np.random.RandomState</span></dt>
+<dd><p class="first">If int, random_state is the seed used by the random number generator
+for phase initialization.</p>
+<p>If <cite>np.random.RandomState</cite> instance, the random number generator itself.</p>
+<p class="last">If <cite>None</cite>, defaults to the current <cite>np.random</cite> object.</p>
+</dd>
+</dl>
+<dl class="docutils">
+<dt>y <span class="classifier-delimiter">:</span> <span class="classifier">np.ndarray [shape=(n,)]</span></dt>
+<dd>time-domain signal reconstructed from <cite>C</cite></dd>
+</dl>
+<p>cqt
+icqt
+griffinlim
+filters.get_window
+resample</p>
+<p>A basis CQT inverse example</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">y</span><span class="p">,</span> <span class="n">sr</span> <span class="o">=</span> <span class="n">librosa</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">librosa</span><span class="o">.</span><span class="n">util</span><span class="o">.</span><span class="n">example_audio_file</span><span class="p">(),</span> <span class="n">duration</span><span class="o">=</span><span class="mi">5</span><span class="p">,</span> <span class="n">offset</span><span class="o">=</span><span class="mi">30</span><span class="p">,</span> <span class="n">sr</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="c1"># Get the CQT magnitude, 7 octaves at 36 bins per octave</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">C</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">librosa</span><span class="o">.</span><span class="n">cqt</span><span class="p">(</span><span class="n">y</span><span class="o">=</span><span class="n">y</span><span class="p">,</span> <span class="n">sr</span><span class="o">=</span><span class="n">sr</span><span class="p">,</span> <span class="n">bins_per_octave</span><span class="o">=</span><span class="mi">36</span><span class="p">,</span> <span class="n">n_bins</span><span class="o">=</span><span class="mi">7</span><span class="o">*</span><span class="mi">36</span><span class="p">))</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="c1"># Invert using Griffin-Lim</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">y_inv</span> <span class="o">=</span> <span class="n">librosa</span><span class="o">.</span><span class="n">griffinlim_cqt</span><span class="p">(</span><span class="n">C</span><span class="p">,</span> <span class="n">sr</span><span class="o">=</span><span class="n">sr</span><span class="p">,</span> <span class="n">bins_per_octave</span><span class="o">=</span><span class="mi">36</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="c1"># And invert without estimating phase</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">y_icqt</span> <span class="o">=</span> <span class="n">librosa</span><span class="o">.</span><span class="n">icqt</span><span class="p">(</span><span class="n">C</span><span class="p">,</span> <span class="n">sr</span><span class="o">=</span><span class="n">sr</span><span class="p">,</span> <span class="n">bins_per_octave</span><span class="o">=</span><span class="mi">36</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Wave-plot the results</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplot</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">librosa</span><span class="o">.</span><span class="n">display</span><span class="o">.</span><span class="n">waveplot</span><span class="p">(</span><span class="n">y</span><span class="p">,</span> <span class="n">sr</span><span class="o">=</span><span class="n">sr</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;b&#39;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s1">&#39;Original&#39;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s1">&#39;&#39;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">plt</span><span class="o">.</span><span class="n">subplot</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span> <span class="n">sharex</span><span class="o">=</span><span class="n">ax</span><span class="p">,</span> <span class="n">sharey</span><span class="o">=</span><span class="n">ax</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">librosa</span><span class="o">.</span><span class="n">display</span><span class="o">.</span><span class="n">waveplot</span><span class="p">(</span><span class="n">y_inv</span><span class="p">,</span> <span class="n">sr</span><span class="o">=</span><span class="n">sr</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;g&#39;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s1">&#39;Griffin-Lim reconstruction&#39;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s1">&#39;&#39;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">plt</span><span class="o">.</span><span class="n">subplot</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span> <span class="n">sharex</span><span class="o">=</span><span class="n">ax</span><span class="p">,</span> <span class="n">sharey</span><span class="o">=</span><span class="n">ax</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">librosa</span><span class="o">.</span><span class="n">display</span><span class="o">.</span><span class="n">waveplot</span><span class="p">(</span><span class="n">y_icqt</span><span class="p">,</span> <span class="n">sr</span><span class="o">=</span><span class="n">sr</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;r&#39;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s1">&#39;Magnitude-only icqt reconstruction&#39;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">plt</span><span class="o">.</span><span class="n">tight_layout</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="function">
 <dt id="librosa.core.hybrid_cqt">
 <code class="descclassname">librosa.core.</code><code class="descname">hybrid_cqt</code><span class="sig-paren">(</span><em>y</em>, <em>sr=22050</em>, <em>hop_length=512</em>, <em>fmin=None</em>, <em>n_bins=84</em>, <em>bins_per_octave=12</em>, <em>tuning=0.0</em>, <em>filter_scale=1</em>, <em>norm=1</em>, <em>sparsity=0.01</em>, <em>window='hann'</em>, <em>scale=True</em>, <em>pad_mode='reflect'</em>, <em>res_type=None</em><span class="sig-paren">)</span><a class="headerlink" href="#librosa.core.hybrid_cqt" title="Permalink to this definition">¶</a></dt>
 <dd><p>Compute the hybrid constant-Q transform of an audio signal.</p>
@@ -1098,9 +1251,11 @@ for lower frequencies.</p>
 <dd>Number of frequency bins, starting at <cite>fmin</cite></dd>
 <dt>bins_per_octave <span class="classifier-delimiter">:</span> <span class="classifier">int &gt; 0 [scalar]</span></dt>
 <dd>Number of bins per octave</dd>
-<dt>tuning <span class="classifier-delimiter">:</span> <span class="classifier">None or float in <cite>[-0.5, 0.5)</cite></span></dt>
-<dd><p class="first">Tuning offset in fractions of a bin (cents).</p>
-<p class="last">If <cite>None</cite>, tuning will be automatically estimated from the signal.</p>
+<dt>tuning <span class="classifier-delimiter">:</span> <span class="classifier">None or float</span></dt>
+<dd><p class="first">Tuning offset in fractions of a bin.</p>
+<p>If <cite>None</cite>, tuning will be automatically estimated from the signal.</p>
+<p class="last">The minimum frequency of the resulting CQT will be modified to
+<cite>fmin * 2**(tuning / bins_per_octave)</cite>.</p>
 </dd>
 <dt>filter_scale <span class="classifier-delimiter">:</span> <span class="classifier">float &gt; 0</span></dt>
 <dd>Filter filter_scale factor. Larger values use longer windows.</dd>
@@ -1219,7 +1374,7 @@ note_to_hz</p>
 
 <dl class="function">
 <dt id="librosa.core.hz_to_octs">
-<code class="descclassname">librosa.core.</code><code class="descname">hz_to_octs</code><span class="sig-paren">(</span><em>frequencies</em>, <em>A440=440.0</em><span class="sig-paren">)</span><a class="headerlink" href="#librosa.core.hz_to_octs" title="Permalink to this definition">¶</a></dt>
+<code class="descclassname">librosa.core.</code><code class="descname">hz_to_octs</code><span class="sig-paren">(</span><em>frequencies</em>, <em>tuning=0.0</em>, <em>bins_per_octave=12</em>, <em>A440=&lt;DEPRECATED parameter&gt;</em><span class="sig-paren">)</span><a class="headerlink" href="#librosa.core.hz_to_octs" title="Permalink to this definition">¶</a></dt>
 <dd><p>Convert frequencies (Hz) to (fractional) octave numbers.</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">librosa</span><span class="o">.</span><span class="n">hz_to_octs</span><span class="p">(</span><span class="mf">440.0</span><span class="p">)</span>
 <span class="go">4.</span>
@@ -1230,8 +1385,18 @@ note_to_hz</p>
 <dl class="docutils">
 <dt>frequencies <span class="classifier-delimiter">:</span> <span class="classifier">number &gt;0 or np.ndarray [shape=(n,)] or float</span></dt>
 <dd>scalar or vector of frequencies</dd>
-<dt>A440 <span class="classifier-delimiter">:</span> <span class="classifier">float</span></dt>
-<dd>frequency of A440 (in Hz)</dd>
+<dt>tuning <span class="classifier-delimiter">:</span> <span class="classifier">float</span></dt>
+<dd>Tuning deviation from A440 in (fractional) bins per octave.</dd>
+<dt>bins_per_octave <span class="classifier-delimiter">:</span> <span class="classifier">int &gt; 0</span></dt>
+<dd>Number of bins per octave.</dd>
+<dt>A440 <span class="classifier-delimiter">:</span> <span class="classifier">float &lt;DEPRECATED&gt;</span></dt>
+<dd><p class="first">frequency of A440 (in Hz)</p>
+<div class="last admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">This parameter is deprecated in 0.7.1 and will be removed
+in version 0.8.0.  Use <cite>tuning=</cite> instead.</p>
+</div>
+</dd>
 </dl>
 <dl class="docutils">
 <dt>octaves <span class="classifier-delimiter">:</span> <span class="classifier">number or np.ndarray [shape=(n,)]</span></dt>
@@ -1242,7 +1407,7 @@ note_to_hz</p>
 
 <dl class="function">
 <dt id="librosa.core.icqt">
-<code class="descclassname">librosa.core.</code><code class="descname">icqt</code><span class="sig-paren">(</span><em>C</em>, <em>sr=22050</em>, <em>hop_length=512</em>, <em>fmin=None</em>, <em>bins_per_octave=12</em>, <em>tuning=0.0</em>, <em>filter_scale=1</em>, <em>norm=1</em>, <em>sparsity=0.01</em>, <em>window='hann'</em>, <em>scale=True</em>, <em>length=None</em>, <em>amin=&lt;DEPRECATED parameter&gt;</em>, <em>res_type='fft'</em><span class="sig-paren">)</span><a class="headerlink" href="#librosa.core.icqt" title="Permalink to this definition">¶</a></dt>
+<code class="descclassname">librosa.core.</code><code class="descname">icqt</code><span class="sig-paren">(</span><em>C</em>, <em>sr=22050</em>, <em>hop_length=512</em>, <em>fmin=None</em>, <em>bins_per_octave=12</em>, <em>tuning=0.0</em>, <em>filter_scale=1</em>, <em>norm=1</em>, <em>sparsity=0.01</em>, <em>window='hann'</em>, <em>scale=True</em>, <em>length=None</em>, <em>amin=&lt;DEPRECATED parameter&gt;</em>, <em>res_type='fft'</em>, <em>dtype=&lt;class 'numpy.float32'&gt;</em><span class="sig-paren">)</span><a class="headerlink" href="#librosa.core.icqt" title="Permalink to this definition">¶</a></dt>
 <dd><p>Compute the inverse constant-Q transform.</p>
 <p>Given a constant-Q transform representation <cite>C</cite> of an audio signal <cite>y</cite>,
 this function produces an approximation <cite>y_hat</cite>.</p>
@@ -1253,8 +1418,11 @@ this function produces an approximation <cite>y_hat</cite>.</p>
 <dd>number of samples between successive frames</dd>
 <dt>fmin <span class="classifier-delimiter">:</span> <span class="classifier">float &gt; 0 [scalar]</span></dt>
 <dd>Minimum frequency. Defaults to C1 ~= 32.70 Hz</dd>
-<dt>tuning <span class="classifier-delimiter">:</span> <span class="classifier">float in <cite>[-0.5, 0.5)</cite> [scalar]</span></dt>
-<dd>Tuning offset in fractions of a bin (cents).</dd>
+<dt>tuning <span class="classifier-delimiter">:</span> <span class="classifier">float [scalar]</span></dt>
+<dd><p class="first">Tuning offset in fractions of a bin.</p>
+<p class="last">The minimum frequency of the CQT will be modified to
+<cite>fmin * 2**(tuning / bins_per_octave)</cite>.</p>
+</dd>
 <dt>filter_scale <span class="classifier-delimiter">:</span> <span class="classifier">float &gt; 0 [scalar]</span></dt>
 <dd>Filter scale factor. Small values (&lt;1) use shorter windows
 for improved time resolution.</dd>
@@ -1291,6 +1459,8 @@ in FFT.</p>
 <dd>Resampling mode.  By default, this uses <cite>fft</cite> mode for high-quality
 reconstruction, but this may be slow depending on your signal duration.
 See <cite>librosa.resample</cite> for supported modes.</dd>
+<dt>dtype <span class="classifier-delimiter">:</span> <span class="classifier">numeric type</span></dt>
+<dd>Real numeric type for <cite>y</cite>.  Default is 32-bit float.</dd>
 </dl>
 <dl class="docutils">
 <dt>y <span class="classifier-delimiter">:</span> <span class="classifier">np.ndarray, [shape=(n_samples), dtype=np.float]</span></dt>
@@ -1321,9 +1491,9 @@ core.resample</p>
 <code class="descclassname">librosa.core.</code><code class="descname">ifgram</code><span class="sig-paren">(</span><em>y</em>, <em>sr=22050</em>, <em>n_fft=2048</em>, <em>hop_length=None</em>, <em>win_length=None</em>, <em>window='hann'</em>, <em>norm=False</em>, <em>center=True</em>, <em>ref_power=1e-06</em>, <em>clip=True</em>, <em>dtype=&lt;class 'numpy.complex64'&gt;</em>, <em>pad_mode='reflect'</em><span class="sig-paren">)</span><a class="headerlink" href="#librosa.core.ifgram" title="Permalink to this definition">¶</a></dt>
 <dd><p>Compute the instantaneous frequency (as a proportion of the sampling rate)
 obtained as the time-derivative of the phase of the complex spectrum as
-described by <a href="#id67"><span class="problematic" id="id12">[1]_</span></a>.</p>
+described by <a href="#id85"><span class="problematic" id="id17">[1]_</span></a>.</p>
 <p>Calculates regular STFT as a side effect.</p>
-<table class="docutils footnote" frame="void" id="id13" rules="none">
+<table class="docutils footnote" frame="void" id="id18" rules="none">
 <colgroup><col class="label" /><col /></colgroup>
 <tbody valign="top">
 <tr><td class="label">[1]</td><td>Abe, Toshihiko, Takao Kobayashi, and Satoshi Imai.
@@ -1333,6 +1503,12 @@ International Conference on Acoustics, Speech, and Signal Processing,
 ICASSP-95., Vol. 1. IEEE, 1995.</td></tr>
 </tbody>
 </table>
+<div class="admonition warning">
+<p class="first admonition-title">Warning</p>
+<p class="last">This function is deprecated in version 0.7.1, and will be removed
+in version 0.8.0.  The function <cite>reassigned_spectrogram</cite> provides
+comparable functionality, and should be used instead of <cite>ifgram</cite>.</p>
+</div>
 <dl class="docutils">
 <dt>y <span class="classifier-delimiter">:</span> <span class="classifier">np.ndarray [shape=(n,)]</span></dt>
 <dd>audio time series</dd>
@@ -1393,7 +1569,8 @@ By default, STFT uses reflection padding.</dd>
 <dt>D <span class="classifier-delimiter">:</span> <span class="classifier">np.ndarray [shape=(1 + n_fft/2, t), dtype=complex]</span></dt>
 <dd>Short-time Fourier transform</dd>
 </dl>
-<p>stft : Short-time Fourier Transform</p>
+<p>stft : Short-time Fourier Transform
+reassigned_spectrogram : Time-frequency reassigned spectrogram</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">y</span><span class="p">,</span> <span class="n">sr</span> <span class="o">=</span> <span class="n">librosa</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">librosa</span><span class="o">.</span><span class="n">util</span><span class="o">.</span><span class="n">example_audio_file</span><span class="p">())</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">frequencies</span><span class="p">,</span> <span class="n">D</span> <span class="o">=</span> <span class="n">librosa</span><span class="o">.</span><span class="n">ifgram</span><span class="p">(</span><span class="n">y</span><span class="p">,</span> <span class="n">sr</span><span class="o">=</span><span class="n">sr</span><span class="p">)</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">frequencies</span>
@@ -1409,7 +1586,7 @@ By default, STFT uses reflection padding.</dd>
 <dl class="function">
 <dt id="librosa.core.iirt">
 <code class="descclassname">librosa.core.</code><code class="descname">iirt</code><span class="sig-paren">(</span><em>y</em>, <em>sr=22050</em>, <em>win_length=2048</em>, <em>hop_length=None</em>, <em>center=True</em>, <em>tuning=0.0</em>, <em>pad_mode='reflect'</em>, <em>flayout='sos'</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#librosa.core.iirt" title="Permalink to this definition">¶</a></dt>
-<dd><p>Time-frequency representation using IIR filters <a href="#id68"><span class="problematic" id="id14">[1]_</span></a>.</p>
+<dd><p>Time-frequency representation using IIR filters <a href="#id86"><span class="problematic" id="id19">[1]_</span></a>.</p>
 <p>This function will return a time-frequency representation
 using a multirate filter bank consisting of IIR filters.
 First, <cite>y</cite> is resampled as needed according to the provided <cite>sample_rates</cite>.
@@ -1420,14 +1597,14 @@ The output of the filterbank is cut into frames.
 For each band, the short-time mean-square power (STMSP) is calculated by
 summing <cite>win_length</cite> subsequent filtered time samples.</p>
 <p>When called with the default set of parameters, it will generate the TF-representation
-as described in <a href="#id69"><span class="problematic" id="id15">[1]_</span></a> (pitch filterbank):</p>
+as described in <a href="#id87"><span class="problematic" id="id20">[1]_</span></a> (pitch filterbank):</p>
 <blockquote>
 <div><ul class="simple">
 <li>85 filters with MIDI pitches [24, 108] as <cite>center_freqs</cite>.</li>
 <li>each filter having a bandwith of one semitone.</li>
 </ul>
 </div></blockquote>
-<table class="docutils footnote" frame="void" id="id16" rules="none">
+<table class="docutils footnote" frame="void" id="id21" rules="none">
 <colgroup><col class="label" /><col /></colgroup>
 <tbody valign="top">
 <tr><td class="label">[1]</td><td>Müller, Meinard.
@@ -1452,7 +1629,7 @@ If not supplied, defaults to <cite>win_length / 4</cite>.</dd>
 <li>If <cite>False</cite>, then <cite>D[:, t]</cite> begins at <cite>y[t * hop_length]</cite></li>
 </ul>
 </dd>
-<dt>tuning <span class="classifier-delimiter">:</span> <span class="classifier">float in <cite>[-0.5, +0.5)</cite> [scalar]</span></dt>
+<dt>tuning <span class="classifier-delimiter">:</span> <span class="classifier">float [scalar]</span></dt>
 <dd>Tuning deviation from A440 in fractions of a bin.</dd>
 <dt>pad_mode <span class="classifier-delimiter">:</span> <span class="classifier">string</span></dt>
 <dd>If <cite>center=True</cite>, the padding mode to use at the edges of the signal.
@@ -1584,11 +1761,11 @@ To calculate sub-harmonic energy, use values &lt; 1.</p>
 <dd><p>Inverse short-time Fourier transform (ISTFT).</p>
 <p>Converts a complex-valued spectrogram <cite>stft_matrix</cite> to time-series <cite>y</cite>
 by minimizing the mean squared error between <cite>stft_matrix</cite> and STFT of
-<cite>y</cite> as described in <a href="#id70"><span class="problematic" id="id17">[1]_</span></a> up to Section 2 (reconstruction from MSTFT).</p>
+<cite>y</cite> as described in <a href="#id88"><span class="problematic" id="id22">[1]_</span></a> up to Section 2 (reconstruction from MSTFT).</p>
 <p>In general, window function, hop length and other parameters should be same
 as in stft, which mostly leads to perfect reconstruction of a signal from
 unmodified <cite>stft_matrix</cite>.</p>
-<table class="docutils footnote" frame="void" id="id18" rules="none">
+<table class="docutils footnote" frame="void" id="id23" rules="none">
 <colgroup><col class="label" /><col /></colgroup>
 <tbody valign="top">
 <tr><td class="label">[1]</td><td>D. W. Griffin and J. S. Lim,
@@ -1742,10 +1919,10 @@ filter on <cite>y</cite> of order <cite>order</cite>.  Burg’s method is an ext
 Yule-Walker approach, which are both sometimes referred to as LPC parameter
 estimation by autocorrelation.</p>
 <p>It follows the description and implementation approach described in the
-introduction in <a href="#id71"><span class="problematic" id="id19">[1]_</span></a>.  N.B. This paper describes a different method, which
+introduction in <a href="#id89"><span class="problematic" id="id24">[1]_</span></a>.  N.B. This paper describes a different method, which
 is not implemented here, but has been chosen for its clear explanation of
 Burg’s technique in its introduction.</p>
-<table class="docutils footnote" frame="void" id="id20" rules="none">
+<table class="docutils footnote" frame="void" id="id25" rules="none">
 <colgroup><col class="label" /><col /></colgroup>
 <tbody valign="top">
 <tr><td class="label">[1]</td><td>Larry Marple
@@ -1860,16 +2037,16 @@ designed such that perceptually similar pitch intervals (e.g. octaves)
 appear equal in width over the full hearing range.</p>
 <p>Because the definition of the mel scale is conditioned by a finite number
 of subjective psychoaoustical experiments, several implementations coexist
-in the audio signal processing literature <a href="#id72"><span class="problematic" id="id21">[1]_</span></a>. By default, librosa replicates
-the behavior of the well-established MATLAB Auditory Toolbox of Slaney <a href="#id73"><span class="problematic" id="id22">[2]_</span></a>.
+in the audio signal processing literature <a href="#id90"><span class="problematic" id="id26">[1]_</span></a>. By default, librosa replicates
+the behavior of the well-established MATLAB Auditory Toolbox of Slaney <a href="#id91"><span class="problematic" id="id27">[2]_</span></a>.
 According to this default implementation,  the conversion from Hertz to mel is
 linear below 1 kHz and logarithmic above 1 kHz. Another available implementation
-replicates the Hidden Markov Toolkit <a class="footnote-reference" href="#id26" id="id23">[3]</a> (HTK) according to the following formula:</p>
+replicates the Hidden Markov Toolkit <a href="#id92"><span class="problematic" id="id28">[3]_</span></a> (HTK) according to the following formula:</p>
 <p><cite>mel = 2595.0 * np.log10(1.0 + f / 700.0).</cite></p>
 <p>The choice of implementation is determined by the <cite>htk</cite> keyword argument: setting
 <cite>htk=False</cite> leads to the Auditory toolbox implementation, whereas setting it <cite>htk=True</cite>
 leads to the HTK implementation.</p>
-<table class="docutils footnote" frame="void" id="id24" rules="none">
+<table class="docutils footnote" frame="void" id="id29" rules="none">
 <colgroup><col class="label" /><col /></colgroup>
 <tbody valign="top">
 <tr><td class="label">[1]</td><td>Umesh, S., Cohen, L., &amp; Nelson, D. Fitting the mel scale.
@@ -1877,17 +2054,17 @@ In Proc. International Conference on Acoustics, Speech, and Signal Processing
 (ICASSP), vol. 1, pp. 217-220, 1998.</td></tr>
 </tbody>
 </table>
-<table class="docutils footnote" frame="void" id="id25" rules="none">
+<table class="docutils footnote" frame="void" id="id30" rules="none">
 <colgroup><col class="label" /><col /></colgroup>
 <tbody valign="top">
 <tr><td class="label">[2]</td><td>Slaney, M. Auditory Toolbox: A MATLAB Toolbox for Auditory
 Modeling Work. Technical Report, version 2, Interval Research Corporation, 1998.</td></tr>
 </tbody>
 </table>
-<table class="docutils footnote" frame="void" id="id26" rules="none">
+<table class="docutils footnote" frame="void" id="id31" rules="none">
 <colgroup><col class="label" /><col /></colgroup>
 <tbody valign="top">
-<tr><td class="label"><a class="fn-backref" href="#id23">[3]</a></td><td>Young, S., Evermann, G., Gales, M., Hain, T., Kershaw, D., Liu, X.,
+<tr><td class="label">[3]</td><td>Young, S., Evermann, G., Gales, M., Hain, T., Kershaw, D., Liu, X.,
 Moore, G., Odell, J., Ollason, D., Povey, D., Valtchev, V., &amp; Woodland, P.
 The HTK book, version 3.4. Cambridge University, March 2009.</td></tr>
 </tbody>
@@ -2096,7 +2273,7 @@ note_to_hz</p>
 
 <dl class="function">
 <dt id="librosa.core.octs_to_hz">
-<code class="descclassname">librosa.core.</code><code class="descname">octs_to_hz</code><span class="sig-paren">(</span><em>octs</em>, <em>A440=440.0</em><span class="sig-paren">)</span><a class="headerlink" href="#librosa.core.octs_to_hz" title="Permalink to this definition">¶</a></dt>
+<code class="descclassname">librosa.core.</code><code class="descname">octs_to_hz</code><span class="sig-paren">(</span><em>octs</em>, <em>tuning=0.0</em>, <em>bins_per_octave=12</em>, <em>A440=&lt;DEPRECATED parameter&gt;</em><span class="sig-paren">)</span><a class="headerlink" href="#librosa.core.octs_to_hz" title="Permalink to this definition">¶</a></dt>
 <dd><p>Convert octaves numbers to frequencies.</p>
 <p>Octaves are counted relative to A.</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">librosa</span><span class="o">.</span><span class="n">octs_to_hz</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
@@ -2108,7 +2285,11 @@ note_to_hz</p>
 <dl class="docutils">
 <dt>octaves <span class="classifier-delimiter">:</span> <span class="classifier">np.ndarray [shape=(n,)] or float</span></dt>
 <dd>octave number for each frequency</dd>
-<dt>A440 <span class="classifier-delimiter">:</span> <span class="classifier">float</span></dt>
+<dt>tuning <span class="classifier-delimiter">:</span> <span class="classifier">float</span></dt>
+<dd>Tuning deviation from A440 in (fractional) bins per octave.</dd>
+<dt>bins_per_octave <span class="classifier-delimiter">:</span> <span class="classifier">int &gt; 0</span></dt>
+<dd>Number of bins per octave.</dd>
+<dt>A440 <span class="classifier-delimiter">:</span> <span class="classifier">float &lt;DEPRECATED&gt;</span></dt>
 <dd>frequency of A440</dd>
 </dl>
 <dl class="docutils">
@@ -2121,13 +2302,13 @@ note_to_hz</p>
 <dl class="function">
 <dt id="librosa.core.pcen">
 <code class="descclassname">librosa.core.</code><code class="descname">pcen</code><span class="sig-paren">(</span><em>S</em>, <em>sr=22050</em>, <em>hop_length=512</em>, <em>gain=0.98</em>, <em>bias=2</em>, <em>power=0.5</em>, <em>time_constant=0.4</em>, <em>eps=1e-06</em>, <em>b=None</em>, <em>max_size=1</em>, <em>ref=None</em>, <em>axis=-1</em>, <em>max_axis=None</em>, <em>zi=None</em>, <em>return_zf=False</em><span class="sig-paren">)</span><a class="headerlink" href="#librosa.core.pcen" title="Permalink to this definition">¶</a></dt>
-<dd><p>Per-channel energy normalization (PCEN) <a href="#id74"><span class="problematic" id="id27">[1]_</span></a></p>
+<dd><p>Per-channel energy normalization (PCEN) <a href="#id93"><span class="problematic" id="id32">[1]_</span></a></p>
 <p>This function normalizes a time-frequency representation <cite>S</cite> by
 performing automatic gain control, followed by nonlinear compression:</p>
 <blockquote>
 <div>P[f, t] = (S / (eps + M[f, t])**gain + bias)**power - bias**power</div></blockquote>
 <p>IMPORTANT: the default values of eps, gain, bias, and power match the
-original publication <a href="#id75"><span class="problematic" id="id28">[1]_</span></a>, in which M is a 40-band mel-frequency
+original publication <a href="#id94"><span class="problematic" id="id33">[1]_</span></a>, in which M is a 40-band mel-frequency
 spectrogram with 25 ms windowing, 10 ms frame shift, and raw audio values
 in the interval [-2**31; 2**31-1[. If you use these default values, we
 recommend to make sure that the raw audio is properly scaled to this
@@ -2139,7 +2320,7 @@ to <cite>S</cite>:</p>
 <p>If <cite>b</cite> is not provided, it is calculated as:</p>
 <blockquote>
 <div>b = (sqrt(1 + 4* T**2) - 1) / (2 * T**2)</div></blockquote>
-<p>where <cite>T = time_constant * sr / hop_length</cite>, as in <a href="#id76"><span class="problematic" id="id29">[2]_</span></a>.</p>
+<p>where <cite>T = time_constant * sr / hop_length</cite>, as in <a href="#id95"><span class="problematic" id="id34">[2]_</span></a>.</p>
 <p>This normalization is designed to suppress background noise and
 emphasize foreground signals, and can be used as an alternative to
 decibel scaling (<cite>amplitude_to_db</cite>).</p>
@@ -2155,7 +2336,7 @@ the SuperFlux algorithm implemented in <cite>onset.onset_strength</cite>:</p>
 <p>This can be used to perform automatic gain control on signals that cross
 or span multiple frequency bans, which may be desirable for spectrograms
 with high frequency resolution.</p>
-<table class="docutils footnote" frame="void" id="id30" rules="none">
+<table class="docutils footnote" frame="void" id="id35" rules="none">
 <colgroup><col class="label" /><col /></colgroup>
 <tbody valign="top">
 <tr><td class="label">[1]</td><td>Wang, Y., Getreuer, P., Hughes, T., Lyon, R. F., &amp; Saurous, R. A.
@@ -2164,7 +2345,7 @@ In Acoustics, Speech and Signal Processing (ICASSP), 2017
 IEEE International Conference on (pp. 5670-5674). IEEE.</td></tr>
 </tbody>
 </table>
-<table class="docutils footnote" frame="void" id="id31" rules="none">
+<table class="docutils footnote" frame="void" id="id36" rules="none">
 <colgroup><col class="label" /><col /></colgroup>
 <tbody valign="top">
 <tr><td class="label">[2]</td><td>Lostanlen, V., Salamon, J., McFee, B., Cartwright, M., Farnsworth, A.,
@@ -2330,16 +2511,16 @@ librosa.onset.onset_strength</p>
 <dt id="librosa.core.phase_vocoder">
 <code class="descclassname">librosa.core.</code><code class="descname">phase_vocoder</code><span class="sig-paren">(</span><em>D</em>, <em>rate</em>, <em>hop_length=None</em><span class="sig-paren">)</span><a class="headerlink" href="#librosa.core.phase_vocoder" title="Permalink to this definition">¶</a></dt>
 <dd><p>Phase vocoder.  Given an STFT matrix D, speed up by a factor of <cite>rate</cite></p>
-<p>Based on the implementation provided by <a href="#id77"><span class="problematic" id="id32">[1]_</span></a>.</p>
+<p>Based on the implementation provided by <a href="#id96"><span class="problematic" id="id37">[1]_</span></a>.</p>
 <div class="admonition note">
 <p class="first admonition-title">Note</p>
 <p class="last">This is a simplified implementation, intended primarily for
 reference and pedagogical purposes.  It makes no attempt to
 handle transients, and is likely to produce many audible
 artifacts.  For a higher quality implementation, we recommend
-the RubberBand library <a href="#id78"><span class="problematic" id="id33">[2]_</span></a> and its Python wrapper <cite>pyrubberband</cite>.</p>
+the RubberBand library <a href="#id97"><span class="problematic" id="id38">[2]_</span></a> and its Python wrapper <cite>pyrubberband</cite>.</p>
 </div>
-<table class="docutils footnote" frame="void" id="id34" rules="none">
+<table class="docutils footnote" frame="void" id="id39" rules="none">
 <colgroup><col class="label" /><col /></colgroup>
 <tbody valign="top">
 <tr><td class="label">[1]</td><td>Ellis, D. P. W. “A phase vocoder in Matlab.”
@@ -2347,7 +2528,7 @@ Columbia University, 2002.
 <a class="reference external" href="http://www.ee.columbia.edu/~dpwe/resources/matlab/pvoc/">http://www.ee.columbia.edu/~dpwe/resources/matlab/pvoc/</a></td></tr>
 </tbody>
 </table>
-<table class="docutils footnote" frame="void" id="id35" rules="none">
+<table class="docutils footnote" frame="void" id="id40" rules="none">
 <colgroup><col class="label" /><col /></colgroup>
 <tbody valign="top">
 <tr><td class="label">[2]</td><td><a class="reference external" href="https://breakfastquay.com/rubberband/">https://breakfastquay.com/rubberband/</a></td></tr>
@@ -2388,8 +2569,8 @@ Columbia University, 2002.
 <dt id="librosa.core.piptrack">
 <code class="descclassname">librosa.core.</code><code class="descname">piptrack</code><span class="sig-paren">(</span><em>y=None</em>, <em>sr=22050</em>, <em>S=None</em>, <em>n_fft=2048</em>, <em>hop_length=None</em>, <em>fmin=150.0</em>, <em>fmax=4000.0</em>, <em>threshold=0.1</em>, <em>win_length=None</em>, <em>window='hann'</em>, <em>center=True</em>, <em>pad_mode='reflect'</em>, <em>ref=None</em><span class="sig-paren">)</span><a class="headerlink" href="#librosa.core.piptrack" title="Permalink to this definition">¶</a></dt>
 <dd><p>Pitch tracking on thresholded parabolically-interpolated STFT.</p>
-<p>This implementation uses the parabolic interpolation method described by <a href="#id79"><span class="problematic" id="id36">[1]_</span></a>.</p>
-<table class="docutils footnote" frame="void" id="id37" rules="none">
+<p>This implementation uses the parabolic interpolation method described by <a href="#id98"><span class="problematic" id="id41">[1]_</span></a>.</p>
+<table class="docutils footnote" frame="void" id="id42" rules="none">
 <colgroup><col class="label" /><col /></colgroup>
 <tbody valign="top">
 <tr><td class="label">[1]</td><td><a class="reference external" href="https://ccrma.stanford.edu/~jos/sasp/Sinusoidal_Peak_Interpolation.html">https://ccrma.stanford.edu/~jos/sasp/Sinusoidal_Peak_Interpolation.html</a></td></tr>
@@ -2623,9 +2804,11 @@ than or equal to the max of:</p>
 <dd>Number of frequency bins, starting at <cite>fmin</cite></dd>
 <dt>bins_per_octave <span class="classifier-delimiter">:</span> <span class="classifier">int &gt; 0 [scalar]</span></dt>
 <dd>Number of bins per octave</dd>
-<dt>tuning <span class="classifier-delimiter">:</span> <span class="classifier">None or float in <cite>[-0.5, 0.5)</cite></span></dt>
-<dd><p class="first">Tuning offset in fractions of a bin (cents).</p>
-<p class="last">If <cite>None</cite>, tuning will be automatically estimated from the signal.</p>
+<dt>tuning <span class="classifier-delimiter">:</span> <span class="classifier">None or float</span></dt>
+<dd><p class="first">Tuning offset in fractions of a bin.</p>
+<p>If <cite>None</cite>, tuning will be automatically estimated from the signal.</p>
+<p class="last">The minimum frequency of the resulting CQT will be modified to
+<cite>fmin * 2**(tuning / bins_per_octave)</cite>.</p>
 </dd>
 <dt>filter_scale <span class="classifier-delimiter">:</span> <span class="classifier">float &gt; 0</span></dt>
 <dd>Filter filter_scale factor. Larger values use longer windows.</dd>
@@ -2654,6 +2837,190 @@ See <cite>filters.get_window</cite> for details.</dd>
 </dd>
 </dl>
 <p>This function caches at level 20.</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="librosa.core.reassigned_spectrogram">
+<code class="descclassname">librosa.core.</code><code class="descname">reassigned_spectrogram</code><span class="sig-paren">(</span><em>y</em>, <em>sr=22050</em>, <em>S=None</em>, <em>n_fft=2048</em>, <em>hop_length=None</em>, <em>win_length=None</em>, <em>window='hann'</em>, <em>center=True</em>, <em>reassign_frequencies=True</em>, <em>reassign_times=True</em>, <em>ref_power=1e-06</em>, <em>fill_nan=False</em>, <em>clip=True</em>, <em>dtype=&lt;class 'numpy.complex64'&gt;</em>, <em>pad_mode='reflect'</em><span class="sig-paren">)</span><a class="headerlink" href="#librosa.core.reassigned_spectrogram" title="Permalink to this definition">¶</a></dt>
+<dd><p>Time-frequency reassigned spectrogram.</p>
+<p>The reassignment vectors are calculated using equations 5.20 and 5.23 in
+<a href="#id99"><span class="problematic" id="id43">[1]_</span></a>:</p>
+<p>where <cite>S_h</cite> is the complex STFT calculated using the original window,
+<cite>S_dh</cite> is the complex STFT calculated using the derivative of the original
+window, and <cite>S_th</cite> is the complex STFT calculated using the original window
+multiplied by the time offset from the window center. See <a href="#id100"><span class="problematic" id="id44">[2]_</span></a> for
+additional algorithms, and <a href="#id101"><span class="problematic" id="id45">[3]_</span></a> and <a class="footnote-reference" href="#id50" id="id46">[4]</a> for history and discussion of the
+method.</p>
+<p>It is recommended to use <cite>center=False</cite> with this function rather than the
+librosa default <cite>True</cite>. Unlike <cite>stft</cite>, reassigned times are not aligned to
+the left or center of each frame, so padding the signal does not affect the
+meaning of the reassigned times. However, reassignment assumes that the
+energy in each FFT bin is associated with exactly one signal component and
+impulse event. The default <cite>center=True</cite> with reflection padding can thus
+invalidate the reassigned estimates in the half-reflected frames at the
+beginning and end of the signal.</p>
+<p>If <cite>reassign_times</cite> is <cite>False</cite>, the frame times that are returned will be
+aligned to the left or center of the frame, depending on the value of
+<cite>center</cite>. In this case, if <cite>center</cite> is <cite>True</cite>, then <cite>pad_mode=”wrap”</cite> is
+recommended for valid estimation of the instantaneous frequencies in the
+boundary frames.</p>
+<table class="docutils footnote" frame="void" id="id47" rules="none">
+<colgroup><col class="label" /><col /></colgroup>
+<tbody valign="top">
+<tr><td class="label">[1]</td><td>Flandrin, P., Auger, F., &amp; Chassande-Mottin, E. (2002).
+Time-Frequency reassignment: From principles to algorithms. In Applications
+in Time-Frequency Signal Processing (Vol. 10, pp. 179-204). CRC Press.</td></tr>
+</tbody>
+</table>
+<table class="docutils footnote" frame="void" id="id48" rules="none">
+<colgroup><col class="label" /><col /></colgroup>
+<tbody valign="top">
+<tr><td class="label">[2]</td><td>Fulop, S. A., &amp; Fitz, K. (2006). Algorithms for computing the
+time-corrected instantaneous frequency (reassigned) spectrogram, with
+applications. The Journal of the Acoustical Society of America, 119(1),
+360. doi:10.1121/1.2133000</td></tr>
+</tbody>
+</table>
+<table class="docutils footnote" frame="void" id="id49" rules="none">
+<colgroup><col class="label" /><col /></colgroup>
+<tbody valign="top">
+<tr><td class="label">[3]</td><td>Auger, F., Flandrin, P., Lin, Y.-T., McLaughlin, S., Meignen, S.,
+Oberlin, T., &amp; Wu, H.-T. (2013). Time-Frequency Reassignment and
+Synchrosqueezing: An Overview. IEEE Signal Processing Magazine, 30(6),
+32-41. doi:10.1109/MSP.2013.2265316</td></tr>
+</tbody>
+</table>
+<table class="docutils footnote" frame="void" id="id50" rules="none">
+<colgroup><col class="label" /><col /></colgroup>
+<tbody valign="top">
+<tr><td class="label"><a class="fn-backref" href="#id46">[4]</a></td><td>Hainsworth, S., Macleod, M. (2003). Time-frequency reassignment: a
+review and analysis. Tech. Rep. CUED/FINFENG/TR.459, Cambridge University
+Engineering Department</td></tr>
+</tbody>
+</table>
+<dl class="docutils">
+<dt>y <span class="classifier-delimiter">:</span> <span class="classifier">np.ndarray [shape=(n,)], real-valued</span></dt>
+<dd>audio time series</dd>
+<dt>sr <span class="classifier-delimiter">:</span> <span class="classifier">number &gt; 0 [scalar]</span></dt>
+<dd>sampling rate of <cite>y</cite></dd>
+<dt>S <span class="classifier-delimiter">:</span> <span class="classifier">np.ndarray [shape=(d, t)] or None</span></dt>
+<dd>(optional) complex STFT calculated using the other arguments provided
+to <cite>reassigned_spectrogram</cite></dd>
+<dt>n_fft <span class="classifier-delimiter">:</span> <span class="classifier">int &gt; 0 [scalar]</span></dt>
+<dd>FFT window size. Defaults to 2048.</dd>
+<dt>hop_length <span class="classifier-delimiter">:</span> <span class="classifier">int &gt; 0 [scalar]</span></dt>
+<dd>hop length, number samples between subsequent frames.
+If not supplied, defaults to <cite>win_length / 4</cite>.</dd>
+<dt>win_length <span class="classifier-delimiter">:</span> <span class="classifier">int &gt; 0, &lt;= n_fft</span></dt>
+<dd>Window length. Defaults to <cite>n_fft</cite>.
+See <cite>stft</cite> for details.</dd>
+<dt>window <span class="classifier-delimiter">:</span> <span class="classifier">string, tuple, number, function, or np.ndarray [shape=(n_fft,)]</span></dt>
+<dd><ul class="first simple">
+<li>a window specification (string, tuple, number);
+see <cite>scipy.signal.get_window</cite></li>
+<li>a window function, such as <cite>scipy.signal.hanning</cite></li>
+<li>a user-specified window vector of length <cite>n_fft</cite></li>
+</ul>
+<p class="last">See <cite>stft</cite> for details.</p>
+</dd>
+<dt>center <span class="classifier-delimiter">:</span> <span class="classifier">boolean</span></dt>
+<dd><ul class="first last simple">
+<li>If <cite>True</cite> (default), the signal <cite>y</cite> is padded so that frame
+<cite>D[:, t]</cite> is centered at <cite>y[t * hop_length]</cite>.</li>
+<li>If <cite>False</cite>, then <cite>D[:, t]</cite> begins at <cite>y[t * hop_length]</cite></li>
+</ul>
+</dd>
+<dt>reassign_frequencies <span class="classifier-delimiter">:</span> <span class="classifier">boolean</span></dt>
+<dd><ul class="first last simple">
+<li>If <cite>True</cite> (default), the returned frequencies will be instantaneous
+frequency estimates.</li>
+<li>If <cite>False</cite>, the returned frequencies will be a read-only view of the
+STFT bin frequencies for all frames.</li>
+</ul>
+</dd>
+<dt>reassign_times <span class="classifier-delimiter">:</span> <span class="classifier">boolean</span></dt>
+<dd><ul class="first last simple">
+<li>If <cite>True</cite> (default), the returned times will be corrected
+(reassigned) time estimates for each bin.</li>
+<li>If <cite>False</cite>, the returned times will be a read-only view of the STFT
+frame times for all bins.</li>
+</ul>
+</dd>
+<dt>ref_power <span class="classifier-delimiter">:</span> <span class="classifier">float &gt;= 0 or callable</span></dt>
+<dd>Minimum power threshold for estimating time-frequency reassignments.
+Any bin with <cite>np.abs(S[f, t])**2 &lt; ref_power</cite> will be returned as
+<cite>np.nan</cite> in both frequency and time, unless <cite>fill_nan</cite> is <cite>True</cite>. If 0
+is provided, then only bins with zero power will be returned as
+<cite>np.nan</cite> (unless <cite>fill_nan=True</cite>).</dd>
+<dt>fill_nan <span class="classifier-delimiter">:</span> <span class="classifier">boolean</span></dt>
+<dd><ul class="first last simple">
+<li>If <cite>False</cite> (default), the frequency and time reassignments for bins
+below the power threshold provided in <cite>ref_power</cite> will be returned as
+<cite>np.nan</cite>.</li>
+<li>If <cite>True</cite>, the frequency and time reassignments for these bins will
+be returned as the bin center frequencies and frame times.</li>
+</ul>
+</dd>
+<dt>clip <span class="classifier-delimiter">:</span> <span class="classifier">boolean</span></dt>
+<dd><ul class="first last simple">
+<li>If <cite>True</cite> (default), estimated frequencies outside the range
+<cite>[0, 0.5 * sr]</cite> or times outside the range <cite>[0, len(y) / sr]</cite> will be
+clipped to those ranges.</li>
+<li>If <cite>False</cite>, estimated frequencies and times beyond the bounds of the
+spectrogram may be returned.</li>
+</ul>
+</dd>
+<dt>dtype <span class="classifier-delimiter">:</span> <span class="classifier">numeric type</span></dt>
+<dd>Complex numeric type for STFT calculation. Default is 64-bit complex.</dd>
+<dt>pad_mode <span class="classifier-delimiter">:</span> <span class="classifier">string</span></dt>
+<dd>If <cite>center=True</cite>, the padding mode to use at the edges of the signal.
+By default, STFT uses reflection padding.</dd>
+</dl>
+<dl class="docutils">
+<dt>freqs <span class="classifier-delimiter">:</span> <span class="classifier">np.ndarray [shape=(1 + n_fft/2, t), dtype=real]</span></dt>
+<dd>Instantaneous frequencies:
+<cite>freqs[f, t]</cite> is the frequency for bin <cite>f</cite>, frame <cite>t</cite>
+If <cite>reassign_frequencies=False</cite>, this will instead be a read-only array
+of the same shape containing the bin center frequencies for all frames.</dd>
+<dt>times <span class="classifier-delimiter">:</span> <span class="classifier">np.ndarray [shape=(1 + n_fft/2, t), dtype=real]</span></dt>
+<dd>Reassigned times:
+<cite>times[f, t]</cite> is the time for bin <cite>f</cite>, frame <cite>t</cite>
+If <cite>reassign_times=False</cite>, this will instead be a read-only array of
+the same shape containing the frame times for all bins.</dd>
+<dt>mags <span class="classifier-delimiter">:</span> <span class="classifier">np.ndarray [shape=(1 + n_fft/2, t), dtype=real]</span></dt>
+<dd>Magnitudes from short-time Fourier transform:
+<cite>mags[f, t]</cite> is the magnitude for bin <cite>f</cite>, frame <cite>t</cite></dd>
+</dl>
+<dl class="docutils">
+<dt>RuntimeWarning</dt>
+<dd>Frequency or time estimates with zero support will produce a
+divide-by-zero warning, and will be returned as <cite>np.nan</cite> unless
+<cite>fill_nan=True</cite>.</dd>
+</dl>
+<p>stft : Short-time Fourier Transform</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">amin</span> <span class="o">=</span> <span class="mf">1e-10</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">n_fft</span> <span class="o">=</span> <span class="mi">64</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">sr</span> <span class="o">=</span> <span class="mi">4000</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">y</span> <span class="o">=</span> <span class="mf">1e-3</span> <span class="o">*</span> <span class="n">librosa</span><span class="o">.</span><span class="n">clicks</span><span class="p">(</span><span class="n">times</span><span class="o">=</span><span class="p">[</span><span class="mf">0.3</span><span class="p">],</span> <span class="n">sr</span><span class="o">=</span><span class="n">sr</span><span class="p">,</span> <span class="n">click_duration</span><span class="o">=</span><span class="mf">1.0</span><span class="p">,</span>
+<span class="gp">... </span>                          <span class="n">click_freq</span><span class="o">=</span><span class="mf">1200.0</span><span class="p">,</span> <span class="n">length</span><span class="o">=</span><span class="mi">8000</span><span class="p">)</span> <span class="o">+</span>\
+<span class="gp">... </span>    <span class="mf">1e-3</span> <span class="o">*</span> <span class="n">librosa</span><span class="o">.</span><span class="n">clicks</span><span class="p">(</span><span class="n">times</span><span class="o">=</span><span class="p">[</span><span class="mf">1.5</span><span class="p">],</span> <span class="n">sr</span><span class="o">=</span><span class="n">sr</span><span class="p">,</span> <span class="n">click_duration</span><span class="o">=</span><span class="mf">0.5</span><span class="p">,</span>
+<span class="gp">... </span>                          <span class="n">click_freq</span><span class="o">=</span><span class="mf">400.0</span><span class="p">,</span> <span class="n">length</span><span class="o">=</span><span class="mi">8000</span><span class="p">)</span> <span class="o">+</span>\
+<span class="gp">... </span>    <span class="mf">1e-3</span> <span class="o">*</span> <span class="n">librosa</span><span class="o">.</span><span class="n">chirp</span><span class="p">(</span><span class="mi">200</span><span class="p">,</span> <span class="mi">1600</span><span class="p">,</span> <span class="n">sr</span><span class="o">=</span><span class="n">sr</span><span class="p">,</span> <span class="n">duration</span><span class="o">=</span><span class="mf">2.0</span><span class="p">)</span> <span class="o">+</span>\
+<span class="gp">... </span>    <span class="mf">1e-6</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">randn</span><span class="p">(</span><span class="mi">2</span><span class="o">*</span><span class="n">sr</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">freqs</span><span class="p">,</span> <span class="n">times</span><span class="p">,</span> <span class="n">mags</span> <span class="o">=</span> <span class="n">librosa</span><span class="o">.</span><span class="n">reassigned_spectrogram</span><span class="p">(</span><span class="n">y</span><span class="o">=</span><span class="n">y</span><span class="p">,</span> <span class="n">sr</span><span class="o">=</span><span class="n">sr</span><span class="p">,</span> <span class="n">n_fft</span><span class="o">=</span><span class="n">n_fft</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">mags_db</span> <span class="o">=</span> <span class="n">librosa</span><span class="o">.</span><span class="n">power_to_db</span><span class="p">(</span><span class="n">mags</span><span class="p">,</span> <span class="n">amin</span><span class="o">=</span><span class="n">amin</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplot</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">librosa</span><span class="o">.</span><span class="n">display</span><span class="o">.</span><span class="n">specshow</span><span class="p">(</span><span class="n">mags_db</span><span class="p">,</span> <span class="n">x_axis</span><span class="o">=</span><span class="s2">&quot;s&quot;</span><span class="p">,</span> <span class="n">y_axis</span><span class="o">=</span><span class="s2">&quot;linear&quot;</span><span class="p">,</span> <span class="n">sr</span><span class="o">=</span><span class="n">sr</span><span class="p">,</span>
+<span class="gp">... </span>                         <span class="n">hop_length</span><span class="o">=</span><span class="n">n_fft</span><span class="o">//</span><span class="mi">4</span><span class="p">,</span> <span class="n">cmap</span><span class="o">=</span><span class="s2">&quot;gray_r&quot;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s2">&quot;Spectrogram&quot;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">plt</span><span class="o">.</span><span class="n">tick_params</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="s1">&#39;x&#39;</span><span class="p">,</span> <span class="n">labelbottom</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s2">&quot;&quot;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">plt</span><span class="o">.</span><span class="n">subplot</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="n">sharex</span><span class="o">=</span><span class="n">ax</span><span class="p">,</span> <span class="n">sharey</span><span class="o">=</span><span class="n">ax</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">plt</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span><span class="n">times</span><span class="p">,</span> <span class="n">freqs</span><span class="p">,</span> <span class="n">c</span><span class="o">=</span><span class="n">mags_db</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.05</span><span class="p">,</span> <span class="n">cmap</span><span class="o">=</span><span class="s2">&quot;gray_r&quot;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">plt</span><span class="o">.</span><span class="n">clim</span><span class="p">(</span><span class="mi">10</span><span class="o">*</span><span class="n">np</span><span class="o">.</span><span class="n">log10</span><span class="p">(</span><span class="n">amin</span><span class="p">),</span> <span class="n">np</span><span class="o">.</span><span class="n">max</span><span class="p">(</span><span class="n">mags_db</span><span class="p">))</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s2">&quot;Reassigned spectrogram&quot;</span><span class="p">))</span>
+</pre></div>
+</div>
 </dd></dl>
 
 <dl class="function">
@@ -2720,7 +3087,7 @@ resampy.resample</p>
 <dd><p>Harmonic salience function.</p>
 <dl class="docutils">
 <dt>S <span class="classifier-delimiter">:</span> <span class="classifier">np.ndarray [shape=(d, n)]</span></dt>
-<dd>input time frequency magnitude representation (stft, ifgram, etc).
+<dd>input time frequency magnitude representation (e.g. STFT or CQT magnitudes).
 Must be real-valued and non-negative.</dd>
 <dt>freqs <span class="classifier-delimiter">:</span> <span class="classifier">np.ndarray, shape=(S.shape[axis])</span></dt>
 <dd>The frequency values corresponding to S’s elements along the
@@ -2913,57 +3280,95 @@ If <cite>None</cite>, reverts to <cite>numpy.fft</cite>.</dd>
 <dl class="function">
 <dt id="librosa.core.stft">
 <code class="descclassname">librosa.core.</code><code class="descname">stft</code><span class="sig-paren">(</span><em>y</em>, <em>n_fft=2048</em>, <em>hop_length=None</em>, <em>win_length=None</em>, <em>window='hann'</em>, <em>center=True</em>, <em>dtype=&lt;class 'numpy.complex64'&gt;</em>, <em>pad_mode='reflect'</em><span class="sig-paren">)</span><a class="headerlink" href="#librosa.core.stft" title="Permalink to this definition">¶</a></dt>
-<dd><p>Short-time Fourier transform (STFT)</p>
-<dl class="docutils">
-<dt>Returns a complex-valued matrix D such that</dt>
-<dd><p class="first"><cite>np.abs(D[f, t])</cite> is the magnitude of frequency bin <cite>f</cite>
-at frame <cite>t</cite></p>
-<p class="last"><cite>np.angle(D[f, t])</cite> is the phase of frequency bin <cite>f</cite>
-at frame <cite>t</cite></p>
-</dd>
-</dl>
+<dd><p>Short-time Fourier transform (STFT). <a href="#id102"><span class="problematic" id="id51">[1]_</span></a> (chapter 2)</p>
+<p>The STFT represents a signal in the time-frequency domain by
+computing discrete Fourier transforms (DFT) over short overlapping
+windows.</p>
+<p>This function returns a complex-valued matrix D such that</p>
+<ul class="simple">
+<li><cite>np.abs(D[f, t])</cite> is the magnitude of frequency bin <cite>f</cite>
+at frame <cite>t</cite>, and</li>
+<li><cite>np.angle(D[f, t])</cite> is the phase of frequency bin <cite>f</cite>
+at frame <cite>t</cite>.</li>
+</ul>
+<p>The integers <cite>t</cite> and <cite>f</cite> can be converted to physical units by means
+of the utility functions <cite>frames_to_sample</cite> and <cite>fft_frequencies</cite>.</p>
+<table class="docutils footnote" frame="void" id="id52" rules="none">
+<colgroup><col class="label" /><col /></colgroup>
+<tbody valign="top">
+<tr><td class="label">[1]</td><td><ol class="first last upperalpha simple" start="13">
+<li>Müller. “Fundamentals of Music Processing.” Springer, 2015</li>
+</ol>
+</td></tr>
+</tbody>
+</table>
 <dl class="docutils">
 <dt>y <span class="classifier-delimiter">:</span> <span class="classifier">np.ndarray [shape=(n,)], real-valued</span></dt>
-<dd>the input signal (audio time series)</dd>
+<dd>input signal</dd>
 <dt>n_fft <span class="classifier-delimiter">:</span> <span class="classifier">int &gt; 0 [scalar]</span></dt>
-<dd>FFT window size</dd>
+<dd>length of the windowed signal after padding with zeros.
+The number of rows in the STFT matrix <cite>D</cite> is (1 + n_fft/2).
+The default value, n_fft=2048 samples, corresponds to a physical
+duration of 93 milliseconds at a sample rate of 22050 Hz, i.e. the
+default sample rate in librosa. This value is well adapted for music
+signals. However, in speech processing, the recommended value is 512,
+corresponding to 23 milliseconds at a sample rate of 22050 Hz.
+In any case, we recommend setting <cite>n_fft</cite> to a power of two for
+optimizing the speed of the fast Fourier transform (FFT) algorithm.</dd>
 <dt>hop_length <span class="classifier-delimiter">:</span> <span class="classifier">int &gt; 0 [scalar]</span></dt>
-<dd>number audio of frames between STFT columns.
-If unspecified, defaults <cite>win_length / 4</cite>.</dd>
+<dd><p class="first">number of audio samples between adjacent STFT columns.</p>
+<p>Smaller values increase the number of columns in <cite>D</cite> without
+affecting the frequency resolution of the STFT.</p>
+<p class="last">If unspecified, defaults to <cite>win_length / 4</cite> (see below).</p>
+</dd>
 <dt>win_length <span class="classifier-delimiter">:</span> <span class="classifier">int &lt;= n_fft [scalar]</span></dt>
-<dd><p class="first">Each frame of audio is windowed by <cite>window()</cite>.
-The window will be of length <cite>win_length</cite> and then padded
-with zeros to match <cite>n_fft</cite>.</p>
+<dd><p class="first">Each frame of audio is windowed by <cite>window()</cite> of length <cite>win_length</cite>
+and then padded with zeros to match <cite>n_fft</cite>.</p>
+<p>Smaller values improve the temporal resolution of the STFT (i.e. the
+ability to discriminate impulses that are closely spaced in time)
+at the expense of frequency resolution (i.e. the ability to discriminate
+pure tones that are closely spaced in frequency). This effect is known
+as the time-frequency localization tradeoff and needs to be adjusted
+according to the properties of the input signal <cite>y</cite>.</p>
 <p class="last">If unspecified, defaults to <code class="docutils literal notranslate"><span class="pre">win_length</span> <span class="pre">=</span> <span class="pre">n_fft</span></code>.</p>
 </dd>
 <dt>window <span class="classifier-delimiter">:</span> <span class="classifier">string, tuple, number, function, or np.ndarray [shape=(n_fft,)]</span></dt>
-<dd><ul class="first last simple">
+<dd><p class="first">Either:</p>
+<ul class="simple">
 <li>a window specification (string, tuple, or number);
 see <cite>scipy.signal.get_window</cite></li>
 <li>a window function, such as <cite>scipy.signal.hanning</cite></li>
 <li>a vector or array of length <cite>n_fft</cite></li>
 </ul>
+<p class="last">Defaults to a raised cosine window (“hann”), which is adequate for
+most applications in audio signal processing.</p>
 </dd>
 <dt>center <span class="classifier-delimiter">:</span> <span class="classifier">boolean</span></dt>
-<dd><ul class="first last simple">
-<li>If <cite>True</cite>, the signal <cite>y</cite> is padded so that frame
-<cite>D[:, t]</cite> is centered at <cite>y[t * hop_length]</cite>.</li>
-<li>If <cite>False</cite>, then <cite>D[:, t]</cite> begins at <cite>y[t * hop_length]</cite></li>
-</ul>
+<dd><p class="first">If <cite>True</cite>, the signal <cite>y</cite> is padded so that frame
+<cite>D[:, t]</cite> is centered at <cite>y[t * hop_length]</cite>.</p>
+<p>If <cite>False</cite>, then <cite>D[:, t]</cite> begins at <cite>y[t * hop_length]</cite>.</p>
+<p class="last">Defaults to <cite>True</cite>,  which simplifies the alignment of <cite>D</cite> onto a
+time grid by means of <cite>librosa.core.frames_to_samples</cite>.
+Note, however, that <cite>center</cite> must be set to <cite>False</cite> when analyzing
+signals with <cite>librosa.stream</cite>.</p>
 </dd>
 <dt>dtype <span class="classifier-delimiter">:</span> <span class="classifier">numeric type</span></dt>
-<dd>Complex numeric type for <cite>D</cite>.  Default is 64-bit complex.</dd>
-<dt>pad_mode <span class="classifier-delimiter">:</span> <span class="classifier">string</span></dt>
-<dd>If <cite>center=True</cite>, the padding mode to use at the edges of the signal.
-By default, STFT uses reflection padding.</dd>
+<dd>Complex numeric type for <cite>D</cite>.  Default is single-precision
+floating-point complex (<cite>np.complex64</cite>).</dd>
+<dt>pad_mode <span class="classifier-delimiter">:</span> <span class="classifier">string or function</span></dt>
+<dd>If <cite>center=True</cite>, this argument is passed to <cite>np.pad</cite> for padding
+the edges of the signal <cite>y</cite>. By default (<cite>pad_mode=”reflect”</cite>),
+<cite>y</cite> is padded on both sides with its own reflection, mirrored around
+its first and last sample respectively.
+If <cite>center=False</cite>,  this argument is ignored.</dd>
 </dl>
 <dl class="docutils">
-<dt>D <span class="classifier-delimiter">:</span> <span class="classifier">np.ndarray [shape=(1 + n_fft/2, t), dtype=dtype]</span></dt>
-<dd>STFT matrix</dd>
+<dt>D <span class="classifier-delimiter">:</span> <span class="classifier">np.ndarray [shape=(1 + n_fft/2, n_frames), dtype=dtype]</span></dt>
+<dd>Complex-valued matrix of short-term Fourier transform
+coefficients.</dd>
 </dl>
 <p>istft : Inverse STFT</p>
-<p>ifgram : Instantaneous frequency spectrogram</p>
-<p>np.pad : array padding</p>
+<p>reassigned_spectrogram : Time-frequency reassigned spectrogram</p>
 <p>This function caches at level 20.</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">y</span><span class="p">,</span> <span class="n">sr</span> <span class="o">=</span> <span class="n">librosa</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">librosa</span><span class="o">.</span><span class="n">util</span><span class="o">.</span><span class="n">example_audio_file</span><span class="p">())</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">D</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">librosa</span><span class="o">.</span><span class="n">stft</span><span class="p">(</span><span class="n">y</span><span class="p">))</span>
@@ -3084,7 +3489,7 @@ you may specify any value here.</p>
 </dl>
 <dl class="docutils">
 <dt>y <span class="classifier-delimiter">:</span> <span class="classifier">np.ndarray</span></dt>
-<dd>An audio buffer of (at most) 
+<dd>An audio buffer of (at most)
 <cite>block_length * (hop_length-1) + frame_length</cite> samples.</dd>
 </dl>
 <p>load
@@ -3095,7 +3500,7 @@ at a time.  Note that streaming operation requires left-aligned
 frames, so we must set <cite>center=False</cite> to avoid padding artifacts.</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">filename</span> <span class="o">=</span> <span class="n">librosa</span><span class="o">.</span><span class="n">util</span><span class="o">.</span><span class="n">example_audio_file</span><span class="p">()</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">sr</span> <span class="o">=</span> <span class="n">librosa</span><span class="o">.</span><span class="n">get_samplerate</span><span class="p">(</span><span class="n">filename</span><span class="p">)</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">stream</span> <span class="n">librosa</span><span class="o">.</span><span class="n">stream</span><span class="p">(</span><span class="n">filename</span><span class="p">,</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">stream</span> <span class="o">=</span> <span class="n">librosa</span><span class="o">.</span><span class="n">stream</span><span class="p">(</span><span class="n">filename</span><span class="p">,</span>
 <span class="gp">... </span>                      <span class="n">block_length</span><span class="o">=</span><span class="mi">256</span><span class="p">,</span>
 <span class="gp">... </span>                      <span class="n">frame_length</span><span class="o">=</span><span class="mi">4096</span><span class="p">,</span>
 <span class="gp">... </span>                      <span class="n">hop_length</span><span class="o">=</span><span class="mi">1024</span><span class="p">)</span>
@@ -3259,7 +3664,7 @@ By default, the last axis (-1) is taken.</dd>
 <dl class="function">
 <dt id="librosa.core.to_mono">
 <code class="descclassname">librosa.core.</code><code class="descname">to_mono</code><span class="sig-paren">(</span><em>y</em><span class="sig-paren">)</span><a class="headerlink" href="#librosa.core.to_mono" title="Permalink to this definition">¶</a></dt>
-<dd><p>Force an audio signal down to mono.</p>
+<dd><p>Force an audio signal down to mono by averaging samples across channels.</p>
 <dl class="docutils">
 <dt>y <span class="classifier-delimiter">:</span> <span class="classifier">np.ndarray [shape=(2,n) or shape=(n,)]</span></dt>
 <dd>audio time series, either stereo or mono</dd>
@@ -3374,7 +3779,7 @@ clipped to 0.</dd>
 <span class="go">        True, False,  True, False,  True, False, False,  True,</span>
 <span class="go">       False,  True, False,  True], dtype=bool)</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="c1"># Stack y against the zero-crossing indicator</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">np</span><span class="o">.</span><span class="n">vstack</span><span class="p">([</span><span class="n">y</span><span class="p">,</span> <span class="n">z</span><span class="p">])</span><span class="o">.</span><span class="n">T</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">librosa</span><span class="o">.</span><span class="n">util</span><span class="o">.</span><span class="n">stack</span><span class="p">([</span><span class="n">y</span><span class="p">,</span> <span class="n">z</span><span class="p">],</span> <span class="n">axis</span><span class="o">=-</span><span class="mi">1</span><span class="p">)</span>
 <span class="go">array([[  0.000e+00,   1.000e+00],</span>
 <span class="go">       [  9.694e-01,   0.000e+00],</span>
 <span class="go">       [  4.759e-01,   0.000e+00],</span>
@@ -3411,10 +3816,10 @@ clipped to 0.</dd>
 <h2>Beat and tempo<a class="headerlink" href="#beat-and-tempo" title="Permalink to this headline">¶</a></h2>
 <dl class="function">
 <dt id="librosa.beat.beat_track">
-<code class="descclassname">librosa.beat.</code><code class="descname">beat_track</code><span class="sig-paren">(</span><em>y=None</em>, <em>sr=22050</em>, <em>onset_envelope=None</em>, <em>hop_length=512</em>, <em>start_bpm=120.0</em>, <em>tightness=100</em>, <em>trim=True</em>, <em>bpm=None</em>, <em>units='frames'</em><span class="sig-paren">)</span><a class="headerlink" href="#librosa.beat.beat_track" title="Permalink to this definition">¶</a></dt>
+<code class="descclassname">librosa.beat.</code><code class="descname">beat_track</code><span class="sig-paren">(</span><em>y=None</em>, <em>sr=22050</em>, <em>onset_envelope=None</em>, <em>hop_length=512</em>, <em>start_bpm=120.0</em>, <em>tightness=100</em>, <em>trim=True</em>, <em>bpm=None</em>, <em>prior=None</em>, <em>units='frames'</em><span class="sig-paren">)</span><a class="headerlink" href="#librosa.beat.beat_track" title="Permalink to this definition">¶</a></dt>
 <dd><p>Dynamic programming beat tracker.</p>
 <dl class="docutils">
-<dt>Beats are detected in three stages, following the method of <a href="#id80"><span class="problematic" id="id38">[1]_</span></a>:</dt>
+<dt>Beats are detected in three stages, following the method of <a href="#id103"><span class="problematic" id="id53">[1]_</span></a>:</dt>
 <dd><ol class="first last arabic simple">
 <li>Measure onset strength</li>
 <li>Estimate tempo from onset correlation</li>
@@ -3423,7 +3828,7 @@ tempo</li>
 </ol>
 </dd>
 </dl>
-<table class="docutils footnote" frame="void" id="id39" rules="none">
+<table class="docutils footnote" frame="void" id="id54" rules="none">
 <colgroup><col class="label" /><col /></colgroup>
 <tbody valign="top">
 <tr><td class="label">[1]</td><td>Ellis, Daniel PW. “Beat tracking by dynamic programming.”
@@ -3449,6 +3854,9 @@ Journal of New Music Research 36.1 (2007): 51-60.
 <dt>bpm <span class="classifier-delimiter">:</span> <span class="classifier">float [scalar]</span></dt>
 <dd>(optional) If provided, use <cite>bpm</cite> as the tempo instead of
 estimating it from <cite>onsets</cite>.</dd>
+<dt>prior <span class="classifier-delimiter">:</span> <span class="classifier">scipy.stats.rv_continuous [optional]</span></dt>
+<dd>An optional prior distribution over tempo.
+If provided, <cite>start_bpm</cite> will be ignored.</dd>
 <dt>units <span class="classifier-delimiter">:</span> <span class="classifier">{‘frames’, ‘samples’, ‘time’}</span></dt>
 <dd>The units to encode detected beat events in.
 By default, ‘frames’ are used.</dd>
@@ -3467,9 +3875,8 @@ and returns an empty list.</p>
 </div>
 <dl class="docutils">
 <dt>ParameterError</dt>
-<dd><p class="first">if neither <cite>y</cite> nor <cite>onset_envelope</cite> are provided</p>
-<p class="last">or if <cite>units</cite> is not one of ‘frames’, ‘samples’, or ‘time’</p>
-</dd>
+<dd>if neither <cite>y</cite> nor <cite>onset_envelope</cite> are provided,
+or if <cite>units</cite> is not one of ‘frames’, ‘samples’, or ‘time’</dd>
 </dl>
 <p>librosa.onset.onset_strength</p>
 <p>Track beats using time series input</p>
@@ -3513,8 +3920,7 @@ and returns an empty list.</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">hop_length</span> <span class="o">=</span> <span class="mi">512</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">8</span><span class="p">,</span> <span class="mi">4</span><span class="p">))</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">times</span> <span class="o">=</span> <span class="n">librosa</span><span class="o">.</span><span class="n">frames_to_time</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">onset_env</span><span class="p">)),</span>
-<span class="gp">... </span>                               <span class="n">sr</span><span class="o">=</span><span class="n">sr</span><span class="p">,</span> <span class="n">hop_length</span><span class="o">=</span><span class="n">hop_length</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">times</span> <span class="o">=</span> <span class="n">librosa</span><span class="o">.</span><span class="n">times_like</span><span class="p">(</span><span class="n">onset_env</span><span class="p">,</span> <span class="n">sr</span><span class="o">=</span><span class="n">sr</span><span class="p">,</span> <span class="n">hop_length</span><span class="o">=</span><span class="n">hop_length</span><span class="p">)</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">times</span><span class="p">,</span> <span class="n">librosa</span><span class="o">.</span><span class="n">util</span><span class="o">.</span><span class="n">normalize</span><span class="p">(</span><span class="n">onset_env</span><span class="p">),</span>
 <span class="gp">... </span>         <span class="n">label</span><span class="o">=</span><span class="s1">&#39;Onset strength&#39;</span><span class="p">)</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">plt</span><span class="o">.</span><span class="n">vlines</span><span class="p">(</span><span class="n">times</span><span class="p">[</span><span class="n">beats</span><span class="p">],</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.5</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;r&#39;</span><span class="p">,</span>
@@ -3531,7 +3937,7 @@ and returns an empty list.</p>
 
 <dl class="function">
 <dt id="librosa.beat.tempo">
-<code class="descclassname">librosa.beat.</code><code class="descname">tempo</code><span class="sig-paren">(</span><em>y=None</em>, <em>sr=22050</em>, <em>onset_envelope=None</em>, <em>hop_length=512</em>, <em>start_bpm=120</em>, <em>std_bpm=1.0</em>, <em>ac_size=8.0</em>, <em>max_tempo=320.0</em>, <em>aggregate=&lt;function mean&gt;</em><span class="sig-paren">)</span><a class="headerlink" href="#librosa.beat.tempo" title="Permalink to this definition">¶</a></dt>
+<code class="descclassname">librosa.beat.</code><code class="descname">tempo</code><span class="sig-paren">(</span><em>y=None</em>, <em>sr=22050</em>, <em>onset_envelope=None</em>, <em>hop_length=512</em>, <em>start_bpm=120</em>, <em>std_bpm=1.0</em>, <em>ac_size=8.0</em>, <em>max_tempo=320.0</em>, <em>aggregate=&lt;function mean&gt;</em>, <em>prior=None</em><span class="sig-paren">)</span><a class="headerlink" href="#librosa.beat.tempo" title="Permalink to this definition">¶</a></dt>
 <dd><p>Estimate the tempo (beats per minute)</p>
 <dl class="docutils">
 <dt>y <span class="classifier-delimiter">:</span> <span class="classifier">np.ndarray [shape=(n,)] or None</span></dt>
@@ -3553,6 +3959,10 @@ and returns an empty list.</p>
 <dt>aggregate <span class="classifier-delimiter">:</span> <span class="classifier">callable [optional]</span></dt>
 <dd>Aggregation function for estimating global tempo.
 If <cite>None</cite>, then tempo is estimated independently for each frame.</dd>
+<dt>prior <span class="classifier-delimiter">:</span> <span class="classifier">scipy.stats.rv_continuous [optional]</span></dt>
+<dd>A prior distribution over tempo (in beats per minute).
+By default, a pseudo-log-normal prior is used.
+If given, <cite>start_bpm</cite> and <cite>std_bpm</cite> will be ignored.</dd>
 </dl>
 <dl class="docutils">
 <dt>tempo <span class="classifier-delimiter">:</span> <span class="classifier">np.ndarray [scalar]</span></dt>
@@ -3569,6 +3979,14 @@ librosa.feature.tempogram</p>
 <span class="go">array([129.199])</span>
 </pre></div>
 </div>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="c1"># Or a static tempo with a uniform prior instead</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">scipy.stats</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">prior</span> <span class="o">=</span> <span class="n">scipy</span><span class="o">.</span><span class="n">stats</span><span class="o">.</span><span class="n">uniform</span><span class="p">(</span><span class="mi">30</span><span class="p">,</span> <span class="mi">300</span><span class="p">)</span>  <span class="c1"># uniform over 30-300 BPM</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">utempo</span> <span class="o">=</span> <span class="n">librosa</span><span class="o">.</span><span class="n">beat</span><span class="o">.</span><span class="n">tempo</span><span class="p">(</span><span class="n">onset_envelope</span><span class="o">=</span><span class="n">onset_env</span><span class="p">,</span> <span class="n">sr</span><span class="o">=</span><span class="n">sr</span><span class="p">,</span> <span class="n">prior</span><span class="o">=</span><span class="n">prior</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">utempo</span>
+<span class="go">array([64.6])</span>
+</pre></div>
+</div>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="c1"># Or a dynamic tempo</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">dtempo</span> <span class="o">=</span> <span class="n">librosa</span><span class="o">.</span><span class="n">beat</span><span class="o">.</span><span class="n">tempo</span><span class="p">(</span><span class="n">onset_envelope</span><span class="o">=</span><span class="n">onset_env</span><span class="p">,</span> <span class="n">sr</span><span class="o">=</span><span class="n">sr</span><span class="p">,</span>
 <span class="gp">... </span>                            <span class="n">aggregate</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span>
@@ -3577,10 +3995,20 @@ librosa.feature.tempogram</p>
 <span class="go">        172.266])</span>
 </pre></div>
 </div>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="c1"># Dynamic tempo with a proper log-normal prior</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">prior_lognorm</span> <span class="o">=</span> <span class="n">scipy</span><span class="o">.</span><span class="n">stats</span><span class="o">.</span><span class="n">lognorm</span><span class="p">(</span><span class="n">loc</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="mi">120</span><span class="p">),</span> <span class="n">scale</span><span class="o">=</span><span class="mi">120</span><span class="p">,</span> <span class="n">s</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">dtempo_lognorm</span> <span class="o">=</span> <span class="n">librosa</span><span class="o">.</span><span class="n">beat</span><span class="o">.</span><span class="n">tempo</span><span class="p">(</span><span class="n">onset_envelope</span><span class="o">=</span><span class="n">onset_env</span><span class="p">,</span> <span class="n">sr</span><span class="o">=</span><span class="n">sr</span><span class="p">,</span>
+<span class="gp">... </span>                                    <span class="n">aggregate</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+<span class="gp">... </span>                                    <span class="n">prior</span><span class="o">=</span><span class="n">prior_lognorm</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">dtempo_lognorm</span>
+<span class="go">array([ 86.133,  86.133, ..., 129.199, 129.199])</span>
+</pre></div>
+</div>
 <p>Plot the estimated tempo against the onset autocorrelation</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="c1"># Convert to scalar</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">tempo</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">asscalar</span><span class="p">(</span><span class="n">tempo</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">tempo</span> <span class="o">=</span> <span class="n">tempo</span><span class="o">.</span><span class="n">item</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">utempo</span> <span class="o">=</span> <span class="n">utempo</span><span class="o">.</span><span class="n">item</span><span class="p">()</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="c1"># Compute 2-second windowed autocorrelation</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">hop_length</span> <span class="o">=</span> <span class="mi">512</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">ac</span> <span class="o">=</span> <span class="n">librosa</span><span class="o">.</span><span class="n">autocorrelate</span><span class="p">(</span><span class="n">onset_env</span><span class="p">,</span> <span class="mi">2</span> <span class="o">*</span> <span class="n">sr</span> <span class="o">//</span> <span class="n">hop_length</span><span class="p">)</span>
@@ -3591,7 +4019,9 @@ librosa.feature.tempogram</p>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">plt</span><span class="o">.</span><span class="n">semilogx</span><span class="p">(</span><span class="n">freqs</span><span class="p">[</span><span class="mi">1</span><span class="p">:],</span> <span class="n">librosa</span><span class="o">.</span><span class="n">util</span><span class="o">.</span><span class="n">normalize</span><span class="p">(</span><span class="n">ac</span><span class="p">)[</span><span class="mi">1</span><span class="p">:],</span>
 <span class="gp">... </span>             <span class="n">label</span><span class="o">=</span><span class="s1">&#39;Onset autocorrelation&#39;</span><span class="p">,</span> <span class="n">basex</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">plt</span><span class="o">.</span><span class="n">axvline</span><span class="p">(</span><span class="n">tempo</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;r&#39;</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.75</span><span class="p">,</span> <span class="n">linestyle</span><span class="o">=</span><span class="s1">&#39;--&#39;</span><span class="p">,</span>
-<span class="gp">... </span>           <span class="n">label</span><span class="o">=</span><span class="s1">&#39;Tempo: </span><span class="si">{:.2f}</span><span class="s1"> BPM&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">tempo</span><span class="p">))</span>
+<span class="gp">... </span>            <span class="n">label</span><span class="o">=</span><span class="s1">&#39;Tempo (default prior): </span><span class="si">{:.2f}</span><span class="s1"> BPM&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">tempo</span><span class="p">))</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">plt</span><span class="o">.</span><span class="n">axvline</span><span class="p">(</span><span class="n">utempo</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;y&#39;</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.75</span><span class="p">,</span> <span class="n">linestyle</span><span class="o">=</span><span class="s1">&#39;:&#39;</span><span class="p">,</span>
+<span class="gp">... </span>            <span class="n">label</span><span class="o">=</span><span class="s1">&#39;Tempo (uniform prior): </span><span class="si">{:.2f}</span><span class="s1"> BPM&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">utempo</span><span class="p">))</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s1">&#39;Tempo (BPM)&#39;</span><span class="p">)</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">plt</span><span class="o">.</span><span class="n">grid</span><span class="p">()</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s1">&#39;Static tempo estimation&#39;</span><span class="p">)</span>
@@ -3605,8 +4035,11 @@ librosa.feature.tempogram</p>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">tg</span> <span class="o">=</span> <span class="n">librosa</span><span class="o">.</span><span class="n">feature</span><span class="o">.</span><span class="n">tempogram</span><span class="p">(</span><span class="n">onset_envelope</span><span class="o">=</span><span class="n">onset_env</span><span class="p">,</span> <span class="n">sr</span><span class="o">=</span><span class="n">sr</span><span class="p">,</span>
 <span class="gp">... </span>                               <span class="n">hop_length</span><span class="o">=</span><span class="n">hop_length</span><span class="p">)</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">librosa</span><span class="o">.</span><span class="n">display</span><span class="o">.</span><span class="n">specshow</span><span class="p">(</span><span class="n">tg</span><span class="p">,</span> <span class="n">x_axis</span><span class="o">=</span><span class="s1">&#39;time&#39;</span><span class="p">,</span> <span class="n">y_axis</span><span class="o">=</span><span class="s1">&#39;tempo&#39;</span><span class="p">)</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">librosa</span><span class="o">.</span><span class="n">frames_to_time</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">dtempo</span><span class="p">))),</span> <span class="n">dtempo</span><span class="p">,</span>
-<span class="gp">... </span>         <span class="n">color</span><span class="o">=</span><span class="s1">&#39;w&#39;</span><span class="p">,</span> <span class="n">linewidth</span><span class="o">=</span><span class="mf">1.5</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;Tempo estimate&#39;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">librosa</span><span class="o">.</span><span class="n">times_like</span><span class="p">(</span><span class="n">dtempo</span><span class="p">),</span> <span class="n">dtempo</span><span class="p">,</span>
+<span class="gp">... </span>         <span class="n">color</span><span class="o">=</span><span class="s1">&#39;w&#39;</span><span class="p">,</span> <span class="n">linewidth</span><span class="o">=</span><span class="mf">1.5</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;Tempo estimate (default prior)&#39;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">librosa</span><span class="o">.</span><span class="n">times_like</span><span class="p">(</span><span class="n">dtempo_lognorm</span><span class="p">),</span> <span class="n">dtempo_lognorm</span><span class="p">,</span>
+<span class="gp">... </span>         <span class="n">color</span><span class="o">=</span><span class="s1">&#39;c&#39;</span><span class="p">,</span> <span class="n">linewidth</span><span class="o">=</span><span class="mf">1.5</span><span class="p">,</span> <span class="n">linestyle</span><span class="o">=</span><span class="s1">&#39;--&#39;</span><span class="p">,</span>
+<span class="gp">... </span>         <span class="n">label</span><span class="o">=</span><span class="s1">&#39;Tempo estimate (lognorm prior)&#39;</span><span class="p">)</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s1">&#39;Dynamic tempo estimation&#39;</span><span class="p">)</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">plt</span><span class="o">.</span><span class="n">legend</span><span class="p">(</span><span class="n">frameon</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">framealpha</span><span class="o">=</span><span class="mf">0.75</span><span class="p">)</span>
 </pre></div>
@@ -3615,8 +4048,8 @@ librosa.feature.tempogram</p>
 
 <dl class="function">
 <dt id="librosa.beat.plp">
-<code class="descclassname">librosa.beat.</code><code class="descname">plp</code><span class="sig-paren">(</span><em>y=None</em>, <em>sr=22050</em>, <em>onset_envelope=None</em>, <em>hop_length=512</em>, <em>win_length=384</em>, <em>tempo_min=30</em>, <em>tempo_max=300</em><span class="sig-paren">)</span><a class="headerlink" href="#librosa.beat.plp" title="Permalink to this definition">¶</a></dt>
-<dd><p>Predominant local pulse (PLP) estimation. <a href="#id81"><span class="problematic" id="id40">[1]_</span></a></p>
+<code class="descclassname">librosa.beat.</code><code class="descname">plp</code><span class="sig-paren">(</span><em>y=None</em>, <em>sr=22050</em>, <em>onset_envelope=None</em>, <em>hop_length=512</em>, <em>win_length=384</em>, <em>tempo_min=30</em>, <em>tempo_max=300</em>, <em>prior=None</em><span class="sig-paren">)</span><a class="headerlink" href="#librosa.beat.plp" title="Permalink to this definition">¶</a></dt>
+<dd><p>Predominant local pulse (PLP) estimation. <a href="#id104"><span class="problematic" id="id55">[1]_</span></a></p>
 <p>The PLP method analyzes the onset strength envelope in the frequency domain
 to find a locally stable tempo for each frame.  These local periodicities
 are used to synthesize local half-waves, which are combined such that peaks
@@ -3626,7 +4059,7 @@ The local maxima of the pulse curve can be taken as estimated beat positions.</p
 when either the tempo is expected to vary significantly over time.  Additionally,
 since <cite>plp</cite> does not require the entire signal to make predictions, it may be
 preferable when beat-tracking long recordings in a streaming setting.</p>
-<table class="docutils footnote" frame="void" id="id41" rules="none">
+<table class="docutils footnote" frame="void" id="id56" rules="none">
 <colgroup><col class="label" /><col /></colgroup>
 <tbody valign="top">
 <tr><td class="label">[1]</td><td>Grosche, P., &amp; Muller, M. (2011).
@@ -3652,6 +4085,9 @@ to about 8.9 seconds.</dd>
 <cite>tempo_min</cite>.</p>
 <p class="last">Set either (or both) to <cite>None</cite> to disable this constraint.</p>
 </dd>
+<dt>prior <span class="classifier-delimiter">:</span> <span class="classifier">scipy.stats.rv_continuous [optional]</span></dt>
+<dd>A prior distribution over tempo (in beats per minute).
+By default, a uniform prior over <cite>[tempo_min, tempo_max]</cite> is used.</dd>
 </dl>
 <dl class="docutils">
 <dt>pulse <span class="classifier-delimiter">:</span> <span class="classifier">np.ndarray, shape=[(n,)]</span></dt>
@@ -3666,20 +4102,34 @@ Both are normalized here to make comparison easier.</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">y</span><span class="p">,</span> <span class="n">sr</span> <span class="o">=</span> <span class="n">librosa</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">librosa</span><span class="o">.</span><span class="n">util</span><span class="o">.</span><span class="n">example_audio_file</span><span class="p">())</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">onset_env</span> <span class="o">=</span> <span class="n">librosa</span><span class="o">.</span><span class="n">onset</span><span class="o">.</span><span class="n">onset_strength</span><span class="p">(</span><span class="n">y</span><span class="o">=</span><span class="n">y</span><span class="p">,</span> <span class="n">sr</span><span class="o">=</span><span class="n">sr</span><span class="p">)</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">pulse</span> <span class="o">=</span> <span class="n">librosa</span><span class="o">.</span><span class="n">beat</span><span class="o">.</span><span class="n">plp</span><span class="p">(</span><span class="n">onset_envelope</span><span class="o">=</span><span class="n">onset_env</span><span class="p">,</span> <span class="n">sr</span><span class="o">=</span><span class="n">sr</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="c1"># Or compute pulse with an alternate prior, like log-normal</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">scipy.stats</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">prior</span> <span class="o">=</span> <span class="n">scipy</span><span class="o">.</span><span class="n">stats</span><span class="o">.</span><span class="n">lognorm</span><span class="p">(</span><span class="n">loc</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="mi">120</span><span class="p">),</span> <span class="n">scale</span><span class="o">=</span><span class="mi">120</span><span class="p">,</span> <span class="n">s</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">pulse_lognorm</span> <span class="o">=</span> <span class="n">librosa</span><span class="o">.</span><span class="n">beat</span><span class="o">.</span><span class="n">plp</span><span class="p">(</span><span class="n">onset_envelope</span><span class="o">=</span><span class="n">onset_env</span><span class="p">,</span> <span class="n">sr</span><span class="o">=</span><span class="n">sr</span><span class="p">,</span>
+<span class="gp">... </span>                                 <span class="n">prior</span><span class="o">=</span><span class="n">prior</span><span class="p">)</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">melspec</span> <span class="o">=</span> <span class="n">librosa</span><span class="o">.</span><span class="n">feature</span><span class="o">.</span><span class="n">melspectrogram</span><span class="p">(</span><span class="n">y</span><span class="o">=</span><span class="n">y</span><span class="p">,</span> <span class="n">sr</span><span class="o">=</span><span class="n">sr</span><span class="p">)</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplot</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplot</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">)</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">librosa</span><span class="o">.</span><span class="n">display</span><span class="o">.</span><span class="n">specshow</span><span class="p">(</span><span class="n">librosa</span><span class="o">.</span><span class="n">power_to_db</span><span class="p">(</span><span class="n">melspec</span><span class="p">,</span>
 <span class="gp">... </span>                                             <span class="n">ref</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">max</span><span class="p">),</span>
 <span class="gp">... </span>                         <span class="n">x_axis</span><span class="o">=</span><span class="s1">&#39;time&#39;</span><span class="p">,</span> <span class="n">y_axis</span><span class="o">=</span><span class="s1">&#39;mel&#39;</span><span class="p">)</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s1">&#39;Mel spectrogram&#39;</span><span class="p">)</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">plt</span><span class="o">.</span><span class="n">subplot</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span> <span class="n">sharex</span><span class="o">=</span><span class="n">ax</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">plt</span><span class="o">.</span><span class="n">subplot</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span> <span class="n">sharex</span><span class="o">=</span><span class="n">ax</span><span class="p">)</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">librosa</span><span class="o">.</span><span class="n">times_like</span><span class="p">(</span><span class="n">onset_env</span><span class="p">),</span>
 <span class="gp">... </span>         <span class="n">librosa</span><span class="o">.</span><span class="n">util</span><span class="o">.</span><span class="n">normalize</span><span class="p">(</span><span class="n">onset_env</span><span class="p">),</span>
 <span class="gp">... </span>         <span class="n">label</span><span class="o">=</span><span class="s1">&#39;Onset strength&#39;</span><span class="p">)</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">librosa</span><span class="o">.</span><span class="n">times_like</span><span class="p">(</span><span class="n">pulse</span><span class="p">),</span>
 <span class="gp">... </span>         <span class="n">librosa</span><span class="o">.</span><span class="n">util</span><span class="o">.</span><span class="n">normalize</span><span class="p">(</span><span class="n">pulse</span><span class="p">),</span>
 <span class="gp">... </span>         <span class="n">label</span><span class="o">=</span><span class="s1">&#39;Predominant local pulse (PLP)&#39;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s1">&#39;Uniform tempo prior [30, 300]&#39;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">plt</span><span class="o">.</span><span class="n">subplot</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span> <span class="n">sharex</span><span class="o">=</span><span class="n">ax</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">librosa</span><span class="o">.</span><span class="n">times_like</span><span class="p">(</span><span class="n">onset_env</span><span class="p">),</span>
+<span class="gp">... </span>         <span class="n">librosa</span><span class="o">.</span><span class="n">util</span><span class="o">.</span><span class="n">normalize</span><span class="p">(</span><span class="n">onset_env</span><span class="p">),</span>
+<span class="gp">... </span>         <span class="n">label</span><span class="o">=</span><span class="s1">&#39;Onset strength&#39;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">librosa</span><span class="o">.</span><span class="n">times_like</span><span class="p">(</span><span class="n">pulse_lognorm</span><span class="p">),</span>
+<span class="gp">... </span>         <span class="n">librosa</span><span class="o">.</span><span class="n">util</span><span class="o">.</span><span class="n">normalize</span><span class="p">(</span><span class="n">pulse_lognorm</span><span class="p">),</span>
+<span class="gp">... </span>         <span class="n">label</span><span class="o">=</span><span class="s1">&#39;Predominant local pulse (PLP)&#39;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s1">&#39;Log-normal tempo prior, mean=120&#39;</span><span class="p">)</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">plt</span><span class="o">.</span><span class="n">legend</span><span class="p">()</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">plt</span><span class="o">.</span><span class="n">xlim</span><span class="p">([</span><span class="mi">30</span><span class="p">,</span> <span class="mi">35</span><span class="p">])</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">plt</span><span class="o">.</span><span class="n">tight_layout</span><span class="p">()</span>
@@ -3719,8 +4169,8 @@ Both are normalized here to make comparison easier.</p>
 </div>
 <div class="section" id="module-librosa.feature">
 <span id="feature-extraction"></span><h1>Feature extraction<a class="headerlink" href="#module-librosa.feature" title="Permalink to this headline">¶</a></h1>
-<div class="section" id="id42">
-<h2>Feature extraction<a class="headerlink" href="#id42" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="id57">
+<h2>Feature extraction<a class="headerlink" href="#id57" title="Permalink to this headline">¶</a></h2>
 <div class="section" id="spectral-features">
 <h3>Spectral features<a class="headerlink" href="#spectral-features" title="Permalink to this headline">¶</a></h3>
 </div>
@@ -3735,7 +4185,7 @@ Both are normalized here to make comparison easier.</p>
 <dl class="function">
 <dt id="librosa.feature.chroma_cens">
 <code class="descclassname">librosa.feature.</code><code class="descname">chroma_cens</code><span class="sig-paren">(</span><em>y=None</em>, <em>sr=22050</em>, <em>C=None</em>, <em>hop_length=512</em>, <em>fmin=None</em>, <em>tuning=None</em>, <em>n_chroma=12</em>, <em>n_octaves=7</em>, <em>bins_per_octave=None</em>, <em>cqt_mode='full'</em>, <em>window=None</em>, <em>norm=2</em>, <em>win_len_smooth=41</em>, <em>smoothing_window='hann'</em><span class="sig-paren">)</span><a class="headerlink" href="#librosa.feature.chroma_cens" title="Permalink to this definition">¶</a></dt>
-<dd><p>Computes the chroma variant “Chroma Energy Normalized” (CENS), following <a href="#id82"><span class="problematic" id="id43">[1]_</span></a>.</p>
+<dd><p>Computes the chroma variant “Chroma Energy Normalized” (CENS), following <a href="#id105"><span class="problematic" id="id58">[1]_</span></a>.</p>
 <p>To compute CENS features, following steps are taken after obtaining chroma vectors using <cite>chroma_cqt</cite>:
 1. L-1 normalization of each chroma vector
 2. Quantization of amplitude based on “log-like” amplitude thresholds
@@ -3743,7 +4193,7 @@ Both are normalized here to make comparison easier.</p>
 4. (not implemented) Downsampling</p>
 <p>CENS features are robust to dynamics, timbre and articulation, thus these are commonly used in audio
 matching and retrieval applications.</p>
-<table class="docutils footnote" frame="void" id="id44" rules="none">
+<table class="docutils footnote" frame="void" id="id59" rules="none">
 <colgroup><col class="label" /><col /></colgroup>
 <tbody valign="top">
 <tr><td class="label">[1]</td><td>Meinard Müller and Sebastian Ewert
@@ -3766,7 +4216,7 @@ Default: ‘C1’ ~= 32.7 Hz</dd>
 <dt>norm <span class="classifier-delimiter">:</span> <span class="classifier">int &gt; 0, +-np.inf, or None</span></dt>
 <dd>Column-wise normalization of the chromagram.</dd>
 <dt>tuning <span class="classifier-delimiter">:</span> <span class="classifier">float</span></dt>
-<dd>Deviation (in cents) from A440 tuning</dd>
+<dd>Deviation (in fractions of a CQT bin) from A440 tuning</dd>
 <dt>n_chroma <span class="classifier-delimiter">:</span> <span class="classifier">int &gt; 0</span></dt>
 <dd>Number of chroma bins to produce</dd>
 <dt>n_octaves <span class="classifier-delimiter">:</span> <span class="classifier">int &gt; 0</span></dt>
@@ -3842,7 +4292,7 @@ Default: ‘C1’ ~= 32.7 Hz</dd>
 <dd>Pre-normalization energy threshold.  Values below the
 threshold are discarded, resulting in a sparse chromagram.</dd>
 <dt>tuning <span class="classifier-delimiter">:</span> <span class="classifier">float</span></dt>
-<dd>Deviation (in cents) from A440 tuning</dd>
+<dd>Deviation (in fractions of a CQT bin) from A440 tuning</dd>
 <dt>n_chroma <span class="classifier-delimiter">:</span> <span class="classifier">int &gt; 0</span></dt>
 <dd>Number of chroma bins to produce</dd>
 <dt>n_octaves <span class="classifier-delimiter">:</span> <span class="classifier">int &gt; 0</span></dt>
@@ -3889,10 +4339,10 @@ chroma_stft</p>
 
 <dl class="function">
 <dt id="librosa.feature.chroma_stft">
-<code class="descclassname">librosa.feature.</code><code class="descname">chroma_stft</code><span class="sig-paren">(</span><em>y=None</em>, <em>sr=22050</em>, <em>S=None</em>, <em>norm=inf</em>, <em>n_fft=2048</em>, <em>hop_length=512</em>, <em>win_length=None</em>, <em>window='hann'</em>, <em>center=True</em>, <em>pad_mode='reflect'</em>, <em>tuning=None</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#librosa.feature.chroma_stft" title="Permalink to this definition">¶</a></dt>
+<code class="descclassname">librosa.feature.</code><code class="descname">chroma_stft</code><span class="sig-paren">(</span><em>y=None</em>, <em>sr=22050</em>, <em>S=None</em>, <em>norm=inf</em>, <em>n_fft=2048</em>, <em>hop_length=512</em>, <em>win_length=None</em>, <em>window='hann'</em>, <em>center=True</em>, <em>pad_mode='reflect'</em>, <em>tuning=None</em>, <em>n_chroma=12</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#librosa.feature.chroma_stft" title="Permalink to this definition">¶</a></dt>
 <dd><p>Compute a chromagram from a waveform or power spectrogram.</p>
-<p>This implementation is derived from <cite>chromagram_E</cite> <a href="#id83"><span class="problematic" id="id45">[1]_</span></a></p>
-<table class="docutils footnote" frame="void" id="id46" rules="none">
+<p>This implementation is derived from <cite>chromagram_E</cite> <a href="#id106"><span class="problematic" id="id60">[1]_</span></a></p>
+<table class="docutils footnote" frame="void" id="id61" rules="none">
 <colgroup><col class="label" /><col /></colgroup>
 <tbody valign="top">
 <tr><td class="label">[1]</td><td>Ellis, Daniel P.W.  “Chroma feature analysis and synthesis”
@@ -3940,9 +4390,11 @@ see <cite>scipy.signal.get_window</cite></li>
 <dt>pad_mode <span class="classifier-delimiter">:</span> <span class="classifier">string</span></dt>
 <dd>If <cite>center=True</cite>, the padding mode to use at the edges of the signal.
 By default, STFT uses reflection padding.</dd>
-<dt>tuning <span class="classifier-delimiter">:</span> <span class="classifier">float in <cite>[-0.5, 0.5)</cite> [scalar] or None.</span></dt>
-<dd>Deviation from A440 tuning in fractional bins (cents).
+<dt>tuning <span class="classifier-delimiter">:</span> <span class="classifier">float [scalar] or None.</span></dt>
+<dd>Deviation from A440 tuning in fractional chroma bins.
 If <cite>None</cite>, it is automatically estimated.</dd>
+<dt>n_chroma <span class="classifier-delimiter">:</span> <span class="classifier">int &gt; 0 [scalar]</span></dt>
+<dd>Number of chroma bins to produce (12 by default).</dd>
 <dt>kwargs <span class="classifier-delimiter">:</span> <span class="classifier">additional keyword arguments</span></dt>
 <dd>Arguments to parameterize chroma filters.
 See <cite>librosa.filters.chroma</cite> for details.</dd>
@@ -4073,8 +4525,8 @@ Default is -1 (columns).</dd>
 <dt id="librosa.feature.fourier_tempogram">
 <code class="descclassname">librosa.feature.</code><code class="descname">fourier_tempogram</code><span class="sig-paren">(</span><em>y=None</em>, <em>sr=22050</em>, <em>onset_envelope=None</em>, <em>hop_length=512</em>, <em>win_length=384</em>, <em>center=True</em>, <em>window='hann'</em><span class="sig-paren">)</span><a class="headerlink" href="#librosa.feature.fourier_tempogram" title="Permalink to this definition">¶</a></dt>
 <dd><p>Compute the Fourier tempogram: the short-time Fourier transform of the
-onset strength envelope. <a href="#id84"><span class="problematic" id="id47">[1]_</span></a></p>
-<table class="docutils footnote" frame="void" id="id48" rules="none">
+onset strength envelope. <a href="#id107"><span class="problematic" id="id62">[1]_</span></a></p>
+<table class="docutils footnote" frame="void" id="id63" rules="none">
 <colgroup><col class="label" /><col /></colgroup>
 <tbody valign="top">
 <tr><td class="label">[1]</td><td>Grosche, Peter, Meinard Müller, and Frank Kurth.
@@ -4218,11 +4670,13 @@ See <cite>librosa.filters.mel</cite> for details.</dd>
 <span class="go">       [  2.561e-10,   2.096e-09, ...,   7.543e-10,   6.101e-10]])</span>
 </pre></div>
 </div>
-<p>Using a pre-computed power spectrogram</p>
+<p>Using a pre-computed power spectrogram would give the same result:</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">D</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">librosa</span><span class="o">.</span><span class="n">stft</span><span class="p">(</span><span class="n">y</span><span class="p">))</span><span class="o">**</span><span class="mi">2</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">S</span> <span class="o">=</span> <span class="n">librosa</span><span class="o">.</span><span class="n">feature</span><span class="o">.</span><span class="n">melspectrogram</span><span class="p">(</span><span class="n">S</span><span class="o">=</span><span class="n">D</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">S</span> <span class="o">=</span> <span class="n">librosa</span><span class="o">.</span><span class="n">feature</span><span class="o">.</span><span class="n">melspectrogram</span><span class="p">(</span><span class="n">S</span><span class="o">=</span><span class="n">D</span><span class="p">,</span> <span class="n">sr</span><span class="o">=</span><span class="n">sr</span><span class="p">)</span>
 </pre></div>
 </div>
+<p>Display of mel-frequency spectrogram coefficients, with custom
+arguments for mel filterbank construction (default is fmax=sr/2):</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="c1"># Passing through arguments to the Mel filters</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">S</span> <span class="o">=</span> <span class="n">librosa</span><span class="o">.</span><span class="n">feature</span><span class="o">.</span><span class="n">melspectrogram</span><span class="p">(</span><span class="n">y</span><span class="o">=</span><span class="n">y</span><span class="p">,</span> <span class="n">sr</span><span class="o">=</span><span class="n">sr</span><span class="p">,</span> <span class="n">n_mels</span><span class="o">=</span><span class="mi">128</span><span class="p">,</span>
 <span class="gp">... </span>                                    <span class="n">fmax</span><span class="o">=</span><span class="mi">8000</span><span class="p">)</span>
@@ -4230,12 +4684,12 @@ See <cite>librosa.filters.mel</cite> for details.</dd>
 </div>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="mi">4</span><span class="p">))</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">librosa</span><span class="o">.</span><span class="n">display</span><span class="o">.</span><span class="n">specshow</span><span class="p">(</span><span class="n">librosa</span><span class="o">.</span><span class="n">power_to_db</span><span class="p">(</span><span class="n">S</span><span class="p">,</span>
-<span class="gp">... </span>                                             <span class="n">ref</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">max</span><span class="p">),</span>
-<span class="gp">... </span>                         <span class="n">y_axis</span><span class="o">=</span><span class="s1">&#39;mel&#39;</span><span class="p">,</span> <span class="n">fmax</span><span class="o">=</span><span class="mi">8000</span><span class="p">,</span>
-<span class="gp">... </span>                         <span class="n">x_axis</span><span class="o">=</span><span class="s1">&#39;time&#39;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">S_dB</span> <span class="o">=</span> <span class="n">librosa</span><span class="o">.</span><span class="n">power_to_db</span><span class="p">(</span><span class="n">S</span><span class="p">,</span> <span class="n">ref</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">max</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">librosa</span><span class="o">.</span><span class="n">display</span><span class="o">.</span><span class="n">specshow</span><span class="p">(</span><span class="n">S_dB</span><span class="p">,</span> <span class="n">x_axis</span><span class="o">=</span><span class="s1">&#39;time&#39;</span><span class="p">,</span>
+<span class="gp">... </span>                         <span class="n">y_axis</span><span class="o">=</span><span class="s1">&#39;mel&#39;</span><span class="p">,</span> <span class="n">sr</span><span class="o">=</span><span class="n">sr</span><span class="p">,</span>
+<span class="gp">... </span>                         <span class="n">fmax</span><span class="o">=</span><span class="mi">8000</span><span class="p">)</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">plt</span><span class="o">.</span><span class="n">colorbar</span><span class="p">(</span><span class="nb">format</span><span class="o">=</span><span class="s1">&#39;</span><span class="si">%+2.0f</span><span class="s1"> dB&#39;</span><span class="p">)</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s1">&#39;Mel spectrogram&#39;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s1">&#39;Mel-frequency spectrogram&#39;</span><span class="p">)</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">plt</span><span class="o">.</span><span class="n">tight_layout</span><span class="p">()</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
 </pre></div>
@@ -4244,7 +4698,7 @@ See <cite>librosa.filters.mel</cite> for details.</dd>
 
 <dl class="function">
 <dt id="librosa.feature.mfcc">
-<code class="descclassname">librosa.feature.</code><code class="descname">mfcc</code><span class="sig-paren">(</span><em>y=None</em>, <em>sr=22050</em>, <em>S=None</em>, <em>n_mfcc=20</em>, <em>dct_type=2</em>, <em>norm='ortho'</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#librosa.feature.mfcc" title="Permalink to this definition">¶</a></dt>
+<code class="descclassname">librosa.feature.</code><code class="descname">mfcc</code><span class="sig-paren">(</span><em>y=None</em>, <em>sr=22050</em>, <em>S=None</em>, <em>n_mfcc=20</em>, <em>dct_type=2</em>, <em>norm='ortho'</em>, <em>lifter=0</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#librosa.feature.mfcc" title="Permalink to this definition">¶</a></dt>
 <dd><p>Mel-frequency cepstral coefficients (MFCCs)</p>
 <dl class="docutils">
 <dt>y <span class="classifier-delimiter">:</span> <span class="classifier">np.ndarray [shape=(n,)] or None</span></dt>
@@ -4262,6 +4716,12 @@ By default, DCT type-2 is used.</dd>
 <dd><p class="first">If <cite>dct_type</cite> is <cite>2 or 3</cite>, setting <cite>norm=’ortho’</cite> uses an ortho-normal
 DCT basis.</p>
 <p class="last">Normalization is not supported for <cite>dct_type=1</cite>.</p>
+</dd>
+<dt>lifter <span class="classifier-delimiter">:</span> <span class="classifier">number &gt;= 0</span></dt>
+<dd><p class="first">If <cite>lifter&gt;0</cite>, apply <em>liftering</em> (cepstral filtering) to the MFCCs:</p>
+<p><cite>M[n, :] &lt;- M[n, :] * (1 + sin(pi * (n + 1) / lifter)) * lifter / 2</cite></p>
+<p class="last">Setting <cite>lifter &gt;= 2 * n_mfcc</cite> emphasizes the higher-order coefficients.
+As <cite>lifter</cite> increases, the coefficient weighting becomes approximately linear.</p>
 </dd>
 <dt>kwargs <span class="classifier-delimiter">:</span> <span class="classifier">additional keyword arguments</span></dt>
 <dd>Arguments to <cite>melspectrogram</cite>, if operating
@@ -4513,11 +4973,11 @@ results with the RMS computed from the audio samples <cite>y</cite></p>
 <code class="descclassname">librosa.feature.</code><code class="descname">spectral_bandwidth</code><span class="sig-paren">(</span><em>y=None</em>, <em>sr=22050</em>, <em>S=None</em>, <em>n_fft=2048</em>, <em>hop_length=512</em>, <em>win_length=None</em>, <em>window='hann'</em>, <em>center=True</em>, <em>pad_mode='reflect'</em>, <em>freq=None</em>, <em>centroid=None</em>, <em>norm=True</em>, <em>p=2</em><span class="sig-paren">)</span><a class="headerlink" href="#librosa.feature.spectral_bandwidth" title="Permalink to this definition">¶</a></dt>
 <dd><p>Compute p’th-order spectral bandwidth.</p>
 <blockquote>
-<div><p>The spectral bandwidth <a href="#id85"><span class="problematic" id="id49">[1]_</span></a> at frame <cite>t</cite> is computed by</p>
+<div><p>The spectral bandwidth <a href="#id108"><span class="problematic" id="id64">[1]_</span></a> at frame <cite>t</cite> is computed by</p>
 <blockquote>
 <div>(sum_k S[k, t] * (freq[k, t] - centroid[t])**p)**(1/p)</div></blockquote>
 </div></blockquote>
-<table class="docutils footnote" frame="void" id="id50" rules="none">
+<table class="docutils footnote" frame="void" id="id65" rules="none">
 <colgroup><col class="label" /><col /></colgroup>
 <tbody valign="top">
 <tr><td class="label">[1]</td><td>Klapuri, A., &amp; Davy, M. (Eds.). (2007). Signal processing
@@ -4622,12 +5082,12 @@ or a matrix of center frequencies as constructed by
 <p>Each frame of a magnitude spectrogram is normalized and treated as a
 distribution over frequency bins, from which the mean (centroid) is
 extracted per frame.</p>
-<p>More precisely, the centroid at frame <cite>t</cite> is defined as <a href="#id86"><span class="problematic" id="id51">[1]_</span></a>:</p>
+<p>More precisely, the centroid at frame <cite>t</cite> is defined as <a href="#id109"><span class="problematic" id="id66">[1]_</span></a>:</p>
 <blockquote>
 <div><code class="docutils literal notranslate"><span class="pre">centroid[t]</span> <span class="pre">=</span> <span class="pre">sum_k</span> <span class="pre">S[k,</span> <span class="pre">t]</span> <span class="pre">*</span> <span class="pre">freq[k]</span> <span class="pre">/</span> <span class="pre">(sum_j</span> <span class="pre">S[j,</span> <span class="pre">t])</span></code></div></blockquote>
 <p>where <cite>S</cite> is a magnitude spectrogram, and <cite>freq</cite> is the array of
 frequencies (e.g., FFT frequencies in Hz) of the rows of <cite>S</cite>.</p>
-<table class="docutils footnote" frame="void" id="id52" rules="none">
+<table class="docutils footnote" frame="void" id="id67" rules="none">
 <colgroup><col class="label" /><col /></colgroup>
 <tbody valign="top">
 <tr><td class="label">[1]</td><td>Klapuri, A., &amp; Davy, M. (Eds.). (2007). Signal processing
@@ -4729,14 +5189,14 @@ By default, STFT uses reflection padding.</dd>
 <dl class="function">
 <dt id="librosa.feature.spectral_contrast">
 <code class="descclassname">librosa.feature.</code><code class="descname">spectral_contrast</code><span class="sig-paren">(</span><em>y=None</em>, <em>sr=22050</em>, <em>S=None</em>, <em>n_fft=2048</em>, <em>hop_length=512</em>, <em>win_length=None</em>, <em>window='hann'</em>, <em>center=True</em>, <em>pad_mode='reflect'</em>, <em>freq=None</em>, <em>fmin=200.0</em>, <em>n_bands=6</em>, <em>quantile=0.02</em>, <em>linear=False</em><span class="sig-paren">)</span><a class="headerlink" href="#librosa.feature.spectral_contrast" title="Permalink to this definition">¶</a></dt>
-<dd><p>Compute spectral contrast <a href="#id87"><span class="problematic" id="id53">[1]_</span></a></p>
+<dd><p>Compute spectral contrast <a href="#id110"><span class="problematic" id="id68">[1]_</span></a></p>
 <p>Each frame of a spectrogram <cite>S</cite> is divided into sub-bands.
 For each sub-band, the energy contrast is estimated by comparing
 the mean energy in the top quantile (peak energy) to that of the 
 bottom quantile (valley energy).  High contrast values generally
 correspond to clear, narrow-band signals, while low contrast values
 correspond to broad-band noise.</p>
-<table class="docutils footnote" frame="void" id="id54" rules="none">
+<table class="docutils footnote" frame="void" id="id69" rules="none">
 <colgroup><col class="label" /><col /></colgroup>
 <tbody valign="top">
 <tr><td class="label">[1]</td><td>Jiang, Dan-Ning, Lie Lu, Hong-Jiang Zhang, Jian-Hua Tao,
@@ -4835,10 +5295,10 @@ octave-based frequency</dd>
 <dd><p>Compute spectral flatness</p>
 <p>Spectral flatness (or tonality coefficient) is a measure to
 quantify how much noise-like a sound is, as opposed to being
-tone-like <a href="#id88"><span class="problematic" id="id55">[1]_</span></a>. A high spectral flatness (closer to 1.0)
+tone-like <a href="#id111"><span class="problematic" id="id70">[1]_</span></a>. A high spectral flatness (closer to 1.0)
 indicates the spectrum is similar to white noise.
 It is often converted to decibel.</p>
-<table class="docutils footnote" frame="void" id="id56" rules="none">
+<table class="docutils footnote" frame="void" id="id71" rules="none">
 <colgroup><col class="label" /><col /></colgroup>
 <tbody valign="top">
 <tr><td class="label">[1]</td><td>Dubnov, Shlomo  “Generalization of spectral flatness
@@ -5110,8 +5570,8 @@ where <cite>m == n_steps - 1</cite>.</dd>
 <dl class="function">
 <dt id="librosa.feature.tempogram">
 <code class="descclassname">librosa.feature.</code><code class="descname">tempogram</code><span class="sig-paren">(</span><em>y=None</em>, <em>sr=22050</em>, <em>onset_envelope=None</em>, <em>hop_length=512</em>, <em>win_length=384</em>, <em>center=True</em>, <em>window='hann'</em>, <em>norm=inf</em><span class="sig-paren">)</span><a class="headerlink" href="#librosa.feature.tempogram" title="Permalink to this definition">¶</a></dt>
-<dd><p>Compute the tempogram: local autocorrelation of the onset strength envelope. <a href="#id89"><span class="problematic" id="id57">[1]_</span></a></p>
-<table class="docutils footnote" frame="void" id="id58" rules="none">
+<dd><p>Compute the tempogram: local autocorrelation of the onset strength envelope. <a href="#id112"><span class="problematic" id="id72">[1]_</span></a></p>
+<table class="docutils footnote" frame="void" id="id73" rules="none">
 <colgroup><col class="label" /><col /></colgroup>
 <tbody valign="top">
 <tr><td class="label">[1]</td><td>Grosche, Peter, Meinard Müller, and Frank Kurth.
@@ -5219,8 +5679,8 @@ librosa.core.stft</p>
 <dt id="librosa.feature.tonnetz">
 <code class="descclassname">librosa.feature.</code><code class="descname">tonnetz</code><span class="sig-paren">(</span><em>y=None</em>, <em>sr=22050</em>, <em>chroma=None</em><span class="sig-paren">)</span><a class="headerlink" href="#librosa.feature.tonnetz" title="Permalink to this definition">¶</a></dt>
 <dd><p>Computes the tonal centroid features (tonnetz), following the method of
-<a href="#id90"><span class="problematic" id="id59">[1]_</span></a>.</p>
-<table class="docutils footnote" frame="void" id="id60" rules="none">
+<a href="#id113"><span class="problematic" id="id74">[1]_</span></a>.</p>
+<table class="docutils footnote" frame="void" id="id75" rules="none">
 <colgroup><col class="label" /><col /></colgroup>
 <tbody valign="top">
 <tr><td class="label">[1]</td><td>Harte, C., Sandler, M., &amp; Gasser, M. (2006). “Detecting Harmonic
@@ -5522,6 +5982,7 @@ For floating point <cite>y</cite>, scale the data to the range [-1, +1].</dd>
     <li><a href="../0.6.2/index.html">0.6.2</a></li>
     <li><a href="../0.6.3/index.html">0.6.3</a></li>
     <li><a href="../0.7.0/index.html">0.7.0</a></li>
+    <li><a href="../0.7.1/index.html">0.7.1</a></li>
     <li><a href="index.html">v0.1.0</a></li>
     <li><a href="../v0.4.0/index.html">v0.4.0</a></li>
 </ul>

@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>librosa.beat.tempo &mdash; librosa 0.7.0 documentation</title>
+  <title>librosa.beat.tempo &mdash; librosa 0.7.1 documentation</title>
   
 
   
@@ -23,7 +23,7 @@
       <script type="text/javascript">
           var DOCUMENTATION_OPTIONS = {
               URL_ROOT:'../',
-              VERSION:'0.7.0',
+              VERSION:'0.7.1',
               LANGUAGE:'None',
               COLLAPSE_INDEX:false,
               FILE_SUFFIX:'.html',
@@ -203,7 +203,7 @@
 <h1>librosa.beat.tempo<a class="headerlink" href="#librosa-beat-tempo" title="Permalink to this headline">¶</a></h1>
 <dl class="function">
 <dt id="librosa.beat.tempo">
-<code class="descclassname">librosa.beat.</code><code class="descname">tempo</code><span class="sig-paren">(</span><em>y=None</em>, <em>sr=22050</em>, <em>onset_envelope=None</em>, <em>hop_length=512</em>, <em>start_bpm=120</em>, <em>std_bpm=1.0</em>, <em>ac_size=8.0</em>, <em>max_tempo=320.0</em>, <em>aggregate=&lt;function mean at 0x7f3faa08a510&gt;</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/librosa/beat.html#tempo"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#librosa.beat.tempo" title="Permalink to this definition">¶</a></dt>
+<code class="descclassname">librosa.beat.</code><code class="descname">tempo</code><span class="sig-paren">(</span><em>y=None</em>, <em>sr=22050</em>, <em>onset_envelope=None</em>, <em>hop_length=512</em>, <em>start_bpm=120</em>, <em>std_bpm=1.0</em>, <em>ac_size=8.0</em>, <em>max_tempo=320.0</em>, <em>aggregate=&lt;function mean at 0x7fcba2eb26a8&gt;</em>, <em>prior=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/librosa/beat.html#tempo"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#librosa.beat.tempo" title="Permalink to this definition">¶</a></dt>
 <dd><p>Estimate the tempo (beats per minute)</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
@@ -238,6 +238,11 @@
 <dd><p class="first last">Aggregation function for estimating global tempo.
 If <em class="xref py py-obj">None</em>, then tempo is estimated independently for each frame.</p>
 </dd>
+<dt><strong>prior</strong> <span class="classifier-delimiter">:</span> <span class="classifier">scipy.stats.rv_continuous [optional]</span></dt>
+<dd><p class="first last">A prior distribution over tempo (in beats per minute).
+By default, a pseudo-log-normal prior is used.
+If given, <em class="xref py py-obj">start_bpm</em> and <em class="xref py py-obj">std_bpm</em> will be ignored.</p>
+</dd>
 </dl>
 </td>
 </tr>
@@ -270,6 +275,14 @@ If <em class="xref py py-obj">None</em>, then tempo is estimated independently f
 <span class="go">array([129.199])</span>
 </pre></div>
 </div>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="c1"># Or a static tempo with a uniform prior instead</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">scipy.stats</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">prior</span> <span class="o">=</span> <span class="n">scipy</span><span class="o">.</span><span class="n">stats</span><span class="o">.</span><span class="n">uniform</span><span class="p">(</span><span class="mi">30</span><span class="p">,</span> <span class="mi">300</span><span class="p">)</span>  <span class="c1"># uniform over 30-300 BPM</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">utempo</span> <span class="o">=</span> <span class="n">librosa</span><span class="o">.</span><span class="n">beat</span><span class="o">.</span><span class="n">tempo</span><span class="p">(</span><span class="n">onset_envelope</span><span class="o">=</span><span class="n">onset_env</span><span class="p">,</span> <span class="n">sr</span><span class="o">=</span><span class="n">sr</span><span class="p">,</span> <span class="n">prior</span><span class="o">=</span><span class="n">prior</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">utempo</span>
+<span class="go">array([64.6])</span>
+</pre></div>
+</div>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="c1"># Or a dynamic tempo</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">dtempo</span> <span class="o">=</span> <span class="n">librosa</span><span class="o">.</span><span class="n">beat</span><span class="o">.</span><span class="n">tempo</span><span class="p">(</span><span class="n">onset_envelope</span><span class="o">=</span><span class="n">onset_env</span><span class="p">,</span> <span class="n">sr</span><span class="o">=</span><span class="n">sr</span><span class="p">,</span>
 <span class="gp">... </span>                            <span class="n">aggregate</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span>
@@ -278,10 +291,20 @@ If <em class="xref py py-obj">None</em>, then tempo is estimated independently f
 <span class="go">        172.266])</span>
 </pre></div>
 </div>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="c1"># Dynamic tempo with a proper log-normal prior</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">prior_lognorm</span> <span class="o">=</span> <span class="n">scipy</span><span class="o">.</span><span class="n">stats</span><span class="o">.</span><span class="n">lognorm</span><span class="p">(</span><span class="n">loc</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="mi">120</span><span class="p">),</span> <span class="n">scale</span><span class="o">=</span><span class="mi">120</span><span class="p">,</span> <span class="n">s</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">dtempo_lognorm</span> <span class="o">=</span> <span class="n">librosa</span><span class="o">.</span><span class="n">beat</span><span class="o">.</span><span class="n">tempo</span><span class="p">(</span><span class="n">onset_envelope</span><span class="o">=</span><span class="n">onset_env</span><span class="p">,</span> <span class="n">sr</span><span class="o">=</span><span class="n">sr</span><span class="p">,</span>
+<span class="gp">... </span>                                    <span class="n">aggregate</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+<span class="gp">... </span>                                    <span class="n">prior</span><span class="o">=</span><span class="n">prior_lognorm</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">dtempo_lognorm</span>
+<span class="go">array([ 86.133,  86.133, ..., 129.199, 129.199])</span>
+</pre></div>
+</div>
 <p>Plot the estimated tempo against the onset autocorrelation</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="c1"># Convert to scalar</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">tempo</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">asscalar</span><span class="p">(</span><span class="n">tempo</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">tempo</span> <span class="o">=</span> <span class="n">tempo</span><span class="o">.</span><span class="n">item</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">utempo</span> <span class="o">=</span> <span class="n">utempo</span><span class="o">.</span><span class="n">item</span><span class="p">()</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="c1"># Compute 2-second windowed autocorrelation</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">hop_length</span> <span class="o">=</span> <span class="mi">512</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">ac</span> <span class="o">=</span> <span class="n">librosa</span><span class="o">.</span><span class="n">autocorrelate</span><span class="p">(</span><span class="n">onset_env</span><span class="p">,</span> <span class="mi">2</span> <span class="o">*</span> <span class="n">sr</span> <span class="o">//</span> <span class="n">hop_length</span><span class="p">)</span>
@@ -292,7 +315,9 @@ If <em class="xref py py-obj">None</em>, then tempo is estimated independently f
 <span class="gp">&gt;&gt;&gt; </span><span class="n">plt</span><span class="o">.</span><span class="n">semilogx</span><span class="p">(</span><span class="n">freqs</span><span class="p">[</span><span class="mi">1</span><span class="p">:],</span> <span class="n">librosa</span><span class="o">.</span><span class="n">util</span><span class="o">.</span><span class="n">normalize</span><span class="p">(</span><span class="n">ac</span><span class="p">)[</span><span class="mi">1</span><span class="p">:],</span>
 <span class="gp">... </span>             <span class="n">label</span><span class="o">=</span><span class="s1">&#39;Onset autocorrelation&#39;</span><span class="p">,</span> <span class="n">basex</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">plt</span><span class="o">.</span><span class="n">axvline</span><span class="p">(</span><span class="n">tempo</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;r&#39;</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.75</span><span class="p">,</span> <span class="n">linestyle</span><span class="o">=</span><span class="s1">&#39;--&#39;</span><span class="p">,</span>
-<span class="gp">... </span>           <span class="n">label</span><span class="o">=</span><span class="s1">&#39;Tempo: </span><span class="si">{:.2f}</span><span class="s1"> BPM&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">tempo</span><span class="p">))</span>
+<span class="gp">... </span>            <span class="n">label</span><span class="o">=</span><span class="s1">&#39;Tempo (default prior): </span><span class="si">{:.2f}</span><span class="s1"> BPM&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">tempo</span><span class="p">))</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">plt</span><span class="o">.</span><span class="n">axvline</span><span class="p">(</span><span class="n">utempo</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;y&#39;</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.75</span><span class="p">,</span> <span class="n">linestyle</span><span class="o">=</span><span class="s1">&#39;:&#39;</span><span class="p">,</span>
+<span class="gp">... </span>            <span class="n">label</span><span class="o">=</span><span class="s1">&#39;Tempo (uniform prior): </span><span class="si">{:.2f}</span><span class="s1"> BPM&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">utempo</span><span class="p">))</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s1">&#39;Tempo (BPM)&#39;</span><span class="p">)</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">plt</span><span class="o">.</span><span class="n">grid</span><span class="p">()</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s1">&#39;Static tempo estimation&#39;</span><span class="p">)</span>
@@ -310,8 +335,11 @@ If <em class="xref py py-obj">None</em>, then tempo is estimated independently f
 <span class="gp">&gt;&gt;&gt; </span><span class="n">tg</span> <span class="o">=</span> <span class="n">librosa</span><span class="o">.</span><span class="n">feature</span><span class="o">.</span><span class="n">tempogram</span><span class="p">(</span><span class="n">onset_envelope</span><span class="o">=</span><span class="n">onset_env</span><span class="p">,</span> <span class="n">sr</span><span class="o">=</span><span class="n">sr</span><span class="p">,</span>
 <span class="gp">... </span>                               <span class="n">hop_length</span><span class="o">=</span><span class="n">hop_length</span><span class="p">)</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">librosa</span><span class="o">.</span><span class="n">display</span><span class="o">.</span><span class="n">specshow</span><span class="p">(</span><span class="n">tg</span><span class="p">,</span> <span class="n">x_axis</span><span class="o">=</span><span class="s1">&#39;time&#39;</span><span class="p">,</span> <span class="n">y_axis</span><span class="o">=</span><span class="s1">&#39;tempo&#39;</span><span class="p">)</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">librosa</span><span class="o">.</span><span class="n">frames_to_time</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">dtempo</span><span class="p">))),</span> <span class="n">dtempo</span><span class="p">,</span>
-<span class="gp">... </span>         <span class="n">color</span><span class="o">=</span><span class="s1">&#39;w&#39;</span><span class="p">,</span> <span class="n">linewidth</span><span class="o">=</span><span class="mf">1.5</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;Tempo estimate&#39;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">librosa</span><span class="o">.</span><span class="n">times_like</span><span class="p">(</span><span class="n">dtempo</span><span class="p">),</span> <span class="n">dtempo</span><span class="p">,</span>
+<span class="gp">... </span>         <span class="n">color</span><span class="o">=</span><span class="s1">&#39;w&#39;</span><span class="p">,</span> <span class="n">linewidth</span><span class="o">=</span><span class="mf">1.5</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;Tempo estimate (default prior)&#39;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">librosa</span><span class="o">.</span><span class="n">times_like</span><span class="p">(</span><span class="n">dtempo_lognorm</span><span class="p">),</span> <span class="n">dtempo_lognorm</span><span class="p">,</span>
+<span class="gp">... </span>         <span class="n">color</span><span class="o">=</span><span class="s1">&#39;c&#39;</span><span class="p">,</span> <span class="n">linewidth</span><span class="o">=</span><span class="mf">1.5</span><span class="p">,</span> <span class="n">linestyle</span><span class="o">=</span><span class="s1">&#39;--&#39;</span><span class="p">,</span>
+<span class="gp">... </span>         <span class="n">label</span><span class="o">=</span><span class="s1">&#39;Tempo estimate (lognorm prior)&#39;</span><span class="p">)</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s1">&#39;Dynamic tempo estimation&#39;</span><span class="p">)</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">plt</span><span class="o">.</span><span class="n">legend</span><span class="p">(</span><span class="n">frameon</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">framealpha</span><span class="o">=</span><span class="mf">0.75</span><span class="p">)</span>
 </pre></div>
@@ -361,7 +389,7 @@ If <em class="xref py py-obj">None</em>, then tempo is estimated independently f
 <div class="rst-versions" data-toggle="rst-versions" role="note" aria-label="versions">
     <span class="rst-current-version" data-toggle="rst-current-version">
         <span class="fa fa-book"> Other Versions</span>
-        v: 0.7.0
+        v: 0.7.1
         <span class="fa fa-caret-down"></span>
     </span>
     <div class="rst-other-versions">
@@ -377,6 +405,7 @@ If <em class="xref py py-obj">None</em>, then tempo is estimated independently f
             <dd><a href="../0.6.2/generated/librosa.beat.tempo.html">0.6.2</a></dd>
             <dd><a href="../0.6.3/generated/librosa.beat.tempo.html">0.6.3</a></dd>
             <dd><a href="../0.7.0/generated/librosa.beat.tempo.html">0.7.0</a></dd>
+            <dd><a href="../0.7.1/generated/librosa.beat.tempo.html">0.7.1</a></dd>
             <dd><a href="../v0.1.0/index.html">v0.1.0</a></dd>
             <dd><a href="../v0.4.0/index.html">v0.4.0</a></dd>
         </dl>

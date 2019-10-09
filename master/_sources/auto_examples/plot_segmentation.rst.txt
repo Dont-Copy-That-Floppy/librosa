@@ -71,6 +71,15 @@ First, we'll load in a song
 
 
 
+.. rst-class:: sphx-glr-script-out
+
+ Out:
+
+ .. code-block:: none
+
+    /tmp/tmpdkqngjo8sphinxcontrib_versioning/ef93c2c2f31582135108594034cc89b6d7cda718/librosa/core/audio.py:146: UserWarning: PySoundFile failed. Trying audioread instead.
+      warnings.warn('PySoundFile failed. Trying audioread instead.')
+
 
 
 Next, we'll compute and plot a log-power CQT
@@ -390,7 +399,7 @@ And plot the final segmentation over original CQT
 
  .. code-block:: none
 
-    /tmp/tmp_b54sl3ysphinxcontrib_versioning/17a5852ca1d052cb6f54ca9849c8fd97edf6c939/docs/examples/plot_segmentation.py:246: UserWarning: Matplotlib is currently using agg, which is a non-GUI backend, so cannot show the figure.
+    /tmp/tmpdkqngjo8sphinxcontrib_versioning/ef93c2c2f31582135108594034cc89b6d7cda718/docs/examples/plot_segmentation.py:246: UserWarning: Matplotlib is currently using agg, which is a non-GUI backend, so cannot show the figure.
       plt.show()
 
 
@@ -398,7 +407,7 @@ And plot the final segmentation over original CQT
 
 .. rst-class:: sphx-glr-timing
 
-   **Total running time of the script:** ( 0 minutes  10.112 seconds)
+   **Total running time of the script:** ( 0 minutes  12.405 seconds)
 
 
 .. _sphx_glr_download_auto_examples_plot_segmentation.py:

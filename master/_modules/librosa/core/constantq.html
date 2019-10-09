@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>librosa.core.constantq &mdash; librosa 0.7.0 documentation</title>
+  <title>librosa.core.constantq &mdash; librosa 0.7.1 documentation</title>
   
 
   
@@ -23,7 +23,7 @@
       <script type="text/javascript">
           var DOCUMENTATION_OPTIONS = {
               URL_ROOT:'../../../',
-              VERSION:'0.7.0',
+              VERSION:'0.7.1',
               LANGUAGE:'None',
               COLLAPSE_INDEX:false,
               FILE_SUFFIX:'.html',
@@ -211,7 +211,8 @@
 <span class="kn">from</span> <span class="nn">..</span> <span class="k">import</span> <span class="n">util</span>
 <span class="kn">from</span> <span class="nn">..util.exceptions</span> <span class="k">import</span> <span class="n">ParameterError</span>
 
-<span class="n">__all__</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;cqt&#39;</span><span class="p">,</span> <span class="s1">&#39;hybrid_cqt&#39;</span><span class="p">,</span> <span class="s1">&#39;pseudo_cqt&#39;</span><span class="p">,</span> <span class="s1">&#39;icqt&#39;</span><span class="p">]</span>
+<span class="n">__all__</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;cqt&#39;</span><span class="p">,</span> <span class="s1">&#39;hybrid_cqt&#39;</span><span class="p">,</span> <span class="s1">&#39;pseudo_cqt&#39;</span><span class="p">,</span>
+           <span class="s1">&#39;icqt&#39;</span><span class="p">,</span> <span class="s1">&#39;griffinlim_cqt&#39;</span><span class="p">]</span>
 
 
 <div class="viewcode-block" id="cqt"><a class="viewcode-back" href="../../../generated/librosa.core.cqt.html#librosa.core.cqt">[docs]</a><span class="nd">@cache</span><span class="p">(</span><span class="n">level</span><span class="o">=</span><span class="mi">20</span><span class="p">)</span>
@@ -248,10 +249,13 @@
 <span class="sd">    bins_per_octave : int &gt; 0 [scalar]</span>
 <span class="sd">        Number of bins per octave</span>
 
-<span class="sd">    tuning : None or float in `[-0.5, 0.5)`</span>
-<span class="sd">        Tuning offset in fractions of a bin (cents).</span>
+<span class="sd">    tuning : None or float</span>
+<span class="sd">        Tuning offset in fractions of a bin.</span>
 
 <span class="sd">        If `None`, tuning will be automatically estimated from the signal.</span>
+
+<span class="sd">        The minimum frequency of the resulting CQT will be modified to</span>
+<span class="sd">        `fmin * 2**(tuning / bins_per_octave)`.</span>
 
 <span class="sd">    filter_scale : float &gt; 0</span>
 <span class="sd">        Filter scale factor. Small values (&lt;1) use shorter windows</span>
@@ -366,11 +370,14 @@
         <span class="n">fmin</span> <span class="o">=</span> <span class="n">note_to_hz</span><span class="p">(</span><span class="s1">&#39;C1&#39;</span><span class="p">)</span>
 
     <span class="k">if</span> <span class="n">tuning</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
-        <span class="n">tuning</span> <span class="o">=</span> <span class="n">estimate_tuning</span><span class="p">(</span><span class="n">y</span><span class="o">=</span><span class="n">y</span><span class="p">,</span> <span class="n">sr</span><span class="o">=</span><span class="n">sr</span><span class="p">)</span>
+        <span class="n">tuning</span> <span class="o">=</span> <span class="n">estimate_tuning</span><span class="p">(</span><span class="n">y</span><span class="o">=</span><span class="n">y</span><span class="p">,</span> <span class="n">sr</span><span class="o">=</span><span class="n">sr</span><span class="p">,</span> <span class="n">bins_per_octave</span><span class="o">=</span><span class="n">bins_per_octave</span><span class="p">)</span>
+
+    <span class="c1"># Apply tuning correction</span>
+    <span class="n">fmin</span> <span class="o">=</span> <span class="n">fmin</span> <span class="o">*</span> <span class="mf">2.0</span><span class="o">**</span><span class="p">(</span><span class="n">tuning</span> <span class="o">/</span> <span class="n">bins_per_octave</span><span class="p">)</span>
 
     <span class="c1"># First thing, get the freqs of the top octave</span>
     <span class="n">freqs</span> <span class="o">=</span> <span class="n">cqt_frequencies</span><span class="p">(</span><span class="n">n_bins</span><span class="p">,</span> <span class="n">fmin</span><span class="p">,</span>
-                            <span class="n">bins_per_octave</span><span class="o">=</span><span class="n">bins_per_octave</span><span class="p">,</span> <span class="n">tuning</span><span class="o">=</span><span class="n">tuning</span><span class="p">)[</span><span class="o">-</span><span class="n">bins_per_octave</span><span class="p">:]</span>
+                            <span class="n">bins_per_octave</span><span class="o">=</span><span class="n">bins_per_octave</span><span class="p">)[</span><span class="o">-</span><span class="n">bins_per_octave</span><span class="p">:]</span>
 
     <span class="n">fmin_t</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">min</span><span class="p">(</span><span class="n">freqs</span><span class="p">)</span>
     <span class="n">fmax_t</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">max</span><span class="p">(</span><span class="n">freqs</span><span class="p">)</span>
@@ -401,7 +408,6 @@
         <span class="n">fft_basis</span><span class="p">,</span> <span class="n">n_fft</span><span class="p">,</span> <span class="n">_</span> <span class="o">=</span> <span class="n">__cqt_filter_fft</span><span class="p">(</span><span class="n">sr</span><span class="p">,</span> <span class="n">fmin_t</span><span class="p">,</span>
                                                <span class="n">n_filters</span><span class="p">,</span>
                                                <span class="n">bins_per_octave</span><span class="p">,</span>
-                                               <span class="n">tuning</span><span class="p">,</span>
                                                <span class="n">filter_scale</span><span class="p">,</span>
                                                <span class="n">norm</span><span class="p">,</span>
                                                <span class="n">sparsity</span><span class="p">,</span>
@@ -429,7 +435,6 @@
     <span class="n">fft_basis</span><span class="p">,</span> <span class="n">n_fft</span><span class="p">,</span> <span class="n">_</span> <span class="o">=</span> <span class="n">__cqt_filter_fft</span><span class="p">(</span><span class="n">sr</span><span class="p">,</span> <span class="n">fmin_t</span><span class="p">,</span>
                                            <span class="n">n_filters</span><span class="p">,</span>
                                            <span class="n">bins_per_octave</span><span class="p">,</span>
-                                           <span class="n">tuning</span><span class="p">,</span>
                                            <span class="n">filter_scale</span><span class="p">,</span>
                                            <span class="n">norm</span><span class="p">,</span>
                                            <span class="n">sparsity</span><span class="p">,</span>
@@ -465,7 +470,6 @@
         <span class="n">lengths</span> <span class="o">=</span> <span class="n">filters</span><span class="o">.</span><span class="n">constant_q_lengths</span><span class="p">(</span><span class="n">sr</span><span class="p">,</span> <span class="n">fmin</span><span class="p">,</span>
                                              <span class="n">n_bins</span><span class="o">=</span><span class="n">n_bins</span><span class="p">,</span>
                                              <span class="n">bins_per_octave</span><span class="o">=</span><span class="n">bins_per_octave</span><span class="p">,</span>
-                                             <span class="n">tuning</span><span class="o">=</span><span class="n">tuning</span><span class="p">,</span>
                                              <span class="n">window</span><span class="o">=</span><span class="n">window</span><span class="p">,</span>
                                              <span class="n">filter_scale</span><span class="o">=</span><span class="n">filter_scale</span><span class="p">)</span>
         <span class="n">C</span> <span class="o">/=</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">lengths</span><span class="p">[:,</span> <span class="n">np</span><span class="o">.</span><span class="n">newaxis</span><span class="p">])</span>
@@ -504,10 +508,13 @@
 <span class="sd">    bins_per_octave : int &gt; 0 [scalar]</span>
 <span class="sd">        Number of bins per octave</span>
 
-<span class="sd">    tuning : None or float in `[-0.5, 0.5)`</span>
-<span class="sd">        Tuning offset in fractions of a bin (cents).</span>
+<span class="sd">    tuning : None or float</span>
+<span class="sd">        Tuning offset in fractions of a bin.</span>
 
 <span class="sd">        If `None`, tuning will be automatically estimated from the signal.</span>
+
+<span class="sd">        The minimum frequency of the resulting CQT will be modified to</span>
+<span class="sd">        `fmin * 2**(tuning / bins_per_octave)`.</span>
 
 <span class="sd">    filter_scale : float &gt; 0</span>
 <span class="sd">        Filter filter_scale factor. Larger values use longer windows.</span>
@@ -559,18 +566,19 @@
         <span class="n">fmin</span> <span class="o">=</span> <span class="n">note_to_hz</span><span class="p">(</span><span class="s1">&#39;C1&#39;</span><span class="p">)</span>
 
     <span class="k">if</span> <span class="n">tuning</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
-        <span class="n">tuning</span> <span class="o">=</span> <span class="n">estimate_tuning</span><span class="p">(</span><span class="n">y</span><span class="o">=</span><span class="n">y</span><span class="p">,</span> <span class="n">sr</span><span class="o">=</span><span class="n">sr</span><span class="p">)</span>
+        <span class="n">tuning</span> <span class="o">=</span> <span class="n">estimate_tuning</span><span class="p">(</span><span class="n">y</span><span class="o">=</span><span class="n">y</span><span class="p">,</span> <span class="n">sr</span><span class="o">=</span><span class="n">sr</span><span class="p">,</span> <span class="n">bins_per_octave</span><span class="o">=</span><span class="n">bins_per_octave</span><span class="p">)</span>
+
+    <span class="c1"># Apply tuning correction</span>
+    <span class="n">fmin</span> <span class="o">=</span> <span class="n">fmin</span> <span class="o">*</span> <span class="mf">2.0</span><span class="o">**</span><span class="p">(</span><span class="n">tuning</span> <span class="o">/</span> <span class="n">bins_per_octave</span><span class="p">)</span>
 
     <span class="c1"># Get all CQT frequencies</span>
     <span class="n">freqs</span> <span class="o">=</span> <span class="n">cqt_frequencies</span><span class="p">(</span><span class="n">n_bins</span><span class="p">,</span> <span class="n">fmin</span><span class="p">,</span>
-                            <span class="n">bins_per_octave</span><span class="o">=</span><span class="n">bins_per_octave</span><span class="p">,</span>
-                            <span class="n">tuning</span><span class="o">=</span><span class="n">tuning</span><span class="p">)</span>
+                            <span class="n">bins_per_octave</span><span class="o">=</span><span class="n">bins_per_octave</span><span class="p">)</span>
 
     <span class="c1"># Compute the length of each constant-Q basis function</span>
     <span class="n">lengths</span> <span class="o">=</span> <span class="n">filters</span><span class="o">.</span><span class="n">constant_q_lengths</span><span class="p">(</span><span class="n">sr</span><span class="p">,</span> <span class="n">fmin</span><span class="p">,</span>
                                          <span class="n">n_bins</span><span class="o">=</span><span class="n">n_bins</span><span class="p">,</span>
                                          <span class="n">bins_per_octave</span><span class="o">=</span><span class="n">bins_per_octave</span><span class="p">,</span>
-                                         <span class="n">tuning</span><span class="o">=</span><span class="n">tuning</span><span class="p">,</span>
                                          <span class="n">filter_scale</span><span class="o">=</span><span class="n">filter_scale</span><span class="p">,</span>
                                          <span class="n">window</span><span class="o">=</span><span class="n">window</span><span class="p">)</span>
 
@@ -591,7 +599,6 @@
                                    <span class="n">fmin</span><span class="o">=</span><span class="n">fmin_pseudo</span><span class="p">,</span>
                                    <span class="n">n_bins</span><span class="o">=</span><span class="n">n_bins_pseudo</span><span class="p">,</span>
                                    <span class="n">bins_per_octave</span><span class="o">=</span><span class="n">bins_per_octave</span><span class="p">,</span>
-                                   <span class="n">tuning</span><span class="o">=</span><span class="n">tuning</span><span class="p">,</span>
                                    <span class="n">filter_scale</span><span class="o">=</span><span class="n">filter_scale</span><span class="p">,</span>
                                    <span class="n">norm</span><span class="o">=</span><span class="n">norm</span><span class="p">,</span>
                                    <span class="n">sparsity</span><span class="o">=</span><span class="n">sparsity</span><span class="p">,</span>
@@ -605,7 +612,6 @@
                                    <span class="n">fmin</span><span class="o">=</span><span class="n">fmin</span><span class="p">,</span>
                                    <span class="n">n_bins</span><span class="o">=</span><span class="n">n_bins_full</span><span class="p">,</span>
                                    <span class="n">bins_per_octave</span><span class="o">=</span><span class="n">bins_per_octave</span><span class="p">,</span>
-                                   <span class="n">tuning</span><span class="o">=</span><span class="n">tuning</span><span class="p">,</span>
                                    <span class="n">filter_scale</span><span class="o">=</span><span class="n">filter_scale</span><span class="p">,</span>
                                    <span class="n">norm</span><span class="o">=</span><span class="n">norm</span><span class="p">,</span>
                                    <span class="n">sparsity</span><span class="o">=</span><span class="n">sparsity</span><span class="p">,</span>
@@ -650,10 +656,13 @@
 <span class="sd">    bins_per_octave : int &gt; 0 [scalar]</span>
 <span class="sd">        Number of bins per octave</span>
 
-<span class="sd">    tuning : None or float in `[-0.5, 0.5)`</span>
-<span class="sd">        Tuning offset in fractions of a bin (cents).</span>
+<span class="sd">    tuning : None or float</span>
+<span class="sd">        Tuning offset in fractions of a bin.</span>
 
 <span class="sd">        If `None`, tuning will be automatically estimated from the signal.</span>
+
+<span class="sd">        The minimum frequency of the resulting CQT will be modified to</span>
+<span class="sd">        `fmin * 2**(tuning / bins_per_octave)`.</span>
 
 <span class="sd">    filter_scale : float &gt; 0</span>
 <span class="sd">        Filter filter_scale factor. Larger values use longer windows.</span>
@@ -697,11 +706,14 @@
         <span class="n">fmin</span> <span class="o">=</span> <span class="n">note_to_hz</span><span class="p">(</span><span class="s1">&#39;C1&#39;</span><span class="p">)</span>
 
     <span class="k">if</span> <span class="n">tuning</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
-        <span class="n">tuning</span> <span class="o">=</span> <span class="n">estimate_tuning</span><span class="p">(</span><span class="n">y</span><span class="o">=</span><span class="n">y</span><span class="p">,</span> <span class="n">sr</span><span class="o">=</span><span class="n">sr</span><span class="p">)</span>
+        <span class="n">tuning</span> <span class="o">=</span> <span class="n">estimate_tuning</span><span class="p">(</span><span class="n">y</span><span class="o">=</span><span class="n">y</span><span class="p">,</span> <span class="n">sr</span><span class="o">=</span><span class="n">sr</span><span class="p">,</span> <span class="n">bins_per_octave</span><span class="o">=</span><span class="n">bins_per_octave</span><span class="p">)</span>
+
+    <span class="c1"># Apply tuning correction</span>
+    <span class="n">fmin</span> <span class="o">=</span> <span class="n">fmin</span> <span class="o">*</span> <span class="mf">2.0</span><span class="o">**</span><span class="p">(</span><span class="n">tuning</span> <span class="o">/</span> <span class="n">bins_per_octave</span><span class="p">)</span>
 
     <span class="n">fft_basis</span><span class="p">,</span> <span class="n">n_fft</span><span class="p">,</span> <span class="n">_</span> <span class="o">=</span> <span class="n">__cqt_filter_fft</span><span class="p">(</span><span class="n">sr</span><span class="p">,</span> <span class="n">fmin</span><span class="p">,</span> <span class="n">n_bins</span><span class="p">,</span>
                                            <span class="n">bins_per_octave</span><span class="p">,</span>
-                                           <span class="n">tuning</span><span class="p">,</span> <span class="n">filter_scale</span><span class="p">,</span>
+                                           <span class="n">filter_scale</span><span class="p">,</span>
                                            <span class="n">norm</span><span class="p">,</span> <span class="n">sparsity</span><span class="p">,</span>
                                            <span class="n">hop_length</span><span class="o">=</span><span class="n">hop_length</span><span class="p">,</span>
                                            <span class="n">window</span><span class="o">=</span><span class="n">window</span><span class="p">)</span>
@@ -720,7 +732,6 @@
         <span class="n">lengths</span> <span class="o">=</span> <span class="n">filters</span><span class="o">.</span><span class="n">constant_q_lengths</span><span class="p">(</span><span class="n">sr</span><span class="p">,</span> <span class="n">fmin</span><span class="p">,</span>
                                              <span class="n">n_bins</span><span class="o">=</span><span class="n">n_bins</span><span class="p">,</span>
                                              <span class="n">bins_per_octave</span><span class="o">=</span><span class="n">bins_per_octave</span><span class="p">,</span>
-                                             <span class="n">tuning</span><span class="o">=</span><span class="n">tuning</span><span class="p">,</span>
                                              <span class="n">window</span><span class="o">=</span><span class="n">window</span><span class="p">,</span>
                                              <span class="n">filter_scale</span><span class="o">=</span><span class="n">filter_scale</span><span class="p">)</span>
 
@@ -732,7 +743,8 @@
 <div class="viewcode-block" id="icqt"><a class="viewcode-back" href="../../../generated/librosa.core.icqt.html#librosa.core.icqt">[docs]</a><span class="nd">@cache</span><span class="p">(</span><span class="n">level</span><span class="o">=</span><span class="mi">40</span><span class="p">)</span>
 <span class="k">def</span> <span class="nf">icqt</span><span class="p">(</span><span class="n">C</span><span class="p">,</span> <span class="n">sr</span><span class="o">=</span><span class="mi">22050</span><span class="p">,</span> <span class="n">hop_length</span><span class="o">=</span><span class="mi">512</span><span class="p">,</span> <span class="n">fmin</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">bins_per_octave</span><span class="o">=</span><span class="mi">12</span><span class="p">,</span>
          <span class="n">tuning</span><span class="o">=</span><span class="mf">0.0</span><span class="p">,</span> <span class="n">filter_scale</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">norm</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">sparsity</span><span class="o">=</span><span class="mf">0.01</span><span class="p">,</span> <span class="n">window</span><span class="o">=</span><span class="s1">&#39;hann&#39;</span><span class="p">,</span>
-         <span class="n">scale</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">length</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">amin</span><span class="o">=</span><span class="n">util</span><span class="o">.</span><span class="n">Deprecated</span><span class="p">(),</span> <span class="n">res_type</span><span class="o">=</span><span class="s1">&#39;fft&#39;</span><span class="p">):</span>
+         <span class="n">scale</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">length</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">amin</span><span class="o">=</span><span class="n">util</span><span class="o">.</span><span class="n">Deprecated</span><span class="p">(),</span> <span class="n">res_type</span><span class="o">=</span><span class="s1">&#39;fft&#39;</span><span class="p">,</span>
+         <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">float32</span><span class="p">):</span>
     <span class="sd">&#39;&#39;&#39;Compute the inverse constant-Q transform.</span>
 
 <span class="sd">    Given a constant-Q transform representation `C` of an audio signal `y`,</span>
@@ -750,8 +762,11 @@
 <span class="sd">    fmin : float &gt; 0 [scalar]</span>
 <span class="sd">        Minimum frequency. Defaults to C1 ~= 32.70 Hz</span>
 
-<span class="sd">    tuning : float in `[-0.5, 0.5)` [scalar]</span>
-<span class="sd">        Tuning offset in fractions of a bin (cents).</span>
+<span class="sd">    tuning : float [scalar]</span>
+<span class="sd">        Tuning offset in fractions of a bin.</span>
+
+<span class="sd">        The minimum frequency of the CQT will be modified to</span>
+<span class="sd">        `fmin * 2**(tuning / bins_per_octave)`.</span>
 
 <span class="sd">    filter_scale : float &gt; 0 [scalar]</span>
 <span class="sd">        Filter scale factor. Small values (&lt;1) use shorter windows</span>
@@ -791,6 +806,9 @@
 <span class="sd">        reconstruction, but this may be slow depending on your signal duration.</span>
 <span class="sd">        See `librosa.resample` for supported modes.</span>
 
+<span class="sd">    dtype : numeric type</span>
+<span class="sd">        Real numeric type for `y`.  Default is 32-bit float.</span>
+
 <span class="sd">    Returns</span>
 <span class="sd">    -------</span>
 <span class="sd">    y : np.ndarray, [shape=(n_samples), dtype=np.float]</span>
@@ -826,19 +844,20 @@
     <span class="k">if</span> <span class="n">fmin</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
         <span class="n">fmin</span> <span class="o">=</span> <span class="n">note_to_hz</span><span class="p">(</span><span class="s1">&#39;C1&#39;</span><span class="p">)</span>
 
+    <span class="c1"># Apply tuning correction</span>
+    <span class="n">fmin</span> <span class="o">=</span> <span class="n">fmin</span> <span class="o">*</span> <span class="mf">2.0</span><span class="o">**</span><span class="p">(</span><span class="n">tuning</span> <span class="o">/</span> <span class="n">bins_per_octave</span><span class="p">)</span>
+
     <span class="c1"># Get the top octave of frequencies</span>
     <span class="n">n_bins</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">C</span><span class="p">)</span>
 
     <span class="n">freqs</span> <span class="o">=</span> <span class="n">cqt_frequencies</span><span class="p">(</span><span class="n">n_bins</span><span class="p">,</span> <span class="n">fmin</span><span class="p">,</span>
-                            <span class="n">bins_per_octave</span><span class="o">=</span><span class="n">bins_per_octave</span><span class="p">,</span>
-                            <span class="n">tuning</span><span class="o">=</span><span class="n">tuning</span><span class="p">)[</span><span class="o">-</span><span class="n">bins_per_octave</span><span class="p">:]</span>
+                            <span class="n">bins_per_octave</span><span class="o">=</span><span class="n">bins_per_octave</span><span class="p">)[</span><span class="o">-</span><span class="n">bins_per_octave</span><span class="p">:]</span>
 
     <span class="n">n_filters</span> <span class="o">=</span> <span class="nb">min</span><span class="p">(</span><span class="n">n_bins</span><span class="p">,</span> <span class="n">bins_per_octave</span><span class="p">)</span>
 
     <span class="n">fft_basis</span><span class="p">,</span> <span class="n">n_fft</span><span class="p">,</span> <span class="n">lengths</span> <span class="o">=</span> <span class="n">__cqt_filter_fft</span><span class="p">(</span><span class="n">sr</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">min</span><span class="p">(</span><span class="n">freqs</span><span class="p">),</span>
                                                  <span class="n">n_filters</span><span class="p">,</span>
                                                  <span class="n">bins_per_octave</span><span class="p">,</span>
-                                                 <span class="n">tuning</span><span class="p">,</span>
                                                  <span class="n">filter_scale</span><span class="p">,</span>
                                                  <span class="n">norm</span><span class="p">,</span>
                                                  <span class="n">sparsity</span><span class="o">=</span><span class="n">sparsity</span><span class="p">,</span>
@@ -885,7 +904,7 @@
         <span class="n">D_oct</span> <span class="o">=</span> <span class="n">inv_oct</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">C_oct</span> <span class="o">/</span> <span class="n">C_scale</span><span class="p">)</span>
 
         <span class="c1"># Inverse-STFT that response</span>
-        <span class="n">y_oct</span> <span class="o">=</span> <span class="n">istft</span><span class="p">(</span><span class="n">D_oct</span><span class="p">,</span> <span class="n">window</span><span class="o">=</span><span class="s1">&#39;ones&#39;</span><span class="p">,</span> <span class="n">hop_length</span><span class="o">=</span><span class="n">oct_hop</span><span class="p">)</span>
+        <span class="n">y_oct</span> <span class="o">=</span> <span class="n">istft</span><span class="p">(</span><span class="n">D_oct</span><span class="p">,</span> <span class="n">window</span><span class="o">=</span><span class="s1">&#39;ones&#39;</span><span class="p">,</span> <span class="n">hop_length</span><span class="o">=</span><span class="n">oct_hop</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">dtype</span><span class="p">)</span>
 
         <span class="c1"># Up-sample that octave</span>
         <span class="k">if</span> <span class="n">y</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
@@ -904,7 +923,7 @@
 
 
 <span class="nd">@cache</span><span class="p">(</span><span class="n">level</span><span class="o">=</span><span class="mi">10</span><span class="p">)</span>
-<span class="k">def</span> <span class="nf">__cqt_filter_fft</span><span class="p">(</span><span class="n">sr</span><span class="p">,</span> <span class="n">fmin</span><span class="p">,</span> <span class="n">n_bins</span><span class="p">,</span> <span class="n">bins_per_octave</span><span class="p">,</span> <span class="n">tuning</span><span class="p">,</span>
+<span class="k">def</span> <span class="nf">__cqt_filter_fft</span><span class="p">(</span><span class="n">sr</span><span class="p">,</span> <span class="n">fmin</span><span class="p">,</span> <span class="n">n_bins</span><span class="p">,</span> <span class="n">bins_per_octave</span><span class="p">,</span>
                      <span class="n">filter_scale</span><span class="p">,</span> <span class="n">norm</span><span class="p">,</span> <span class="n">sparsity</span><span class="p">,</span> <span class="n">hop_length</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
                      <span class="n">window</span><span class="o">=</span><span class="s1">&#39;hann&#39;</span><span class="p">):</span>
     <span class="sd">&#39;&#39;&#39;Generate the frequency domain constant-Q filter basis.&#39;&#39;&#39;</span>
@@ -913,7 +932,6 @@
                                         <span class="n">fmin</span><span class="o">=</span><span class="n">fmin</span><span class="p">,</span>
                                         <span class="n">n_bins</span><span class="o">=</span><span class="n">n_bins</span><span class="p">,</span>
                                         <span class="n">bins_per_octave</span><span class="o">=</span><span class="n">bins_per_octave</span><span class="p">,</span>
-                                        <span class="n">tuning</span><span class="o">=</span><span class="n">tuning</span><span class="p">,</span>
                                         <span class="n">filter_scale</span><span class="o">=</span><span class="n">filter_scale</span><span class="p">,</span>
                                         <span class="n">norm</span><span class="o">=</span><span class="n">norm</span><span class="p">,</span>
                                         <span class="n">pad_fft</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
@@ -950,7 +968,7 @@
 
     <span class="c1"># Finally, clip out any bottom frequencies that we don&#39;t really want</span>
     <span class="c1"># Transpose magic here to ensure column-contiguity</span>
-    <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">ascontiguousarray</span><span class="p">(</span><span class="n">cqt_resp</span><span class="p">[</span><span class="o">-</span><span class="n">n_bins</span><span class="p">:]</span><span class="o">.</span><span class="n">T</span><span class="p">)</span><span class="o">.</span><span class="n">T</span>
+    <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">asfortranarray</span><span class="p">(</span><span class="n">cqt_resp</span><span class="p">[</span><span class="o">-</span><span class="n">n_bins</span><span class="p">:])</span>
 
 
 <span class="k">def</span> <span class="nf">__cqt_response</span><span class="p">(</span><span class="n">y</span><span class="p">,</span> <span class="n">n_fft</span><span class="p">,</span> <span class="n">hop_length</span><span class="p">,</span> <span class="n">fft_basis</span><span class="p">,</span> <span class="n">mode</span><span class="p">):</span>
@@ -1022,6 +1040,231 @@
         <span class="n">x</span> <span class="o">//=</span> <span class="mi">2</span>
 
     <span class="k">return</span> <span class="n">num_twos</span>
+
+
+<div class="viewcode-block" id="griffinlim_cqt"><a class="viewcode-back" href="../../../generated/librosa.core.griffinlim_cqt.html#librosa.core.griffinlim_cqt">[docs]</a><span class="k">def</span> <span class="nf">griffinlim_cqt</span><span class="p">(</span><span class="n">C</span><span class="p">,</span> <span class="n">n_iter</span><span class="o">=</span><span class="mi">32</span><span class="p">,</span> <span class="n">sr</span><span class="o">=</span><span class="mi">22050</span><span class="p">,</span> <span class="n">hop_length</span><span class="o">=</span><span class="mi">512</span><span class="p">,</span> <span class="n">fmin</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">bins_per_octave</span><span class="o">=</span><span class="mi">12</span><span class="p">,</span> <span class="n">tuning</span><span class="o">=</span><span class="mf">0.0</span><span class="p">,</span>
+                   <span class="n">filter_scale</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">norm</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">sparsity</span><span class="o">=</span><span class="mf">0.01</span><span class="p">,</span> <span class="n">window</span><span class="o">=</span><span class="s1">&#39;hann&#39;</span><span class="p">,</span> <span class="n">scale</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+                   <span class="n">pad_mode</span><span class="o">=</span><span class="s1">&#39;reflect&#39;</span><span class="p">,</span> <span class="n">res_type</span><span class="o">=</span><span class="s1">&#39;kaiser_fast&#39;</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">float32</span><span class="p">,</span>
+                   <span class="n">length</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">momentum</span><span class="o">=</span><span class="mf">0.99</span><span class="p">,</span> <span class="n">init</span><span class="o">=</span><span class="s1">&#39;random&#39;</span><span class="p">,</span> <span class="n">random_state</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+    <span class="sd">&#39;&#39;&#39;Approximate constant-Q magnitude spectrogram inversion using the &quot;fast&quot; Griffin-Lim</span>
+<span class="sd">    algorithm [1]_ [2]_.</span>
+
+<span class="sd">    Given the magnitude of a constant-Q spectrogram (`C`), the algorithm randomly initializes</span>
+<span class="sd">    phase estimates, and then alternates forward- and inverse-CQT operations.</span>
+
+<span class="sd">    This implementation is based on the Griffin-Lim method for Short-time Fourier Transforms,</span>
+<span class="sd">    but adapted for use with constant-Q spectrograms.</span>
+
+<span class="sd">    .. [1] Perraudin, N., Balazs, P., &amp; Søndergaard, P. L.</span>
+<span class="sd">        &quot;A fast Griffin-Lim algorithm,&quot;</span>
+<span class="sd">        IEEE Workshop on Applications of Signal Processing to Audio and Acoustics (pp. 1-4),</span>
+<span class="sd">        Oct. 2013.</span>
+
+<span class="sd">    .. [2] D. W. Griffin and J. S. Lim,</span>
+<span class="sd">        &quot;Signal estimation from modified short-time Fourier transform,&quot;</span>
+<span class="sd">        IEEE Trans. ASSP, vol.32, no.2, pp.236–243, Apr. 1984.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    C : np.ndarray [shape=(n_bins, n_frames)]</span>
+<span class="sd">        The constant-Q magnitude spectrogram</span>
+
+<span class="sd">    n_iter : int &gt; 0</span>
+<span class="sd">        The number of iterations to run</span>
+
+<span class="sd">    sr : number &gt; 0</span>
+<span class="sd">        Audio sampling rate</span>
+
+<span class="sd">    hop_length : int &gt; 0</span>
+<span class="sd">        The hop length of the CQT</span>
+
+<span class="sd">    fmin : number &gt; 0 </span>
+<span class="sd">        Minimum frequency for the CQT.</span>
+
+<span class="sd">        If not provided, it defaults to C1.</span>
+
+<span class="sd">    bins_per_octave : int &gt; 0</span>
+<span class="sd">        Number of bins per octave</span>
+
+<span class="sd">    tuning : float</span>
+<span class="sd">        Tuning deviation from A440, in fractions of a bin</span>
+
+<span class="sd">    filter_scale : float &gt; 0</span>
+<span class="sd">        Filter scale factor. Small values (&lt;1) use shorter windows</span>
+<span class="sd">        for improved time resolution.</span>
+
+<span class="sd">    norm : {inf, -inf, 0, float &gt; 0}</span>
+<span class="sd">        Type of norm to use for basis function normalization.</span>
+<span class="sd">        See `librosa.util.normalize`.</span>
+
+<span class="sd">    sparsity : float in [0, 1)</span>
+<span class="sd">        Sparsify the CQT basis by discarding up to `sparsity`</span>
+<span class="sd">        fraction of the energy in each basis.</span>
+
+<span class="sd">        Set `sparsity=0` to disable sparsification.</span>
+
+<span class="sd">    window : str, tuple, or function</span>
+<span class="sd">        Window specification for the basis filters.</span>
+<span class="sd">        See `filters.get_window` for details.</span>
+
+<span class="sd">    scale : bool</span>
+<span class="sd">        If `True`, scale the CQT response by square-root the length</span>
+<span class="sd">        of each channel&#39;s filter.  This is analogous to `norm=&#39;ortho&#39;`</span>
+<span class="sd">        in FFT.</span>
+
+<span class="sd">        If `False`, do not scale the CQT. This is analogous to `norm=None`</span>
+<span class="sd">        in FFT.</span>
+
+<span class="sd">    pad_mode : string</span>
+<span class="sd">        Padding mode for centered frame analysis.</span>
+
+<span class="sd">        See also: `librosa.core.stft` and `np.pad`</span>
+
+<span class="sd">    res_type : string</span>
+<span class="sd">        The resampling mode for recursive downsampling.</span>
+
+<span class="sd">        By default, CQT uses an adaptive mode selection to</span>
+<span class="sd">        trade accuracy at high frequencies for efficiency at low</span>
+<span class="sd">        frequencies.</span>
+
+<span class="sd">        Griffin-Lim uses the efficient (fast) resampling mode by default.</span>
+
+<span class="sd">        See `librosa.core.resample` for a list of available options.</span>
+
+<span class="sd">    dtype : numeric type</span>
+<span class="sd">        Real numeric type for `y`.  Default is 32-bit float.</span>
+
+<span class="sd">    length : int &gt; 0, optional</span>
+<span class="sd">        If provided, the output `y` is zero-padded or clipped to exactly</span>
+<span class="sd">        `length` samples.</span>
+
+<span class="sd">    momentum : float &gt; 0</span>
+<span class="sd">        The momentum parameter for fast Griffin-Lim.</span>
+<span class="sd">        Setting this to 0 recovers the original Griffin-Lim method [1]_.</span>
+<span class="sd">        Values near 1 can lead to faster convergence, but above 1 may not converge.</span>
+
+<span class="sd">    init : None or &#39;random&#39; [default]</span>
+<span class="sd">        If &#39;random&#39; (the default), then phase values are initialized randomly</span>
+<span class="sd">        according to `random_state`.  This is recommended when the input `C` is</span>
+<span class="sd">        a magnitude spectrogram with no initial phase estimates.</span>
+
+<span class="sd">        If `None`, then the phase is initialized from `C`.  This is useful when</span>
+<span class="sd">        an initial guess for phase can be provided, or when you want to resume</span>
+<span class="sd">        Griffin-Lim from a previous output.</span>
+
+<span class="sd">    random_state : None, int, or np.random.RandomState</span>
+<span class="sd">        If int, random_state is the seed used by the random number generator</span>
+<span class="sd">        for phase initialization.</span>
+
+<span class="sd">        If `np.random.RandomState` instance, the random number generator itself.</span>
+
+<span class="sd">        If `None`, defaults to the current `np.random` object.</span>
+
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    y : np.ndarray [shape=(n,)]</span>
+<span class="sd">        time-domain signal reconstructed from `C`</span>
+
+
+<span class="sd">    See Also</span>
+<span class="sd">    --------</span>
+<span class="sd">    cqt</span>
+<span class="sd">    icqt</span>
+<span class="sd">    griffinlim</span>
+<span class="sd">    filters.get_window</span>
+<span class="sd">    resample</span>
+
+<span class="sd">    Examples</span>
+<span class="sd">    --------</span>
+<span class="sd">    A basis CQT inverse example</span>
+
+<span class="sd">    &gt;&gt;&gt; y, sr = librosa.load(librosa.util.example_audio_file(), duration=5, offset=30, sr=None)</span>
+<span class="sd">    &gt;&gt;&gt; # Get the CQT magnitude, 7 octaves at 36 bins per octave</span>
+<span class="sd">    &gt;&gt;&gt; C = np.abs(librosa.cqt(y=y, sr=sr, bins_per_octave=36, n_bins=7*36))</span>
+<span class="sd">    &gt;&gt;&gt; # Invert using Griffin-Lim</span>
+<span class="sd">    &gt;&gt;&gt; y_inv = librosa.griffinlim_cqt(C, sr=sr, bins_per_octave=36)</span>
+<span class="sd">    &gt;&gt;&gt; # And invert without estimating phase</span>
+<span class="sd">    &gt;&gt;&gt; y_icqt = librosa.icqt(C, sr=sr, bins_per_octave=36)</span>
+
+<span class="sd">    Wave-plot the results</span>
+
+<span class="sd">    &gt;&gt;&gt; import matplotlib.pyplot as plt</span>
+<span class="sd">    &gt;&gt;&gt; plt.figure()</span>
+<span class="sd">    &gt;&gt;&gt; ax = plt.subplot(3,1,1)</span>
+<span class="sd">    &gt;&gt;&gt; librosa.display.waveplot(y, sr=sr, color=&#39;b&#39;)</span>
+<span class="sd">    &gt;&gt;&gt; plt.title(&#39;Original&#39;)</span>
+<span class="sd">    &gt;&gt;&gt; plt.xlabel(&#39;&#39;)</span>
+<span class="sd">    &gt;&gt;&gt; plt.subplot(3,1,2, sharex=ax, sharey=ax)</span>
+<span class="sd">    &gt;&gt;&gt; librosa.display.waveplot(y_inv, sr=sr, color=&#39;g&#39;)</span>
+<span class="sd">    &gt;&gt;&gt; plt.title(&#39;Griffin-Lim reconstruction&#39;)</span>
+<span class="sd">    &gt;&gt;&gt; plt.xlabel(&#39;&#39;)</span>
+<span class="sd">    &gt;&gt;&gt; plt.subplot(3,1,3, sharex=ax, sharey=ax)</span>
+<span class="sd">    &gt;&gt;&gt; librosa.display.waveplot(y_icqt, sr=sr, color=&#39;r&#39;)</span>
+<span class="sd">    &gt;&gt;&gt; plt.title(&#39;Magnitude-only icqt reconstruction&#39;)</span>
+<span class="sd">    &gt;&gt;&gt; plt.tight_layout()</span>
+<span class="sd">    &gt;&gt;&gt; plt.show()</span>
+<span class="sd">    &#39;&#39;&#39;</span>
+    <span class="k">if</span> <span class="n">fmin</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">fmin</span> <span class="o">=</span> <span class="n">note_to_hz</span><span class="p">(</span><span class="s1">&#39;C1&#39;</span><span class="p">)</span>
+
+    <span class="k">if</span> <span class="n">random_state</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">rng</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span>
+    <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">random_state</span><span class="p">,</span> <span class="nb">int</span><span class="p">):</span>
+        <span class="n">rng</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">RandomState</span><span class="p">(</span><span class="n">seed</span><span class="o">=</span><span class="n">random_state</span><span class="p">)</span>
+    <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">random_state</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">RandomState</span><span class="p">):</span>
+        <span class="n">rng</span> <span class="o">=</span> <span class="n">random_state</span>
+
+    <span class="k">if</span> <span class="n">momentum</span> <span class="o">&gt;</span> <span class="mi">1</span><span class="p">:</span>
+        <span class="n">warnings</span><span class="o">.</span><span class="n">warn</span><span class="p">(</span><span class="s1">&#39;Griffin-Lim with momentum=</span><span class="si">{}</span><span class="s1"> &gt; 1 can be unstable. &#39;</span>
+                      <span class="s1">&#39;Proceed with caution!&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">momentum</span><span class="p">))</span>
+    <span class="k">elif</span> <span class="n">momentum</span> <span class="o">&lt;</span> <span class="mi">0</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="n">ParameterError</span><span class="p">(</span><span class="s1">&#39;griffinlim_cqt() called with momentum=</span><span class="si">{}</span><span class="s1"> &lt; 0&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">momentum</span><span class="p">))</span>
+
+    <span class="c1"># using complex64 will keep the result to minimal necessary precision</span>
+    <span class="n">angles</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">empty</span><span class="p">(</span><span class="n">C</span><span class="o">.</span><span class="n">shape</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">complex64</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">init</span> <span class="o">==</span> <span class="s1">&#39;random&#39;</span><span class="p">:</span>
+        <span class="c1"># randomly initialize the phase</span>
+        <span class="n">angles</span><span class="p">[:]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">exp</span><span class="p">(</span><span class="mi">2</span><span class="n">j</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">pi</span> <span class="o">*</span> <span class="n">rng</span><span class="o">.</span><span class="n">rand</span><span class="p">(</span><span class="o">*</span><span class="n">C</span><span class="o">.</span><span class="n">shape</span><span class="p">))</span>
+    <span class="k">elif</span> <span class="n">init</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="c1"># Initialize an all ones complex matrix</span>
+        <span class="n">angles</span><span class="p">[:]</span> <span class="o">=</span> <span class="mf">1.0</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="n">ParameterError</span><span class="p">(</span><span class="s2">&quot;init=</span><span class="si">{}</span><span class="s2"> must either None or &#39;random&#39;&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">init</span><span class="p">))</span>
+
+    <span class="c1"># And initialize the previous iterate to 0</span>
+    <span class="n">rebuilt</span> <span class="o">=</span> <span class="mf">0.</span>
+
+    <span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">n_iter</span><span class="p">):</span>
+        <span class="c1"># Store the previous iterate</span>
+        <span class="n">tprev</span> <span class="o">=</span> <span class="n">rebuilt</span>
+
+        <span class="c1"># Invert with our current estimate of the phases</span>
+        <span class="n">inverse</span> <span class="o">=</span> <span class="n">icqt</span><span class="p">(</span><span class="n">C</span> <span class="o">*</span> <span class="n">angles</span><span class="p">,</span> <span class="n">sr</span><span class="o">=</span><span class="n">sr</span><span class="p">,</span> <span class="n">hop_length</span><span class="o">=</span><span class="n">hop_length</span><span class="p">,</span>
+                       <span class="n">bins_per_octave</span><span class="o">=</span><span class="n">bins_per_octave</span><span class="p">,</span> <span class="n">fmin</span><span class="o">=</span><span class="n">fmin</span><span class="p">,</span>
+                       <span class="n">tuning</span><span class="o">=</span><span class="n">tuning</span><span class="p">,</span><span class="n">filter_scale</span><span class="o">=</span><span class="n">filter_scale</span><span class="p">,</span> <span class="n">window</span><span class="o">=</span><span class="n">window</span><span class="p">,</span> <span class="n">length</span><span class="o">=</span><span class="n">length</span><span class="p">,</span>
+                       <span class="n">res_type</span><span class="o">=</span><span class="n">res_type</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">dtype</span><span class="p">)</span>
+
+        <span class="c1"># Rebuild the spectrogram</span>
+        <span class="n">rebuilt</span> <span class="o">=</span> <span class="n">cqt</span><span class="p">(</span><span class="n">inverse</span><span class="p">,</span> <span class="n">sr</span><span class="o">=</span><span class="n">sr</span><span class="p">,</span> <span class="n">bins_per_octave</span><span class="o">=</span><span class="n">bins_per_octave</span><span class="p">,</span> <span class="n">n_bins</span><span class="o">=</span><span class="n">C</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span>
+                      <span class="n">hop_length</span><span class="o">=</span><span class="n">hop_length</span><span class="p">,</span> <span class="n">fmin</span><span class="o">=</span><span class="n">fmin</span><span class="p">,</span> <span class="n">tuning</span><span class="o">=</span><span class="n">tuning</span><span class="p">,</span> <span class="n">filter_scale</span><span class="o">=</span><span class="n">filter_scale</span><span class="p">,</span>
+                      <span class="n">window</span><span class="o">=</span><span class="n">window</span><span class="p">,</span> <span class="n">res_type</span><span class="o">=</span><span class="n">res_type</span><span class="p">)</span>
+
+        <span class="c1"># Update our phase estimates</span>
+        <span class="n">angles</span><span class="p">[:]</span> <span class="o">=</span> <span class="n">rebuilt</span> <span class="o">-</span> <span class="p">(</span><span class="n">momentum</span> <span class="o">/</span> <span class="p">(</span><span class="mi">1</span> <span class="o">+</span> <span class="n">momentum</span><span class="p">))</span> <span class="o">*</span> <span class="n">tprev</span>
+        <span class="n">angles</span><span class="p">[:]</span> <span class="o">/=</span> <span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">angles</span><span class="p">)</span> <span class="o">+</span> <span class="mf">1e-16</span>
+
+    <span class="c1"># Return the final phase estimates</span>
+    <span class="k">return</span> <span class="n">icqt</span><span class="p">(</span><span class="n">C</span> <span class="o">*</span> <span class="n">angles</span><span class="p">,</span>
+                <span class="n">sr</span><span class="o">=</span><span class="n">sr</span><span class="p">,</span> <span class="n">hop_length</span><span class="o">=</span><span class="n">hop_length</span><span class="p">,</span>
+                <span class="n">bins_per_octave</span><span class="o">=</span><span class="n">bins_per_octave</span><span class="p">,</span>
+                <span class="n">tuning</span><span class="o">=</span><span class="n">tuning</span><span class="p">,</span>
+                <span class="n">filter_scale</span><span class="o">=</span><span class="n">filter_scale</span><span class="p">,</span>
+                <span class="n">fmin</span><span class="o">=</span><span class="n">fmin</span><span class="p">,</span>
+                <span class="n">window</span><span class="o">=</span><span class="n">window</span><span class="p">,</span>
+                <span class="n">length</span><span class="o">=</span><span class="n">length</span><span class="p">,</span>
+                <span class="n">res_type</span><span class="o">=</span><span class="n">res_type</span><span class="p">,</span>
+                <span class="n">dtype</span><span class="o">=</span><span class="n">dtype</span><span class="p">)</span></div>
 </pre></div>
 
            </div>
@@ -1068,6 +1311,7 @@
             <dd><a href="../../../../0.6.2/index.html">0.6.2</a></dd>
             <dd><a href="../../../../0.6.3/index.html">0.6.3</a></dd>
             <dd><a href="../../../../0.7.0/index.html">0.7.0</a></dd>
+            <dd><a href="../../../../0.7.1/index.html">0.7.1</a></dd>
             <dd><a href="../../../../v0.1.0/index.html">v0.1.0</a></dd>
             <dd><a href="../../../../v0.4.0/index.html">v0.4.0</a></dd>
         </dl>

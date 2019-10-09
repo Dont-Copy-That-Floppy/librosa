@@ -10,7 +10,7 @@ librosa.frames_to_time(onset_frames, sr=sr)
 # Or use a pre-computed onset envelope
 
 o_env = librosa.onset.onset_strength(y, sr=sr)
-times = librosa.frames_to_time(np.arange(len(o_env)), sr=sr)
+times = librosa.times_like(o_env, sr=sr)
 onset_frames = librosa.onset.onset_detect(onset_envelope=o_env, sr=sr)
 
 import matplotlib.pyplot as plt

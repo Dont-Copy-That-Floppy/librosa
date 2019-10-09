@@ -39,8 +39,7 @@ beats[:20]
 import matplotlib.pyplot as plt
 hop_length = 512
 plt.figure(figsize=(8, 4))
-times = librosa.frames_to_time(np.arange(len(onset_env)),
-                               sr=sr, hop_length=hop_length)
+times = librosa.times_like(onset_env, sr=sr, hop_length=hop_length)
 plt.plot(times, librosa.util.normalize(onset_env),
          label='Onset strength')
 plt.vlines(times[beats], 0, 1, alpha=0.5, color='r',

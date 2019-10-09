@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>librosa.util.frame &mdash; librosa 0.7.0 documentation</title>
+  <title>librosa.util.frame &mdash; librosa 0.7.1 documentation</title>
   
 
   
@@ -23,7 +23,7 @@
       <script type="text/javascript">
           var DOCUMENTATION_OPTIONS = {
               URL_ROOT:'../',
-              VERSION:'0.7.0',
+              VERSION:'0.7.1',
               LANGUAGE:'None',
               COLLAPSE_INDEX:false,
               FILE_SUFFIX:'.html',
@@ -119,10 +119,11 @@
 <li class="toctree-l3"><a class="reference internal" href="librosa.util.fix_frames.html">librosa.util.fix_frames</a></li>
 <li class="toctree-l3"><a class="reference internal" href="librosa.util.index_to_slice.html">librosa.util.index_to_slice</a></li>
 <li class="toctree-l3"><a class="reference internal" href="librosa.util.softmask.html">librosa.util.softmask</a></li>
+<li class="toctree-l3"><a class="reference internal" href="librosa.util.stack.html">librosa.util.stack</a></li>
 <li class="toctree-l3"><a class="reference internal" href="librosa.util.sync.html">librosa.util.sync</a></li>
 <li class="toctree-l3"><a class="reference internal" href="librosa.util.axis_sort.html">librosa.util.axis_sort</a></li>
 <li class="toctree-l3"><a class="reference internal" href="librosa.util.normalize.html">librosa.util.normalize</a></li>
-<li class="toctree-l3"><a class="reference internal" href="librosa.util.roll_sparse.html">librosa.util.roll_sparse</a></li>
+<li class="toctree-l3"><a class="reference internal" href="librosa.util.shear.html">librosa.util.shear</a></li>
 <li class="toctree-l3"><a class="reference internal" href="librosa.util.sparsify_rows.html">librosa.util.sparsify_rows</a></li>
 <li class="toctree-l3"><a class="reference internal" href="librosa.util.buf_to_float.html">librosa.util.buf_to_float</a></li>
 <li class="toctree-l3"><a class="reference internal" href="librosa.util.tiny.html">librosa.util.tiny</a></li>
@@ -132,6 +133,7 @@
 <li class="toctree-l2"><a class="reference internal" href="../util.html#miscellaneous">Miscellaneous</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../util.html#input-validation">Input validation</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../util.html#file-operations">File operations</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../util.html#deprecated">Deprecated</a></li>
 </ul>
 </li>
 </ul>
@@ -218,62 +220,146 @@
 
 
 
-    <p class="scv-banner scv-sphinx_rtd_theme"><a href="../../0.7.0/generated/librosa.util.frame.html"><b>Warning:</b> This document is for the development version of librosa. The latest version is 0.7.0.</a></p>
+    <p class="scv-banner scv-sphinx_rtd_theme"><a href="../../0.7.1/generated/librosa.util.frame.html"><b>Warning:</b> This document is for the development version of librosa. The latest version is 0.7.1.</a></p>
 <div class="section" id="librosa-util-frame">
 <h1>librosa.util.frame<a class="headerlink" href="#librosa-util-frame" title="Permalink to this headline">¶</a></h1>
 <dl class="function">
 <dt id="librosa.util.frame">
-<code class="descclassname">librosa.util.</code><code class="descname">frame</code><span class="sig-paren">(</span><em>y</em>, <em>frame_length=2048</em>, <em>hop_length=512</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/librosa/util/utils.html#frame"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#librosa.util.frame" title="Permalink to this definition">¶</a></dt>
-<dd><p>Slice a time series into overlapping frames.</p>
+<code class="descclassname">librosa.util.</code><code class="descname">frame</code><span class="sig-paren">(</span><em>x</em>, <em>frame_length=2048</em>, <em>hop_length=512</em>, <em>axis=-1</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/librosa/util/utils.html#frame"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#librosa.util.frame" title="Permalink to this definition">¶</a></dt>
+<dd><p>Slice a data array into (overlapping) frames.</p>
 <p>This implementation uses low-level stride manipulation to avoid
-redundant copies of the time series data.</p>
+making a copy of the data.  The resulting frame representation
+is a new view of the input data.</p>
+<p>For example, a one-dimensional input <em class="xref py py-obj">x = [0, 1, 2, 3, 4, 5, 6]</em>
+can be framed with frame length 3 and hop length 2 in two ways.
+The first (<em class="xref py py-obj">axis=-1</em>), results in the array <em class="xref py py-obj">x_frames</em>:</p>
+<dl class="docutils">
+<dt>[[0, 2, 4],</dt>
+<dd>[1, 3, 5],
+[2, 4, 6]]</dd>
+</dl>
+<p>where each column <em class="xref py py-obj">x_frames[:, i]</em> contains a contiguous slice of
+the input <em class="xref py py-obj">x[i * hop_length : i * hop_length + frame_length]</em>.</p>
+<p>The second way (<em class="xref py py-obj">axis=0</em>) results in the array <em class="xref py py-obj">x_frames</em>:</p>
+<dl class="docutils">
+<dt>[[0, 1, 2],</dt>
+<dd>[2, 3, 4],
+[4, 5, 6]]</dd>
+</dl>
+<p>where each row <em class="xref py py-obj">x_frames[i]</em> contains a contiguous slice of the input.</p>
+<p>This generalizes to higher dimensional inputs, as shown in the examples below.
+In general, the framing operation increments by 1 the number of dimensions,
+adding a new “frame axis” either to the end of the array (<em class="xref py py-obj">axis=-1</em>)
+or the beginning of the array (<em class="xref py py-obj">axis=0</em>).</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><dl class="first docutils">
-<dt><strong>y</strong> <span class="classifier-delimiter">:</span> <span class="classifier">np.ndarray [shape=(n,)]</span></dt>
-<dd><p class="first last">Time series to frame. Must be one-dimensional and contiguous
-in memory.</p>
+<dt><strong>x</strong> <span class="classifier-delimiter">:</span> <span class="classifier">np.ndarray</span></dt>
+<dd><p class="first last">Time series to frame. Must be contiguous in memory, see the “Raises”
+section below for more information.</p>
 </dd>
 <dt><strong>frame_length</strong> <span class="classifier-delimiter">:</span> <span class="classifier">int &gt; 0 [scalar]</span></dt>
-<dd><p class="first last">Length of the frame in samples</p>
+<dd><p class="first last">Length of the frame</p>
 </dd>
 <dt><strong>hop_length</strong> <span class="classifier-delimiter">:</span> <span class="classifier">int &gt; 0 [scalar]</span></dt>
-<dd><p class="first last">Number of samples to hop between frames</p>
+<dd><p class="first last">Number of steps to advance between frames</p>
+</dd>
+<dt><strong>axis</strong> <span class="classifier-delimiter">:</span> <span class="classifier">0 or -1</span></dt>
+<dd><p class="first">The axis along which to frame.</p>
+<p>If <em class="xref py py-obj">axis=-1</em> (the default), then <em class="xref py py-obj">x</em> is framed along its last dimension.
+<em class="xref py py-obj">x</em> must be “F-contiguous” in this case.</p>
+<p class="last">If <em class="xref py py-obj">axis=0</em>, then <em class="xref py py-obj">x</em> is framed along its first dimension.
+<em class="xref py py-obj">x</em> must be “C-contiguous” in this case.</p>
 </dd>
 </dl>
 </td>
 </tr>
 <tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><dl class="first docutils">
-<dt><strong>y_frames</strong> <span class="classifier-delimiter">:</span> <span class="classifier">np.ndarray [shape=(frame_length, N_FRAMES)]</span></dt>
-<dd><p class="first last">An array of frames sampled from <em class="xref py py-obj">y</em>:
-<em class="xref py py-obj">y_frames[i, j] == y[j * hop_length + i]</em></p>
+<dt><strong>x_frames</strong> <span class="classifier-delimiter">:</span> <span class="classifier">np.ndarray [shape=(…, frame_length, N_FRAMES) or (N_FRAMES, frame_length, …)]</span></dt>
+<dd><p class="first">A framed view of <em class="xref py py-obj">x</em>, for example with <em class="xref py py-obj">axis=-1</em> (framing on the last dimension):
+<em class="xref py py-obj">x_frames[…, j] == x[…, j * hop_length : j * hop_length + frame_length]</em></p>
+<p class="last">If <em class="xref py py-obj">axis=0</em> (framing on the first dimension), then:
+<em class="xref py py-obj">x_frames[j] = x[j * hop_length : j * hop_length + frame_length]</em></p>
 </dd>
 </dl>
 </td>
 </tr>
 <tr class="field-odd field"><th class="field-name">Raises:</th><td class="field-body"><dl class="first last docutils">
 <dt>ParameterError</dt>
-<dd><p class="first">If <em class="xref py py-obj">y</em> is not contiguous in memory, not an <em class="xref py py-obj">np.ndarray</em>, or
-not one-dimensional.  See <em class="xref py py-obj">np.ascontiguous()</em> for details.</p>
+<dd><p class="first">If <em class="xref py py-obj">x</em> is not contiguous in memory or not an <em class="xref py py-obj">np.ndarray</em>.</p>
+<p>If <em class="xref py py-obj">x.shape[axis] &lt; frame_length</em>, there is not enough data to fill one frame.</p>
 <p>If <em class="xref py py-obj">hop_length &lt; 1</em>, frames cannot advance.</p>
-<p class="last">If <em class="xref py py-obj">len(y) &lt; frame_length</em>.</p>
+<dl class="docutils">
+<dt>If <em class="xref py py-obj">axis</em> is not 0 or -1.  Framing is only supported along the first or last axis.</dt>
+<dd><p class="first last">If <em class="xref py py-obj">axis=-1</em> (the default), then <em class="xref py py-obj">x</em> must be “F-contiguous”.
+If <em class="xref py py-obj">axis=0</em>, then <em class="xref py py-obj">x</em> must be “C-contiguous”.</p>
+</dd>
+</dl>
+<p class="last">If the contiguity of <em class="xref py py-obj">x</em> is incompatible with the framing axis.</p>
 </dd>
 </dl>
 </td>
 </tr>
 </tbody>
 </table>
+<div class="admonition seealso">
+<p class="first admonition-title">See also</p>
+<dl class="last docutils">
+<dt><code class="xref py py-obj docutils literal notranslate"><span class="pre">np.asfortranarray</span></code></dt>
+<dd>Convert data to F-contiguous representation</dd>
+<dt><code class="xref py py-obj docutils literal notranslate"><span class="pre">np.ascontiguousarray</span></code></dt>
+<dd>Convert data to C-contiguous representation</dd>
+<dt><code class="xref py py-obj docutils literal notranslate"><span class="pre">np.ndarray.flags</span></code></dt>
+<dd>information about the memory layout of a numpy <em class="xref py py-obj">ndarray</em>.</dd>
+</dl>
+</div>
 <p class="rubric">Examples</p>
-<p>Extract 2048-sample frames from <em class="xref py py-obj">y</em> with a hop of 64 samples per frame</p>
+<p>Extract 2048-sample frames from monophonic <em class="xref py py-obj">y</em> with a hop of 64 samples per frame</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">y</span><span class="p">,</span> <span class="n">sr</span> <span class="o">=</span> <span class="n">librosa</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">librosa</span><span class="o">.</span><span class="n">util</span><span class="o">.</span><span class="n">example_audio_file</span><span class="p">())</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">librosa</span><span class="o">.</span><span class="n">util</span><span class="o">.</span><span class="n">frame</span><span class="p">(</span><span class="n">y</span><span class="p">,</span> <span class="n">frame_length</span><span class="o">=</span><span class="mi">2048</span><span class="p">,</span> <span class="n">hop_length</span><span class="o">=</span><span class="mi">64</span><span class="p">)</span>
-<span class="go">array([[ -9.216e-06,   7.710e-06, ...,  -2.117e-06,  -4.362e-07],</span>
-<span class="go">       [  2.518e-06,  -6.294e-06, ...,  -1.775e-05,  -6.365e-06],</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">frames</span> <span class="o">=</span> <span class="n">librosa</span><span class="o">.</span><span class="n">util</span><span class="o">.</span><span class="n">frame</span><span class="p">(</span><span class="n">y</span><span class="p">,</span> <span class="n">frame_length</span><span class="o">=</span><span class="mi">2048</span><span class="p">,</span> <span class="n">hop_length</span><span class="o">=</span><span class="mi">64</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">frames</span>
+<span class="go">array([[ 0.000e+00,  0.000e+00, ..., -2.448e-06, -6.789e-07],</span>
+<span class="go">       [ 0.000e+00,  0.000e+00, ..., -1.399e-05,  1.004e-06],</span>
 <span class="go">       ...,</span>
-<span class="go">       [ -7.429e-04,   5.173e-03, ...,   1.105e-05,  -5.074e-06],</span>
-<span class="go">       [  2.169e-03,   4.867e-03, ...,   3.666e-06,  -5.571e-06]], dtype=float32)</span>
+<span class="go">       [-7.352e-04,  5.162e-03, ...,  0.000e+00,  0.000e+00],</span>
+<span class="go">       [ 2.168e-03,  4.870e-03, ...,  0.000e+00,  0.000e+00]],</span>
+<span class="go">      dtype=float32)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">y</span><span class="o">.</span><span class="n">shape</span>
+<span class="go">(1355168,)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">frames</span><span class="o">.</span><span class="n">shape</span>
+<span class="go">(2048, 21143)</span>
+</pre></div>
+</div>
+<p>Or frame along the first axis instead of the last:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">frames</span> <span class="o">=</span> <span class="n">librosa</span><span class="o">.</span><span class="n">util</span><span class="o">.</span><span class="n">frame</span><span class="p">(</span><span class="n">y</span><span class="p">,</span> <span class="n">frame_length</span><span class="o">=</span><span class="mi">2048</span><span class="p">,</span> <span class="n">hop_length</span><span class="o">=</span><span class="mi">64</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">frames</span><span class="o">.</span><span class="n">shape</span>
+<span class="go">(21143, 2048)</span>
+</pre></div>
+</div>
+<p>Frame a stereo signal:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">y</span><span class="p">,</span> <span class="n">sr</span> <span class="o">=</span> <span class="n">librosa</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">librosa</span><span class="o">.</span><span class="n">util</span><span class="o">.</span><span class="n">example_audio_file</span><span class="p">(),</span> <span class="n">mono</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">y</span><span class="o">.</span><span class="n">shape</span>
+<span class="go">(2, 1355168)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">frames</span> <span class="o">=</span> <span class="n">librosa</span><span class="o">.</span><span class="n">util</span><span class="o">.</span><span class="n">frame</span><span class="p">(</span><span class="n">y</span><span class="p">,</span> <span class="n">frame_length</span><span class="o">=</span><span class="mi">2048</span><span class="p">,</span> <span class="n">hop_length</span><span class="o">=</span><span class="mi">64</span><span class="p">)</span>
+<span class="go">(2, 2048, 21143)</span>
+</pre></div>
+</div>
+<p>Carve an STFT into fixed-length patches of 32 frames with 50% overlap</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">y</span><span class="p">,</span> <span class="n">sr</span> <span class="o">=</span> <span class="n">librosa</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">librosa</span><span class="o">.</span><span class="n">util</span><span class="o">.</span><span class="n">example_audio_file</span><span class="p">())</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">S</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">librosa</span><span class="o">.</span><span class="n">stft</span><span class="p">(</span><span class="n">y</span><span class="p">))</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">S</span><span class="o">.</span><span class="n">shape</span>
+<span class="go">(1025, 2647)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">S_patch</span> <span class="o">=</span> <span class="n">librosa</span><span class="o">.</span><span class="n">util</span><span class="o">.</span><span class="n">frame</span><span class="p">(</span><span class="n">S</span><span class="p">,</span> <span class="n">frame_length</span><span class="o">=</span><span class="mi">32</span><span class="p">,</span> <span class="n">hop_length</span><span class="o">=</span><span class="mi">16</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">S_patch</span><span class="o">.</span><span class="n">shape</span>
+<span class="go">(1025, 32, 82)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="c1"># The first patch contains the first 32 frames of S</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">np</span><span class="o">.</span><span class="n">allclose</span><span class="p">(</span><span class="n">S_patch</span><span class="p">[:,</span> <span class="p">:,</span> <span class="mi">0</span><span class="p">],</span> <span class="n">S</span><span class="p">[:,</span> <span class="p">:</span><span class="mi">32</span><span class="p">])</span>
+<span class="go">True</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="c1"># The second patch contains frames 16 to 16+32=48, and so on</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">np</span><span class="o">.</span><span class="n">allclose</span><span class="p">(</span><span class="n">S_patch</span><span class="p">[:,</span> <span class="p">:,</span> <span class="mi">1</span><span class="p">],</span> <span class="n">S</span><span class="p">[:,</span> <span class="mi">16</span><span class="p">:</span><span class="mi">48</span><span class="p">])</span>
+<span class="go">True</span>
 </pre></div>
 </div>
 </dd></dl>
@@ -334,6 +420,7 @@ not one-dimensional.  See <em class="xref py py-obj">np.ascontiguous()</em> for 
             <dd><a href="../../0.6.2/generated/librosa.util.frame.html">0.6.2</a></dd>
             <dd><a href="../../0.6.3/generated/librosa.util.frame.html">0.6.3</a></dd>
             <dd><a href="../../0.7.0/generated/librosa.util.frame.html">0.7.0</a></dd>
+            <dd><a href="../../0.7.1/generated/librosa.util.frame.html">0.7.1</a></dd>
             <dd><a href="../../v0.1.0/index.html">v0.1.0</a></dd>
             <dd><a href="../../v0.4.0/index.html">v0.4.0</a></dd>
         </dl>

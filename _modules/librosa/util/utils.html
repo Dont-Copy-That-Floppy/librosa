@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>librosa.util.utils &mdash; librosa 0.7.0 documentation</title>
+  <title>librosa.util.utils &mdash; librosa 0.7.1 documentation</title>
   
 
   
@@ -23,7 +23,7 @@
       <script type="text/javascript">
           var DOCUMENTATION_OPTIONS = {
               URL_ROOT:'../../../',
-              VERSION:'0.7.0',
+              VERSION:'0.7.1',
               LANGUAGE:'None',
               COLLAPSE_INDEX:false,
               FILE_SUFFIX:'.html',
@@ -198,10 +198,12 @@
 <span class="kn">import</span> <span class="nn">six</span>
 
 <span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">import</span> <span class="nn">numba</span>
 <span class="kn">from</span> <span class="nn">numpy.lib.stride_tricks</span> <span class="k">import</span> <span class="n">as_strided</span>
 
 <span class="kn">from</span> <span class="nn">.._cache</span> <span class="k">import</span> <span class="n">cache</span>
 <span class="kn">from</span> <span class="nn">.exceptions</span> <span class="k">import</span> <span class="n">ParameterError</span>
+<span class="kn">from</span> <span class="nn">.decorators</span> <span class="k">import</span> <span class="n">deprecated</span>
 
 <span class="c1"># Constrain STFT block sizes to 256 KB</span>
 <span class="n">MAX_MEM_BLOCK</span> <span class="o">=</span> <span class="mi">2</span><span class="o">**</span><span class="mi">8</span> <span class="o">*</span> <span class="mi">2</span><span class="o">**</span><span class="mi">10</span>
@@ -214,6 +216,7 @@
            <span class="s1">&#39;peak_pick&#39;</span><span class="p">,</span>
            <span class="s1">&#39;sparsify_rows&#39;</span><span class="p">,</span>
            <span class="s1">&#39;roll_sparse&#39;</span><span class="p">,</span>
+           <span class="s1">&#39;shear&#39;</span><span class="p">,</span> <span class="s1">&#39;stack&#39;</span><span class="p">,</span>
            <span class="s1">&#39;fill_off_diagonal&#39;</span><span class="p">,</span>
            <span class="s1">&#39;index_to_slice&#39;</span><span class="p">,</span>
            <span class="s1">&#39;sync&#39;</span><span class="p">,</span>
@@ -223,80 +226,173 @@
            <span class="s1">&#39;cyclic_gradient&#39;</span><span class="p">]</span>
 
 
-<div class="viewcode-block" id="frame"><a class="viewcode-back" href="../../../generated/librosa.util.frame.html#librosa.util.frame">[docs]</a><span class="k">def</span> <span class="nf">frame</span><span class="p">(</span><span class="n">y</span><span class="p">,</span> <span class="n">frame_length</span><span class="o">=</span><span class="mi">2048</span><span class="p">,</span> <span class="n">hop_length</span><span class="o">=</span><span class="mi">512</span><span class="p">):</span>
-    <span class="sd">&#39;&#39;&#39;Slice a time series into overlapping frames.</span>
+<div class="viewcode-block" id="frame"><a class="viewcode-back" href="../../../generated/librosa.util.frame.html#librosa.util.frame">[docs]</a><span class="k">def</span> <span class="nf">frame</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">frame_length</span><span class="o">=</span><span class="mi">2048</span><span class="p">,</span> <span class="n">hop_length</span><span class="o">=</span><span class="mi">512</span><span class="p">,</span> <span class="n">axis</span><span class="o">=-</span><span class="mi">1</span><span class="p">):</span>
+    <span class="sd">&#39;&#39;&#39;Slice a data array into (overlapping) frames.</span>
 
 <span class="sd">    This implementation uses low-level stride manipulation to avoid</span>
-<span class="sd">    redundant copies of the time series data.</span>
+<span class="sd">    making a copy of the data.  The resulting frame representation</span>
+<span class="sd">    is a new view of the input data.</span>
+
+<span class="sd">    For example, a one-dimensional input `x = [0, 1, 2, 3, 4, 5, 6]`</span>
+<span class="sd">    can be framed with frame length 3 and hop length 2 in two ways.</span>
+<span class="sd">    The first (`axis=-1`), results in the array `x_frames`:</span>
+
+<span class="sd">    [[0, 2, 4],</span>
+<span class="sd">     [1, 3, 5],</span>
+<span class="sd">     [2, 4, 6]]</span>
+
+<span class="sd">    where each column `x_frames[:, i]` contains a contiguous slice of</span>
+<span class="sd">    the input `x[i * hop_length : i * hop_length + frame_length]`.</span>
+
+<span class="sd">    The second way (`axis=0`) results in the array `x_frames`:</span>
+
+<span class="sd">    [[0, 1, 2],</span>
+<span class="sd">     [2, 3, 4],</span>
+<span class="sd">     [4, 5, 6]]</span>
+
+<span class="sd">    where each row `x_frames[i]` contains a contiguous slice of the input.</span>
+
+<span class="sd">    This generalizes to higher dimensional inputs, as shown in the examples below.</span>
+<span class="sd">    In general, the framing operation increments by 1 the number of dimensions,</span>
+<span class="sd">    adding a new &quot;frame axis&quot; either to the end of the array (`axis=-1`)</span>
+<span class="sd">    or the beginning of the array (`axis=0`).</span>
+
 
 <span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>
-<span class="sd">    y : np.ndarray [shape=(n,)]</span>
-<span class="sd">        Time series to frame. Must be one-dimensional and contiguous</span>
-<span class="sd">        in memory.</span>
+<span class="sd">    x : np.ndarray</span>
+<span class="sd">        Time series to frame. Must be contiguous in memory, see the &quot;Raises&quot;</span>
+<span class="sd">        section below for more information.</span>
 
 <span class="sd">    frame_length : int &gt; 0 [scalar]</span>
-<span class="sd">        Length of the frame in samples</span>
+<span class="sd">        Length of the frame</span>
 
 <span class="sd">    hop_length : int &gt; 0 [scalar]</span>
-<span class="sd">        Number of samples to hop between frames</span>
+<span class="sd">        Number of steps to advance between frames</span>
+
+<span class="sd">    axis : 0 or -1</span>
+<span class="sd">        The axis along which to frame.</span>
+
+<span class="sd">        If `axis=-1` (the default), then `x` is framed along its last dimension.</span>
+<span class="sd">        `x` must be &quot;F-contiguous&quot; in this case.</span>
+
+<span class="sd">        If `axis=0`, then `x` is framed along its first dimension.</span>
+<span class="sd">        `x` must be &quot;C-contiguous&quot; in this case.</span>
 
 <span class="sd">    Returns</span>
 <span class="sd">    -------</span>
-<span class="sd">    y_frames : np.ndarray [shape=(frame_length, N_FRAMES)]</span>
-<span class="sd">        An array of frames sampled from `y`:</span>
-<span class="sd">        `y_frames[i, j] == y[j * hop_length + i]`</span>
+<span class="sd">    x_frames : np.ndarray [shape=(..., frame_length, N_FRAMES) or (N_FRAMES, frame_length, ...)]</span>
+<span class="sd">        A framed view of `x`, for example with `axis=-1` (framing on the last dimension):</span>
+<span class="sd">        `x_frames[..., j] == x[..., j * hop_length : j * hop_length + frame_length]`</span>
+
+<span class="sd">        If `axis=0` (framing on the first dimension), then:</span>
+<span class="sd">        `x_frames[j] = x[j * hop_length : j * hop_length + frame_length]`</span>
 
 <span class="sd">    Raises</span>
 <span class="sd">    ------</span>
 <span class="sd">    ParameterError</span>
-<span class="sd">        If `y` is not contiguous in memory, not an `np.ndarray`, or</span>
-<span class="sd">        not one-dimensional.  See `np.ascontiguous()` for details.</span>
+<span class="sd">        If `x` is not contiguous in memory or not an `np.ndarray`.</span>
+
+<span class="sd">        If `x.shape[axis] &lt; frame_length`, there is not enough data to fill one frame.</span>
 
 <span class="sd">        If `hop_length &lt; 1`, frames cannot advance.</span>
 
-<span class="sd">        If `len(y) &lt; frame_length`.</span>
+<span class="sd">        If `axis` is not 0 or -1.  Framing is only supported along the first or last axis.</span>
+<span class="sd">            If `axis=-1` (the default), then `x` must be &quot;F-contiguous&quot;.</span>
+<span class="sd">            If `axis=0`, then `x` must be &quot;C-contiguous&quot;.</span>
+
+<span class="sd">        If the contiguity of `x` is incompatible with the framing axis.</span>
+
+<span class="sd">    See Also</span>
+<span class="sd">    --------</span>
+<span class="sd">    np.asfortranarray : Convert data to F-contiguous representation</span>
+<span class="sd">    np.ascontiguousarray : Convert data to C-contiguous representation</span>
+<span class="sd">    np.ndarray.flags : information about the memory layout of a numpy `ndarray`.</span>
 
 <span class="sd">    Examples</span>
 <span class="sd">    --------</span>
-<span class="sd">    Extract 2048-sample frames from `y` with a hop of 64 samples per frame</span>
+<span class="sd">    Extract 2048-sample frames from monophonic `y` with a hop of 64 samples per frame</span>
 
 <span class="sd">    &gt;&gt;&gt; y, sr = librosa.load(librosa.util.example_audio_file())</span>
-<span class="sd">    &gt;&gt;&gt; librosa.util.frame(y, frame_length=2048, hop_length=64)</span>
-<span class="sd">    array([[ -9.216e-06,   7.710e-06, ...,  -2.117e-06,  -4.362e-07],</span>
-<span class="sd">           [  2.518e-06,  -6.294e-06, ...,  -1.775e-05,  -6.365e-06],</span>
+<span class="sd">    &gt;&gt;&gt; frames = librosa.util.frame(y, frame_length=2048, hop_length=64)</span>
+<span class="sd">    &gt;&gt;&gt; frames</span>
+<span class="sd">    array([[ 0.000e+00,  0.000e+00, ..., -2.448e-06, -6.789e-07],</span>
+<span class="sd">           [ 0.000e+00,  0.000e+00, ..., -1.399e-05,  1.004e-06],</span>
 <span class="sd">           ...,</span>
-<span class="sd">           [ -7.429e-04,   5.173e-03, ...,   1.105e-05,  -5.074e-06],</span>
-<span class="sd">           [  2.169e-03,   4.867e-03, ...,   3.666e-06,  -5.571e-06]], dtype=float32)</span>
+<span class="sd">           [-7.352e-04,  5.162e-03, ...,  0.000e+00,  0.000e+00],</span>
+<span class="sd">           [ 2.168e-03,  4.870e-03, ...,  0.000e+00,  0.000e+00]],</span>
+<span class="sd">          dtype=float32)</span>
+<span class="sd">    &gt;&gt;&gt; y.shape</span>
+<span class="sd">    (1355168,)</span>
+<span class="sd">    &gt;&gt;&gt; frames.shape</span>
+<span class="sd">    (2048, 21143)</span>
 
+<span class="sd">    Or frame along the first axis instead of the last:</span>
+
+<span class="sd">    &gt;&gt;&gt; frames = librosa.util.frame(y, frame_length=2048, hop_length=64, axis=0)</span>
+<span class="sd">    &gt;&gt;&gt; frames.shape</span>
+<span class="sd">    (21143, 2048)</span>
+
+<span class="sd">    Frame a stereo signal:</span>
+
+<span class="sd">    &gt;&gt;&gt; y, sr = librosa.load(librosa.util.example_audio_file(), mono=False)</span>
+<span class="sd">    &gt;&gt;&gt; y.shape</span>
+<span class="sd">    (2, 1355168)</span>
+<span class="sd">    &gt;&gt;&gt; frames = librosa.util.frame(y, frame_length=2048, hop_length=64)</span>
+<span class="sd">    (2, 2048, 21143)</span>
+
+<span class="sd">    Carve an STFT into fixed-length patches of 32 frames with 50% overlap</span>
+
+<span class="sd">    &gt;&gt;&gt; y, sr = librosa.load(librosa.util.example_audio_file())</span>
+<span class="sd">    &gt;&gt;&gt; S = np.abs(librosa.stft(y))</span>
+<span class="sd">    &gt;&gt;&gt; S.shape</span>
+<span class="sd">    (1025, 2647)</span>
+<span class="sd">    &gt;&gt;&gt; S_patch = librosa.util.frame(S, frame_length=32, hop_length=16)</span>
+<span class="sd">    &gt;&gt;&gt; S_patch.shape</span>
+<span class="sd">    (1025, 32, 82)</span>
+<span class="sd">    &gt;&gt;&gt; # The first patch contains the first 32 frames of S</span>
+<span class="sd">    &gt;&gt;&gt; np.allclose(S_patch[:, :, 0], S[:, :32])</span>
+<span class="sd">    True</span>
+<span class="sd">    &gt;&gt;&gt; # The second patch contains frames 16 to 16+32=48, and so on</span>
+<span class="sd">    &gt;&gt;&gt; np.allclose(S_patch[:, :, 1], S[:, 16:48])</span>
+<span class="sd">    True</span>
 <span class="sd">    &#39;&#39;&#39;</span>
 
-    <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">y</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">):</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">):</span>
         <span class="k">raise</span> <span class="n">ParameterError</span><span class="p">(</span><span class="s1">&#39;Input must be of type numpy.ndarray, &#39;</span>
-                             <span class="s1">&#39;given type(y)=</span><span class="si">{}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="nb">type</span><span class="p">(</span><span class="n">y</span><span class="p">)))</span>
+                             <span class="s1">&#39;given type(x)=</span><span class="si">{}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="nb">type</span><span class="p">(</span><span class="n">x</span><span class="p">)))</span>
 
-    <span class="k">if</span> <span class="n">y</span><span class="o">.</span><span class="n">ndim</span> <span class="o">!=</span> <span class="mi">1</span><span class="p">:</span>
-        <span class="k">raise</span> <span class="n">ParameterError</span><span class="p">(</span><span class="s1">&#39;Input must be one-dimensional, &#39;</span>
-                             <span class="s1">&#39;given y.ndim=</span><span class="si">{}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">y</span><span class="o">.</span><span class="n">ndim</span><span class="p">))</span>
-
-    <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">y</span><span class="p">)</span> <span class="o">&lt;</span> <span class="n">frame_length</span><span class="p">:</span>
-        <span class="k">raise</span> <span class="n">ParameterError</span><span class="p">(</span><span class="s1">&#39;Buffer is too short (n=</span><span class="si">{:d}</span><span class="s1">)&#39;</span>
-                             <span class="s1">&#39; for frame_length=</span><span class="si">{:d}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">y</span><span class="p">),</span> <span class="n">frame_length</span><span class="p">))</span>
+    <span class="k">if</span> <span class="n">x</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="n">axis</span><span class="p">]</span> <span class="o">&lt;</span> <span class="n">frame_length</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="n">ParameterError</span><span class="p">(</span><span class="s1">&#39;Input is too short (n=</span><span class="si">{:d}</span><span class="s1">)&#39;</span>
+                             <span class="s1">&#39; for frame_length=</span><span class="si">{:d}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">x</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="n">axis</span><span class="p">],</span> <span class="n">frame_length</span><span class="p">))</span>
 
     <span class="k">if</span> <span class="n">hop_length</span> <span class="o">&lt;</span> <span class="mi">1</span><span class="p">:</span>
         <span class="k">raise</span> <span class="n">ParameterError</span><span class="p">(</span><span class="s1">&#39;Invalid hop_length: </span><span class="si">{:d}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">hop_length</span><span class="p">))</span>
 
-    <span class="k">if</span> <span class="ow">not</span> <span class="n">y</span><span class="o">.</span><span class="n">flags</span><span class="p">[</span><span class="s1">&#39;C_CONTIGUOUS&#39;</span><span class="p">]:</span>
-        <span class="k">raise</span> <span class="n">ParameterError</span><span class="p">(</span><span class="s1">&#39;Input buffer must be contiguous.&#39;</span><span class="p">)</span>
+    <span class="n">n_frames</span> <span class="o">=</span> <span class="mi">1</span> <span class="o">+</span> <span class="p">(</span><span class="n">x</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="n">axis</span><span class="p">]</span> <span class="o">-</span> <span class="n">frame_length</span><span class="p">)</span> <span class="o">//</span> <span class="n">hop_length</span>
+    <span class="n">strides</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">x</span><span class="o">.</span><span class="n">strides</span><span class="p">)</span>
 
-    <span class="c1"># Compute the number of frames that will fit. The end may get truncated.</span>
-    <span class="n">n_frames</span> <span class="o">=</span> <span class="mi">1</span> <span class="o">+</span> <span class="nb">int</span><span class="p">((</span><span class="nb">len</span><span class="p">(</span><span class="n">y</span><span class="p">)</span> <span class="o">-</span> <span class="n">frame_length</span><span class="p">)</span> <span class="o">/</span> <span class="n">hop_length</span><span class="p">)</span>
+    <span class="n">new_stride</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">prod</span><span class="p">(</span><span class="n">strides</span><span class="p">[</span><span class="n">strides</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">]</span> <span class="o">//</span> <span class="n">x</span><span class="o">.</span><span class="n">itemsize</span><span class="p">)</span> <span class="o">*</span> <span class="n">x</span><span class="o">.</span><span class="n">itemsize</span>
 
-    <span class="c1"># Vertical stride is one sample</span>
-    <span class="c1"># Horizontal stride is `hop_length` samples</span>
-    <span class="n">y_frames</span> <span class="o">=</span> <span class="n">as_strided</span><span class="p">(</span><span class="n">y</span><span class="p">,</span> <span class="n">shape</span><span class="o">=</span><span class="p">(</span><span class="n">frame_length</span><span class="p">,</span> <span class="n">n_frames</span><span class="p">),</span>
-                          <span class="n">strides</span><span class="o">=</span><span class="p">(</span><span class="n">y</span><span class="o">.</span><span class="n">itemsize</span><span class="p">,</span> <span class="n">hop_length</span> <span class="o">*</span> <span class="n">y</span><span class="o">.</span><span class="n">itemsize</span><span class="p">))</span>
-    <span class="k">return</span> <span class="n">y_frames</span></div>
+    <span class="k">if</span> <span class="n">axis</span> <span class="o">==</span> <span class="o">-</span><span class="mi">1</span><span class="p">:</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">x</span><span class="o">.</span><span class="n">flags</span><span class="p">[</span><span class="s1">&#39;F_CONTIGUOUS&#39;</span><span class="p">]:</span>
+            <span class="k">raise</span> <span class="n">ParameterError</span><span class="p">(</span><span class="s1">&#39;Input array must be F-contiguous &#39;</span>
+                                 <span class="s1">&#39;for framing along axis=</span><span class="si">{}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">axis</span><span class="p">))</span>
+
+        <span class="n">shape</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">x</span><span class="o">.</span><span class="n">shape</span><span class="p">)[:</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="o">+</span> <span class="p">[</span><span class="n">frame_length</span><span class="p">,</span> <span class="n">n_frames</span><span class="p">]</span>
+        <span class="n">strides</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">strides</span><span class="p">)</span> <span class="o">+</span> <span class="p">[</span><span class="n">hop_length</span> <span class="o">*</span> <span class="n">new_stride</span><span class="p">]</span>
+
+    <span class="k">elif</span> <span class="n">axis</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">x</span><span class="o">.</span><span class="n">flags</span><span class="p">[</span><span class="s1">&#39;C_CONTIGUOUS&#39;</span><span class="p">]:</span>
+            <span class="k">raise</span> <span class="n">ParameterError</span><span class="p">(</span><span class="s1">&#39;Input array must be C-contiguous &#39;</span>
+                                 <span class="s1">&#39;for framing along axis=</span><span class="si">{}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">axis</span><span class="p">))</span>
+
+        <span class="n">shape</span> <span class="o">=</span> <span class="p">[</span><span class="n">n_frames</span><span class="p">,</span> <span class="n">frame_length</span><span class="p">]</span> <span class="o">+</span> <span class="nb">list</span><span class="p">(</span><span class="n">x</span><span class="o">.</span><span class="n">shape</span><span class="p">)[</span><span class="mi">1</span><span class="p">:]</span>
+        <span class="n">strides</span> <span class="o">=</span> <span class="p">[</span><span class="n">hop_length</span> <span class="o">*</span> <span class="n">new_stride</span><span class="p">]</span> <span class="o">+</span> <span class="nb">list</span><span class="p">(</span><span class="n">strides</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="n">ParameterError</span><span class="p">(</span><span class="s1">&#39;Frame axis=</span><span class="si">{}</span><span class="s1"> must be either 0 or -1&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">axis</span><span class="p">))</span>
+
+    <span class="k">return</span> <span class="n">as_strided</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">shape</span><span class="o">=</span><span class="n">shape</span><span class="p">,</span> <span class="n">strides</span><span class="o">=</span><span class="n">strides</span><span class="p">)</span></div>
 
 
 <div class="viewcode-block" id="valid_audio"><a class="viewcode-back" href="../../../generated/librosa.util.valid_audio.html#librosa.util.valid_audio">[docs]</a><span class="nd">@cache</span><span class="p">(</span><span class="n">level</span><span class="o">=</span><span class="mi">20</span><span class="p">)</span>
@@ -320,12 +416,13 @@
 <span class="sd">    Raises</span>
 <span class="sd">    ------</span>
 <span class="sd">    ParameterError</span>
-<span class="sd">        If `y` fails to meet the following criteria:</span>
-<span class="sd">            - `type(y)` is `np.ndarray`</span>
-<span class="sd">            - `y.dtype` is floating-point</span>
+<span class="sd">        In any of these cases:</span>
+<span class="sd">            - `type(y)` is not `np.ndarray`</span>
+<span class="sd">            - `y.dtype` is not floating-point</span>
 <span class="sd">            - `mono == True` and `y.ndim` is not 1</span>
 <span class="sd">            - `mono == False` and `y.ndim` is not 1 or 2</span>
-<span class="sd">            - `np.isfinite(y).all()` is not True</span>
+<span class="sd">            - `np.isfinite(y).all()` is False</span>
+<span class="sd">            - `y.flags[&quot;F_CONTIGUOUS&quot;]` is False</span>
 
 <span class="sd">    Notes</span>
 <span class="sd">    -----</span>
@@ -333,33 +430,44 @@
 
 <span class="sd">    Examples</span>
 <span class="sd">    --------</span>
-<span class="sd">    &gt;&gt;&gt; # Only allow monophonic signals</span>
-<span class="sd">    &gt;&gt;&gt; y, sr = librosa.load(librosa.util.example_audio_file())</span>
-<span class="sd">    &gt;&gt;&gt; librosa.util.valid_audio(y)</span>
+<span class="sd">    &gt;&gt;&gt; # By default, valid_audio allows only mono signals</span>
+<span class="sd">    &gt;&gt;&gt; filepath = librosa.util.example_audio_file()</span>
+<span class="sd">    &gt;&gt;&gt; y_mono, sr = librosa.load(filepath, mono=True)</span>
+<span class="sd">    &gt;&gt;&gt; y_stereo, _ = librosa.load(filepath, mono=False)</span>
+<span class="sd">    &gt;&gt;&gt; librosa.util.valid_audio(y_mono), librosa.util.valid_audio(y_stereo)</span>
+<span class="sd">    True, False</span>
+
+<span class="sd">    &gt;&gt;&gt; # To allow stereo signals, set mono=False</span>
+<span class="sd">    &gt;&gt;&gt; librosa.util.valid_audio(y_stereo, mono=False)</span>
 <span class="sd">    True</span>
 
-<span class="sd">    &gt;&gt;&gt; # If we want to allow stereo signals</span>
-<span class="sd">    &gt;&gt;&gt; y, sr = librosa.load(librosa.util.example_audio_file(), mono=False)</span>
-<span class="sd">    &gt;&gt;&gt; librosa.util.valid_audio(y, mono=False)</span>
-<span class="sd">    True</span>
+<span class="sd">    See also</span>
+<span class="sd">    --------</span>
+<span class="sd">    stack</span>
+<span class="sd">    numpy.asfortranarray</span>
+<span class="sd">    numpy.float32</span>
 <span class="sd">    &#39;&#39;&#39;</span>
 
     <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">y</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">):</span>
-        <span class="k">raise</span> <span class="n">ParameterError</span><span class="p">(</span><span class="s1">&#39;data must be of type numpy.ndarray&#39;</span><span class="p">)</span>
+        <span class="k">raise</span> <span class="n">ParameterError</span><span class="p">(</span><span class="s1">&#39;Audio data must be of type numpy.ndarray&#39;</span><span class="p">)</span>
 
     <span class="k">if</span> <span class="ow">not</span> <span class="n">np</span><span class="o">.</span><span class="n">issubdtype</span><span class="p">(</span><span class="n">y</span><span class="o">.</span><span class="n">dtype</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">floating</span><span class="p">):</span>
-        <span class="k">raise</span> <span class="n">ParameterError</span><span class="p">(</span><span class="s1">&#39;data must be floating-point&#39;</span><span class="p">)</span>
+        <span class="k">raise</span> <span class="n">ParameterError</span><span class="p">(</span><span class="s1">&#39;Audio data must be floating-point&#39;</span><span class="p">)</span>
 
     <span class="k">if</span> <span class="n">mono</span> <span class="ow">and</span> <span class="n">y</span><span class="o">.</span><span class="n">ndim</span> <span class="o">!=</span> <span class="mi">1</span><span class="p">:</span>
         <span class="k">raise</span> <span class="n">ParameterError</span><span class="p">(</span><span class="s1">&#39;Invalid shape for monophonic audio: &#39;</span>
                              <span class="s1">&#39;ndim=</span><span class="si">{:d}</span><span class="s1">, shape=</span><span class="si">{}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">y</span><span class="o">.</span><span class="n">ndim</span><span class="p">,</span> <span class="n">y</span><span class="o">.</span><span class="n">shape</span><span class="p">))</span>
 
     <span class="k">elif</span> <span class="n">y</span><span class="o">.</span><span class="n">ndim</span> <span class="o">&gt;</span> <span class="mi">2</span> <span class="ow">or</span> <span class="n">y</span><span class="o">.</span><span class="n">ndim</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
-        <span class="k">raise</span> <span class="n">ParameterError</span><span class="p">(</span><span class="s1">&#39;Audio must have shape (samples,) or (channels, samples). &#39;</span>
+        <span class="k">raise</span> <span class="n">ParameterError</span><span class="p">(</span><span class="s1">&#39;Audio data must have shape (samples,) or (channels, samples). &#39;</span>
                              <span class="s1">&#39;Received shape=</span><span class="si">{}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">y</span><span class="o">.</span><span class="n">shape</span><span class="p">))</span>
 
     <span class="k">if</span> <span class="ow">not</span> <span class="n">np</span><span class="o">.</span><span class="n">isfinite</span><span class="p">(</span><span class="n">y</span><span class="p">)</span><span class="o">.</span><span class="n">all</span><span class="p">():</span>
         <span class="k">raise</span> <span class="n">ParameterError</span><span class="p">(</span><span class="s1">&#39;Audio buffer is not finite everywhere&#39;</span><span class="p">)</span>
+
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">y</span><span class="o">.</span><span class="n">flags</span><span class="p">[</span><span class="s2">&quot;F_CONTIGUOUS&quot;</span><span class="p">]:</span>
+        <span class="k">raise</span> <span class="n">ParameterError</span><span class="p">(</span><span class="s1">&#39;Audio buffer is not Fortran-contiguous. &#39;</span>
+            <span class="s1">&#39;Use numpy.asfortranarray to ensure Fortran contiguity.&#39;</span><span class="p">)</span>
 
     <span class="k">return</span> <span class="kc">True</span></div>
 
@@ -1095,8 +1203,7 @@
 <span class="sd">           510, 525, 536, 555, 570, 590, 609, 625, 639])</span>
 
 <span class="sd">    &gt;&gt;&gt; import matplotlib.pyplot as plt</span>
-<span class="sd">    &gt;&gt;&gt; times = librosa.frames_to_time(np.arange(len(onset_env)),</span>
-<span class="sd">    ...                                sr=sr, hop_length=512)</span>
+<span class="sd">    &gt;&gt;&gt; times = librosa.times_like(onset_env, sr=sr, hop_length=512)</span>
 <span class="sd">    &gt;&gt;&gt; plt.figure()</span>
 <span class="sd">    &gt;&gt;&gt; ax = plt.subplot(2, 1, 2)</span>
 <span class="sd">    &gt;&gt;&gt; D = librosa.stft(y)</span>
@@ -1292,10 +1399,14 @@
     <span class="k">return</span> <span class="n">x_sparse</span><span class="o">.</span><span class="n">tocsr</span><span class="p">()</span></div>
 
 
-<div class="viewcode-block" id="roll_sparse"><a class="viewcode-back" href="../../../generated/librosa.util.roll_sparse.html#librosa.util.roll_sparse">[docs]</a><span class="k">def</span> <span class="nf">roll_sparse</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">shift</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">):</span>
+<div class="viewcode-block" id="roll_sparse"><a class="viewcode-back" href="../../../generated/librosa.util.roll_sparse.html#librosa.util.roll_sparse">[docs]</a><span class="nd">@deprecated</span><span class="p">(</span><span class="s1">&#39;0.7.1&#39;</span><span class="p">,</span> <span class="s1">&#39;0.8.0&#39;</span><span class="p">)</span>
+<span class="k">def</span> <span class="nf">roll_sparse</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">shift</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">):</span>
     <span class="sd">&#39;&#39;&#39;Sparse matrix roll</span>
 
 <span class="sd">    This operation is equivalent to ``numpy.roll``, but operates on sparse matrices.</span>
+
+<span class="sd">    .. warning:: This function is deprecated in version 0.7.1.</span>
+<span class="sd">                 It will be removed in version 0.8.0.</span>
 
 <span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>
@@ -1899,6 +2010,213 @@
     <span class="n">slices</span> <span class="o">=</span> <span class="p">[</span><span class="nb">slice</span><span class="p">(</span><span class="kc">None</span><span class="p">)]</span> <span class="o">*</span> <span class="n">data</span><span class="o">.</span><span class="n">ndim</span>
     <span class="n">slices</span><span class="p">[</span><span class="n">axis</span><span class="p">]</span> <span class="o">=</span> <span class="nb">slice</span><span class="p">(</span><span class="n">edge_order</span><span class="p">,</span> <span class="o">-</span><span class="n">edge_order</span><span class="p">)</span>
     <span class="k">return</span> <span class="n">grad</span><span class="p">[</span><span class="nb">tuple</span><span class="p">(</span><span class="n">slices</span><span class="p">)]</span></div>
+
+
+<span class="nd">@numba</span><span class="o">.</span><span class="n">jit</span><span class="p">(</span><span class="n">nopython</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">cache</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="k">def</span> <span class="nf">__shear_dense</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">factor</span><span class="o">=+</span><span class="mi">1</span><span class="p">,</span> <span class="n">axis</span><span class="o">=-</span><span class="mi">1</span><span class="p">):</span>
+    <span class="sd">&#39;&#39;&#39;Numba-accelerated shear for dense (ndarray) arrays&#39;&#39;&#39;</span>
+
+    <span class="k">if</span> <span class="n">axis</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+        <span class="n">X</span> <span class="o">=</span> <span class="n">X</span><span class="o">.</span><span class="n">T</span>
+
+    <span class="n">X_shear</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">empty_like</span><span class="p">(</span><span class="n">X</span><span class="p">)</span>
+
+    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">X</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">]):</span>
+        <span class="n">X_shear</span><span class="p">[:,</span> <span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">roll</span><span class="p">(</span><span class="n">X</span><span class="p">[:,</span> <span class="n">i</span><span class="p">],</span> <span class="n">factor</span> <span class="o">*</span> <span class="n">i</span><span class="p">)</span>
+
+    <span class="k">if</span> <span class="n">axis</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+        <span class="n">X_shear</span> <span class="o">=</span> <span class="n">X_shear</span><span class="o">.</span><span class="n">T</span>
+
+    <span class="k">return</span> <span class="n">X_shear</span>
+
+
+<span class="k">def</span> <span class="nf">__shear_sparse</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">factor</span><span class="o">=+</span><span class="mi">1</span><span class="p">,</span> <span class="n">axis</span><span class="o">=-</span><span class="mi">1</span><span class="p">):</span>
+    <span class="sd">&#39;&#39;&#39;Fast shearing for sparse matrices</span>
+
+<span class="sd">    Shearing is performed using CSC array indices,</span>
+<span class="sd">    and the result is converted back to whatever sparse format</span>
+<span class="sd">    the data was originally provided in.</span>
+<span class="sd">    &#39;&#39;&#39;</span>
+    <span class="n">fmt</span> <span class="o">=</span> <span class="n">X</span><span class="o">.</span><span class="n">format</span>
+    <span class="k">if</span> <span class="n">axis</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+        <span class="n">X</span> <span class="o">=</span> <span class="n">X</span><span class="o">.</span><span class="n">T</span>
+
+    <span class="c1"># Now we&#39;re definitely rolling on the correct axis</span>
+    <span class="n">X_shear</span> <span class="o">=</span> <span class="n">X</span><span class="o">.</span><span class="n">tocsc</span><span class="p">(</span><span class="n">copy</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+
+    <span class="c1"># The idea here is to repeat the shear amount (factor * range)</span>
+    <span class="c1"># by the number of non-zeros for each column.</span>
+    <span class="c1"># The number of non-zeros is computed by diffing the index pointer array</span>
+    <span class="n">roll</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">repeat</span><span class="p">(</span><span class="n">factor</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="n">X_shear</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">]),</span> <span class="n">np</span><span class="o">.</span><span class="n">diff</span><span class="p">(</span><span class="n">X_shear</span><span class="o">.</span><span class="n">indptr</span><span class="p">))</span>
+
+    <span class="c1"># In-place roll</span>
+    <span class="n">np</span><span class="o">.</span><span class="n">mod</span><span class="p">(</span><span class="n">X_shear</span><span class="o">.</span><span class="n">indices</span> <span class="o">+</span> <span class="n">roll</span><span class="p">,</span> <span class="n">X_shear</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">out</span><span class="o">=</span><span class="n">X_shear</span><span class="o">.</span><span class="n">indices</span><span class="p">)</span>
+
+    <span class="k">if</span> <span class="n">axis</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+        <span class="n">X_shear</span> <span class="o">=</span> <span class="n">X_shear</span><span class="o">.</span><span class="n">T</span>
+
+    <span class="c1"># And convert back to the input format</span>
+    <span class="k">return</span> <span class="n">X_shear</span><span class="o">.</span><span class="n">asformat</span><span class="p">(</span><span class="n">fmt</span><span class="p">)</span>
+
+
+<div class="viewcode-block" id="shear"><a class="viewcode-back" href="../../../generated/librosa.util.shear.html#librosa.util.shear">[docs]</a><span class="k">def</span> <span class="nf">shear</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">factor</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">axis</span><span class="o">=-</span><span class="mi">1</span><span class="p">):</span>
+    <span class="sd">&#39;&#39;&#39;Shear a matrix by a given factor.</span>
+
+<span class="sd">    The `n`th column `X[:, n]` will be displaced (rolled)</span>
+<span class="sd">    by `factor * n`.</span>
+
+<span class="sd">    This is primarily useful for converting between lag and recurrence</span>
+<span class="sd">    representations: shearing with `factor=-1` converts the main diagonal</span>
+<span class="sd">    to a horizontal.  Shearing with `factor=1` converts a horizontal to</span>
+<span class="sd">    a diagonal.</span>
+
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    X : np.ndarray [ndim=2] or scipy.sparse matrix</span>
+<span class="sd">        The array to be sheared</span>
+
+<span class="sd">    factor : integer</span>
+<span class="sd">        The shear factor: `X[:, n] -&gt; np.roll(X[:, n], factor * n)`</span>
+
+<span class="sd">    axis : integer</span>
+<span class="sd">        The axis along which to shear</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    X_shear : same type as `X`</span>
+<span class="sd">        The sheared matrix</span>
+
+<span class="sd">    Examples</span>
+<span class="sd">    --------</span>
+<span class="sd">    &gt;&gt;&gt; E = np.eye(3)</span>
+<span class="sd">    &gt;&gt;&gt; librosa.util.shear(E, factor=-1, axis=-1)</span>
+<span class="sd">    array([[1., 1., 1.],</span>
+<span class="sd">           [0., 0., 0.],</span>
+<span class="sd">           [0., 0., 0.]])</span>
+<span class="sd">    &gt;&gt;&gt; librosa.util.shear(E, factor=-1, axis=0)</span>
+<span class="sd">    array([[1., 0., 0.],</span>
+<span class="sd">           [1., 0., 0.],</span>
+<span class="sd">           [1., 0., 0.]])</span>
+<span class="sd">    &gt;&gt;&gt; librosa.util.shear(E, factor=1, axis=-1)</span>
+<span class="sd">    array([[1., 0., 0.],</span>
+<span class="sd">           [0., 0., 1.],</span>
+<span class="sd">           [0., 1., 0.]])</span>
+<span class="sd">    &#39;&#39;&#39;</span>
+
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">np</span><span class="o">.</span><span class="n">issubdtype</span><span class="p">(</span><span class="nb">type</span><span class="p">(</span><span class="n">factor</span><span class="p">),</span> <span class="n">np</span><span class="o">.</span><span class="n">integer</span><span class="p">):</span>
+        <span class="k">raise</span> <span class="n">ParameterError</span><span class="p">(</span><span class="s1">&#39;factor=</span><span class="si">{}</span><span class="s1"> must be integer-valued&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">factor</span><span class="p">))</span>
+
+    <span class="k">if</span> <span class="n">scipy</span><span class="o">.</span><span class="n">sparse</span><span class="o">.</span><span class="n">isspmatrix</span><span class="p">(</span><span class="n">X</span><span class="p">):</span>
+        <span class="k">return</span> <span class="n">__shear_sparse</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">factor</span><span class="o">=</span><span class="n">factor</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="n">axis</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">__shear_dense</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">factor</span><span class="o">=</span><span class="n">factor</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="n">axis</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="stack"><a class="viewcode-back" href="../../../generated/librosa.util.stack.html#librosa.util.stack">[docs]</a><span class="k">def</span> <span class="nf">stack</span><span class="p">(</span><span class="n">arrays</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">):</span>
+    <span class="sd">&#39;&#39;&#39;Stack one or more arrays along a target axis.</span>
+
+<span class="sd">    This function is similar to `np.stack`, except that memory contiguity is</span>
+<span class="sd">    retained when stacking along the first dimension.</span>
+
+<span class="sd">    This is useful when combining multiple monophonic audio signals into a</span>
+<span class="sd">    multi-channel signal, or when stacking multiple feature representations</span>
+<span class="sd">    to form a multi-dimensional array.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    arrays : list</span>
+<span class="sd">        one or more `np.ndarray`</span>
+
+<span class="sd">    axis : integer</span>
+<span class="sd">        The target axis along which to stack.  `axis=0` creates a new first axis,</span>
+<span class="sd">        and `axis=-1` creates a new last axis.</span>
+
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    arr_stack : np.ndarray [shape=(len(arrays), array_shape) or shape=(array_shape, len(arrays))]</span>
+<span class="sd">        The input arrays, stacked along the target dimension.</span>
+
+<span class="sd">        If `axis=0`, then `arr_stack` will be F-contiguous.</span>
+<span class="sd">        Otherwise, `arr_stack` will be C-contiguous by default, as computed by</span>
+<span class="sd">        `np.stack`.</span>
+
+<span class="sd">    Raises</span>
+<span class="sd">    ------</span>
+<span class="sd">    ParameterError</span>
+
+<span class="sd">        - If `arrays` do not all have the same shape</span>
+<span class="sd">        - If no `arrays` are given</span>
+
+<span class="sd">    See Also</span>
+<span class="sd">    --------</span>
+<span class="sd">    np.stack</span>
+<span class="sd">    np.ndarray.flags</span>
+<span class="sd">    frame</span>
+
+<span class="sd">    Examples</span>
+<span class="sd">    --------</span>
+<span class="sd">    Combine two buffers into a contiguous arrays</span>
+
+<span class="sd">    &gt;&gt;&gt; y_left = np.ones(5)</span>
+<span class="sd">    &gt;&gt;&gt; y_right = -np.ones(5)</span>
+<span class="sd">    &gt;&gt;&gt; y_stereo = librosa.util.stack([y_left, y_right], axis=0)</span>
+<span class="sd">    &gt;&gt;&gt; y_stereo</span>
+<span class="sd">    array([[ 1.,  1.,  1.,  1.,  1.],</span>
+<span class="sd">           [-1., -1., -1., -1., -1.]])</span>
+<span class="sd">    &gt;&gt;&gt; y_stereo.flags</span>
+<span class="sd">      C_CONTIGUOUS : False</span>
+<span class="sd">      F_CONTIGUOUS : True</span>
+<span class="sd">      OWNDATA : True</span>
+<span class="sd">      WRITEABLE : True</span>
+<span class="sd">      ALIGNED : True</span>
+<span class="sd">      WRITEBACKIFCOPY : False</span>
+<span class="sd">      UPDATEIFCOPY : False</span>
+
+<span class="sd">    Or along the trailing axis</span>
+
+<span class="sd">    &gt;&gt;&gt; y_stereo = librosa.util.stack([y_left, y_right], axis=-1)</span>
+<span class="sd">    &gt;&gt;&gt; y_stereo</span>
+<span class="sd">    array([[ 1., -1.],</span>
+<span class="sd">           [ 1., -1.],</span>
+<span class="sd">           [ 1., -1.],</span>
+<span class="sd">           [ 1., -1.],</span>
+<span class="sd">           [ 1., -1.]])</span>
+<span class="sd">    &gt;&gt;&gt; y_stereo.flags</span>
+<span class="sd">      C_CONTIGUOUS : True</span>
+<span class="sd">      F_CONTIGUOUS : False</span>
+<span class="sd">      OWNDATA : True</span>
+<span class="sd">      WRITEABLE : True</span>
+<span class="sd">      ALIGNED : True</span>
+<span class="sd">      WRITEBACKIFCOPY : False</span>
+<span class="sd">      UPDATEIFCOPY : False</span>
+<span class="sd">    &#39;&#39;&#39;</span>
+
+    <span class="n">shapes</span> <span class="o">=</span> <span class="p">{</span><span class="n">arr</span><span class="o">.</span><span class="n">shape</span> <span class="k">for</span> <span class="n">arr</span> <span class="ow">in</span> <span class="n">arrays</span><span class="p">}</span>
+    <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">shapes</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">1</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="n">ParameterError</span><span class="p">(</span><span class="s1">&#39;all input arrays must have the same shape&#39;</span><span class="p">)</span>
+    <span class="k">elif</span> <span class="nb">len</span><span class="p">(</span><span class="n">shapes</span><span class="p">)</span> <span class="o">&lt;</span> <span class="mi">1</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="n">ParameterError</span><span class="p">(</span><span class="s1">&#39;at least one input array must be provided for stack&#39;</span><span class="p">)</span>
+
+    <span class="n">shape_in</span> <span class="o">=</span> <span class="n">shapes</span><span class="o">.</span><span class="n">pop</span><span class="p">()</span>
+
+    <span class="k">if</span> <span class="n">axis</span> <span class="o">!=</span> <span class="mi">0</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">stack</span><span class="p">(</span><span class="n">arrays</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="n">axis</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="c1"># If axis is 0, enforce F-ordering</span>
+        <span class="n">shape</span> <span class="o">=</span> <span class="nb">tuple</span><span class="p">([</span><span class="nb">len</span><span class="p">(</span><span class="n">arrays</span><span class="p">)]</span> <span class="o">+</span> <span class="nb">list</span><span class="p">(</span><span class="n">shape_in</span><span class="p">))</span>
+
+        <span class="c1"># Find the common dtype for all inputs</span>
+        <span class="n">dtype</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">find_common_type</span><span class="p">([</span><span class="n">arr</span><span class="o">.</span><span class="n">dtype</span> <span class="k">for</span> <span class="n">arr</span> <span class="ow">in</span> <span class="n">arrays</span><span class="p">],</span> <span class="p">[])</span>
+
+        <span class="c1"># Allocate an empty array of the right shape and type</span>
+        <span class="n">result</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">empty</span><span class="p">(</span><span class="n">shape</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">dtype</span><span class="p">,</span> <span class="n">order</span><span class="o">=</span><span class="s1">&#39;F&#39;</span><span class="p">)</span>
+
+        <span class="c1"># Stack into the preallocated buffer</span>
+        <span class="n">np</span><span class="o">.</span><span class="n">stack</span><span class="p">(</span><span class="n">arrays</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="n">axis</span><span class="p">,</span> <span class="n">out</span><span class="o">=</span><span class="n">result</span><span class="p">)</span>
+
+        <span class="k">return</span> <span class="n">result</span></div>
 </pre></div>
 
            </div>
@@ -1929,7 +2247,7 @@
 <div class="rst-versions" data-toggle="rst-versions" role="note" aria-label="versions">
     <span class="rst-current-version" data-toggle="rst-current-version">
         <span class="fa fa-book"> Other Versions</span>
-        v: 0.7.0
+        v: 0.7.1
         <span class="fa fa-caret-down"></span>
     </span>
     <div class="rst-other-versions">
@@ -1944,7 +2262,8 @@
             <dd><a href="../../../0.6.1/index.html">0.6.1</a></dd>
             <dd><a href="../../../0.6.2/index.html">0.6.2</a></dd>
             <dd><a href="../../../0.6.3/index.html">0.6.3</a></dd>
-            <dd><a href="../../../0.7.0/_modules/librosa/util/utils.html">0.7.0</a></dd>
+            <dd><a href="../../../0.7.0/index.html">0.7.0</a></dd>
+            <dd><a href="../../../0.7.1/_modules/librosa/util/utils.html">0.7.1</a></dd>
             <dd><a href="../../../v0.1.0/index.html">v0.1.0</a></dd>
             <dd><a href="../../../v0.4.0/index.html">v0.4.0</a></dd>
         </dl>

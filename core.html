@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Core IO and DSP &mdash; librosa 0.7.0 documentation</title>
+  <title>Core IO and DSP &mdash; librosa 0.7.1 documentation</title>
   
 
   
@@ -23,7 +23,7 @@
       <script type="text/javascript">
           var DOCUMENTATION_OPTIONS = {
               URL_ROOT:'./',
-              VERSION:'0.7.0',
+              VERSION:'0.7.1',
               LANGUAGE:'None',
               COLLAPSE_INDEX:false,
               FILE_SUFFIX:'.html',
@@ -120,7 +120,7 @@
 <li class="toctree-l2"><a class="reference internal" href="#spectral-representations">Spectral representations</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="generated/librosa.core.stft.html">librosa.core.stft</a></li>
 <li class="toctree-l3"><a class="reference internal" href="generated/librosa.core.istft.html">librosa.core.istft</a></li>
-<li class="toctree-l3"><a class="reference internal" href="generated/librosa.core.ifgram.html">librosa.core.ifgram</a></li>
+<li class="toctree-l3"><a class="reference internal" href="generated/librosa.core.reassigned_spectrogram.html">librosa.core.reassigned_spectrogram</a></li>
 <li class="toctree-l3"><a class="reference internal" href="generated/librosa.core.cqt.html">librosa.core.cqt</a></li>
 <li class="toctree-l3"><a class="reference internal" href="generated/librosa.core.icqt.html">librosa.core.icqt</a></li>
 <li class="toctree-l3"><a class="reference internal" href="generated/librosa.core.hybrid_cqt.html">librosa.core.hybrid_cqt</a></li>
@@ -128,6 +128,7 @@
 <li class="toctree-l3"><a class="reference internal" href="generated/librosa.core.iirt.html">librosa.core.iirt</a></li>
 <li class="toctree-l3"><a class="reference internal" href="generated/librosa.core.fmt.html">librosa.core.fmt</a></li>
 <li class="toctree-l3"><a class="reference internal" href="generated/librosa.core.griffinlim.html">librosa.core.griffinlim</a></li>
+<li class="toctree-l3"><a class="reference internal" href="generated/librosa.core.griffinlim_cqt.html">librosa.core.griffinlim_cqt</a></li>
 <li class="toctree-l3"><a class="reference internal" href="generated/librosa.core.interp_harmonics.html">librosa.core.interp_harmonics</a></li>
 <li class="toctree-l3"><a class="reference internal" href="generated/librosa.core.salience.html">librosa.core.salience</a></li>
 <li class="toctree-l3"><a class="reference internal" href="generated/librosa.core.phase_vocoder.html">librosa.core.phase_vocoder</a></li>
@@ -179,6 +180,10 @@
 <li class="toctree-l3"><a class="reference internal" href="generated/librosa.core.estimate_tuning.html">librosa.core.estimate_tuning</a></li>
 <li class="toctree-l3"><a class="reference internal" href="generated/librosa.core.pitch_tuning.html">librosa.core.pitch_tuning</a></li>
 <li class="toctree-l3"><a class="reference internal" href="generated/librosa.core.piptrack.html">librosa.core.piptrack</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#deprecated">Deprecated</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="generated/librosa.core.ifgram.html">librosa.core.ifgram</a></li>
 </ul>
 </li>
 </ul>
@@ -290,7 +295,7 @@
 <td>Stream audio in fixed-length buffers.</td>
 </tr>
 <tr class="row-odd"><td><a class="reference internal" href="generated/librosa.core.to_mono.html#librosa.core.to_mono" title="librosa.core.to_mono"><code class="xref py py-obj docutils literal notranslate"><span class="pre">to_mono</span></code></a>(y)</td>
-<td>Force an audio signal down to mono.</td>
+<td>Force an audio signal down to mono by averaging samples across channels.</td>
 </tr>
 <tr class="row-even"><td><a class="reference internal" href="generated/librosa.core.resample.html#librosa.core.resample" title="librosa.core.resample"><code class="xref py py-obj docutils literal notranslate"><span class="pre">resample</span></code></a>(y,&nbsp;orig_sr,&nbsp;target_sr[,&nbsp;res_type,&nbsp;…])</td>
 <td>Resample a time series from orig_sr to target_sr</td>
@@ -331,13 +336,13 @@
 </colgroup>
 <tbody valign="top">
 <tr class="row-odd"><td><a class="reference internal" href="generated/librosa.core.stft.html#librosa.core.stft" title="librosa.core.stft"><code class="xref py py-obj docutils literal notranslate"><span class="pre">stft</span></code></a>(y[,&nbsp;n_fft,&nbsp;hop_length,&nbsp;win_length,&nbsp;…])</td>
-<td>Short-time Fourier transform (STFT)</td>
+<td>Short-time Fourier transform (STFT).</td>
 </tr>
 <tr class="row-even"><td><a class="reference internal" href="generated/librosa.core.istft.html#librosa.core.istft" title="librosa.core.istft"><code class="xref py py-obj docutils literal notranslate"><span class="pre">istft</span></code></a>(stft_matrix[,&nbsp;hop_length,&nbsp;win_length,&nbsp;…])</td>
 <td>Inverse short-time Fourier transform (ISTFT).</td>
 </tr>
-<tr class="row-odd"><td><a class="reference internal" href="generated/librosa.core.ifgram.html#librosa.core.ifgram" title="librosa.core.ifgram"><code class="xref py py-obj docutils literal notranslate"><span class="pre">ifgram</span></code></a>(y[,&nbsp;sr,&nbsp;n_fft,&nbsp;hop_length,&nbsp;…])</td>
-<td>Compute the instantaneous frequency (as a proportion of the sampling rate) obtained as the time-derivative of the phase of the complex spectrum as described by <a class="reference internal" href="generated/librosa.core.ifgram.html#ra44d590316d7-1" id="id1">[Ra44d590316d7-1]</a>.</td>
+<tr class="row-odd"><td><a class="reference internal" href="generated/librosa.core.reassigned_spectrogram.html#librosa.core.reassigned_spectrogram" title="librosa.core.reassigned_spectrogram"><code class="xref py py-obj docutils literal notranslate"><span class="pre">reassigned_spectrogram</span></code></a>(y[,&nbsp;sr,&nbsp;S,&nbsp;n_fft,&nbsp;…])</td>
+<td>Time-frequency reassigned spectrogram.</td>
 </tr>
 <tr class="row-even"><td><a class="reference internal" href="generated/librosa.core.cqt.html#librosa.core.cqt" title="librosa.core.cqt"><code class="xref py py-obj docutils literal notranslate"><span class="pre">cqt</span></code></a>(y[,&nbsp;sr,&nbsp;hop_length,&nbsp;fmin,&nbsp;n_bins,&nbsp;…])</td>
 <td>Compute the constant-Q transform of an audio signal.</td>
@@ -352,30 +357,33 @@
 <td>Compute the pseudo constant-Q transform of an audio signal.</td>
 </tr>
 <tr class="row-even"><td><a class="reference internal" href="generated/librosa.core.iirt.html#librosa.core.iirt" title="librosa.core.iirt"><code class="xref py py-obj docutils literal notranslate"><span class="pre">iirt</span></code></a>(y[,&nbsp;sr,&nbsp;win_length,&nbsp;hop_length,&nbsp;…])</td>
-<td>Time-frequency representation using IIR filters <a class="reference internal" href="generated/librosa.core.iirt.html#rd4077732470d-1" id="id2">[Rd4077732470d-1]</a>.</td>
+<td>Time-frequency representation using IIR filters <a class="reference internal" href="generated/librosa.core.iirt.html#rd4077732470d-1" id="id1">[Rd4077732470d-1]</a>.</td>
 </tr>
 <tr class="row-odd"><td><a class="reference internal" href="generated/librosa.core.fmt.html#librosa.core.fmt" title="librosa.core.fmt"><code class="xref py py-obj docutils literal notranslate"><span class="pre">fmt</span></code></a>(y[,&nbsp;t_min,&nbsp;n_fmt,&nbsp;kind,&nbsp;beta,&nbsp;…])</td>
-<td>The fast Mellin transform (FMT) <a class="reference internal" href="generated/librosa.core.fmt.html#r6343f8d4cac9-1" id="id3">[R6343f8d4cac9-1]</a> of a uniformly sampled signal y.</td>
+<td>The fast Mellin transform (FMT) <a class="reference internal" href="generated/librosa.core.fmt.html#r6343f8d4cac9-1" id="id2">[R6343f8d4cac9-1]</a> of a uniformly sampled signal y.</td>
 </tr>
 <tr class="row-even"><td><a class="reference internal" href="generated/librosa.core.griffinlim.html#librosa.core.griffinlim" title="librosa.core.griffinlim"><code class="xref py py-obj docutils literal notranslate"><span class="pre">griffinlim</span></code></a>(S[,&nbsp;n_iter,&nbsp;hop_length,&nbsp;…])</td>
-<td>Approximate magnitude spectrogram inversion using the “fast” Griffin-Lim algorithm <a class="reference internal" href="generated/librosa.core.griffinlim.html#r047f50301c96-1" id="id4">[R047f50301c96-1]</a> <a class="reference internal" href="generated/librosa.core.griffinlim.html#r047f50301c96-2" id="id5">[R047f50301c96-2]</a>.</td>
+<td>Approximate magnitude spectrogram inversion using the “fast” Griffin-Lim algorithm <a class="reference internal" href="generated/librosa.core.griffinlim.html#r047f50301c96-1" id="id3">[R047f50301c96-1]</a> <a class="reference internal" href="generated/librosa.core.griffinlim.html#r047f50301c96-2" id="id4">[R047f50301c96-2]</a>.</td>
 </tr>
-<tr class="row-odd"><td><a class="reference internal" href="generated/librosa.core.interp_harmonics.html#librosa.core.interp_harmonics" title="librosa.core.interp_harmonics"><code class="xref py py-obj docutils literal notranslate"><span class="pre">interp_harmonics</span></code></a>(x,&nbsp;freqs,&nbsp;h_range[,&nbsp;kind,&nbsp;…])</td>
+<tr class="row-odd"><td><a class="reference internal" href="generated/librosa.core.griffinlim_cqt.html#librosa.core.griffinlim_cqt" title="librosa.core.griffinlim_cqt"><code class="xref py py-obj docutils literal notranslate"><span class="pre">griffinlim_cqt</span></code></a>(C[,&nbsp;n_iter,&nbsp;sr,&nbsp;hop_length,&nbsp;…])</td>
+<td>Approximate constant-Q magnitude spectrogram inversion using the “fast” Griffin-Lim algorithm <a class="reference internal" href="generated/librosa.core.griffinlim_cqt.html#re33fb425db1f-1" id="id5">[Re33fb425db1f-1]</a> <a class="reference internal" href="generated/librosa.core.griffinlim_cqt.html#re33fb425db1f-2" id="id6">[Re33fb425db1f-2]</a>.</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="generated/librosa.core.interp_harmonics.html#librosa.core.interp_harmonics" title="librosa.core.interp_harmonics"><code class="xref py py-obj docutils literal notranslate"><span class="pre">interp_harmonics</span></code></a>(x,&nbsp;freqs,&nbsp;h_range[,&nbsp;kind,&nbsp;…])</td>
 <td>Compute the energy at harmonics of time-frequency representation.</td>
 </tr>
-<tr class="row-even"><td><a class="reference internal" href="generated/librosa.core.salience.html#librosa.core.salience" title="librosa.core.salience"><code class="xref py py-obj docutils literal notranslate"><span class="pre">salience</span></code></a>(S,&nbsp;freqs,&nbsp;h_range[,&nbsp;weights,&nbsp;…])</td>
+<tr class="row-odd"><td><a class="reference internal" href="generated/librosa.core.salience.html#librosa.core.salience" title="librosa.core.salience"><code class="xref py py-obj docutils literal notranslate"><span class="pre">salience</span></code></a>(S,&nbsp;freqs,&nbsp;h_range[,&nbsp;weights,&nbsp;…])</td>
 <td>Harmonic salience function.</td>
 </tr>
-<tr class="row-odd"><td><a class="reference internal" href="generated/librosa.core.phase_vocoder.html#librosa.core.phase_vocoder" title="librosa.core.phase_vocoder"><code class="xref py py-obj docutils literal notranslate"><span class="pre">phase_vocoder</span></code></a>(D,&nbsp;rate[,&nbsp;hop_length])</td>
+<tr class="row-even"><td><a class="reference internal" href="generated/librosa.core.phase_vocoder.html#librosa.core.phase_vocoder" title="librosa.core.phase_vocoder"><code class="xref py py-obj docutils literal notranslate"><span class="pre">phase_vocoder</span></code></a>(D,&nbsp;rate[,&nbsp;hop_length])</td>
 <td>Phase vocoder.</td>
 </tr>
-<tr class="row-even"><td><a class="reference internal" href="generated/librosa.core.magphase.html#librosa.core.magphase" title="librosa.core.magphase"><code class="xref py py-obj docutils literal notranslate"><span class="pre">magphase</span></code></a>(D[,&nbsp;power])</td>
+<tr class="row-odd"><td><a class="reference internal" href="generated/librosa.core.magphase.html#librosa.core.magphase" title="librosa.core.magphase"><code class="xref py py-obj docutils literal notranslate"><span class="pre">magphase</span></code></a>(D[,&nbsp;power])</td>
 <td>Separate a complex-valued spectrogram D into its magnitude (S) and phase (P) components, so that <em class="xref py py-obj">D = S * P</em>.</td>
 </tr>
-<tr class="row-odd"><td><a class="reference internal" href="generated/librosa.core.get_fftlib.html#librosa.core.get_fftlib" title="librosa.core.get_fftlib"><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_fftlib</span></code></a>()</td>
+<tr class="row-even"><td><a class="reference internal" href="generated/librosa.core.get_fftlib.html#librosa.core.get_fftlib" title="librosa.core.get_fftlib"><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_fftlib</span></code></a>()</td>
 <td>Get the FFT library currently used by librosa</td>
 </tr>
-<tr class="row-even"><td><a class="reference internal" href="generated/librosa.core.set_fftlib.html#librosa.core.set_fftlib" title="librosa.core.set_fftlib"><code class="xref py py-obj docutils literal notranslate"><span class="pre">set_fftlib</span></code></a>([lib])</td>
+<tr class="row-odd"><td><a class="reference internal" href="generated/librosa.core.set_fftlib.html#librosa.core.set_fftlib" title="librosa.core.set_fftlib"><code class="xref py py-obj docutils literal notranslate"><span class="pre">set_fftlib</span></code></a>([lib])</td>
 <td>Set the FFT library used by librosa.</td>
 </tr>
 </tbody>
@@ -408,7 +416,7 @@
 <td>Compute the A-weighting of a set of frequencies.</td>
 </tr>
 <tr class="row-odd"><td><a class="reference internal" href="generated/librosa.core.pcen.html#librosa.core.pcen" title="librosa.core.pcen"><code class="xref py py-obj docutils literal notranslate"><span class="pre">pcen</span></code></a>(S[,&nbsp;sr,&nbsp;hop_length,&nbsp;gain,&nbsp;bias,&nbsp;power,&nbsp;…])</td>
-<td>Per-channel energy normalization (PCEN) <a class="reference internal" href="generated/librosa.core.pcen.html#rb388d53f6b92-1" id="id6">[Rb388d53f6b92-1]</a></td>
+<td>Per-channel energy normalization (PCEN) <a class="reference internal" href="generated/librosa.core.pcen.html#rb388d53f6b92-1" id="id7">[Rb388d53f6b92-1]</a></td>
 </tr>
 </tbody>
 </table>
@@ -469,13 +477,13 @@
 <tr class="row-even"><td><a class="reference internal" href="generated/librosa.core.hz_to_mel.html#librosa.core.hz_to_mel" title="librosa.core.hz_to_mel"><code class="xref py py-obj docutils literal notranslate"><span class="pre">hz_to_mel</span></code></a>(frequencies[,&nbsp;htk])</td>
 <td>Convert Hz to Mels</td>
 </tr>
-<tr class="row-odd"><td><a class="reference internal" href="generated/librosa.core.hz_to_octs.html#librosa.core.hz_to_octs" title="librosa.core.hz_to_octs"><code class="xref py py-obj docutils literal notranslate"><span class="pre">hz_to_octs</span></code></a>(frequencies[,&nbsp;A440])</td>
+<tr class="row-odd"><td><a class="reference internal" href="generated/librosa.core.hz_to_octs.html#librosa.core.hz_to_octs" title="librosa.core.hz_to_octs"><code class="xref py py-obj docutils literal notranslate"><span class="pre">hz_to_octs</span></code></a>(frequencies[,&nbsp;tuning,&nbsp;…])</td>
 <td>Convert frequencies (Hz) to (fractional) octave numbers.</td>
 </tr>
 <tr class="row-even"><td><a class="reference internal" href="generated/librosa.core.mel_to_hz.html#librosa.core.mel_to_hz" title="librosa.core.mel_to_hz"><code class="xref py py-obj docutils literal notranslate"><span class="pre">mel_to_hz</span></code></a>(mels[,&nbsp;htk])</td>
 <td>Convert mel bin numbers to frequencies</td>
 </tr>
-<tr class="row-odd"><td><a class="reference internal" href="generated/librosa.core.octs_to_hz.html#librosa.core.octs_to_hz" title="librosa.core.octs_to_hz"><code class="xref py py-obj docutils literal notranslate"><span class="pre">octs_to_hz</span></code></a>(octs[,&nbsp;A440])</td>
+<tr class="row-odd"><td><a class="reference internal" href="generated/librosa.core.octs_to_hz.html#librosa.core.octs_to_hz" title="librosa.core.octs_to_hz"><code class="xref py py-obj docutils literal notranslate"><span class="pre">octs_to_hz</span></code></a>(octs[,&nbsp;tuning,&nbsp;bins_per_octave,&nbsp;A440])</td>
 <td>Convert octaves numbers to frequencies.</td>
 </tr>
 <tr class="row-even"><td><a class="reference internal" href="generated/librosa.core.fft_frequencies.html#librosa.core.fft_frequencies" title="librosa.core.fft_frequencies"><code class="xref py py-obj docutils literal notranslate"><span class="pre">fft_frequencies</span></code></a>([sr,&nbsp;n_fft])</td>
@@ -522,6 +530,20 @@
 </tbody>
 </table>
 </div>
+<div class="section" id="deprecated">
+<h2>Deprecated<a class="headerlink" href="#deprecated" title="Permalink to this headline">¶</a></h2>
+<table border="1" class="longtable docutils">
+<colgroup>
+<col width="10%" />
+<col width="90%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td><a class="reference internal" href="generated/librosa.core.ifgram.html#librosa.core.ifgram" title="librosa.core.ifgram"><code class="xref py py-obj docutils literal notranslate"><span class="pre">ifgram</span></code></a>(y[,&nbsp;sr,&nbsp;n_fft,&nbsp;hop_length,&nbsp;…])</td>
+<td>Compute the instantaneous frequency (as a proportion of the sampling rate) obtained as the time-derivative of the phase of the complex spectrum as described by <a class="reference internal" href="generated/librosa.core.ifgram.html#ra44d590316d7-1" id="id8">[Ra44d590316d7-1]</a>.</td>
+</tr>
+</tbody>
+</table>
+</div>
 </div>
 
 
@@ -562,7 +584,7 @@
 <div class="rst-versions" data-toggle="rst-versions" role="note" aria-label="versions">
     <span class="rst-current-version" data-toggle="rst-current-version">
         <span class="fa fa-book"> Other Versions</span>
-        v: 0.7.0
+        v: 0.7.1
         <span class="fa fa-caret-down"></span>
     </span>
     <div class="rst-other-versions">
@@ -578,6 +600,7 @@
             <dd><a href="0.6.2/core.html">0.6.2</a></dd>
             <dd><a href="0.6.3/core.html">0.6.3</a></dd>
             <dd><a href="0.7.0/core.html">0.7.0</a></dd>
+            <dd><a href="0.7.1/core.html">0.7.1</a></dd>
             <dd><a href="v0.1.0/index.html">v0.1.0</a></dd>
             <dd><a href="v0.4.0/core.html">v0.4.0</a></dd>
         </dl>

@@ -4,20 +4,34 @@
 y, sr = librosa.load(librosa.util.example_audio_file())
 onset_env = librosa.onset.onset_strength(y=y, sr=sr)
 pulse = librosa.beat.plp(onset_envelope=onset_env, sr=sr)
+# Or compute pulse with an alternate prior, like log-normal
+import scipy.stats
+prior = scipy.stats.lognorm(loc=np.log(120), scale=120, s=1)
+pulse_lognorm = librosa.beat.plp(onset_envelope=onset_env, sr=sr,
+                                 prior=prior)
 melspec = librosa.feature.melspectrogram(y=y, sr=sr)
 import matplotlib.pyplot as plt
-ax = plt.subplot(2,1,1)
+ax = plt.subplot(3,1,1)
 librosa.display.specshow(librosa.power_to_db(melspec,
                                              ref=np.max),
                          x_axis='time', y_axis='mel')
 plt.title('Mel spectrogram')
-plt.subplot(2,1,2, sharex=ax)
+plt.subplot(3,1,2, sharex=ax)
 plt.plot(librosa.times_like(onset_env),
          librosa.util.normalize(onset_env),
          label='Onset strength')
 plt.plot(librosa.times_like(pulse),
          librosa.util.normalize(pulse),
          label='Predominant local pulse (PLP)')
+plt.title('Uniform tempo prior [30, 300]')
+plt.subplot(3,1,3, sharex=ax)
+plt.plot(librosa.times_like(onset_env),
+         librosa.util.normalize(onset_env),
+         label='Onset strength')
+plt.plot(librosa.times_like(pulse_lognorm),
+         librosa.util.normalize(pulse_lognorm),
+         label='Predominant local pulse (PLP)')
+plt.title('Log-normal tempo prior, mean=120')
 plt.legend()
 plt.xlim([30, 35])
 plt.tight_layout()

@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>librosa.effects &mdash; librosa 0.7.0 documentation</title>
+  <title>librosa.effects &mdash; librosa 0.7.1 documentation</title>
   
 
   
@@ -23,7 +23,7 @@
       <script type="text/javascript">
           var DOCUMENTATION_OPTIONS = {
               URL_ROOT:'../../',
-              VERSION:'0.7.0',
+              VERSION:'0.7.1',
               LANGUAGE:'None',
               COLLAPSE_INDEX:false,
               FILE_SUFFIX:'.html',
@@ -223,9 +223,11 @@
 <span class="sd">    remix</span>
 <span class="sd">    trim</span>
 <span class="sd">    split</span>
+<span class="sd">    preemphasis</span>
 <span class="sd">&quot;&quot;&quot;</span>
 
 <span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">import</span> <span class="nn">scipy.signal</span>
 
 <span class="kn">from</span> <span class="nn">.</span> <span class="k">import</span> <span class="n">core</span>
 <span class="kn">from</span> <span class="nn">.</span> <span class="k">import</span> <span class="n">decompose</span>
@@ -565,9 +567,6 @@
 <span class="sd">    &gt;&gt;&gt; y_out = librosa.effects.remix(y, intervals[::-1])</span>
 <span class="sd">    &#39;&#39;&#39;</span>
 
-    <span class="c1"># Validate the audio buffer</span>
-    <span class="n">util</span><span class="o">.</span><span class="n">valid_audio</span><span class="p">(</span><span class="n">y</span><span class="p">,</span> <span class="n">mono</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
-
     <span class="n">y_out</span> <span class="o">=</span> <span class="p">[]</span>
 
     <span class="k">if</span> <span class="n">align_zeros</span><span class="p">:</span>
@@ -587,7 +586,12 @@
 
         <span class="n">y_out</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">y</span><span class="p">[</span><span class="nb">tuple</span><span class="p">(</span><span class="n">clip</span><span class="p">)])</span>
 
-    <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">concatenate</span><span class="p">(</span><span class="n">y_out</span><span class="p">,</span> <span class="n">axis</span><span class="o">=-</span><span class="mi">1</span><span class="p">)</span></div>
+    <span class="n">y_out</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">asfortranarray</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">concatenate</span><span class="p">(</span><span class="n">y_out</span><span class="p">,</span> <span class="n">axis</span><span class="o">=-</span><span class="mi">1</span><span class="p">))</span>
+
+    <span class="c1"># Validate the output audio buffer</span>
+    <span class="n">util</span><span class="o">.</span><span class="n">valid_audio</span><span class="p">(</span><span class="n">y_out</span><span class="p">,</span> <span class="n">mono</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">y_out</span></div>
 
 
 <span class="k">def</span> <span class="nf">_signal_to_frame_nonsilent</span><span class="p">(</span><span class="n">y</span><span class="p">,</span> <span class="n">frame_length</span><span class="o">=</span><span class="mi">2048</span><span class="p">,</span> <span class="n">hop_length</span><span class="o">=</span><span class="mi">512</span><span class="p">,</span> <span class="n">top_db</span><span class="o">=</span><span class="mi">60</span><span class="p">,</span>
@@ -762,6 +766,84 @@
 
     <span class="c1"># Stack the results back as an ndarray</span>
     <span class="k">return</span> <span class="n">edges</span><span class="o">.</span><span class="n">reshape</span><span class="p">((</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">))</span></div>
+
+
+<div class="viewcode-block" id="preemphasis"><a class="viewcode-back" href="../../generated/librosa.effects.preemphasis.html#librosa.effects.preemphasis">[docs]</a><span class="k">def</span> <span class="nf">preemphasis</span><span class="p">(</span><span class="n">y</span><span class="p">,</span> <span class="n">coef</span><span class="o">=</span><span class="mf">0.97</span><span class="p">,</span> <span class="n">zi</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">return_zf</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+    <span class="sd">&#39;&#39;&#39;Pre-emphasize an audio signal with a first-order auto-regressive filter:</span>
+
+<span class="sd">        y[n] -&gt; y[n] - coef * y[n-1]</span>
+
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    y : np.ndarray</span>
+<span class="sd">        Audio signal</span>
+
+<span class="sd">    coef : positive number</span>
+<span class="sd">        Pre-emphasis coefficient.  Typical values of `coef` are between 0 and 1.</span>
+
+<span class="sd">        At the limit `coef=0`, the signal is unchanged.</span>
+
+<span class="sd">        At `coef=1`, the result is the first-order difference of the signal.</span>
+
+<span class="sd">    zi : number</span>
+<span class="sd">        Initial filter state</span>
+
+<span class="sd">    return_zf : boolean</span>
+<span class="sd">        If `True`, return the final filter state.</span>
+<span class="sd">        If `False`, only return the pre-emphasized signal.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    `y_out` : np.ndarray</span>
+<span class="sd">        pre-emphasized signal</span>
+
+<span class="sd">    zf : number</span>
+<span class="sd">        if `return_zf=True`, the final filter state is also returned</span>
+
+<span class="sd">    Examples</span>
+<span class="sd">    --------</span>
+<span class="sd">    Apply a standard pre-emphasis filter</span>
+
+<span class="sd">    &gt;&gt;&gt; import matplotlib.pyplot as plt</span>
+<span class="sd">    &gt;&gt;&gt; y, sr = librosa.load(librosa.util.example_audio_file(), offset=30, duration=10)</span>
+<span class="sd">    &gt;&gt;&gt; y_filt = librosa.effects.preemphasis(y)</span>
+<span class="sd">    &gt;&gt;&gt; # and plot the results for comparison</span>
+<span class="sd">    &gt;&gt;&gt; S_orig = librosa.amplitude_to_db(np.abs(librosa.stft(y)), ref=np.max)</span>
+<span class="sd">    &gt;&gt;&gt; S_preemph = librosa.amplitude_to_db(np.abs(librosa.stft(y_filt)), ref=np.max)</span>
+<span class="sd">    &gt;&gt;&gt; plt.subplot(2,1,1)</span>
+<span class="sd">    &gt;&gt;&gt; librosa.display.specshow(S_orig, y_axis=&#39;log&#39;, x_axis=&#39;time&#39;)</span>
+<span class="sd">    &gt;&gt;&gt; plt.title(&#39;Original signal&#39;)</span>
+<span class="sd">    &gt;&gt;&gt; plt.colorbar()</span>
+<span class="sd">    &gt;&gt;&gt; plt.subplot(2,1,2)</span>
+<span class="sd">    &gt;&gt;&gt; librosa.display.specshow(S_preemph, y_axis=&#39;log&#39;, x_axis=&#39;time&#39;)</span>
+<span class="sd">    &gt;&gt;&gt; plt.title(&#39;Pre-emphasized signal&#39;)</span>
+<span class="sd">    &gt;&gt;&gt; plt.colorbar()</span>
+<span class="sd">    &gt;&gt;&gt; plt.tight_layout();</span>
+
+
+<span class="sd">    Apply pre-emphasis in pieces for block streaming.  Note that the second block</span>
+<span class="sd">    initializes `zi` with the final state `zf` returned by the first call.</span>
+
+<span class="sd">    &gt;&gt;&gt; y_filt_1, zf = librosa.effects.preemphasis(y[:1000], return_zf=True)</span>
+<span class="sd">    &gt;&gt;&gt; y_filt_2, zf = librosa.effects.preemphasis(y[1000:], zi=zf, return_zf=True)</span>
+<span class="sd">    &gt;&gt;&gt; np.allclose(y_filt, np.concatenate([y_filt_1, y_filt_2]))</span>
+<span class="sd">    True</span>
+
+<span class="sd">    &#39;&#39;&#39;</span>
+    <span class="n">b</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">([</span><span class="mf">1.0</span><span class="p">,</span> <span class="o">-</span><span class="n">coef</span><span class="p">],</span> <span class="n">dtype</span><span class="o">=</span><span class="n">y</span><span class="o">.</span><span class="n">dtype</span><span class="p">)</span>
+    <span class="n">a</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">([</span><span class="mf">1.0</span><span class="p">],</span> <span class="n">dtype</span><span class="o">=</span><span class="n">y</span><span class="o">.</span><span class="n">dtype</span><span class="p">)</span>
+
+    <span class="k">if</span> <span class="n">zi</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">zi</span> <span class="o">=</span> <span class="n">scipy</span><span class="o">.</span><span class="n">signal</span><span class="o">.</span><span class="n">lfilter_zi</span><span class="p">(</span><span class="n">b</span><span class="p">,</span> <span class="n">a</span><span class="p">)</span>
+
+    <span class="n">y_out</span><span class="p">,</span> <span class="n">z_f</span> <span class="o">=</span> <span class="n">scipy</span><span class="o">.</span><span class="n">signal</span><span class="o">.</span><span class="n">lfilter</span><span class="p">(</span><span class="n">b</span><span class="p">,</span> <span class="n">a</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span>
+                                      <span class="n">zi</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">zi</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">y</span><span class="o">.</span><span class="n">dtype</span><span class="p">))</span>
+
+    <span class="k">if</span> <span class="n">return_zf</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">y_out</span><span class="p">,</span> <span class="n">z_f</span>
+
+    <span class="k">return</span> <span class="n">y_out</span></div>
 </pre></div>
 
            </div>
@@ -808,6 +890,7 @@
             <dd><a href="../../../0.6.2/index.html">0.6.2</a></dd>
             <dd><a href="../../../0.6.3/index.html">0.6.3</a></dd>
             <dd><a href="../../../0.7.0/index.html">0.7.0</a></dd>
+            <dd><a href="../../../0.7.1/index.html">0.7.1</a></dd>
             <dd><a href="../../../v0.1.0/index.html">v0.1.0</a></dd>
             <dd><a href="../../../v0.4.0/index.html">v0.4.0</a></dd>
         </dl>

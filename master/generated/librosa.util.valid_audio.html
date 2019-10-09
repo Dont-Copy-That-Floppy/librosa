@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>librosa.util.valid_audio &mdash; librosa 0.7.0 documentation</title>
+  <title>librosa.util.valid_audio &mdash; librosa 0.7.1 documentation</title>
   
 
   
@@ -23,7 +23,7 @@
       <script type="text/javascript">
           var DOCUMENTATION_OPTIONS = {
               URL_ROOT:'../',
-              VERSION:'0.7.0',
+              VERSION:'0.7.1',
               LANGUAGE:'None',
               COLLAPSE_INDEX:false,
               FILE_SUFFIX:'.html',
@@ -122,6 +122,7 @@
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="../util.html#file-operations">File operations</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../util.html#deprecated">Deprecated</a></li>
 </ul>
 </li>
 </ul>
@@ -208,7 +209,7 @@
 
 
 
-    <p class="scv-banner scv-sphinx_rtd_theme"><a href="../../0.7.0/generated/librosa.util.valid_audio.html"><b>Warning:</b> This document is for the development version of librosa. The latest version is 0.7.0.</a></p>
+    <p class="scv-banner scv-sphinx_rtd_theme"><a href="../../0.7.1/generated/librosa.util.valid_audio.html"><b>Warning:</b> This document is for the development version of librosa. The latest version is 0.7.1.</a></p>
 <div class="section" id="librosa-util-valid-audio">
 <h1>librosa.util.valid_audio<a class="headerlink" href="#librosa-util-valid-audio" title="Permalink to this headline">¶</a></h1>
 <dl class="function">
@@ -239,13 +240,14 @@
 <tr class="field-odd field"><th class="field-name">Raises:</th><td class="field-body"><dl class="first last docutils">
 <dt>ParameterError</dt>
 <dd><dl class="first last docutils">
-<dt>If <em class="xref py py-obj">y</em> fails to meet the following criteria:</dt>
+<dt>In any of these cases:</dt>
 <dd><ul class="first last simple">
-<li><em class="xref py py-obj">type(y)</em> is <em class="xref py py-obj">np.ndarray</em></li>
-<li><em class="xref py py-obj">y.dtype</em> is floating-point</li>
+<li><em class="xref py py-obj">type(y)</em> is not <em class="xref py py-obj">np.ndarray</em></li>
+<li><em class="xref py py-obj">y.dtype</em> is not floating-point</li>
 <li><em class="xref py py-obj">mono == True</em> and <em class="xref py py-obj">y.ndim</em> is not 1</li>
 <li><em class="xref py py-obj">mono == False</em> and <em class="xref py py-obj">y.ndim</em> is not 1 or 2</li>
-<li><em class="xref py py-obj">np.isfinite(y).all()</em> is not True</li>
+<li><em class="xref py py-obj">np.isfinite(y).all()</em> is False</li>
+<li><em class="xref py py-obj">y.flags[“F_CONTIGUOUS”]</em> is False</li>
 </ul>
 </dd>
 </dl>
@@ -255,18 +257,30 @@
 </tr>
 </tbody>
 </table>
+<div class="admonition seealso">
+<p class="first admonition-title">See also</p>
+<dl class="last docutils">
+<dt><a class="reference internal" href="librosa.util.stack.html#librosa.util.stack" title="librosa.util.stack"><code class="xref py py-obj docutils literal notranslate"><span class="pre">stack</span></code></a></dt>
+<dd></dd>
+<dt><a class="reference external" href="https://docs.scipy.org/doc/numpy/reference/generated/numpy.asfortranarray.html#numpy.asfortranarray" title="(in NumPy v1.17)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">numpy.asfortranarray</span></code></a></dt>
+<dd></dd>
+<dt><code class="xref py py-obj docutils literal notranslate"><span class="pre">numpy.float32</span></code></dt>
+<dd></dd>
+</dl>
+</div>
 <p class="rubric">Notes</p>
 <p>This function caches at level 20.</p>
 <p class="rubric">Examples</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="c1"># Only allow monophonic signals</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">y</span><span class="p">,</span> <span class="n">sr</span> <span class="o">=</span> <span class="n">librosa</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">librosa</span><span class="o">.</span><span class="n">util</span><span class="o">.</span><span class="n">example_audio_file</span><span class="p">())</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">librosa</span><span class="o">.</span><span class="n">util</span><span class="o">.</span><span class="n">valid_audio</span><span class="p">(</span><span class="n">y</span><span class="p">)</span>
-<span class="go">True</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="c1"># By default, valid_audio allows only mono signals</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">filepath</span> <span class="o">=</span> <span class="n">librosa</span><span class="o">.</span><span class="n">util</span><span class="o">.</span><span class="n">example_audio_file</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">y_mono</span><span class="p">,</span> <span class="n">sr</span> <span class="o">=</span> <span class="n">librosa</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">filepath</span><span class="p">,</span> <span class="n">mono</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">y_stereo</span><span class="p">,</span> <span class="n">_</span> <span class="o">=</span> <span class="n">librosa</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">filepath</span><span class="p">,</span> <span class="n">mono</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">librosa</span><span class="o">.</span><span class="n">util</span><span class="o">.</span><span class="n">valid_audio</span><span class="p">(</span><span class="n">y_mono</span><span class="p">),</span> <span class="n">librosa</span><span class="o">.</span><span class="n">util</span><span class="o">.</span><span class="n">valid_audio</span><span class="p">(</span><span class="n">y_stereo</span><span class="p">)</span>
+<span class="go">True, False</span>
 </pre></div>
 </div>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="c1"># If we want to allow stereo signals</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">y</span><span class="p">,</span> <span class="n">sr</span> <span class="o">=</span> <span class="n">librosa</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">librosa</span><span class="o">.</span><span class="n">util</span><span class="o">.</span><span class="n">example_audio_file</span><span class="p">(),</span> <span class="n">mono</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">librosa</span><span class="o">.</span><span class="n">util</span><span class="o">.</span><span class="n">valid_audio</span><span class="p">(</span><span class="n">y</span><span class="p">,</span> <span class="n">mono</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="c1"># To allow stereo signals, set mono=False</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">librosa</span><span class="o">.</span><span class="n">util</span><span class="o">.</span><span class="n">valid_audio</span><span class="p">(</span><span class="n">y_stereo</span><span class="p">,</span> <span class="n">mono</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
 <span class="go">True</span>
 </pre></div>
 </div>
@@ -328,6 +342,7 @@
             <dd><a href="../../0.6.2/generated/librosa.util.valid_audio.html">0.6.2</a></dd>
             <dd><a href="../../0.6.3/generated/librosa.util.valid_audio.html">0.6.3</a></dd>
             <dd><a href="../../0.7.0/generated/librosa.util.valid_audio.html">0.7.0</a></dd>
+            <dd><a href="../../0.7.1/generated/librosa.util.valid_audio.html">0.7.1</a></dd>
             <dd><a href="../../v0.1.0/index.html">v0.1.0</a></dd>
             <dd><a href="../../v0.4.0/index.html">v0.4.0</a></dd>
         </dl>

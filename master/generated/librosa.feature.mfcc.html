@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>librosa.feature.mfcc &mdash; librosa 0.7.0 documentation</title>
+  <title>librosa.feature.mfcc &mdash; librosa 0.7.1 documentation</title>
   
 
   
@@ -23,7 +23,7 @@
       <script type="text/javascript">
           var DOCUMENTATION_OPTIONS = {
               URL_ROOT:'../',
-              VERSION:'0.7.0',
+              VERSION:'0.7.1',
               LANGUAGE:'None',
               COLLAPSE_INDEX:false,
               FILE_SUFFIX:'.html',
@@ -218,12 +218,12 @@
 
 
 
-    <p class="scv-banner scv-sphinx_rtd_theme"><a href="../../0.7.0/generated/librosa.feature.mfcc.html"><b>Warning:</b> This document is for the development version of librosa. The latest version is 0.7.0.</a></p>
+    <p class="scv-banner scv-sphinx_rtd_theme"><a href="../../0.7.1/generated/librosa.feature.mfcc.html"><b>Warning:</b> This document is for the development version of librosa. The latest version is 0.7.1.</a></p>
 <div class="section" id="librosa-feature-mfcc">
 <h1>librosa.feature.mfcc<a class="headerlink" href="#librosa-feature-mfcc" title="Permalink to this headline">¶</a></h1>
 <dl class="function">
 <dt id="librosa.feature.mfcc">
-<code class="descclassname">librosa.feature.</code><code class="descname">mfcc</code><span class="sig-paren">(</span><em>y=None</em>, <em>sr=22050</em>, <em>S=None</em>, <em>n_mfcc=20</em>, <em>dct_type=2</em>, <em>norm='ortho'</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/librosa/feature/spectral.html#mfcc"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#librosa.feature.mfcc" title="Permalink to this definition">¶</a></dt>
+<code class="descclassname">librosa.feature.</code><code class="descname">mfcc</code><span class="sig-paren">(</span><em>y=None</em>, <em>sr=22050</em>, <em>S=None</em>, <em>n_mfcc=20</em>, <em>dct_type=2</em>, <em>norm='ortho'</em>, <em>lifter=0</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/librosa/feature/spectral.html#mfcc"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#librosa.feature.mfcc" title="Permalink to this definition">¶</a></dt>
 <dd><p>Mel-frequency cepstral coefficients (MFCCs)</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
@@ -251,6 +251,12 @@ By default, DCT type-2 is used.</p>
 DCT basis.</p>
 <p class="last">Normalization is not supported for <em class="xref py py-obj">dct_type=1</em>.</p>
 </dd>
+<dt><strong>lifter</strong> <span class="classifier-delimiter">:</span> <span class="classifier">number &gt;= 0</span></dt>
+<dd><p class="first">If <em class="xref py py-obj">lifter&gt;0</em>, apply <em>liftering</em> (cepstral filtering) to the MFCCs:</p>
+<p><em class="xref py py-obj">M[n, :] &lt;- M[n, :] * (1 + sin(pi * (n + 1) / lifter)) * lifter / 2</em></p>
+<p class="last">Setting <em class="xref py py-obj">lifter &gt;= 2 * n_mfcc</em> emphasizes the higher-order coefficients.
+As <em class="xref py py-obj">lifter</em> increases, the coefficient weighting becomes approximately linear.</p>
+</dd>
 <dt><strong>kwargs</strong> <span class="classifier-delimiter">:</span> <span class="classifier">additional keyword arguments</span></dt>
 <dd><p class="first last">Arguments to <a class="reference internal" href="librosa.feature.melspectrogram.html#librosa.feature.melspectrogram" title="librosa.feature.melspectrogram"><code class="xref py py-obj docutils literal notranslate"><span class="pre">melspectrogram</span></code></a>, if operating
 on time series input</p>
@@ -272,7 +278,7 @@ on time series input</p>
 <dl class="last docutils">
 <dt><a class="reference internal" href="librosa.feature.melspectrogram.html#librosa.feature.melspectrogram" title="librosa.feature.melspectrogram"><code class="xref py py-obj docutils literal notranslate"><span class="pre">melspectrogram</span></code></a></dt>
 <dd></dd>
-<dt><a class="reference external" href="https://docs.scipy.org/doc/scipy/reference/generated/scipy.fftpack.dct.html#scipy.fftpack.dct" title="(in SciPy v1.3.0)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">scipy.fftpack.dct</span></code></a></dt>
+<dt><a class="reference external" href="https://docs.scipy.org/doc/scipy/reference/generated/scipy.fftpack.dct.html#scipy.fftpack.dct" title="(in SciPy v1.3.1)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">scipy.fftpack.dct</span></code></a></dt>
 <dd></dd>
 </dl>
 </div>
@@ -410,6 +416,7 @@ on time series input</p>
             <dd><a href="../../0.6.2/generated/librosa.feature.mfcc.html">0.6.2</a></dd>
             <dd><a href="../../0.6.3/generated/librosa.feature.mfcc.html">0.6.3</a></dd>
             <dd><a href="../../0.7.0/generated/librosa.feature.mfcc.html">0.7.0</a></dd>
+            <dd><a href="../../0.7.1/generated/librosa.feature.mfcc.html">0.7.1</a></dd>
             <dd><a href="../../v0.1.0/index.html">v0.1.0</a></dd>
             <dd><a href="../../v0.4.0/index.html">v0.4.0</a></dd>
         </dl>

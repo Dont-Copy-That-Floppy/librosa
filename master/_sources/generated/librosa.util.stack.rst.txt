@@ -1,0 +1,6 @@
+librosa.util.stack
+==================
+
+.. currentmodule:: librosa.util
+
+.. autofunction:: stack

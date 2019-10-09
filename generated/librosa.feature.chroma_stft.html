@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>librosa.feature.chroma_stft &mdash; librosa 0.7.0 documentation</title>
+  <title>librosa.feature.chroma_stft &mdash; librosa 0.7.1 documentation</title>
   
 
   
@@ -23,7 +23,7 @@
       <script type="text/javascript">
           var DOCUMENTATION_OPTIONS = {
               URL_ROOT:'../',
-              VERSION:'0.7.0',
+              VERSION:'0.7.1',
               LANGUAGE:'None',
               COLLAPSE_INDEX:false,
               FILE_SUFFIX:'.html',
@@ -220,7 +220,7 @@
 <h1>librosa.feature.chroma_stft<a class="headerlink" href="#librosa-feature-chroma-stft" title="Permalink to this headline">¶</a></h1>
 <dl class="function">
 <dt id="librosa.feature.chroma_stft">
-<code class="descclassname">librosa.feature.</code><code class="descname">chroma_stft</code><span class="sig-paren">(</span><em>y=None</em>, <em>sr=22050</em>, <em>S=None</em>, <em>norm=inf</em>, <em>n_fft=2048</em>, <em>hop_length=512</em>, <em>win_length=None</em>, <em>window='hann'</em>, <em>center=True</em>, <em>pad_mode='reflect'</em>, <em>tuning=None</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/librosa/feature/spectral.html#chroma_stft"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#librosa.feature.chroma_stft" title="Permalink to this definition">¶</a></dt>
+<code class="descclassname">librosa.feature.</code><code class="descname">chroma_stft</code><span class="sig-paren">(</span><em>y=None</em>, <em>sr=22050</em>, <em>S=None</em>, <em>norm=inf</em>, <em>n_fft=2048</em>, <em>hop_length=512</em>, <em>win_length=None</em>, <em>window='hann'</em>, <em>center=True</em>, <em>pad_mode='reflect'</em>, <em>tuning=None</em>, <em>n_chroma=12</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/librosa/feature/spectral.html#chroma_stft"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#librosa.feature.chroma_stft" title="Permalink to this definition">¶</a></dt>
 <dd><p>Compute a chromagram from a waveform or power spectrogram.</p>
 <p>This implementation is derived from <em class="xref py py-obj">chromagram_E</em> <a class="reference internal" href="#r83f3961994d7-1" id="id1">[1]</a></p>
 <table class="docutils citation" frame="void" id="r83f3961994d7-1" rules="none">
@@ -265,7 +265,7 @@ with zeros to match <em class="xref py py-obj">n_fft</em>.</p>
 <dt><strong>window</strong> <span class="classifier-delimiter">:</span> <span class="classifier">string, tuple, number, function, or np.ndarray [shape=(n_fft,)]</span></dt>
 <dd><ul class="first last simple">
 <li>a window specification (string, tuple, or number);
-see <a class="reference external" href="https://docs.scipy.org/doc/scipy/reference/generated/scipy.signal.get_window.html#scipy.signal.get_window" title="(in SciPy v1.3.0)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">scipy.signal.get_window</span></code></a></li>
+see <a class="reference external" href="https://docs.scipy.org/doc/scipy/reference/generated/scipy.signal.get_window.html#scipy.signal.get_window" title="(in SciPy v1.3.1)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">scipy.signal.get_window</span></code></a></li>
 <li>a window function, such as <code class="xref py py-obj docutils literal notranslate"><span class="pre">scipy.signal.hanning</span></code></li>
 <li>a vector or array of length <em class="xref py py-obj">n_fft</em></li>
 </ul>
@@ -281,9 +281,12 @@ see <a class="reference external" href="https://docs.scipy.org/doc/scipy/referen
 <dd><p class="first last">If <em class="xref py py-obj">center=True</em>, the padding mode to use at the edges of the signal.
 By default, STFT uses reflection padding.</p>
 </dd>
-<dt><strong>tuning</strong> <span class="classifier-delimiter">:</span> <span class="classifier">float in <em class="xref py py-obj">[-0.5, 0.5)</em> [scalar] or None.</span></dt>
-<dd><p class="first last">Deviation from A440 tuning in fractional bins (cents).
+<dt><strong>tuning</strong> <span class="classifier-delimiter">:</span> <span class="classifier">float [scalar] or None.</span></dt>
+<dd><p class="first last">Deviation from A440 tuning in fractional chroma bins.
 If <em class="xref py py-obj">None</em>, it is automatically estimated.</p>
+</dd>
+<dt><strong>n_chroma</strong> <span class="classifier-delimiter">:</span> <span class="classifier">int &gt; 0 [scalar]</span></dt>
+<dd><p class="first last">Number of chroma bins to produce (12 by default).</p>
 </dd>
 <dt><strong>kwargs</strong> <span class="classifier-delimiter">:</span> <span class="classifier">additional keyword arguments</span></dt>
 <dd><p class="first last">Arguments to parameterize chroma filters.
@@ -397,7 +400,7 @@ See <a class="reference internal" href="librosa.filters.chroma.html#librosa.filt
 <div class="rst-versions" data-toggle="rst-versions" role="note" aria-label="versions">
     <span class="rst-current-version" data-toggle="rst-current-version">
         <span class="fa fa-book"> Other Versions</span>
-        v: 0.7.0
+        v: 0.7.1
         <span class="fa fa-caret-down"></span>
     </span>
     <div class="rst-other-versions">
@@ -413,6 +416,7 @@ See <a class="reference internal" href="librosa.filters.chroma.html#librosa.filt
             <dd><a href="../0.6.2/generated/librosa.feature.chroma_stft.html">0.6.2</a></dd>
             <dd><a href="../0.6.3/generated/librosa.feature.chroma_stft.html">0.6.3</a></dd>
             <dd><a href="../0.7.0/generated/librosa.feature.chroma_stft.html">0.7.0</a></dd>
+            <dd><a href="../0.7.1/generated/librosa.feature.chroma_stft.html">0.7.1</a></dd>
             <dd><a href="../v0.1.0/index.html">v0.1.0</a></dd>
             <dd><a href="../v0.4.0/index.html">v0.4.0</a></dd>
         </dl>

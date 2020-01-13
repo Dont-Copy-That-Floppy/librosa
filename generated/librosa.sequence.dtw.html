@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>librosa.sequence.dtw &mdash; librosa 0.7.1 documentation</title>
+  <title>librosa.sequence.dtw &mdash; librosa 0.7.2 documentation</title>
   
 
   
@@ -23,7 +23,7 @@
       <script type="text/javascript">
           var DOCUMENTATION_OPTIONS = {
               URL_ROOT:'../',
-              VERSION:'0.7.1',
+              VERSION:'0.7.2',
               LANGUAGE:'None',
               COLLAPSE_INDEX:false,
               FILE_SUFFIX:'.html',
@@ -236,7 +236,7 @@ Springer Verlag, ISBN: 978-3-319-21944-8, 2015.</td></tr>
 </dd>
 <dt><strong>metric</strong> <span class="classifier-delimiter">:</span> <span class="classifier">str</span></dt>
 <dd><p class="first last">Identifier for the cost-function as documented
-in <em class="xref py py-obj">scipy.spatial.cdist()</em></p>
+in <em class="xref py py-obj">scipy.spatial.distance.cdist()</em></p>
 </dd>
 <dt><strong>step_sizes_sigma</strong> <span class="classifier-delimiter">:</span> <span class="classifier">np.ndarray [shape=[n, 2]]</span></dt>
 <dd><p class="first last">Specifies allowed step sizes as used by the dtw.</p>
@@ -279,9 +279,10 @@ Only returned when <code class="docutils literal notranslate"><span class="pre">
 </tr>
 <tr class="field-odd field"><th class="field-name">Raises:</th><td class="field-body"><dl class="first last docutils">
 <dt>ParameterError</dt>
-<dd><p class="first last">If you are doing diagonal matching and Y is shorter than X or if an incompatible
-combination of X, Y, and C are supplied.
-If your input dimensions are incompatible.</p>
+<dd><p class="first">If you are doing diagonal matching and Y is shorter than X or if an
+incompatible combination of X, Y, and C are supplied.</p>
+<p>If your input dimensions are incompatible.</p>
+<p class="last">If the cost matrix has NaN values.</p>
 </dd>
 </dl>
 </td>
@@ -356,7 +357,7 @@ If your input dimensions are incompatible.</p>
 <div class="rst-versions" data-toggle="rst-versions" role="note" aria-label="versions">
     <span class="rst-current-version" data-toggle="rst-current-version">
         <span class="fa fa-book"> Other Versions</span>
-        v: 0.7.1
+        v: 0.7.2
         <span class="fa fa-caret-down"></span>
     </span>
     <div class="rst-other-versions">
@@ -373,6 +374,7 @@ If your input dimensions are incompatible.</p>
             <dd><a href="../0.6.3/generated/librosa.sequence.dtw.html">0.6.3</a></dd>
             <dd><a href="../0.7.0/generated/librosa.sequence.dtw.html">0.7.0</a></dd>
             <dd><a href="../0.7.1/generated/librosa.sequence.dtw.html">0.7.1</a></dd>
+            <dd><a href="../0.7.2/generated/librosa.sequence.dtw.html">0.7.2</a></dd>
             <dd><a href="../v0.1.0/index.html">v0.1.0</a></dd>
             <dd><a href="../v0.4.0/index.html">v0.4.0</a></dd>
         </dl>

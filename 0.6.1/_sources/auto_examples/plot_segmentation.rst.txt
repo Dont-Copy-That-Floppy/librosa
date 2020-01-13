@@ -105,7 +105,7 @@ Next, we'll compute and plot a log-power CQT
 
  .. code-block:: none
 
-    /tmp/tmpdkqngjo8sphinxcontrib_versioning/0dcd53f462db124ed3f54edf2334f28738d2ecc6/librosa/core/spectrum.py:959: UserWarning: amplitude_to_db was called on complex input so phase information will be discarded. To suppress this warning, call amplitude_to_db(magphase(D)[0]) instead.
+    /tmp/tmpsz5xfripsphinxcontrib_versioning/0dcd53f462db124ed3f54edf2334f28738d2ecc6/librosa/core/spectrum.py:959: UserWarning: amplitude_to_db was called on complex input so phase information will be discarded. To suppress this warning, call amplitude_to_db(magphase(D)[0]) instead.
       warnings.warn('amplitude_to_db was called on complex input so phase '
 
 
@@ -145,11 +145,11 @@ To reduce dimensionality, we'll beat-synchronous the CQT
 
  .. code-block:: none
 
-    /tmp/tmpdkqngjo8sphinxcontrib_versioning/0dcd53f462db124ed3f54edf2334f28738d2ecc6/librosa/util/utils.py:1377: FutureWarning: Using a non-tuple sequence for multidimensional indexing is deprecated; use `arr[tuple(seq)]` instead of `arr[seq]`. In the future this will be interpreted as an array index, `arr[np.array(seq)]`, which will result either in an error or a different result.
+    /tmp/tmpsz5xfripsphinxcontrib_versioning/0dcd53f462db124ed3f54edf2334f28738d2ecc6/librosa/util/utils.py:1377: FutureWarning: Using a non-tuple sequence for multidimensional indexing is deprecated; use `arr[tuple(seq)]` instead of `arr[seq]`. In the future this will be interpreted as an array index, `arr[np.array(seq)]`, which will result either in an error or a different result.
       data_agg[idx_agg] = aggregate(data[idx_in], axis=axis)
-    /tmp/tmpdkqngjo8sphinxcontrib_versioning/0dcd53f462db124ed3f54edf2334f28738d2ecc6/librosa/core/audio.py:447: FutureWarning: Using a non-tuple sequence for multidimensional indexing is deprecated; use `arr[tuple(seq)]` instead of `arr[seq]`. In the future this will be interpreted as an array index, `arr[np.array(seq)]`, which will result either in an error or a different result.
+    /tmp/tmpsz5xfripsphinxcontrib_versioning/0dcd53f462db124ed3f54edf2334f28738d2ecc6/librosa/core/audio.py:447: FutureWarning: Using a non-tuple sequence for multidimensional indexing is deprecated; use `arr[tuple(seq)]` instead of `arr[seq]`. In the future this will be interpreted as an array index, `arr[np.array(seq)]`, which will result either in an error or a different result.
       autocorr = autocorr[subslice]
-    /tmp/tmpdkqngjo8sphinxcontrib_versioning/0dcd53f462db124ed3f54edf2334f28738d2ecc6/librosa/util/utils.py:826: FutureWarning: Using a non-tuple sequence for multidimensional indexing is deprecated; use `arr[tuple(seq)]` instead of `arr[seq]`. In the future this will be interpreted as an array index, `arr[np.array(seq)]`, which will result either in an error or a different result.
+    /tmp/tmpsz5xfripsphinxcontrib_versioning/0dcd53f462db124ed3f54edf2334f28738d2ecc6/librosa/util/utils.py:826: FutureWarning: Using a non-tuple sequence for multidimensional indexing is deprecated; use `arr[tuple(seq)]` instead of `arr[seq]`. In the future this will be interpreted as an array index, `arr[np.array(seq)]`, which will result either in an error or a different result.
       return (x > x_pad[inds1]) & (x >= x_pad[inds2])
 
 
@@ -206,7 +206,7 @@ Here, we take :math:`\sigma` to be the median distance between successive beats.
 
  .. code-block:: none
 
-    /tmp/tmpdkqngjo8sphinxcontrib_versioning/0dcd53f462db124ed3f54edf2334f28738d2ecc6/librosa/util/utils.py:1377: FutureWarning: Using a non-tuple sequence for multidimensional indexing is deprecated; use `arr[tuple(seq)]` instead of `arr[seq]`. In the future this will be interpreted as an array index, `arr[np.array(seq)]`, which will result either in an error or a different result.
+    /tmp/tmpsz5xfripsphinxcontrib_versioning/0dcd53f462db124ed3f54edf2334f28738d2ecc6/librosa/util/utils.py:1377: FutureWarning: Using a non-tuple sequence for multidimensional indexing is deprecated; use `arr[tuple(seq)]` instead of `arr[seq]`. In the future this will be interpreted as an array index, `arr[np.array(seq)]`, which will result either in an error or a different result.
       data_agg[idx_agg] = aggregate(data[idx_in], axis=axis)
 
 
@@ -421,7 +421,7 @@ And plot the final segmentation over original CQT
 
  .. code-block:: none
 
-    /tmp/tmpdkqngjo8sphinxcontrib_versioning/0dcd53f462db124ed3f54edf2334f28738d2ecc6/docs/examples/plot_segmentation.py:246: UserWarning: Matplotlib is currently using agg, which is a non-GUI backend, so cannot show the figure.
+    /tmp/tmpsz5xfripsphinxcontrib_versioning/0dcd53f462db124ed3f54edf2334f28738d2ecc6/docs/examples/plot_segmentation.py:246: UserWarning: Matplotlib is currently using agg, which is a non-GUI backend, so cannot show the figure.
       plt.show()
 
 
@@ -429,7 +429,7 @@ And plot the final segmentation over original CQT
 
 .. rst-class:: sphx-glr-timing
 
-   **Total running time of the script:** ( 0 minutes  11.685 seconds)
+   **Total running time of the script:** ( 0 minutes  12.302 seconds)
 
 
 .. _sphx_glr_download_auto_examples_plot_segmentation.py:

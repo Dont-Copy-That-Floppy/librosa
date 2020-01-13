@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>librosa.feature.spectral &mdash; librosa 0.7.1 documentation</title>
+  <title>librosa.feature.spectral &mdash; librosa 0.7.2 documentation</title>
   
 
   
@@ -23,7 +23,7 @@
       <script type="text/javascript">
           var DOCUMENTATION_OPTIONS = {
               URL_ROOT:'../../../',
-              VERSION:'0.7.1',
+              VERSION:'0.7.2',
               LANGUAGE:'None',
               COLLAPSE_INDEX:false,
               FILE_SUFFIX:'.html',
@@ -1043,19 +1043,33 @@
                        <span class="n">frame_length</span><span class="o">=</span><span class="n">frame_length</span><span class="p">,</span>
                        <span class="n">hop_length</span><span class="o">=</span><span class="n">hop_length</span><span class="p">)</span>
 
-        <span class="c1"># No normalization is necessary for time-domain input</span>
-        <span class="n">norm</span> <span class="o">=</span> <span class="mi">1</span>
+        <span class="c1"># Calculate power</span>
+        <span class="n">power</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">x</span><span class="p">)</span><span class="o">**</span><span class="mi">2</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">keepdims</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
     <span class="k">elif</span> <span class="n">S</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
-        <span class="n">x</span><span class="p">,</span> <span class="n">_</span> <span class="o">=</span> <span class="n">_spectrogram</span><span class="p">(</span><span class="n">y</span><span class="o">=</span><span class="n">y</span><span class="p">,</span> <span class="n">S</span><span class="o">=</span><span class="n">S</span><span class="p">,</span>
-                            <span class="n">n_fft</span><span class="o">=</span><span class="n">frame_length</span><span class="p">,</span>
-                            <span class="n">hop_length</span><span class="o">=</span><span class="n">hop_length</span><span class="p">)</span>
+        <span class="c1"># Check the frame length</span>
+        <span class="k">if</span> <span class="n">S</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">!=</span> <span class="n">frame_length</span> <span class="o">//</span> <span class="mi">2</span> <span class="o">+</span> <span class="mi">1</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="n">ParameterError</span><span class="p">(</span>
+                    <span class="s1">&#39;Since S.shape[0] is </span><span class="si">{}</span><span class="s1">, &#39;</span>
+                    <span class="s1">&#39;frame_length is expected to be </span><span class="si">{}</span><span class="s1"> or </span><span class="si">{}</span><span class="s1">; &#39;</span>
+                    <span class="s1">&#39;found </span><span class="si">{}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
+                            <span class="n">S</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span>
+                            <span class="n">S</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">*</span> <span class="mi">2</span> <span class="o">-</span> <span class="mi">2</span><span class="p">,</span> <span class="n">S</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">*</span> <span class="mi">2</span> <span class="o">-</span> <span class="mi">1</span><span class="p">,</span>
+                            <span class="n">frame_length</span><span class="p">))</span>
 
-        <span class="c1"># FFT introduces a scaling of n_fft to energy calculations</span>
-        <span class="n">norm</span> <span class="o">=</span> <span class="mi">2</span> <span class="o">*</span> <span class="p">(</span><span class="n">x</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span>
+        <span class="c1"># power spectrogram</span>
+        <span class="n">x</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">S</span><span class="p">)</span> <span class="o">**</span> <span class="mi">2</span>
+
+        <span class="c1"># Adjust the DC and sr/2 component</span>
+        <span class="n">x</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">*=</span> <span class="mf">0.5</span>
+        <span class="k">if</span> <span class="n">frame_length</span> <span class="o">%</span> <span class="mi">2</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="n">x</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="o">*=</span> <span class="mf">0.5</span>
+
+        <span class="c1"># Calculate power</span>
+        <span class="n">power</span> <span class="o">=</span> <span class="mi">2</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">keepdims</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span> <span class="o">/</span> <span class="n">frame_length</span><span class="o">**</span><span class="mi">2</span>
     <span class="k">else</span><span class="p">:</span>
         <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s1">&#39;Either `y` or `S` must be input.&#39;</span><span class="p">)</span>
 
-    <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">x</span><span class="p">)</span><span class="o">**</span><span class="mi">2</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">keepdims</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span> <span class="o">/</span> <span class="n">norm</span><span class="p">)</span></div>
+    <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">power</span><span class="p">)</span></div>
 
 
 <div class="viewcode-block" id="poly_features"><a class="viewcode-back" href="../../../generated/librosa.feature.poly_features.html#librosa.feature.poly_features">[docs]</a><span class="k">def</span> <span class="nf">poly_features</span><span class="p">(</span><span class="n">y</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">sr</span><span class="o">=</span><span class="mi">22050</span><span class="p">,</span> <span class="n">S</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">n_fft</span><span class="o">=</span><span class="mi">2048</span><span class="p">,</span> <span class="n">hop_length</span><span class="o">=</span><span class="mi">512</span><span class="p">,</span>
@@ -1779,7 +1793,7 @@
 <span class="sd">    n_mfcc: int &gt; 0 [scalar]</span>
 <span class="sd">        number of MFCCs to return</span>
 
-<span class="sd">    dct_type : None, or {1, 2, 3}</span>
+<span class="sd">    dct_type : {1, 2, 3}</span>
 <span class="sd">        Discrete cosine transform (DCT) type.</span>
 <span class="sd">        By default, DCT type-2 is used.</span>
 
@@ -2061,6 +2075,7 @@
             <dd><a href="../../../../0.6.3/index.html">0.6.3</a></dd>
             <dd><a href="../../../../0.7.0/index.html">0.7.0</a></dd>
             <dd><a href="../../../../0.7.1/index.html">0.7.1</a></dd>
+            <dd><a href="../../../../0.7.2/index.html">0.7.2</a></dd>
             <dd><a href="../../../../v0.1.0/index.html">v0.1.0</a></dd>
             <dd><a href="../../../../v0.4.0/index.html">v0.4.0</a></dd>
         </dl>

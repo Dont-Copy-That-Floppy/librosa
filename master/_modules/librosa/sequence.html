@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>librosa.sequence &mdash; librosa 0.7.1 documentation</title>
+  <title>librosa.sequence &mdash; librosa 0.7.2 documentation</title>
   
 
   
@@ -23,7 +23,7 @@
       <script type="text/javascript">
           var DOCUMENTATION_OPTIONS = {
               URL_ROOT:'../../',
-              VERSION:'0.7.1',
+              VERSION:'0.7.2',
               LANGUAGE:'None',
               COLLAPSE_INDEX:false,
               FILE_SUFFIX:'.html',
@@ -271,7 +271,7 @@
 
 <span class="sd">    metric : str</span>
 <span class="sd">        Identifier for the cost-function as documented</span>
-<span class="sd">        in `scipy.spatial.cdist()`</span>
+<span class="sd">        in `scipy.spatial.distance.cdist()`</span>
 
 <span class="sd">    step_sizes_sigma : np.ndarray [shape=[n, 2]]</span>
 <span class="sd">        Specifies allowed step sizes as used by the dtw.</span>
@@ -310,9 +310,12 @@
 <span class="sd">    Raises</span>
 <span class="sd">    ------</span>
 <span class="sd">    ParameterError</span>
-<span class="sd">        If you are doing diagonal matching and Y is shorter than X or if an incompatible</span>
-<span class="sd">        combination of X, Y, and C are supplied.</span>
+<span class="sd">        If you are doing diagonal matching and Y is shorter than X or if an</span>
+<span class="sd">        incompatible combination of X, Y, and C are supplied.</span>
+
 <span class="sd">        If your input dimensions are incompatible.</span>
+
+<span class="sd">        If the cost matrix has NaN values.</span>
 
 <span class="sd">    Examples</span>
 <span class="sd">    --------</span>
@@ -337,12 +340,40 @@
 <span class="sd">    &gt;&gt;&gt; plt.show()</span>
 <span class="sd">    &#39;&#39;&#39;</span>
     <span class="c1"># Default Parameters</span>
+    <span class="n">default_steps</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">],</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">],</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">]],</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">int</span><span class="p">)</span>
+    <span class="n">default_weights_add</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">float</span><span class="p">)</span>
+    <span class="n">default_weights_mul</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">ones</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">float</span><span class="p">)</span>
+
     <span class="k">if</span> <span class="n">step_sizes_sigma</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
-        <span class="n">step_sizes_sigma</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">],</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">],</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">]])</span>
-    <span class="k">if</span> <span class="n">weights_add</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
-        <span class="n">weights_add</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">step_sizes_sigma</span><span class="p">))</span>
-    <span class="k">if</span> <span class="n">weights_mul</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
-        <span class="n">weights_mul</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">ones</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">step_sizes_sigma</span><span class="p">))</span>
+        <span class="c1"># Use the default steps</span>
+        <span class="n">step_sizes_sigma</span> <span class="o">=</span> <span class="n">default_steps</span>
+
+        <span class="c1"># Use default weights if none are provided</span>
+        <span class="k">if</span> <span class="n">weights_add</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">weights_add</span> <span class="o">=</span> <span class="n">default_weights_add</span>
+
+        <span class="k">if</span> <span class="n">weights_mul</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">weights_mul</span> <span class="o">=</span> <span class="n">default_weights_mul</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="c1"># If we have custom steps but no weights, construct them here</span>
+        <span class="k">if</span> <span class="n">weights_add</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">weights_add</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">step_sizes_sigma</span><span class="p">),</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">float</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="n">weights_mul</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">weights_mul</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">ones</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">step_sizes_sigma</span><span class="p">),</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">float</span><span class="p">)</span>
+
+        <span class="c1"># Make the default step weights infinite so that they are never</span>
+        <span class="c1"># preferred over custom steps</span>
+        <span class="n">default_weights_add</span><span class="o">.</span><span class="n">fill</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">inf</span><span class="p">)</span>
+        <span class="n">default_weights_mul</span><span class="o">.</span><span class="n">fill</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">inf</span><span class="p">)</span>
+
+        <span class="c1"># Append custom steps and weights to our defaults</span>
+        <span class="n">step_sizes_sigma</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">concatenate</span><span class="p">((</span><span class="n">default_steps</span><span class="p">,</span> <span class="n">step_sizes_sigma</span><span class="p">))</span>
+        <span class="n">weights_add</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">concatenate</span><span class="p">((</span><span class="n">default_weights_add</span><span class="p">,</span> <span class="n">weights_add</span><span class="p">))</span>
+        <span class="n">weights_mul</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">concatenate</span><span class="p">((</span><span class="n">default_weights_mul</span><span class="p">,</span> <span class="n">weights_mul</span><span class="p">))</span>
+
+    <span class="k">if</span> <span class="n">np</span><span class="o">.</span><span class="n">any</span><span class="p">(</span><span class="n">step_sizes_sigma</span> <span class="o">&lt;</span> <span class="mi">0</span><span class="p">):</span>
+        <span class="k">raise</span> <span class="n">ParameterError</span><span class="p">(</span><span class="s1">&#39;step_sizes_sigma cannot contain negative values&#39;</span><span class="p">)</span>
 
     <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">step_sizes_sigma</span><span class="p">)</span> <span class="o">!=</span> <span class="nb">len</span><span class="p">(</span><span class="n">weights_add</span><span class="p">):</span>
         <span class="k">raise</span> <span class="n">ParameterError</span><span class="p">(</span><span class="s1">&#39;len(weights_add) must be equal to len(step_sizes_sigma)&#39;</span><span class="p">)</span>
@@ -357,7 +388,11 @@
     <span class="n">c_is_transposed</span> <span class="o">=</span> <span class="kc">False</span>
 
     <span class="c1"># calculate pair-wise distances, unless already supplied.</span>
+    <span class="c1"># C_local will keep track of whether the distance matrix was supplied</span>
+    <span class="c1"># by the user (False) or constructed locally (True)</span>
+    <span class="n">C_local</span> <span class="o">=</span> <span class="kc">False</span>
     <span class="k">if</span> <span class="n">C</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">C_local</span> <span class="o">=</span> <span class="kc">True</span>
         <span class="c1"># take care of dimensions</span>
         <span class="n">X</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">atleast_2d</span><span class="p">(</span><span class="n">X</span><span class="p">)</span>
         <span class="n">Y</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">atleast_2d</span><span class="p">(</span><span class="n">Y</span><span class="p">)</span>
@@ -387,8 +422,15 @@
     <span class="n">max_0</span> <span class="o">=</span> <span class="n">step_sizes_sigma</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">max</span><span class="p">()</span>
     <span class="n">max_1</span> <span class="o">=</span> <span class="n">step_sizes_sigma</span><span class="p">[:,</span> <span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">max</span><span class="p">()</span>
 
+    <span class="c1"># check C here for nans before building global constraints</span>
+    <span class="k">if</span> <span class="n">np</span><span class="o">.</span><span class="n">any</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">isnan</span><span class="p">(</span><span class="n">C</span><span class="p">)):</span>
+        <span class="k">raise</span> <span class="n">ParameterError</span><span class="p">(</span><span class="s1">&#39;DTW cost matrix C has NaN values. &#39;</span><span class="p">)</span>
+
     <span class="k">if</span> <span class="n">global_constraints</span><span class="p">:</span>
         <span class="c1"># Apply global constraints to the cost matrix</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">C_local</span><span class="p">:</span>
+            <span class="c1"># If C was provided as input, make a copy here</span>
+            <span class="n">C</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">copy</span><span class="p">(</span><span class="n">C</span><span class="p">)</span>
         <span class="n">fill_off_diagonal</span><span class="p">(</span><span class="n">C</span><span class="p">,</span> <span class="n">band_rad</span><span class="p">,</span> <span class="n">value</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">inf</span><span class="p">)</span>
 
     <span class="c1"># initialize whole matrix with infinity values</span>
@@ -402,7 +444,11 @@
 
     <span class="c1"># initialize step matrix with -1</span>
     <span class="c1"># will be filled in calc_accu_cost() with indices from step_sizes_sigma</span>
-    <span class="n">D_steps</span> <span class="o">=</span> <span class="o">-</span><span class="mi">1</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">ones</span><span class="p">(</span><span class="n">D</span><span class="o">.</span><span class="n">shape</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">int</span><span class="p">)</span>
+    <span class="n">D_steps</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="n">D</span><span class="o">.</span><span class="n">shape</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">int</span><span class="p">)</span>
+
+    <span class="c1"># these steps correspond to left- (first row) and up-(first column) moves</span>
+    <span class="n">D_steps</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="p">:]</span> <span class="o">=</span> <span class="mi">1</span>
+    <span class="n">D_steps</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="mi">2</span>
 
     <span class="c1"># calculate accumulated cost matrix</span>
     <span class="n">D</span><span class="p">,</span> <span class="n">D_steps</span> <span class="o">=</span> <span class="n">__dtw_calc_accu_cost</span><span class="p">(</span><span class="n">C</span><span class="p">,</span> <span class="n">D</span><span class="p">,</span> <span class="n">D_steps</span><span class="p">,</span>
@@ -416,12 +462,22 @@
 
     <span class="k">if</span> <span class="n">backtrack</span><span class="p">:</span>
         <span class="k">if</span> <span class="n">subseq</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">np</span><span class="o">.</span><span class="n">all</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">isinf</span><span class="p">(</span><span class="n">D</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">])):</span>
+                <span class="k">raise</span> <span class="n">ParameterError</span><span class="p">(</span><span class="s1">&#39;No valid sub-sequence warping path could &#39;</span>
+                                     <span class="s1">&#39;be constructed with the given step sizes.&#39;</span><span class="p">)</span>
             <span class="c1"># search for global minimum in last row of D-matrix</span>
             <span class="n">wp_end_idx</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">argmin</span><span class="p">(</span><span class="n">D</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="p">:])</span> <span class="o">+</span> <span class="mi">1</span>
             <span class="n">wp</span> <span class="o">=</span> <span class="n">__dtw_backtracking</span><span class="p">(</span><span class="n">D_steps</span><span class="p">[:,</span> <span class="p">:</span><span class="n">wp_end_idx</span><span class="p">],</span> <span class="n">step_sizes_sigma</span><span class="p">,</span> <span class="n">subseq</span><span class="p">)</span>
         <span class="k">else</span><span class="p">:</span>
             <span class="c1"># perform warping path backtracking</span>
+            <span class="k">if</span> <span class="n">np</span><span class="o">.</span><span class="n">isinf</span><span class="p">(</span><span class="n">D</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">]):</span>
+                <span class="k">raise</span> <span class="n">ParameterError</span><span class="p">(</span><span class="s1">&#39;No valid sub-sequence warping path could &#39;</span>
+                                     <span class="s1">&#39;be constructed with the given step sizes.&#39;</span><span class="p">)</span>
+
             <span class="n">wp</span> <span class="o">=</span> <span class="n">__dtw_backtracking</span><span class="p">(</span><span class="n">D_steps</span><span class="p">,</span> <span class="n">step_sizes_sigma</span><span class="p">,</span> <span class="n">subseq</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">wp</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="o">!=</span> <span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">):</span>
+                <span class="k">raise</span> <span class="n">ParameterError</span><span class="p">(</span><span class="s1">&#39;Unable to compute a full DTW warping path. &#39;</span>
+                                     <span class="s1">&#39;You may want to try again with subseq=True.&#39;</span><span class="p">)</span>
 
         <span class="n">wp</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">wp</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="nb">int</span><span class="p">)</span>
 
@@ -545,12 +601,17 @@
     <span class="c1"># Stop criteria:</span>
     <span class="c1"># Setting it to (0, 0) does not work for the subsequence dtw,</span>
     <span class="c1"># so we only ask to reach the first row of the matrix.</span>
+
     <span class="k">while</span> <span class="p">(</span><span class="n">subseq</span> <span class="ow">and</span> <span class="n">cur_idx</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">)</span> <span class="ow">or</span> <span class="p">(</span><span class="ow">not</span> <span class="n">subseq</span> <span class="ow">and</span> <span class="n">cur_idx</span> <span class="o">!=</span> <span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">)):</span>
         <span class="n">cur_step_idx</span> <span class="o">=</span> <span class="n">D_steps</span><span class="p">[(</span><span class="n">cur_idx</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">cur_idx</span><span class="p">[</span><span class="mi">1</span><span class="p">])]</span>
 
         <span class="c1"># save tuple with minimal acc. cost in path</span>
         <span class="n">cur_idx</span> <span class="o">=</span> <span class="p">(</span><span class="n">cur_idx</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">-</span> <span class="n">step_sizes_sigma</span><span class="p">[</span><span class="n">cur_step_idx</span><span class="p">][</span><span class="mi">0</span><span class="p">],</span>
                    <span class="n">cur_idx</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">-</span> <span class="n">step_sizes_sigma</span><span class="p">[</span><span class="n">cur_step_idx</span><span class="p">][</span><span class="mi">1</span><span class="p">])</span>
+
+        <span class="c1"># If we run off the side of the cost matrix, break here</span>
+        <span class="k">if</span> <span class="nb">min</span><span class="p">(</span><span class="n">cur_idx</span><span class="p">)</span> <span class="o">&lt;</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="k">break</span>
 
         <span class="c1"># append to warping path</span>
         <span class="n">wp</span><span class="o">.</span><span class="n">append</span><span class="p">((</span><span class="n">cur_idx</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">cur_idx</span><span class="p">[</span><span class="mi">1</span><span class="p">]))</span>
@@ -1731,6 +1792,7 @@
             <dd><a href="../../../0.6.3/index.html">0.6.3</a></dd>
             <dd><a href="../../../0.7.0/index.html">0.7.0</a></dd>
             <dd><a href="../../../0.7.1/index.html">0.7.1</a></dd>
+            <dd><a href="../../../0.7.2/index.html">0.7.2</a></dd>
             <dd><a href="../../../v0.1.0/index.html">v0.1.0</a></dd>
             <dd><a href="../../../v0.4.0/index.html">v0.4.0</a></dd>
         </dl>

@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>librosa.core.spectrum &mdash; librosa 0.7.1 documentation</title>
+  <title>librosa.core.spectrum &mdash; librosa 0.7.2 documentation</title>
   
 
   
@@ -23,7 +23,7 @@
       <script type="text/javascript">
           var DOCUMENTATION_OPTIONS = {
               URL_ROOT:'../../../',
-              VERSION:'0.7.1',
+              VERSION:'0.7.2',
               LANGUAGE:'None',
               COLLAPSE_INDEX:false,
               FILE_SUFFIX:'.html',
@@ -779,7 +779,7 @@
 <span class="sd">    The reassignment vector is calculated using equation 5.20 in Flandrin,</span>
 <span class="sd">    Auger, &amp; Chassande-Mottin 2002:</span>
 
-<span class="sd">    .. math:: \omega - \Im(\frac{S_{dh}}{S_h})</span>
+<span class="sd">    `omega_reassigned = omega - np.imag(S_dh/S_h)`</span>
 
 <span class="sd">    where `S_h` is the complex STFT calculated using the original window, and</span>
 <span class="sd">    `S_dh` is the complex STFT calculated using the derivative of the original</span>
@@ -829,7 +829,7 @@
 <span class="sd">    center : boolean</span>
 <span class="sd">        - If `True`, the signal `y` is padded so that frame</span>
 <span class="sd">          `S[:, t]` is centered at `y[t * hop_length]`.</span>
-<span class="sd">        - If `False`, then `S[:, t]` begins at `y[t * hop_length]`</span>
+<span class="sd">        - If `False`, then `S[:, t]` begins at `y[t * hop_length]`.</span>
 
 <span class="sd">    dtype : numeric type</span>
 <span class="sd">        Complex numeric type for `S`. Default is 64-bit complex.</span>
@@ -842,7 +842,7 @@
 <span class="sd">    -------</span>
 <span class="sd">    freqs : np.ndarray [shape=(1 + n_fft/2, t), dtype=real]</span>
 <span class="sd">        Instantaneous frequencies:</span>
-<span class="sd">        `freqs[f, t]` is the frequency for bin `f`, frame `t`</span>
+<span class="sd">        `freqs[f, t]` is the frequency for bin `f`, frame `t`.</span>
 
 <span class="sd">    S : np.ndarray [shape=(1 + n_fft/2, t), dtype=complex]</span>
 <span class="sd">        Short-time Fourier transform</span>
@@ -925,7 +925,7 @@
 <span class="sd">    The reassignment vector is calculated using equation 5.23 in Flandrin,</span>
 <span class="sd">    Auger, &amp; Chassande-Mottin 2002:</span>
 
-<span class="sd">    .. math:: t + \Re(\frac{S_{th}}{S_h})</span>
+<span class="sd">    `t_reassigned = t + np.real(S_th/S_h)`</span>
 
 <span class="sd">    where `S_h` is the complex STFT calculated using the original window, and</span>
 <span class="sd">    `S_th` is the complex STFT calculated using the original window multiplied</span>
@@ -974,8 +974,8 @@
 
 <span class="sd">    center : boolean</span>
 <span class="sd">        - If `True`, the signal `y` is padded so that frame</span>
-<span class="sd">          `D[:, t]` is centered at `y[t * hop_length]`.</span>
-<span class="sd">        - If `False`, then `D[:, t]` begins at `y[t * hop_length]`</span>
+<span class="sd">          `S[:, t]` is centered at `y[t * hop_length]`.</span>
+<span class="sd">        - If `False`, then `S[:, t]` begins at `y[t * hop_length]`.</span>
 
 <span class="sd">    dtype : numeric type</span>
 <span class="sd">        Complex numeric type for `S`. Default is 64-bit complex.</span>
@@ -988,7 +988,7 @@
 <span class="sd">    -------</span>
 <span class="sd">    times : np.ndarray [shape=(1 + n_fft/2, t), dtype=real]</span>
 <span class="sd">        Reassigned times:</span>
-<span class="sd">        `times[f, t]` is the time for bin `f`, frame `t`</span>
+<span class="sd">        `times[f, t]` is the time for bin `f`, frame `t`.</span>
 
 <span class="sd">    S : np.ndarray [shape=(1 + n_fft/2, t), dtype=complex]</span>
 <span class="sd">        Short-time Fourier transform</span>
@@ -1096,11 +1096,8 @@
 <span class="sd">    The reassignment vectors are calculated using equations 5.20 and 5.23 in</span>
 <span class="sd">    [1]_:</span>
 
-<span class="sd">    .. math::</span>
-
-<span class="sd">        \hat{\omega} = \omega - \Im\left(\frac{S_{dh}}{S_h}\right) \\</span>
-<span class="sd">        \hat{t} = t + \Re\left(\frac{S_{th}}{S_h}\right)</span>
-
+<span class="sd">        `t_reassigned = t + np.real(S_th/S_h)`</span>
+<span class="sd">        `omega_reassigned = omega - np.imag(S_dh/S_h)`</span>
 
 <span class="sd">    where `S_h` is the complex STFT calculated using the original window,</span>
 <span class="sd">    `S_dh` is the complex STFT calculated using the derivative of the original</span>
@@ -1109,24 +1106,10 @@
 <span class="sd">    additional algorithms, and [3]_ and [4]_ for history and discussion of the</span>
 <span class="sd">    method.</span>
 
-<span class="sd">    It is recommended to use `center=False` with this function rather than the</span>
-<span class="sd">    librosa default `True`. Unlike `stft`, reassigned times are not aligned to</span>
-<span class="sd">    the left or center of each frame, so padding the signal does not affect the</span>
-<span class="sd">    meaning of the reassigned times. However, reassignment assumes that the</span>
-<span class="sd">    energy in each FFT bin is associated with exactly one signal component and</span>
-<span class="sd">    impulse event. The default `center=True` with reflection padding can thus</span>
-<span class="sd">    invalidate the reassigned estimates in the half-reflected frames at the</span>
-<span class="sd">    beginning and end of the signal.</span>
-
-<span class="sd">    If `reassign_times` is `False`, the frame times that are returned will be</span>
-<span class="sd">    aligned to the left or center of the frame, depending on the value of</span>
-<span class="sd">    `center`. In this case, if `center` is `True`, then `pad_mode=&quot;wrap&quot;` is</span>
-<span class="sd">    recommended for valid estimation of the instantaneous frequencies in the</span>
-<span class="sd">    boundary frames.</span>
-
 <span class="sd">    .. [1] Flandrin, P., Auger, F., &amp; Chassande-Mottin, E. (2002).</span>
-<span class="sd">        Time-Frequency reassignment: From principles to algorithms. In Applications</span>
-<span class="sd">        in Time-Frequency Signal Processing (Vol. 10, pp. 179-204). CRC Press.</span>
+<span class="sd">        Time-Frequency reassignment: From principles to algorithms. In</span>
+<span class="sd">        Applications in Time-Frequency Signal Processing (Vol. 10, pp.</span>
+<span class="sd">        179-204). CRC Press.</span>
 
 <span class="sd">    .. [2] Fulop, S. A., &amp; Fitz, K. (2006). Algorithms for computing the</span>
 <span class="sd">        time-corrected instantaneous frequency (reassigned) spectrogram, with</span>
@@ -1139,8 +1122,8 @@
 <span class="sd">        32-41. doi:10.1109/MSP.2013.2265316</span>
 
 <span class="sd">    .. [4] Hainsworth, S., Macleod, M. (2003). Time-frequency reassignment: a</span>
-<span class="sd">        review and analysis. Tech. Rep. CUED/FINFENG/TR.459, Cambridge University</span>
-<span class="sd">        Engineering Department</span>
+<span class="sd">        review and analysis. Tech. Rep. CUED/FINFENG/TR.459, Cambridge</span>
+<span class="sd">        University Engineering Department</span>
 
 <span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>
@@ -1177,8 +1160,9 @@
 
 <span class="sd">    center : boolean</span>
 <span class="sd">        - If `True` (default), the signal `y` is padded so that frame</span>
-<span class="sd">          `D[:, t]` is centered at `y[t * hop_length]`.</span>
-<span class="sd">        - If `False`, then `D[:, t]` begins at `y[t * hop_length]`</span>
+<span class="sd">          `S[:, t]` is centered at `y[t * hop_length]`. See `Notes` for</span>
+<span class="sd">          recommended usage in this function.</span>
+<span class="sd">        - If `False`, then `S[:, t]` begins at `y[t * hop_length]`.</span>
 
 <span class="sd">    reassign_frequencies : boolean</span>
 <span class="sd">        - If `True` (default), the returned frequencies will be instantaneous</span>
@@ -1224,19 +1208,19 @@
 <span class="sd">    -------</span>
 <span class="sd">    freqs : np.ndarray [shape=(1 + n_fft/2, t), dtype=real]</span>
 <span class="sd">        Instantaneous frequencies:</span>
-<span class="sd">        `freqs[f, t]` is the frequency for bin `f`, frame `t`</span>
+<span class="sd">        `freqs[f, t]` is the frequency for bin `f`, frame `t`.</span>
 <span class="sd">        If `reassign_frequencies=False`, this will instead be a read-only array</span>
 <span class="sd">        of the same shape containing the bin center frequencies for all frames.</span>
 
 <span class="sd">    times : np.ndarray [shape=(1 + n_fft/2, t), dtype=real]</span>
 <span class="sd">        Reassigned times:</span>
-<span class="sd">        `times[f, t]` is the time for bin `f`, frame `t`</span>
+<span class="sd">        `times[f, t]` is the time for bin `f`, frame `t`.</span>
 <span class="sd">        If `reassign_times=False`, this will instead be a read-only array of</span>
 <span class="sd">        the same shape containing the frame times for all bins.</span>
 
 <span class="sd">    mags : np.ndarray [shape=(1 + n_fft/2, t), dtype=real]</span>
 <span class="sd">        Magnitudes from short-time Fourier transform:</span>
-<span class="sd">        `mags[f, t]` is the magnitude for bin `f`, frame `t`</span>
+<span class="sd">        `mags[f, t]` is the magnitude for bin `f`, frame `t`.</span>
 
 <span class="sd">    Warns</span>
 <span class="sd">    --------</span>
@@ -1249,6 +1233,23 @@
 <span class="sd">    --------</span>
 <span class="sd">    stft : Short-time Fourier Transform</span>
 
+<span class="sd">    Notes</span>
+<span class="sd">    -----</span>
+<span class="sd">    It is recommended to use `center=False` with this function rather than the</span>
+<span class="sd">    librosa default `True`. Unlike `stft`, reassigned times are not aligned to</span>
+<span class="sd">    the left or center of each frame, so padding the signal does not affect the</span>
+<span class="sd">    meaning of the reassigned times. However, reassignment assumes that the</span>
+<span class="sd">    energy in each FFT bin is associated with exactly one signal component and</span>
+<span class="sd">    impulse event. The default `center=True` with reflection padding can thus</span>
+<span class="sd">    invalidate the reassigned estimates in the half-reflected frames at the</span>
+<span class="sd">    beginning and end of the signal.</span>
+
+<span class="sd">    If `reassign_times` is `False`, the frame times that are returned will be</span>
+<span class="sd">    aligned to the left or center of the frame, depending on the value of</span>
+<span class="sd">    `center`. In this case, if `center` is `True`, then `pad_mode=&quot;wrap&quot;` is</span>
+<span class="sd">    recommended for valid estimation of the instantaneous frequencies in the</span>
+<span class="sd">    boundary frames.</span>
+
 <span class="sd">    Examples</span>
 <span class="sd">    --------</span>
 <span class="sd">    &gt;&gt;&gt; amin = 1e-10</span>
@@ -1260,7 +1261,8 @@
 <span class="sd">    ...                           click_freq=400.0, length=8000) +\</span>
 <span class="sd">    ...     1e-3 * librosa.chirp(200, 1600, sr=sr, duration=2.0) +\</span>
 <span class="sd">    ...     1e-6 * np.random.randn(2*sr)</span>
-<span class="sd">    &gt;&gt;&gt; freqs, times, mags = librosa.reassigned_spectrogram(y=y, sr=sr, n_fft=n_fft)</span>
+<span class="sd">    &gt;&gt;&gt; freqs, times, mags = librosa.reassigned_spectrogram(y=y, sr=sr,</span>
+<span class="sd">    ...                                                     n_fft=n_fft)</span>
 <span class="sd">    &gt;&gt;&gt; mags_db = librosa.power_to_db(mags, amin=amin)</span>
 <span class="sd">    &gt;&gt;&gt; ax = plt.subplot(2, 1, 1)</span>
 <span class="sd">    &gt;&gt;&gt; librosa.display.specshow(mags_db, x_axis=&quot;s&quot;, y_axis=&quot;linear&quot;, sr=sr,</span>
@@ -1271,7 +1273,7 @@
 <span class="sd">    &gt;&gt;&gt; plt.subplot(2, 1, 2, sharex=ax, sharey=ax)</span>
 <span class="sd">    &gt;&gt;&gt; plt.scatter(times, freqs, c=mags_db, alpha=0.05, cmap=&quot;gray_r&quot;)</span>
 <span class="sd">    &gt;&gt;&gt; plt.clim(10*np.log10(amin), np.max(mags_db))</span>
-<span class="sd">    &gt;&gt;&gt; plt.title(&quot;Reassigned spectrogram&quot;))</span>
+<span class="sd">    &gt;&gt;&gt; plt.title(&quot;Reassigned spectrogram&quot;)</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
     <span class="k">if</span> <span class="ow">not</span> <span class="n">six</span><span class="o">.</span><span class="n">callable</span><span class="p">(</span><span class="n">ref_power</span><span class="p">)</span> <span class="ow">and</span> <span class="n">ref_power</span> <span class="o">&lt;</span> <span class="mi">0</span><span class="p">:</span>
@@ -2769,6 +2771,7 @@
             <dd><a href="../../../../0.6.3/index.html">0.6.3</a></dd>
             <dd><a href="../../../../0.7.0/index.html">0.7.0</a></dd>
             <dd><a href="../../../../0.7.1/index.html">0.7.1</a></dd>
+            <dd><a href="../../../../0.7.2/index.html">0.7.2</a></dd>
             <dd><a href="../../../../v0.1.0/index.html">v0.1.0</a></dd>
             <dd><a href="../../../../v0.4.0/index.html">v0.4.0</a></dd>
         </dl>

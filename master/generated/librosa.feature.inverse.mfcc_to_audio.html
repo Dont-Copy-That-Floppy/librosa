@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>librosa.feature.inverse.mfcc_to_audio &mdash; librosa 0.7.1 documentation</title>
+  <title>librosa.feature.inverse.mfcc_to_audio &mdash; librosa 0.7.2 documentation</title>
   
 
   
@@ -23,7 +23,7 @@
       <script type="text/javascript">
           var DOCUMENTATION_OPTIONS = {
               URL_ROOT:'../',
-              VERSION:'0.7.1',
+              VERSION:'0.7.2',
               LANGUAGE:'None',
               COLLAPSE_INDEX:false,
               FILE_SUFFIX:'.html',
@@ -208,12 +208,12 @@
 
 
 
-    <p class="scv-banner scv-sphinx_rtd_theme"><a href="../../0.7.1/generated/librosa.feature.inverse.mfcc_to_audio.html"><b>Warning:</b> This document is for the development version of librosa. The latest version is 0.7.1.</a></p>
+    <p class="scv-banner scv-sphinx_rtd_theme"><a href="../../0.7.2/generated/librosa.feature.inverse.mfcc_to_audio.html"><b>Warning:</b> This document is for the development version of librosa. The latest version is 0.7.2.</a></p>
 <div class="section" id="librosa-feature-inverse-mfcc-to-audio">
 <h1>librosa.feature.inverse.mfcc_to_audio<a class="headerlink" href="#librosa-feature-inverse-mfcc-to-audio" title="Permalink to this headline">¶</a></h1>
 <dl class="function">
 <dt id="librosa.feature.inverse.mfcc_to_audio">
-<code class="descclassname">librosa.feature.inverse.</code><code class="descname">mfcc_to_audio</code><span class="sig-paren">(</span><em>mfcc</em>, <em>n_mels=128</em>, <em>dct_type=2</em>, <em>norm='ortho'</em>, <em>ref=1.0</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/librosa/feature/inverse.html#mfcc_to_audio"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#librosa.feature.inverse.mfcc_to_audio" title="Permalink to this definition">¶</a></dt>
+<code class="descclassname">librosa.feature.inverse.</code><code class="descname">mfcc_to_audio</code><span class="sig-paren">(</span><em>mfcc</em>, <em>n_mels=128</em>, <em>dct_type=2</em>, <em>norm='ortho'</em>, <em>ref=1.0</em>, <em>lifter=0</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/librosa/feature/inverse.html#mfcc_to_audio"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#librosa.feature.inverse.mfcc_to_audio" title="Permalink to this definition">¶</a></dt>
 <dd><p>Convert Mel-frequency cepstral coefficients to a time-domain audio signal</p>
 <p>This function is primarily a convenience wrapper for the following steps:</p>
 <blockquote>
@@ -233,7 +233,7 @@
 <dt><strong>n_mels</strong> <span class="classifier-delimiter">:</span> <span class="classifier">int &gt; 0</span></dt>
 <dd><p class="first last">The number of Mel frequencies</p>
 </dd>
-<dt><strong>dct_type</strong> <span class="classifier-delimiter">:</span> <span class="classifier">None or {1, 2, 3}</span></dt>
+<dt><strong>dct_type</strong> <span class="classifier-delimiter">:</span> <span class="classifier">{1, 2, 3}</span></dt>
 <dd><p class="first last">Discrete cosine transform (DCT) type
 By default, DCT type-2 is used.</p>
 </dd>
@@ -244,6 +244,10 @@ DCT basis.</p>
 </dd>
 <dt><strong>ref</strong> <span class="classifier-delimiter">:</span> <span class="classifier">number or callable</span></dt>
 <dd><p class="first last">Reference power for (inverse) decibel calculation</p>
+</dd>
+<dt><strong>lifter</strong> <span class="classifier-delimiter">:</span> <span class="classifier">number &gt;= 0</span></dt>
+<dd><p class="first last">If <em class="xref py py-obj">lifter&gt;0</em>, apply inverse liftering (inverse cepstral filtering):
+<em class="xref py py-obj">M[n, :] &lt;- M[n, :] / (1 + sin(pi * (n + 1) / lifter)) * lifter / 2</em></p>
 </dd>
 <dt><strong>kwargs</strong> <span class="classifier-delimiter">:</span> <span class="classifier">additional keyword arguments</span></dt>
 <dd><p class="first last">Parameters to pass through to <a class="reference internal" href="librosa.feature.inverse.mel_to_audio.html#librosa.feature.inverse.mel_to_audio" title="librosa.feature.inverse.mel_to_audio"><code class="xref py py-obj docutils literal notranslate"><span class="pre">mel_to_audio</span></code></a></p>
@@ -271,7 +275,7 @@ DCT basis.</p>
 <dd></dd>
 <dt><code class="xref py py-obj docutils literal notranslate"><span class="pre">core.griffinlim</span></code></dt>
 <dd></dd>
-<dt><a class="reference external" href="https://docs.scipy.org/doc/scipy/reference/generated/scipy.fftpack.dct.html#scipy.fftpack.dct" title="(in SciPy v1.3.1)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">scipy.fftpack.dct</span></code></a></dt>
+<dt><a class="reference external" href="https://docs.scipy.org/doc/scipy/reference/generated/scipy.fftpack.dct.html#scipy.fftpack.dct" title="(in SciPy v1.4.1)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">scipy.fftpack.dct</span></code></a></dt>
 <dd></dd>
 </dl>
 </div>
@@ -334,6 +338,7 @@ DCT basis.</p>
             <dd><a href="../../0.6.3/index.html">0.6.3</a></dd>
             <dd><a href="../../0.7.0/generated/librosa.feature.inverse.mfcc_to_audio.html">0.7.0</a></dd>
             <dd><a href="../../0.7.1/generated/librosa.feature.inverse.mfcc_to_audio.html">0.7.1</a></dd>
+            <dd><a href="../../0.7.2/generated/librosa.feature.inverse.mfcc_to_audio.html">0.7.2</a></dd>
             <dd><a href="../../v0.1.0/index.html">v0.1.0</a></dd>
             <dd><a href="../../v0.4.0/index.html">v0.4.0</a></dd>
         </dl>

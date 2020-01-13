@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>librosa.core.resample &mdash; librosa 0.7.1 documentation</title>
+  <title>librosa.core.resample &mdash; librosa 0.7.2 documentation</title>
   
 
   
@@ -23,7 +23,7 @@
       <script type="text/javascript">
           var DOCUMENTATION_OPTIONS = {
               URL_ROOT:'../',
-              VERSION:'0.7.1',
+              VERSION:'0.7.2',
               LANGUAGE:'None',
               COLLAPSE_INDEX:false,
               FILE_SUFFIX:'.html',
@@ -115,6 +115,8 @@
 <li class="toctree-l3"><a class="reference internal" href="librosa.core.clicks.html">librosa.core.clicks</a></li>
 <li class="toctree-l3"><a class="reference internal" href="librosa.core.tone.html">librosa.core.tone</a></li>
 <li class="toctree-l3"><a class="reference internal" href="librosa.core.chirp.html">librosa.core.chirp</a></li>
+<li class="toctree-l3"><a class="reference internal" href="librosa.core.mu_compress.html">librosa.core.mu_compress</a></li>
+<li class="toctree-l3"><a class="reference internal" href="librosa.core.mu_expand.html">librosa.core.mu_expand</a></li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="../core.html#spectral-representations">Spectral representations</a></li>
@@ -218,7 +220,7 @@
 
 
 
-    <p class="scv-banner scv-sphinx_rtd_theme"><a href="../../0.7.1/generated/librosa.core.resample.html"><b>Warning:</b> This document is for the development version of librosa. The latest version is 0.7.1.</a></p>
+    <p class="scv-banner scv-sphinx_rtd_theme"><a href="../../0.7.2/generated/librosa.core.resample.html"><b>Warning:</b> This document is for the development version of librosa. The latest version is 0.7.2.</a></p>
 <div class="section" id="librosa-core-resample">
 <h1>librosa.core.resample<a class="headerlink" href="#librosa-core-resample" title="Permalink to this headline">¶</a></h1>
 <dl class="function">
@@ -245,8 +247,8 @@
 <p class="first admonition-title">Note</p>
 <p>By default, this uses <a class="reference external" href="https://resampy.readthedocs.io/en/latest/api.html#module-resampy" title="(in resampy v0.2)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">resampy</span></code></a>’s high-quality mode (‘kaiser_best’).</p>
 <p>To use a faster method, set <em class="xref py py-obj">res_type=’kaiser_fast’</em>.</p>
-<p>To use <a class="reference external" href="https://docs.scipy.org/doc/scipy/reference/generated/scipy.signal.resample.html#scipy.signal.resample" title="(in SciPy v1.3.1)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">scipy.signal.resample</span></code></a>, set <em class="xref py py-obj">res_type=’fft’</em> or <em class="xref py py-obj">res_type=’scipy’</em>.</p>
-<p class="last">To use <a class="reference external" href="https://docs.scipy.org/doc/scipy/reference/generated/scipy.signal.resample_poly.html#scipy.signal.resample_poly" title="(in SciPy v1.3.1)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">scipy.signal.resample_poly</span></code></a>, set <em class="xref py py-obj">res_type=’polyphase’</em>.</p>
+<p>To use <a class="reference external" href="https://docs.scipy.org/doc/scipy/reference/generated/scipy.signal.resample.html#scipy.signal.resample" title="(in SciPy v1.4.1)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">scipy.signal.resample</span></code></a>, set <em class="xref py py-obj">res_type=’fft’</em> or <em class="xref py py-obj">res_type=’scipy’</em>.</p>
+<p class="last">To use <a class="reference external" href="https://docs.scipy.org/doc/scipy/reference/generated/scipy.signal.resample_poly.html#scipy.signal.resample_poly" title="(in SciPy v1.4.1)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">scipy.signal.resample_poly</span></code></a>, set <em class="xref py py-obj">res_type=’polyphase’</em>.</p>
 </div>
 <div class="last admonition note">
 <p class="first admonition-title">Note</p>
@@ -291,7 +293,7 @@ integer-valued.</p>
 <dl class="last docutils">
 <dt><a class="reference internal" href="librosa.util.fix_length.html#librosa.util.fix_length" title="librosa.util.fix_length"><code class="xref py py-obj docutils literal notranslate"><span class="pre">librosa.util.fix_length</span></code></a></dt>
 <dd></dd>
-<dt><a class="reference external" href="https://docs.scipy.org/doc/scipy/reference/generated/scipy.signal.resample.html#scipy.signal.resample" title="(in SciPy v1.3.1)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">scipy.signal.resample</span></code></a></dt>
+<dt><a class="reference external" href="https://docs.scipy.org/doc/scipy/reference/generated/scipy.signal.resample.html#scipy.signal.resample" title="(in SciPy v1.4.1)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">scipy.signal.resample</span></code></a></dt>
 <dd></dd>
 <dt><code class="xref py py-obj docutils literal notranslate"><span class="pre">resampy.resample</span></code></dt>
 <dd></dd>
@@ -366,6 +368,7 @@ integer-valued.</p>
             <dd><a href="../../0.6.3/generated/librosa.core.resample.html">0.6.3</a></dd>
             <dd><a href="../../0.7.0/generated/librosa.core.resample.html">0.7.0</a></dd>
             <dd><a href="../../0.7.1/generated/librosa.core.resample.html">0.7.1</a></dd>
+            <dd><a href="../../0.7.2/generated/librosa.core.resample.html">0.7.2</a></dd>
             <dd><a href="../../v0.1.0/index.html">v0.1.0</a></dd>
             <dd><a href="../../v0.4.0/index.html">v0.4.0</a></dd>
         </dl>

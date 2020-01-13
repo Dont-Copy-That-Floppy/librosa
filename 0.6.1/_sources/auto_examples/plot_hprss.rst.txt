@@ -122,7 +122,7 @@ We can plot the two components along with the original spectrogram
 
  .. code-block:: none
 
-    /tmp/tmpdkqngjo8sphinxcontrib_versioning/0dcd53f462db124ed3f54edf2334f28738d2ecc6/librosa/core/spectrum.py:959: UserWarning: amplitude_to_db was called on complex input so phase information will be discarded. To suppress this warning, call amplitude_to_db(magphase(D)[0]) instead.
+    /tmp/tmpsz5xfripsphinxcontrib_versioning/0dcd53f462db124ed3f54edf2334f28738d2ecc6/librosa/core/spectrum.py:959: UserWarning: amplitude_to_db was called on complex input so phase information will be discarded. To suppress this warning, call amplitude_to_db(magphase(D)[0]) instead.
       warnings.warn('amplitude_to_db was called on complex input so phase '
 
 
@@ -228,7 +228,7 @@ components, and vocals have been suppressed in the percussive components.
 
  .. code-block:: none
 
-    /tmp/tmpdkqngjo8sphinxcontrib_versioning/0dcd53f462db124ed3f54edf2334f28738d2ecc6/docs/examples/plot_hprss.py:141: UserWarning: Matplotlib is currently using agg, which is a non-GUI backend, so cannot show the figure.
+    /tmp/tmpsz5xfripsphinxcontrib_versioning/0dcd53f462db124ed3f54edf2334f28738d2ecc6/docs/examples/plot_hprss.py:141: UserWarning: Matplotlib is currently using agg, which is a non-GUI backend, so cannot show the figure.
       plt.show()
 
 
@@ -236,7 +236,7 @@ components, and vocals have been suppressed in the percussive components.
 
 .. rst-class:: sphx-glr-timing
 
-   **Total running time of the script:** ( 0 minutes  9.241 seconds)
+   **Total running time of the script:** ( 0 minutes  10.282 seconds)
 
 
 .. _sphx_glr_download_auto_examples_plot_hprss.py:

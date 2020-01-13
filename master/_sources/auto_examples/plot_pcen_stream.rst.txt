@@ -181,7 +181,7 @@ Plot the PCEN spectrum and the resulting magnitudes
 
  .. code-block:: none
 
-    /tmp/tmpdkqngjo8sphinxcontrib_versioning/ef93c2c2f31582135108594034cc89b6d7cda718/docs/examples/plot_pcen_stream.py:118: UserWarning: Matplotlib is currently using agg, which is a non-GUI backend, so cannot show the figure.
+    /tmp/tmpsz5xfripsphinxcontrib_versioning/b0064fe7dbe8048b1d4148e61a568b6fe3fca91b/docs/examples/plot_pcen_stream.py:118: UserWarning: Matplotlib is currently using agg, which is a non-GUI backend, so cannot show the figure.
       plt.show()
 
 
@@ -189,7 +189,7 @@ Plot the PCEN spectrum and the resulting magnitudes
 
 .. rst-class:: sphx-glr-timing
 
-   **Total running time of the script:** ( 0 minutes  2.564 seconds)
+   **Total running time of the script:** ( 0 minutes  2.557 seconds)
 
 
 .. _sphx_glr_download_auto_examples_plot_pcen_stream.py:

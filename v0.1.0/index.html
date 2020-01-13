@@ -43,7 +43,7 @@
 
 
 
-    <p class="scv-banner"><a href="../0.7.1/index.html"><b>Warning:</b> This document is for an old version of librosa. The latest version is 0.7.1.</a></p>
+    <p class="scv-banner"><a href="../0.7.2/index.html"><b>Warning:</b> This document is for an old version of librosa. The latest version is 0.7.2.</a></p>
 <div class="toctree-wrapper compound">
 </div>
 <div class="section" id="module-librosa.core">
@@ -1839,14 +1839,13 @@ Otherwise, a partial frame at the end of <cite>y</cite> will not be represented.
 (default <cite>sr=22050</cite>).</p>
 <p>To preserve the native sampling rate of the file, use <cite>sr=None</cite>.</p>
 <dl class="docutils">
-<dt>path <span class="classifier-delimiter">:</span> <span class="classifier">string, int, or file-like object</span></dt>
+<dt>path <span class="classifier-delimiter">:</span> <span class="classifier">string, int, pathlib.Path or file-like object</span></dt>
 <dd><p class="first">path to the input file.</p>
 <p>Any codec supported by <cite>soundfile</cite> or <cite>audioread</cite> will work.</p>
-<p>If the codec is supported by <cite>soundfile</cite>, then <cite>path</cite> can also be
-an open file descriptor (int), or any object implementing Python’s
-file interface.</p>
-<p class="last">If the codec is not supported by <cite>soundfile</cite> (e.g., MP3), then only
-string file paths are supported.</p>
+<p>Any string file paths, or any object implementing Python’s
+file interface (e.g. <cite>pathlib.Path</cite>) are supported as <cite>path</cite>.</p>
+<p class="last">If the codec is supported by <cite>soundfile</cite>, then <cite>path</cite> can also be
+an open file descriptor (int).</p>
 </dd>
 <dt>sr <span class="classifier-delimiter">:</span> <span class="classifier">number &gt; 0 [scalar]</span></dt>
 <dd><p class="first">target sampling rate</p>
@@ -2195,6 +2194,131 @@ Eg, <cite>midi_to_note(69.3, cents=True)</cite> == <cite>A4+03</cite></dd>
 <p>midi_to_hz
 note_to_midi
 hz_to_note</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="librosa.core.mu_compress">
+<code class="descclassname">librosa.core.</code><code class="descname">mu_compress</code><span class="sig-paren">(</span><em>x</em>, <em>mu=255</em>, <em>quantize=True</em><span class="sig-paren">)</span><a class="headerlink" href="#librosa.core.mu_compress" title="Permalink to this definition">¶</a></dt>
+<dd><p>mu-law compression</p>
+<p>Given an input signal <cite>-1 &lt;= x &lt;= 1</cite>, the mu-law compression
+is calculated by</p>
+<blockquote>
+<div>sign(x) * ln(1 + mu * abs(x)) /  ln(1 + mu)</div></blockquote>
+<dl class="docutils">
+<dt>x <span class="classifier-delimiter">:</span> <span class="classifier">np.ndarray with values in [-1, +1]</span></dt>
+<dd>The input signal to compress</dd>
+<dt>mu <span class="classifier-delimiter">:</span> <span class="classifier">positive number</span></dt>
+<dd>The compression parameter.  Values of the form <cite>2**n - 1</cite>
+(e.g., 15, 31, 63, etc.) are most common.</dd>
+<dt>quantize <span class="classifier-delimiter">:</span> <span class="classifier">bool</span></dt>
+<dd><p class="first">If <cite>True</cite>, quantize the compressed values into <cite>1 + mu</cite>
+distinct integer values.</p>
+<p class="last">If <cite>False</cite>, mu-law compression is applied without quantization.</p>
+</dd>
+</dl>
+<dl class="docutils">
+<dt>x_compressed <span class="classifier-delimiter">:</span> <span class="classifier">np.ndarray</span></dt>
+<dd>The compressed signal.</dd>
+</dl>
+<dl class="docutils">
+<dt>ParameterError</dt>
+<dd>If <cite>x</cite> has values outside the range [-1, +1]
+If <cite>mu &lt;= 0</cite></dd>
+</dl>
+<p>mu_expand</p>
+<p>Compression without quantization</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">x</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="n">num</span><span class="o">=</span><span class="mi">16</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">x</span>
+<span class="go">array([-1.        , -0.86666667, -0.73333333, -0.6       , -0.46666667,</span>
+<span class="go">       -0.33333333, -0.2       , -0.06666667,  0.06666667,  0.2       ,</span>
+<span class="go">        0.33333333,  0.46666667,  0.6       ,  0.73333333,  0.86666667,</span>
+<span class="go">        1.        ])</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">y</span> <span class="o">=</span> <span class="n">librosa</span><span class="o">.</span><span class="n">mu_compress</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">quantize</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">y</span>
+<span class="go">array([-1.        , -0.97430198, -0.94432361, -0.90834832, -0.86336132,</span>
+<span class="go">       -0.80328309, -0.71255496, -0.52124063,  0.52124063,  0.71255496,</span>
+<span class="go">        0.80328309,  0.86336132,  0.90834832,  0.94432361,  0.97430198,</span>
+<span class="go">        1.        ])</span>
+</pre></div>
+</div>
+<p>Compression with quantization</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">y</span> <span class="o">=</span> <span class="n">librosa</span><span class="o">.</span><span class="n">mu_compress</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">quantize</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">y</span>
+<span class="go">array([-128, -124, -120, -116, -110, -102,  -91,  -66,   66,   91,  102,</span>
+<span class="go">       110,  116,  120,  124,  127])</span>
+</pre></div>
+</div>
+<p>Compression with quantization and a smaller range</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">y</span> <span class="o">=</span> <span class="n">librosa</span><span class="o">.</span><span class="n">mu_compress</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">mu</span><span class="o">=</span><span class="mi">15</span><span class="p">,</span> <span class="n">quantize</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">y</span>
+<span class="go">array([-8, -7, -7, -6, -6, -5, -4, -2,  2,  4,  5,  6,  6,  7,  7,  7])</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="function">
+<dt id="librosa.core.mu_expand">
+<code class="descclassname">librosa.core.</code><code class="descname">mu_expand</code><span class="sig-paren">(</span><em>x</em>, <em>mu=255.0</em>, <em>quantize=True</em><span class="sig-paren">)</span><a class="headerlink" href="#librosa.core.mu_expand" title="Permalink to this definition">¶</a></dt>
+<dd><p>mu-law expansion</p>
+<p>This function is the inverse of <cite>mu_compress</cite>. Given a mu-law compressed
+signal <cite>-1 &lt;= x &lt;= 1</cite>, the mu-law expansion is calculated by</p>
+<blockquote>
+<div>sign(x) * (1 / mu) * ((1 + mu)**abs(x) - 1)</div></blockquote>
+<dl class="docutils">
+<dt>x <span class="classifier-delimiter">:</span> <span class="classifier">np.ndarray</span></dt>
+<dd>The compressed signal.
+If <cite>quantize=True</cite>, values must be in the range [-1, +1].</dd>
+<dt>mu <span class="classifier-delimiter">:</span> <span class="classifier">positive number</span></dt>
+<dd>The compression parameter.  Values of the form <cite>2**n - 1</cite>
+(e.g., 15, 31, 63, etc.) are most common.</dd>
+<dt>quantize <span class="classifier-delimiter">:</span> <span class="classifier">boolean</span></dt>
+<dd>If <cite>True</cite>, the input is assumed to be quantized to
+<cite>1 + mu</cite> distinct integer values.</dd>
+</dl>
+<dl class="docutils">
+<dt>x_expanded <span class="classifier-delimiter">:</span> <span class="classifier">np.ndarray with values in the range [-1, +1]</span></dt>
+<dd>The mu-law expanded signal.</dd>
+</dl>
+<dl class="docutils">
+<dt>ParameterError</dt>
+<dd>If <cite>x</cite> has values outside the range [-1, +1] and <cite>quantize=False</cite>
+If <cite>mu &lt;= 0</cite></dd>
+</dl>
+<p>mu_compress</p>
+<p>Compress and expand without quantization</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">x</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="n">num</span><span class="o">=</span><span class="mi">16</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">x</span>
+<span class="go">array([-1.        , -0.86666667, -0.73333333, -0.6       , -0.46666667,</span>
+<span class="go">       -0.33333333, -0.2       , -0.06666667,  0.06666667,  0.2       ,</span>
+<span class="go">        0.33333333,  0.46666667,  0.6       ,  0.73333333,  0.86666667,</span>
+<span class="go">        1.        ])</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">y</span> <span class="o">=</span> <span class="n">librosa</span><span class="o">.</span><span class="n">mu_compress</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">quantize</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">y</span>
+<span class="go">array([-1.        , -0.97430198, -0.94432361, -0.90834832, -0.86336132,</span>
+<span class="go">       -0.80328309, -0.71255496, -0.52124063,  0.52124063,  0.71255496,</span>
+<span class="go">        0.80328309,  0.86336132,  0.90834832,  0.94432361,  0.97430198,</span>
+<span class="go">        1.        ])</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">z</span> <span class="o">=</span> <span class="n">librosa</span><span class="o">.</span><span class="n">mu_expand</span><span class="p">(</span><span class="n">y</span><span class="p">,</span> <span class="n">quantize</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">z</span>
+<span class="go">array([-1.        , -0.86666667, -0.73333333, -0.6       , -0.46666667,</span>
+<span class="go">       -0.33333333, -0.2       , -0.06666667,  0.06666667,  0.2       ,</span>
+<span class="go">        0.33333333,  0.46666667,  0.6       ,  0.73333333,  0.86666667,</span>
+<span class="go">        1.        ])</span>
+</pre></div>
+</div>
+<p>Compress and expand with quantization.  Note that this necessarily
+incurs quantization error, particularly for values near +-1.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">y</span> <span class="o">=</span> <span class="n">librosa</span><span class="o">.</span><span class="n">mu_compress</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">quantize</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">y</span>
+<span class="go">array([-128, -124, -120, -116, -110, -102,  -91,  -66,   66,   91,  102,</span>
+<span class="go">        110,  116,  120,  124,  127])</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">z</span> <span class="o">=</span> <span class="n">librosa</span><span class="o">.</span><span class="n">mu_expand</span><span class="p">(</span><span class="n">y</span><span class="p">,</span> <span class="n">quantize</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="go">array([-1.        , -0.84027248, -0.70595818, -0.59301377, -0.4563785 ,</span>
+<span class="go">       -0.32155973, -0.19817918, -0.06450245,  0.06450245,  0.19817918,</span>
+<span class="go">        0.32155973,  0.4563785 ,  0.59301377,  0.70595818,  0.84027248,</span>
+<span class="go">        0.95743702])</span>
+</pre></div>
+</div>
 </dd></dl>
 
 <dl class="function">
@@ -2845,31 +2969,22 @@ See <cite>filters.get_window</cite> for details.</dd>
 <dd><p>Time-frequency reassigned spectrogram.</p>
 <p>The reassignment vectors are calculated using equations 5.20 and 5.23 in
 <a href="#id99"><span class="problematic" id="id43">[1]_</span></a>:</p>
+<blockquote>
+<div><cite>t_reassigned = t + np.real(S_th/S_h)</cite>
+<cite>omega_reassigned = omega - np.imag(S_dh/S_h)</cite></div></blockquote>
 <p>where <cite>S_h</cite> is the complex STFT calculated using the original window,
 <cite>S_dh</cite> is the complex STFT calculated using the derivative of the original
 window, and <cite>S_th</cite> is the complex STFT calculated using the original window
 multiplied by the time offset from the window center. See <a href="#id100"><span class="problematic" id="id44">[2]_</span></a> for
 additional algorithms, and <a href="#id101"><span class="problematic" id="id45">[3]_</span></a> and <a class="footnote-reference" href="#id50" id="id46">[4]</a> for history and discussion of the
 method.</p>
-<p>It is recommended to use <cite>center=False</cite> with this function rather than the
-librosa default <cite>True</cite>. Unlike <cite>stft</cite>, reassigned times are not aligned to
-the left or center of each frame, so padding the signal does not affect the
-meaning of the reassigned times. However, reassignment assumes that the
-energy in each FFT bin is associated with exactly one signal component and
-impulse event. The default <cite>center=True</cite> with reflection padding can thus
-invalidate the reassigned estimates in the half-reflected frames at the
-beginning and end of the signal.</p>
-<p>If <cite>reassign_times</cite> is <cite>False</cite>, the frame times that are returned will be
-aligned to the left or center of the frame, depending on the value of
-<cite>center</cite>. In this case, if <cite>center</cite> is <cite>True</cite>, then <cite>pad_mode=”wrap”</cite> is
-recommended for valid estimation of the instantaneous frequencies in the
-boundary frames.</p>
 <table class="docutils footnote" frame="void" id="id47" rules="none">
 <colgroup><col class="label" /><col /></colgroup>
 <tbody valign="top">
 <tr><td class="label">[1]</td><td>Flandrin, P., Auger, F., &amp; Chassande-Mottin, E. (2002).
-Time-Frequency reassignment: From principles to algorithms. In Applications
-in Time-Frequency Signal Processing (Vol. 10, pp. 179-204). CRC Press.</td></tr>
+Time-Frequency reassignment: From principles to algorithms. In
+Applications in Time-Frequency Signal Processing (Vol. 10, pp.
+179-204). CRC Press.</td></tr>
 </tbody>
 </table>
 <table class="docutils footnote" frame="void" id="id48" rules="none">
@@ -2894,8 +3009,8 @@ Synchrosqueezing: An Overview. IEEE Signal Processing Magazine, 30(6),
 <colgroup><col class="label" /><col /></colgroup>
 <tbody valign="top">
 <tr><td class="label"><a class="fn-backref" href="#id46">[4]</a></td><td>Hainsworth, S., Macleod, M. (2003). Time-frequency reassignment: a
-review and analysis. Tech. Rep. CUED/FINFENG/TR.459, Cambridge University
-Engineering Department</td></tr>
+review and analysis. Tech. Rep. CUED/FINFENG/TR.459, Cambridge
+University Engineering Department</td></tr>
 </tbody>
 </table>
 <dl class="docutils">
@@ -2926,8 +3041,9 @@ see <cite>scipy.signal.get_window</cite></li>
 <dt>center <span class="classifier-delimiter">:</span> <span class="classifier">boolean</span></dt>
 <dd><ul class="first last simple">
 <li>If <cite>True</cite> (default), the signal <cite>y</cite> is padded so that frame
-<cite>D[:, t]</cite> is centered at <cite>y[t * hop_length]</cite>.</li>
-<li>If <cite>False</cite>, then <cite>D[:, t]</cite> begins at <cite>y[t * hop_length]</cite></li>
+<cite>S[:, t]</cite> is centered at <cite>y[t * hop_length]</cite>. See <cite>Notes</cite> for
+recommended usage in this function.</li>
+<li>If <cite>False</cite>, then <cite>S[:, t]</cite> begins at <cite>y[t * hop_length]</cite>.</li>
 </ul>
 </dd>
 <dt>reassign_frequencies <span class="classifier-delimiter">:</span> <span class="classifier">boolean</span></dt>
@@ -2979,17 +3095,17 @@ By default, STFT uses reflection padding.</dd>
 <dl class="docutils">
 <dt>freqs <span class="classifier-delimiter">:</span> <span class="classifier">np.ndarray [shape=(1 + n_fft/2, t), dtype=real]</span></dt>
 <dd>Instantaneous frequencies:
-<cite>freqs[f, t]</cite> is the frequency for bin <cite>f</cite>, frame <cite>t</cite>
+<cite>freqs[f, t]</cite> is the frequency for bin <cite>f</cite>, frame <cite>t</cite>.
 If <cite>reassign_frequencies=False</cite>, this will instead be a read-only array
 of the same shape containing the bin center frequencies for all frames.</dd>
 <dt>times <span class="classifier-delimiter">:</span> <span class="classifier">np.ndarray [shape=(1 + n_fft/2, t), dtype=real]</span></dt>
 <dd>Reassigned times:
-<cite>times[f, t]</cite> is the time for bin <cite>f</cite>, frame <cite>t</cite>
+<cite>times[f, t]</cite> is the time for bin <cite>f</cite>, frame <cite>t</cite>.
 If <cite>reassign_times=False</cite>, this will instead be a read-only array of
 the same shape containing the frame times for all bins.</dd>
 <dt>mags <span class="classifier-delimiter">:</span> <span class="classifier">np.ndarray [shape=(1 + n_fft/2, t), dtype=real]</span></dt>
 <dd>Magnitudes from short-time Fourier transform:
-<cite>mags[f, t]</cite> is the magnitude for bin <cite>f</cite>, frame <cite>t</cite></dd>
+<cite>mags[f, t]</cite> is the magnitude for bin <cite>f</cite>, frame <cite>t</cite>.</dd>
 </dl>
 <dl class="docutils">
 <dt>RuntimeWarning</dt>
@@ -2998,6 +3114,19 @@ divide-by-zero warning, and will be returned as <cite>np.nan</cite> unless
 <cite>fill_nan=True</cite>.</dd>
 </dl>
 <p>stft : Short-time Fourier Transform</p>
+<p>It is recommended to use <cite>center=False</cite> with this function rather than the
+librosa default <cite>True</cite>. Unlike <cite>stft</cite>, reassigned times are not aligned to
+the left or center of each frame, so padding the signal does not affect the
+meaning of the reassigned times. However, reassignment assumes that the
+energy in each FFT bin is associated with exactly one signal component and
+impulse event. The default <cite>center=True</cite> with reflection padding can thus
+invalidate the reassigned estimates in the half-reflected frames at the
+beginning and end of the signal.</p>
+<p>If <cite>reassign_times</cite> is <cite>False</cite>, the frame times that are returned will be
+aligned to the left or center of the frame, depending on the value of
+<cite>center</cite>. In this case, if <cite>center</cite> is <cite>True</cite>, then <cite>pad_mode=”wrap”</cite> is
+recommended for valid estimation of the instantaneous frequencies in the
+boundary frames.</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">amin</span> <span class="o">=</span> <span class="mf">1e-10</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">n_fft</span> <span class="o">=</span> <span class="mi">64</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">sr</span> <span class="o">=</span> <span class="mi">4000</span>
@@ -3007,7 +3136,8 @@ divide-by-zero warning, and will be returned as <cite>np.nan</cite> unless
 <span class="gp">... </span>                          <span class="n">click_freq</span><span class="o">=</span><span class="mf">400.0</span><span class="p">,</span> <span class="n">length</span><span class="o">=</span><span class="mi">8000</span><span class="p">)</span> <span class="o">+</span>\
 <span class="gp">... </span>    <span class="mf">1e-3</span> <span class="o">*</span> <span class="n">librosa</span><span class="o">.</span><span class="n">chirp</span><span class="p">(</span><span class="mi">200</span><span class="p">,</span> <span class="mi">1600</span><span class="p">,</span> <span class="n">sr</span><span class="o">=</span><span class="n">sr</span><span class="p">,</span> <span class="n">duration</span><span class="o">=</span><span class="mf">2.0</span><span class="p">)</span> <span class="o">+</span>\
 <span class="gp">... </span>    <span class="mf">1e-6</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">randn</span><span class="p">(</span><span class="mi">2</span><span class="o">*</span><span class="n">sr</span><span class="p">)</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">freqs</span><span class="p">,</span> <span class="n">times</span><span class="p">,</span> <span class="n">mags</span> <span class="o">=</span> <span class="n">librosa</span><span class="o">.</span><span class="n">reassigned_spectrogram</span><span class="p">(</span><span class="n">y</span><span class="o">=</span><span class="n">y</span><span class="p">,</span> <span class="n">sr</span><span class="o">=</span><span class="n">sr</span><span class="p">,</span> <span class="n">n_fft</span><span class="o">=</span><span class="n">n_fft</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">freqs</span><span class="p">,</span> <span class="n">times</span><span class="p">,</span> <span class="n">mags</span> <span class="o">=</span> <span class="n">librosa</span><span class="o">.</span><span class="n">reassigned_spectrogram</span><span class="p">(</span><span class="n">y</span><span class="o">=</span><span class="n">y</span><span class="p">,</span> <span class="n">sr</span><span class="o">=</span><span class="n">sr</span><span class="p">,</span>
+<span class="gp">... </span>                                                    <span class="n">n_fft</span><span class="o">=</span><span class="n">n_fft</span><span class="p">)</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">mags_db</span> <span class="o">=</span> <span class="n">librosa</span><span class="o">.</span><span class="n">power_to_db</span><span class="p">(</span><span class="n">mags</span><span class="p">,</span> <span class="n">amin</span><span class="o">=</span><span class="n">amin</span><span class="p">)</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplot</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">librosa</span><span class="o">.</span><span class="n">display</span><span class="o">.</span><span class="n">specshow</span><span class="p">(</span><span class="n">mags_db</span><span class="p">,</span> <span class="n">x_axis</span><span class="o">=</span><span class="s2">&quot;s&quot;</span><span class="p">,</span> <span class="n">y_axis</span><span class="o">=</span><span class="s2">&quot;linear&quot;</span><span class="p">,</span> <span class="n">sr</span><span class="o">=</span><span class="n">sr</span><span class="p">,</span>
@@ -3018,7 +3148,7 @@ divide-by-zero warning, and will be returned as <cite>np.nan</cite> unless
 <span class="gp">&gt;&gt;&gt; </span><span class="n">plt</span><span class="o">.</span><span class="n">subplot</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="n">sharex</span><span class="o">=</span><span class="n">ax</span><span class="p">,</span> <span class="n">sharey</span><span class="o">=</span><span class="n">ax</span><span class="p">)</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">plt</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span><span class="n">times</span><span class="p">,</span> <span class="n">freqs</span><span class="p">,</span> <span class="n">c</span><span class="o">=</span><span class="n">mags_db</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.05</span><span class="p">,</span> <span class="n">cmap</span><span class="o">=</span><span class="s2">&quot;gray_r&quot;</span><span class="p">)</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">plt</span><span class="o">.</span><span class="n">clim</span><span class="p">(</span><span class="mi">10</span><span class="o">*</span><span class="n">np</span><span class="o">.</span><span class="n">log10</span><span class="p">(</span><span class="n">amin</span><span class="p">),</span> <span class="n">np</span><span class="o">.</span><span class="n">max</span><span class="p">(</span><span class="n">mags_db</span><span class="p">))</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s2">&quot;Reassigned spectrogram&quot;</span><span class="p">))</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s2">&quot;Reassigned spectrogram&quot;</span><span class="p">)</span>
 </pre></div>
 </div>
 </dd></dl>
@@ -4709,7 +4839,7 @@ arguments for mel filterbank construction (default is fmax=sr/2):</p>
 <dd>log-power Mel spectrogram</dd>
 <dt>n_mfcc: int &gt; 0 [scalar]</dt>
 <dd>number of MFCCs to return</dd>
-<dt>dct_type <span class="classifier-delimiter">:</span> <span class="classifier">None, or {1, 2, 3}</span></dt>
+<dt>dct_type <span class="classifier-delimiter">:</span> <span class="classifier">{1, 2, 3}</span></dt>
 <dd>Discrete cosine transform (DCT) type.
 By default, DCT type-2 is used.</dd>
 <dt>norm <span class="classifier-delimiter">:</span> <span class="classifier">None or ‘ortho’</span></dt>
@@ -5983,6 +6113,7 @@ For floating point <cite>y</cite>, scale the data to the range [-1, +1].</dd>
     <li><a href="../0.6.3/index.html">0.6.3</a></li>
     <li><a href="../0.7.0/index.html">0.7.0</a></li>
     <li><a href="../0.7.1/index.html">0.7.1</a></li>
+    <li><a href="../0.7.2/index.html">0.7.2</a></li>
     <li><a href="index.html">v0.1.0</a></li>
     <li><a href="../v0.4.0/index.html">v0.4.0</a></li>
 </ul>

@@ -192,7 +192,7 @@ Plot the same slice, but separated into its foreground and background
 
  .. code-block:: none
 
-    /tmp/tmpdkqngjo8sphinxcontrib_versioning/0dcd53f462db124ed3f54edf2334f28738d2ecc6/docs/examples/plot_vocal_separation.py:123: UserWarning: Matplotlib is currently using agg, which is a non-GUI backend, so cannot show the figure.
+    /tmp/tmpsz5xfripsphinxcontrib_versioning/0dcd53f462db124ed3f54edf2334f28738d2ecc6/docs/examples/plot_vocal_separation.py:123: UserWarning: Matplotlib is currently using agg, which is a non-GUI backend, so cannot show the figure.
       plt.show()
 
 
@@ -200,7 +200,7 @@ Plot the same slice, but separated into its foreground and background
 
 .. rst-class:: sphx-glr-timing
 
-   **Total running time of the script:** ( 0 minutes  25.248 seconds)
+   **Total running time of the script:** ( 0 minutes  27.169 seconds)
 
 
 .. _sphx_glr_download_auto_examples_plot_vocal_separation.py:

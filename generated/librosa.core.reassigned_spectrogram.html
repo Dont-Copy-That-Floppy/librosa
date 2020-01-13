@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>librosa.core.reassigned_spectrogram &mdash; librosa 0.7.1 documentation</title>
+  <title>librosa.core.reassigned_spectrogram &mdash; librosa 0.7.2 documentation</title>
   
 
   
@@ -23,7 +23,7 @@
       <script type="text/javascript">
           var DOCUMENTATION_OPTIONS = {
               URL_ROOT:'../',
-              VERSION:'0.7.1',
+              VERSION:'0.7.2',
               LANGUAGE:'None',
               COLLAPSE_INDEX:false,
               FILE_SUFFIX:'.html',
@@ -229,34 +229,22 @@
 <dd><p>Time-frequency reassigned spectrogram.</p>
 <p>The reassignment vectors are calculated using equations 5.20 and 5.23 in
 <a class="reference internal" href="#r79b930005248-1" id="id1">[1]</a>:</p>
-<div class="math notranslate nohighlight">
-\[\begin{split}\hat{\omega} = \omega - \Im\left(\frac{S_{dh}}{S_h}\right) \\
-\hat{t} = t + \Re\left(\frac{S_{th}}{S_h}\right)\end{split}\]</div>
+<blockquote>
+<div><em class="xref py py-obj">t_reassigned = t + np.real(S_th/S_h)</em>
+<em class="xref py py-obj">omega_reassigned = omega - np.imag(S_dh/S_h)</em></div></blockquote>
 <p>where <em class="xref py py-obj">S_h</em> is the complex STFT calculated using the original window,
 <em class="xref py py-obj">S_dh</em> is the complex STFT calculated using the derivative of the original
 window, and <em class="xref py py-obj">S_th</em> is the complex STFT calculated using the original window
 multiplied by the time offset from the window center. See <a class="reference internal" href="#r79b930005248-2" id="id2">[2]</a> for
 additional algorithms, and <a class="reference internal" href="#r79b930005248-3" id="id3">[3]</a> and <a class="reference internal" href="#r79b930005248-4" id="id4">[4]</a> for history and discussion of the
 method.</p>
-<p>It is recommended to use <em class="xref py py-obj">center=False</em> with this function rather than the
-librosa default <em class="xref py py-obj">True</em>. Unlike <a class="reference internal" href="librosa.core.stft.html#librosa.core.stft" title="librosa.core.stft"><code class="xref py py-obj docutils literal notranslate"><span class="pre">stft</span></code></a>, reassigned times are not aligned to
-the left or center of each frame, so padding the signal does not affect the
-meaning of the reassigned times. However, reassignment assumes that the
-energy in each FFT bin is associated with exactly one signal component and
-impulse event. The default <em class="xref py py-obj">center=True</em> with reflection padding can thus
-invalidate the reassigned estimates in the half-reflected frames at the
-beginning and end of the signal.</p>
-<p>If <em class="xref py py-obj">reassign_times</em> is <em class="xref py py-obj">False</em>, the frame times that are returned will be
-aligned to the left or center of the frame, depending on the value of
-<em class="xref py py-obj">center</em>. In this case, if <em class="xref py py-obj">center</em> is <em class="xref py py-obj">True</em>, then <em class="xref py py-obj">pad_mode=”wrap”</em> is
-recommended for valid estimation of the instantaneous frequencies in the
-boundary frames.</p>
 <table class="docutils citation" frame="void" id="r79b930005248-1" rules="none">
 <colgroup><col class="label" /><col /></colgroup>
 <tbody valign="top">
 <tr><td class="label"><a class="fn-backref" href="#id1">[1]</a></td><td>Flandrin, P., Auger, F., &amp; Chassande-Mottin, E. (2002).
-Time-Frequency reassignment: From principles to algorithms. In Applications
-in Time-Frequency Signal Processing (Vol. 10, pp. 179-204). CRC Press.</td></tr>
+Time-Frequency reassignment: From principles to algorithms. In
+Applications in Time-Frequency Signal Processing (Vol. 10, pp.
+179-204). CRC Press.</td></tr>
 </tbody>
 </table>
 <table class="docutils citation" frame="void" id="r79b930005248-2" rules="none">
@@ -281,8 +269,8 @@ Synchrosqueezing: An Overview. IEEE Signal Processing Magazine, 30(6),
 <colgroup><col class="label" /><col /></colgroup>
 <tbody valign="top">
 <tr><td class="label"><a class="fn-backref" href="#id4">[4]</a></td><td>Hainsworth, S., Macleod, M. (2003). Time-frequency reassignment: a
-review and analysis. Tech. Rep. CUED/FINFENG/TR.459, Cambridge University
-Engineering Department</td></tr>
+review and analysis. Tech. Rep. CUED/FINFENG/TR.459, Cambridge
+University Engineering Department</td></tr>
 </tbody>
 </table>
 <table class="docutils field-list" frame="void" rules="none">
@@ -314,7 +302,7 @@ See <a class="reference internal" href="librosa.core.stft.html#librosa.core.stft
 <dt><strong>window</strong> <span class="classifier-delimiter">:</span> <span class="classifier">string, tuple, number, function, or np.ndarray [shape=(n_fft,)]</span></dt>
 <dd><ul class="first simple">
 <li>a window specification (string, tuple, number);
-see <a class="reference external" href="https://docs.scipy.org/doc/scipy/reference/generated/scipy.signal.get_window.html#scipy.signal.get_window" title="(in SciPy v1.3.1)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">scipy.signal.get_window</span></code></a></li>
+see <a class="reference external" href="https://docs.scipy.org/doc/scipy/reference/generated/scipy.signal.get_window.html#scipy.signal.get_window" title="(in SciPy v1.4.1)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">scipy.signal.get_window</span></code></a></li>
 <li>a window function, such as <code class="xref py py-obj docutils literal notranslate"><span class="pre">scipy.signal.hanning</span></code></li>
 <li>a user-specified window vector of length <em class="xref py py-obj">n_fft</em></li>
 </ul>
@@ -323,8 +311,9 @@ see <a class="reference external" href="https://docs.scipy.org/doc/scipy/referen
 <dt><strong>center</strong> <span class="classifier-delimiter">:</span> <span class="classifier">boolean</span></dt>
 <dd><ul class="first last simple">
 <li>If <em class="xref py py-obj">True</em> (default), the signal <em class="xref py py-obj">y</em> is padded so that frame
-<em class="xref py py-obj">D[:, t]</em> is centered at <em class="xref py py-obj">y[t * hop_length]</em>.</li>
-<li>If <em class="xref py py-obj">False</em>, then <em class="xref py py-obj">D[:, t]</em> begins at <em class="xref py py-obj">y[t * hop_length]</em></li>
+<em class="xref py py-obj">S[:, t]</em> is centered at <em class="xref py py-obj">y[t * hop_length]</em>. See <em class="xref py py-obj">Notes</em> for
+recommended usage in this function.</li>
+<li>If <em class="xref py py-obj">False</em>, then <em class="xref py py-obj">S[:, t]</em> begins at <em class="xref py py-obj">y[t * hop_length]</em>.</li>
 </ul>
 </dd>
 <dt><strong>reassign_frequencies</strong> <span class="classifier-delimiter">:</span> <span class="classifier">boolean</span></dt>
@@ -381,19 +370,19 @@ By default, STFT uses reflection padding.</p>
 <tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><dl class="first docutils">
 <dt><strong>freqs</strong> <span class="classifier-delimiter">:</span> <span class="classifier">np.ndarray [shape=(1 + n_fft/2, t), dtype=real]</span></dt>
 <dd><p class="first last">Instantaneous frequencies:
-<em class="xref py py-obj">freqs[f, t]</em> is the frequency for bin <em class="xref py py-obj">f</em>, frame <em class="xref py py-obj">t</em>
+<em class="xref py py-obj">freqs[f, t]</em> is the frequency for bin <em class="xref py py-obj">f</em>, frame <em class="xref py py-obj">t</em>.
 If <em class="xref py py-obj">reassign_frequencies=False</em>, this will instead be a read-only array
 of the same shape containing the bin center frequencies for all frames.</p>
 </dd>
 <dt><strong>times</strong> <span class="classifier-delimiter">:</span> <span class="classifier">np.ndarray [shape=(1 + n_fft/2, t), dtype=real]</span></dt>
 <dd><p class="first last">Reassigned times:
-<em class="xref py py-obj">times[f, t]</em> is the time for bin <em class="xref py py-obj">f</em>, frame <em class="xref py py-obj">t</em>
+<em class="xref py py-obj">times[f, t]</em> is the time for bin <em class="xref py py-obj">f</em>, frame <em class="xref py py-obj">t</em>.
 If <em class="xref py py-obj">reassign_times=False</em>, this will instead be a read-only array of
 the same shape containing the frame times for all bins.</p>
 </dd>
 <dt><strong>mags</strong> <span class="classifier-delimiter">:</span> <span class="classifier">np.ndarray [shape=(1 + n_fft/2, t), dtype=real]</span></dt>
 <dd><p class="first last">Magnitudes from short-time Fourier transform:
-<em class="xref py py-obj">mags[f, t]</em> is the magnitude for bin <em class="xref py py-obj">f</em>, frame <em class="xref py py-obj">t</em></p>
+<em class="xref py py-obj">mags[f, t]</em> is the magnitude for bin <em class="xref py py-obj">f</em>, frame <em class="xref py py-obj">t</em>.</p>
 </dd>
 </dl>
 </td>
@@ -416,6 +405,20 @@ divide-by-zero warning, and will be returned as <em class="xref py py-obj">np.na
 <dd>Short-time Fourier Transform</dd>
 </dl>
 </div>
+<p class="rubric">Notes</p>
+<p>It is recommended to use <em class="xref py py-obj">center=False</em> with this function rather than the
+librosa default <em class="xref py py-obj">True</em>. Unlike <a class="reference internal" href="librosa.core.stft.html#librosa.core.stft" title="librosa.core.stft"><code class="xref py py-obj docutils literal notranslate"><span class="pre">stft</span></code></a>, reassigned times are not aligned to
+the left or center of each frame, so padding the signal does not affect the
+meaning of the reassigned times. However, reassignment assumes that the
+energy in each FFT bin is associated with exactly one signal component and
+impulse event. The default <em class="xref py py-obj">center=True</em> with reflection padding can thus
+invalidate the reassigned estimates in the half-reflected frames at the
+beginning and end of the signal.</p>
+<p>If <em class="xref py py-obj">reassign_times</em> is <em class="xref py py-obj">False</em>, the frame times that are returned will be
+aligned to the left or center of the frame, depending on the value of
+<em class="xref py py-obj">center</em>. In this case, if <em class="xref py py-obj">center</em> is <em class="xref py py-obj">True</em>, then <em class="xref py py-obj">pad_mode=”wrap”</em> is
+recommended for valid estimation of the instantaneous frequencies in the
+boundary frames.</p>
 <p class="rubric">Examples</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">amin</span> <span class="o">=</span> <span class="mf">1e-10</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">n_fft</span> <span class="o">=</span> <span class="mi">64</span>
@@ -426,7 +429,8 @@ divide-by-zero warning, and will be returned as <em class="xref py py-obj">np.na
 <span class="gp">... </span>                          <span class="n">click_freq</span><span class="o">=</span><span class="mf">400.0</span><span class="p">,</span> <span class="n">length</span><span class="o">=</span><span class="mi">8000</span><span class="p">)</span> <span class="o">+</span>\
 <span class="gp">... </span>    <span class="mf">1e-3</span> <span class="o">*</span> <span class="n">librosa</span><span class="o">.</span><span class="n">chirp</span><span class="p">(</span><span class="mi">200</span><span class="p">,</span> <span class="mi">1600</span><span class="p">,</span> <span class="n">sr</span><span class="o">=</span><span class="n">sr</span><span class="p">,</span> <span class="n">duration</span><span class="o">=</span><span class="mf">2.0</span><span class="p">)</span> <span class="o">+</span>\
 <span class="gp">... </span>    <span class="mf">1e-6</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">randn</span><span class="p">(</span><span class="mi">2</span><span class="o">*</span><span class="n">sr</span><span class="p">)</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">freqs</span><span class="p">,</span> <span class="n">times</span><span class="p">,</span> <span class="n">mags</span> <span class="o">=</span> <span class="n">librosa</span><span class="o">.</span><span class="n">reassigned_spectrogram</span><span class="p">(</span><span class="n">y</span><span class="o">=</span><span class="n">y</span><span class="p">,</span> <span class="n">sr</span><span class="o">=</span><span class="n">sr</span><span class="p">,</span> <span class="n">n_fft</span><span class="o">=</span><span class="n">n_fft</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">freqs</span><span class="p">,</span> <span class="n">times</span><span class="p">,</span> <span class="n">mags</span> <span class="o">=</span> <span class="n">librosa</span><span class="o">.</span><span class="n">reassigned_spectrogram</span><span class="p">(</span><span class="n">y</span><span class="o">=</span><span class="n">y</span><span class="p">,</span> <span class="n">sr</span><span class="o">=</span><span class="n">sr</span><span class="p">,</span>
+<span class="gp">... </span>                                                    <span class="n">n_fft</span><span class="o">=</span><span class="n">n_fft</span><span class="p">)</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">mags_db</span> <span class="o">=</span> <span class="n">librosa</span><span class="o">.</span><span class="n">power_to_db</span><span class="p">(</span><span class="n">mags</span><span class="p">,</span> <span class="n">amin</span><span class="o">=</span><span class="n">amin</span><span class="p">)</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplot</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">librosa</span><span class="o">.</span><span class="n">display</span><span class="o">.</span><span class="n">specshow</span><span class="p">(</span><span class="n">mags_db</span><span class="p">,</span> <span class="n">x_axis</span><span class="o">=</span><span class="s2">&quot;s&quot;</span><span class="p">,</span> <span class="n">y_axis</span><span class="o">=</span><span class="s2">&quot;linear&quot;</span><span class="p">,</span> <span class="n">sr</span><span class="o">=</span><span class="n">sr</span><span class="p">,</span>
@@ -437,7 +441,7 @@ divide-by-zero warning, and will be returned as <em class="xref py py-obj">np.na
 <span class="gp">&gt;&gt;&gt; </span><span class="n">plt</span><span class="o">.</span><span class="n">subplot</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="n">sharex</span><span class="o">=</span><span class="n">ax</span><span class="p">,</span> <span class="n">sharey</span><span class="o">=</span><span class="n">ax</span><span class="p">)</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">plt</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span><span class="n">times</span><span class="p">,</span> <span class="n">freqs</span><span class="p">,</span> <span class="n">c</span><span class="o">=</span><span class="n">mags_db</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.05</span><span class="p">,</span> <span class="n">cmap</span><span class="o">=</span><span class="s2">&quot;gray_r&quot;</span><span class="p">)</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">plt</span><span class="o">.</span><span class="n">clim</span><span class="p">(</span><span class="mi">10</span><span class="o">*</span><span class="n">np</span><span class="o">.</span><span class="n">log10</span><span class="p">(</span><span class="n">amin</span><span class="p">),</span> <span class="n">np</span><span class="o">.</span><span class="n">max</span><span class="p">(</span><span class="n">mags_db</span><span class="p">))</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s2">&quot;Reassigned spectrogram&quot;</span><span class="p">))</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s2">&quot;Reassigned spectrogram&quot;</span><span class="p">)</span>
 </pre></div>
 </div>
 </dd></dl>
@@ -482,7 +486,7 @@ divide-by-zero warning, and will be returned as <em class="xref py py-obj">np.na
 <div class="rst-versions" data-toggle="rst-versions" role="note" aria-label="versions">
     <span class="rst-current-version" data-toggle="rst-current-version">
         <span class="fa fa-book"> Other Versions</span>
-        v: 0.7.1
+        v: 0.7.2
         <span class="fa fa-caret-down"></span>
     </span>
     <div class="rst-other-versions">
@@ -499,6 +503,7 @@ divide-by-zero warning, and will be returned as <em class="xref py py-obj">np.na
             <dd><a href="../0.6.3/index.html">0.6.3</a></dd>
             <dd><a href="../0.7.0/index.html">0.7.0</a></dd>
             <dd><a href="../0.7.1/generated/librosa.core.reassigned_spectrogram.html">0.7.1</a></dd>
+            <dd><a href="../0.7.2/generated/librosa.core.reassigned_spectrogram.html">0.7.2</a></dd>
             <dd><a href="../v0.1.0/index.html">v0.1.0</a></dd>
             <dd><a href="../v0.4.0/index.html">v0.4.0</a></dd>
         </dl>

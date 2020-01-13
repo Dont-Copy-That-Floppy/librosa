@@ -138,7 +138,7 @@ using the librosa defaults.
 
  .. code-block:: none
 
-    /tmp/tmpdkqngjo8sphinxcontrib_versioning/0dcd53f462db124ed3f54edf2334f28738d2ecc6/librosa/util/utils.py:1377: FutureWarning: Using a non-tuple sequence for multidimensional indexing is deprecated; use `arr[tuple(seq)]` instead of `arr[seq]`. In the future this will be interpreted as an array index, `arr[np.array(seq)]`, which will result either in an error or a different result.
+    /tmp/tmpsz5xfripsphinxcontrib_versioning/0dcd53f462db124ed3f54edf2334f28738d2ecc6/librosa/util/utils.py:1377: FutureWarning: Using a non-tuple sequence for multidimensional indexing is deprecated; use `arr[tuple(seq)]` instead of `arr[seq]`. In the future this will be interpreted as an array index, `arr[np.array(seq)]`, which will result either in an error or a different result.
       data_agg[idx_agg] = aggregate(data[idx_in], axis=axis)
 
 
@@ -220,7 +220,7 @@ does not detect onset events at those points.
 
  .. code-block:: none
 
-    /tmp/tmpdkqngjo8sphinxcontrib_versioning/0dcd53f462db124ed3f54edf2334f28738d2ecc6/docs/examples/plot_superflux.py:124: UserWarning: Matplotlib is currently using agg, which is a non-GUI backend, so cannot show the figure.
+    /tmp/tmpsz5xfripsphinxcontrib_versioning/0dcd53f462db124ed3f54edf2334f28738d2ecc6/docs/examples/plot_superflux.py:124: UserWarning: Matplotlib is currently using agg, which is a non-GUI backend, so cannot show the figure.
       plt.show()
 
 
@@ -228,7 +228,7 @@ does not detect onset events at those points.
 
 .. rst-class:: sphx-glr-timing
 
-   **Total running time of the script:** ( 0 minutes  0.990 seconds)
+   **Total running time of the script:** ( 0 minutes  1.234 seconds)
 
 
 .. _sphx_glr_download_auto_examples_plot_superflux.py:

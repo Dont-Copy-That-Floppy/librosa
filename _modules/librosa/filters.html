@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>librosa.filters &mdash; librosa 0.7.1 documentation</title>
+  <title>librosa.filters &mdash; librosa 0.7.2 documentation</title>
   
 
   
@@ -23,7 +23,7 @@
       <script type="text/javascript">
           var DOCUMENTATION_OPTIONS = {
               URL_ROOT:'../../',
-              VERSION:'0.7.1',
+              VERSION:'0.7.2',
               LANGUAGE:'None',
               COLLAPSE_INDEX:false,
               FILE_SUFFIX:'.html',
@@ -302,7 +302,7 @@
 
 <div class="viewcode-block" id="mel"><a class="viewcode-back" href="../../generated/librosa.filters.mel.html#librosa.filters.mel">[docs]</a><span class="nd">@cache</span><span class="p">(</span><span class="n">level</span><span class="o">=</span><span class="mi">10</span><span class="p">)</span>
 <span class="k">def</span> <span class="nf">mel</span><span class="p">(</span><span class="n">sr</span><span class="p">,</span> <span class="n">n_fft</span><span class="p">,</span> <span class="n">n_mels</span><span class="o">=</span><span class="mi">128</span><span class="p">,</span> <span class="n">fmin</span><span class="o">=</span><span class="mf">0.0</span><span class="p">,</span> <span class="n">fmax</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">htk</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
-        <span class="n">norm</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">float32</span><span class="p">):</span>
+        <span class="n">norm</span><span class="o">=</span><span class="s1">&#39;slaney&#39;</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">float32</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;Create a Filterbank matrix to combine FFT bins into Mel-frequency bins</span>
 
 <span class="sd">    Parameters</span>
@@ -326,10 +326,13 @@
 <span class="sd">    htk       : bool [scalar]</span>
 <span class="sd">        use HTK formula instead of Slaney</span>
 
-<span class="sd">    norm : {None, 1, np.inf} [scalar]</span>
-<span class="sd">        if 1, divide the triangular mel weights by the width of the mel band</span>
-<span class="sd">        (area normalization).  Otherwise, leave all the triangles aiming for</span>
-<span class="sd">        a peak value of 1.0</span>
+<span class="sd">    norm : {None, 1, &#39;slaney&#39;, np.inf} [scalar]</span>
+<span class="sd">        If 1 or &#39;slaney&#39;, divide the triangular mel weights by the width of the mel band</span>
+<span class="sd">        (area normalization).</span>
+<span class="sd">        </span>
+<span class="sd">        .. warning:: `norm=1` and `norm=np.inf` behavior will change in version 0.8.0.</span>
+
+<span class="sd">        Otherwise, leave all the triangles aiming for a peak value of 1.0</span>
 
 <span class="sd">    dtype : np.dtype</span>
 <span class="sd">        The data type of the output basis.</span>
@@ -378,8 +381,17 @@
     <span class="k">if</span> <span class="n">fmax</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
         <span class="n">fmax</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="n">sr</span><span class="p">)</span> <span class="o">/</span> <span class="mi">2</span>
 
-    <span class="k">if</span> <span class="n">norm</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="ow">and</span> <span class="n">norm</span> <span class="o">!=</span> <span class="mi">1</span> <span class="ow">and</span> <span class="n">norm</span> <span class="o">!=</span> <span class="n">np</span><span class="o">.</span><span class="n">inf</span><span class="p">:</span>
-        <span class="k">raise</span> <span class="n">ParameterError</span><span class="p">(</span><span class="s1">&#39;Unsupported norm: </span><span class="si">{}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="nb">repr</span><span class="p">(</span><span class="n">norm</span><span class="p">)))</span>
+    <span class="k">if</span> <span class="n">norm</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
+        <span class="n">warnings</span><span class="o">.</span><span class="n">warn</span><span class="p">(</span><span class="s1">&#39;norm=1 behavior will change in librosa 0.8.0. &#39;</span>
+                      <span class="s2">&quot;To maintain forward compatibility, use norm=&#39;slaney&#39; instead.&quot;</span><span class="p">,</span>
+                      <span class="ne">FutureWarning</span><span class="p">)</span>
+    <span class="k">elif</span> <span class="n">norm</span> <span class="o">==</span> <span class="n">np</span><span class="o">.</span><span class="n">inf</span><span class="p">:</span>
+        <span class="n">warnings</span><span class="o">.</span><span class="n">warn</span><span class="p">(</span><span class="s1">&#39;norm=np.inf behavior will change in librosa 0.8.0. &#39;</span>
+                      <span class="s2">&quot;To maintain forward compatibility, use norm=None instead.&quot;</span><span class="p">,</span>
+                      <span class="ne">FutureWarning</span><span class="p">)</span>
+
+    <span class="k">elif</span> <span class="n">norm</span> <span class="ow">not</span> <span class="ow">in</span> <span class="p">(</span><span class="kc">None</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="s1">&#39;slaney&#39;</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">inf</span><span class="p">):</span>
+        <span class="k">raise</span> <span class="n">ParameterError</span><span class="p">(</span><span class="s2">&quot;Unsupported norm=</span><span class="si">{}</span><span class="s2">, must be one of: {None, 1, &#39;slaney&#39;, np.inf}&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="nb">repr</span><span class="p">(</span><span class="n">norm</span><span class="p">)))</span>
 
     <span class="c1"># Initialize the weights</span>
     <span class="n">n_mels</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">n_mels</span><span class="p">)</span>
@@ -402,10 +414,11 @@
         <span class="c1"># .. then intersect them with each other and zero</span>
         <span class="n">weights</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">maximum</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">minimum</span><span class="p">(</span><span class="n">lower</span><span class="p">,</span> <span class="n">upper</span><span class="p">))</span>
 
-    <span class="k">if</span> <span class="n">norm</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
+    <span class="k">if</span> <span class="n">norm</span> <span class="ow">in</span> <span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="s1">&#39;slaney&#39;</span><span class="p">):</span>
         <span class="c1"># Slaney-style mel is scaled to be approx constant energy per channel</span>
         <span class="n">enorm</span> <span class="o">=</span> <span class="mf">2.0</span> <span class="o">/</span> <span class="p">(</span><span class="n">mel_f</span><span class="p">[</span><span class="mi">2</span><span class="p">:</span><span class="n">n_mels</span><span class="o">+</span><span class="mi">2</span><span class="p">]</span> <span class="o">-</span> <span class="n">mel_f</span><span class="p">[:</span><span class="n">n_mels</span><span class="p">])</span>
         <span class="n">weights</span> <span class="o">*=</span> <span class="n">enorm</span><span class="p">[:,</span> <span class="n">np</span><span class="o">.</span><span class="n">newaxis</span><span class="p">]</span>
+
 
     <span class="c1"># Only check weights if f_mel[0] is positive</span>
     <span class="k">if</span> <span class="ow">not</span> <span class="n">np</span><span class="o">.</span><span class="n">all</span><span class="p">((</span><span class="n">mel_f</span><span class="p">[:</span><span class="o">-</span><span class="mi">2</span><span class="p">]</span> <span class="o">==</span> <span class="mi">0</span><span class="p">)</span> <span class="o">|</span> <span class="p">(</span><span class="n">weights</span><span class="o">.</span><span class="n">max</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">)):</span>
@@ -1493,7 +1506,7 @@
 <div class="rst-versions" data-toggle="rst-versions" role="note" aria-label="versions">
     <span class="rst-current-version" data-toggle="rst-current-version">
         <span class="fa fa-book"> Other Versions</span>
-        v: 0.7.1
+        v: 0.7.2
         <span class="fa fa-caret-down"></span>
     </span>
     <div class="rst-other-versions">
@@ -1509,7 +1522,8 @@
             <dd><a href="../../0.6.2/index.html">0.6.2</a></dd>
             <dd><a href="../../0.6.3/index.html">0.6.3</a></dd>
             <dd><a href="../../0.7.0/index.html">0.7.0</a></dd>
-            <dd><a href="../../0.7.1/_modules/librosa/filters.html">0.7.1</a></dd>
+            <dd><a href="../../0.7.1/index.html">0.7.1</a></dd>
+            <dd><a href="../../0.7.2/_modules/librosa/filters.html">0.7.2</a></dd>
             <dd><a href="../../v0.1.0/index.html">v0.1.0</a></dd>
             <dd><a href="../../v0.4.0/index.html">v0.4.0</a></dd>
         </dl>

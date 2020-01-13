@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>librosa.feature.inverse.mfcc_to_mel &mdash; librosa 0.7.1 documentation</title>
+  <title>librosa.feature.inverse.mfcc_to_mel &mdash; librosa 0.7.2 documentation</title>
   
 
   
@@ -23,7 +23,7 @@
       <script type="text/javascript">
           var DOCUMENTATION_OPTIONS = {
               URL_ROOT:'../',
-              VERSION:'0.7.1',
+              VERSION:'0.7.2',
               LANGUAGE:'None',
               COLLAPSE_INDEX:false,
               FILE_SUFFIX:'.html',
@@ -208,12 +208,12 @@
 
 
 
-    <p class="scv-banner scv-sphinx_rtd_theme"><a href="../../0.7.1/generated/librosa.feature.inverse.mfcc_to_mel.html"><b>Warning:</b> This document is for the development version of librosa. The latest version is 0.7.1.</a></p>
+    <p class="scv-banner scv-sphinx_rtd_theme"><a href="../../0.7.2/generated/librosa.feature.inverse.mfcc_to_mel.html"><b>Warning:</b> This document is for the development version of librosa. The latest version is 0.7.2.</a></p>
 <div class="section" id="librosa-feature-inverse-mfcc-to-mel">
 <h1>librosa.feature.inverse.mfcc_to_mel<a class="headerlink" href="#librosa-feature-inverse-mfcc-to-mel" title="Permalink to this headline">¶</a></h1>
 <dl class="function">
 <dt id="librosa.feature.inverse.mfcc_to_mel">
-<code class="descclassname">librosa.feature.inverse.</code><code class="descname">mfcc_to_mel</code><span class="sig-paren">(</span><em>mfcc</em>, <em>n_mels=128</em>, <em>dct_type=2</em>, <em>norm='ortho'</em>, <em>ref=1.0</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/librosa/feature/inverse.html#mfcc_to_mel"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#librosa.feature.inverse.mfcc_to_mel" title="Permalink to this definition">¶</a></dt>
+<code class="descclassname">librosa.feature.inverse.</code><code class="descname">mfcc_to_mel</code><span class="sig-paren">(</span><em>mfcc</em>, <em>n_mels=128</em>, <em>dct_type=2</em>, <em>norm='ortho'</em>, <em>ref=1.0</em>, <em>lifter=0</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/librosa/feature/inverse.html#mfcc_to_mel"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#librosa.feature.inverse.mfcc_to_mel" title="Permalink to this definition">¶</a></dt>
 <dd><p>Invert Mel-frequency cepstral coefficients to approximate a Mel power
 spectrogram.</p>
 <p>This inversion proceeds in two steps:</p>
@@ -234,7 +234,7 @@ spectrogram.</p>
 <dt><strong>n_mels</strong> <span class="classifier-delimiter">:</span> <span class="classifier">int &gt; 0</span></dt>
 <dd><p class="first last">The number of Mel frequencies</p>
 </dd>
-<dt><strong>dct_type</strong> <span class="classifier-delimiter">:</span> <span class="classifier">None or {1, 2, 3}</span></dt>
+<dt><strong>dct_type</strong> <span class="classifier-delimiter">:</span> <span class="classifier">{1, 2, 3}</span></dt>
 <dd><p class="first last">Discrete cosine transform (DCT) type
 By default, DCT type-2 is used.</p>
 </dd>
@@ -246,12 +246,23 @@ DCT basis.</p>
 <dt><strong>ref</strong> <span class="classifier-delimiter">:</span> <span class="classifier">number or callable</span></dt>
 <dd><p class="first last">Reference power for (inverse) decibel calculation</p>
 </dd>
+<dt><strong>lifter</strong> <span class="classifier-delimiter">:</span> <span class="classifier">number &gt;= 0</span></dt>
+<dd><p class="first last">If <em class="xref py py-obj">lifter&gt;0</em>, apply inverse liftering (inverse cepstral filtering):
+<em class="xref py py-obj">M[n, :] &lt;- M[n, :] / (1 + sin(pi * (n + 1) / lifter)) * lifter / 2</em></p>
+</dd>
 </dl>
 </td>
 </tr>
-<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><dl class="first last docutils">
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><dl class="first docutils">
 <dt><strong>M</strong> <span class="classifier-delimiter">:</span> <span class="classifier">np.ndarray [shape=(n_mels, n)]</span></dt>
 <dd><p class="first last">An approximate Mel power spectrum recovered from <em class="xref py py-obj">mfcc</em></p>
+</dd>
+</dl>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Warns:</th><td class="field-body"><dl class="first last docutils">
+<dt>UserWarning</dt>
+<dd><p class="first last">due to critical values in lifter array that invokes underflow.</p>
 </dd>
 </dl>
 </td>
@@ -265,7 +276,7 @@ DCT basis.</p>
 <dd></dd>
 <dt><code class="xref py py-obj docutils literal notranslate"><span class="pre">melspectrogram</span></code></dt>
 <dd></dd>
-<dt><a class="reference external" href="https://docs.scipy.org/doc/scipy/reference/generated/scipy.fftpack.dct.html#scipy.fftpack.dct" title="(in SciPy v1.3.1)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">scipy.fftpack.dct</span></code></a></dt>
+<dt><a class="reference external" href="https://docs.scipy.org/doc/scipy/reference/generated/scipy.fftpack.dct.html#scipy.fftpack.dct" title="(in SciPy v1.4.1)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">scipy.fftpack.dct</span></code></a></dt>
 <dd></dd>
 </dl>
 </div>
@@ -328,6 +339,7 @@ DCT basis.</p>
             <dd><a href="../../0.6.3/index.html">0.6.3</a></dd>
             <dd><a href="../../0.7.0/generated/librosa.feature.inverse.mfcc_to_mel.html">0.7.0</a></dd>
             <dd><a href="../../0.7.1/generated/librosa.feature.inverse.mfcc_to_mel.html">0.7.1</a></dd>
+            <dd><a href="../../0.7.2/generated/librosa.feature.inverse.mfcc_to_mel.html">0.7.2</a></dd>
             <dd><a href="../../v0.1.0/index.html">v0.1.0</a></dd>
             <dd><a href="../../v0.4.0/index.html">v0.4.0</a></dd>
         </dl>

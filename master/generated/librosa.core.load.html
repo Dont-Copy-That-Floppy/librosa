@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>librosa.core.load &mdash; librosa 0.7.1 documentation</title>
+  <title>librosa.core.load &mdash; librosa 0.7.2 documentation</title>
   
 
   
@@ -23,7 +23,7 @@
       <script type="text/javascript">
           var DOCUMENTATION_OPTIONS = {
               URL_ROOT:'../',
-              VERSION:'0.7.1',
+              VERSION:'0.7.2',
               LANGUAGE:'None',
               COLLAPSE_INDEX:false,
               FILE_SUFFIX:'.html',
@@ -115,6 +115,8 @@
 <li class="toctree-l3"><a class="reference internal" href="librosa.core.clicks.html">librosa.core.clicks</a></li>
 <li class="toctree-l3"><a class="reference internal" href="librosa.core.tone.html">librosa.core.tone</a></li>
 <li class="toctree-l3"><a class="reference internal" href="librosa.core.chirp.html">librosa.core.chirp</a></li>
+<li class="toctree-l3"><a class="reference internal" href="librosa.core.mu_compress.html">librosa.core.mu_compress</a></li>
+<li class="toctree-l3"><a class="reference internal" href="librosa.core.mu_expand.html">librosa.core.mu_expand</a></li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="../core.html#spectral-representations">Spectral representations</a></li>
@@ -218,7 +220,7 @@
 
 
 
-    <p class="scv-banner scv-sphinx_rtd_theme"><a href="../../0.7.1/generated/librosa.core.load.html"><b>Warning:</b> This document is for the development version of librosa. The latest version is 0.7.1.</a></p>
+    <p class="scv-banner scv-sphinx_rtd_theme"><a href="../../0.7.2/generated/librosa.core.load.html"><b>Warning:</b> This document is for the development version of librosa. The latest version is 0.7.2.</a></p>
 <div class="section" id="librosa-core-load">
 <h1>librosa.core.load<a class="headerlink" href="#librosa-core-load" title="Permalink to this headline">¶</a></h1>
 <dl class="function">
@@ -233,14 +235,13 @@
 <col class="field-body" />
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><dl class="first docutils">
-<dt><strong>path</strong> <span class="classifier-delimiter">:</span> <span class="classifier">string, int, or file-like object</span></dt>
+<dt><strong>path</strong> <span class="classifier-delimiter">:</span> <span class="classifier">string, int, pathlib.Path or file-like object</span></dt>
 <dd><p class="first">path to the input file.</p>
 <p>Any codec supported by <a class="reference external" href="https://pysoundfile.readthedocs.io/en/latest/index.html#module-soundfile" title="(in PySoundFile)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">soundfile</span></code></a> or <code class="xref py py-obj docutils literal notranslate"><span class="pre">audioread</span></code> will work.</p>
-<p>If the codec is supported by <a class="reference external" href="https://pysoundfile.readthedocs.io/en/latest/index.html#module-soundfile" title="(in PySoundFile)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">soundfile</span></code></a>, then <em class="xref py py-obj">path</em> can also be
-an open file descriptor (int), or any object implementing Python’s
-file interface.</p>
-<p class="last">If the codec is not supported by <a class="reference external" href="https://pysoundfile.readthedocs.io/en/latest/index.html#module-soundfile" title="(in PySoundFile)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">soundfile</span></code></a> (e.g., MP3), then only
-string file paths are supported.</p>
+<p>Any string file paths, or any object implementing Python’s
+file interface (e.g. <a class="reference external" href="https://docs.python.org/3/library/pathlib.html#pathlib.Path" title="(in Python v3.8)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">pathlib.Path</span></code></a>) are supported as <em class="xref py py-obj">path</em>.</p>
+<p class="last">If the codec is supported by <a class="reference external" href="https://pysoundfile.readthedocs.io/en/latest/index.html#module-soundfile" title="(in PySoundFile)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">soundfile</span></code></a>, then <em class="xref py py-obj">path</em> can also be
+an open file descriptor (int).</p>
 </dd>
 <dt><strong>sr</strong> <span class="classifier-delimiter">:</span> <span class="classifier">number &gt; 0 [scalar]</span></dt>
 <dd><p class="first">target sampling rate</p>
@@ -374,6 +375,7 @@ loading methods.</p>
             <dd><a href="../../0.6.3/generated/librosa.core.load.html">0.6.3</a></dd>
             <dd><a href="../../0.7.0/generated/librosa.core.load.html">0.7.0</a></dd>
             <dd><a href="../../0.7.1/generated/librosa.core.load.html">0.7.1</a></dd>
+            <dd><a href="../../0.7.2/generated/librosa.core.load.html">0.7.2</a></dd>
             <dd><a href="../../v0.1.0/index.html">v0.1.0</a></dd>
             <dd><a href="../../v0.4.0/index.html">v0.4.0</a></dd>
         </dl>

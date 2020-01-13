@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>librosa.feature.inverse &mdash; librosa 0.7.1 documentation</title>
+  <title>librosa.feature.inverse &mdash; librosa 0.7.2 documentation</title>
   
 
   
@@ -23,7 +23,7 @@
       <script type="text/javascript">
           var DOCUMENTATION_OPTIONS = {
               URL_ROOT:'../../../',
-              VERSION:'0.7.1',
+              VERSION:'0.7.2',
               LANGUAGE:'None',
               COLLAPSE_INDEX:false,
               FILE_SUFFIX:'.html',
@@ -196,11 +196,14 @@
 <span class="c1"># -*- coding: utf-8 -*-</span>
 <span class="sd">&#39;&#39;&#39;Feature inversion&#39;&#39;&#39;</span>
 
+<span class="kn">import</span> <span class="nn">warnings</span>
 <span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
 <span class="kn">import</span> <span class="nn">scipy.fftpack</span>
 
+<span class="kn">from</span> <span class="nn">..util.exceptions</span> <span class="k">import</span> <span class="n">ParameterError</span>
 <span class="kn">from</span> <span class="nn">..core.spectrum</span> <span class="k">import</span> <span class="n">griffinlim</span>
 <span class="kn">from</span> <span class="nn">..core.spectrum</span> <span class="k">import</span> <span class="n">db_to_power</span>
+<span class="kn">from</span> <span class="nn">..util.utils</span> <span class="k">import</span> <span class="n">tiny</span>
 <span class="kn">from</span> <span class="nn">..</span> <span class="k">import</span> <span class="n">filters</span>
 <span class="kn">from</span> <span class="nn">..util</span> <span class="k">import</span> <span class="n">nnls</span>
 
@@ -280,7 +283,7 @@
     <span class="c1"># the inverse exponent.</span>
     <span class="c1"># We&#39;ll do the exponentiation in-place.</span>
     <span class="n">inverse</span> <span class="o">=</span> <span class="n">nnls</span><span class="p">(</span><span class="n">mel_basis</span><span class="p">,</span> <span class="n">M</span><span class="p">)</span>
-    <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">power</span><span class="p">(</span><span class="n">inverse</span><span class="p">,</span> <span class="mf">1.</span><span class="o">/</span><span class="n">power</span><span class="p">,</span> <span class="n">out</span><span class="o">=</span><span class="n">inverse</span><span class="p">)</span></div>
+    <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">power</span><span class="p">(</span><span class="n">inverse</span><span class="p">,</span> <span class="mf">1.</span> <span class="o">/</span> <span class="n">power</span><span class="p">,</span> <span class="n">out</span><span class="o">=</span><span class="n">inverse</span><span class="p">)</span></div>
 
 
 <div class="viewcode-block" id="mel_to_audio"><a class="viewcode-back" href="../../../generated/librosa.feature.inverse.mel_to_audio.html#librosa.feature.inverse.mel_to_audio">[docs]</a><span class="k">def</span> <span class="nf">mel_to_audio</span><span class="p">(</span><span class="n">M</span><span class="p">,</span> <span class="n">sr</span><span class="o">=</span><span class="mi">22050</span><span class="p">,</span> <span class="n">n_fft</span><span class="o">=</span><span class="mi">2048</span><span class="p">,</span> <span class="n">hop_length</span><span class="o">=</span><span class="mi">512</span><span class="p">,</span> <span class="n">win_length</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
@@ -357,8 +360,7 @@
                       <span class="n">window</span><span class="o">=</span><span class="n">window</span><span class="p">,</span> <span class="n">center</span><span class="o">=</span><span class="n">center</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">dtype</span><span class="p">,</span> <span class="n">length</span><span class="o">=</span><span class="n">length</span><span class="p">,</span>
                       <span class="n">pad_mode</span><span class="o">=</span><span class="n">pad_mode</span><span class="p">)</span></div>
 
-
-<div class="viewcode-block" id="mfcc_to_mel"><a class="viewcode-back" href="../../../generated/librosa.feature.inverse.mfcc_to_mel.html#librosa.feature.inverse.mfcc_to_mel">[docs]</a><span class="k">def</span> <span class="nf">mfcc_to_mel</span><span class="p">(</span><span class="n">mfcc</span><span class="p">,</span> <span class="n">n_mels</span><span class="o">=</span><span class="mi">128</span><span class="p">,</span> <span class="n">dct_type</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">norm</span><span class="o">=</span><span class="s1">&#39;ortho&#39;</span><span class="p">,</span> <span class="n">ref</span><span class="o">=</span><span class="mf">1.0</span><span class="p">):</span>
+<div class="viewcode-block" id="mfcc_to_mel"><a class="viewcode-back" href="../../../generated/librosa.feature.inverse.mfcc_to_mel.html#librosa.feature.inverse.mfcc_to_mel">[docs]</a><span class="k">def</span> <span class="nf">mfcc_to_mel</span><span class="p">(</span><span class="n">mfcc</span><span class="p">,</span> <span class="n">n_mels</span><span class="o">=</span><span class="mi">128</span><span class="p">,</span> <span class="n">dct_type</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">norm</span><span class="o">=</span><span class="s1">&#39;ortho&#39;</span><span class="p">,</span> <span class="n">ref</span><span class="o">=</span><span class="mf">1.0</span><span class="p">,</span> <span class="n">lifter</span><span class="o">=</span><span class="mi">0</span><span class="p">):</span>
     <span class="sd">&#39;&#39;&#39;Invert Mel-frequency cepstral coefficients to approximate a Mel power</span>
 <span class="sd">    spectrogram.</span>
 
@@ -376,7 +378,7 @@
 <span class="sd">    n_mels : int &gt; 0</span>
 <span class="sd">        The number of Mel frequencies</span>
 
-<span class="sd">    dct_type : None or {1, 2, 3}</span>
+<span class="sd">    dct_type : {1, 2, 3}</span>
 <span class="sd">        Discrete cosine transform (DCT) type</span>
 <span class="sd">        By default, DCT type-2 is used.</span>
 
@@ -389,12 +391,19 @@
 <span class="sd">    ref : number or callable</span>
 <span class="sd">        Reference power for (inverse) decibel calculation</span>
 
+<span class="sd">    lifter : number &gt;= 0</span>
+<span class="sd">        If `lifter&gt;0`, apply inverse liftering (inverse cepstral filtering):</span>
+<span class="sd">        `M[n, :] &lt;- M[n, :] / (1 + sin(pi * (n + 1) / lifter)) * lifter / 2`</span>
 
 <span class="sd">    Returns</span>
 <span class="sd">    -------</span>
 <span class="sd">    M : np.ndarray [shape=(n_mels, n)]</span>
 <span class="sd">        An approximate Mel power spectrum recovered from `mfcc`</span>
 
+<span class="sd">    Warns</span>
+<span class="sd">    --------</span>
+<span class="sd">    UserWarning</span>
+<span class="sd">        due to critical values in lifter array that invokes underflow.</span>
 
 <span class="sd">    See Also</span>
 <span class="sd">    --------</span>
@@ -402,13 +411,27 @@
 <span class="sd">    melspectrogram</span>
 <span class="sd">    scipy.fftpack.dct</span>
 <span class="sd">    &#39;&#39;&#39;</span>
-
+    <span class="k">if</span> <span class="n">lifter</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+        <span class="n">n_mfcc</span> <span class="o">=</span> <span class="n">mfcc</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+        <span class="n">idx</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span> <span class="o">+</span> <span class="n">n_mfcc</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">mfcc</span><span class="o">.</span><span class="n">dtype</span><span class="p">)</span>
+        <span class="n">lifter_sine</span> <span class="o">=</span> <span class="mi">1</span> <span class="o">+</span> <span class="n">lifter</span> <span class="o">*</span> <span class="mf">0.5</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">sin</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">pi</span> <span class="o">*</span> <span class="n">idx</span> <span class="o">/</span> <span class="n">lifter</span><span class="p">)[:,</span> <span class="n">np</span><span class="o">.</span><span class="n">newaxis</span><span class="p">]</span>
+        
+        <span class="c1"># raise a UserWarning if lifter array includes critical values</span>
+        <span class="k">if</span> <span class="n">np</span><span class="o">.</span><span class="n">any</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">lifter_sine</span><span class="p">)</span> <span class="o">&lt;</span> <span class="n">np</span><span class="o">.</span><span class="n">finfo</span><span class="p">(</span><span class="n">lifter_sine</span><span class="o">.</span><span class="n">dtype</span><span class="p">)</span><span class="o">.</span><span class="n">eps</span><span class="p">):</span>
+            <span class="n">warnings</span><span class="o">.</span><span class="n">warn</span><span class="p">(</span><span class="n">message</span><span class="o">=</span><span class="s2">&quot;lifter array includes critial values that may invoke underflow.&quot;</span><span class="p">,</span> 
+                          <span class="n">category</span><span class="o">=</span><span class="ne">UserWarning</span><span class="p">)</span>
+        
+        <span class="c1"># lifter mfcc values</span>
+        <span class="n">mfcc</span> <span class="o">=</span> <span class="n">mfcc</span> <span class="o">/</span> <span class="p">(</span><span class="n">lifter_sine</span> <span class="o">+</span> <span class="n">tiny</span><span class="p">(</span><span class="n">mfcc</span><span class="p">))</span>
+        
+    <span class="k">elif</span> <span class="n">lifter</span> <span class="o">!=</span> <span class="mi">0</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="n">ParameterError</span><span class="p">(</span><span class="s1">&#39;MFCC to mel lifter must be a non-negative number.&#39;</span><span class="p">)</span>
+    
     <span class="n">logmel</span> <span class="o">=</span> <span class="n">scipy</span><span class="o">.</span><span class="n">fftpack</span><span class="o">.</span><span class="n">idct</span><span class="p">(</span><span class="n">mfcc</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="nb">type</span><span class="o">=</span><span class="n">dct_type</span><span class="p">,</span> <span class="n">norm</span><span class="o">=</span><span class="n">norm</span><span class="p">,</span> <span class="n">n</span><span class="o">=</span><span class="n">n_mels</span><span class="p">)</span>
-
     <span class="k">return</span> <span class="n">db_to_power</span><span class="p">(</span><span class="n">logmel</span><span class="p">,</span> <span class="n">ref</span><span class="o">=</span><span class="n">ref</span><span class="p">)</span></div>
 
 
-<div class="viewcode-block" id="mfcc_to_audio"><a class="viewcode-back" href="../../../generated/librosa.feature.inverse.mfcc_to_audio.html#librosa.feature.inverse.mfcc_to_audio">[docs]</a><span class="k">def</span> <span class="nf">mfcc_to_audio</span><span class="p">(</span><span class="n">mfcc</span><span class="p">,</span> <span class="n">n_mels</span><span class="o">=</span><span class="mi">128</span><span class="p">,</span> <span class="n">dct_type</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">norm</span><span class="o">=</span><span class="s1">&#39;ortho&#39;</span><span class="p">,</span> <span class="n">ref</span><span class="o">=</span><span class="mf">1.0</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+<div class="viewcode-block" id="mfcc_to_audio"><a class="viewcode-back" href="../../../generated/librosa.feature.inverse.mfcc_to_audio.html#librosa.feature.inverse.mfcc_to_audio">[docs]</a><span class="k">def</span> <span class="nf">mfcc_to_audio</span><span class="p">(</span><span class="n">mfcc</span><span class="p">,</span> <span class="n">n_mels</span><span class="o">=</span><span class="mi">128</span><span class="p">,</span> <span class="n">dct_type</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">norm</span><span class="o">=</span><span class="s1">&#39;ortho&#39;</span><span class="p">,</span> <span class="n">ref</span><span class="o">=</span><span class="mf">1.0</span><span class="p">,</span> <span class="n">lifter</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
     <span class="sd">&#39;&#39;&#39;Convert Mel-frequency cepstral coefficients to a time-domain audio signal</span>
 
 <span class="sd">    This function is primarily a convenience wrapper for the following steps:</span>
@@ -425,7 +448,7 @@
 <span class="sd">    n_mels : int &gt; 0</span>
 <span class="sd">        The number of Mel frequencies</span>
 
-<span class="sd">    dct_type : None or {1, 2, 3}</span>
+<span class="sd">    dct_type : {1, 2, 3}</span>
 <span class="sd">        Discrete cosine transform (DCT) type</span>
 <span class="sd">        By default, DCT type-2 is used.</span>
 
@@ -437,6 +460,10 @@
 
 <span class="sd">    ref : number or callable</span>
 <span class="sd">        Reference power for (inverse) decibel calculation</span>
+
+<span class="sd">    lifter : number &gt;= 0</span>
+<span class="sd">        If `lifter&gt;0`, apply inverse liftering (inverse cepstral filtering):</span>
+<span class="sd">        `M[n, :] &lt;- M[n, :] / (1 + sin(pi * (n + 1) / lifter)) * lifter / 2`</span>
 
 <span class="sd">    kwargs : additional keyword arguments</span>
 <span class="sd">        Parameters to pass through to `mel_to_audio`</span>
@@ -454,7 +481,8 @@
 <span class="sd">    core.griffinlim</span>
 <span class="sd">    scipy.fftpack.dct</span>
 <span class="sd">    &#39;&#39;&#39;</span>
-    <span class="n">mel_spec</span> <span class="o">=</span> <span class="n">mfcc_to_mel</span><span class="p">(</span><span class="n">mfcc</span><span class="p">,</span> <span class="n">n_mels</span><span class="o">=</span><span class="n">n_mels</span><span class="p">,</span> <span class="n">dct_type</span><span class="o">=</span><span class="n">dct_type</span><span class="p">,</span> <span class="n">norm</span><span class="o">=</span><span class="n">norm</span><span class="p">,</span> <span class="n">ref</span><span class="o">=</span><span class="n">ref</span><span class="p">)</span>
+    <span class="n">mel_spec</span> <span class="o">=</span> <span class="n">mfcc_to_mel</span><span class="p">(</span><span class="n">mfcc</span><span class="p">,</span> <span class="n">n_mels</span><span class="o">=</span><span class="n">n_mels</span><span class="p">,</span> <span class="n">dct_type</span><span class="o">=</span><span class="n">dct_type</span><span class="p">,</span> <span class="n">norm</span><span class="o">=</span><span class="n">norm</span><span class="p">,</span>
+                           <span class="n">ref</span><span class="o">=</span><span class="n">ref</span><span class="p">,</span> <span class="n">lifter</span><span class="o">=</span><span class="n">lifter</span><span class="p">)</span>
 
     <span class="k">return</span> <span class="n">mel_to_audio</span><span class="p">(</span><span class="n">mel_spec</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span></div>
 </pre></div>
@@ -504,6 +532,7 @@
             <dd><a href="../../../../0.6.3/index.html">0.6.3</a></dd>
             <dd><a href="../../../../0.7.0/index.html">0.7.0</a></dd>
             <dd><a href="../../../../0.7.1/index.html">0.7.1</a></dd>
+            <dd><a href="../../../../0.7.2/index.html">0.7.2</a></dd>
             <dd><a href="../../../../v0.1.0/index.html">v0.1.0</a></dd>
             <dd><a href="../../../../v0.4.0/index.html">v0.4.0</a></dd>
         </dl>

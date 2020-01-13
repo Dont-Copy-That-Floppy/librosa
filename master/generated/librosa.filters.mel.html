@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>librosa.filters.mel &mdash; librosa 0.7.1 documentation</title>
+  <title>librosa.filters.mel &mdash; librosa 0.7.2 documentation</title>
   
 
   
@@ -23,7 +23,7 @@
       <script type="text/javascript">
           var DOCUMENTATION_OPTIONS = {
               URL_ROOT:'../',
-              VERSION:'0.7.1',
+              VERSION:'0.7.2',
               LANGUAGE:'None',
               COLLAPSE_INDEX:false,
               FILE_SUFFIX:'.html',
@@ -208,12 +208,12 @@
 
 
 
-    <p class="scv-banner scv-sphinx_rtd_theme"><a href="../../0.7.1/generated/librosa.filters.mel.html"><b>Warning:</b> This document is for the development version of librosa. The latest version is 0.7.1.</a></p>
+    <p class="scv-banner scv-sphinx_rtd_theme"><a href="../../0.7.2/generated/librosa.filters.mel.html"><b>Warning:</b> This document is for the development version of librosa. The latest version is 0.7.2.</a></p>
 <div class="section" id="librosa-filters-mel">
 <h1>librosa.filters.mel<a class="headerlink" href="#librosa-filters-mel" title="Permalink to this headline">¶</a></h1>
 <dl class="function">
 <dt id="librosa.filters.mel">
-<code class="descclassname">librosa.filters.</code><code class="descname">mel</code><span class="sig-paren">(</span><em>sr</em>, <em>n_fft</em>, <em>n_mels=128</em>, <em>fmin=0.0</em>, <em>fmax=None</em>, <em>htk=False</em>, <em>norm=1</em>, <em>dtype=&lt;class 'numpy.float32'&gt;</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/librosa/filters.html#mel"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#librosa.filters.mel" title="Permalink to this definition">¶</a></dt>
+<code class="descclassname">librosa.filters.</code><code class="descname">mel</code><span class="sig-paren">(</span><em>sr</em>, <em>n_fft</em>, <em>n_mels=128</em>, <em>fmin=0.0</em>, <em>fmax=None</em>, <em>htk=False</em>, <em>norm='slaney'</em>, <em>dtype=&lt;class 'numpy.float32'&gt;</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/librosa/filters.html#mel"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#librosa.filters.mel" title="Permalink to this definition">¶</a></dt>
 <dd><p>Create a Filterbank matrix to combine FFT bins into Mel-frequency bins</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
@@ -239,10 +239,14 @@ If <em class="xref py py-obj">None</em>, use <em class="xref py py-obj">fmax = s
 <dt><strong>htk</strong> <span class="classifier-delimiter">:</span> <span class="classifier">bool [scalar]</span></dt>
 <dd><p class="first last">use HTK formula instead of Slaney</p>
 </dd>
-<dt><strong>norm</strong> <span class="classifier-delimiter">:</span> <span class="classifier">{None, 1, np.inf} [scalar]</span></dt>
-<dd><p class="first last">if 1, divide the triangular mel weights by the width of the mel band
-(area normalization).  Otherwise, leave all the triangles aiming for
-a peak value of 1.0</p>
+<dt><strong>norm</strong> <span class="classifier-delimiter">:</span> <span class="classifier">{None, 1, ‘slaney’, np.inf} [scalar]</span></dt>
+<dd><p class="first">If 1 or ‘slaney’, divide the triangular mel weights by the width of the mel band
+(area normalization).</p>
+<div class="admonition warning">
+<p class="first admonition-title">Warning</p>
+<p class="last"><em class="xref py py-obj">norm=1</em> and <em class="xref py py-obj">norm=np.inf</em> behavior will change in version 0.8.0.</p>
+</div>
+<p class="last">Otherwise, leave all the triangles aiming for a peak value of 1.0</p>
 </dd>
 <dt><strong>dtype</strong> <span class="classifier-delimiter">:</span> <span class="classifier">np.dtype</span></dt>
 <dd><p class="first last">The data type of the output basis.
@@ -354,6 +358,7 @@ By default, uses 32-bit (single-precision) floating point.</p>
             <dd><a href="../../0.6.3/generated/librosa.filters.mel.html">0.6.3</a></dd>
             <dd><a href="../../0.7.0/generated/librosa.filters.mel.html">0.7.0</a></dd>
             <dd><a href="../../0.7.1/generated/librosa.filters.mel.html">0.7.1</a></dd>
+            <dd><a href="../../0.7.2/generated/librosa.filters.mel.html">0.7.2</a></dd>
             <dd><a href="../../v0.1.0/index.html">v0.1.0</a></dd>
             <dd><a href="../../v0.4.0/index.html">v0.4.0</a></dd>
         </dl>

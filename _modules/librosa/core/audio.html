@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>librosa.core.audio &mdash; librosa 0.7.1 documentation</title>
+  <title>librosa.core.audio &mdash; librosa 0.7.2 documentation</title>
   
 
   
@@ -23,7 +23,7 @@
       <script type="text/javascript">
           var DOCUMENTATION_OPTIONS = {
               URL_ROOT:'../../../',
-              VERSION:'0.7.1',
+              VERSION:'0.7.2',
               LANGUAGE:'None',
               COLLAPSE_INDEX:false,
               FILE_SUFFIX:'.html',
@@ -214,7 +214,8 @@
 <span class="n">__all__</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;load&#39;</span><span class="p">,</span> <span class="s1">&#39;stream&#39;</span><span class="p">,</span> <span class="s1">&#39;to_mono&#39;</span><span class="p">,</span> <span class="s1">&#39;resample&#39;</span><span class="p">,</span>
            <span class="s1">&#39;get_duration&#39;</span><span class="p">,</span> <span class="s1">&#39;get_samplerate&#39;</span><span class="p">,</span>
            <span class="s1">&#39;autocorrelate&#39;</span><span class="p">,</span> <span class="s1">&#39;lpc&#39;</span><span class="p">,</span> <span class="s1">&#39;zero_crossings&#39;</span><span class="p">,</span>
-           <span class="s1">&#39;clicks&#39;</span><span class="p">,</span> <span class="s1">&#39;tone&#39;</span><span class="p">,</span> <span class="s1">&#39;chirp&#39;</span><span class="p">]</span>
+           <span class="s1">&#39;clicks&#39;</span><span class="p">,</span> <span class="s1">&#39;tone&#39;</span><span class="p">,</span> <span class="s1">&#39;chirp&#39;</span><span class="p">,</span>
+           <span class="s1">&#39;mu_compress&#39;</span><span class="p">,</span> <span class="s1">&#39;mu_expand&#39;</span><span class="p">]</span>
 
 <span class="c1"># Resampling bandwidths as percentage of Nyquist</span>
 <span class="n">BW_BEST</span> <span class="o">=</span> <span class="n">resampy</span><span class="o">.</span><span class="n">filters</span><span class="o">.</span><span class="n">get_filter</span><span class="p">(</span><span class="s1">&#39;kaiser_best&#39;</span><span class="p">)[</span><span class="mi">2</span><span class="p">]</span>
@@ -235,17 +236,16 @@
 
 <span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>
-<span class="sd">    path : string, int, or file-like object</span>
+<span class="sd">    path : string, int, pathlib.Path or file-like object</span>
 <span class="sd">        path to the input file.</span>
 
 <span class="sd">        Any codec supported by `soundfile` or `audioread` will work.</span>
 
-<span class="sd">        If the codec is supported by `soundfile`, then `path` can also be</span>
-<span class="sd">        an open file descriptor (int), or any object implementing Python&#39;s</span>
-<span class="sd">        file interface.</span>
+<span class="sd">        Any string file paths, or any object implementing Python&#39;s</span>
+<span class="sd">        file interface (e.g. `pathlib.Path`) are supported as `path`.</span>
 
-<span class="sd">        If the codec is not supported by `soundfile` (e.g., MP3), then only</span>
-<span class="sd">        string file paths are supported.</span>
+<span class="sd">        If the codec is supported by `soundfile`, then `path` can also be</span>
+<span class="sd">        an open file descriptor (int).</span>
 
 <span class="sd">    sr   : number &gt; 0 [scalar]</span>
 <span class="sd">        target sampling rate</span>
@@ -332,7 +332,22 @@
 
     <span class="k">except</span> <span class="ne">RuntimeError</span> <span class="k">as</span> <span class="n">exc</span><span class="p">:</span>
 
+        <span class="c1"># Convert pathlib paths to strings</span>
+        <span class="k">if</span> <span class="n">sys</span><span class="o">.</span><span class="n">version_info</span> <span class="o">&gt;=</span> <span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">):</span>
+            <span class="kn">import</span> <span class="nn">pathlib</span>
+
+            <span class="c1"># check if a Path object is passed by the user</span>
+            <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">path</span><span class="p">,</span> <span class="n">pathlib</span><span class="o">.</span><span class="n">PurePath</span><span class="p">):</span>
+                <span class="c1"># Recommended way of converting to string</span>
+                <span class="k">if</span> <span class="n">sys</span><span class="o">.</span><span class="n">version_info</span> <span class="o">&gt;=</span> <span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="mi">6</span><span class="p">):</span>
+                    <span class="n">path</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">fspath</span><span class="p">(</span><span class="n">path</span><span class="p">)</span>
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="n">path</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="n">path</span><span class="p">)</span>
+
         <span class="c1"># If soundfile failed, try audioread instead</span>
+        <span class="c1"># TODO From Librosa 0.8 `isinstance` accepts tuples:</span>
+        <span class="c1"># isinstance(path, (six.string_types, pathlib.PurePath))</span>
+        <span class="c1"># and remove above String conversion</span>
         <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">path</span><span class="p">,</span> <span class="n">six</span><span class="o">.</span><span class="n">string_types</span><span class="p">):</span>
             <span class="n">warnings</span><span class="o">.</span><span class="n">warn</span><span class="p">(</span><span class="s1">&#39;PySoundFile failed. Trying audioread instead.&#39;</span><span class="p">)</span>
             <span class="n">y</span><span class="p">,</span> <span class="n">sr_native</span> <span class="o">=</span> <span class="n">__audioread_load</span><span class="p">(</span><span class="n">path</span><span class="p">,</span> <span class="n">offset</span><span class="p">,</span> <span class="n">duration</span><span class="p">,</span> <span class="n">dtype</span><span class="p">)</span>
@@ -1433,8 +1448,7 @@
     <span class="k">if</span> <span class="n">phi</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
         <span class="n">phi</span> <span class="o">=</span> <span class="o">-</span><span class="n">np</span><span class="o">.</span><span class="n">pi</span> <span class="o">*</span> <span class="mf">0.5</span>
 
-    <span class="n">step</span> <span class="o">=</span> <span class="mf">1.0</span> <span class="o">/</span> <span class="n">sr</span>
-    <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">cos</span><span class="p">(</span><span class="mi">2</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">pi</span> <span class="o">*</span> <span class="n">frequency</span> <span class="o">*</span> <span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="n">step</span> <span class="o">*</span> <span class="n">length</span><span class="p">,</span> <span class="n">step</span><span class="o">=</span><span class="n">step</span><span class="p">))</span> <span class="o">+</span> <span class="n">phi</span><span class="p">)</span></div>
+    <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">cos</span><span class="p">(</span><span class="mi">2</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">pi</span> <span class="o">*</span> <span class="n">frequency</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="n">length</span><span class="p">)</span> <span class="o">/</span> <span class="n">sr</span> <span class="o">+</span> <span class="n">phi</span><span class="p">)</span></div>
 
 
 <div class="viewcode-block" id="chirp"><a class="viewcode-back" href="../../../generated/librosa.core.chirp.html#librosa.core.chirp">[docs]</a><span class="k">def</span> <span class="nf">chirp</span><span class="p">(</span><span class="n">fmin</span><span class="p">,</span> <span class="n">fmax</span><span class="p">,</span> <span class="n">sr</span><span class="o">=</span><span class="mi">22050</span><span class="p">,</span> <span class="n">length</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">duration</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">linear</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">phi</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
@@ -1538,6 +1552,182 @@
         <span class="n">method</span><span class="o">=</span><span class="n">method</span><span class="p">,</span>
         <span class="n">phi</span><span class="o">=</span><span class="n">phi</span> <span class="o">/</span> <span class="n">np</span><span class="o">.</span><span class="n">pi</span> <span class="o">*</span> <span class="mi">180</span><span class="p">,</span>  <span class="c1"># scipy.signal.chirp uses degrees for phase offset</span>
     <span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="mu_compress"><a class="viewcode-back" href="../../../generated/librosa.core.mu_compress.html#librosa.core.mu_compress">[docs]</a><span class="k">def</span> <span class="nf">mu_compress</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">mu</span><span class="o">=</span><span class="mi">255</span><span class="p">,</span> <span class="n">quantize</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
+    <span class="sd">&#39;&#39;&#39;mu-law compression</span>
+
+<span class="sd">    Given an input signal `-1 &lt;= x &lt;= 1`, the mu-law compression</span>
+<span class="sd">    is calculated by</span>
+
+<span class="sd">        sign(x) * ln(1 + mu * abs(x)) /  ln(1 + mu)</span>
+
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    x : np.ndarray with values in [-1, +1]</span>
+<span class="sd">        The input signal to compress</span>
+
+<span class="sd">    mu : positive number</span>
+<span class="sd">        The compression parameter.  Values of the form `2**n - 1`</span>
+<span class="sd">        (e.g., 15, 31, 63, etc.) are most common.</span>
+
+<span class="sd">    quantize : bool</span>
+<span class="sd">        If `True`, quantize the compressed values into `1 + mu`</span>
+<span class="sd">        distinct integer values.</span>
+
+<span class="sd">        If `False`, mu-law compression is applied without quantization.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    x_compressed : np.ndarray</span>
+<span class="sd">        The compressed signal.</span>
+
+<span class="sd">    Raises</span>
+<span class="sd">    ------</span>
+<span class="sd">    ParameterError</span>
+<span class="sd">        If `x` has values outside the range [-1, +1]</span>
+<span class="sd">        If `mu &lt;= 0`</span>
+
+<span class="sd">    See Also</span>
+<span class="sd">    --------</span>
+<span class="sd">    mu_expand</span>
+
+<span class="sd">    Examples</span>
+<span class="sd">    --------</span>
+<span class="sd">    Compression without quantization</span>
+
+<span class="sd">    &gt;&gt;&gt; x = np.linspace(-1, 1, num=16)</span>
+<span class="sd">    &gt;&gt;&gt; x</span>
+<span class="sd">    array([-1.        , -0.86666667, -0.73333333, -0.6       , -0.46666667,</span>
+<span class="sd">           -0.33333333, -0.2       , -0.06666667,  0.06666667,  0.2       ,</span>
+<span class="sd">            0.33333333,  0.46666667,  0.6       ,  0.73333333,  0.86666667,</span>
+<span class="sd">            1.        ])</span>
+<span class="sd">    &gt;&gt;&gt; y = librosa.mu_compress(x, quantize=False)</span>
+<span class="sd">    &gt;&gt;&gt; y</span>
+<span class="sd">    array([-1.        , -0.97430198, -0.94432361, -0.90834832, -0.86336132,</span>
+<span class="sd">           -0.80328309, -0.71255496, -0.52124063,  0.52124063,  0.71255496,</span>
+<span class="sd">            0.80328309,  0.86336132,  0.90834832,  0.94432361,  0.97430198,</span>
+<span class="sd">            1.        ])</span>
+
+<span class="sd">    Compression with quantization</span>
+
+<span class="sd">    &gt;&gt;&gt; y = librosa.mu_compress(x, quantize=True)</span>
+<span class="sd">    &gt;&gt;&gt; y</span>
+<span class="sd">    array([-128, -124, -120, -116, -110, -102,  -91,  -66,   66,   91,  102,</span>
+<span class="sd">           110,  116,  120,  124,  127])</span>
+
+<span class="sd">    Compression with quantization and a smaller range</span>
+
+<span class="sd">    &gt;&gt;&gt; y = librosa.mu_compress(x, mu=15, quantize=True)</span>
+<span class="sd">    &gt;&gt;&gt; y</span>
+<span class="sd">    array([-8, -7, -7, -6, -6, -5, -4, -2,  2,  4,  5,  6,  6,  7,  7,  7])</span>
+
+<span class="sd">    &#39;&#39;&#39;</span>
+
+    <span class="k">if</span> <span class="n">mu</span> <span class="o">&lt;=</span> <span class="mi">0</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="n">ParameterError</span><span class="p">(</span><span class="s1">&#39;mu-law compression parameter mu=</span><span class="si">{}</span><span class="s1"> &#39;</span>
+                             <span class="s1">&#39;must be strictly positive.&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">mu</span><span class="p">))</span>
+
+    <span class="k">if</span> <span class="n">np</span><span class="o">.</span><span class="n">any</span><span class="p">(</span><span class="n">x</span> <span class="o">&lt;</span> <span class="o">-</span><span class="mi">1</span><span class="p">)</span> <span class="ow">or</span> <span class="n">np</span><span class="o">.</span><span class="n">any</span><span class="p">(</span><span class="n">x</span> <span class="o">&gt;</span> <span class="mi">1</span><span class="p">):</span>
+        <span class="k">raise</span> <span class="n">ParameterError</span><span class="p">(</span><span class="s1">&#39;mu-law input x=</span><span class="si">{}</span><span class="s1"> must be in the &#39;</span>
+                             <span class="s1">&#39;range [-1, +1].&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">x</span><span class="p">))</span>
+
+    <span class="n">x_comp</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sign</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">log1p</span><span class="p">(</span><span class="n">mu</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">x</span><span class="p">))</span> <span class="o">/</span> <span class="n">np</span><span class="o">.</span><span class="n">log1p</span><span class="p">(</span><span class="n">mu</span><span class="p">)</span>
+
+    <span class="k">if</span> <span class="n">quantize</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">digitize</span><span class="p">(</span><span class="n">x_comp</span><span class="p">,</span>
+                           <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="n">num</span><span class="o">=</span><span class="nb">int</span><span class="p">(</span><span class="mi">1</span><span class="o">+</span><span class="n">mu</span><span class="p">),</span> <span class="n">endpoint</span><span class="o">=</span><span class="kc">True</span><span class="p">),</span>
+                           <span class="n">right</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span> <span class="o">-</span> <span class="nb">int</span><span class="p">(</span><span class="n">mu</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span><span class="o">//</span><span class="mi">2</span>
+
+    <span class="k">return</span> <span class="n">x_comp</span></div>
+
+
+<div class="viewcode-block" id="mu_expand"><a class="viewcode-back" href="../../../generated/librosa.core.mu_expand.html#librosa.core.mu_expand">[docs]</a><span class="k">def</span> <span class="nf">mu_expand</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">mu</span><span class="o">=</span><span class="mf">255.0</span><span class="p">,</span> <span class="n">quantize</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
+    <span class="sd">&#39;&#39;&#39;mu-law expansion</span>
+
+<span class="sd">    This function is the inverse of `mu_compress`. Given a mu-law compressed</span>
+<span class="sd">    signal `-1 &lt;= x &lt;= 1`, the mu-law expansion is calculated by</span>
+
+<span class="sd">        sign(x) * (1 / mu) * ((1 + mu)**abs(x) - 1)</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    x : np.ndarray</span>
+<span class="sd">        The compressed signal.</span>
+<span class="sd">        If `quantize=True`, values must be in the range [-1, +1].</span>
+
+<span class="sd">    mu : positive number</span>
+<span class="sd">        The compression parameter.  Values of the form `2**n - 1`</span>
+<span class="sd">        (e.g., 15, 31, 63, etc.) are most common.</span>
+
+<span class="sd">    quantize : boolean</span>
+<span class="sd">        If `True`, the input is assumed to be quantized to</span>
+<span class="sd">        `1 + mu` distinct integer values.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    x_expanded : np.ndarray with values in the range [-1, +1]</span>
+<span class="sd">        The mu-law expanded signal.</span>
+
+<span class="sd">    Raises</span>
+<span class="sd">    ------</span>
+<span class="sd">    ParameterError</span>
+<span class="sd">        If `x` has values outside the range [-1, +1] and `quantize=False`</span>
+<span class="sd">        If `mu &lt;= 0`</span>
+
+<span class="sd">    See Also</span>
+<span class="sd">    --------</span>
+<span class="sd">    mu_compress</span>
+
+<span class="sd">    Examples</span>
+<span class="sd">    --------</span>
+<span class="sd">    Compress and expand without quantization</span>
+
+<span class="sd">    &gt;&gt;&gt; x = np.linspace(-1, 1, num=16)</span>
+<span class="sd">    &gt;&gt;&gt; x</span>
+<span class="sd">    array([-1.        , -0.86666667, -0.73333333, -0.6       , -0.46666667,</span>
+<span class="sd">           -0.33333333, -0.2       , -0.06666667,  0.06666667,  0.2       ,</span>
+<span class="sd">            0.33333333,  0.46666667,  0.6       ,  0.73333333,  0.86666667,</span>
+<span class="sd">            1.        ])</span>
+<span class="sd">    &gt;&gt;&gt; y = librosa.mu_compress(x, quantize=False)</span>
+<span class="sd">    &gt;&gt;&gt; y</span>
+<span class="sd">    array([-1.        , -0.97430198, -0.94432361, -0.90834832, -0.86336132,</span>
+<span class="sd">           -0.80328309, -0.71255496, -0.52124063,  0.52124063,  0.71255496,</span>
+<span class="sd">            0.80328309,  0.86336132,  0.90834832,  0.94432361,  0.97430198,</span>
+<span class="sd">            1.        ])</span>
+<span class="sd">    &gt;&gt;&gt; z = librosa.mu_expand(y, quantize=False)</span>
+<span class="sd">    &gt;&gt;&gt; z</span>
+<span class="sd">    array([-1.        , -0.86666667, -0.73333333, -0.6       , -0.46666667,</span>
+<span class="sd">           -0.33333333, -0.2       , -0.06666667,  0.06666667,  0.2       ,</span>
+<span class="sd">            0.33333333,  0.46666667,  0.6       ,  0.73333333,  0.86666667,</span>
+<span class="sd">            1.        ])</span>
+
+<span class="sd">    Compress and expand with quantization.  Note that this necessarily</span>
+<span class="sd">    incurs quantization error, particularly for values near +-1.</span>
+
+<span class="sd">    &gt;&gt;&gt; y = librosa.mu_compress(x, quantize=True)</span>
+<span class="sd">    &gt;&gt;&gt; y</span>
+<span class="sd">    array([-128, -124, -120, -116, -110, -102,  -91,  -66,   66,   91,  102,</span>
+<span class="sd">            110,  116,  120,  124,  127])</span>
+<span class="sd">    &gt;&gt;&gt; z = librosa.mu_expand(y, quantize=True)</span>
+<span class="sd">    array([-1.        , -0.84027248, -0.70595818, -0.59301377, -0.4563785 ,</span>
+<span class="sd">           -0.32155973, -0.19817918, -0.06450245,  0.06450245,  0.19817918,</span>
+<span class="sd">            0.32155973,  0.4563785 ,  0.59301377,  0.70595818,  0.84027248,</span>
+<span class="sd">            0.95743702])</span>
+<span class="sd">    &#39;&#39;&#39;</span>
+    <span class="k">if</span> <span class="n">mu</span> <span class="o">&lt;=</span> <span class="mi">0</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="n">ParameterError</span><span class="p">(</span><span class="s1">&#39;Inverse mu-law compression parameter &#39;</span>
+                             <span class="s1">&#39;mu=</span><span class="si">{}</span><span class="s1"> must be strictly positive.&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">mu</span><span class="p">))</span>
+
+    <span class="k">if</span> <span class="n">quantize</span><span class="p">:</span>
+        <span class="n">x</span> <span class="o">=</span> <span class="n">x</span> <span class="o">*</span> <span class="mf">2.0</span> <span class="o">/</span> <span class="p">(</span><span class="mi">1</span> <span class="o">+</span> <span class="n">mu</span><span class="p">)</span>
+
+    <span class="k">if</span> <span class="n">np</span><span class="o">.</span><span class="n">any</span><span class="p">(</span><span class="n">x</span> <span class="o">&lt;</span> <span class="o">-</span><span class="mi">1</span><span class="p">)</span> <span class="ow">or</span> <span class="n">np</span><span class="o">.</span><span class="n">any</span><span class="p">(</span><span class="n">x</span> <span class="o">&gt;</span> <span class="mi">1</span><span class="p">):</span>
+        <span class="k">raise</span> <span class="n">ParameterError</span><span class="p">(</span><span class="s1">&#39;Inverse mu-law input x=</span><span class="si">{}</span><span class="s1"> must be &#39;</span>
+                             <span class="s1">&#39;in the range [-1, +1].&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">x</span><span class="p">))</span>
+
+    <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">sign</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="o">/</span> <span class="n">mu</span> <span class="o">*</span> <span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">power</span><span class="p">(</span><span class="mi">1</span> <span class="o">+</span> <span class="n">mu</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">x</span><span class="p">))</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span></div>
 </pre></div>
 
            </div>
@@ -1568,7 +1758,7 @@
 <div class="rst-versions" data-toggle="rst-versions" role="note" aria-label="versions">
     <span class="rst-current-version" data-toggle="rst-current-version">
         <span class="fa fa-book"> Other Versions</span>
-        v: 0.7.1
+        v: 0.7.2
         <span class="fa fa-caret-down"></span>
     </span>
     <div class="rst-other-versions">
@@ -1584,7 +1774,8 @@
             <dd><a href="../../../0.6.2/index.html">0.6.2</a></dd>
             <dd><a href="../../../0.6.3/index.html">0.6.3</a></dd>
             <dd><a href="../../../0.7.0/index.html">0.7.0</a></dd>
-            <dd><a href="../../../0.7.1/_modules/librosa/core/audio.html">0.7.1</a></dd>
+            <dd><a href="../../../0.7.1/index.html">0.7.1</a></dd>
+            <dd><a href="../../../0.7.2/_modules/librosa/core/audio.html">0.7.2</a></dd>
             <dd><a href="../../../v0.1.0/index.html">v0.1.0</a></dd>
             <dd><a href="../../../v0.4.0/index.html">v0.4.0</a></dd>
         </dl>

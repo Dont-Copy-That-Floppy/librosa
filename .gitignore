@@ -57,3 +57,6 @@ docs/auto_examples/
 
 #IDE
 .idea/
+
+# ASV (benchmarking tool)
+benchmarks/*
